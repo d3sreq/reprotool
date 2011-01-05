@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.views">
+      <category
+            id="cz.cuni.mff.reprotool.ide.category_reprotool"
+            name="reprotool">
+      </category>
+      <view
+            category="cz.cuni.mff.reprotool.ide.category_reprotool"
+            class="cz.cuni.mff.reprotool.ide.views.LinguisticToolsView"
+            id="cz.cuni.mff.reprotool.ide.views.view_linguistic_tools"
+            name="linguistic tools"
+            restorable="true">
+      </view>
+      <view
+            category="cz.cuni.mff.reprotool.ide.category_reprotool"
+            class="cz.cuni.mff.reprotool.ide.views.ParsedTreeView"
+            id="cz.cuni.mff.reprotool.ide.view_parsed_tree"
+            name="parsed tree"
+            restorable="true">
+      </view>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectives">
+      <perspective
+            class="cz.cuni.mff.reprotool.ide.ReprotoolIdePerspectiveFactory"
+            id="cz.cuni.mff.reprotool.ide.perspective_reprotool_ide"
+            name="reprotool">
+      </perspective>
+   </extension>
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            class="cz.cuni.mff.reprotool.ide.editors.UseCaseEditor"
+            default="false"
+            extensions="uc"
+            id="cz.cuni.mff.reprotool.ide.editor_use_case"
+            name="use case">
+      </editor>
+   </extension>
+
+</plugin>
