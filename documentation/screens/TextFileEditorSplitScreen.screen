@@ -3,7 +3,7 @@
   <widgets xsi:type="model:Master" x="123" y="150" measuredWidth="800" measuredHeight="601" dimmed="true">
     <screen href="MasterScreen.screen#/"/>
   </widgets>
-  <widgets xsi:type="model:TabbedPane" x="123" y="222" width="400" height="497" text="Clerk submits an offer on behalf of a Seller, System validates the description" measuredWidth="400" measuredHeight="497" selection="0">
+  <widgets xsi:type="model:TabbedPane" x="123" y="222" width="400" height="307" text="Clerk submits an offer on behalf of a Seller, System validates the description" measuredWidth="400" measuredHeight="307" selection="0">
     <items x="10" y="0" width="224" height="23" text="Clerk submits an offer on behalf of a Seller"/>
     <items x="234" y="0" width="175" height="23" text="System validates the description"/>
     <font/>
@@ -19,31 +19,31 @@
     <items x="137" y="0" width="89" height="23" text="Linguistic tools"/>
     <font/>
   </widgets>
-  <widgets xsi:type="model:Table" x="123" y="280" width="400" height="201" text=",Mark,Step text,&#xD;&#xA;{check},1,Clerk submits information describing an item,{arrow-right-down}&#xD;&#xA;|{check},2,System validates the description,{arrow-right-down}&#xD;&#xA;{check},3,Clerk adjusts/enters price and enters seller's contact\n and billing information,{arrow-right-down}&#xD;&#xA;{check},4,System validates the seller's contact information,{arrow-right-down}&#xD;&#xA;{check},5,System asks the Supervisor to validate the seller,{arrow-right-down}&#xD;&#xA;{check},6,Supervisor permits the seller to operate on\n the marketplace,{arrow-right-down}&#xD;&#xA;{check},7,System validates the whole offer with the\n Trade Commission,{arrow-right-down}&#xD;&#xA;{check},8,System lists the offer in published offers,{arrow-right-down}&#xD;&#xA;&#xD;&#xA;" measuredWidth="400" measuredHeight="201" verticalScrollbar="true" rowHeight="20" horizontalLines="true">
+  <widgets xsi:type="model:Table" x="123" y="280" width="400" height="95" text=",Mark,Step text,&#xD;&#xA;{check},1,Clerk submits information describing an item,{arrow-right-down}&#xD;&#xA;|{check},2,System validates the description,{arrow-right-down}&#xD;&#xA;{check},3,Clerk adjusts/enters price and enters seller's contact\n and billing information,{arrow-right-down}&#xD;&#xA;{check},4,System validates the seller's contact information,{arrow-right-down}&#xD;&#xA;{check},5,System asks the Supervisor to validate the seller,{arrow-right-down}&#xD;&#xA;{check},6,Supervisor permits the seller to operate on\n the marketplace,{arrow-right-down}&#xD;&#xA;{check},7,System validates the whole offer with the\n Trade Commission,{arrow-right-down}&#xD;&#xA;{check},8,System lists the offer in published offers,{arrow-right-down}&#xD;&#xA;&#xD;&#xA;" measuredWidth="400" measuredHeight="95" verticalScrollbar="true" rowHeight="20" horizontalLines="true">
     <font size="8"/>
   </widgets>
   <widgets xsi:type="model:Panel" x="123" y="245" width="401" height="36" measuredWidth="401" measuredHeight="36"/>
   <widgets xsi:type="model:Label" x="133" y="252" text="Main scenario:" measuredWidth="74" measuredHeight="21">
     <font/>
   </widgets>
-  <widgets xsi:type="model:HSplitter" x="123" y="480" width="400" measuredWidth="400" measuredHeight="11"/>
-  <widgets xsi:type="model:Table" x="123" y="525" width="400" height="148" text=",Mark,Step text,Type&#xD;&#xA;{check},2a,Validation performed by the system fails,extension,{arrow-right-down}&#xD;&#xA;{check},2a1,Use case aborted,,{arrow-right-down}&#xD;&#xA;{check},2b,Price assessment available,variation,{arrow-right-down}&#xD;&#xA;{check},2b1,System provides the seller with a price assessment,,{arrow-right-down}&#xD;&#xA;{check},7a,Trade commission rejects the offer,extension,{arrow-right-down}&#xD;&#xA;{check},7a1,Use case aborted,,{arrow-right-down}&#xD;&#xA;" measuredWidth="400" measuredHeight="148" verticalScrollbar="true" horizontalLines="true">
+  <widgets xsi:type="model:HSplitter" x="123" y="375" width="400" measuredWidth="400" measuredHeight="11"/>
+  <widgets xsi:type="model:Table" x="123" y="414" width="400" height="74" text=",Mark,Step text,Type&#xD;&#xA;{check},2a,Validation performed by the system fails,extension,{arrow-right-down}&#xD;&#xA;{check},2a1,Use case aborted,,{arrow-right-down}&#xD;&#xA;{check},2b,Price assessment available,variation,{arrow-right-down}&#xD;&#xA;{check},2b1,System provides the seller with a price assessment,,{arrow-right-down}&#xD;&#xA;{check},7a,Trade commission rejects the offer,extension,{arrow-right-down}&#xD;&#xA;{check},7a1,Use case aborted,,{arrow-right-down}&#xD;&#xA;" measuredWidth="400" measuredHeight="74" verticalScrollbar="true" horizontalLines="true">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Panel" x="123" y="490" width="401" height="36" measuredWidth="401" measuredHeight="36"/>
-  <widgets xsi:type="model:Label" x="133" y="497" text="Extensions and variations:" measuredWidth="132" measuredHeight="21">
+  <widgets xsi:type="model:Panel" x="123" y="382" width="401" height="36" measuredWidth="401" measuredHeight="36"/>
+  <widgets xsi:type="model:Label" x="133" y="389" text="Extensions and variations:" measuredWidth="132" measuredHeight="21">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Button" x="133" y="682" width="84" text="{arrow-up} Up" measuredWidth="84" measuredHeight="26">
+  <widgets xsi:type="model:Button" x="133" y="496" width="84" text="{arrow-up} Up" measuredWidth="84" measuredHeight="26">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Button" x="224" y="682" width="84" text="{arrow-down} Down" measuredWidth="84" measuredHeight="26">
+  <widgets xsi:type="model:Button" x="224" y="496" width="84" text="{arrow-down} Down" measuredWidth="84" measuredHeight="26">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Button" x="312" y="682" width="84" text="{add} Add" measuredWidth="84" measuredHeight="26">
+  <widgets xsi:type="model:Button" x="312" y="496" width="84" text="{add} Add" measuredWidth="84" measuredHeight="26">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Button" x="400" y="682" width="84" text="{delete} Delete" measuredWidth="84" measuredHeight="26">
+  <widgets xsi:type="model:Button" x="400" y="496" width="84" text="{delete} Delete" measuredWidth="84" measuredHeight="26">
     <font/>
   </widgets>
   <widgets xsi:type="model:Rectangle" x="648" y="270" width="66" height="32" measuredWidth="66" measuredHeight="32">
@@ -114,6 +114,13 @@
   <widgets xsi:type="model:Arrow" x="754" y="358" width="58" height="28" measuredWidth="58" measuredHeight="28" left="false"/>
   <widgets xsi:type="model:Arrow" x="816" y="415" width="27" height="46" measuredWidth="27" measuredHeight="46" left="false"/>
   <widgets xsi:type="model:VScrollbar" x="902" y="647" height="72" measuredWidth="17" measuredHeight="72"/>
+  <widgets xsi:type="model:TabbedPane" x="123" y="528" width="400" height="191" text="Usecase_file.txt" measuredWidth="400" measuredHeight="191" selection="0">
+    <items x="10" y="0" width="98" height="23" text="Usecase_file.txt"/>
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:TextArea" x="133" y="561" width="381" height="148" text="Use case 1 - clerk submits an offer on behalf of a seller&#xD;&#xA;&#xD;&#xA;Clerk submits information describing an item.&#xD;&#xA;System validates the description. &#xD;&#xA;Clerk adjusts or enters seller's contact and billing information&#xD;&#xA;" measuredWidth="381" measuredHeight="148">
+    <font/>
+  </widgets>
   <hRuler/>
   <vRuler>
     <guides position="437"/>
