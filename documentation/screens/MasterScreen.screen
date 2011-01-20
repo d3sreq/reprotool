@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model:Screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:model="http://wireframesketcher.com/1.0/model.ecore">
+  <widgets xsi:type="model:Window" x="112" y="72" width="800" height="600" text="Reprotool" measuredWidth="800" measuredHeight="600"/>
+  <widgets xsi:type="model:Menu" x="112" y="91" width="799" text="&amp;File,&amp;Edit,&amp;View,&amp;Window,&amp;Help" measuredWidth="799" measuredHeight="23">
+    <items x="5" y="0" width="26" height="23" text="&amp;File"/>
+    <items x="31" y="0" width="28" height="23" text="&amp;Edit"/>
+    <items x="59" y="0" width="32" height="23" text="&amp;View"/>
+    <items x="91" y="0" width="48" height="23" text="&amp;Window"/>
+    <items x="139" y="0" width="31" height="23" text="&amp;Help"/>
+  </widgets>
+  <widgets xsi:type="model:Panel" x="112" y="112" width="799" height="33" measuredWidth="799" measuredHeight="33"/>
+  <widgets xsi:type="model:Panel" x="112" y="640" width="799" height="33" measuredWidth="799" measuredHeight="33"/>
+  <widgets xsi:type="model:ProgressBar" x="800" y="648" width="104" measuredWidth="104" measuredHeight="18" value="75"/>
+  <widgets xsi:type="model:Icon" x="816" y="121" measuredWidth="16" measuredHeight="16" icon="cube (small)"/>
+  <widgets xsi:type="model:Label" x="840" y="118" text="Reprotool" measuredWidth="52" measuredHeight="21">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Icon" x="122" y="121" measuredWidth="16" measuredHeight="16" icon="new (small)"/>
+  <widgets xsi:type="model:Icon" x="144" y="121" measuredWidth="16" measuredHeight="16" icon="save (small)"/>
+  <hRuler>
+    <guides position="113"/>
+  </hRuler>
+  <vRuler/>
+  <font/>
+</model:Screen>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model:Screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:model="http://wireframesketcher.com/1.0/model.ecore">
+  <widgets xsi:type="model:Window" x="112" y="72" width="800" height="600" text="Reprotool" measuredWidth="800" measuredHeight="600"/>
+  <widgets xsi:type="model:Menu" x="112" y="91" width="799" text="&amp;File,&amp;Edit,&amp;View,&amp;Window,&amp;Help" measuredWidth="799" measuredHeight="23">
+    <items x="5" y="0" width="26" height="23" text="&amp;File"/>
+    <items x="31" y="0" width="28" height="23" text="&amp;Edit"/>
+    <items x="59" y="0" width="32" height="23" text="&amp;View"/>
+    <items x="91" y="0" width="48" height="23" text="&amp;Window"/>
+    <items x="139" y="0" width="31" height="23" text="&amp;Help"/>
+  </widgets>
+  <widgets xsi:type="model:Panel" x="112" y="112" width="799" height="33" measuredWidth="799" measuredHeight="33"/>
+  <widgets xsi:type="model:Panel" x="112" y="640" width="799" height="33" measuredWidth="799" measuredHeight="33"/>
+  <widgets xsi:type="model:ProgressBar" x="800" y="648" width="104" measuredWidth="104" measuredHeight="18" value="75"/>
+  <widgets xsi:type="model:Note" x="344" y="82" text="Standart menu&#xD;&#xA;TODO - specify added items" measuredWidth="144" measuredHeight="36">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Note" x="632" y="648" text="Progressbar used to show&#xD;&#xA;loading of the linguistic tools,&#xD;&#xA;sentence parsing, ...&#xD;&#xA;" measuredWidth="149" measuredHeight="49">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Icon" x="816" y="121" measuredWidth="16" measuredHeight="16" icon="cube (small)"/>
+  <widgets xsi:type="model:Label" x="840" y="118" text="Reprotool" measuredWidth="52" measuredHeight="21">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Icon" x="122" y="121" measuredWidth="16" measuredHeight="16" icon="new (small)"/>
+  <widgets xsi:type="model:Note" x="152" y="117" text="Standard toolbar. TODO - specify added icons" measuredWidth="231" measuredHeight="23">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Note" x="720" y="104" text="Perspective switch" measuredWidth="99" measuredHeight="23">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:TabbedPane" x="113" y="144" width="400" height="497" text="Seller submits offer, System validates the description" measuredWidth="400" measuredHeight="497" selection="0">
+    <items x="10" y="0" width="112" height="23" text="Seller submits offer"/>
+    <items x="122" y="0" width="175" height="23" text="System validates the description"/>
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:TabbedPane" x="512" y="144" width="400" height="385" text="Project: Marketplace, Parsed tree" measuredWidth="400" measuredHeight="385" selection="0">
+    <items x="10" y="0" width="119" height="23" text="Project: Marketplace"/>
+    <items x="129" y="0" width="76" height="23" text="Parsed tree"/>
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:TabbedPane" x="512" y="528" width="399" height="113" text="Properties, Console, Linguistic tools" measuredWidth="399" measuredHeight="113" selection="0">
+    <items x="10" y="0" width="69" height="23" text="Properties"/>
+    <items x="79" y="0" width="58" height="23" text="Console"/>
+    <items x="137" y="0" width="89" height="23" text="Linguistic tools"/>
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Placeholder" x="512" y="551" width="399" height="90" text="Properties view" measuredWidth="399" measuredHeight="90"/>
+  <widgets xsi:type="model:Placeholder" x="512" y="167" width="399" height="362" text="Project view" measuredWidth="399" measuredHeight="362"/>
+  <widgets xsi:type="model:Placeholder" x="113" y="167" width="400" height="474" text="Use case editor" measuredWidth="400" measuredHeight="474"/>
+  <hRuler>
+    <guides position="113"/>
+  </hRuler>
+  <vRuler/>
+  <font/>
+</model:Screen>
