@@ -4,8 +4,6 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.layout.grouplayout.GroupLayout;
-import org.eclipse.swt.layout.grouplayout.LayoutStyle;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
@@ -13,6 +11,8 @@ import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.EditorPart;
+import org.eclipse.wb.swt.layout.grouplayout.GroupLayout;
+import org.eclipse.wb.swt.layout.grouplayout.LayoutStyle;
 
 public class UseCaseEditor extends EditorPart {
 
