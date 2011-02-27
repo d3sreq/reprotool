@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <model:Screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:model="http://wireframesketcher.com/1.0/model.ecore">
   <widgets xsi:type="model:Master" x="123" y="150" measuredWidth="800" measuredHeight="601" dimmed="true">
-    <screen href="MasterScreen.screen#/"/>
+    <screen href="../Master.screen#/"/>
   </widgets>
   <widgets xsi:type="model:TabbedPane" x="123" y="222" width="400" height="497" text="Clerk submits an offer on behalf of a Seller, System validates the description" measuredWidth="400" measuredHeight="497" selection="0">
     <items x="10" y="0" width="224" height="23" text="Clerk submits an offer on behalf of a Seller"/>
@@ -10,7 +10,7 @@
   </widgets>
   <widgets xsi:type="model:TabbedPane" x="523" y="222" width="400" height="403" text="Project: Marketplace, Parsed tree" measuredWidth="400" measuredHeight="403" selection="0">
     <items x="10" y="0" width="119" height="23" text="Project: Marketplace"/>
-    <items link="ParseTreeScreen.screen" x="129" y="0" width="76" height="23" text="Parsed tree"/>
+    <items link="../TextEditor/UseCaseEditorTextEditorSplit.screen" x="129" y="0" width="76" height="23" text="Parsed tree"/>
     <font/>
   </widgets>
   <widgets xsi:type="model:TabbedPane" x="523" y="624" width="399" height="95" text="Properties, Console, Linguistic tools" measuredWidth="399" measuredHeight="95" selection="0">
@@ -90,6 +90,7 @@
     <items x="0" y="42" width="273" height="20" text="Clerk buys a selected item on behalf of a Buyer"/>
     <items x="0" y="62" width="273" height="20" text="Seller cancels an offer"/>
   </widgets>
+  <widgets xsi:type="model:Placeholder" x="523" y="647" width="399" height="72" text="Properties view" measuredWidth="399" measuredHeight="72"/>
   <hRuler/>
   <vRuler>
     <guides position="437"/>

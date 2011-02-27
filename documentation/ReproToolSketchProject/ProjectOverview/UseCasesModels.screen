@@ -4,7 +4,7 @@
     <items x="10" y="0" width="99" height="23" text="Use case models"/>
     <font/>
   </widgets>
-  <widgets xsi:type="model:Group" x="533" y="255" width="382" height="170" text="Use cases to models" measuredWidth="382" measuredHeight="170"/>
+  <widgets xsi:type="model:Group" x="533" y="255" width="382" height="170" text="Use cases to models mapping" measuredWidth="382" measuredHeight="170"/>
   <widgets xsi:type="model:Table" x="543" y="280" width="362" height="135" text="use case,model                  &#xA;Clerk submits an offer, default&#xA;System validates the description, default&#xA;Clerk adjusts/enters ..." measuredWidth="362" measuredHeight="135" selection="" rowHeight="22" horizontalLines="true">
     <font/>
   </widgets>
