@@ -64,11 +64,7 @@
     <items x="0" y="185" width="273" height="20" text="{empty-arrow-right}Conceptual object 2"/>
     <items x="0" y="205" width="273" height="20"/>
   </widgets>
-  <widgets xsi:type="model:Group" x="533" y="464" width="382" height="153" text="Model: default" measuredWidth="382" measuredHeight="153"/>
-  <widgets xsi:type="model:TabbedPane" x="543" y="480" width="290" height="135" text="default" measuredWidth="290" measuredHeight="135" selection="0">
-    <items x="10" y="0" width="54" height="23" text="default"/>
-    <font/>
-  </widgets>
+  <widgets xsi:type="model:Group" x="533" y="464" width="382" height="153" text="Use cases" measuredWidth="382" measuredHeight="153"/>
   <widgets xsi:type="model:Button" x="842" y="326" width="63" text="{add} Add" measuredWidth="63" measuredHeight="26">
     <font/>
   </widgets>
@@ -87,21 +83,12 @@
   <widgets xsi:type="model:Button" x="842" y="546" width="63" text="{delete} Delete" measuredWidth="63" measuredHeight="26">
     <font/>
   </widgets>
-  <widgets xsi:type="model:List" x="543" y="505" width="290" height="72" text="|Clerk submits an offer on behalf of a Seller&#xD;&#xA;Buyer searches for an offer&#xD;&#xA;Clerk buys a selected item on behalf of a Buyer&#xD;&#xA;Seller cancels an offer" measuredWidth="290" measuredHeight="72" verticalScrollbar="true">
+  <widgets xsi:type="model:List" x="543" y="480" width="290" height="127" text="|Clerk submits an offer on behalf of a Seller&#xD;&#xA;Buyer searches for an offer&#xD;&#xA;Clerk buys a selected item on behalf of a Buyer&#xD;&#xA;Seller cancels an offer" measuredWidth="290" measuredHeight="127" verticalScrollbar="true">
     <font/>
     <items x="0" y="2" width="273" height="20" text="|Clerk submits an offer on behalf of a Seller"/>
     <items x="0" y="22" width="273" height="20" text="Buyer searches for an offer"/>
     <items x="0" y="42" width="273" height="20" text="Clerk buys a selected item on behalf of a Buyer"/>
     <items x="0" y="62" width="273" height="20" text="Seller cancels an offer"/>
-  </widgets>
-  <widgets xsi:type="model:Button" x="553" y="586" width="63" text="{add} Add" measuredWidth="63" measuredHeight="26">
-    <font/>
-  </widgets>
-  <widgets xsi:type="model:Button" x="624" y="586" width="63" text="{edit} Edit" measuredWidth="63" measuredHeight="26">
-    <font/>
-  </widgets>
-  <widgets xsi:type="model:Button" x="696" y="586" width="63" text="{delete} Delete" measuredWidth="63" measuredHeight="26">
-    <font/>
   </widgets>
   <hRuler/>
   <vRuler>

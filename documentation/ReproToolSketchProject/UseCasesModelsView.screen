@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model:Screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:model="http://wireframesketcher.com/1.0/model.ecore">
+  <widgets xsi:type="model:TabbedPane" x="523" y="222" width="400" height="403" text="Use case models" measuredWidth="400" measuredHeight="403" selection="0">
+    <items x="10" y="0" width="99" height="23" text="Use case models"/>
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Group" x="533" y="255" width="382" height="170" text="Use cases to models" measuredWidth="382" measuredHeight="170"/>
+  <widgets xsi:type="model:Table" x="543" y="280" width="362" height="135" text="use case,model                  &#xA;Clerk submits an offer, default&#xA;System validates the description, default&#xA;Clerk adjusts/enters ..." measuredWidth="362" measuredHeight="135" selection="" rowHeight="22" horizontalLines="true">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Combo" x="776" y="304" width="129" text="default" measuredWidth="129" measuredHeight="21">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Combo" x="776" y="324" width="129" text="default" measuredWidth="129" measuredHeight="21">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Combo" x="776" y="344" width="129" text="model1" measuredWidth="129" measuredHeight="21">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Group" x="533" y="440" width="382" height="170" text="Models:" measuredWidth="382" measuredHeight="170"/>
+  <widgets xsi:type="model:Button" x="842" y="464" width="63" text="{add} Add" measuredWidth="63" measuredHeight="26">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Button" x="842" y="496" width="63" text="{edit} Edit" measuredWidth="63" measuredHeight="26">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Button" x="842" y="530" width="63" text="{delete} Delete" measuredWidth="63" measuredHeight="26">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Button" x="842" y="560" width="63" text="Procase" measuredWidth="63" measuredHeight="23">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:List" x="543" y="464" width="290" height="136" text="default&#xD;&#xA;model1" measuredWidth="290" measuredHeight="136">
+    <font/>
+    <items x="0" y="2" width="290" height="20" text="default"/>
+    <items x="0" y="22" width="290" height="20" text="model1"/>
+  </widgets>
+  <hRuler/>
+  <vRuler/>
+  <font/>
+</model:Screen>

@@ -47,6 +47,10 @@
   <widgets xsi:type="model:Placeholder" x="512" y="551" width="399" height="90" text="Properties view" measuredWidth="399" measuredHeight="90"/>
   <widgets xsi:type="model:Placeholder" x="512" y="167" width="399" height="362" text="Project view" measuredWidth="399" measuredHeight="362"/>
   <widgets xsi:type="model:Placeholder" x="113" y="167" width="400" height="474" text="Use case editor" measuredWidth="400" measuredHeight="474"/>
+  <widgets xsi:type="model:Icon" x="886" y="152" measuredWidth="16" measuredHeight="16" icon="empty-arrow-down (small)"/>
+  <widgets xsi:type="model:Note" x="840" y="167" text="View menu" measuredWidth="61" measuredHeight="23">
+    <font/>
+  </widgets>
   <hRuler>
     <guides position="113"/>
   </hRuler>
