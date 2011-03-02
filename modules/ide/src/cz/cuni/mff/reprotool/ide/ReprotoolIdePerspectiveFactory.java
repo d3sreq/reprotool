@@ -10,7 +10,10 @@ public class ReprotoolIdePerspectiveFactory implements IPerspectiveFactory {
 	}
 
 	public void createInitialLayout(IPageLayout myLayout) {
-		myLayout.addView("cz.cuni.mff.reprotool.ide.view_parsed_tree", IPageLayout.RIGHT, 0.37f, IPageLayout.ID_EDITOR_AREA);
+		{
+			IFolderLayout mainLayout = myLayout.createFolder("folder", IPageLayout.RIGHT, 0.37f, "cz.cuni.mff.reprotool.ide.view_parsed_tree");
+			mainLayout.addView("cz.cuni.mff.reprotool.ide.usecase_step_view");
+		}
 		{
 			IFolderLayout folderLayout = myLayout.createFolder("folder", IPageLayout.BOTTOM, 0.72f, "cz.cuni.mff.reprotool.ide.view_parsed_tree");
 			folderLayout.addView("cz.cuni.mff.reprotool.ide.views.view_linguistic_tools");

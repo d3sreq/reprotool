@@ -21,6 +21,13 @@
             name="parsed tree"
             restorable="true">
       </view>
+            <view
+            category="cz.cuni.mff.reprotool.ide.category_reprotool"
+            class="cz.cuni.mff.reprotool.ide.views.UcStepView"
+            id="cz.cuni.mff.reprotool.ide.uc_step_view"
+            name="usecase step"
+            restorable="true">
+      </view>
    </extension>
    <extension
          point="org.eclipse.ui.perspectives">
