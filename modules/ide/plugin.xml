@@ -21,6 +21,13 @@
             name="parsed tree"
             restorable="true">
       </view>
+      <view
+            category="cz.cuni.mff.reprotool.ide.category_reprotool"
+            class="cz.cuni.mff.reprotool.ide.views.ProjectView"
+            id="cz.cuni.mff.reprotool.ide.view_project"
+            name="project"
+            restorable="true">
+      </view>
             <view
             category="cz.cuni.mff.reprotool.ide.category_reprotool"
             class="cz.cuni.mff.reprotool.ide.views.UcStepView"
@@ -46,6 +53,19 @@
             id="cz.cuni.mff.reprotool.ide.editor_use_case"
             name="use case">
       </editor>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            defaultHandler="cz.cuni.mff.reprotool.ide.commands.AddActor"
+            id="commands.addActor"
+            name="Add actor">
+      </command>
+      <command
+            defaultHandler="cz.cuni.mff.reprotool.ide.commands.RemoveActor"
+            id="commands.removeActor"
+            name="Remove actor">
+      </command>
    </extension>
 
 </plugin>
