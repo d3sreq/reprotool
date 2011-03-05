@@ -11,6 +11,8 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Combo;
 import com.swtdesigner.SWTResourceManager;
 import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.layout.RowLayout;
+import org.eclipse.swt.layout.RowData;
 
 public class UcStepView extends ViewPart {
 	
@@ -33,69 +35,51 @@ public class UcStepView extends ViewPart {
         fd_grpStep.right = new FormAttachment(100, -10);
         fd_grpStep.top = new FormAttachment(0, 10);
         grpStep.setLayoutData(fd_grpStep);
+        
+        Label lblStepSentence = new Label(grpStep, SWT.WRAP);
+        lblStepSentence.setText("Step sentence - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque feugiat, urna eu condimentum convallis, dui elit malesuada elit, id lacinia quam enim at nisl. Etiam faucibus nisi sit amet quam dignissim in sodales est elementum. In metus lorem, malesuada ac euismod sit amet, cursus nec neque.");
 
+        
         Group grpAnalysisResult = new Group(parent, SWT.NONE);
         grpAnalysisResult.setText("Analysis result");
-        FormLayout fl_grpAnalysisResult = new FormLayout();
-        fl_grpAnalysisResult.marginBottom = 5;
-        fl_grpAnalysisResult.marginHeight = 5;
-        grpAnalysisResult.setLayout(fl_grpAnalysisResult);
+        RowLayout rl_grpAnalysisResult = new RowLayout(SWT.VERTICAL);
+        rl_grpAnalysisResult.marginHeight = 5;
+        rl_grpAnalysisResult.spacing = 8;
+        grpAnalysisResult.setLayout(rl_grpAnalysisResult);
         FormData fd_grpAnalysisResult = new FormData();
         fd_grpAnalysisResult.top = new FormAttachment(grpStep, 10);
         fd_grpAnalysisResult.left = new FormAttachment(0, 10);
         fd_grpAnalysisResult.right = new FormAttachment(100, -10);
         grpAnalysisResult.setLayoutData(fd_grpAnalysisResult);
         
-        Label lblStepSentence = new Label(grpStep, SWT.WRAP);
-        lblStepSentence.setText("Step sentence - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque feugiat, urna eu condimentum convallis, dui elit malesuada elit, id lacinia quam enim at nisl. Etiam faucibus nisi sit amet quam dignissim in sodales est elementum. In metus lorem, malesuada ac euismod sit amet, cursus nec neque.");
+        Composite c_actiontype = new Composite(grpAnalysisResult, SWT.NONE);
+        RowLayout rl_actiontype = new RowLayout(SWT.HORIZONTAL);
+        rl_actiontype.spacing = 5;
+        rl_actiontype.center = true;
+        c_actiontype.setLayout(rl_actiontype);
         
-        Label lblStepIsA = new Label(grpAnalysisResult, SWT.NONE);
-        FormData fd_lblStepIsA = new FormData();
-        fd_lblStepIsA.bottom = new FormAttachment(0, 31);
-        fd_lblStepIsA.right = new FormAttachment(0, 57);
-        fd_lblStepIsA.top = new FormAttachment(0, 9);
-        fd_lblStepIsA.left = new FormAttachment(0, 8);
-        lblStepIsA.setLayoutData(fd_lblStepIsA);
+        Label lblStepIsA = new Label(c_actiontype, SWT.NONE);
         lblStepIsA.setText("Step is a");
-        
-        Combo combo = new Combo(grpAnalysisResult, SWT.NONE);
-        FormData fd_combo = new FormData();
-        fd_combo.right = new FormAttachment(0, 155);
-        fd_combo.top = new FormAttachment(0, 6);
-        fd_combo.left = new FormAttachment(0, 63);
-        combo.setLayoutData(fd_combo);
+        Combo combo = new Combo(c_actiontype, SWT.NONE);
+        combo.setLayoutData(new RowData(150, 26));
         combo.setText("internal");
-        
-        Label lblAction = new Label(grpAnalysisResult, SWT.NONE);
-        FormData fd_lblAction = new FormData();
-        fd_lblAction.bottom = new FormAttachment(0, 22);
-        fd_lblAction.right = new FormAttachment(0, 210);
-        fd_lblAction.top = new FormAttachment(0, 9);
-        fd_lblAction.left = new FormAttachment(0, 161);
-        lblAction.setLayoutData(fd_lblAction);
+        Label lblAction = new Label(c_actiontype, SWT.NONE);
         lblAction.setText("action");
+        
+        Composite c_actor = new Composite(grpAnalysisResult, SWT.NONE);
+        RowLayout rl_actor = new RowLayout(SWT.HORIZONTAL);
+        rl_actor.spacing = 5;
+        c_actor.setLayout(rl_actor);
+        Label lblActor = new Label(c_actor, SWT.NONE);
+        lblActor.setText("Primary actor:");
+        Label lblActorDesc = new Label(c_actor, SWT.WRAP);
+        lblActorDesc.setText("<actor>");
         
         
         Group grpToken = new Group(parent, SWT.NONE);
         grpToken.setText("Token");
         FormData fd_grpToken = new FormData();
-        fd_grpToken.top = new FormAttachment(grpStep, 120);
-        
-        Label lblActor = new Label(grpAnalysisResult, SWT.NONE);
-        FormData fd_lblActor = new FormData();
-        fd_lblActor.right = new FormAttachment(0, 106);
-        fd_lblActor.top = new FormAttachment(0, 46);
-        fd_lblActor.left = new FormAttachment(0, 8);
-        lblActor.setLayoutData(fd_lblActor);
-        lblActor.setText("Primary actor:");
-        
-        Label lblNewLabel = new Label(grpAnalysisResult, SWT.WRAP);
-        FormData fd_lblNewLabel = new FormData();
-        fd_lblNewLabel.right = new FormAttachment(0, 552);
-        fd_lblNewLabel.top = new FormAttachment(0, 47);
-        fd_lblNewLabel.left = new FormAttachment(0, 111);
-        lblNewLabel.setLayoutData(fd_lblNewLabel);
-        lblNewLabel.setText("<actor>");
+        fd_grpToken.top = new FormAttachment(grpAnalysisResult, 10);
         FillLayout fl_grpToken = new FillLayout(SWT.HORIZONTAL);
         fl_grpToken.marginWidth = 10;
         fl_grpToken.marginHeight = 10;
@@ -104,7 +88,6 @@ public class UcStepView extends ViewPart {
         fd_grpToken.right = new FormAttachment(100, -10);
         grpToken.setLayoutData(fd_grpToken);
 
-        
         Label lbltokentext = new Label(grpToken, SWT.WRAP);
         lbltokentext.setFont(SWTResourceManager.getFont("Tahoma", 12, SWT.NORMAL));
         lbltokentext.setForeground(SWTResourceManager.getColor(SWT.COLOR_BLUE));
@@ -114,6 +97,5 @@ public class UcStepView extends ViewPart {
 	@Override
 	public void setFocus() {
 		// TODO Auto-generated method stub
-
 	}
 }
