@@ -9,8 +9,8 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.handlers.HandlerUtil;
 
-import cz.cuni.mff.reprotool.ide.model.Actor;
-import cz.cuni.mff.reprotool.ide.service.ModelProvider;
+//import cz.cuni.mff.reprotool.ide.model.Actor;
+import cz.cuni.mff.reprotool.ide.service.Service;
 import cz.cuni.mff.reprotool.ide.views.ProjectView;
 
 /**
@@ -29,10 +29,10 @@ public class RemoveActor extends AbstractHandler {
 		ProjectView view = (ProjectView) page.findView(ProjectView.ID);
 		IStructuredSelection selection = (IStructuredSelection)view.getTreeViewer().getSelection();
 		if (!selection.isEmpty()) {
-			Actor actor = (Actor)selection.iterator().next();
+//			Actor actor = (Actor)selection.iterator().next();
 			
 			// remove from model
-			ModelProvider.INSTANCE.getActors().remove(actor);
+//			ModelProvider.INSTANCE.getActors().remove(actor);
 	
 			// reload view
 			view.getTreeViewer().refresh();

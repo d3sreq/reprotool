@@ -18,53 +18,23 @@ import org.eclipse.ui.part.ViewPart;
 import org.eclipse.wb.swt.layout.grouplayout.GroupLayout;
 import org.eclipse.wb.swt.layout.grouplayout.LayoutStyle;
 
-import cz.cuni.mff.reprotool.ide.model.Actor;
-import cz.cuni.mff.reprotool.ide.service.ModelProvider;
+//import cz.cuni.mff.reprotool.ide.model.Actor;
+import cz.cuni.mff.reprotool.ide.service.Service;
+import cz.cuni.mff.reprotool.model.project.Actor;
+
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.core.databinding.DataBindingContext;
+import org.eclipse.wb.rcp.databinding.BeansListObservableFactory;
+import org.eclipse.wb.rcp.databinding.TreeBeanAdvisor;
+import org.eclipse.jface.databinding.viewers.ObservableListTreeContentProvider;
+import org.eclipse.wb.rcp.databinding.TreeObservableLabelProvider;
 
 public class ProjectView extends ViewPart {
-
-	private static class ActorsViewerLabelProvider extends LabelProvider {
-		public Image getImage(Object element) {
-			return super.getImage(element);
-		}
-
-		public String getText(Object element) {
-			Actor actor = (Actor) element;
-			return actor.getName();
-		}
-	}
-
-	private static class ActorsTreeContentProvider implements
-			ITreeContentProvider {
-		private Object[] emptyArray = new Object[] {};
-
-		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-		}
-
-		public void dispose() {
-		}
-
-		public Object[] getElements(Object inputElement) {
-			return ModelProvider.INSTANCE.getActors().toArray();
-			// return getChildren(inputElement);
-		}
-
-		public Object[] getChildren(Object parentElement) {
-			// return new Object[] { "item_0", "item_1", "item_2" };
-			return emptyArray;
-		}
-
-		public Object getParent(Object element) {
-			return null;
-		}
-
-		public boolean hasChildren(Object element) {
-			return getChildren(element).length > 0;
-		}
-	}
-
+	private DataBindingContext m_bindingContext;
+	
+	private Service service = Service.INSTANCE;
+	
 	public static final String ID = "cz.cuni.mff.reprotool.ide.view_project";
 
 	private Text text;
@@ -131,10 +101,6 @@ public class ProjectView extends ViewPart {
 		composite.setLayout(tcl_composite);
 
 		treeViewer = new TreeViewer(composite, SWT.BORDER);
-		treeViewer.setLabelProvider(new ActorsViewerLabelProvider());
-		treeViewer.setContentProvider(new ActorsTreeContentProvider());
-		// TODO jvinarek - check this
-		treeViewer.setInput(ModelProvider.INSTANCE.getActors());
 
 		GroupLayout gl_grpActorsStakeholders = new GroupLayout(
 				grpActorsStakeholders);
@@ -194,6 +160,7 @@ public class ProjectView extends ViewPart {
 				GroupLayout.LEADING).add(0, 222, Short.MAX_VALUE));
 		grpUseCases.setLayout(gl_grpUseCases);
 		sashForm.setWeights(new int[] { 109, 238, 239 });
+		m_bindingContext = initDataBindings();
 		// TODO Auto-generated method stub
 
 	}
@@ -206,5 +173,19 @@ public class ProjectView extends ViewPart {
 
 	public TreeViewer getTreeViewer() {
 		return treeViewer;
+	}
+	protected DataBindingContext initDataBindings() {
+		DataBindingContext bindingContext = new DataBindingContext();
+		//
+		BeansListObservableFactory treeObservableFactory = new BeansListObservableFactory(Actor.class, "compoundActor");
+		TreeBeanAdvisor treeAdvisor = new TreeBeanAdvisor(Actor.class, null, "compoundActor", null);
+		ObservableListTreeContentProvider treeContentProvider = new ObservableListTreeContentProvider(treeObservableFactory, treeAdvisor);
+		treeViewer.setContentProvider(treeContentProvider);
+		//
+		treeViewer.setLabelProvider(new TreeObservableLabelProvider(treeContentProvider.getKnownElements(), Actor.class, "name", null));
+		//
+		treeViewer.setInput(service.getActors());
+		//
+		return bindingContext;
 	}
 }

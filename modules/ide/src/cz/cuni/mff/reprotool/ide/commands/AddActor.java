@@ -7,8 +7,8 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.handlers.HandlerUtil;
 
-import cz.cuni.mff.reprotool.ide.model.Actor;
-import cz.cuni.mff.reprotool.ide.service.ModelProvider;
+//import cz.cuni.mff.reprotool.ide.model.Actor;
+import cz.cuni.mff.reprotool.ide.service.Service;
 import cz.cuni.mff.reprotool.ide.views.ProjectView;
 
 /**
@@ -24,7 +24,7 @@ public class AddActor extends AbstractHandler {
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		// TODO - show dialog
-		ModelProvider.INSTANCE.getActors().add(new Actor("actor " + counter));
+//		ModelProvider.INSTANCE.getActors().add(new Actor("actor " + counter));
 		counter++;
 		
 		// Updating the display in the view
