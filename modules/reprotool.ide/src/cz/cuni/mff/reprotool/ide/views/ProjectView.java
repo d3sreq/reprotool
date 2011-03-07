@@ -22,7 +22,7 @@ import org.eclipse.wb.swt.layout.grouplayout.GroupLayout;
 import org.eclipse.wb.swt.layout.grouplayout.LayoutStyle;
 
 import cz.cuni.mff.reprotool.ide.service.Service;
-import cz.cuni.mff.reprotool.model.project.Actor;
+import reprotool.model.re.Actor;
 
 public class ProjectView extends ViewPart {
 	private DataBindingContext m_bindingContext;

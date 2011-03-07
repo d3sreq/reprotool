@@ -5,9 +5,9 @@ import java.util.List;
 
 import org.eclipse.core.databinding.observable.list.WritableList;
 
-import cz.cuni.mff.reprotool.model.project.Actor;
-import cz.cuni.mff.reprotool.model.project.ProjectFactory;
-import cz.cuni.mff.reprotool.model.project.impl.ProjectFactoryImpl;
+import reprotool.model.re.Actor;
+import reprotool.model.re.ReFactory;
+import reprotool.model.re.impl.ReFactoryImpl;
 
 /**
  * Service layer class for interaction between model and view.
@@ -19,7 +19,7 @@ import cz.cuni.mff.reprotool.model.project.impl.ProjectFactoryImpl;
 public enum Service {
 	INSTANCE;
 
-	private ProjectFactory factory = new ProjectFactoryImpl();
+	private ReFactory factory = new ReFactoryImpl();
 	private WritableList actors;
 	
 	private void init() {
