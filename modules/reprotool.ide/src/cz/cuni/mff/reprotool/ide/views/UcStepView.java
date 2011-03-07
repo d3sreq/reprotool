@@ -9,10 +9,13 @@ import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Combo;
+
 import com.swtdesigner.SWTResourceManager;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.layout.RowData;
+import org.eclipse.swt.events.MouseAdapter;
+import org.eclipse.swt.events.MouseEvent;
 
 public class UcStepView extends ViewPart {
 	
@@ -21,7 +24,7 @@ public class UcStepView extends ViewPart {
 	}
 
 	@Override
-	public void createPartControl(Composite parent) {
+	public void createPartControl(final Composite parent) {
         parent.setLayout(new FormLayout());
         
         Group grpStep = new Group(parent, SWT.NONE);
@@ -89,6 +92,13 @@ public class UcStepView extends ViewPart {
         grpToken.setLayoutData(fd_grpToken);
 
         Label lbltokentext = new Label(grpToken, SWT.WRAP);
+        lbltokentext.addMouseListener(new MouseAdapter() {
+        	@Override
+        	public void mouseDown(MouseEvent e) {
+        		TokenWizard tw = new TokenWizard(parent.getShell(), SWT.NONE);
+        		tw.open();
+        	}
+        });
         lbltokentext.setFont(SWTResourceManager.getFont("Tahoma", 12, SWT.NORMAL));
         lbltokentext.setForeground(SWTResourceManager.getColor(SWT.COLOR_BLUE));
         lbltokentext.setText("#tokenText");
