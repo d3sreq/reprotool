@@ -4,7 +4,7 @@
  *
  * $Id$
  */
-package reprotool.model.structure.ast.util;
+package reprotool.model.specification.util;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
@@ -13,26 +13,24 @@ import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 
 import org.eclipse.emf.ecore.EObject;
 
-import reprotool.model.structure.ast.AstPackage;
-import reprotool.model.structure.ast.CodeElement;
-import reprotool.model.structure.ast.Method;
+import reprotool.model.specification.*;
 
 /**
  * <!-- begin-user-doc -->
  * The <b>Adapter Factory</b> for the model.
  * It provides an adapter <code>createXXX</code> method for each class of the model.
  * <!-- end-user-doc -->
- * @see reprotool.model.structure.ast.AstPackage
+ * @see reprotool.model.specification.SpecificationPackage
  * @generated
  */
-public class AstAdapterFactory extends AdapterFactoryImpl {
+public class SpecificationAdapterFactory extends AdapterFactoryImpl {
 	/**
 	 * The cached model package.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected static AstPackage modelPackage;
+	protected static SpecificationPackage modelPackage;
 
 	/**
 	 * Creates an instance of the adapter factory.
@@ -40,9 +38,9 @@ public class AstAdapterFactory extends AdapterFactoryImpl {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public AstAdapterFactory() {
+	public SpecificationAdapterFactory() {
 		if (modelPackage == null) {
-			modelPackage = AstPackage.eINSTANCE;
+			modelPackage = SpecificationPackage.eINSTANCE;
 		}
 	}
 
@@ -71,19 +69,27 @@ public class AstAdapterFactory extends AdapterFactoryImpl {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected AstSwitch<Adapter> modelSwitch =
-		new AstSwitch<Adapter>() {
+	protected SpecificationSwitch<Adapter> modelSwitch =
+		new SpecificationSwitch<Adapter>() {
 			@Override
-			public Adapter caseMethod(Method object) {
-				return createMethodAdapter();
+			public Adapter caseProject(Project object) {
+				return createProjectAdapter();
 			}
 			@Override
-			public Adapter caseClass(reprotool.model.structure.ast.Class object) {
-				return createClassAdapter();
+			public Adapter caseUseCase(UseCase object) {
+				return createUseCaseAdapter();
 			}
 			@Override
-			public Adapter caseCodeElement(CodeElement object) {
-				return createCodeElementAdapter();
+			public Adapter caseActor(Actor object) {
+				return createActorAdapter();
+			}
+			@Override
+			public Adapter caseUseCaseStep(UseCaseStep object) {
+				return createUseCaseStepAdapter();
+			}
+			@Override
+			public Adapter caseGenericRequirement(GenericRequirement object) {
+				return createGenericRequirementAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -106,44 +112,72 @@ public class AstAdapterFactory extends AdapterFactoryImpl {
 
 
 	/**
-	 * Creates a new adapter for an object of class '{@link reprotool.model.structure.ast.Method <em>Method</em>}'.
+	 * Creates a new adapter for an object of class '{@link reprotool.model.specification.Project <em>Project</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see reprotool.model.structure.ast.Method
+	 * @see reprotool.model.specification.Project
 	 * @generated
 	 */
-	public Adapter createMethodAdapter() {
+	public Adapter createProjectAdapter() {
 		return null;
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link reprotool.model.structure.ast.Class <em>Class</em>}'.
+	 * Creates a new adapter for an object of class '{@link reprotool.model.specification.UseCase <em>Use Case</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see reprotool.model.structure.ast.Class
+	 * @see reprotool.model.specification.UseCase
 	 * @generated
 	 */
-	public Adapter createClassAdapter() {
+	public Adapter createUseCaseAdapter() {
 		return null;
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link reprotool.model.structure.ast.CodeElement <em>Code Element</em>}'.
+	 * Creates a new adapter for an object of class '{@link reprotool.model.specification.Actor <em>Actor</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see reprotool.model.structure.ast.CodeElement
+	 * @see reprotool.model.specification.Actor
 	 * @generated
 	 */
-	public Adapter createCodeElementAdapter() {
+	public Adapter createActorAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link reprotool.model.specification.UseCaseStep <em>Use Case Step</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see reprotool.model.specification.UseCaseStep
+	 * @generated
+	 */
+	public Adapter createUseCaseStepAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link reprotool.model.specification.GenericRequirement <em>Generic Requirement</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see reprotool.model.specification.GenericRequirement
+	 * @generated
+	 */
+	public Adapter createGenericRequirementAdapter() {
 		return null;
 	}
 
@@ -159,4 +193,4 @@ public class AstAdapterFactory extends AdapterFactoryImpl {
 		return null;
 	}
 
-} //AstAdapterFactory
+} //SpecificationAdapterFactory

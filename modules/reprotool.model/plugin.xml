@@ -10,11 +10,5 @@
 
 <plugin>
 
-   <extension point="org.eclipse.emf.ecore.generated_package">
-      <package
-            uri="http://project/1.0"
-            class="cz.cuni.mff.reprotool.model.project.ProjectPackage"
-            genModel="model/project.genmodel"/>
-   </extension>
 
 </plugin>

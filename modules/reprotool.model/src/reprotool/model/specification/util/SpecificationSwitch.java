@@ -4,16 +4,14 @@
  *
  * $Id$
  */
-package reprotool.model.structure.ast.util;
+package reprotool.model.specification.util;
 
 import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 
-import reprotool.model.structure.ast.AstPackage;
-import reprotool.model.structure.ast.CodeElement;
-import reprotool.model.structure.ast.Method;
+import reprotool.model.specification.*;
 
 /**
  * <!-- begin-user-doc -->
@@ -25,17 +23,17 @@ import reprotool.model.structure.ast.Method;
  * until a non-null result is returned,
  * which is the result of the switch.
  * <!-- end-user-doc -->
- * @see reprotool.model.structure.ast.AstPackage
+ * @see reprotool.model.specification.SpecificationPackage
  * @generated
  */
-public class AstSwitch<T> {
+public class SpecificationSwitch<T> {
 	/**
 	 * The cached model package
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected static AstPackage modelPackage;
+	protected static SpecificationPackage modelPackage;
 
 	/**
 	 * Creates an instance of the switch.
@@ -43,9 +41,9 @@ public class AstSwitch<T> {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public AstSwitch() {
+	public SpecificationSwitch() {
 		if (modelPackage == null) {
-			modelPackage = AstPackage.eINSTANCE;
+			modelPackage = SpecificationPackage.eINSTANCE;
 		}
 	}
 
@@ -89,23 +87,34 @@ public class AstSwitch<T> {
 	 */
 	protected T doSwitch(int classifierID, EObject theEObject) {
 		switch (classifierID) {
-			case AstPackage.METHOD: {
-				Method method = (Method)theEObject;
-				T result = caseMethod(method);
-				if (result == null) result = caseCodeElement(method);
+			case SpecificationPackage.PROJECT: {
+				Project project = (Project)theEObject;
+				T result = caseProject(project);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case AstPackage.CLASS: {
-				reprotool.model.structure.ast.Class class_ = (reprotool.model.structure.ast.Class)theEObject;
-				T result = caseClass(class_);
-				if (result == null) result = caseCodeElement(class_);
+			case SpecificationPackage.USE_CASE: {
+				UseCase useCase = (UseCase)theEObject;
+				T result = caseUseCase(useCase);
+				if (result == null) result = caseGenericRequirement(useCase);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case AstPackage.CODE_ELEMENT: {
-				CodeElement codeElement = (CodeElement)theEObject;
-				T result = caseCodeElement(codeElement);
+			case SpecificationPackage.ACTOR: {
+				Actor actor = (Actor)theEObject;
+				T result = caseActor(actor);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case SpecificationPackage.USE_CASE_STEP: {
+				UseCaseStep useCaseStep = (UseCaseStep)theEObject;
+				T result = caseUseCaseStep(useCaseStep);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case SpecificationPackage.GENERIC_REQUIREMENT: {
+				GenericRequirement genericRequirement = (GenericRequirement)theEObject;
+				T result = caseGenericRequirement(genericRequirement);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -114,47 +123,77 @@ public class AstSwitch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Method</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Project</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Method</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Project</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseMethod(Method object) {
+	public T caseProject(Project object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Class</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Use Case</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Class</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Use Case</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseClass(reprotool.model.structure.ast.Class object) {
+	public T caseUseCase(UseCase object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Code Element</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Actor</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Code Element</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Actor</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseCodeElement(CodeElement object) {
+	public T caseActor(Actor object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Use Case Step</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Use Case Step</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseUseCaseStep(UseCaseStep object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Generic Requirement</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Generic Requirement</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseGenericRequirement(GenericRequirement object) {
 		return null;
 	}
 
@@ -173,4 +212,4 @@ public class AstSwitch<T> {
 		return null;
 	}
 
-} //AstSwitch
+} //SpecificationSwitch

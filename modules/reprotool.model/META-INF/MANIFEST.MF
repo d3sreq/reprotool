@@ -7,9 +7,9 @@ Bundle-ClassPath: .
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Export-Package: reprotool.model.re,
- reprotool.model.re.impl,
- reprotool.model.re.util,
+Export-Package: reprotool.model.specification,
+ reprotool.model.specification.impl,
+ reprotool.model.specification.util,
  reprotool.model.structure.ast,
  reprotool.model.structure.ast.impl,
  reprotool.model.structure.ast.util,

@@ -9,28 +9,28 @@
       </category>
       <view
             category="cz.cuni.mff.reprotool.ide.category_reprotool"
-            class="cz.cuni.mff.reprotool.ide.views.LinguisticToolsView"
+            class="reprotool.ide.views.LinguisticToolsView"
             id="cz.cuni.mff.reprotool.ide.views.view_linguistic_tools"
             name="linguistic tools"
             restorable="true">
       </view>
       <view
             category="cz.cuni.mff.reprotool.ide.category_reprotool"
-            class="cz.cuni.mff.reprotool.ide.views.ParsedTreeView"
+            class="reprotool.ide.views.ParsedTreeView"
             id="cz.cuni.mff.reprotool.ide.view_parsed_tree"
             name="parsed tree"
             restorable="true">
       </view>
       <view
             category="cz.cuni.mff.reprotool.ide.category_reprotool"
-            class="cz.cuni.mff.reprotool.ide.views.ProjectView"
+            class="reprotool.ide.views.ProjectView"
             id="cz.cuni.mff.reprotool.ide.view_project"
             name="project"
             restorable="true">
       </view>
             <view
             category="cz.cuni.mff.reprotool.ide.category_reprotool"
-            class="cz.cuni.mff.reprotool.ide.views.UcStepView"
+            class="reprotool.ide.views.UcStepView"
             id="cz.cuni.mff.reprotool.ide.uc_step_view"
             name="usecase step"
             restorable="true">
@@ -39,7 +39,7 @@
    <extension
          point="org.eclipse.ui.perspectives">
       <perspective
-            class="cz.cuni.mff.reprotool.ide.ReprotoolIdePerspectiveFactory"
+            class="reprotool.ide.ReprotoolIdePerspectiveFactory"
             id="cz.cuni.mff.reprotool.ide.perspective_reprotool_ide"
             name="reprotool">
       </perspective>
@@ -47,7 +47,7 @@
    <extension
          point="org.eclipse.ui.editors">
       <editor
-            class="cz.cuni.mff.reprotool.ide.editors.UseCaseEditor"
+            class="reprotool.ide.editors.UseCaseEditor"
             default="false"
             extensions="uc"
             id="cz.cuni.mff.reprotool.ide.editor_use_case"
@@ -57,12 +57,12 @@
    <extension
          point="org.eclipse.ui.commands">
       <command
-            defaultHandler="cz.cuni.mff.reprotool.ide.commands.AddActor"
+            defaultHandler="reprotool.ide.commands.AddActor"
             id="commands.addActor"
             name="Add actor">
       </command>
       <command
-            defaultHandler="cz.cuni.mff.reprotool.ide.commands.RemoveActor"
+            defaultHandler="reprotool.ide.commands.RemoveActor"
             id="commands.removeActor"
             name="Remove actor">
       </command>

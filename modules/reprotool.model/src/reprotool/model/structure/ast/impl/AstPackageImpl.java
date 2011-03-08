@@ -6,22 +6,21 @@
  */
 package reprotool.model.structure.ast.impl;
 
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
-import reprotool.model.re.RePackage;
-
-import reprotool.model.re.impl.RePackageImpl;
-
+import reprotool.model.specification.SpecificationPackage;
+import reprotool.model.specification.impl.SpecificationPackageImpl;
 import reprotool.model.structure.ast.AstFactory;
 import reprotool.model.structure.ast.AstPackage;
+import reprotool.model.structure.ast.CodeElement;
 import reprotool.model.structure.ast.Method;
-
+import reprotool.model.structure.ast.MethodVisibility;
 import reprotool.model.structure.doc.DocPackage;
-
 import reprotool.model.structure.doc.impl.DocPackageImpl;
 
 /**
@@ -44,6 +43,20 @@ public class AstPackageImpl extends EPackageImpl implements AstPackage {
 	 * @generated
 	 */
 	private EClass classEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass codeElementEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EEnum methodVisibilityEEnum = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -92,17 +105,17 @@ public class AstPackageImpl extends EPackageImpl implements AstPackage {
 		isInited = true;
 
 		// Obtain or create and register interdependencies
-		RePackageImpl theRePackage = (RePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(RePackage.eNS_URI) instanceof RePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(RePackage.eNS_URI) : RePackage.eINSTANCE);
+		SpecificationPackageImpl theSpecificationPackage = (SpecificationPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(SpecificationPackage.eNS_URI) instanceof SpecificationPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(SpecificationPackage.eNS_URI) : SpecificationPackage.eINSTANCE);
 		DocPackageImpl theDocPackage = (DocPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(DocPackage.eNS_URI) instanceof DocPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(DocPackage.eNS_URI) : DocPackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theAstPackage.createPackageContents();
-		theRePackage.createPackageContents();
+		theSpecificationPackage.createPackageContents();
 		theDocPackage.createPackageContents();
 
 		// Initialize created meta-data
 		theAstPackage.initializePackageContents();
-		theRePackage.initializePackageContents();
+		theSpecificationPackage.initializePackageContents();
 		theDocPackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
@@ -128,6 +141,15 @@ public class AstPackageImpl extends EPackageImpl implements AstPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getMethod_Visibility() {
+		return (EAttribute)methodEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getClass_() {
 		return classEClass;
 	}
@@ -139,6 +161,42 @@ public class AstPackageImpl extends EPackageImpl implements AstPackage {
 	 */
 	public EReference getClass_Methods() {
 		return (EReference)classEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getCodeElement() {
+		return codeElementEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getCodeElement_Comment() {
+		return (EAttribute)codeElementEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getCodeElement_Name() {
+		return (EAttribute)codeElementEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EEnum getMethodVisibility() {
+		return methodVisibilityEEnum;
 	}
 
 	/**
@@ -170,9 +228,17 @@ public class AstPackageImpl extends EPackageImpl implements AstPackage {
 
 		// Create classes and their features
 		methodEClass = createEClass(METHOD);
+		createEAttribute(methodEClass, METHOD__VISIBILITY);
 
 		classEClass = createEClass(CLASS);
 		createEReference(classEClass, CLASS__METHODS);
+
+		codeElementEClass = createEClass(CODE_ELEMENT);
+		createEAttribute(codeElementEClass, CODE_ELEMENT__COMMENT);
+		createEAttribute(codeElementEClass, CODE_ELEMENT__NAME);
+
+		// Create enums
+		methodVisibilityEEnum = createEEnum(METHOD_VISIBILITY);
 	}
 
 	/**
@@ -203,12 +269,24 @@ public class AstPackageImpl extends EPackageImpl implements AstPackage {
 		// Set bounds for type parameters
 
 		// Add supertypes to classes
+		methodEClass.getESuperTypes().add(this.getCodeElement());
+		classEClass.getESuperTypes().add(this.getCodeElement());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(methodEClass, Method.class, "Method", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getMethod_Visibility(), this.getMethodVisibility(), "visibility", null, 0, 1, Method.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(classEClass, reprotool.model.structure.ast.Class.class, "Class", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getClass_Methods(), this.getMethod(), null, "methods", null, 0, -1, reprotool.model.structure.ast.Class.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(codeElementEClass, CodeElement.class, "CodeElement", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getCodeElement_Comment(), ecorePackage.getEString(), "comment", null, 0, 1, CodeElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getCodeElement_Name(), ecorePackage.getEString(), "name", null, 0, 1, CodeElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		// Initialize enums and add enum literals
+		initEEnum(methodVisibilityEEnum, MethodVisibility.class, "MethodVisibility");
+		addEEnumLiteral(methodVisibilityEEnum, MethodVisibility.PRIVATE);
+		addEEnumLiteral(methodVisibilityEEnum, MethodVisibility.PUBLIC);
 
 		// Create resource
 		createResource(eNS_URI);

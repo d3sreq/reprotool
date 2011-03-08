@@ -9,17 +9,12 @@ package reprotool.model.structure.doc.impl;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
-import reprotool.model.re.RePackage;
-
-import reprotool.model.re.impl.RePackageImpl;
-
+import reprotool.model.specification.SpecificationPackage;
+import reprotool.model.specification.impl.SpecificationPackageImpl;
 import reprotool.model.structure.ast.AstPackage;
-
 import reprotool.model.structure.ast.impl.AstPackageImpl;
-
 import reprotool.model.structure.doc.DocFactory;
 import reprotool.model.structure.doc.DocPackage;
 import reprotool.model.structure.doc.Document;
@@ -101,17 +96,17 @@ public class DocPackageImpl extends EPackageImpl implements DocPackage {
 		isInited = true;
 
 		// Obtain or create and register interdependencies
-		RePackageImpl theRePackage = (RePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(RePackage.eNS_URI) instanceof RePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(RePackage.eNS_URI) : RePackage.eINSTANCE);
+		SpecificationPackageImpl theSpecificationPackage = (SpecificationPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(SpecificationPackage.eNS_URI) instanceof SpecificationPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(SpecificationPackage.eNS_URI) : SpecificationPackage.eINSTANCE);
 		AstPackageImpl theAstPackage = (AstPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(AstPackage.eNS_URI) instanceof AstPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(AstPackage.eNS_URI) : AstPackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theDocPackage.createPackageContents();
-		theRePackage.createPackageContents();
+		theSpecificationPackage.createPackageContents();
 		theAstPackage.createPackageContents();
 
 		// Initialize created meta-data
 		theDocPackage.initializePackageContents();
-		theRePackage.initializePackageContents();
+		theSpecificationPackage.initializePackageContents();
 		theAstPackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed

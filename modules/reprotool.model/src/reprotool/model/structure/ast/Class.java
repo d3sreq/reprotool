@@ -8,8 +8,6 @@ package reprotool.model.structure.ast;
 
 import org.eclipse.emf.common.util.EList;
 
-import org.eclipse.emf.ecore.EObject;
-
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Class</b></em>'.
@@ -26,7 +24,7 @@ import org.eclipse.emf.ecore.EObject;
  * @model
  * @generated
  */
-public interface Class extends EObject {
+public interface Class extends CodeElement {
 	/**
 	 * Returns the value of the '<em><b>Methods</b></em>' reference list.
 	 * The list contents are of type {@link reprotool.model.structure.ast.Method}.

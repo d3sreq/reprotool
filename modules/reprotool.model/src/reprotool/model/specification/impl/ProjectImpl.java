@@ -4,57 +4,65 @@
  *
  * $Id$
  */
-package reprotool.model.structure.ast.impl;
+package reprotool.model.specification.impl;
 
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
+
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
-import org.eclipse.emf.ecore.util.EObjectResolvingEList;
+import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.InternalEList;
 
-import reprotool.model.structure.ast.AstPackage;
-import reprotool.model.structure.ast.Method;
+import reprotool.model.specification.Actor;
+import reprotool.model.specification.Project;
+import reprotool.model.specification.SpecificationPackage;
+import reprotool.model.specification.UseCase;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Class</b></em>'.
+ * An implementation of the model object '<em><b>Project</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link reprotool.model.structure.ast.impl.ClassImpl#getComment <em>Comment</em>}</li>
- *   <li>{@link reprotool.model.structure.ast.impl.ClassImpl#getName <em>Name</em>}</li>
- *   <li>{@link reprotool.model.structure.ast.impl.ClassImpl#getMethods <em>Methods</em>}</li>
+ *   <li>{@link reprotool.model.specification.impl.ProjectImpl#getUseCases <em>Use Cases</em>}</li>
+ *   <li>{@link reprotool.model.specification.impl.ProjectImpl#getActors <em>Actors</em>}</li>
+ *   <li>{@link reprotool.model.specification.impl.ProjectImpl#getName <em>Name</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class ClassImpl extends EObjectImpl implements reprotool.model.structure.ast.Class {
+public class ProjectImpl extends EObjectImpl implements Project {
 	/**
-	 * The default value of the '{@link #getComment() <em>Comment</em>}' attribute.
+	 * The cached value of the '{@link #getUseCases() <em>Use Cases</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getComment()
+	 * @see #getUseCases()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final String COMMENT_EDEFAULT = null;
+	protected EList<UseCase> useCases;
+
 	/**
-	 * The cached value of the '{@link #getComment() <em>Comment</em>}' attribute.
+	 * The cached value of the '{@link #getActors() <em>Actors</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getComment()
+	 * @see #getActors()
 	 * @generated
 	 * @ordered
 	 */
-	protected String comment = COMMENT_EDEFAULT;
+	protected EList<Actor> actors;
+
 	/**
 	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -64,6 +72,7 @@ public class ClassImpl extends EObjectImpl implements reprotool.model.structure.
 	 * @ordered
 	 */
 	protected static final String NAME_EDEFAULT = null;
+
 	/**
 	 * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -73,22 +82,13 @@ public class ClassImpl extends EObjectImpl implements reprotool.model.structure.
 	 * @ordered
 	 */
 	protected String name = NAME_EDEFAULT;
-	/**
-	 * The cached value of the '{@link #getMethods() <em>Methods</em>}' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getMethods()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<Method> methods;
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected ClassImpl() {
+	protected ProjectImpl() {
 		super();
 	}
 
@@ -99,7 +99,7 @@ public class ClassImpl extends EObjectImpl implements reprotool.model.structure.
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return AstPackage.Literals.CLASS;
+		return SpecificationPackage.Literals.PROJECT;
 	}
 
 	/**
@@ -107,8 +107,11 @@ public class ClassImpl extends EObjectImpl implements reprotool.model.structure.
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getComment() {
-		return comment;
+	public EList<UseCase> getUseCases() {
+		if (useCases == null) {
+			useCases = new EObjectContainmentEList<UseCase>(UseCase.class, this, SpecificationPackage.PROJECT__USE_CASES);
+		}
+		return useCases;
 	}
 
 	/**
@@ -116,11 +119,11 @@ public class ClassImpl extends EObjectImpl implements reprotool.model.structure.
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setComment(String newComment) {
-		String oldComment = comment;
-		comment = newComment;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, AstPackage.CLASS__COMMENT, oldComment, comment));
+	public EList<Actor> getActors() {
+		if (actors == null) {
+			actors = new EObjectContainmentEList<Actor>(Actor.class, this, SpecificationPackage.PROJECT__ACTORS);
+		}
+		return actors;
 	}
 
 	/**
@@ -141,7 +144,7 @@ public class ClassImpl extends EObjectImpl implements reprotool.model.structure.
 		String oldName = name;
 		name = newName;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, AstPackage.CLASS__NAME, oldName, name));
+			eNotify(new ENotificationImpl(this, Notification.SET, SpecificationPackage.PROJECT__NAME, oldName, name));
 	}
 
 	/**
@@ -149,11 +152,15 @@ public class ClassImpl extends EObjectImpl implements reprotool.model.structure.
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<Method> getMethods() {
-		if (methods == null) {
-			methods = new EObjectResolvingEList<Method>(Method.class, this, AstPackage.CLASS__METHODS);
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case SpecificationPackage.PROJECT__USE_CASES:
+				return ((InternalEList<?>)getUseCases()).basicRemove(otherEnd, msgs);
+			case SpecificationPackage.PROJECT__ACTORS:
+				return ((InternalEList<?>)getActors()).basicRemove(otherEnd, msgs);
 		}
-		return methods;
+		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**
@@ -164,12 +171,12 @@ public class ClassImpl extends EObjectImpl implements reprotool.model.structure.
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case AstPackage.CLASS__COMMENT:
-				return getComment();
-			case AstPackage.CLASS__NAME:
+			case SpecificationPackage.PROJECT__USE_CASES:
+				return getUseCases();
+			case SpecificationPackage.PROJECT__ACTORS:
+				return getActors();
+			case SpecificationPackage.PROJECT__NAME:
 				return getName();
-			case AstPackage.CLASS__METHODS:
-				return getMethods();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -183,15 +190,16 @@ public class ClassImpl extends EObjectImpl implements reprotool.model.structure.
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case AstPackage.CLASS__COMMENT:
-				setComment((String)newValue);
+			case SpecificationPackage.PROJECT__USE_CASES:
+				getUseCases().clear();
+				getUseCases().addAll((Collection<? extends UseCase>)newValue);
 				return;
-			case AstPackage.CLASS__NAME:
+			case SpecificationPackage.PROJECT__ACTORS:
+				getActors().clear();
+				getActors().addAll((Collection<? extends Actor>)newValue);
+				return;
+			case SpecificationPackage.PROJECT__NAME:
 				setName((String)newValue);
-				return;
-			case AstPackage.CLASS__METHODS:
-				getMethods().clear();
-				getMethods().addAll((Collection<? extends Method>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -205,14 +213,14 @@ public class ClassImpl extends EObjectImpl implements reprotool.model.structure.
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case AstPackage.CLASS__COMMENT:
-				setComment(COMMENT_EDEFAULT);
+			case SpecificationPackage.PROJECT__USE_CASES:
+				getUseCases().clear();
 				return;
-			case AstPackage.CLASS__NAME:
+			case SpecificationPackage.PROJECT__ACTORS:
+				getActors().clear();
+				return;
+			case SpecificationPackage.PROJECT__NAME:
 				setName(NAME_EDEFAULT);
-				return;
-			case AstPackage.CLASS__METHODS:
-				getMethods().clear();
 				return;
 		}
 		super.eUnset(featureID);
@@ -226,12 +234,12 @@ public class ClassImpl extends EObjectImpl implements reprotool.model.structure.
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case AstPackage.CLASS__COMMENT:
-				return COMMENT_EDEFAULT == null ? comment != null : !COMMENT_EDEFAULT.equals(comment);
-			case AstPackage.CLASS__NAME:
+			case SpecificationPackage.PROJECT__USE_CASES:
+				return useCases != null && !useCases.isEmpty();
+			case SpecificationPackage.PROJECT__ACTORS:
+				return actors != null && !actors.isEmpty();
+			case SpecificationPackage.PROJECT__NAME:
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-			case AstPackage.CLASS__METHODS:
-				return methods != null && !methods.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}
@@ -246,12 +254,10 @@ public class ClassImpl extends EObjectImpl implements reprotool.model.structure.
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (comment: ");
-		result.append(comment);
-		result.append(", name: ");
+		result.append(" (Name: ");
 		result.append(name);
 		result.append(')');
 		return result.toString();
 	}
 
-} //ClassImpl
+} //ProjectImpl

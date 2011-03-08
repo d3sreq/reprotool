@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="reprotool"
+    nsURI="http://d3s.mff.cuni.cz/reprotool" nsPrefix="reprotool">
+  <eSubpackages name="model" nsURI="http://d3s.mff.cuni.cz/reprotool/model" nsPrefix="model">
+    <eSubpackages name="specification" nsURI="http://d3s.mff.cuni.cz/reprotool/model/specification"
+        nsPrefix="specification">
+      <eClassifiers xsi:type="ecore:EClass" name="Project">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="useCases" upperBound="-1"
+            eType="#//model/specification/UseCase" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="actors" upperBound="-1"
+            eType="#//model/specification/Actor" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="Name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="UseCase" eSuperTypes="#//model/specification/GenericRequirement">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="primaryActor" lowerBound="1"
+            eType="#//model/specification/Actor"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="useCaseSteps" upperBound="-1"
+            eType="#//model/specification/UseCaseStep" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="Name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="Actor">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="compoundActor" upperBound="-1"
+            eType="#//model/specification/Actor" eOpposite="#//model/specification/Actor/parent"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="parent" eType="#//model/specification/Actor"
+            eOpposite="#//model/specification/Actor/compoundActor"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="Name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="UseCaseStep"/>
+      <eClassifiers xsi:type="ecore:EClass" name="GenericRequirement"/>
+    </eSubpackages>
+  </eSubpackages>
+</ecore:EPackage>

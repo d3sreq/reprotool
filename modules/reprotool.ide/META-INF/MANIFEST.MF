@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Ide
 Bundle-SymbolicName: reprotool.ide;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: cz.cuni.mff.reprotool.ide.Activator
+Bundle-Activator: reprotool.ide.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.zest.core;bundle-version="1.2.0",

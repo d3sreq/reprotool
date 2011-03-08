@@ -7,6 +7,7 @@
 package reprotool.model.structure.ast.impl;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 
@@ -17,6 +18,7 @@ import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import reprotool.model.structure.ast.AstFactory;
 import reprotool.model.structure.ast.AstPackage;
 import reprotool.model.structure.ast.Method;
+import reprotool.model.structure.ast.MethodVisibility;
 
 /**
  * <!-- begin-user-doc -->
@@ -74,6 +76,36 @@ public class AstFactoryImpl extends EFactoryImpl implements AstFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
+	public Object createFromString(EDataType eDataType, String initialValue) {
+		switch (eDataType.getClassifierID()) {
+			case AstPackage.METHOD_VISIBILITY:
+				return createMethodVisibilityFromString(eDataType, initialValue);
+			default:
+				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
+		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String convertToString(EDataType eDataType, Object instanceValue) {
+		switch (eDataType.getClassifierID()) {
+			case AstPackage.METHOD_VISIBILITY:
+				return convertMethodVisibilityToString(eDataType, instanceValue);
+			default:
+				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
+		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public Method createMethod() {
 		MethodImpl method = new MethodImpl();
 		return method;
@@ -87,6 +119,26 @@ public class AstFactoryImpl extends EFactoryImpl implements AstFactory {
 	public reprotool.model.structure.ast.Class createClass() {
 		ClassImpl class_ = new ClassImpl();
 		return class_;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public MethodVisibility createMethodVisibilityFromString(EDataType eDataType, String initialValue) {
+		MethodVisibility result = MethodVisibility.get(initialValue);
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertMethodVisibilityToString(EDataType eDataType, Object instanceValue) {
+		return instanceValue == null ? null : instanceValue.toString();
 	}
 
 	/**
