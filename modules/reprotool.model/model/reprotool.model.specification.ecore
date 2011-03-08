@@ -12,6 +12,7 @@
         <eStructuralFeatures xsi:type="ecore:EReference" name="actors" upperBound="-1"
             eType="#//model/specification/Actor" containment="true"/>
         <eStructuralFeatures xsi:type="ecore:EAttribute" name="Name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="Description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       </eClassifiers>
       <eClassifiers xsi:type="ecore:EClass" name="UseCase" eSuperTypes="#//model/specification/GenericRequirement">
         <eStructuralFeatures xsi:type="ecore:EReference" name="primaryActor" lowerBound="1"
@@ -21,10 +22,10 @@
         <eStructuralFeatures xsi:type="ecore:EAttribute" name="Name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       </eClassifiers>
       <eClassifiers xsi:type="ecore:EClass" name="Actor">
-        <eStructuralFeatures xsi:type="ecore:EReference" name="compoundActor" upperBound="-1"
+        <eStructuralFeatures xsi:type="ecore:EReference" name="childrenActors" upperBound="-1"
             eType="#//model/specification/Actor" eOpposite="#//model/specification/Actor/parent"/>
         <eStructuralFeatures xsi:type="ecore:EReference" name="parent" eType="#//model/specification/Actor"
-            eOpposite="#//model/specification/Actor/compoundActor"/>
+            eOpposite="#//model/specification/Actor/childrenActors"/>
         <eStructuralFeatures xsi:type="ecore:EAttribute" name="Name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       </eClassifiers>
       <eClassifiers xsi:type="ecore:EClass" name="UseCaseStep"/>

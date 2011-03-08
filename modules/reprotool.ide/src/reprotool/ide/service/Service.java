@@ -6,7 +6,9 @@ import java.util.List;
 import org.eclipse.core.databinding.observable.list.WritableList;
 
 import reprotool.model.specification.Actor;
+import reprotool.model.specification.Project;
 import reprotool.model.specification.SpecificationFactory;
+import reprotool.model.specification.UseCase;
 import reprotool.model.specification.impl.SpecificationFactoryImpl;
 
 /**
@@ -20,27 +22,44 @@ public enum Service {
 	INSTANCE;
 
 	private SpecificationFactory factory = new SpecificationFactoryImpl();
-	private WritableList actors;
 	
-	private void init() {
-		List<Actor> actorsList = new ArrayList<Actor>();
+	public Project getProject() {
+		Project project = factory.createProject();
 		
+		project.setDescription("Simple project describing bank processes.");
+		project.setName("Bank");
+		
+		// actors
+		// bank - compound actor
 		Actor clerk = factory.createActor();
 		clerk.setName("Clerk");
-		actorsList.add(clerk);
 		
+		Actor owner = factory.createActor();
+		owner.setName("Owner");
+		
+		Actor bank = factory.createActor();
+		bank.setName("Bank");
+		bank.getChildrenActors().add(clerk);
+		bank.getChildrenActors().add(owner);
+		project.getActors().add(bank);
+		
+		// non-compound actor
 		Actor customer = factory.createActor();
 		customer.setName("Customer");
-		actorsList.add(customer);
+		project.getActors().add(customer);
 		
-		actors = new WritableList(actorsList, Actor.class);
-	}
-	
-	public WritableList getActors() {
-		if (actors == null) {
-			init();
-		}
-		return actors;
+		// TODO - use case steps
+		UseCase useCase1 = factory.createUseCase();
+		useCase1.setName("Use case with owner as PA");
+		useCase1.setPrimaryActor(owner);
+		project.getUseCases().add(useCase1);
+		
+		UseCase useCase2 = factory.createUseCase();
+		useCase2.setName("Use case with clerk as PA");
+		useCase2.setPrimaryActor(clerk);
+		project.getUseCases().add(useCase2);
+		
+		return project;
 	}
 	
 }

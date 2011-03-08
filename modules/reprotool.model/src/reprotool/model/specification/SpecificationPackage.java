@@ -97,13 +97,22 @@ public interface SpecificationPackage extends EPackage {
 	int PROJECT__NAME = 2;
 
 	/**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROJECT__DESCRIPTION = 3;
+
+	/**
 	 * The number of structural features of the '<em>Project</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PROJECT_FEATURE_COUNT = 3;
+	int PROJECT_FEATURE_COUNT = 4;
 
 	/**
 	 * The meta object id for the '{@link reprotool.model.specification.impl.GenericRequirementImpl <em>Generic Requirement</em>}' class.
@@ -181,13 +190,13 @@ public interface SpecificationPackage extends EPackage {
 	int ACTOR = 2;
 
 	/**
-	 * The feature id for the '<em><b>Compound Actor</b></em>' reference list.
+	 * The feature id for the '<em><b>Children Actors</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ACTOR__COMPOUND_ACTOR = 0;
+	int ACTOR__CHILDREN_ACTORS = 0;
 
 	/**
 	 * The feature id for the '<em><b>Parent</b></em>' reference.
@@ -280,6 +289,17 @@ public interface SpecificationPackage extends EPackage {
 	EAttribute getProject_Name();
 
 	/**
+	 * Returns the meta object for the attribute '{@link reprotool.model.specification.Project#getDescription <em>Description</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Description</em>'.
+	 * @see reprotool.model.specification.Project#getDescription()
+	 * @see #getProject()
+	 * @generated
+	 */
+	EAttribute getProject_Description();
+
+	/**
 	 * Returns the meta object for class '{@link reprotool.model.specification.UseCase <em>Use Case</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -333,15 +353,15 @@ public interface SpecificationPackage extends EPackage {
 	EClass getActor();
 
 	/**
-	 * Returns the meta object for the reference list '{@link reprotool.model.specification.Actor#getCompoundActor <em>Compound Actor</em>}'.
+	 * Returns the meta object for the reference list '{@link reprotool.model.specification.Actor#getChildrenActors <em>Children Actors</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Compound Actor</em>'.
-	 * @see reprotool.model.specification.Actor#getCompoundActor()
+	 * @return the meta object for the reference list '<em>Children Actors</em>'.
+	 * @see reprotool.model.specification.Actor#getChildrenActors()
 	 * @see #getActor()
 	 * @generated
 	 */
-	EReference getActor_CompoundActor();
+	EReference getActor_ChildrenActors();
 
 	/**
 	 * Returns the meta object for the reference '{@link reprotool.model.specification.Actor#getParent <em>Parent</em>}'.
@@ -442,6 +462,14 @@ public interface SpecificationPackage extends EPackage {
 		EAttribute PROJECT__NAME = eINSTANCE.getProject_Name();
 
 		/**
+		 * The meta object literal for the '<em><b>Description</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PROJECT__DESCRIPTION = eINSTANCE.getProject_Description();
+
+		/**
 		 * The meta object literal for the '{@link reprotool.model.specification.impl.UseCaseImpl <em>Use Case</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -486,12 +514,12 @@ public interface SpecificationPackage extends EPackage {
 		EClass ACTOR = eINSTANCE.getActor();
 
 		/**
-		 * The meta object literal for the '<em><b>Compound Actor</b></em>' reference list feature.
+		 * The meta object literal for the '<em><b>Children Actors</b></em>' reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference ACTOR__COMPOUND_ACTOR = eINSTANCE.getActor_CompoundActor();
+		EReference ACTOR__CHILDREN_ACTORS = eINSTANCE.getActor_ChildrenActors();
 
 		/**
 		 * The meta object literal for the '<em><b>Parent</b></em>' reference feature.

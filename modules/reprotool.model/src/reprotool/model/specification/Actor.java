@@ -18,7 +18,7 @@ import org.eclipse.emf.ecore.EObject;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link reprotool.model.specification.Actor#getCompoundActor <em>Compound Actor</em>}</li>
+ *   <li>{@link reprotool.model.specification.Actor#getChildrenActors <em>Children Actors</em>}</li>
  *   <li>{@link reprotool.model.specification.Actor#getParent <em>Parent</em>}</li>
  *   <li>{@link reprotool.model.specification.Actor#getName <em>Name</em>}</li>
  * </ul>
@@ -30,26 +30,26 @@ import org.eclipse.emf.ecore.EObject;
  */
 public interface Actor extends EObject {
 	/**
-	 * Returns the value of the '<em><b>Compound Actor</b></em>' reference list.
+	 * Returns the value of the '<em><b>Children Actors</b></em>' reference list.
 	 * The list contents are of type {@link reprotool.model.specification.Actor}.
 	 * It is bidirectional and its opposite is '{@link reprotool.model.specification.Actor#getParent <em>Parent</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Compound Actor</em>' reference list isn't clear,
+	 * If the meaning of the '<em>Children Actors</em>' reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Compound Actor</em>' reference list.
-	 * @see reprotool.model.specification.SpecificationPackage#getActor_CompoundActor()
+	 * @return the value of the '<em>Children Actors</em>' reference list.
+	 * @see reprotool.model.specification.SpecificationPackage#getActor_ChildrenActors()
 	 * @see reprotool.model.specification.Actor#getParent
 	 * @model opposite="parent"
 	 * @generated
 	 */
-	EList<Actor> getCompoundActor();
+	EList<Actor> getChildrenActors();
 
 	/**
 	 * Returns the value of the '<em><b>Parent</b></em>' reference.
-	 * It is bidirectional and its opposite is '{@link reprotool.model.specification.Actor#getCompoundActor <em>Compound Actor</em>}'.
+	 * It is bidirectional and its opposite is '{@link reprotool.model.specification.Actor#getChildrenActors <em>Children Actors</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Parent</em>' reference isn't clear,
@@ -59,8 +59,8 @@ public interface Actor extends EObject {
 	 * @return the value of the '<em>Parent</em>' reference.
 	 * @see #setParent(Actor)
 	 * @see reprotool.model.specification.SpecificationPackage#getActor_Parent()
-	 * @see reprotool.model.specification.Actor#getCompoundActor
-	 * @model opposite="compoundActor"
+	 * @see reprotool.model.specification.Actor#getChildrenActors
+	 * @model opposite="childrenActors"
 	 * @generated
 	 */
 	Actor getParent();

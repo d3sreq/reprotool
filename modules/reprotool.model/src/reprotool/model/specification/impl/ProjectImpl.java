@@ -37,6 +37,7 @@ import reprotool.model.specification.UseCase;
  *   <li>{@link reprotool.model.specification.impl.ProjectImpl#getUseCases <em>Use Cases</em>}</li>
  *   <li>{@link reprotool.model.specification.impl.ProjectImpl#getActors <em>Actors</em>}</li>
  *   <li>{@link reprotool.model.specification.impl.ProjectImpl#getName <em>Name</em>}</li>
+ *   <li>{@link reprotool.model.specification.impl.ProjectImpl#getDescription <em>Description</em>}</li>
  * </ul>
  * </p>
  *
@@ -82,6 +83,26 @@ public class ProjectImpl extends EObjectImpl implements Project {
 	 * @ordered
 	 */
 	protected String name = NAME_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getDescription() <em>Description</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getDescription()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String DESCRIPTION_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getDescription() <em>Description</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getDescription()
+	 * @generated
+	 * @ordered
+	 */
+	protected String description = DESCRIPTION_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -152,6 +173,27 @@ public class ProjectImpl extends EObjectImpl implements Project {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public String getDescription() {
+		return description;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setDescription(String newDescription) {
+		String oldDescription = description;
+		description = newDescription;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, SpecificationPackage.PROJECT__DESCRIPTION, oldDescription, description));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -177,6 +219,8 @@ public class ProjectImpl extends EObjectImpl implements Project {
 				return getActors();
 			case SpecificationPackage.PROJECT__NAME:
 				return getName();
+			case SpecificationPackage.PROJECT__DESCRIPTION:
+				return getDescription();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -201,6 +245,9 @@ public class ProjectImpl extends EObjectImpl implements Project {
 			case SpecificationPackage.PROJECT__NAME:
 				setName((String)newValue);
 				return;
+			case SpecificationPackage.PROJECT__DESCRIPTION:
+				setDescription((String)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -222,6 +269,9 @@ public class ProjectImpl extends EObjectImpl implements Project {
 			case SpecificationPackage.PROJECT__NAME:
 				setName(NAME_EDEFAULT);
 				return;
+			case SpecificationPackage.PROJECT__DESCRIPTION:
+				setDescription(DESCRIPTION_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -240,6 +290,8 @@ public class ProjectImpl extends EObjectImpl implements Project {
 				return actors != null && !actors.isEmpty();
 			case SpecificationPackage.PROJECT__NAME:
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
+			case SpecificationPackage.PROJECT__DESCRIPTION:
+				return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -256,6 +308,8 @@ public class ProjectImpl extends EObjectImpl implements Project {
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (Name: ");
 		result.append(name);
+		result.append(", Description: ");
+		result.append(description);
 		result.append(')');
 		return result.toString();
 	}

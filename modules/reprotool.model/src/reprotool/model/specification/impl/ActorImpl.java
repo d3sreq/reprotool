@@ -32,7 +32,7 @@ import reprotool.model.specification.SpecificationPackage;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link reprotool.model.specification.impl.ActorImpl#getCompoundActor <em>Compound Actor</em>}</li>
+ *   <li>{@link reprotool.model.specification.impl.ActorImpl#getChildrenActors <em>Children Actors</em>}</li>
  *   <li>{@link reprotool.model.specification.impl.ActorImpl#getParent <em>Parent</em>}</li>
  *   <li>{@link reprotool.model.specification.impl.ActorImpl#getName <em>Name</em>}</li>
  * </ul>
@@ -42,14 +42,14 @@ import reprotool.model.specification.SpecificationPackage;
  */
 public class ActorImpl extends EObjectImpl implements Actor {
 	/**
-	 * The cached value of the '{@link #getCompoundActor() <em>Compound Actor</em>}' reference list.
+	 * The cached value of the '{@link #getChildrenActors() <em>Children Actors</em>}' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getCompoundActor()
+	 * @see #getChildrenActors()
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<Actor> compoundActor;
+	protected EList<Actor> childrenActors;
 
 	/**
 	 * The cached value of the '{@link #getParent() <em>Parent</em>}' reference.
@@ -105,11 +105,11 @@ public class ActorImpl extends EObjectImpl implements Actor {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<Actor> getCompoundActor() {
-		if (compoundActor == null) {
-			compoundActor = new EObjectWithInverseResolvingEList<Actor>(Actor.class, this, SpecificationPackage.ACTOR__COMPOUND_ACTOR, SpecificationPackage.ACTOR__PARENT);
+	public EList<Actor> getChildrenActors() {
+		if (childrenActors == null) {
+			childrenActors = new EObjectWithInverseResolvingEList<Actor>(Actor.class, this, SpecificationPackage.ACTOR__CHILDREN_ACTORS, SpecificationPackage.ACTOR__PARENT);
 		}
-		return compoundActor;
+		return childrenActors;
 	}
 
 	/**
@@ -162,9 +162,9 @@ public class ActorImpl extends EObjectImpl implements Actor {
 		if (newParent != parent) {
 			NotificationChain msgs = null;
 			if (parent != null)
-				msgs = ((InternalEObject)parent).eInverseRemove(this, SpecificationPackage.ACTOR__COMPOUND_ACTOR, Actor.class, msgs);
+				msgs = ((InternalEObject)parent).eInverseRemove(this, SpecificationPackage.ACTOR__CHILDREN_ACTORS, Actor.class, msgs);
 			if (newParent != null)
-				msgs = ((InternalEObject)newParent).eInverseAdd(this, SpecificationPackage.ACTOR__COMPOUND_ACTOR, Actor.class, msgs);
+				msgs = ((InternalEObject)newParent).eInverseAdd(this, SpecificationPackage.ACTOR__CHILDREN_ACTORS, Actor.class, msgs);
 			msgs = basicSetParent(newParent, msgs);
 			if (msgs != null) msgs.dispatch();
 		}
@@ -202,11 +202,11 @@ public class ActorImpl extends EObjectImpl implements Actor {
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case SpecificationPackage.ACTOR__COMPOUND_ACTOR:
-				return ((InternalEList<InternalEObject>)(InternalEList<?>)getCompoundActor()).basicAdd(otherEnd, msgs);
+			case SpecificationPackage.ACTOR__CHILDREN_ACTORS:
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getChildrenActors()).basicAdd(otherEnd, msgs);
 			case SpecificationPackage.ACTOR__PARENT:
 				if (parent != null)
-					msgs = ((InternalEObject)parent).eInverseRemove(this, SpecificationPackage.ACTOR__COMPOUND_ACTOR, Actor.class, msgs);
+					msgs = ((InternalEObject)parent).eInverseRemove(this, SpecificationPackage.ACTOR__CHILDREN_ACTORS, Actor.class, msgs);
 				return basicSetParent((Actor)otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
@@ -220,8 +220,8 @@ public class ActorImpl extends EObjectImpl implements Actor {
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case SpecificationPackage.ACTOR__COMPOUND_ACTOR:
-				return ((InternalEList<?>)getCompoundActor()).basicRemove(otherEnd, msgs);
+			case SpecificationPackage.ACTOR__CHILDREN_ACTORS:
+				return ((InternalEList<?>)getChildrenActors()).basicRemove(otherEnd, msgs);
 			case SpecificationPackage.ACTOR__PARENT:
 				return basicSetParent(null, msgs);
 		}
@@ -236,8 +236,8 @@ public class ActorImpl extends EObjectImpl implements Actor {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case SpecificationPackage.ACTOR__COMPOUND_ACTOR:
-				return getCompoundActor();
+			case SpecificationPackage.ACTOR__CHILDREN_ACTORS:
+				return getChildrenActors();
 			case SpecificationPackage.ACTOR__PARENT:
 				if (resolve) return getParent();
 				return basicGetParent();
@@ -256,9 +256,9 @@ public class ActorImpl extends EObjectImpl implements Actor {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case SpecificationPackage.ACTOR__COMPOUND_ACTOR:
-				getCompoundActor().clear();
-				getCompoundActor().addAll((Collection<? extends Actor>)newValue);
+			case SpecificationPackage.ACTOR__CHILDREN_ACTORS:
+				getChildrenActors().clear();
+				getChildrenActors().addAll((Collection<? extends Actor>)newValue);
 				return;
 			case SpecificationPackage.ACTOR__PARENT:
 				setParent((Actor)newValue);
@@ -278,8 +278,8 @@ public class ActorImpl extends EObjectImpl implements Actor {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case SpecificationPackage.ACTOR__COMPOUND_ACTOR:
-				getCompoundActor().clear();
+			case SpecificationPackage.ACTOR__CHILDREN_ACTORS:
+				getChildrenActors().clear();
 				return;
 			case SpecificationPackage.ACTOR__PARENT:
 				setParent((Actor)null);
@@ -299,8 +299,8 @@ public class ActorImpl extends EObjectImpl implements Actor {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case SpecificationPackage.ACTOR__COMPOUND_ACTOR:
-				return compoundActor != null && !compoundActor.isEmpty();
+			case SpecificationPackage.ACTOR__CHILDREN_ACTORS:
+				return childrenActors != null && !childrenActors.isEmpty();
 			case SpecificationPackage.ACTOR__PARENT:
 				return parent != null;
 			case SpecificationPackage.ACTOR__NAME:
