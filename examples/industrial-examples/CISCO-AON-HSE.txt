@@ -1,0 +1,252 @@
+CH A P T E R
+
+2
+
+Use Case Examples
+This chapter provides use cases that describe the process of exchanging documents using the Cisco AON
+Healthcare Services Extension for HIPAA and ePrescription (HSE).
+This chapter contains the following sections:
+•
+•
+
+Use Case 2: Making a Benefits Eligibility Check, page 2-3
+
+•
+
+Note
+
+Use Case 1: Provisioning Process, page 2-1
+Use Case 3: Receiving an Electronic Prescription, page 2-4
+
+It is important to note that use cases show general or common situations particular to a specific use of
+the products and services described. Actual needs and requirements vary from customer to customer and
+business to business. The actual implementation of Cisco AON HSE differs accordingly.
+
+Use Case 1: Provisioning Process
+Use Case 1 describes creating a new mailbox to establish the electronic trading relationship between two
+trading partners. See Figure 2-1.
+
+Cisco AON Healthcare Services Extension for HIPAA and ePrescription User Guide, 1.0
+OL-16454-01
+
+2-1
+
+Chapter 2
+
+Use Case Examples
+
+Use Case 1: Provisioning Process
+
+Figure 2-1
+
+Use Case 1: Provisioning Process
+
+The use case of establishing an electronic trading relationship between two trading partners follows
+these steps:
+Step 1
+
+The administrator collects the trading partner and SLA information necessary for the particular
+document exchange.
+
+Step 2
+
+The administrator creates a new mailbox using the Operations Management Console (OMC). This is a
+mandatory step before any trading relationships can be configured for the purpose of document
+exchange.
+
+Step 3
+
+When the mailbox is added, the OMC notifies the mailbox service that a new mailbox has been
+requested.
+
+Step 4
+
+On receipt of this notification, the OMC creates a directory on the remote file system corresponding to
+the mailbox ID and creates the appropriate directories (in, out, sent, pending, error) under the mailbox
+ID directory.
+
+Step 5
+
+The mailbox service sends a confirmation message to the OMC that the mailbox was created.
+
+Step 6
+
+Using the previously agreed-upon SLAs between trading partners, the administrator configures the
+trading relationship information using the OMC.
+
+Step 7
+
+The configuration information is pushed to the Cisco AON module and the mailbox service using a web
+services (WS) call.
+
+Cisco AON Healthcare Services Extension for HIPAA and ePrescription User Guide, 1.0
+
+2-2
+
+OL-16454-01
+
+Chapter 2
+
+Use Case Examples
+Use Case 2: Making a Benefits Eligibility Check
+
+Step 8
+
+Any required digital certificates are imported into the OMC console.
+
+Use Case 2: Making a Benefits Eligibility Check
+Use Case 2 describes sending a benefits eligibility check message to a trading partner. See Figure 2-2.
+A pharmacy needs to make an electronic eligibility check with a pharmacy benefits manager (PBM) for
+a customer.
+The pharmacy has a system that outputs only CSV files. However, the PBM needs the files in HIPAA
+X12 format (EDI ASC X12 270).
+Figure 2-2
+
+Use Case 2: Sending an Eligibility Check to a Trading Partner
+
+This use case proceeds as shown in the following steps:
+Step 1
+
+The administrator configures the system to deposit an eligibility check file in the out directory of the
+remote file server at a pharmacy.
+
+Step 2
+
+The mailbox service monitors the out directory of the remote file system at regularly scheduled intervals.
+When new files are detected, the files are moved to the pending directory on the file system.
+
+Step 3
+
+The mailbox service initiates the AS2 file transfer.
+
+Cisco AON Healthcare Services Extension for HIPAA and ePrescription User Guide, 1.0
+OL-16454-01
+
+2-3
+
+Chapter 2
+
+Use Case Examples
+
+Use Case 3: Receiving an Electronic Prescription
+
+Step 4
+
+Upon receipt of the mailbox service request, the Cisco AON module:
+•
+
+Determines the trading partner ID.
+
+•
+
+Validates the document.
+
+•
+
+Determines the correct transformation based on the source IP address (IP address of the pharmacy),
+destination IP address (IP address of the PBM), and the source document type.
+
+Step 5
+
+AON retrieves the trading relationship information from the cache using the trading partner ID.
+
+Step 6
+
+The file is packaged in accordance with the SLA requirements stored in the trading relationship (for
+example, compression, encryption, or a digital signature might be required).
+In this case, it is transformed to the EDI ASC X12 270 data format.
+
+Step 7
+
+The file is then forwarded to the appropriate TP destination address (for the PBM) using an
+HTTP/HTTPS POST operation.
+
+Step 8
+
+The Cisco AON module monitors the response. If the transaction requires a synchronous Message
+Disposition Notification (MDN), the MDN signature is generated. The AON Module concludes the
+initial web services request from the mailbox service, including any synchronous MDN and optional
+status or error indications.
+
+Step 9
+
+When the MDN is received, the mailbox service moves the original file to the sent directory and places
+a copy of the MDN with it.
+
+Step 10
+
+All events are sent by web services to the OMC, providing details of the transaction to the administrator.
+
+Step 11
+
+The transformed and encrypted file is stored on a shared, remote file system (not on AON) for use in
+auditing and non-repudiation.
+
+Use Case 3: Receiving an Electronic Prescription
+Use Case 3 describes receiving an electronic prescription sent by an external trading partner. See
+Figure 2-3.
+
+Cisco AON Healthcare Services Extension for HIPAA and ePrescription User Guide, 1.0
+
+2-4
+
+OL-16454-01
+
+Chapter 2
+
+Use Case Examples
+Use Case 3: Receiving an Electronic Prescription
+
+Figure 2-3
+
+Use Case 3: Receiving an Electronic Prescription
+
+Cisco AON Healthcare Services Extension for HIPAA and ePrescription User Guide, 1.0
+OL-16454-01
+
+2-5
+
+Chapter 2
+
+Use Case Examples
+
+Use Case 3: Receiving an Electronic Prescription
+
+This use case proceeds as shown in the following steps:
+Step 1
+
+The Trading Partner sends an AS2 message by HTTP(S) POST to the Cisco AON module.
+
+Step 2
+
+The Cisco AON module validates that a recognized “AS2 To” and “AS2 From” pair is resolvable and
+retrieves the trading relationship configuration from the cache based upon the “AS2 To” and “AS2 From”
+identifiers.
+According to information contained in the AS2 headers, the Cisco AON module can perform several
+functions on the incoming file including unpacking, decompressing, decrypting, and verifying
+signatures.
+
+Step 3
+
+After the file is unpacked, the resulting message is processed by the mailbox service, specifying the
+target mailbox and MDN requirements in the SOAP header.
+
+Step 4
+
+The mailbox service deposits the file in the appropriate in directory and generates the MDN as
+appropriate. If transformation of the document to another format is required, the document is
+transformed.
+
+Step 5
+
+If a synchronous MDN is required, the MDN is sent from the AON node to the initiating trading partner's
+AS2 gateway in the HTTP(S) response. If an asynchronous MDN is required, the Cisco AON module
+sends the MDN over a separate HTTP request that is sent from the receiving end of the transaction.
+
+Cisco AON Healthcare Services Extension for HIPAA and ePrescription User Guide, 1.0
+
+2-6
+
+OL-16454-01
+
+
