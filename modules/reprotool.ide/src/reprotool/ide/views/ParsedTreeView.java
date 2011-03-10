@@ -4,15 +4,18 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.ViewPart;
-import org.eclipse.zest.core.widgets.Graph;
-import org.eclipse.zest.core.widgets.GraphConnection;
-import org.eclipse.zest.core.widgets.GraphNode;
-import org.eclipse.zest.core.widgets.ZestStyles;
-import org.eclipse.zest.layouts.algorithms.TreeLayoutAlgorithm;
+import org.eclipse.zest.core.viewers.GraphViewer;
+import org.eclipse.zest.layouts.LayoutStyles;
+
+
+import reprotool.ide.parsetree.NodeContentProvider;
+import reprotool.ide.parsetree.NodeLabelProvider;
+import reprotool.ide.parsetree.NodeModelContentProvider;
+import reprotool.ide.parsetree.ParsedTreeLayoutAlgorithm;
 
 public class ParsedTreeView extends ViewPart {
 
-	private Graph graph;
+	private GraphViewer viewer;
 	
 	public ParsedTreeView() {
 		// TODO Auto-generated constructor stub
@@ -20,30 +23,19 @@ public class ParsedTreeView extends ViewPart {
 
 	@Override
 	public void createPartControl(Composite parent) {
-        parent.setLayout(new FillLayout());
-		
-		// Graph will hold all other objects
-        graph = new Graph(parent, SWT.NONE);
+		parent.setLayout(new FillLayout());
         
-        // Now a few nodes
-        GraphNode n1 = new GraphNode(graph, SWT.NONE, "one");
-        GraphNode n2 = new GraphNode(graph, SWT.NONE, "two");
-        GraphNode n3 = new GraphNode(graph, SWT.NONE, "three");
-        GraphNode n4 = new GraphNode(graph, SWT.NONE, "four");
-        GraphNode n5 = new GraphNode(graph, SWT.NONE, "five");
-        GraphNode n6 = new GraphNode(graph, SWT.NONE, "six");
+		viewer = new GraphViewer(parent, SWT.BORDER);
+		viewer.setContentProvider(new NodeContentProvider());
+		viewer.setLabelProvider(new NodeLabelProvider());
+		NodeModelContentProvider model = new NodeModelContentProvider();
+		viewer.setInput(model.getNodes());
 
-        // Lets have a directed connection
-        new GraphConnection(graph, ZestStyles.CONNECTIONS_DIRECTED, n1, n2);
-        new GraphConnection(graph, ZestStyles.CONNECTIONS_DIRECTED, n1, n3);
-        new GraphConnection(graph, ZestStyles.CONNECTIONS_DIRECTED, n1, n4);
-        new GraphConnection(graph, ZestStyles.CONNECTIONS_DIRECTED, n3, n5);
-        new GraphConnection(graph, ZestStyles.CONNECTIONS_DIRECTED, n3, n6);
-         
-        TreeLayoutAlgorithm tla = new TreeLayoutAlgorithm();
-        
-        graph.setLayoutAlgorithm(tla, true);
-        
+		ParsedTreeLayoutAlgorithm tla = 
+			new ParsedTreeLayoutAlgorithm(LayoutStyles.NO_LAYOUT_NODE_RESIZING);
+		
+		viewer.setLayoutAlgorithm(tla, true);
+		viewer.applyLayout();
 	}
 
 	@Override
