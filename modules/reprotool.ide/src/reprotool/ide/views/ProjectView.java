@@ -19,6 +19,8 @@ import org.eclipse.wb.swt.layout.grouplayout.LayoutStyle;
 
 import reprotool.ide.service.Service;
 import reprotool.model.specification.Project;
+import reprotool.model.specification.UseCase;
+
 import org.eclipse.swt.widgets.List;
 import org.eclipse.jface.viewers.ListViewer;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
@@ -36,6 +38,11 @@ import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.TreeSelection;
+import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.viewers.ViewerFilter;
 
 public class ProjectView extends ViewPart {
 	private DataBindingContext m_bindingContext;
@@ -112,6 +119,28 @@ public class ProjectView extends ViewPart {
 		composite.setLayout(tcl_composite);
 
 		treeViewerActors = new TreeViewer(composite, SWT.BORDER);
+		treeViewerActors.addSelectionChangedListener(new ISelectionChangedListener() {
+			public void selectionChanged(SelectionChangedEvent event) {
+				// filters use cases according to selected primary actor
+				
+				TreeSelection treeSelection = (TreeSelection)event.getSelection();
+				if (!treeSelection.isEmpty()) {
+					final Actor actor = (Actor)treeSelection.getFirstElement();
+					
+					ViewerFilter[] filters = new ViewerFilter[] { new ViewerFilter() {
+
+						@Override
+						public boolean select(Viewer viewer,
+								Object parentElement, Object element) {
+							UseCase useCase = (UseCase)element;
+							return useCase.getPrimaryActor().equals(actor);
+						}
+						
+					}};
+					listViewer.setFilters(filters);
+				}
+			}
+		});
 
 		GroupLayout gl_grpActorsStakeholders = new GroupLayout(
 				grpActorsStakeholders);
