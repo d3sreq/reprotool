@@ -1,5 +1,8 @@
 package reprotool.ide.views;
 
+import java.io.File;
+import java.io.IOException;
+
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.jface.layout.TreeColumnLayout;
 import org.eclipse.jface.viewers.TreeViewer;
@@ -12,6 +15,9 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.wb.swt.layout.grouplayout.GroupLayout;
@@ -40,20 +46,26 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
+import org.eclipse.jface.viewers.IDoubleClickListener;
+import org.eclipse.jface.viewers.DoubleClickEvent;
+import org.eclipse.core.filesystem.EFS;
+import org.eclipse.core.filesystem.IFileStore;
+import org.eclipse.ui.ide.IDE;
 
 public class ProjectView extends ViewPart {
 	private DataBindingContext m_bindingContext;
-	
+
 	private Service service = Service.INSTANCE;
-	
+
 	public static final String ID = "cz.cuni.mff.reprotool.ide.view_project";
 
 	private Text textDescription;
 	private TreeViewer treeViewerActors;
-	
+
 	// TODO - test only
 	private Project project = service.getProject();
 	private ListViewer listViewer;
@@ -119,28 +131,32 @@ public class ProjectView extends ViewPart {
 		composite.setLayout(tcl_composite);
 
 		treeViewerActors = new TreeViewer(composite, SWT.BORDER);
-		treeViewerActors.addSelectionChangedListener(new ISelectionChangedListener() {
-			public void selectionChanged(SelectionChangedEvent event) {
-				// filters use cases according to selected primary actor
-				
-				TreeSelection treeSelection = (TreeSelection)event.getSelection();
-				if (!treeSelection.isEmpty()) {
-					final Actor actor = (Actor)treeSelection.getFirstElement();
-					
-					ViewerFilter[] filters = new ViewerFilter[] { new ViewerFilter() {
+		treeViewerActors
+				.addSelectionChangedListener(new ISelectionChangedListener() {
+					public void selectionChanged(SelectionChangedEvent event) {
+						// filters use cases according to selected primary actor
 
-						@Override
-						public boolean select(Viewer viewer,
-								Object parentElement, Object element) {
-							UseCase useCase = (UseCase)element;
-							return useCase.getPrimaryActor().equals(actor);
+						TreeSelection treeSelection = (TreeSelection) event
+								.getSelection();
+						if (!treeSelection.isEmpty()) {
+							final Actor actor = (Actor) treeSelection
+									.getFirstElement();
+
+							ViewerFilter[] filters = new ViewerFilter[] { new ViewerFilter() {
+
+								@Override
+								public boolean select(Viewer viewer,
+										Object parentElement, Object element) {
+									UseCase useCase = (UseCase) element;
+									return useCase.getPrimaryActor().equals(
+											actor);
+								}
+
+							} };
+							listViewer.setFilters(filters);
 						}
-						
-					}};
-					listViewer.setFilters(filters);
-				}
-			}
-		});
+					}
+				});
 
 		GroupLayout gl_grpActorsStakeholders = new GroupLayout(
 				grpActorsStakeholders);
@@ -193,44 +209,67 @@ public class ProjectView extends ViewPart {
 
 		Group grpUseCases = new Group(sashForm, SWT.NONE);
 		grpUseCases.setText("Use cases");
-		
+
 		Button buttonUseCaseDelete = new Button(grpUseCases, SWT.NONE);
 		buttonUseCaseDelete.setText("Delete");
-		
+
 		Button buttonUseCaseEdit = new Button(grpUseCases, SWT.NONE);
 		buttonUseCaseEdit.setText("Edit");
-		
+
 		Button buttonUseCaseAdd = new Button(grpUseCases, SWT.NONE);
 		buttonUseCaseAdd.setText("Add");
-		
+
 		listViewer = new ListViewer(grpUseCases, SWT.BORDER | SWT.V_SCROLL);
+		listViewer.addDoubleClickListener(new IDoubleClickListener() {
+			public void doubleClick(DoubleClickEvent event) {
+				// TODO - jvinarek - create command to open given use case
+				UseCase useCase = (UseCase) ((StructuredSelection) event
+						.getSelection()).getFirstElement();
+				openEditor(useCase);
+			}
+		});
 		List listUseCases = listViewer.getList();
 		GroupLayout gl_grpUseCases = new GroupLayout(grpUseCases);
-		gl_grpUseCases.setHorizontalGroup(
-			gl_grpUseCases.createParallelGroup(GroupLayout.TRAILING)
-				.add(gl_grpUseCases.createSequentialGroup()
-					.add(listUseCases, GroupLayout.DEFAULT_SIZE, 482, Short.MAX_VALUE)
-					.addPreferredGap(LayoutStyle.RELATED)
-					.add(gl_grpUseCases.createParallelGroup(GroupLayout.LEADING)
-						.add(buttonUseCaseAdd, GroupLayout.PREFERRED_SIZE, 92, GroupLayout.PREFERRED_SIZE)
-						.add(buttonUseCaseEdit, GroupLayout.PREFERRED_SIZE, 92, GroupLayout.PREFERRED_SIZE)
-						.add(buttonUseCaseDelete, GroupLayout.PREFERRED_SIZE, 92, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap())
-		);
-		gl_grpUseCases.setVerticalGroup(
-			gl_grpUseCases.createParallelGroup(GroupLayout.LEADING)
-				.add(gl_grpUseCases.createSequentialGroup()
-					.addContainerGap()
-					.add(gl_grpUseCases.createParallelGroup(GroupLayout.LEADING)
-						.add(listUseCases, GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-						.add(gl_grpUseCases.createSequentialGroup()
-							.add(buttonUseCaseAdd)
-							.add(7)
-							.add(buttonUseCaseEdit)
-							.add(7)
-							.add(buttonUseCaseDelete)
-							.addContainerGap(67, Short.MAX_VALUE))))
-		);
+		gl_grpUseCases.setHorizontalGroup(gl_grpUseCases.createParallelGroup(
+				GroupLayout.TRAILING).add(
+				gl_grpUseCases
+						.createSequentialGroup()
+						.add(listUseCases, GroupLayout.DEFAULT_SIZE, 482,
+								Short.MAX_VALUE)
+						.addPreferredGap(LayoutStyle.RELATED)
+						.add(gl_grpUseCases
+								.createParallelGroup(GroupLayout.LEADING)
+								.add(buttonUseCaseAdd,
+										GroupLayout.PREFERRED_SIZE, 92,
+										GroupLayout.PREFERRED_SIZE)
+								.add(buttonUseCaseEdit,
+										GroupLayout.PREFERRED_SIZE, 92,
+										GroupLayout.PREFERRED_SIZE)
+								.add(buttonUseCaseDelete,
+										GroupLayout.PREFERRED_SIZE, 92,
+										GroupLayout.PREFERRED_SIZE))
+						.addContainerGap()));
+		gl_grpUseCases
+				.setVerticalGroup(gl_grpUseCases.createParallelGroup(
+						GroupLayout.LEADING).add(
+						gl_grpUseCases
+								.createSequentialGroup()
+								.addContainerGap()
+								.add(gl_grpUseCases
+										.createParallelGroup(
+												GroupLayout.LEADING)
+										.add(listUseCases,
+												GroupLayout.DEFAULT_SIZE, 150,
+												Short.MAX_VALUE)
+										.add(gl_grpUseCases
+												.createSequentialGroup()
+												.add(buttonUseCaseAdd)
+												.add(7)
+												.add(buttonUseCaseEdit)
+												.add(7)
+												.add(buttonUseCaseDelete)
+												.addContainerGap(67,
+														Short.MAX_VALUE)))));
 		grpUseCases.setLayout(gl_grpUseCases);
 		sashForm.setWeights(new int[] { 109, 238, 239 });
 		m_bindingContext = initDataBindings();
@@ -247,32 +286,75 @@ public class ProjectView extends ViewPart {
 	public TreeViewer getTreeViewer() {
 		return treeViewerActors;
 	}
+
 	protected DataBindingContext initDataBindings() {
 		DataBindingContext bindingContext = new DataBindingContext();
 		//
-		IObservableValue textObserveTextObserveWidget = SWTObservables.observeText(textDescription, SWT.Modify);
-		IObservableValue projectDescriptionObserveValue = EMFObservables.observeValue(project, Literals.PROJECT__DESCRIPTION);
-		bindingContext.bindValue(textObserveTextObserveWidget, projectDescriptionObserveValue, null, null);
+		IObservableValue textObserveTextObserveWidget = SWTObservables
+				.observeText(textDescription, SWT.Modify);
+		IObservableValue projectDescriptionObserveValue = EMFObservables
+				.observeValue(project, Literals.PROJECT__DESCRIPTION);
+		bindingContext.bindValue(textObserveTextObserveWidget,
+				projectDescriptionObserveValue, null, null);
 		//
-		EMFBeansListObservableFactory treeObservableFactory = new EMFBeansListObservableFactory(Actor.class, Literals.ACTOR__CHILDREN_ACTORS);
-		EMFTreeBeanAdvisor treeAdvisor = new EMFTreeBeanAdvisor(null, Literals.ACTOR__CHILDREN_ACTORS, null);
-		ObservableListTreeContentProvider treeContentProvider = new ObservableListTreeContentProvider(treeObservableFactory, treeAdvisor);
+		EMFBeansListObservableFactory treeObservableFactory = new EMFBeansListObservableFactory(
+				Actor.class, Literals.ACTOR__CHILDREN_ACTORS);
+		EMFTreeBeanAdvisor treeAdvisor = new EMFTreeBeanAdvisor(null,
+				Literals.ACTOR__CHILDREN_ACTORS, null);
+		ObservableListTreeContentProvider treeContentProvider = new ObservableListTreeContentProvider(
+				treeObservableFactory, treeAdvisor);
 		treeViewerActors.setContentProvider(treeContentProvider);
 		//
-		treeViewerActors.setLabelProvider(new EMFTreeObservableLabelProvider(treeContentProvider.getKnownElements(), Literals.ACTOR__NAME, null));
+		treeViewerActors.setLabelProvider(new EMFTreeObservableLabelProvider(
+				treeContentProvider.getKnownElements(), Literals.ACTOR__NAME,
+				null));
 		//
-		IObservableList projectActorsObserveList = EMFObservables.observeList(Realm.getDefault(), project, Literals.PROJECT__ACTORS);
+		IObservableList projectActorsObserveList = EMFObservables.observeList(
+				Realm.getDefault(), project, Literals.PROJECT__ACTORS);
 		treeViewerActors.setInput(projectActorsObserveList);
 		//
 		ObservableListContentProvider listContentProvider = new ObservableListContentProvider();
 		listViewer.setContentProvider(listContentProvider);
 		//
-		IObservableMap[] observeMaps = EMFObservables.observeMaps(listContentProvider.getKnownElements(), new EStructuralFeature[]{Literals.USE_CASE__NAME});
-		listViewer.setLabelProvider(new ObservableMapLabelProvider(observeMaps));
+		IObservableMap[] observeMaps = EMFObservables.observeMaps(
+				listContentProvider.getKnownElements(),
+				new EStructuralFeature[] { Literals.USE_CASE__NAME });
+		listViewer
+				.setLabelProvider(new ObservableMapLabelProvider(observeMaps));
 		//
-		IObservableList projectUseCasesObserveList = EMFObservables.observeList(Realm.getDefault(), project, Literals.PROJECT__USE_CASES);
+		IObservableList projectUseCasesObserveList = EMFObservables
+				.observeList(Realm.getDefault(), project,
+						Literals.PROJECT__USE_CASES);
 		listViewer.setInput(projectUseCasesObserveList);
 		//
 		return bindingContext;
+	}
+
+	// TODO - move method to eclipse "command", open real file 
+	private void openEditor(UseCase useCase) {
+		try {
+			File fileToOpen = File.createTempFile("tmpUseCase", ".uc");
+			fileToOpen.deleteOnExit();
+
+			if (fileToOpen.exists() && fileToOpen.isFile()) {
+				IFileStore fileStore = EFS.getLocalFileSystem().getStore(
+						fileToOpen.toURI());
+				IWorkbenchPage page = PlatformUI.getWorkbench()
+						.getActiveWorkbenchWindow().getActivePage();
+
+				try {
+					IDE.openEditorOnFileStore(page, fileStore);
+				} catch (PartInitException e) {
+					// Put your exception handler here if you wish to
+				}
+			} else {
+				// Do something if the file does not exist
+				System.out.println("file test.uc not found");
+			}
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
 	}
 }
