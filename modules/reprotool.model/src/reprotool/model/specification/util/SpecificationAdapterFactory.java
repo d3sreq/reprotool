@@ -20,7 +20,7 @@ import reprotool.model.specification.*;
  * The <b>Adapter Factory</b> for the model.
  * It provides an adapter <code>createXXX</code> method for each class of the model.
  * <!-- end-user-doc -->
- * @see reprotool.model.specification.SpecificationPackage
+ * @see reprotool.model.specification.ISpecificationPackage
  * @generated
  */
 public class SpecificationAdapterFactory extends AdapterFactoryImpl {
@@ -30,7 +30,7 @@ public class SpecificationAdapterFactory extends AdapterFactoryImpl {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected static SpecificationPackage modelPackage;
+	protected static ISpecificationPackage modelPackage;
 
 	/**
 	 * Creates an instance of the adapter factory.
@@ -40,7 +40,7 @@ public class SpecificationAdapterFactory extends AdapterFactoryImpl {
 	 */
 	public SpecificationAdapterFactory() {
 		if (modelPackage == null) {
-			modelPackage = SpecificationPackage.eINSTANCE;
+			modelPackage = ISpecificationPackage.eINSTANCE;
 		}
 	}
 
@@ -72,24 +72,28 @@ public class SpecificationAdapterFactory extends AdapterFactoryImpl {
 	protected SpecificationSwitch<Adapter> modelSwitch =
 		new SpecificationSwitch<Adapter>() {
 			@Override
-			public Adapter caseProject(Project object) {
-				return createProjectAdapter();
+			public Adapter caseSoftwareProject(ISoftwareProject object) {
+				return createSoftwareProjectAdapter();
 			}
 			@Override
-			public Adapter caseUseCase(UseCase object) {
+			public Adapter caseUseCase(IUseCase object) {
 				return createUseCaseAdapter();
 			}
 			@Override
-			public Adapter caseActor(Actor object) {
+			public Adapter caseActor(IActor object) {
 				return createActorAdapter();
 			}
 			@Override
-			public Adapter caseUseCaseStep(UseCaseStep object) {
+			public Adapter caseUseCaseStep(IUseCaseStep object) {
 				return createUseCaseStepAdapter();
 			}
 			@Override
-			public Adapter caseGenericRequirement(GenericRequirement object) {
+			public Adapter caseGenericRequirement(IGenericRequirement object) {
 				return createGenericRequirementAdapter();
+			}
+			@Override
+			public Adapter caseNonFunctionalRequirement(INonFunctionalRequirement object) {
+				return createNonFunctionalRequirementAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -112,27 +116,27 @@ public class SpecificationAdapterFactory extends AdapterFactoryImpl {
 
 
 	/**
-	 * Creates a new adapter for an object of class '{@link reprotool.model.specification.Project <em>Project</em>}'.
+	 * Creates a new adapter for an object of class '{@link reprotool.model.specification.ISoftwareProject <em>Software Project</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see reprotool.model.specification.Project
+	 * @see reprotool.model.specification.ISoftwareProject
 	 * @generated
 	 */
-	public Adapter createProjectAdapter() {
+	public Adapter createSoftwareProjectAdapter() {
 		return null;
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link reprotool.model.specification.UseCase <em>Use Case</em>}'.
+	 * Creates a new adapter for an object of class '{@link reprotool.model.specification.IUseCase <em>Use Case</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see reprotool.model.specification.UseCase
+	 * @see reprotool.model.specification.IUseCase
 	 * @generated
 	 */
 	public Adapter createUseCaseAdapter() {
@@ -140,13 +144,13 @@ public class SpecificationAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link reprotool.model.specification.Actor <em>Actor</em>}'.
+	 * Creates a new adapter for an object of class '{@link reprotool.model.specification.IActor <em>Actor</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see reprotool.model.specification.Actor
+	 * @see reprotool.model.specification.IActor
 	 * @generated
 	 */
 	public Adapter createActorAdapter() {
@@ -154,13 +158,13 @@ public class SpecificationAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link reprotool.model.specification.UseCaseStep <em>Use Case Step</em>}'.
+	 * Creates a new adapter for an object of class '{@link reprotool.model.specification.IUseCaseStep <em>Use Case Step</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see reprotool.model.specification.UseCaseStep
+	 * @see reprotool.model.specification.IUseCaseStep
 	 * @generated
 	 */
 	public Adapter createUseCaseStepAdapter() {
@@ -168,16 +172,30 @@ public class SpecificationAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link reprotool.model.specification.GenericRequirement <em>Generic Requirement</em>}'.
+	 * Creates a new adapter for an object of class '{@link reprotool.model.specification.IGenericRequirement <em>Generic Requirement</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see reprotool.model.specification.GenericRequirement
+	 * @see reprotool.model.specification.IGenericRequirement
 	 * @generated
 	 */
 	public Adapter createGenericRequirementAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link reprotool.model.specification.INonFunctionalRequirement <em>Non Functional Requirement</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see reprotool.model.specification.INonFunctionalRequirement
+	 * @generated
+	 */
+	public Adapter createNonFunctionalRequirementAdapter() {
 		return null;
 	}
 

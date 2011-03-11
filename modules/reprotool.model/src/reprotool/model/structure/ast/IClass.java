@@ -1,0 +1,44 @@
+/**
+ * <copyright>
+ * </copyright>
+ *
+ * $Id$
+ */
+package reprotool.model.structure.ast;
+
+import org.eclipse.emf.common.util.EList;
+
+/**
+ * <!-- begin-user-doc -->
+ * A representation of the model object '<em><b>Class</b></em>'.
+ * <!-- end-user-doc -->
+ *
+ * <p>
+ * The following features are supported:
+ * <ul>
+ *   <li>{@link reprotool.model.structure.ast.IClass#getMethods <em>Methods</em>}</li>
+ * </ul>
+ * </p>
+ *
+ * @see reprotool.model.structure.ast.IAstPackage#getClass_()
+ * @model
+ * @generated
+ */
+public interface IClass extends ICodeElement {
+	/**
+	 * Returns the value of the '<em><b>Methods</b></em>' reference list.
+	 * The list contents are of type {@link reprotool.model.structure.ast.IMethod}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Methods</em>' reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Methods</em>' reference list.
+	 * @see reprotool.model.structure.ast.IAstPackage#getClass_Methods()
+	 * @model
+	 * @generated
+	 */
+	EList<IMethod> getMethods();
+
+} // IClass

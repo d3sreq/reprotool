@@ -11,9 +11,10 @@ import java.util.List;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 
-import reprotool.model.structure.ast.AstPackage;
-import reprotool.model.structure.ast.CodeElement;
-import reprotool.model.structure.ast.Method;
+import reprotool.model.structure.ast.IAstPackage;
+import reprotool.model.structure.ast.IClass;
+import reprotool.model.structure.ast.ICodeElement;
+import reprotool.model.structure.ast.IMethod;
 
 /**
  * <!-- begin-user-doc -->
@@ -25,7 +26,7 @@ import reprotool.model.structure.ast.Method;
  * until a non-null result is returned,
  * which is the result of the switch.
  * <!-- end-user-doc -->
- * @see reprotool.model.structure.ast.AstPackage
+ * @see reprotool.model.structure.ast.IAstPackage
  * @generated
  */
 public class AstSwitch<T> {
@@ -35,7 +36,7 @@ public class AstSwitch<T> {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected static AstPackage modelPackage;
+	protected static IAstPackage modelPackage;
 
 	/**
 	 * Creates an instance of the switch.
@@ -45,7 +46,7 @@ public class AstSwitch<T> {
 	 */
 	public AstSwitch() {
 		if (modelPackage == null) {
-			modelPackage = AstPackage.eINSTANCE;
+			modelPackage = IAstPackage.eINSTANCE;
 		}
 	}
 
@@ -89,22 +90,22 @@ public class AstSwitch<T> {
 	 */
 	protected T doSwitch(int classifierID, EObject theEObject) {
 		switch (classifierID) {
-			case AstPackage.METHOD: {
-				Method method = (Method)theEObject;
+			case IAstPackage.METHOD: {
+				IMethod method = (IMethod)theEObject;
 				T result = caseMethod(method);
 				if (result == null) result = caseCodeElement(method);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case AstPackage.CLASS: {
-				reprotool.model.structure.ast.Class class_ = (reprotool.model.structure.ast.Class)theEObject;
+			case IAstPackage.CLASS: {
+				IClass class_ = (IClass)theEObject;
 				T result = caseClass(class_);
 				if (result == null) result = caseCodeElement(class_);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case AstPackage.CODE_ELEMENT: {
-				CodeElement codeElement = (CodeElement)theEObject;
+			case IAstPackage.CODE_ELEMENT: {
+				ICodeElement codeElement = (ICodeElement)theEObject;
 				T result = caseCodeElement(codeElement);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -124,7 +125,7 @@ public class AstSwitch<T> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseMethod(Method object) {
+	public T caseMethod(IMethod object) {
 		return null;
 	}
 
@@ -139,7 +140,7 @@ public class AstSwitch<T> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseClass(reprotool.model.structure.ast.Class object) {
+	public T caseClass(IClass object) {
 		return null;
 	}
 
@@ -154,7 +155,7 @@ public class AstSwitch<T> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseCodeElement(CodeElement object) {
+	public T caseCodeElement(ICodeElement object) {
 		return null;
 	}
 

@@ -23,7 +23,7 @@ import reprotool.model.specification.*;
  * until a non-null result is returned,
  * which is the result of the switch.
  * <!-- end-user-doc -->
- * @see reprotool.model.specification.SpecificationPackage
+ * @see reprotool.model.specification.ISpecificationPackage
  * @generated
  */
 public class SpecificationSwitch<T> {
@@ -33,7 +33,7 @@ public class SpecificationSwitch<T> {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected static SpecificationPackage modelPackage;
+	protected static ISpecificationPackage modelPackage;
 
 	/**
 	 * Creates an instance of the switch.
@@ -43,7 +43,7 @@ public class SpecificationSwitch<T> {
 	 */
 	public SpecificationSwitch() {
 		if (modelPackage == null) {
-			modelPackage = SpecificationPackage.eINSTANCE;
+			modelPackage = ISpecificationPackage.eINSTANCE;
 		}
 	}
 
@@ -87,34 +87,41 @@ public class SpecificationSwitch<T> {
 	 */
 	protected T doSwitch(int classifierID, EObject theEObject) {
 		switch (classifierID) {
-			case SpecificationPackage.PROJECT: {
-				Project project = (Project)theEObject;
-				T result = caseProject(project);
+			case ISpecificationPackage.SOFTWARE_PROJECT: {
+				ISoftwareProject softwareProject = (ISoftwareProject)theEObject;
+				T result = caseSoftwareProject(softwareProject);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case SpecificationPackage.USE_CASE: {
-				UseCase useCase = (UseCase)theEObject;
+			case ISpecificationPackage.USE_CASE: {
+				IUseCase useCase = (IUseCase)theEObject;
 				T result = caseUseCase(useCase);
 				if (result == null) result = caseGenericRequirement(useCase);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case SpecificationPackage.ACTOR: {
-				Actor actor = (Actor)theEObject;
+			case ISpecificationPackage.ACTOR: {
+				IActor actor = (IActor)theEObject;
 				T result = caseActor(actor);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case SpecificationPackage.USE_CASE_STEP: {
-				UseCaseStep useCaseStep = (UseCaseStep)theEObject;
+			case ISpecificationPackage.USE_CASE_STEP: {
+				IUseCaseStep useCaseStep = (IUseCaseStep)theEObject;
 				T result = caseUseCaseStep(useCaseStep);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case SpecificationPackage.GENERIC_REQUIREMENT: {
-				GenericRequirement genericRequirement = (GenericRequirement)theEObject;
+			case ISpecificationPackage.GENERIC_REQUIREMENT: {
+				IGenericRequirement genericRequirement = (IGenericRequirement)theEObject;
 				T result = caseGenericRequirement(genericRequirement);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ISpecificationPackage.NON_FUNCTIONAL_REQUIREMENT: {
+				INonFunctionalRequirement nonFunctionalRequirement = (INonFunctionalRequirement)theEObject;
+				T result = caseNonFunctionalRequirement(nonFunctionalRequirement);
+				if (result == null) result = caseGenericRequirement(nonFunctionalRequirement);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -123,17 +130,17 @@ public class SpecificationSwitch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Project</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Software Project</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Project</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Software Project</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseProject(Project object) {
+	public T caseSoftwareProject(ISoftwareProject object) {
 		return null;
 	}
 
@@ -148,7 +155,7 @@ public class SpecificationSwitch<T> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseUseCase(UseCase object) {
+	public T caseUseCase(IUseCase object) {
 		return null;
 	}
 
@@ -163,7 +170,7 @@ public class SpecificationSwitch<T> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseActor(Actor object) {
+	public T caseActor(IActor object) {
 		return null;
 	}
 
@@ -178,7 +185,7 @@ public class SpecificationSwitch<T> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseUseCaseStep(UseCaseStep object) {
+	public T caseUseCaseStep(IUseCaseStep object) {
 		return null;
 	}
 
@@ -193,7 +200,22 @@ public class SpecificationSwitch<T> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseGenericRequirement(GenericRequirement object) {
+	public T caseGenericRequirement(IGenericRequirement object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Non Functional Requirement</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Non Functional Requirement</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseNonFunctionalRequirement(INonFunctionalRequirement object) {
 		return null;
 	}
 

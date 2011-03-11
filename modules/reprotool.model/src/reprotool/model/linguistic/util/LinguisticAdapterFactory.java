@@ -4,7 +4,7 @@
  *
  * $Id$
  */
-package reprotool.model.structure.ast.util;
+package reprotool.model.linguistic.util;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
@@ -13,27 +13,24 @@ import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 
 import org.eclipse.emf.ecore.EObject;
 
-import reprotool.model.structure.ast.IAstPackage;
-import reprotool.model.structure.ast.IClass;
-import reprotool.model.structure.ast.ICodeElement;
-import reprotool.model.structure.ast.IMethod;
+import reprotool.model.linguistic.*;
 
 /**
  * <!-- begin-user-doc -->
  * The <b>Adapter Factory</b> for the model.
  * It provides an adapter <code>createXXX</code> method for each class of the model.
  * <!-- end-user-doc -->
- * @see reprotool.model.structure.ast.IAstPackage
+ * @see reprotool.model.linguistic.ILinguisticPackage
  * @generated
  */
-public class AstAdapterFactory extends AdapterFactoryImpl {
+public class LinguisticAdapterFactory extends AdapterFactoryImpl {
 	/**
 	 * The cached model package.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected static IAstPackage modelPackage;
+	protected static ILinguisticPackage modelPackage;
 
 	/**
 	 * Creates an instance of the adapter factory.
@@ -41,9 +38,9 @@ public class AstAdapterFactory extends AdapterFactoryImpl {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public AstAdapterFactory() {
+	public LinguisticAdapterFactory() {
 		if (modelPackage == null) {
-			modelPackage = IAstPackage.eINSTANCE;
+			modelPackage = ILinguisticPackage.eINSTANCE;
 		}
 	}
 
@@ -72,19 +69,15 @@ public class AstAdapterFactory extends AdapterFactoryImpl {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected AstSwitch<Adapter> modelSwitch =
-		new AstSwitch<Adapter>() {
+	protected LinguisticSwitch<Adapter> modelSwitch =
+		new LinguisticSwitch<Adapter>() {
 			@Override
-			public Adapter caseMethod(IMethod object) {
-				return createMethodAdapter();
+			public Adapter caseSentenceFragment(ISentenceFragment object) {
+				return createSentenceFragmentAdapter();
 			}
 			@Override
-			public Adapter caseClass(IClass object) {
-				return createClassAdapter();
-			}
-			@Override
-			public Adapter caseCodeElement(ICodeElement object) {
-				return createCodeElementAdapter();
+			public Adapter caseWord(IWord object) {
+				return createWordAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -107,44 +100,30 @@ public class AstAdapterFactory extends AdapterFactoryImpl {
 
 
 	/**
-	 * Creates a new adapter for an object of class '{@link reprotool.model.structure.ast.IMethod <em>Method</em>}'.
+	 * Creates a new adapter for an object of class '{@link reprotool.model.linguistic.ISentenceFragment <em>Sentence Fragment</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see reprotool.model.structure.ast.IMethod
+	 * @see reprotool.model.linguistic.ISentenceFragment
 	 * @generated
 	 */
-	public Adapter createMethodAdapter() {
+	public Adapter createSentenceFragmentAdapter() {
 		return null;
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link reprotool.model.structure.ast.IClass <em>Class</em>}'.
+	 * Creates a new adapter for an object of class '{@link reprotool.model.linguistic.IWord <em>Word</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see reprotool.model.structure.ast.IClass
+	 * @see reprotool.model.linguistic.IWord
 	 * @generated
 	 */
-	public Adapter createClassAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link reprotool.model.structure.ast.ICodeElement <em>Code Element</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see reprotool.model.structure.ast.ICodeElement
-	 * @generated
-	 */
-	public Adapter createCodeElementAdapter() {
+	public Adapter createWordAdapter() {
 		return null;
 	}
 
@@ -160,4 +139,4 @@ public class AstAdapterFactory extends AdapterFactoryImpl {
 		return null;
 	}
 
-} //AstAdapterFactory
+} //LinguisticAdapterFactory

@@ -4,8 +4,29 @@ import java.io.File;
 import java.io.IOException;
 
 import org.eclipse.core.databinding.DataBindingContext;
+import org.eclipse.core.databinding.observable.Realm;
+import org.eclipse.core.databinding.observable.list.IObservableList;
+import org.eclipse.core.databinding.observable.map.IObservableMap;
+import org.eclipse.core.databinding.observable.value.IObservableValue;
+import org.eclipse.core.filesystem.EFS;
+import org.eclipse.core.filesystem.IFileStore;
+import org.eclipse.emf.databinding.EMFObservables;
+import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.jface.databinding.swt.SWTObservables;
+import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
+import org.eclipse.jface.databinding.viewers.ObservableListTreeContentProvider;
+import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
 import org.eclipse.jface.layout.TreeColumnLayout;
+import org.eclipse.jface.viewers.DoubleClickEvent;
+import org.eclipse.jface.viewers.IDoubleClickListener;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.ListViewer;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -14,47 +35,25 @@ import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.IHandlerService;
+import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.part.ViewPart;
+import org.eclipse.wb.rcp.databinding.EMFBeansListObservableFactory;
+import org.eclipse.wb.rcp.databinding.EMFTreeBeanAdvisor;
+import org.eclipse.wb.rcp.databinding.EMFTreeObservableLabelProvider;
 import org.eclipse.wb.swt.layout.grouplayout.GroupLayout;
 import org.eclipse.wb.swt.layout.grouplayout.LayoutStyle;
 
 import reprotool.ide.service.Service;
-import reprotool.model.specification.Project;
-import reprotool.model.specification.UseCase;
-
-import org.eclipse.swt.widgets.List;
-import org.eclipse.jface.viewers.ListViewer;
-import org.eclipse.core.databinding.observable.value.IObservableValue;
-import org.eclipse.jface.databinding.swt.SWTObservables;
-import org.eclipse.emf.databinding.EMFObservables;
-import reprotool.model.specification.SpecificationPackage.Literals;
-import org.eclipse.wb.rcp.databinding.EMFBeansListObservableFactory;
-import reprotool.model.specification.Actor;
-import org.eclipse.wb.rcp.databinding.EMFTreeBeanAdvisor;
-import org.eclipse.jface.databinding.viewers.ObservableListTreeContentProvider;
-import org.eclipse.wb.rcp.databinding.EMFTreeObservableLabelProvider;
-import org.eclipse.core.databinding.observable.list.IObservableList;
-import org.eclipse.core.databinding.observable.Realm;
-import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
-import org.eclipse.core.databinding.observable.map.IObservableMap;
-import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
-import org.eclipse.jface.viewers.ISelectionChangedListener;
-import org.eclipse.jface.viewers.SelectionChangedEvent;
-import org.eclipse.jface.viewers.StructuredSelection;
-import org.eclipse.jface.viewers.TreeSelection;
-import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.jface.viewers.ViewerFilter;
-import org.eclipse.jface.viewers.IDoubleClickListener;
-import org.eclipse.jface.viewers.DoubleClickEvent;
-import org.eclipse.core.filesystem.EFS;
-import org.eclipse.core.filesystem.IFileStore;
-import org.eclipse.ui.ide.IDE;
+import reprotool.model.specification.IActor;
+import reprotool.model.specification.ISoftwareProject;
+import reprotool.model.specification.ISpecificationPackage.Literals;
+import reprotool.model.specification.IUseCase;
 
 public class ProjectView extends ViewPart {
 	private DataBindingContext m_bindingContext;
@@ -67,7 +66,7 @@ public class ProjectView extends ViewPart {
 	private TreeViewer treeViewerActors;
 
 	// TODO - test only
-	private Project project = service.getProject();
+	private ISoftwareProject project = service.getProject();
 	private ListViewer listViewer;
 
 	public ProjectView() {
@@ -139,7 +138,7 @@ public class ProjectView extends ViewPart {
 						TreeSelection treeSelection = (TreeSelection) event
 								.getSelection();
 						if (!treeSelection.isEmpty()) {
-							final Actor actor = (Actor) treeSelection
+							final IActor actor = (IActor) treeSelection
 									.getFirstElement();
 
 							ViewerFilter[] filters = new ViewerFilter[] { new ViewerFilter() {
@@ -147,7 +146,7 @@ public class ProjectView extends ViewPart {
 								@Override
 								public boolean select(Viewer viewer,
 										Object parentElement, Object element) {
-									UseCase useCase = (UseCase) element;
+									IUseCase useCase = (IUseCase) element;
 									return useCase.getPrimaryActor().equals(
 											actor);
 								}
@@ -223,7 +222,7 @@ public class ProjectView extends ViewPart {
 		listViewer.addDoubleClickListener(new IDoubleClickListener() {
 			public void doubleClick(DoubleClickEvent event) {
 				// TODO - jvinarek - create command to open given use case
-				UseCase useCase = (UseCase) ((StructuredSelection) event
+				IUseCase useCase = (IUseCase) ((StructuredSelection) event
 						.getSelection()).getFirstElement();
 				openEditor(useCase);
 			}
@@ -293,12 +292,12 @@ public class ProjectView extends ViewPart {
 		IObservableValue textObserveTextObserveWidget = SWTObservables
 				.observeText(textDescription, SWT.Modify);
 		IObservableValue projectDescriptionObserveValue = EMFObservables
-				.observeValue(project, Literals.PROJECT__DESCRIPTION);
+				.observeValue(project, Literals.SOFTWARE_PROJECT__DESCRIPTION);
 		bindingContext.bindValue(textObserveTextObserveWidget,
 				projectDescriptionObserveValue, null, null);
 		//
 		EMFBeansListObservableFactory treeObservableFactory = new EMFBeansListObservableFactory(
-				Actor.class, Literals.ACTOR__CHILDREN_ACTORS);
+				IActor.class, Literals.ACTOR__CHILDREN_ACTORS);
 		EMFTreeBeanAdvisor treeAdvisor = new EMFTreeBeanAdvisor(null,
 				Literals.ACTOR__CHILDREN_ACTORS, null);
 		ObservableListTreeContentProvider treeContentProvider = new ObservableListTreeContentProvider(
@@ -310,7 +309,7 @@ public class ProjectView extends ViewPart {
 				null));
 		//
 		IObservableList projectActorsObserveList = EMFObservables.observeList(
-				Realm.getDefault(), project, Literals.PROJECT__ACTORS);
+				Realm.getDefault(), project, Literals.SOFTWARE_PROJECT__ACTORS);
 		treeViewerActors.setInput(projectActorsObserveList);
 		//
 		ObservableListContentProvider listContentProvider = new ObservableListContentProvider();
@@ -324,14 +323,14 @@ public class ProjectView extends ViewPart {
 		//
 		IObservableList projectUseCasesObserveList = EMFObservables
 				.observeList(Realm.getDefault(), project,
-						Literals.PROJECT__USE_CASES);
+						Literals.SOFTWARE_PROJECT__USE_CASES);
 		listViewer.setInput(projectUseCasesObserveList);
 		//
 		return bindingContext;
 	}
 
 	// TODO - move method to eclipse "command", open real file 
-	private void openEditor(UseCase useCase) {
+	private void openEditor(IUseCase useCase) {
 		try {
 			File fileToOpen = File.createTempFile("tmpUseCase", ".uc");
 			fileToOpen.deleteOnExit();

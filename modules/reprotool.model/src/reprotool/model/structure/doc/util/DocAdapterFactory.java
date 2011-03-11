@@ -20,7 +20,7 @@ import reprotool.model.structure.doc.*;
  * The <b>Adapter Factory</b> for the model.
  * It provides an adapter <code>createXXX</code> method for each class of the model.
  * <!-- end-user-doc -->
- * @see reprotool.model.structure.doc.DocPackage
+ * @see reprotool.model.structure.doc.IDocPackage
  * @generated
  */
 public class DocAdapterFactory extends AdapterFactoryImpl {
@@ -30,7 +30,7 @@ public class DocAdapterFactory extends AdapterFactoryImpl {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected static DocPackage modelPackage;
+	protected static IDocPackage modelPackage;
 
 	/**
 	 * Creates an instance of the adapter factory.
@@ -40,7 +40,7 @@ public class DocAdapterFactory extends AdapterFactoryImpl {
 	 */
 	public DocAdapterFactory() {
 		if (modelPackage == null) {
-			modelPackage = DocPackage.eINSTANCE;
+			modelPackage = IDocPackage.eINSTANCE;
 		}
 	}
 
@@ -72,15 +72,15 @@ public class DocAdapterFactory extends AdapterFactoryImpl {
 	protected DocSwitch<Adapter> modelSwitch =
 		new DocSwitch<Adapter>() {
 			@Override
-			public Adapter caseDocument(Document object) {
+			public Adapter caseDocument(IDocument object) {
 				return createDocumentAdapter();
 			}
 			@Override
-			public Adapter caseSection(Section object) {
+			public Adapter caseSection(ISection object) {
 				return createSectionAdapter();
 			}
 			@Override
-			public Adapter caseParagraph(Paragraph object) {
+			public Adapter caseParagraph(IParagraph object) {
 				return createParagraphAdapter();
 			}
 			@Override
@@ -104,13 +104,13 @@ public class DocAdapterFactory extends AdapterFactoryImpl {
 
 
 	/**
-	 * Creates a new adapter for an object of class '{@link reprotool.model.structure.doc.Document <em>Document</em>}'.
+	 * Creates a new adapter for an object of class '{@link reprotool.model.structure.doc.IDocument <em>Document</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see reprotool.model.structure.doc.Document
+	 * @see reprotool.model.structure.doc.IDocument
 	 * @generated
 	 */
 	public Adapter createDocumentAdapter() {
@@ -118,13 +118,13 @@ public class DocAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link reprotool.model.structure.doc.Section <em>Section</em>}'.
+	 * Creates a new adapter for an object of class '{@link reprotool.model.structure.doc.ISection <em>Section</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see reprotool.model.structure.doc.Section
+	 * @see reprotool.model.structure.doc.ISection
 	 * @generated
 	 */
 	public Adapter createSectionAdapter() {
@@ -132,13 +132,13 @@ public class DocAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link reprotool.model.structure.doc.Paragraph <em>Paragraph</em>}'.
+	 * Creates a new adapter for an object of class '{@link reprotool.model.structure.doc.IParagraph <em>Paragraph</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see reprotool.model.structure.doc.Paragraph
+	 * @see reprotool.model.structure.doc.IParagraph
 	 * @generated
 	 */
 	public Adapter createParagraphAdapter() {

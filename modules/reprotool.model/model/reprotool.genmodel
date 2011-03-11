@@ -3,36 +3,68 @@
     xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
     xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/reprotool.model/src"
     modelPluginID="reprotool.model" modelName="Reprotool" importerID="org.eclipse.emf.importer.ecore"
-    complianceLevel="6.0" copyrightFields="false">
+    complianceLevel="6.0" copyrightFields="false" interfaceNamePattern="I{0}" classNamePattern="{0}">
+  <foreignModel>reprotool.model.linguistic.ecore</foreignModel>
   <foreignModel>reprotool.model.specification.ecore</foreignModel>
   <foreignModel>reprotool.model.structure.ecore</foreignModel>
+  <genPackages prefix="Reprotool" disposableProviderFactory="true" ecorePackage="reprotool.model.linguistic.ecore#/">
+    <nestedGenPackages prefix="Model" basePackage="reprotool" disposableProviderFactory="true"
+        ecorePackage="reprotool.model.linguistic.ecore#//model">
+      <nestedGenPackages prefix="Linguistic" basePackage="reprotool.model" disposableProviderFactory="true"
+          ecorePackage="reprotool.model.linguistic.ecore#//model/linguistic">
+        <genEnums typeSafeEnumCompatible="false" ecoreEnum="reprotool.model.linguistic.ecore#//model/linguistic/EWordType">
+          <genEnumLiterals ecoreEnumLiteral="reprotool.model.linguistic.ecore#//model/linguistic/EWordType/NotImportant"/>
+          <genEnumLiterals ecoreEnumLiteral="reprotool.model.linguistic.ecore#//model/linguistic/EWordType/Subject"/>
+          <genEnumLiterals ecoreEnumLiteral="reprotool.model.linguistic.ecore#//model/linguistic/EWordType/IndirectObject"/>
+          <genEnumLiterals ecoreEnumLiteral="reprotool.model.linguistic.ecore#//model/linguistic/EWordType/Verb"/>
+          <genEnumLiterals ecoreEnumLiteral="reprotool.model.linguistic.ecore#//model/linguistic/EWordType/RepresentativeObject"/>
+          <genEnumLiterals ecoreEnumLiteral="reprotool.model.linguistic.ecore#//model/linguistic/EWordType/GotoTarget"/>
+          <genEnumLiterals ecoreEnumLiteral="reprotool.model.linguistic.ecore#//model/linguistic/EWordType/ConditionLabel"/>
+        </genEnums>
+        <genClasses ecoreClass="reprotool.model.linguistic.ecore#//model/linguistic/SentenceNode">
+          <genFeatures notify="false" createChild="false" propertySortChoices="true"
+              ecoreFeature="ecore:EReference reprotool.model.linguistic.ecore#//model/linguistic/SentenceNode/childFragments"/>
+          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reprotool.model.linguistic.ecore#//model/linguistic/SentenceNode/type"/>
+        </genClasses>
+        <genClasses ecoreClass="reprotool.model.linguistic.ecore#//model/linguistic/Word">
+          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reprotool.model.linguistic.ecore#//model/linguistic/Word/wordStr"/>
+          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reprotool.model.linguistic.ecore#//model/linguistic/Word/wordType"/>
+        </genClasses>
+      </nestedGenPackages>
+    </nestedGenPackages>
+  </genPackages>
   <genPackages prefix="Reprotool" disposableProviderFactory="true" ecorePackage="reprotool.model.specification.ecore#/">
-    <nestedGenPackages prefix="Model" disposableProviderFactory="true" ecorePackage="reprotool.model.specification.ecore#//model">
-      <nestedGenPackages prefix="Re" disposableProviderFactory="true" ecorePackage="reprotool.model.specification.ecore#//model/re">
-        <genClasses ecoreClass="reprotool.model.specification.ecore#//model/re/Project">
-          <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference reprotool.model.specification.ecore#//model/re/Project/useCases"/>
-          <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference reprotool.model.specification.ecore#//model/re/Project/actors"/>
-          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reprotool.model.specification.ecore#//model/re/Project/Name"/>
+    <nestedGenPackages prefix="Model" basePackage="reprotool" disposableProviderFactory="true"
+        ecorePackage="reprotool.model.specification.ecore#//model">
+      <nestedGenPackages prefix="Specification" disposableProviderFactory="true" ecorePackage="reprotool.model.specification.ecore#//model/specification">
+        <genClasses ecoreClass="reprotool.model.specification.ecore#//model/specification/Project">
+          <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference reprotool.model.specification.ecore#//model/specification/Project/useCases"/>
+          <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference reprotool.model.specification.ecore#//model/specification/Project/actors"/>
+          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reprotool.model.specification.ecore#//model/specification/Project/Name"/>
+          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reprotool.model.specification.ecore#//model/specification/Project/Description"/>
         </genClasses>
-        <genClasses ecoreClass="reprotool.model.specification.ecore#//model/re/UseCase">
+        <genClasses ecoreClass="reprotool.model.specification.ecore#//model/specification/UseCase">
           <genFeatures notify="false" createChild="false" propertySortChoices="true"
-              ecoreFeature="ecore:EReference reprotool.model.specification.ecore#//model/re/UseCase/primaryActor"/>
-          <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference reprotool.model.specification.ecore#//model/re/UseCase/useCaseSteps"/>
-          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reprotool.model.specification.ecore#//model/re/UseCase/Name"/>
+              ecoreFeature="ecore:EReference reprotool.model.specification.ecore#//model/specification/UseCase/primaryActor"/>
+          <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference reprotool.model.specification.ecore#//model/specification/UseCase/useCaseSteps"/>
+          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reprotool.model.specification.ecore#//model/specification/UseCase/Name"/>
         </genClasses>
-        <genClasses ecoreClass="reprotool.model.specification.ecore#//model/re/Actor">
+        <genClasses ecoreClass="reprotool.model.specification.ecore#//model/specification/Actor">
           <genFeatures notify="false" createChild="false" propertySortChoices="true"
-              ecoreFeature="ecore:EReference reprotool.model.specification.ecore#//model/re/Actor/compoundActor"/>
+              ecoreFeature="ecore:EReference reprotool.model.specification.ecore#//model/specification/Actor/childrenActors"/>
           <genFeatures notify="false" createChild="false" propertySortChoices="true"
-              ecoreFeature="ecore:EReference reprotool.model.specification.ecore#//model/re/Actor/parent"/>
-          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reprotool.model.specification.ecore#//model/re/Actor/Name"/>
+              ecoreFeature="ecore:EReference reprotool.model.specification.ecore#//model/specification/Actor/parent"/>
+          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reprotool.model.specification.ecore#//model/specification/Actor/Name"/>
         </genClasses>
-        <genClasses ecoreClass="reprotool.model.specification.ecore#//model/re/UseCaseStep"/>
+        <genClasses ecoreClass="reprotool.model.specification.ecore#//model/specification/UseCaseStep"/>
+        <genClasses ecoreClass="reprotool.model.specification.ecore#//model/specification/GenericRequirement"/>
+        <genClasses ecoreClass="reprotool.model.specification.ecore#//model/specification/NonFunctionalRequirement"/>
       </nestedGenPackages>
     </nestedGenPackages>
   </genPackages>
   <genPackages prefix="Reprotool" disposableProviderFactory="true" ecorePackage="reprotool.model.structure.ecore#/">
-    <nestedGenPackages prefix="Model" disposableProviderFactory="true" ecorePackage="reprotool.model.structure.ecore#//model">
+    <nestedGenPackages prefix="Model" basePackage="reprotool" disposableProviderFactory="true"
+        ecorePackage="reprotool.model.structure.ecore#//model">
       <nestedGenPackages prefix="Structure" disposableProviderFactory="true" ecorePackage="reprotool.model.structure.ecore#//model/structure">
         <nestedGenPackages prefix="Doc" disposableProviderFactory="true" ecorePackage="reprotool.model.structure.ecore#//model/structure/doc">
           <genClasses ecoreClass="reprotool.model.structure.ecore#//model/structure/doc/Document">
@@ -46,10 +78,20 @@
           <genClasses ecoreClass="reprotool.model.structure.ecore#//model/structure/doc/Paragraph"/>
         </nestedGenPackages>
         <nestedGenPackages prefix="Ast" disposableProviderFactory="true" ecorePackage="reprotool.model.structure.ecore#//model/structure/ast">
-          <genClasses ecoreClass="reprotool.model.structure.ecore#//model/structure/ast/Method"/>
+          <genEnums typeSafeEnumCompatible="false" ecoreEnum="reprotool.model.structure.ecore#//model/structure/ast/MethodVisibility">
+            <genEnumLiterals ecoreEnumLiteral="reprotool.model.structure.ecore#//model/structure/ast/MethodVisibility/private"/>
+            <genEnumLiterals ecoreEnumLiteral="reprotool.model.structure.ecore#//model/structure/ast/MethodVisibility/public"/>
+          </genEnums>
+          <genClasses ecoreClass="reprotool.model.structure.ecore#//model/structure/ast/Method">
+            <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reprotool.model.structure.ecore#//model/structure/ast/Method/visibility"/>
+          </genClasses>
           <genClasses ecoreClass="reprotool.model.structure.ecore#//model/structure/ast/Class">
             <genFeatures notify="false" createChild="false" propertySortChoices="true"
                 ecoreFeature="ecore:EReference reprotool.model.structure.ecore#//model/structure/ast/Class/methods"/>
+          </genClasses>
+          <genClasses image="false" ecoreClass="reprotool.model.structure.ecore#//model/structure/ast/CodeElement">
+            <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reprotool.model.structure.ecore#//model/structure/ast/CodeElement/comment"/>
+            <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reprotool.model.structure.ecore#//model/structure/ast/CodeElement/name"/>
           </genClasses>
         </nestedGenPackages>
       </nestedGenPackages>

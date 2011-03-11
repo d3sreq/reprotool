@@ -4,14 +4,14 @@
  *
  * $Id$
  */
-package reprotool.model.structure.doc.util;
+package reprotool.model.linguistic.util;
 
 import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 
-import reprotool.model.structure.doc.*;
+import reprotool.model.linguistic.*;
 
 /**
  * <!-- begin-user-doc -->
@@ -23,17 +23,17 @@ import reprotool.model.structure.doc.*;
  * until a non-null result is returned,
  * which is the result of the switch.
  * <!-- end-user-doc -->
- * @see reprotool.model.structure.doc.IDocPackage
+ * @see reprotool.model.linguistic.ILinguisticPackage
  * @generated
  */
-public class DocSwitch<T> {
+public class LinguisticSwitch<T> {
 	/**
 	 * The cached model package
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected static IDocPackage modelPackage;
+	protected static ILinguisticPackage modelPackage;
 
 	/**
 	 * Creates an instance of the switch.
@@ -41,9 +41,9 @@ public class DocSwitch<T> {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public DocSwitch() {
+	public LinguisticSwitch() {
 		if (modelPackage == null) {
-			modelPackage = IDocPackage.eINSTANCE;
+			modelPackage = ILinguisticPackage.eINSTANCE;
 		}
 	}
 
@@ -87,21 +87,16 @@ public class DocSwitch<T> {
 	 */
 	protected T doSwitch(int classifierID, EObject theEObject) {
 		switch (classifierID) {
-			case IDocPackage.DOCUMENT: {
-				IDocument document = (IDocument)theEObject;
-				T result = caseDocument(document);
+			case ILinguisticPackage.SENTENCE_FRAGMENT: {
+				ISentenceFragment sentenceFragment = (ISentenceFragment)theEObject;
+				T result = caseSentenceFragment(sentenceFragment);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case IDocPackage.SECTION: {
-				ISection section = (ISection)theEObject;
-				T result = caseSection(section);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case IDocPackage.PARAGRAPH: {
-				IParagraph paragraph = (IParagraph)theEObject;
-				T result = caseParagraph(paragraph);
+			case ILinguisticPackage.WORD: {
+				IWord word = (IWord)theEObject;
+				T result = caseWord(word);
+				if (result == null) result = caseSentenceFragment(word);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -110,47 +105,32 @@ public class DocSwitch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Document</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Sentence Fragment</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Document</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Sentence Fragment</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseDocument(IDocument object) {
+	public T caseSentenceFragment(ISentenceFragment object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Section</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Word</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Section</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Word</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseSection(ISection object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Paragraph</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Paragraph</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseParagraph(IParagraph object) {
+	public T caseWord(IWord object) {
 		return null;
 	}
 
@@ -169,4 +149,4 @@ public class DocSwitch<T> {
 		return null;
 	}
 
-} //DocSwitch
+} //LinguisticSwitch
