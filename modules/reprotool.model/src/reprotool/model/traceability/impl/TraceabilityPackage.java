@@ -4,7 +4,7 @@
  *
  * $Id$
  */
-package reprotool.model.structure.doc.impl;
+package reprotool.model.traceability.impl;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
@@ -28,15 +28,14 @@ import reprotool.model.structure.ast.IAstPackage;
 
 import reprotool.model.structure.ast.impl.AstPackage;
 
-import reprotool.model.structure.doc.IDocFactory;
 import reprotool.model.structure.doc.IDocPackage;
-import reprotool.model.structure.doc.IDocument;
-import reprotool.model.structure.doc.IParagraph;
-import reprotool.model.structure.doc.ISection;
 
+import reprotool.model.structure.doc.impl.DocPackage;
+
+import reprotool.model.traceability.ITraceLink;
+import reprotool.model.traceability.ITraceabilityFactory;
 import reprotool.model.traceability.ITraceabilityPackage;
-
-import reprotool.model.traceability.impl.TraceabilityPackage;
+import reprotool.model.traceability.ITraceableEntity;
 
 /**
  * <!-- begin-user-doc -->
@@ -44,27 +43,20 @@ import reprotool.model.traceability.impl.TraceabilityPackage;
  * <!-- end-user-doc -->
  * @generated
  */
-public class DocPackage extends EPackageImpl implements IDocPackage {
+public class TraceabilityPackage extends EPackageImpl implements ITraceabilityPackage {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass documentEClass = null;
+	private EClass traceableEntityEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass sectionEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass paragraphEClass = null;
+	private EClass traceLinkEClass = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -77,12 +69,12 @@ public class DocPackage extends EPackageImpl implements IDocPackage {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see org.eclipse.emf.ecore.EPackage.Registry
-	 * @see reprotool.model.structure.doc.IDocPackage#eNS_URI
+	 * @see reprotool.model.traceability.ITraceabilityPackage#eNS_URI
 	 * @see #init()
 	 * @generated
 	 */
-	private DocPackage() {
-		super(eNS_URI, IDocFactory.eINSTANCE);
+	private TraceabilityPackage() {
+		super(eNS_URI, ITraceabilityFactory.eINSTANCE);
 	}
 
 	/**
@@ -95,7 +87,7 @@ public class DocPackage extends EPackageImpl implements IDocPackage {
 	/**
 	 * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
 	 * 
-	 * <p>This method is used to initialize {@link IDocPackage#eINSTANCE} when that field is accessed.
+	 * <p>This method is used to initialize {@link ITraceabilityPackage#eINSTANCE} when that field is accessed.
 	 * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -104,44 +96,44 @@ public class DocPackage extends EPackageImpl implements IDocPackage {
 	 * @see #initializePackageContents()
 	 * @generated
 	 */
-	public static IDocPackage init() {
-		if (isInited) return (IDocPackage)EPackage.Registry.INSTANCE.getEPackage(IDocPackage.eNS_URI);
+	public static ITraceabilityPackage init() {
+		if (isInited) return (ITraceabilityPackage)EPackage.Registry.INSTANCE.getEPackage(ITraceabilityPackage.eNS_URI);
 
 		// Obtain or create and register package
-		DocPackage theDocPackage = (DocPackage)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof DocPackage ? EPackage.Registry.INSTANCE.get(eNS_URI) : new DocPackage());
+		TraceabilityPackage theTraceabilityPackage = (TraceabilityPackage)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof TraceabilityPackage ? EPackage.Registry.INSTANCE.get(eNS_URI) : new TraceabilityPackage());
 
 		isInited = true;
 
 		// Obtain or create and register interdependencies
 		LinguisticPackage theLinguisticPackage = (LinguisticPackage)(EPackage.Registry.INSTANCE.getEPackage(ILinguisticPackage.eNS_URI) instanceof LinguisticPackage ? EPackage.Registry.INSTANCE.getEPackage(ILinguisticPackage.eNS_URI) : ILinguisticPackage.eINSTANCE);
 		SpecificationPackage theSpecificationPackage = (SpecificationPackage)(EPackage.Registry.INSTANCE.getEPackage(ISpecificationPackage.eNS_URI) instanceof SpecificationPackage ? EPackage.Registry.INSTANCE.getEPackage(ISpecificationPackage.eNS_URI) : ISpecificationPackage.eINSTANCE);
+		DocPackage theDocPackage = (DocPackage)(EPackage.Registry.INSTANCE.getEPackage(IDocPackage.eNS_URI) instanceof DocPackage ? EPackage.Registry.INSTANCE.getEPackage(IDocPackage.eNS_URI) : IDocPackage.eINSTANCE);
 		AstPackage theAstPackage = (AstPackage)(EPackage.Registry.INSTANCE.getEPackage(IAstPackage.eNS_URI) instanceof AstPackage ? EPackage.Registry.INSTANCE.getEPackage(IAstPackage.eNS_URI) : IAstPackage.eINSTANCE);
 		CompPackage theCompPackage = (CompPackage)(EPackage.Registry.INSTANCE.getEPackage(ICompPackage.eNS_URI) instanceof CompPackage ? EPackage.Registry.INSTANCE.getEPackage(ICompPackage.eNS_URI) : ICompPackage.eINSTANCE);
-		TraceabilityPackage theTraceabilityPackage = (TraceabilityPackage)(EPackage.Registry.INSTANCE.getEPackage(ITraceabilityPackage.eNS_URI) instanceof TraceabilityPackage ? EPackage.Registry.INSTANCE.getEPackage(ITraceabilityPackage.eNS_URI) : ITraceabilityPackage.eINSTANCE);
 
 		// Create package meta-data objects
-		theDocPackage.createPackageContents();
+		theTraceabilityPackage.createPackageContents();
 		theLinguisticPackage.createPackageContents();
 		theSpecificationPackage.createPackageContents();
+		theDocPackage.createPackageContents();
 		theAstPackage.createPackageContents();
 		theCompPackage.createPackageContents();
-		theTraceabilityPackage.createPackageContents();
 
 		// Initialize created meta-data
-		theDocPackage.initializePackageContents();
+		theTraceabilityPackage.initializePackageContents();
 		theLinguisticPackage.initializePackageContents();
 		theSpecificationPackage.initializePackageContents();
+		theDocPackage.initializePackageContents();
 		theAstPackage.initializePackageContents();
 		theCompPackage.initializePackageContents();
-		theTraceabilityPackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
-		theDocPackage.freeze();
+		theTraceabilityPackage.freeze();
 
   
 		// Update the registry and return the package
-		EPackage.Registry.INSTANCE.put(IDocPackage.eNS_URI, theDocPackage);
-		return theDocPackage;
+		EPackage.Registry.INSTANCE.put(ITraceabilityPackage.eNS_URI, theTraceabilityPackage);
+		return theTraceabilityPackage;
 	}
 
 	/**
@@ -149,8 +141,8 @@ public class DocPackage extends EPackageImpl implements IDocPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getDocument() {
-		return documentEClass;
+	public EClass getTraceableEntity() {
+		return traceableEntityEClass;
 	}
 
 	/**
@@ -158,8 +150,8 @@ public class DocPackage extends EPackageImpl implements IDocPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getDocument_Sections() {
-		return (EReference)documentEClass.getEStructuralFeatures().get(0);
+	public EClass getTraceLink() {
+		return traceLinkEClass;
 	}
 
 	/**
@@ -167,8 +159,8 @@ public class DocPackage extends EPackageImpl implements IDocPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getSection() {
-		return sectionEClass;
+	public EReference getTraceLink_Source() {
+		return (EReference)traceLinkEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -176,8 +168,8 @@ public class DocPackage extends EPackageImpl implements IDocPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getSection_Paragraphs() {
-		return (EReference)sectionEClass.getEStructuralFeatures().get(0);
+	public EReference getTraceLink_Target() {
+		return (EReference)traceLinkEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -185,17 +177,8 @@ public class DocPackage extends EPackageImpl implements IDocPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getParagraph() {
-		return paragraphEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public IDocFactory getDocFactory() {
-		return (IDocFactory)getEFactoryInstance();
+	public ITraceabilityFactory getTraceabilityFactory() {
+		return (ITraceabilityFactory)getEFactoryInstance();
 	}
 
 	/**
@@ -217,13 +200,11 @@ public class DocPackage extends EPackageImpl implements IDocPackage {
 		isCreated = true;
 
 		// Create classes and their features
-		documentEClass = createEClass(DOCUMENT);
-		createEReference(documentEClass, DOCUMENT__SECTIONS);
+		traceableEntityEClass = createEClass(TRACEABLE_ENTITY);
 
-		sectionEClass = createEClass(SECTION);
-		createEReference(sectionEClass, SECTION__PARAGRAPHS);
-
-		paragraphEClass = createEClass(PARAGRAPH);
+		traceLinkEClass = createEClass(TRACE_LINK);
+		createEReference(traceLinkEClass, TRACE_LINK__SOURCE);
+		createEReference(traceLinkEClass, TRACE_LINK__TARGET);
 	}
 
 	/**
@@ -249,27 +230,21 @@ public class DocPackage extends EPackageImpl implements IDocPackage {
 		setNsPrefix(eNS_PREFIX);
 		setNsURI(eNS_URI);
 
-		// Obtain other dependent packages
-		ITraceabilityPackage theTraceabilityPackage = (ITraceabilityPackage)EPackage.Registry.INSTANCE.getEPackage(ITraceabilityPackage.eNS_URI);
-
 		// Create type parameters
 
 		// Set bounds for type parameters
 
 		// Add supertypes to classes
-		paragraphEClass.getESuperTypes().add(theTraceabilityPackage.getTraceableEntity());
 
 		// Initialize classes and features; add operations and parameters
-		initEClass(documentEClass, IDocument.class, "Document", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getDocument_Sections(), this.getSection(), null, "sections", null, 0, -1, IDocument.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(traceableEntityEClass, ITraceableEntity.class, "TraceableEntity", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
-		initEClass(sectionEClass, ISection.class, "Section", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getSection_Paragraphs(), this.getParagraph(), null, "paragraphs", null, 0, -1, ISection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(paragraphEClass, IParagraph.class, "Paragraph", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEClass(traceLinkEClass, ITraceLink.class, "TraceLink", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getTraceLink_Source(), this.getTraceableEntity(), null, "source", null, 1, -1, ITraceLink.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+		initEReference(getTraceLink_Target(), this.getTraceableEntity(), null, "target", null, 1, -1, ITraceLink.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);
 	}
 
-} //DocPackage
+} //TraceabilityPackage

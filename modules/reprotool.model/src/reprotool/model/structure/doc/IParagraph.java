@@ -6,7 +6,7 @@
  */
 package reprotool.model.structure.doc;
 
-import org.eclipse.emf.ecore.EObject;
+import reprotool.model.traceability.ITraceableEntity;
 
 /**
  * <!-- begin-user-doc -->
@@ -18,5 +18,5 @@ import org.eclipse.emf.ecore.EObject;
  * @model
  * @generated
  */
-public interface IParagraph extends EObject {
+public interface IParagraph extends ITraceableEntity {
 } // IParagraph

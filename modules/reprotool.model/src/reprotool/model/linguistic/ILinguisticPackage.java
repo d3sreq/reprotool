@@ -61,14 +61,14 @@ public interface ILinguisticPackage extends EPackage {
 	ILinguisticPackage eINSTANCE = reprotool.model.linguistic.impl.LinguisticPackage.init();
 
 	/**
-	 * The meta object id for the '{@link reprotool.model.linguistic.impl.SentenceFragment <em>Sentence Fragment</em>}' class.
+	 * The meta object id for the '{@link reprotool.model.linguistic.impl.SentenceNode <em>Sentence Node</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see reprotool.model.linguistic.impl.SentenceFragment
-	 * @see reprotool.model.linguistic.impl.LinguisticPackage#getSentenceFragment()
+	 * @see reprotool.model.linguistic.impl.SentenceNode
+	 * @see reprotool.model.linguistic.impl.LinguisticPackage#getSentenceNode()
 	 * @generated
 	 */
-	int SENTENCE_FRAGMENT = 0;
+	int SENTENCE_NODE = 0;
 
 	/**
 	 * The feature id for the '<em><b>Child Fragments</b></em>' reference list.
@@ -77,7 +77,7 @@ public interface ILinguisticPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SENTENCE_FRAGMENT__CHILD_FRAGMENTS = 0;
+	int SENTENCE_NODE__CHILD_FRAGMENTS = 0;
 
 	/**
 	 * The feature id for the '<em><b>Type</b></em>' attribute.
@@ -86,16 +86,16 @@ public interface ILinguisticPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SENTENCE_FRAGMENT__TYPE = 1;
+	int SENTENCE_NODE__TYPE = 1;
 
 	/**
-	 * The number of structural features of the '<em>Sentence Fragment</em>' class.
+	 * The number of structural features of the '<em>Sentence Node</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SENTENCE_FRAGMENT_FEATURE_COUNT = 2;
+	int SENTENCE_NODE_FEATURE_COUNT = 2;
 
 	/**
 	 * The meta object id for the '{@link reprotool.model.linguistic.impl.Word <em>Word</em>}' class.
@@ -114,7 +114,7 @@ public interface ILinguisticPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int WORD__CHILD_FRAGMENTS = SENTENCE_FRAGMENT__CHILD_FRAGMENTS;
+	int WORD__CHILD_FRAGMENTS = SENTENCE_NODE__CHILD_FRAGMENTS;
 
 	/**
 	 * The feature id for the '<em><b>Type</b></em>' attribute.
@@ -123,7 +123,7 @@ public interface ILinguisticPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int WORD__TYPE = SENTENCE_FRAGMENT__TYPE;
+	int WORD__TYPE = SENTENCE_NODE__TYPE;
 
 	/**
 	 * The feature id for the '<em><b>Word Str</b></em>' attribute.
@@ -132,7 +132,7 @@ public interface ILinguisticPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int WORD__WORD_STR = SENTENCE_FRAGMENT_FEATURE_COUNT + 0;
+	int WORD__WORD_STR = SENTENCE_NODE_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Word Type</b></em>' attribute.
@@ -141,7 +141,7 @@ public interface ILinguisticPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int WORD__WORD_TYPE = SENTENCE_FRAGMENT_FEATURE_COUNT + 1;
+	int WORD__WORD_TYPE = SENTENCE_NODE_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of structural features of the '<em>Word</em>' class.
@@ -150,7 +150,7 @@ public interface ILinguisticPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int WORD_FEATURE_COUNT = SENTENCE_FRAGMENT_FEATURE_COUNT + 2;
+	int WORD_FEATURE_COUNT = SENTENCE_NODE_FEATURE_COUNT + 2;
 
 	/**
 	 * The meta object id for the '{@link reprotool.model.linguistic.EWordType <em>EWord Type</em>}' enum.
@@ -164,36 +164,36 @@ public interface ILinguisticPackage extends EPackage {
 
 
 	/**
-	 * Returns the meta object for class '{@link reprotool.model.linguistic.ISentenceFragment <em>Sentence Fragment</em>}'.
+	 * Returns the meta object for class '{@link reprotool.model.linguistic.ISentenceNode <em>Sentence Node</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Sentence Fragment</em>'.
-	 * @see reprotool.model.linguistic.ISentenceFragment
+	 * @return the meta object for class '<em>Sentence Node</em>'.
+	 * @see reprotool.model.linguistic.ISentenceNode
 	 * @generated
 	 */
-	EClass getSentenceFragment();
+	EClass getSentenceNode();
 
 	/**
-	 * Returns the meta object for the reference list '{@link reprotool.model.linguistic.ISentenceFragment#getChildFragments <em>Child Fragments</em>}'.
+	 * Returns the meta object for the reference list '{@link reprotool.model.linguistic.ISentenceNode#getChildFragments <em>Child Fragments</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the reference list '<em>Child Fragments</em>'.
-	 * @see reprotool.model.linguistic.ISentenceFragment#getChildFragments()
-	 * @see #getSentenceFragment()
+	 * @see reprotool.model.linguistic.ISentenceNode#getChildFragments()
+	 * @see #getSentenceNode()
 	 * @generated
 	 */
-	EReference getSentenceFragment_ChildFragments();
+	EReference getSentenceNode_ChildFragments();
 
 	/**
-	 * Returns the meta object for the attribute '{@link reprotool.model.linguistic.ISentenceFragment#getType <em>Type</em>}'.
+	 * Returns the meta object for the attribute '{@link reprotool.model.linguistic.ISentenceNode#getType <em>Type</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Type</em>'.
-	 * @see reprotool.model.linguistic.ISentenceFragment#getType()
-	 * @see #getSentenceFragment()
+	 * @see reprotool.model.linguistic.ISentenceNode#getType()
+	 * @see #getSentenceNode()
 	 * @generated
 	 */
-	EAttribute getSentenceFragment_Type();
+	EAttribute getSentenceNode_Type();
 
 	/**
 	 * Returns the meta object for class '{@link reprotool.model.linguistic.IWord <em>Word</em>}'.
@@ -260,14 +260,14 @@ public interface ILinguisticPackage extends EPackage {
 	 */
 	interface Literals {
 		/**
-		 * The meta object literal for the '{@link reprotool.model.linguistic.impl.SentenceFragment <em>Sentence Fragment</em>}' class.
+		 * The meta object literal for the '{@link reprotool.model.linguistic.impl.SentenceNode <em>Sentence Node</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see reprotool.model.linguistic.impl.SentenceFragment
-		 * @see reprotool.model.linguistic.impl.LinguisticPackage#getSentenceFragment()
+		 * @see reprotool.model.linguistic.impl.SentenceNode
+		 * @see reprotool.model.linguistic.impl.LinguisticPackage#getSentenceNode()
 		 * @generated
 		 */
-		EClass SENTENCE_FRAGMENT = eINSTANCE.getSentenceFragment();
+		EClass SENTENCE_NODE = eINSTANCE.getSentenceNode();
 
 		/**
 		 * The meta object literal for the '<em><b>Child Fragments</b></em>' reference list feature.
@@ -275,7 +275,7 @@ public interface ILinguisticPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference SENTENCE_FRAGMENT__CHILD_FRAGMENTS = eINSTANCE.getSentenceFragment_ChildFragments();
+		EReference SENTENCE_NODE__CHILD_FRAGMENTS = eINSTANCE.getSentenceNode_ChildFragments();
 
 		/**
 		 * The meta object literal for the '<em><b>Type</b></em>' attribute feature.
@@ -283,7 +283,7 @@ public interface ILinguisticPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute SENTENCE_FRAGMENT__TYPE = eINSTANCE.getSentenceFragment_Type();
+		EAttribute SENTENCE_NODE__TYPE = eINSTANCE.getSentenceNode_Type();
 
 		/**
 		 * The meta object literal for the '{@link reprotool.model.linguistic.impl.Word <em>Word</em>}' class.

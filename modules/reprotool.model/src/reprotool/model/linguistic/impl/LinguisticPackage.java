@@ -14,10 +14,14 @@ import org.eclipse.emf.ecore.EReference;
 
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
+import reprotool.model.comp.ICompPackage;
+
+import reprotool.model.comp.impl.CompPackage;
+
 import reprotool.model.linguistic.EWordType;
 import reprotool.model.linguistic.ILinguisticFactory;
 import reprotool.model.linguistic.ILinguisticPackage;
-import reprotool.model.linguistic.ISentenceFragment;
+import reprotool.model.linguistic.ISentenceNode;
 import reprotool.model.linguistic.IWord;
 
 import reprotool.model.specification.ISpecificationPackage;
@@ -32,6 +36,10 @@ import reprotool.model.structure.doc.IDocPackage;
 
 import reprotool.model.structure.doc.impl.DocPackage;
 
+import reprotool.model.traceability.ITraceabilityPackage;
+
+import reprotool.model.traceability.impl.TraceabilityPackage;
+
 /**
  * <!-- begin-user-doc -->
  * An implementation of the model <b>Package</b>.
@@ -44,7 +52,7 @@ public class LinguisticPackage extends EPackageImpl implements ILinguisticPackag
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass sentenceFragmentEClass = null;
+	private EClass sentenceNodeEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -110,18 +118,24 @@ public class LinguisticPackage extends EPackageImpl implements ILinguisticPackag
 		SpecificationPackage theSpecificationPackage = (SpecificationPackage)(EPackage.Registry.INSTANCE.getEPackage(ISpecificationPackage.eNS_URI) instanceof SpecificationPackage ? EPackage.Registry.INSTANCE.getEPackage(ISpecificationPackage.eNS_URI) : ISpecificationPackage.eINSTANCE);
 		DocPackage theDocPackage = (DocPackage)(EPackage.Registry.INSTANCE.getEPackage(IDocPackage.eNS_URI) instanceof DocPackage ? EPackage.Registry.INSTANCE.getEPackage(IDocPackage.eNS_URI) : IDocPackage.eINSTANCE);
 		AstPackage theAstPackage = (AstPackage)(EPackage.Registry.INSTANCE.getEPackage(IAstPackage.eNS_URI) instanceof AstPackage ? EPackage.Registry.INSTANCE.getEPackage(IAstPackage.eNS_URI) : IAstPackage.eINSTANCE);
+		CompPackage theCompPackage = (CompPackage)(EPackage.Registry.INSTANCE.getEPackage(ICompPackage.eNS_URI) instanceof CompPackage ? EPackage.Registry.INSTANCE.getEPackage(ICompPackage.eNS_URI) : ICompPackage.eINSTANCE);
+		TraceabilityPackage theTraceabilityPackage = (TraceabilityPackage)(EPackage.Registry.INSTANCE.getEPackage(ITraceabilityPackage.eNS_URI) instanceof TraceabilityPackage ? EPackage.Registry.INSTANCE.getEPackage(ITraceabilityPackage.eNS_URI) : ITraceabilityPackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theLinguisticPackage.createPackageContents();
 		theSpecificationPackage.createPackageContents();
 		theDocPackage.createPackageContents();
 		theAstPackage.createPackageContents();
+		theCompPackage.createPackageContents();
+		theTraceabilityPackage.createPackageContents();
 
 		// Initialize created meta-data
 		theLinguisticPackage.initializePackageContents();
 		theSpecificationPackage.initializePackageContents();
 		theDocPackage.initializePackageContents();
 		theAstPackage.initializePackageContents();
+		theCompPackage.initializePackageContents();
+		theTraceabilityPackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
 		theLinguisticPackage.freeze();
@@ -137,8 +151,8 @@ public class LinguisticPackage extends EPackageImpl implements ILinguisticPackag
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getSentenceFragment() {
-		return sentenceFragmentEClass;
+	public EClass getSentenceNode() {
+		return sentenceNodeEClass;
 	}
 
 	/**
@@ -146,8 +160,8 @@ public class LinguisticPackage extends EPackageImpl implements ILinguisticPackag
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getSentenceFragment_ChildFragments() {
-		return (EReference)sentenceFragmentEClass.getEStructuralFeatures().get(0);
+	public EReference getSentenceNode_ChildFragments() {
+		return (EReference)sentenceNodeEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -155,8 +169,8 @@ public class LinguisticPackage extends EPackageImpl implements ILinguisticPackag
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getSentenceFragment_Type() {
-		return (EAttribute)sentenceFragmentEClass.getEStructuralFeatures().get(1);
+	public EAttribute getSentenceNode_Type() {
+		return (EAttribute)sentenceNodeEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -223,9 +237,9 @@ public class LinguisticPackage extends EPackageImpl implements ILinguisticPackag
 		isCreated = true;
 
 		// Create classes and their features
-		sentenceFragmentEClass = createEClass(SENTENCE_FRAGMENT);
-		createEReference(sentenceFragmentEClass, SENTENCE_FRAGMENT__CHILD_FRAGMENTS);
-		createEAttribute(sentenceFragmentEClass, SENTENCE_FRAGMENT__TYPE);
+		sentenceNodeEClass = createEClass(SENTENCE_NODE);
+		createEReference(sentenceNodeEClass, SENTENCE_NODE__CHILD_FRAGMENTS);
+		createEAttribute(sentenceNodeEClass, SENTENCE_NODE__TYPE);
 
 		wordEClass = createEClass(WORD);
 		createEAttribute(wordEClass, WORD__WORD_STR);
@@ -263,12 +277,12 @@ public class LinguisticPackage extends EPackageImpl implements ILinguisticPackag
 		// Set bounds for type parameters
 
 		// Add supertypes to classes
-		wordEClass.getESuperTypes().add(this.getSentenceFragment());
+		wordEClass.getESuperTypes().add(this.getSentenceNode());
 
 		// Initialize classes and features; add operations and parameters
-		initEClass(sentenceFragmentEClass, ISentenceFragment.class, "SentenceFragment", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getSentenceFragment_ChildFragments(), this.getSentenceFragment(), null, "childFragments", null, 0, -1, ISentenceFragment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getSentenceFragment_Type(), ecorePackage.getEString(), "type", null, 0, 1, ISentenceFragment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(sentenceNodeEClass, ISentenceNode.class, "SentenceNode", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getSentenceNode_ChildFragments(), this.getSentenceNode(), null, "childFragments", null, 0, -1, ISentenceNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getSentenceNode_Type(), ecorePackage.getEString(), "type", null, 0, 1, ISentenceNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(wordEClass, IWord.class, "Word", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getWord_WordStr(), ecorePackage.getEString(), "wordStr", null, 0, 1, IWord.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

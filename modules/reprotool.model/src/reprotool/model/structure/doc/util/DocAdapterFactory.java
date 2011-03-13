@@ -15,6 +15,8 @@ import org.eclipse.emf.ecore.EObject;
 
 import reprotool.model.structure.doc.*;
 
+import reprotool.model.traceability.ITraceableEntity;
+
 /**
  * <!-- begin-user-doc -->
  * The <b>Adapter Factory</b> for the model.
@@ -84,6 +86,10 @@ public class DocAdapterFactory extends AdapterFactoryImpl {
 				return createParagraphAdapter();
 			}
 			@Override
+			public Adapter caseTraceableEntity(ITraceableEntity object) {
+				return createTraceableEntityAdapter();
+			}
+			@Override
 			public Adapter defaultCase(EObject object) {
 				return createEObjectAdapter();
 			}
@@ -142,6 +148,20 @@ public class DocAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createParagraphAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link reprotool.model.traceability.ITraceableEntity <em>Traceable Entity</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see reprotool.model.traceability.ITraceableEntity
+	 * @generated
+	 */
+	public Adapter createTraceableEntityAdapter() {
 		return null;
 	}
 

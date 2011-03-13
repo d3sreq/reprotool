@@ -87,16 +87,16 @@ public class LinguisticSwitch<T> {
 	 */
 	protected T doSwitch(int classifierID, EObject theEObject) {
 		switch (classifierID) {
-			case ILinguisticPackage.SENTENCE_FRAGMENT: {
-				ISentenceFragment sentenceFragment = (ISentenceFragment)theEObject;
-				T result = caseSentenceFragment(sentenceFragment);
+			case ILinguisticPackage.SENTENCE_NODE: {
+				ISentenceNode sentenceNode = (ISentenceNode)theEObject;
+				T result = caseSentenceNode(sentenceNode);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case ILinguisticPackage.WORD: {
 				IWord word = (IWord)theEObject;
 				T result = caseWord(word);
-				if (result == null) result = caseSentenceFragment(word);
+				if (result == null) result = caseSentenceNode(word);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -105,17 +105,17 @@ public class LinguisticSwitch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Sentence Fragment</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Sentence Node</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Sentence Fragment</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Sentence Node</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseSentenceFragment(ISentenceFragment object) {
+	public T caseSentenceNode(ISentenceNode object) {
 		return null;
 	}
 

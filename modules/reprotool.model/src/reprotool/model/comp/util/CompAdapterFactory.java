@@ -4,7 +4,7 @@
  *
  * $Id$
  */
-package reprotool.model.linguistic.util;
+package reprotool.model.comp.util;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
@@ -13,24 +13,24 @@ import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 
 import org.eclipse.emf.ecore.EObject;
 
-import reprotool.model.linguistic.*;
+import reprotool.model.comp.*;
 
 /**
  * <!-- begin-user-doc -->
  * The <b>Adapter Factory</b> for the model.
  * It provides an adapter <code>createXXX</code> method for each class of the model.
  * <!-- end-user-doc -->
- * @see reprotool.model.linguistic.ILinguisticPackage
+ * @see reprotool.model.comp.ICompPackage
  * @generated
  */
-public class LinguisticAdapterFactory extends AdapterFactoryImpl {
+public class CompAdapterFactory extends AdapterFactoryImpl {
 	/**
 	 * The cached model package.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected static ILinguisticPackage modelPackage;
+	protected static ICompPackage modelPackage;
 
 	/**
 	 * Creates an instance of the adapter factory.
@@ -38,9 +38,9 @@ public class LinguisticAdapterFactory extends AdapterFactoryImpl {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public LinguisticAdapterFactory() {
+	public CompAdapterFactory() {
 		if (modelPackage == null) {
-			modelPackage = ILinguisticPackage.eINSTANCE;
+			modelPackage = ICompPackage.eINSTANCE;
 		}
 	}
 
@@ -69,15 +69,19 @@ public class LinguisticAdapterFactory extends AdapterFactoryImpl {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected LinguisticSwitch<Adapter> modelSwitch =
-		new LinguisticSwitch<Adapter>() {
+	protected CompSwitch<Adapter> modelSwitch =
+		new CompSwitch<Adapter>() {
 			@Override
-			public Adapter caseSentenceNode(ISentenceNode object) {
-				return createSentenceNodeAdapter();
+			public Adapter caseComponent(IComponent object) {
+				return createComponentAdapter();
 			}
 			@Override
-			public Adapter caseWord(IWord object) {
-				return createWordAdapter();
+			public Adapter caseCompInterface(ICompInterface object) {
+				return createCompInterfaceAdapter();
+			}
+			@Override
+			public Adapter caseCompInterfaceType(ICompInterfaceType object) {
+				return createCompInterfaceTypeAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -100,30 +104,44 @@ public class LinguisticAdapterFactory extends AdapterFactoryImpl {
 
 
 	/**
-	 * Creates a new adapter for an object of class '{@link reprotool.model.linguistic.ISentenceNode <em>Sentence Node</em>}'.
+	 * Creates a new adapter for an object of class '{@link reprotool.model.comp.IComponent <em>Component</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see reprotool.model.linguistic.ISentenceNode
+	 * @see reprotool.model.comp.IComponent
 	 * @generated
 	 */
-	public Adapter createSentenceNodeAdapter() {
+	public Adapter createComponentAdapter() {
 		return null;
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link reprotool.model.linguistic.IWord <em>Word</em>}'.
+	 * Creates a new adapter for an object of class '{@link reprotool.model.comp.ICompInterface <em>Interface</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see reprotool.model.linguistic.IWord
+	 * @see reprotool.model.comp.ICompInterface
 	 * @generated
 	 */
-	public Adapter createWordAdapter() {
+	public Adapter createCompInterfaceAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link reprotool.model.comp.ICompInterfaceType <em>Interface Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see reprotool.model.comp.ICompInterfaceType
+	 * @generated
+	 */
+	public Adapter createCompInterfaceTypeAdapter() {
 		return null;
 	}
 
@@ -139,4 +157,4 @@ public class LinguisticAdapterFactory extends AdapterFactoryImpl {
 		return null;
 	}
 
-} //LinguisticAdapterFactory
+} //CompAdapterFactory

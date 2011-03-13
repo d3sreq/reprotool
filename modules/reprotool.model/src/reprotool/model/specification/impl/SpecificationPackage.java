@@ -13,6 +13,10 @@ import org.eclipse.emf.ecore.EReference;
 
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
+import reprotool.model.comp.ICompPackage;
+
+import reprotool.model.comp.impl.CompPackage;
+
 import reprotool.model.linguistic.ILinguisticPackage;
 
 import reprotool.model.linguistic.impl.LinguisticPackage;
@@ -33,6 +37,10 @@ import reprotool.model.structure.ast.impl.AstPackage;
 import reprotool.model.structure.doc.IDocPackage;
 
 import reprotool.model.structure.doc.impl.DocPackage;
+
+import reprotool.model.traceability.ITraceabilityPackage;
+
+import reprotool.model.traceability.impl.TraceabilityPackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -133,18 +141,24 @@ public class SpecificationPackage extends EPackageImpl implements ISpecification
 		LinguisticPackage theLinguisticPackage = (LinguisticPackage)(EPackage.Registry.INSTANCE.getEPackage(ILinguisticPackage.eNS_URI) instanceof LinguisticPackage ? EPackage.Registry.INSTANCE.getEPackage(ILinguisticPackage.eNS_URI) : ILinguisticPackage.eINSTANCE);
 		DocPackage theDocPackage = (DocPackage)(EPackage.Registry.INSTANCE.getEPackage(IDocPackage.eNS_URI) instanceof DocPackage ? EPackage.Registry.INSTANCE.getEPackage(IDocPackage.eNS_URI) : IDocPackage.eINSTANCE);
 		AstPackage theAstPackage = (AstPackage)(EPackage.Registry.INSTANCE.getEPackage(IAstPackage.eNS_URI) instanceof AstPackage ? EPackage.Registry.INSTANCE.getEPackage(IAstPackage.eNS_URI) : IAstPackage.eINSTANCE);
+		CompPackage theCompPackage = (CompPackage)(EPackage.Registry.INSTANCE.getEPackage(ICompPackage.eNS_URI) instanceof CompPackage ? EPackage.Registry.INSTANCE.getEPackage(ICompPackage.eNS_URI) : ICompPackage.eINSTANCE);
+		TraceabilityPackage theTraceabilityPackage = (TraceabilityPackage)(EPackage.Registry.INSTANCE.getEPackage(ITraceabilityPackage.eNS_URI) instanceof TraceabilityPackage ? EPackage.Registry.INSTANCE.getEPackage(ITraceabilityPackage.eNS_URI) : ITraceabilityPackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theSpecificationPackage.createPackageContents();
 		theLinguisticPackage.createPackageContents();
 		theDocPackage.createPackageContents();
 		theAstPackage.createPackageContents();
+		theCompPackage.createPackageContents();
+		theTraceabilityPackage.createPackageContents();
 
 		// Initialize created meta-data
 		theSpecificationPackage.initializePackageContents();
 		theLinguisticPackage.initializePackageContents();
 		theDocPackage.initializePackageContents();
 		theAstPackage.initializePackageContents();
+		theCompPackage.initializePackageContents();
+		theTraceabilityPackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
 		theSpecificationPackage.freeze();
@@ -373,12 +387,16 @@ public class SpecificationPackage extends EPackageImpl implements ISpecification
 		setNsPrefix(eNS_PREFIX);
 		setNsURI(eNS_URI);
 
+		// Obtain other dependent packages
+		ITraceabilityPackage theTraceabilityPackage = (ITraceabilityPackage)EPackage.Registry.INSTANCE.getEPackage(ITraceabilityPackage.eNS_URI);
+
 		// Create type parameters
 
 		// Set bounds for type parameters
 
 		// Add supertypes to classes
 		useCaseEClass.getESuperTypes().add(this.getGenericRequirement());
+		genericRequirementEClass.getESuperTypes().add(theTraceabilityPackage.getTraceableEntity());
 		nonFunctionalRequirementEClass.getESuperTypes().add(this.getGenericRequirement());
 
 		// Initialize classes and features; add operations and parameters

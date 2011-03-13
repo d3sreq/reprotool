@@ -1,41 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ecore:EPackage xmi:version="2.0"
     xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="reprotool"
-    nsURI="http://d3s.mff.cuni.cz/reprotool" nsPrefix="reprotool">
-  <eSubpackages name="model" nsURI="http://d3s.mff.cuni.cz/reprotool/model" nsPrefix="model">
-    <eSubpackages name="structure" nsURI="http://d3s.mff.cuni.cz/reprotool/model/structure"
-        nsPrefix="structure">
-      <eSubpackages name="doc" nsURI="http://d3s.mff.cuni.cz/reprotool/model/structure/doc"
-          nsPrefix="doc">
-        <eClassifiers xsi:type="ecore:EClass" name="Document">
-          <eStructuralFeatures xsi:type="ecore:EReference" name="sections" upperBound="-1"
-              eType="#//model/structure/doc/Section"/>
-        </eClassifiers>
-        <eClassifiers xsi:type="ecore:EClass" name="Section">
-          <eStructuralFeatures xsi:type="ecore:EReference" name="paragraphs" upperBound="-1"
-              eType="#//model/structure/doc/Paragraph"/>
-        </eClassifiers>
-        <eClassifiers xsi:type="ecore:EClass" name="Paragraph"/>
-      </eSubpackages>
-      <eSubpackages name="ast" nsURI="http://d3s.mff.cuni.cz/reprotool/model/structure/ast"
-          nsPrefix="ast">
-        <eClassifiers xsi:type="ecore:EClass" name="Method" eSuperTypes="#//model/structure/ast/CodeElement">
-          <eStructuralFeatures xsi:type="ecore:EAttribute" name="visibility" eType="#//model/structure/ast/MethodVisibility"/>
-        </eClassifiers>
-        <eClassifiers xsi:type="ecore:EClass" name="Class" eSuperTypes="#//model/structure/ast/CodeElement">
-          <eStructuralFeatures xsi:type="ecore:EReference" name="methods" upperBound="-1"
-              eType="#//model/structure/ast/Method"/>
-        </eClassifiers>
-        <eClassifiers xsi:type="ecore:EClass" name="CodeElement" abstract="true" interface="true">
-          <eStructuralFeatures xsi:type="ecore:EAttribute" name="comment" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-          <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-        </eClassifiers>
-        <eClassifiers xsi:type="ecore:EEnum" name="MethodVisibility">
-          <eLiterals name="private"/>
-          <eLiterals name="public" value="1"/>
-        </eClassifiers>
-      </eSubpackages>
-    </eSubpackages>
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="structure"
+    nsURI="http://d3s.mff.cuni.cz/reprotool/model/structure" nsPrefix="structure">
+  <eSubpackages name="doc" nsURI="http://d3s.mff.cuni.cz/reprotool/model/structure/doc"
+      nsPrefix="doc">
+    <eClassifiers xsi:type="ecore:EClass" name="Document">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="sections" upperBound="-1"
+          eType="#//doc/Section"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Section">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="paragraphs" upperBound="-1"
+          eType="#//doc/Paragraph"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Paragraph" eSuperTypes="reprotool.model.traceability.ecore#//TraceableEntity"/>
+  </eSubpackages>
+  <eSubpackages name="ast" nsURI="http://d3s.mff.cuni.cz/reprotool/model/structure/ast"
+      nsPrefix="ast">
+    <eClassifiers xsi:type="ecore:EClass" name="Method" eSuperTypes="#//ast/CodeElement">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="visibility" eType="#//ast/MethodVisibility"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Class" eSuperTypes="#//ast/CodeElement">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="methods" upperBound="-1"
+          eType="#//ast/Method"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="CodeElement" abstract="true" interface="true">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="comment" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="MethodVisibility">
+      <eLiterals name="private"/>
+      <eLiterals name="public" value="1"/>
+    </eClassifiers>
   </eSubpackages>
 </ecore:EPackage>

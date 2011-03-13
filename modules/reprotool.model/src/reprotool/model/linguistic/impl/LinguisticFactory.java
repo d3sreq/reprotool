@@ -61,7 +61,7 @@ public class LinguisticFactory extends EFactoryImpl implements ILinguisticFactor
 	@Override
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
-			case ILinguisticPackage.SENTENCE_FRAGMENT: return createSentenceFragment();
+			case ILinguisticPackage.SENTENCE_NODE: return createSentenceNode();
 			case ILinguisticPackage.WORD: return createWord();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
@@ -103,9 +103,9 @@ public class LinguisticFactory extends EFactoryImpl implements ILinguisticFactor
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ISentenceFragment createSentenceFragment() {
-		SentenceFragment sentenceFragment = new SentenceFragment();
-		return sentenceFragment;
+	public ISentenceNode createSentenceNode() {
+		SentenceNode sentenceNode = new SentenceNode();
+		return sentenceNode;
 	}
 
 	/**

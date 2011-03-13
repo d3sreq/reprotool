@@ -20,23 +20,23 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 
 import reprotool.model.linguistic.ILinguisticPackage;
-import reprotool.model.linguistic.ISentenceFragment;
+import reprotool.model.linguistic.ISentenceNode;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Sentence Fragment</b></em>'.
+ * An implementation of the model object '<em><b>Sentence Node</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link reprotool.model.linguistic.impl.SentenceFragment#getChildFragments <em>Child Fragments</em>}</li>
- *   <li>{@link reprotool.model.linguistic.impl.SentenceFragment#getType <em>Type</em>}</li>
+ *   <li>{@link reprotool.model.linguistic.impl.SentenceNode#getChildFragments <em>Child Fragments</em>}</li>
+ *   <li>{@link reprotool.model.linguistic.impl.SentenceNode#getType <em>Type</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class SentenceFragment extends EObjectImpl implements ISentenceFragment {
+public class SentenceNode extends EObjectImpl implements ISentenceNode {
 	/**
 	 * The cached value of the '{@link #getChildFragments() <em>Child Fragments</em>}' reference list.
 	 * <!-- begin-user-doc -->
@@ -45,7 +45,7 @@ public class SentenceFragment extends EObjectImpl implements ISentenceFragment {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<ISentenceFragment> childFragments;
+	protected EList<ISentenceNode> childFragments;
 
 	/**
 	 * The default value of the '{@link #getType() <em>Type</em>}' attribute.
@@ -72,7 +72,7 @@ public class SentenceFragment extends EObjectImpl implements ISentenceFragment {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected SentenceFragment() {
+	protected SentenceNode() {
 		super();
 	}
 
@@ -83,7 +83,7 @@ public class SentenceFragment extends EObjectImpl implements ISentenceFragment {
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return ILinguisticPackage.Literals.SENTENCE_FRAGMENT;
+		return ILinguisticPackage.Literals.SENTENCE_NODE;
 	}
 
 	/**
@@ -91,9 +91,9 @@ public class SentenceFragment extends EObjectImpl implements ISentenceFragment {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<ISentenceFragment> getChildFragments() {
+	public EList<ISentenceNode> getChildFragments() {
 		if (childFragments == null) {
-			childFragments = new EObjectResolvingEList<ISentenceFragment>(ISentenceFragment.class, this, ILinguisticPackage.SENTENCE_FRAGMENT__CHILD_FRAGMENTS);
+			childFragments = new EObjectResolvingEList<ISentenceNode>(ISentenceNode.class, this, ILinguisticPackage.SENTENCE_NODE__CHILD_FRAGMENTS);
 		}
 		return childFragments;
 	}
@@ -116,7 +116,7 @@ public class SentenceFragment extends EObjectImpl implements ISentenceFragment {
 		String oldType = type;
 		type = newType;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ILinguisticPackage.SENTENCE_FRAGMENT__TYPE, oldType, type));
+			eNotify(new ENotificationImpl(this, Notification.SET, ILinguisticPackage.SENTENCE_NODE__TYPE, oldType, type));
 	}
 
 	/**
@@ -127,9 +127,9 @@ public class SentenceFragment extends EObjectImpl implements ISentenceFragment {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case ILinguisticPackage.SENTENCE_FRAGMENT__CHILD_FRAGMENTS:
+			case ILinguisticPackage.SENTENCE_NODE__CHILD_FRAGMENTS:
 				return getChildFragments();
-			case ILinguisticPackage.SENTENCE_FRAGMENT__TYPE:
+			case ILinguisticPackage.SENTENCE_NODE__TYPE:
 				return getType();
 		}
 		return super.eGet(featureID, resolve, coreType);
@@ -144,11 +144,11 @@ public class SentenceFragment extends EObjectImpl implements ISentenceFragment {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case ILinguisticPackage.SENTENCE_FRAGMENT__CHILD_FRAGMENTS:
+			case ILinguisticPackage.SENTENCE_NODE__CHILD_FRAGMENTS:
 				getChildFragments().clear();
-				getChildFragments().addAll((Collection<? extends ISentenceFragment>)newValue);
+				getChildFragments().addAll((Collection<? extends ISentenceNode>)newValue);
 				return;
-			case ILinguisticPackage.SENTENCE_FRAGMENT__TYPE:
+			case ILinguisticPackage.SENTENCE_NODE__TYPE:
 				setType((String)newValue);
 				return;
 		}
@@ -163,10 +163,10 @@ public class SentenceFragment extends EObjectImpl implements ISentenceFragment {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case ILinguisticPackage.SENTENCE_FRAGMENT__CHILD_FRAGMENTS:
+			case ILinguisticPackage.SENTENCE_NODE__CHILD_FRAGMENTS:
 				getChildFragments().clear();
 				return;
-			case ILinguisticPackage.SENTENCE_FRAGMENT__TYPE:
+			case ILinguisticPackage.SENTENCE_NODE__TYPE:
 				setType(TYPE_EDEFAULT);
 				return;
 		}
@@ -181,9 +181,9 @@ public class SentenceFragment extends EObjectImpl implements ISentenceFragment {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case ILinguisticPackage.SENTENCE_FRAGMENT__CHILD_FRAGMENTS:
+			case ILinguisticPackage.SENTENCE_NODE__CHILD_FRAGMENTS:
 				return childFragments != null && !childFragments.isEmpty();
-			case ILinguisticPackage.SENTENCE_FRAGMENT__TYPE:
+			case ILinguisticPackage.SENTENCE_NODE__TYPE:
 				return TYPE_EDEFAULT == null ? type != null : !TYPE_EDEFAULT.equals(type);
 		}
 		return super.eIsSet(featureID);
@@ -205,4 +205,4 @@ public class SentenceFragment extends EObjectImpl implements ISentenceFragment {
 		return result.toString();
 	}
 
-} //SentenceFragment
+} //SentenceNode

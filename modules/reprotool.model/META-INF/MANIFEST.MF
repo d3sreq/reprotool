@@ -7,7 +7,10 @@ Bundle-ClassPath: .
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Export-Package: reprotool.model.linguistic,
+Export-Package: reprotool.model.comp,
+ reprotool.model.comp.impl,
+ reprotool.model.comp.util,
+ reprotool.model.linguistic,
  reprotool.model.linguistic.impl,
  reprotool.model.linguistic.util,
  reprotool.model.specification,
@@ -18,6 +21,9 @@ Export-Package: reprotool.model.linguistic,
  reprotool.model.structure.ast.util,
  reprotool.model.structure.doc,
  reprotool.model.structure.doc.impl,
- reprotool.model.structure.doc.util
+ reprotool.model.structure.doc.util,
+ reprotool.model.traceability,
+ reprotool.model.traceability.impl,
+ reprotool.model.traceability.util
 Require-Bundle: org.eclipse.emf.ecore;visibility:=reexport
 Bundle-ActivationPolicy: lazy

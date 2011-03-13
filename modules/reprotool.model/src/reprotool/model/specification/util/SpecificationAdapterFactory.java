@@ -15,6 +15,8 @@ import org.eclipse.emf.ecore.EObject;
 
 import reprotool.model.specification.*;
 
+import reprotool.model.traceability.ITraceableEntity;
+
 /**
  * <!-- begin-user-doc -->
  * The <b>Adapter Factory</b> for the model.
@@ -94,6 +96,10 @@ public class SpecificationAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter caseNonFunctionalRequirement(INonFunctionalRequirement object) {
 				return createNonFunctionalRequirementAdapter();
+			}
+			@Override
+			public Adapter caseTraceableEntity(ITraceableEntity object) {
+				return createTraceableEntityAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -196,6 +202,20 @@ public class SpecificationAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createNonFunctionalRequirementAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link reprotool.model.traceability.ITraceableEntity <em>Traceable Entity</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see reprotool.model.traceability.ITraceableEntity
+	 * @generated
+	 */
+	public Adapter createTraceableEntityAdapter() {
 		return null;
 	}
 

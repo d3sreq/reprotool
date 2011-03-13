@@ -30,7 +30,7 @@ import reprotool.model.linguistic.IWord;
  *
  * @generated
  */
-public class Word extends SentenceFragment implements IWord {
+public class Word extends SentenceNode implements IWord {
 	/**
 	 * The default value of the '{@link #getWordStr() <em>Word Str</em>}' attribute.
 	 * <!-- begin-user-doc -->

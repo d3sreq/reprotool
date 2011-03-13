@@ -4,17 +4,20 @@
  *
  * $Id$
  */
-package reprotool.model.structure.doc.impl;
+package reprotool.model.comp.impl;
 
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
+import reprotool.model.comp.ICompFactory;
+import reprotool.model.comp.ICompInterface;
+import reprotool.model.comp.ICompInterfaceType;
 import reprotool.model.comp.ICompPackage;
-
-import reprotool.model.comp.impl.CompPackage;
+import reprotool.model.comp.IComponent;
 
 import reprotool.model.linguistic.ILinguisticPackage;
 
@@ -28,11 +31,9 @@ import reprotool.model.structure.ast.IAstPackage;
 
 import reprotool.model.structure.ast.impl.AstPackage;
 
-import reprotool.model.structure.doc.IDocFactory;
 import reprotool.model.structure.doc.IDocPackage;
-import reprotool.model.structure.doc.IDocument;
-import reprotool.model.structure.doc.IParagraph;
-import reprotool.model.structure.doc.ISection;
+
+import reprotool.model.structure.doc.impl.DocPackage;
 
 import reprotool.model.traceability.ITraceabilityPackage;
 
@@ -44,27 +45,27 @@ import reprotool.model.traceability.impl.TraceabilityPackage;
  * <!-- end-user-doc -->
  * @generated
  */
-public class DocPackage extends EPackageImpl implements IDocPackage {
+public class CompPackage extends EPackageImpl implements ICompPackage {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass documentEClass = null;
+	private EClass componentEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass sectionEClass = null;
+	private EClass compInterfaceEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass paragraphEClass = null;
+	private EClass compInterfaceTypeEClass = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -77,12 +78,12 @@ public class DocPackage extends EPackageImpl implements IDocPackage {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see org.eclipse.emf.ecore.EPackage.Registry
-	 * @see reprotool.model.structure.doc.IDocPackage#eNS_URI
+	 * @see reprotool.model.comp.ICompPackage#eNS_URI
 	 * @see #init()
 	 * @generated
 	 */
-	private DocPackage() {
-		super(eNS_URI, IDocFactory.eINSTANCE);
+	private CompPackage() {
+		super(eNS_URI, ICompFactory.eINSTANCE);
 	}
 
 	/**
@@ -95,7 +96,7 @@ public class DocPackage extends EPackageImpl implements IDocPackage {
 	/**
 	 * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
 	 * 
-	 * <p>This method is used to initialize {@link IDocPackage#eINSTANCE} when that field is accessed.
+	 * <p>This method is used to initialize {@link ICompPackage#eINSTANCE} when that field is accessed.
 	 * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -104,44 +105,44 @@ public class DocPackage extends EPackageImpl implements IDocPackage {
 	 * @see #initializePackageContents()
 	 * @generated
 	 */
-	public static IDocPackage init() {
-		if (isInited) return (IDocPackage)EPackage.Registry.INSTANCE.getEPackage(IDocPackage.eNS_URI);
+	public static ICompPackage init() {
+		if (isInited) return (ICompPackage)EPackage.Registry.INSTANCE.getEPackage(ICompPackage.eNS_URI);
 
 		// Obtain or create and register package
-		DocPackage theDocPackage = (DocPackage)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof DocPackage ? EPackage.Registry.INSTANCE.get(eNS_URI) : new DocPackage());
+		CompPackage theCompPackage = (CompPackage)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof CompPackage ? EPackage.Registry.INSTANCE.get(eNS_URI) : new CompPackage());
 
 		isInited = true;
 
 		// Obtain or create and register interdependencies
 		LinguisticPackage theLinguisticPackage = (LinguisticPackage)(EPackage.Registry.INSTANCE.getEPackage(ILinguisticPackage.eNS_URI) instanceof LinguisticPackage ? EPackage.Registry.INSTANCE.getEPackage(ILinguisticPackage.eNS_URI) : ILinguisticPackage.eINSTANCE);
 		SpecificationPackage theSpecificationPackage = (SpecificationPackage)(EPackage.Registry.INSTANCE.getEPackage(ISpecificationPackage.eNS_URI) instanceof SpecificationPackage ? EPackage.Registry.INSTANCE.getEPackage(ISpecificationPackage.eNS_URI) : ISpecificationPackage.eINSTANCE);
+		DocPackage theDocPackage = (DocPackage)(EPackage.Registry.INSTANCE.getEPackage(IDocPackage.eNS_URI) instanceof DocPackage ? EPackage.Registry.INSTANCE.getEPackage(IDocPackage.eNS_URI) : IDocPackage.eINSTANCE);
 		AstPackage theAstPackage = (AstPackage)(EPackage.Registry.INSTANCE.getEPackage(IAstPackage.eNS_URI) instanceof AstPackage ? EPackage.Registry.INSTANCE.getEPackage(IAstPackage.eNS_URI) : IAstPackage.eINSTANCE);
-		CompPackage theCompPackage = (CompPackage)(EPackage.Registry.INSTANCE.getEPackage(ICompPackage.eNS_URI) instanceof CompPackage ? EPackage.Registry.INSTANCE.getEPackage(ICompPackage.eNS_URI) : ICompPackage.eINSTANCE);
 		TraceabilityPackage theTraceabilityPackage = (TraceabilityPackage)(EPackage.Registry.INSTANCE.getEPackage(ITraceabilityPackage.eNS_URI) instanceof TraceabilityPackage ? EPackage.Registry.INSTANCE.getEPackage(ITraceabilityPackage.eNS_URI) : ITraceabilityPackage.eINSTANCE);
 
 		// Create package meta-data objects
-		theDocPackage.createPackageContents();
+		theCompPackage.createPackageContents();
 		theLinguisticPackage.createPackageContents();
 		theSpecificationPackage.createPackageContents();
+		theDocPackage.createPackageContents();
 		theAstPackage.createPackageContents();
-		theCompPackage.createPackageContents();
 		theTraceabilityPackage.createPackageContents();
 
 		// Initialize created meta-data
-		theDocPackage.initializePackageContents();
+		theCompPackage.initializePackageContents();
 		theLinguisticPackage.initializePackageContents();
 		theSpecificationPackage.initializePackageContents();
+		theDocPackage.initializePackageContents();
 		theAstPackage.initializePackageContents();
-		theCompPackage.initializePackageContents();
 		theTraceabilityPackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
-		theDocPackage.freeze();
+		theCompPackage.freeze();
 
   
 		// Update the registry and return the package
-		EPackage.Registry.INSTANCE.put(IDocPackage.eNS_URI, theDocPackage);
-		return theDocPackage;
+		EPackage.Registry.INSTANCE.put(ICompPackage.eNS_URI, theCompPackage);
+		return theCompPackage;
 	}
 
 	/**
@@ -149,8 +150,8 @@ public class DocPackage extends EPackageImpl implements IDocPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getDocument() {
-		return documentEClass;
+	public EClass getComponent() {
+		return componentEClass;
 	}
 
 	/**
@@ -158,8 +159,8 @@ public class DocPackage extends EPackageImpl implements IDocPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getDocument_Sections() {
-		return (EReference)documentEClass.getEStructuralFeatures().get(0);
+	public EReference getComponent_ProvidedInterfaces() {
+		return (EReference)componentEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -167,8 +168,8 @@ public class DocPackage extends EPackageImpl implements IDocPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getSection() {
-		return sectionEClass;
+	public EReference getComponent_RequiredInterfaces() {
+		return (EReference)componentEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -176,8 +177,8 @@ public class DocPackage extends EPackageImpl implements IDocPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getSection_Paragraphs() {
-		return (EReference)sectionEClass.getEStructuralFeatures().get(0);
+	public EClass getCompInterface() {
+		return compInterfaceEClass;
 	}
 
 	/**
@@ -185,8 +186,8 @@ public class DocPackage extends EPackageImpl implements IDocPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getParagraph() {
-		return paragraphEClass;
+	public EReference getCompInterface_InterfaceType() {
+		return (EReference)compInterfaceEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -194,8 +195,26 @@ public class DocPackage extends EPackageImpl implements IDocPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public IDocFactory getDocFactory() {
-		return (IDocFactory)getEFactoryInstance();
+	public EClass getCompInterfaceType() {
+		return compInterfaceTypeEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getCompInterfaceType_Signature() {
+		return (EAttribute)compInterfaceTypeEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ICompFactory getCompFactory() {
+		return (ICompFactory)getEFactoryInstance();
 	}
 
 	/**
@@ -217,13 +236,15 @@ public class DocPackage extends EPackageImpl implements IDocPackage {
 		isCreated = true;
 
 		// Create classes and their features
-		documentEClass = createEClass(DOCUMENT);
-		createEReference(documentEClass, DOCUMENT__SECTIONS);
+		componentEClass = createEClass(COMPONENT);
+		createEReference(componentEClass, COMPONENT__PROVIDED_INTERFACES);
+		createEReference(componentEClass, COMPONENT__REQUIRED_INTERFACES);
 
-		sectionEClass = createEClass(SECTION);
-		createEReference(sectionEClass, SECTION__PARAGRAPHS);
+		compInterfaceEClass = createEClass(COMP_INTERFACE);
+		createEReference(compInterfaceEClass, COMP_INTERFACE__INTERFACE_TYPE);
 
-		paragraphEClass = createEClass(PARAGRAPH);
+		compInterfaceTypeEClass = createEClass(COMP_INTERFACE_TYPE);
+		createEAttribute(compInterfaceTypeEClass, COMP_INTERFACE_TYPE__SIGNATURE);
 	}
 
 	/**
@@ -249,27 +270,25 @@ public class DocPackage extends EPackageImpl implements IDocPackage {
 		setNsPrefix(eNS_PREFIX);
 		setNsURI(eNS_URI);
 
-		// Obtain other dependent packages
-		ITraceabilityPackage theTraceabilityPackage = (ITraceabilityPackage)EPackage.Registry.INSTANCE.getEPackage(ITraceabilityPackage.eNS_URI);
-
 		// Create type parameters
 
 		// Set bounds for type parameters
 
 		// Add supertypes to classes
-		paragraphEClass.getESuperTypes().add(theTraceabilityPackage.getTraceableEntity());
 
 		// Initialize classes and features; add operations and parameters
-		initEClass(documentEClass, IDocument.class, "Document", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getDocument_Sections(), this.getSection(), null, "sections", null, 0, -1, IDocument.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(componentEClass, IComponent.class, "Component", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getComponent_ProvidedInterfaces(), this.getCompInterface(), null, "providedInterfaces", null, 0, -1, IComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getComponent_RequiredInterfaces(), this.getCompInterface(), null, "requiredInterfaces", null, 0, -1, IComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(sectionEClass, ISection.class, "Section", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getSection_Paragraphs(), this.getParagraph(), null, "paragraphs", null, 0, -1, ISection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(compInterfaceEClass, ICompInterface.class, "CompInterface", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getCompInterface_InterfaceType(), this.getCompInterfaceType(), null, "interfaceType", null, 0, 1, ICompInterface.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(paragraphEClass, IParagraph.class, "Paragraph", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEClass(compInterfaceTypeEClass, ICompInterfaceType.class, "CompInterfaceType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getCompInterfaceType_Signature(), ecorePackage.getEString(), "signature", null, 0, 1, ICompInterfaceType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);
 	}
 
-} //DocPackage
+} //CompPackage

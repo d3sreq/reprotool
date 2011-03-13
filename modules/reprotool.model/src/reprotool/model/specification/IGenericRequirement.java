@@ -6,7 +6,7 @@
  */
 package reprotool.model.specification;
 
-import org.eclipse.emf.ecore.EObject;
+import reprotool.model.traceability.ITraceableEntity;
 
 /**
  * <!-- begin-user-doc -->
@@ -18,5 +18,5 @@ import org.eclipse.emf.ecore.EObject;
  * @model
  * @generated
  */
-public interface IGenericRequirement extends EObject {
+public interface IGenericRequirement extends ITraceableEntity {
 } // IGenericRequirement

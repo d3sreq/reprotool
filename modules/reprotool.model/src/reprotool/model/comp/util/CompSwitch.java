@@ -4,16 +4,14 @@
  *
  * $Id$
  */
-package reprotool.model.structure.doc.util;
+package reprotool.model.comp.util;
 
 import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 
-import reprotool.model.structure.doc.*;
-
-import reprotool.model.traceability.ITraceableEntity;
+import reprotool.model.comp.*;
 
 /**
  * <!-- begin-user-doc -->
@@ -25,17 +23,17 @@ import reprotool.model.traceability.ITraceableEntity;
  * until a non-null result is returned,
  * which is the result of the switch.
  * <!-- end-user-doc -->
- * @see reprotool.model.structure.doc.IDocPackage
+ * @see reprotool.model.comp.ICompPackage
  * @generated
  */
-public class DocSwitch<T> {
+public class CompSwitch<T> {
 	/**
 	 * The cached model package
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected static IDocPackage modelPackage;
+	protected static ICompPackage modelPackage;
 
 	/**
 	 * Creates an instance of the switch.
@@ -43,9 +41,9 @@ public class DocSwitch<T> {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public DocSwitch() {
+	public CompSwitch() {
 		if (modelPackage == null) {
-			modelPackage = IDocPackage.eINSTANCE;
+			modelPackage = ICompPackage.eINSTANCE;
 		}
 	}
 
@@ -89,22 +87,21 @@ public class DocSwitch<T> {
 	 */
 	protected T doSwitch(int classifierID, EObject theEObject) {
 		switch (classifierID) {
-			case IDocPackage.DOCUMENT: {
-				IDocument document = (IDocument)theEObject;
-				T result = caseDocument(document);
+			case ICompPackage.COMPONENT: {
+				IComponent component = (IComponent)theEObject;
+				T result = caseComponent(component);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case IDocPackage.SECTION: {
-				ISection section = (ISection)theEObject;
-				T result = caseSection(section);
+			case ICompPackage.COMP_INTERFACE: {
+				ICompInterface compInterface = (ICompInterface)theEObject;
+				T result = caseCompInterface(compInterface);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case IDocPackage.PARAGRAPH: {
-				IParagraph paragraph = (IParagraph)theEObject;
-				T result = caseParagraph(paragraph);
-				if (result == null) result = caseTraceableEntity(paragraph);
+			case ICompPackage.COMP_INTERFACE_TYPE: {
+				ICompInterfaceType compInterfaceType = (ICompInterfaceType)theEObject;
+				T result = caseCompInterfaceType(compInterfaceType);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -113,62 +110,47 @@ public class DocSwitch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Document</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Component</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Document</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Component</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseDocument(IDocument object) {
+	public T caseComponent(IComponent object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Section</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Interface</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Section</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Interface</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseSection(ISection object) {
+	public T caseCompInterface(ICompInterface object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Paragraph</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Interface Type</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Paragraph</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Interface Type</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseParagraph(IParagraph object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Traceable Entity</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Traceable Entity</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseTraceableEntity(ITraceableEntity object) {
+	public T caseCompInterfaceType(ICompInterfaceType object) {
 		return null;
 	}
 
@@ -187,4 +169,4 @@ public class DocSwitch<T> {
 		return null;
 	}
 
-} //DocSwitch
+} //CompSwitch

@@ -13,6 +13,8 @@ import org.eclipse.emf.ecore.EObject;
 
 import reprotool.model.specification.*;
 
+import reprotool.model.traceability.ITraceableEntity;
+
 /**
  * <!-- begin-user-doc -->
  * The <b>Switch</b> for the model's inheritance hierarchy.
@@ -97,6 +99,7 @@ public class SpecificationSwitch<T> {
 				IUseCase useCase = (IUseCase)theEObject;
 				T result = caseUseCase(useCase);
 				if (result == null) result = caseGenericRequirement(useCase);
+				if (result == null) result = caseTraceableEntity(useCase);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -115,6 +118,7 @@ public class SpecificationSwitch<T> {
 			case ISpecificationPackage.GENERIC_REQUIREMENT: {
 				IGenericRequirement genericRequirement = (IGenericRequirement)theEObject;
 				T result = caseGenericRequirement(genericRequirement);
+				if (result == null) result = caseTraceableEntity(genericRequirement);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -122,6 +126,7 @@ public class SpecificationSwitch<T> {
 				INonFunctionalRequirement nonFunctionalRequirement = (INonFunctionalRequirement)theEObject;
 				T result = caseNonFunctionalRequirement(nonFunctionalRequirement);
 				if (result == null) result = caseGenericRequirement(nonFunctionalRequirement);
+				if (result == null) result = caseTraceableEntity(nonFunctionalRequirement);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -216,6 +221,21 @@ public class SpecificationSwitch<T> {
 	 * @generated
 	 */
 	public T caseNonFunctionalRequirement(INonFunctionalRequirement object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Traceable Entity</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Traceable Entity</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseTraceableEntity(ITraceableEntity object) {
 		return null;
 	}
 

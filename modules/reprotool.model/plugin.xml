@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+ <copyright>
+ </copyright>
+
+ $Id$
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <package
+            uri="http://d3s.mff.cuni.cz/reprotool/model/linguistic"
+            class="reprotool.model.linguistic.ILinguisticPackage"
+            genModel="model/reprotool.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <package
+            uri="http://d3s.mff.cuni.cz/reprotool/model/specification"
+            class="reprotool.model.specification.ISpecificationPackage"
+            genModel="model/reprotool.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <package
+            uri="http://d3s.mff.cuni.cz/reprotool/model/structure/doc"
+            class="reprotool.model.structure.doc.IDocPackage"
+            genModel="model/reprotool.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <package
+            uri="http://d3s.mff.cuni.cz/reprotool/model/structure/ast"
+            class="reprotool.model.structure.ast.IAstPackage"
+            genModel="model/reprotool.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <package
+            uri="http://d3s.mff.cuni.cz/reprotool/model/comp"
+            class="reprotool.model.comp.ICompPackage"
+            genModel="model/reprotool.genmodel"/>
+   </extension>
+
+</plugin>

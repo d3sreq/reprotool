@@ -4,7 +4,7 @@
  *
  * $Id$
  */
-package reprotool.model.linguistic.util;
+package reprotool.model.traceability.util;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
@@ -13,24 +13,24 @@ import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 
 import org.eclipse.emf.ecore.EObject;
 
-import reprotool.model.linguistic.*;
+import reprotool.model.traceability.*;
 
 /**
  * <!-- begin-user-doc -->
  * The <b>Adapter Factory</b> for the model.
  * It provides an adapter <code>createXXX</code> method for each class of the model.
  * <!-- end-user-doc -->
- * @see reprotool.model.linguistic.ILinguisticPackage
+ * @see reprotool.model.traceability.ITraceabilityPackage
  * @generated
  */
-public class LinguisticAdapterFactory extends AdapterFactoryImpl {
+public class TraceabilityAdapterFactory extends AdapterFactoryImpl {
 	/**
 	 * The cached model package.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected static ILinguisticPackage modelPackage;
+	protected static ITraceabilityPackage modelPackage;
 
 	/**
 	 * Creates an instance of the adapter factory.
@@ -38,9 +38,9 @@ public class LinguisticAdapterFactory extends AdapterFactoryImpl {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public LinguisticAdapterFactory() {
+	public TraceabilityAdapterFactory() {
 		if (modelPackage == null) {
-			modelPackage = ILinguisticPackage.eINSTANCE;
+			modelPackage = ITraceabilityPackage.eINSTANCE;
 		}
 	}
 
@@ -69,15 +69,15 @@ public class LinguisticAdapterFactory extends AdapterFactoryImpl {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected LinguisticSwitch<Adapter> modelSwitch =
-		new LinguisticSwitch<Adapter>() {
+	protected TraceabilitySwitch<Adapter> modelSwitch =
+		new TraceabilitySwitch<Adapter>() {
 			@Override
-			public Adapter caseSentenceNode(ISentenceNode object) {
-				return createSentenceNodeAdapter();
+			public Adapter caseTraceableEntity(ITraceableEntity object) {
+				return createTraceableEntityAdapter();
 			}
 			@Override
-			public Adapter caseWord(IWord object) {
-				return createWordAdapter();
+			public Adapter caseTraceLink(ITraceLink object) {
+				return createTraceLinkAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -100,30 +100,30 @@ public class LinguisticAdapterFactory extends AdapterFactoryImpl {
 
 
 	/**
-	 * Creates a new adapter for an object of class '{@link reprotool.model.linguistic.ISentenceNode <em>Sentence Node</em>}'.
+	 * Creates a new adapter for an object of class '{@link reprotool.model.traceability.ITraceableEntity <em>Traceable Entity</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see reprotool.model.linguistic.ISentenceNode
+	 * @see reprotool.model.traceability.ITraceableEntity
 	 * @generated
 	 */
-	public Adapter createSentenceNodeAdapter() {
+	public Adapter createTraceableEntityAdapter() {
 		return null;
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link reprotool.model.linguistic.IWord <em>Word</em>}'.
+	 * Creates a new adapter for an object of class '{@link reprotool.model.traceability.ITraceLink <em>Trace Link</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see reprotool.model.linguistic.IWord
+	 * @see reprotool.model.traceability.ITraceLink
 	 * @generated
 	 */
-	public Adapter createWordAdapter() {
+	public Adapter createTraceLinkAdapter() {
 		return null;
 	}
 
@@ -139,4 +139,4 @@ public class LinguisticAdapterFactory extends AdapterFactoryImpl {
 		return null;
 	}
 
-} //LinguisticAdapterFactory
+} //TraceabilityAdapterFactory

@@ -26,13 +26,13 @@ public interface ILinguisticFactory extends EFactory {
 	ILinguisticFactory eINSTANCE = reprotool.model.linguistic.impl.LinguisticFactory.init();
 
 	/**
-	 * Returns a new object of class '<em>Sentence Fragment</em>'.
+	 * Returns a new object of class '<em>Sentence Node</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Sentence Fragment</em>'.
+	 * @return a new object of class '<em>Sentence Node</em>'.
 	 * @generated
 	 */
-	ISentenceFragment createSentenceFragment();
+	ISentenceNode createSentenceNode();
 
 	/**
 	 * Returns a new object of class '<em>Word</em>'.

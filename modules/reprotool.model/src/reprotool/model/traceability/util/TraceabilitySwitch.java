@@ -4,16 +4,14 @@
  *
  * $Id$
  */
-package reprotool.model.structure.doc.util;
+package reprotool.model.traceability.util;
 
 import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 
-import reprotool.model.structure.doc.*;
-
-import reprotool.model.traceability.ITraceableEntity;
+import reprotool.model.traceability.*;
 
 /**
  * <!-- begin-user-doc -->
@@ -25,17 +23,17 @@ import reprotool.model.traceability.ITraceableEntity;
  * until a non-null result is returned,
  * which is the result of the switch.
  * <!-- end-user-doc -->
- * @see reprotool.model.structure.doc.IDocPackage
+ * @see reprotool.model.traceability.ITraceabilityPackage
  * @generated
  */
-public class DocSwitch<T> {
+public class TraceabilitySwitch<T> {
 	/**
 	 * The cached model package
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected static IDocPackage modelPackage;
+	protected static ITraceabilityPackage modelPackage;
 
 	/**
 	 * Creates an instance of the switch.
@@ -43,9 +41,9 @@ public class DocSwitch<T> {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public DocSwitch() {
+	public TraceabilitySwitch() {
 		if (modelPackage == null) {
-			modelPackage = IDocPackage.eINSTANCE;
+			modelPackage = ITraceabilityPackage.eINSTANCE;
 		}
 	}
 
@@ -89,72 +87,20 @@ public class DocSwitch<T> {
 	 */
 	protected T doSwitch(int classifierID, EObject theEObject) {
 		switch (classifierID) {
-			case IDocPackage.DOCUMENT: {
-				IDocument document = (IDocument)theEObject;
-				T result = caseDocument(document);
+			case ITraceabilityPackage.TRACEABLE_ENTITY: {
+				ITraceableEntity traceableEntity = (ITraceableEntity)theEObject;
+				T result = caseTraceableEntity(traceableEntity);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case IDocPackage.SECTION: {
-				ISection section = (ISection)theEObject;
-				T result = caseSection(section);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case IDocPackage.PARAGRAPH: {
-				IParagraph paragraph = (IParagraph)theEObject;
-				T result = caseParagraph(paragraph);
-				if (result == null) result = caseTraceableEntity(paragraph);
+			case ITraceabilityPackage.TRACE_LINK: {
+				ITraceLink traceLink = (ITraceLink)theEObject;
+				T result = caseTraceLink(traceLink);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			default: return defaultCase(theEObject);
 		}
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Document</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Document</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseDocument(IDocument object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Section</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Section</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseSection(ISection object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Paragraph</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Paragraph</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseParagraph(IParagraph object) {
-		return null;
 	}
 
 	/**
@@ -173,6 +119,21 @@ public class DocSwitch<T> {
 	}
 
 	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Trace Link</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Trace Link</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseTraceLink(ITraceLink object) {
+		return null;
+	}
+
+	/**
 	 * Returns the result of interpreting the object as an instance of '<em>EObject</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
@@ -187,4 +148,4 @@ public class DocSwitch<T> {
 		return null;
 	}
 
-} //DocSwitch
+} //TraceabilitySwitch

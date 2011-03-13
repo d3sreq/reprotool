@@ -24,7 +24,7 @@ package reprotool.model.linguistic;
  * @model
  * @generated
  */
-public interface IWord extends ISentenceFragment {
+public interface IWord extends ISentenceNode {
 	/**
 	 * Returns the value of the '<em><b>Word Str</b></em>' attribute.
 	 * <!-- begin-user-doc -->

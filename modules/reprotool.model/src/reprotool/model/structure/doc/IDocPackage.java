@@ -10,6 +10,8 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
+import reprotool.model.traceability.ITraceabilityPackage;
+
 /**
  * <!-- begin-user-doc -->
  * The <b>Package</b> for the model.
@@ -131,7 +133,7 @@ public interface IDocPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PARAGRAPH_FEATURE_COUNT = 0;
+	int PARAGRAPH_FEATURE_COUNT = ITraceabilityPackage.TRACEABLE_ENTITY_FEATURE_COUNT + 0;
 
 
 	/**
