@@ -108,13 +108,22 @@ public interface ISpecificationPackage extends EPackage {
 	int SOFTWARE_PROJECT__DESCRIPTION = 3;
 
 	/**
+	 * The feature id for the '<em><b>Requirements</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SOFTWARE_PROJECT__REQUIREMENTS = 4;
+
+	/**
 	 * The number of structural features of the '<em>Software Project</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SOFTWARE_PROJECT_FEATURE_COUNT = 4;
+	int SOFTWARE_PROJECT_FEATURE_COUNT = 5;
 
 	/**
 	 * The meta object id for the '{@link reprotool.model.specification.impl.GenericRequirement <em>Generic Requirement</em>}' class.
@@ -321,6 +330,17 @@ public interface ISpecificationPackage extends EPackage {
 	EAttribute getSoftwareProject_Description();
 
 	/**
+	 * Returns the meta object for the containment reference '{@link reprotool.model.specification.ISoftwareProject#getRequirements <em>Requirements</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Requirements</em>'.
+	 * @see reprotool.model.specification.ISoftwareProject#getRequirements()
+	 * @see #getSoftwareProject()
+	 * @generated
+	 */
+	EReference getSoftwareProject_Requirements();
+
+	/**
 	 * Returns the meta object for class '{@link reprotool.model.specification.IUseCase <em>Use Case</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -499,6 +519,14 @@ public interface ISpecificationPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute SOFTWARE_PROJECT__DESCRIPTION = eINSTANCE.getSoftwareProject_Description();
+
+		/**
+		 * The meta object literal for the '<em><b>Requirements</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SOFTWARE_PROJECT__REQUIREMENTS = eINSTANCE.getSoftwareProject_Requirements();
 
 		/**
 		 * The meta object literal for the '{@link reprotool.model.specification.impl.UseCase <em>Use Case</em>}' class.

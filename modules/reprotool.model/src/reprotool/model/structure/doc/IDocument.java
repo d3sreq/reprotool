@@ -28,7 +28,7 @@ import org.eclipse.emf.ecore.EObject;
  */
 public interface IDocument extends EObject {
 	/**
-	 * Returns the value of the '<em><b>Sections</b></em>' reference list.
+	 * Returns the value of the '<em><b>Sections</b></em>' containment reference list.
 	 * The list contents are of type {@link reprotool.model.structure.doc.ISection}.
 	 * <!-- begin-user-doc -->
 	 * <p>
@@ -36,9 +36,9 @@ public interface IDocument extends EObject {
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Sections</em>' reference list.
+	 * @return the value of the '<em>Sections</em>' containment reference list.
 	 * @see reprotool.model.structure.doc.IDocPackage#getDocument_Sections()
-	 * @model
+	 * @model containment="true"
 	 * @generated
 	 */
 	EList<ISection> getSections();

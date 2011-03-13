@@ -71,7 +71,7 @@ public interface IDocPackage extends EPackage {
 	int DOCUMENT = 0;
 
 	/**
-	 * The feature id for the '<em><b>Sections</b></em>' reference list.
+	 * The feature id for the '<em><b>Sections</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -99,7 +99,7 @@ public interface IDocPackage extends EPackage {
 	int SECTION = 1;
 
 	/**
-	 * The feature id for the '<em><b>Paragraphs</b></em>' reference list.
+	 * The feature id for the '<em><b>Paragraphs</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -147,10 +147,10 @@ public interface IDocPackage extends EPackage {
 	EClass getDocument();
 
 	/**
-	 * Returns the meta object for the reference list '{@link reprotool.model.structure.doc.IDocument#getSections <em>Sections</em>}'.
+	 * Returns the meta object for the containment reference list '{@link reprotool.model.structure.doc.IDocument#getSections <em>Sections</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Sections</em>'.
+	 * @return the meta object for the containment reference list '<em>Sections</em>'.
 	 * @see reprotool.model.structure.doc.IDocument#getSections()
 	 * @see #getDocument()
 	 * @generated
@@ -168,10 +168,10 @@ public interface IDocPackage extends EPackage {
 	EClass getSection();
 
 	/**
-	 * Returns the meta object for the reference list '{@link reprotool.model.structure.doc.ISection#getParagraphs <em>Paragraphs</em>}'.
+	 * Returns the meta object for the containment reference list '{@link reprotool.model.structure.doc.ISection#getParagraphs <em>Paragraphs</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Paragraphs</em>'.
+	 * @return the meta object for the containment reference list '<em>Paragraphs</em>'.
 	 * @see reprotool.model.structure.doc.ISection#getParagraphs()
 	 * @see #getSection()
 	 * @generated
@@ -221,7 +221,7 @@ public interface IDocPackage extends EPackage {
 		EClass DOCUMENT = eINSTANCE.getDocument();
 
 		/**
-		 * The meta object literal for the '<em><b>Sections</b></em>' reference list feature.
+		 * The meta object literal for the '<em><b>Sections</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
@@ -239,7 +239,7 @@ public interface IDocPackage extends EPackage {
 		EClass SECTION = eINSTANCE.getSection();
 
 		/**
-		 * The meta object literal for the '<em><b>Paragraphs</b></em>' reference list feature.
+		 * The meta object literal for the '<em><b>Paragraphs</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated

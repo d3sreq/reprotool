@@ -22,6 +22,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link reprotool.model.specification.ISoftwareProject#getActors <em>Actors</em>}</li>
  *   <li>{@link reprotool.model.specification.ISoftwareProject#getName <em>Name</em>}</li>
  *   <li>{@link reprotool.model.specification.ISoftwareProject#getDescription <em>Description</em>}</li>
+ *   <li>{@link reprotool.model.specification.ISoftwareProject#getRequirements <em>Requirements</em>}</li>
  * </ul>
  * </p>
  *
@@ -113,5 +114,31 @@ public interface ISoftwareProject extends EObject {
 	 * @generated
 	 */
 	void setDescription(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Requirements</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Requirements</em>' containment reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Requirements</em>' containment reference.
+	 * @see #setRequirements(IGenericRequirement)
+	 * @see reprotool.model.specification.ISpecificationPackage#getSoftwareProject_Requirements()
+	 * @model containment="true"
+	 * @generated
+	 */
+	IGenericRequirement getRequirements();
+
+	/**
+	 * Sets the value of the '{@link reprotool.model.specification.ISoftwareProject#getRequirements <em>Requirements</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Requirements</em>' containment reference.
+	 * @see #getRequirements()
+	 * @generated
+	 */
+	void setRequirements(IGenericRequirement value);
 
 } // ISoftwareProject

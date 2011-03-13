@@ -219,6 +219,15 @@ public class SpecificationPackage extends EPackageImpl implements ISpecification
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getSoftwareProject_Requirements() {
+		return (EReference)softwareProjectEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getUseCase() {
 		return useCaseEClass;
 	}
@@ -346,6 +355,7 @@ public class SpecificationPackage extends EPackageImpl implements ISpecification
 		createEReference(softwareProjectEClass, SOFTWARE_PROJECT__ACTORS);
 		createEAttribute(softwareProjectEClass, SOFTWARE_PROJECT__NAME);
 		createEAttribute(softwareProjectEClass, SOFTWARE_PROJECT__DESCRIPTION);
+		createEReference(softwareProjectEClass, SOFTWARE_PROJECT__REQUIREMENTS);
 
 		useCaseEClass = createEClass(USE_CASE);
 		createEReference(useCaseEClass, USE_CASE__PRIMARY_ACTOR);
@@ -405,6 +415,7 @@ public class SpecificationPackage extends EPackageImpl implements ISpecification
 		initEReference(getSoftwareProject_Actors(), this.getActor(), null, "actors", null, 0, -1, ISoftwareProject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getSoftwareProject_Name(), ecorePackage.getEString(), "Name", null, 0, 1, ISoftwareProject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getSoftwareProject_Description(), ecorePackage.getEString(), "Description", null, 0, 1, ISoftwareProject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getSoftwareProject_Requirements(), this.getGenericRequirement(), null, "requirements", null, 0, 1, ISoftwareProject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(useCaseEClass, IUseCase.class, "UseCase", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getUseCase_PrimaryActor(), this.getActor(), null, "primaryActor", null, 1, 1, IUseCase.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

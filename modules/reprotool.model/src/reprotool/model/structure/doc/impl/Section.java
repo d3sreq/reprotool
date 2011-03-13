@@ -8,12 +8,16 @@ package reprotool.model.structure.doc.impl;
 
 import java.util.Collection;
 
+import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
 
+import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
+import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 
 import reprotool.model.structure.doc.IDocPackage;
@@ -35,7 +39,7 @@ import reprotool.model.structure.doc.ISection;
  */
 public class Section extends EObjectImpl implements ISection {
 	/**
-	 * The cached value of the '{@link #getParagraphs() <em>Paragraphs</em>}' reference list.
+	 * The cached value of the '{@link #getParagraphs() <em>Paragraphs</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getParagraphs()
@@ -70,9 +74,23 @@ public class Section extends EObjectImpl implements ISection {
 	 */
 	public EList<IParagraph> getParagraphs() {
 		if (paragraphs == null) {
-			paragraphs = new EObjectResolvingEList<IParagraph>(IParagraph.class, this, IDocPackage.SECTION__PARAGRAPHS);
+			paragraphs = new EObjectContainmentEList<IParagraph>(IParagraph.class, this, IDocPackage.SECTION__PARAGRAPHS);
 		}
 		return paragraphs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case IDocPackage.SECTION__PARAGRAPHS:
+				return ((InternalEList<?>)getParagraphs()).basicRemove(otherEnd, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**

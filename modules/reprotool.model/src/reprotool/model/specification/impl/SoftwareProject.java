@@ -23,6 +23,7 @@ import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 import reprotool.model.specification.IActor;
+import reprotool.model.specification.IGenericRequirement;
 import reprotool.model.specification.ISoftwareProject;
 import reprotool.model.specification.ISpecificationPackage;
 import reprotool.model.specification.IUseCase;
@@ -38,6 +39,7 @@ import reprotool.model.specification.IUseCase;
  *   <li>{@link reprotool.model.specification.impl.SoftwareProject#getActors <em>Actors</em>}</li>
  *   <li>{@link reprotool.model.specification.impl.SoftwareProject#getName <em>Name</em>}</li>
  *   <li>{@link reprotool.model.specification.impl.SoftwareProject#getDescription <em>Description</em>}</li>
+ *   <li>{@link reprotool.model.specification.impl.SoftwareProject#getRequirements <em>Requirements</em>}</li>
  * </ul>
  * </p>
  *
@@ -103,6 +105,16 @@ public class SoftwareProject extends EObjectImpl implements ISoftwareProject {
 	 * @ordered
 	 */
 	protected String description = DESCRIPTION_EDEFAULT;
+
+	/**
+	 * The cached value of the '{@link #getRequirements() <em>Requirements</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getRequirements()
+	 * @generated
+	 * @ordered
+	 */
+	protected IGenericRequirement requirements;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -194,6 +206,49 @@ public class SoftwareProject extends EObjectImpl implements ISoftwareProject {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public IGenericRequirement getRequirements() {
+		return requirements;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetRequirements(IGenericRequirement newRequirements, NotificationChain msgs) {
+		IGenericRequirement oldRequirements = requirements;
+		requirements = newRequirements;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ISpecificationPackage.SOFTWARE_PROJECT__REQUIREMENTS, oldRequirements, newRequirements);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setRequirements(IGenericRequirement newRequirements) {
+		if (newRequirements != requirements) {
+			NotificationChain msgs = null;
+			if (requirements != null)
+				msgs = ((InternalEObject)requirements).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ISpecificationPackage.SOFTWARE_PROJECT__REQUIREMENTS, null, msgs);
+			if (newRequirements != null)
+				msgs = ((InternalEObject)newRequirements).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ISpecificationPackage.SOFTWARE_PROJECT__REQUIREMENTS, null, msgs);
+			msgs = basicSetRequirements(newRequirements, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ISpecificationPackage.SOFTWARE_PROJECT__REQUIREMENTS, newRequirements, newRequirements));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -201,6 +256,8 @@ public class SoftwareProject extends EObjectImpl implements ISoftwareProject {
 				return ((InternalEList<?>)getUseCases()).basicRemove(otherEnd, msgs);
 			case ISpecificationPackage.SOFTWARE_PROJECT__ACTORS:
 				return ((InternalEList<?>)getActors()).basicRemove(otherEnd, msgs);
+			case ISpecificationPackage.SOFTWARE_PROJECT__REQUIREMENTS:
+				return basicSetRequirements(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -221,6 +278,8 @@ public class SoftwareProject extends EObjectImpl implements ISoftwareProject {
 				return getName();
 			case ISpecificationPackage.SOFTWARE_PROJECT__DESCRIPTION:
 				return getDescription();
+			case ISpecificationPackage.SOFTWARE_PROJECT__REQUIREMENTS:
+				return getRequirements();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -248,6 +307,9 @@ public class SoftwareProject extends EObjectImpl implements ISoftwareProject {
 			case ISpecificationPackage.SOFTWARE_PROJECT__DESCRIPTION:
 				setDescription((String)newValue);
 				return;
+			case ISpecificationPackage.SOFTWARE_PROJECT__REQUIREMENTS:
+				setRequirements((IGenericRequirement)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -272,6 +334,9 @@ public class SoftwareProject extends EObjectImpl implements ISoftwareProject {
 			case ISpecificationPackage.SOFTWARE_PROJECT__DESCRIPTION:
 				setDescription(DESCRIPTION_EDEFAULT);
 				return;
+			case ISpecificationPackage.SOFTWARE_PROJECT__REQUIREMENTS:
+				setRequirements((IGenericRequirement)null);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -292,6 +357,8 @@ public class SoftwareProject extends EObjectImpl implements ISoftwareProject {
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 			case ISpecificationPackage.SOFTWARE_PROJECT__DESCRIPTION:
 				return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
+			case ISpecificationPackage.SOFTWARE_PROJECT__REQUIREMENTS:
+				return requirements != null;
 		}
 		return super.eIsSet(featureID);
 	}

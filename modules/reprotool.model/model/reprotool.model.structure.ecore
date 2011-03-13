@@ -7,11 +7,11 @@
       nsPrefix="doc">
     <eClassifiers xsi:type="ecore:EClass" name="Document">
       <eStructuralFeatures xsi:type="ecore:EReference" name="sections" upperBound="-1"
-          eType="#//doc/Section"/>
+          eType="#//doc/Section" containment="true"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="Section">
       <eStructuralFeatures xsi:type="ecore:EReference" name="paragraphs" upperBound="-1"
-          eType="#//doc/Paragraph"/>
+          eType="#//doc/Paragraph" containment="true"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="Paragraph" eSuperTypes="reprotool.model.traceability.ecore#//TraceableEntity"/>
   </eSubpackages>

@@ -37,6 +37,7 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference reprotool.model.specification.ecore#//SoftwareProject/actors"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reprotool.model.specification.ecore#//SoftwareProject/Name"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reprotool.model.specification.ecore#//SoftwareProject/Description"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference reprotool.model.specification.ecore#//SoftwareProject/requirements"/>
     </genClasses>
     <genClasses ecoreClass="reprotool.model.specification.ecore#//UseCase">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference reprotool.model.specification.ecore#//UseCase/primaryActor"/>
