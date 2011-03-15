@@ -20,7 +20,7 @@ import reprotool.model.comp.*;
  * The <b>Adapter Factory</b> for the model.
  * It provides an adapter <code>createXXX</code> method for each class of the model.
  * <!-- end-user-doc -->
- * @see reprotool.model.comp.ICompPackage
+ * @see reprotool.model.comp.CompPackage
  * @generated
  */
 public class CompAdapterFactory extends AdapterFactoryImpl {
@@ -30,7 +30,7 @@ public class CompAdapterFactory extends AdapterFactoryImpl {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected static ICompPackage modelPackage;
+	protected static CompPackage modelPackage;
 
 	/**
 	 * Creates an instance of the adapter factory.
@@ -40,7 +40,7 @@ public class CompAdapterFactory extends AdapterFactoryImpl {
 	 */
 	public CompAdapterFactory() {
 		if (modelPackage == null) {
-			modelPackage = ICompPackage.eINSTANCE;
+			modelPackage = CompPackage.eINSTANCE;
 		}
 	}
 
@@ -72,15 +72,15 @@ public class CompAdapterFactory extends AdapterFactoryImpl {
 	protected CompSwitch<Adapter> modelSwitch =
 		new CompSwitch<Adapter>() {
 			@Override
-			public Adapter caseComponent(IComponent object) {
+			public Adapter caseComponent(Component object) {
 				return createComponentAdapter();
 			}
 			@Override
-			public Adapter caseCompInterface(ICompInterface object) {
+			public Adapter caseCompInterface(CompInterface object) {
 				return createCompInterfaceAdapter();
 			}
 			@Override
-			public Adapter caseCompInterfaceType(ICompInterfaceType object) {
+			public Adapter caseCompInterfaceType(CompInterfaceType object) {
 				return createCompInterfaceTypeAdapter();
 			}
 			@Override
@@ -104,13 +104,13 @@ public class CompAdapterFactory extends AdapterFactoryImpl {
 
 
 	/**
-	 * Creates a new adapter for an object of class '{@link reprotool.model.comp.IComponent <em>Component</em>}'.
+	 * Creates a new adapter for an object of class '{@link reprotool.model.comp.Component <em>Component</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see reprotool.model.comp.IComponent
+	 * @see reprotool.model.comp.Component
 	 * @generated
 	 */
 	public Adapter createComponentAdapter() {
@@ -118,13 +118,13 @@ public class CompAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link reprotool.model.comp.ICompInterface <em>Interface</em>}'.
+	 * Creates a new adapter for an object of class '{@link reprotool.model.comp.CompInterface <em>Interface</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see reprotool.model.comp.ICompInterface
+	 * @see reprotool.model.comp.CompInterface
 	 * @generated
 	 */
 	public Adapter createCompInterfaceAdapter() {
@@ -132,13 +132,13 @@ public class CompAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link reprotool.model.comp.ICompInterfaceType <em>Interface Type</em>}'.
+	 * Creates a new adapter for an object of class '{@link reprotool.model.comp.CompInterfaceType <em>Interface Type</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see reprotool.model.comp.ICompInterfaceType
+	 * @see reprotool.model.comp.CompInterfaceType
 	 * @generated
 	 */
 	public Adapter createCompInterfaceTypeAdapter() {

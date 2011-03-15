@@ -23,7 +23,7 @@ import reprotool.model.linguistic.*;
  * until a non-null result is returned,
  * which is the result of the switch.
  * <!-- end-user-doc -->
- * @see reprotool.model.linguistic.ILinguisticPackage
+ * @see reprotool.model.linguistic.LinguisticPackage
  * @generated
  */
 public class LinguisticSwitch<T> {
@@ -33,7 +33,7 @@ public class LinguisticSwitch<T> {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected static ILinguisticPackage modelPackage;
+	protected static LinguisticPackage modelPackage;
 
 	/**
 	 * Creates an instance of the switch.
@@ -43,7 +43,7 @@ public class LinguisticSwitch<T> {
 	 */
 	public LinguisticSwitch() {
 		if (modelPackage == null) {
-			modelPackage = ILinguisticPackage.eINSTANCE;
+			modelPackage = LinguisticPackage.eINSTANCE;
 		}
 	}
 
@@ -87,14 +87,14 @@ public class LinguisticSwitch<T> {
 	 */
 	protected T doSwitch(int classifierID, EObject theEObject) {
 		switch (classifierID) {
-			case ILinguisticPackage.SENTENCE_NODE: {
-				ISentenceNode sentenceNode = (ISentenceNode)theEObject;
+			case LinguisticPackage.SENTENCE_NODE: {
+				SentenceNode sentenceNode = (SentenceNode)theEObject;
 				T result = caseSentenceNode(sentenceNode);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case ILinguisticPackage.WORD: {
-				IWord word = (IWord)theEObject;
+			case LinguisticPackage.WORD: {
+				Word word = (Word)theEObject;
 				T result = caseWord(word);
 				if (result == null) result = caseSentenceNode(word);
 				if (result == null) result = defaultCase(theEObject);
@@ -115,7 +115,7 @@ public class LinguisticSwitch<T> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseSentenceNode(ISentenceNode object) {
+	public T caseSentenceNode(SentenceNode object) {
 		return null;
 	}
 
@@ -130,7 +130,7 @@ public class LinguisticSwitch<T> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseWord(IWord object) {
+	public T caseWord(Word object) {
 		return null;
 	}
 

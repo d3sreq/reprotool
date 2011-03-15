@@ -13,17 +13,16 @@ import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 
 import org.eclipse.emf.ecore.EObject;
 
-import reprotool.model.structure.ast.IAstPackage;
-import reprotool.model.structure.ast.IClass;
-import reprotool.model.structure.ast.ICodeElement;
-import reprotool.model.structure.ast.IMethod;
+import reprotool.model.structure.ast.AstPackage;
+import reprotool.model.structure.ast.CodeElement;
+import reprotool.model.structure.ast.Method;
 
 /**
  * <!-- begin-user-doc -->
  * The <b>Adapter Factory</b> for the model.
  * It provides an adapter <code>createXXX</code> method for each class of the model.
  * <!-- end-user-doc -->
- * @see reprotool.model.structure.ast.IAstPackage
+ * @see reprotool.model.structure.ast.AstPackage
  * @generated
  */
 public class AstAdapterFactory extends AdapterFactoryImpl {
@@ -33,7 +32,7 @@ public class AstAdapterFactory extends AdapterFactoryImpl {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected static IAstPackage modelPackage;
+	protected static AstPackage modelPackage;
 
 	/**
 	 * Creates an instance of the adapter factory.
@@ -43,7 +42,7 @@ public class AstAdapterFactory extends AdapterFactoryImpl {
 	 */
 	public AstAdapterFactory() {
 		if (modelPackage == null) {
-			modelPackage = IAstPackage.eINSTANCE;
+			modelPackage = AstPackage.eINSTANCE;
 		}
 	}
 
@@ -75,15 +74,15 @@ public class AstAdapterFactory extends AdapterFactoryImpl {
 	protected AstSwitch<Adapter> modelSwitch =
 		new AstSwitch<Adapter>() {
 			@Override
-			public Adapter caseMethod(IMethod object) {
+			public Adapter caseMethod(Method object) {
 				return createMethodAdapter();
 			}
 			@Override
-			public Adapter caseClass(IClass object) {
+			public Adapter caseClass(reprotool.model.structure.ast.Class object) {
 				return createClassAdapter();
 			}
 			@Override
-			public Adapter caseCodeElement(ICodeElement object) {
+			public Adapter caseCodeElement(CodeElement object) {
 				return createCodeElementAdapter();
 			}
 			@Override
@@ -107,13 +106,13 @@ public class AstAdapterFactory extends AdapterFactoryImpl {
 
 
 	/**
-	 * Creates a new adapter for an object of class '{@link reprotool.model.structure.ast.IMethod <em>Method</em>}'.
+	 * Creates a new adapter for an object of class '{@link reprotool.model.structure.ast.Method <em>Method</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see reprotool.model.structure.ast.IMethod
+	 * @see reprotool.model.structure.ast.Method
 	 * @generated
 	 */
 	public Adapter createMethodAdapter() {
@@ -121,13 +120,13 @@ public class AstAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link reprotool.model.structure.ast.IClass <em>Class</em>}'.
+	 * Creates a new adapter for an object of class '{@link reprotool.model.structure.ast.Class <em>Class</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see reprotool.model.structure.ast.IClass
+	 * @see reprotool.model.structure.ast.Class
 	 * @generated
 	 */
 	public Adapter createClassAdapter() {
@@ -135,13 +134,13 @@ public class AstAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link reprotool.model.structure.ast.ICodeElement <em>Code Element</em>}'.
+	 * Creates a new adapter for an object of class '{@link reprotool.model.structure.ast.CodeElement <em>Code Element</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see reprotool.model.structure.ast.ICodeElement
+	 * @see reprotool.model.structure.ast.CodeElement
 	 * @generated
 	 */
 	public Adapter createCodeElementAdapter() {

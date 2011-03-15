@@ -13,7 +13,7 @@ import org.eclipse.emf.ecore.EObject;
 
 import reprotool.model.structure.doc.*;
 
-import reprotool.model.traceability.ITraceableEntity;
+import reprotool.model.traceability.TraceableEntity;
 
 /**
  * <!-- begin-user-doc -->
@@ -25,7 +25,7 @@ import reprotool.model.traceability.ITraceableEntity;
  * until a non-null result is returned,
  * which is the result of the switch.
  * <!-- end-user-doc -->
- * @see reprotool.model.structure.doc.IDocPackage
+ * @see reprotool.model.structure.doc.DocPackage
  * @generated
  */
 public class DocSwitch<T> {
@@ -35,7 +35,7 @@ public class DocSwitch<T> {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected static IDocPackage modelPackage;
+	protected static DocPackage modelPackage;
 
 	/**
 	 * Creates an instance of the switch.
@@ -45,7 +45,7 @@ public class DocSwitch<T> {
 	 */
 	public DocSwitch() {
 		if (modelPackage == null) {
-			modelPackage = IDocPackage.eINSTANCE;
+			modelPackage = DocPackage.eINSTANCE;
 		}
 	}
 
@@ -89,20 +89,20 @@ public class DocSwitch<T> {
 	 */
 	protected T doSwitch(int classifierID, EObject theEObject) {
 		switch (classifierID) {
-			case IDocPackage.DOCUMENT: {
-				IDocument document = (IDocument)theEObject;
+			case DocPackage.DOCUMENT: {
+				Document document = (Document)theEObject;
 				T result = caseDocument(document);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case IDocPackage.SECTION: {
-				ISection section = (ISection)theEObject;
+			case DocPackage.SECTION: {
+				Section section = (Section)theEObject;
 				T result = caseSection(section);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case IDocPackage.PARAGRAPH: {
-				IParagraph paragraph = (IParagraph)theEObject;
+			case DocPackage.PARAGRAPH: {
+				Paragraph paragraph = (Paragraph)theEObject;
 				T result = caseParagraph(paragraph);
 				if (result == null) result = caseTraceableEntity(paragraph);
 				if (result == null) result = defaultCase(theEObject);
@@ -123,7 +123,7 @@ public class DocSwitch<T> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseDocument(IDocument object) {
+	public T caseDocument(Document object) {
 		return null;
 	}
 
@@ -138,7 +138,7 @@ public class DocSwitch<T> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseSection(ISection object) {
+	public T caseSection(Section object) {
 		return null;
 	}
 
@@ -153,7 +153,7 @@ public class DocSwitch<T> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseParagraph(IParagraph object) {
+	public T caseParagraph(Paragraph object) {
 		return null;
 	}
 
@@ -168,7 +168,7 @@ public class DocSwitch<T> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseTraceableEntity(ITraceableEntity object) {
+	public T caseTraceableEntity(TraceableEntity object) {
 		return null;
 	}
 

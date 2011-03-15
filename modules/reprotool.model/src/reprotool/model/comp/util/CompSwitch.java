@@ -23,7 +23,7 @@ import reprotool.model.comp.*;
  * until a non-null result is returned,
  * which is the result of the switch.
  * <!-- end-user-doc -->
- * @see reprotool.model.comp.ICompPackage
+ * @see reprotool.model.comp.CompPackage
  * @generated
  */
 public class CompSwitch<T> {
@@ -33,7 +33,7 @@ public class CompSwitch<T> {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected static ICompPackage modelPackage;
+	protected static CompPackage modelPackage;
 
 	/**
 	 * Creates an instance of the switch.
@@ -43,7 +43,7 @@ public class CompSwitch<T> {
 	 */
 	public CompSwitch() {
 		if (modelPackage == null) {
-			modelPackage = ICompPackage.eINSTANCE;
+			modelPackage = CompPackage.eINSTANCE;
 		}
 	}
 
@@ -87,20 +87,20 @@ public class CompSwitch<T> {
 	 */
 	protected T doSwitch(int classifierID, EObject theEObject) {
 		switch (classifierID) {
-			case ICompPackage.COMPONENT: {
-				IComponent component = (IComponent)theEObject;
+			case CompPackage.COMPONENT: {
+				Component component = (Component)theEObject;
 				T result = caseComponent(component);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case ICompPackage.COMP_INTERFACE: {
-				ICompInterface compInterface = (ICompInterface)theEObject;
+			case CompPackage.COMP_INTERFACE: {
+				CompInterface compInterface = (CompInterface)theEObject;
 				T result = caseCompInterface(compInterface);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case ICompPackage.COMP_INTERFACE_TYPE: {
-				ICompInterfaceType compInterfaceType = (ICompInterfaceType)theEObject;
+			case CompPackage.COMP_INTERFACE_TYPE: {
+				CompInterfaceType compInterfaceType = (CompInterfaceType)theEObject;
 				T result = caseCompInterfaceType(compInterfaceType);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -120,7 +120,7 @@ public class CompSwitch<T> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseComponent(IComponent object) {
+	public T caseComponent(Component object) {
 		return null;
 	}
 
@@ -135,7 +135,7 @@ public class CompSwitch<T> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseCompInterface(ICompInterface object) {
+	public T caseCompInterface(CompInterface object) {
 		return null;
 	}
 
@@ -150,7 +150,7 @@ public class CompSwitch<T> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseCompInterfaceType(ICompInterfaceType object) {
+	public T caseCompInterfaceType(CompInterfaceType object) {
 		return null;
 	}
 

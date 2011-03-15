@@ -13,7 +13,7 @@ import org.eclipse.emf.ecore.EObject;
 
 import reprotool.model.specification.*;
 
-import reprotool.model.traceability.ITraceableEntity;
+import reprotool.model.traceability.TraceableEntity;
 
 /**
  * <!-- begin-user-doc -->
@@ -25,7 +25,7 @@ import reprotool.model.traceability.ITraceableEntity;
  * until a non-null result is returned,
  * which is the result of the switch.
  * <!-- end-user-doc -->
- * @see reprotool.model.specification.ISpecificationPackage
+ * @see reprotool.model.specification.SpecificationPackage
  * @generated
  */
 public class SpecificationSwitch<T> {
@@ -35,7 +35,7 @@ public class SpecificationSwitch<T> {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected static ISpecificationPackage modelPackage;
+	protected static SpecificationPackage modelPackage;
 
 	/**
 	 * Creates an instance of the switch.
@@ -45,7 +45,7 @@ public class SpecificationSwitch<T> {
 	 */
 	public SpecificationSwitch() {
 		if (modelPackage == null) {
-			modelPackage = ISpecificationPackage.eINSTANCE;
+			modelPackage = SpecificationPackage.eINSTANCE;
 		}
 	}
 
@@ -89,41 +89,41 @@ public class SpecificationSwitch<T> {
 	 */
 	protected T doSwitch(int classifierID, EObject theEObject) {
 		switch (classifierID) {
-			case ISpecificationPackage.SOFTWARE_PROJECT: {
-				ISoftwareProject softwareProject = (ISoftwareProject)theEObject;
+			case SpecificationPackage.SOFTWARE_PROJECT: {
+				SoftwareProject softwareProject = (SoftwareProject)theEObject;
 				T result = caseSoftwareProject(softwareProject);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case ISpecificationPackage.USE_CASE: {
-				IUseCase useCase = (IUseCase)theEObject;
+			case SpecificationPackage.USE_CASE: {
+				UseCase useCase = (UseCase)theEObject;
 				T result = caseUseCase(useCase);
 				if (result == null) result = caseGenericRequirement(useCase);
 				if (result == null) result = caseTraceableEntity(useCase);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case ISpecificationPackage.ACTOR: {
-				IActor actor = (IActor)theEObject;
+			case SpecificationPackage.ACTOR: {
+				Actor actor = (Actor)theEObject;
 				T result = caseActor(actor);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case ISpecificationPackage.USE_CASE_STEP: {
-				IUseCaseStep useCaseStep = (IUseCaseStep)theEObject;
+			case SpecificationPackage.USE_CASE_STEP: {
+				UseCaseStep useCaseStep = (UseCaseStep)theEObject;
 				T result = caseUseCaseStep(useCaseStep);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case ISpecificationPackage.GENERIC_REQUIREMENT: {
-				IGenericRequirement genericRequirement = (IGenericRequirement)theEObject;
+			case SpecificationPackage.GENERIC_REQUIREMENT: {
+				GenericRequirement genericRequirement = (GenericRequirement)theEObject;
 				T result = caseGenericRequirement(genericRequirement);
 				if (result == null) result = caseTraceableEntity(genericRequirement);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case ISpecificationPackage.NON_FUNCTIONAL_REQUIREMENT: {
-				INonFunctionalRequirement nonFunctionalRequirement = (INonFunctionalRequirement)theEObject;
+			case SpecificationPackage.NON_FUNCTIONAL_REQUIREMENT: {
+				NonFunctionalRequirement nonFunctionalRequirement = (NonFunctionalRequirement)theEObject;
 				T result = caseNonFunctionalRequirement(nonFunctionalRequirement);
 				if (result == null) result = caseGenericRequirement(nonFunctionalRequirement);
 				if (result == null) result = caseTraceableEntity(nonFunctionalRequirement);
@@ -145,7 +145,7 @@ public class SpecificationSwitch<T> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseSoftwareProject(ISoftwareProject object) {
+	public T caseSoftwareProject(SoftwareProject object) {
 		return null;
 	}
 
@@ -160,7 +160,7 @@ public class SpecificationSwitch<T> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseUseCase(IUseCase object) {
+	public T caseUseCase(UseCase object) {
 		return null;
 	}
 
@@ -175,7 +175,7 @@ public class SpecificationSwitch<T> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseActor(IActor object) {
+	public T caseActor(Actor object) {
 		return null;
 	}
 
@@ -190,7 +190,7 @@ public class SpecificationSwitch<T> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseUseCaseStep(IUseCaseStep object) {
+	public T caseUseCaseStep(UseCaseStep object) {
 		return null;
 	}
 
@@ -205,7 +205,7 @@ public class SpecificationSwitch<T> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseGenericRequirement(IGenericRequirement object) {
+	public T caseGenericRequirement(GenericRequirement object) {
 		return null;
 	}
 
@@ -220,7 +220,7 @@ public class SpecificationSwitch<T> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseNonFunctionalRequirement(INonFunctionalRequirement object) {
+	public T caseNonFunctionalRequirement(NonFunctionalRequirement object) {
 		return null;
 	}
 
@@ -235,7 +235,7 @@ public class SpecificationSwitch<T> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseTraceableEntity(ITraceableEntity object) {
+	public T caseTraceableEntity(TraceableEntity object) {
 		return null;
 	}
 

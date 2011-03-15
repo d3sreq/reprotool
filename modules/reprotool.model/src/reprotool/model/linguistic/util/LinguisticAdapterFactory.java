@@ -20,7 +20,7 @@ import reprotool.model.linguistic.*;
  * The <b>Adapter Factory</b> for the model.
  * It provides an adapter <code>createXXX</code> method for each class of the model.
  * <!-- end-user-doc -->
- * @see reprotool.model.linguistic.ILinguisticPackage
+ * @see reprotool.model.linguistic.LinguisticPackage
  * @generated
  */
 public class LinguisticAdapterFactory extends AdapterFactoryImpl {
@@ -30,7 +30,7 @@ public class LinguisticAdapterFactory extends AdapterFactoryImpl {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected static ILinguisticPackage modelPackage;
+	protected static LinguisticPackage modelPackage;
 
 	/**
 	 * Creates an instance of the adapter factory.
@@ -40,7 +40,7 @@ public class LinguisticAdapterFactory extends AdapterFactoryImpl {
 	 */
 	public LinguisticAdapterFactory() {
 		if (modelPackage == null) {
-			modelPackage = ILinguisticPackage.eINSTANCE;
+			modelPackage = LinguisticPackage.eINSTANCE;
 		}
 	}
 
@@ -72,11 +72,11 @@ public class LinguisticAdapterFactory extends AdapterFactoryImpl {
 	protected LinguisticSwitch<Adapter> modelSwitch =
 		new LinguisticSwitch<Adapter>() {
 			@Override
-			public Adapter caseSentenceNode(ISentenceNode object) {
+			public Adapter caseSentenceNode(SentenceNode object) {
 				return createSentenceNodeAdapter();
 			}
 			@Override
-			public Adapter caseWord(IWord object) {
+			public Adapter caseWord(Word object) {
 				return createWordAdapter();
 			}
 			@Override
@@ -100,13 +100,13 @@ public class LinguisticAdapterFactory extends AdapterFactoryImpl {
 
 
 	/**
-	 * Creates a new adapter for an object of class '{@link reprotool.model.linguistic.ISentenceNode <em>Sentence Node</em>}'.
+	 * Creates a new adapter for an object of class '{@link reprotool.model.linguistic.SentenceNode <em>Sentence Node</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see reprotool.model.linguistic.ISentenceNode
+	 * @see reprotool.model.linguistic.SentenceNode
 	 * @generated
 	 */
 	public Adapter createSentenceNodeAdapter() {
@@ -114,13 +114,13 @@ public class LinguisticAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link reprotool.model.linguistic.IWord <em>Word</em>}'.
+	 * Creates a new adapter for an object of class '{@link reprotool.model.linguistic.Word <em>Word</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see reprotool.model.linguistic.IWord
+	 * @see reprotool.model.linguistic.Word
 	 * @generated
 	 */
 	public Adapter createWordAdapter() {

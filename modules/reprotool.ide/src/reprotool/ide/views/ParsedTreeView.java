@@ -12,6 +12,7 @@ import org.eclipse.zest.layouts.algorithms.TreeLayoutAlgorithm;
 import reprotool.ide.parsetree.NodeContentProvider;
 import reprotool.ide.parsetree.NodeLabelProvider;
 import reprotool.ide.parsetree.NodeModelContentProvider;
+import reprotool.ide.parsetree.TreeNode;
 
 public class ParsedTreeView extends ViewPart {
 
@@ -34,11 +35,11 @@ public class ParsedTreeView extends ViewPart {
 		TreeLayoutAlgorithm tla = 
 			new TreeLayoutAlgorithm(LayoutStyles.NO_LAYOUT_NODE_RESIZING);
 		
-		tla.setComparator(new Comparator() {
+		tla.setComparator(new Comparator<TreeNode>() {
 			
 			/* We just keep the original order */
 			@Override
-			public int compare (Object node1, Object node2) {
+			public int compare (TreeNode node1, TreeNode node2) {
 				return 0;
 			}
 			

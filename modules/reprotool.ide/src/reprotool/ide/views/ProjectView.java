@@ -50,10 +50,10 @@ import org.eclipse.wb.swt.layout.grouplayout.GroupLayout;
 import org.eclipse.wb.swt.layout.grouplayout.LayoutStyle;
 
 import reprotool.ide.service.Service;
-import reprotool.model.specification.IActor;
-import reprotool.model.specification.ISoftwareProject;
-import reprotool.model.specification.ISpecificationPackage.Literals;
-import reprotool.model.specification.IUseCase;
+import reprotool.model.specification.Actor;
+import reprotool.model.specification.SoftwareProject;
+import reprotool.model.specification.SpecificationPackage.Literals;
+import reprotool.model.specification.UseCase;
 
 public class ProjectView extends ViewPart {
 	private DataBindingContext m_bindingContext;
@@ -66,7 +66,7 @@ public class ProjectView extends ViewPart {
 	private TreeViewer treeViewerActors;
 
 	// TODO - test only
-	private ISoftwareProject project = service.getProject();
+	private SoftwareProject project = service.getSoftwareProject();
 	private ListViewer listViewer;
 
 	public ProjectView() {
@@ -138,7 +138,7 @@ public class ProjectView extends ViewPart {
 						TreeSelection treeSelection = (TreeSelection) event
 								.getSelection();
 						if (!treeSelection.isEmpty()) {
-							final IActor actor = (IActor) treeSelection
+							final Actor actor = (Actor) treeSelection
 									.getFirstElement();
 
 							ViewerFilter[] filters = new ViewerFilter[] { new ViewerFilter() {
@@ -146,7 +146,7 @@ public class ProjectView extends ViewPart {
 								@Override
 								public boolean select(Viewer viewer,
 										Object parentElement, Object element) {
-									IUseCase useCase = (IUseCase) element;
+									UseCase useCase = (UseCase) element;
 									return useCase.getPrimaryActor().equals(
 											actor);
 								}
@@ -222,7 +222,7 @@ public class ProjectView extends ViewPart {
 		listViewer.addDoubleClickListener(new IDoubleClickListener() {
 			public void doubleClick(DoubleClickEvent event) {
 				// TODO - jvinarek - create command to open given use case
-				IUseCase useCase = (IUseCase) ((StructuredSelection) event
+				UseCase useCase = (UseCase) ((StructuredSelection) event
 						.getSelection()).getFirstElement();
 				openEditor(useCase);
 			}
@@ -297,7 +297,7 @@ public class ProjectView extends ViewPart {
 				projectDescriptionObserveValue, null, null);
 		//
 		EMFBeansListObservableFactory treeObservableFactory = new EMFBeansListObservableFactory(
-				IActor.class, Literals.ACTOR__CHILDREN_ACTORS);
+				Actor.class, Literals.ACTOR__CHILDREN_ACTORS);
 		EMFTreeBeanAdvisor treeAdvisor = new EMFTreeBeanAdvisor(null,
 				Literals.ACTOR__CHILDREN_ACTORS, null);
 		ObservableListTreeContentProvider treeContentProvider = new ObservableListTreeContentProvider(
@@ -330,7 +330,7 @@ public class ProjectView extends ViewPart {
 	}
 
 	// TODO - move method to eclipse "command", open real file 
-	private void openEditor(IUseCase useCase) {
+	private void openEditor(UseCase useCase) {
 		try {
 			File fileToOpen = File.createTempFile("tmpUseCase", ".uc");
 			fileToOpen.deleteOnExit();

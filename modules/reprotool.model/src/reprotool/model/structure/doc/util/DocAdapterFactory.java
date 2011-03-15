@@ -15,14 +15,14 @@ import org.eclipse.emf.ecore.EObject;
 
 import reprotool.model.structure.doc.*;
 
-import reprotool.model.traceability.ITraceableEntity;
+import reprotool.model.traceability.TraceableEntity;
 
 /**
  * <!-- begin-user-doc -->
  * The <b>Adapter Factory</b> for the model.
  * It provides an adapter <code>createXXX</code> method for each class of the model.
  * <!-- end-user-doc -->
- * @see reprotool.model.structure.doc.IDocPackage
+ * @see reprotool.model.structure.doc.DocPackage
  * @generated
  */
 public class DocAdapterFactory extends AdapterFactoryImpl {
@@ -32,7 +32,7 @@ public class DocAdapterFactory extends AdapterFactoryImpl {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected static IDocPackage modelPackage;
+	protected static DocPackage modelPackage;
 
 	/**
 	 * Creates an instance of the adapter factory.
@@ -42,7 +42,7 @@ public class DocAdapterFactory extends AdapterFactoryImpl {
 	 */
 	public DocAdapterFactory() {
 		if (modelPackage == null) {
-			modelPackage = IDocPackage.eINSTANCE;
+			modelPackage = DocPackage.eINSTANCE;
 		}
 	}
 
@@ -74,19 +74,19 @@ public class DocAdapterFactory extends AdapterFactoryImpl {
 	protected DocSwitch<Adapter> modelSwitch =
 		new DocSwitch<Adapter>() {
 			@Override
-			public Adapter caseDocument(IDocument object) {
+			public Adapter caseDocument(Document object) {
 				return createDocumentAdapter();
 			}
 			@Override
-			public Adapter caseSection(ISection object) {
+			public Adapter caseSection(Section object) {
 				return createSectionAdapter();
 			}
 			@Override
-			public Adapter caseParagraph(IParagraph object) {
+			public Adapter caseParagraph(Paragraph object) {
 				return createParagraphAdapter();
 			}
 			@Override
-			public Adapter caseTraceableEntity(ITraceableEntity object) {
+			public Adapter caseTraceableEntity(TraceableEntity object) {
 				return createTraceableEntityAdapter();
 			}
 			@Override
@@ -110,13 +110,13 @@ public class DocAdapterFactory extends AdapterFactoryImpl {
 
 
 	/**
-	 * Creates a new adapter for an object of class '{@link reprotool.model.structure.doc.IDocument <em>Document</em>}'.
+	 * Creates a new adapter for an object of class '{@link reprotool.model.structure.doc.Document <em>Document</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see reprotool.model.structure.doc.IDocument
+	 * @see reprotool.model.structure.doc.Document
 	 * @generated
 	 */
 	public Adapter createDocumentAdapter() {
@@ -124,13 +124,13 @@ public class DocAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link reprotool.model.structure.doc.ISection <em>Section</em>}'.
+	 * Creates a new adapter for an object of class '{@link reprotool.model.structure.doc.Section <em>Section</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see reprotool.model.structure.doc.ISection
+	 * @see reprotool.model.structure.doc.Section
 	 * @generated
 	 */
 	public Adapter createSectionAdapter() {
@@ -138,13 +138,13 @@ public class DocAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link reprotool.model.structure.doc.IParagraph <em>Paragraph</em>}'.
+	 * Creates a new adapter for an object of class '{@link reprotool.model.structure.doc.Paragraph <em>Paragraph</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see reprotool.model.structure.doc.IParagraph
+	 * @see reprotool.model.structure.doc.Paragraph
 	 * @generated
 	 */
 	public Adapter createParagraphAdapter() {
@@ -152,13 +152,13 @@ public class DocAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link reprotool.model.traceability.ITraceableEntity <em>Traceable Entity</em>}'.
+	 * Creates a new adapter for an object of class '{@link reprotool.model.traceability.TraceableEntity <em>Traceable Entity</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see reprotool.model.traceability.ITraceableEntity
+	 * @see reprotool.model.traceability.TraceableEntity
 	 * @generated
 	 */
 	public Adapter createTraceableEntityAdapter() {

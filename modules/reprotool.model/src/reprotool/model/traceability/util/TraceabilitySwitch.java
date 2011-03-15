@@ -23,7 +23,7 @@ import reprotool.model.traceability.*;
  * until a non-null result is returned,
  * which is the result of the switch.
  * <!-- end-user-doc -->
- * @see reprotool.model.traceability.ITraceabilityPackage
+ * @see reprotool.model.traceability.TraceabilityPackage
  * @generated
  */
 public class TraceabilitySwitch<T> {
@@ -33,7 +33,7 @@ public class TraceabilitySwitch<T> {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected static ITraceabilityPackage modelPackage;
+	protected static TraceabilityPackage modelPackage;
 
 	/**
 	 * Creates an instance of the switch.
@@ -43,7 +43,7 @@ public class TraceabilitySwitch<T> {
 	 */
 	public TraceabilitySwitch() {
 		if (modelPackage == null) {
-			modelPackage = ITraceabilityPackage.eINSTANCE;
+			modelPackage = TraceabilityPackage.eINSTANCE;
 		}
 	}
 
@@ -87,14 +87,14 @@ public class TraceabilitySwitch<T> {
 	 */
 	protected T doSwitch(int classifierID, EObject theEObject) {
 		switch (classifierID) {
-			case ITraceabilityPackage.TRACEABLE_ENTITY: {
-				ITraceableEntity traceableEntity = (ITraceableEntity)theEObject;
+			case TraceabilityPackage.TRACEABLE_ENTITY: {
+				TraceableEntity traceableEntity = (TraceableEntity)theEObject;
 				T result = caseTraceableEntity(traceableEntity);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case ITraceabilityPackage.TRACE_LINK: {
-				ITraceLink traceLink = (ITraceLink)theEObject;
+			case TraceabilityPackage.TRACE_LINK: {
+				TraceLink traceLink = (TraceLink)theEObject;
 				T result = caseTraceLink(traceLink);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -114,7 +114,7 @@ public class TraceabilitySwitch<T> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseTraceableEntity(ITraceableEntity object) {
+	public T caseTraceableEntity(TraceableEntity object) {
 		return null;
 	}
 
@@ -129,7 +129,7 @@ public class TraceabilitySwitch<T> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseTraceLink(ITraceLink object) {
+	public T caseTraceLink(TraceLink object) {
 		return null;
 	}
 

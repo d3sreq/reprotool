@@ -20,7 +20,7 @@ import reprotool.model.traceability.*;
  * The <b>Adapter Factory</b> for the model.
  * It provides an adapter <code>createXXX</code> method for each class of the model.
  * <!-- end-user-doc -->
- * @see reprotool.model.traceability.ITraceabilityPackage
+ * @see reprotool.model.traceability.TraceabilityPackage
  * @generated
  */
 public class TraceabilityAdapterFactory extends AdapterFactoryImpl {
@@ -30,7 +30,7 @@ public class TraceabilityAdapterFactory extends AdapterFactoryImpl {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected static ITraceabilityPackage modelPackage;
+	protected static TraceabilityPackage modelPackage;
 
 	/**
 	 * Creates an instance of the adapter factory.
@@ -40,7 +40,7 @@ public class TraceabilityAdapterFactory extends AdapterFactoryImpl {
 	 */
 	public TraceabilityAdapterFactory() {
 		if (modelPackage == null) {
-			modelPackage = ITraceabilityPackage.eINSTANCE;
+			modelPackage = TraceabilityPackage.eINSTANCE;
 		}
 	}
 
@@ -72,11 +72,11 @@ public class TraceabilityAdapterFactory extends AdapterFactoryImpl {
 	protected TraceabilitySwitch<Adapter> modelSwitch =
 		new TraceabilitySwitch<Adapter>() {
 			@Override
-			public Adapter caseTraceableEntity(ITraceableEntity object) {
+			public Adapter caseTraceableEntity(TraceableEntity object) {
 				return createTraceableEntityAdapter();
 			}
 			@Override
-			public Adapter caseTraceLink(ITraceLink object) {
+			public Adapter caseTraceLink(TraceLink object) {
 				return createTraceLinkAdapter();
 			}
 			@Override
@@ -100,13 +100,13 @@ public class TraceabilityAdapterFactory extends AdapterFactoryImpl {
 
 
 	/**
-	 * Creates a new adapter for an object of class '{@link reprotool.model.traceability.ITraceableEntity <em>Traceable Entity</em>}'.
+	 * Creates a new adapter for an object of class '{@link reprotool.model.traceability.TraceableEntity <em>Traceable Entity</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see reprotool.model.traceability.ITraceableEntity
+	 * @see reprotool.model.traceability.TraceableEntity
 	 * @generated
 	 */
 	public Adapter createTraceableEntityAdapter() {
@@ -114,13 +114,13 @@ public class TraceabilityAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link reprotool.model.traceability.ITraceLink <em>Trace Link</em>}'.
+	 * Creates a new adapter for an object of class '{@link reprotool.model.traceability.TraceLink <em>Trace Link</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see reprotool.model.traceability.ITraceLink
+	 * @see reprotool.model.traceability.TraceLink
 	 * @generated
 	 */
 	public Adapter createTraceLinkAdapter() {

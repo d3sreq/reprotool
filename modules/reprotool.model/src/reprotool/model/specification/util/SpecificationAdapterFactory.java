@@ -15,14 +15,14 @@ import org.eclipse.emf.ecore.EObject;
 
 import reprotool.model.specification.*;
 
-import reprotool.model.traceability.ITraceableEntity;
+import reprotool.model.traceability.TraceableEntity;
 
 /**
  * <!-- begin-user-doc -->
  * The <b>Adapter Factory</b> for the model.
  * It provides an adapter <code>createXXX</code> method for each class of the model.
  * <!-- end-user-doc -->
- * @see reprotool.model.specification.ISpecificationPackage
+ * @see reprotool.model.specification.SpecificationPackage
  * @generated
  */
 public class SpecificationAdapterFactory extends AdapterFactoryImpl {
@@ -32,7 +32,7 @@ public class SpecificationAdapterFactory extends AdapterFactoryImpl {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected static ISpecificationPackage modelPackage;
+	protected static SpecificationPackage modelPackage;
 
 	/**
 	 * Creates an instance of the adapter factory.
@@ -42,7 +42,7 @@ public class SpecificationAdapterFactory extends AdapterFactoryImpl {
 	 */
 	public SpecificationAdapterFactory() {
 		if (modelPackage == null) {
-			modelPackage = ISpecificationPackage.eINSTANCE;
+			modelPackage = SpecificationPackage.eINSTANCE;
 		}
 	}
 
@@ -74,31 +74,31 @@ public class SpecificationAdapterFactory extends AdapterFactoryImpl {
 	protected SpecificationSwitch<Adapter> modelSwitch =
 		new SpecificationSwitch<Adapter>() {
 			@Override
-			public Adapter caseSoftwareProject(ISoftwareProject object) {
+			public Adapter caseSoftwareProject(SoftwareProject object) {
 				return createSoftwareProjectAdapter();
 			}
 			@Override
-			public Adapter caseUseCase(IUseCase object) {
+			public Adapter caseUseCase(UseCase object) {
 				return createUseCaseAdapter();
 			}
 			@Override
-			public Adapter caseActor(IActor object) {
+			public Adapter caseActor(Actor object) {
 				return createActorAdapter();
 			}
 			@Override
-			public Adapter caseUseCaseStep(IUseCaseStep object) {
+			public Adapter caseUseCaseStep(UseCaseStep object) {
 				return createUseCaseStepAdapter();
 			}
 			@Override
-			public Adapter caseGenericRequirement(IGenericRequirement object) {
+			public Adapter caseGenericRequirement(GenericRequirement object) {
 				return createGenericRequirementAdapter();
 			}
 			@Override
-			public Adapter caseNonFunctionalRequirement(INonFunctionalRequirement object) {
+			public Adapter caseNonFunctionalRequirement(NonFunctionalRequirement object) {
 				return createNonFunctionalRequirementAdapter();
 			}
 			@Override
-			public Adapter caseTraceableEntity(ITraceableEntity object) {
+			public Adapter caseTraceableEntity(TraceableEntity object) {
 				return createTraceableEntityAdapter();
 			}
 			@Override
@@ -122,13 +122,13 @@ public class SpecificationAdapterFactory extends AdapterFactoryImpl {
 
 
 	/**
-	 * Creates a new adapter for an object of class '{@link reprotool.model.specification.ISoftwareProject <em>Software Project</em>}'.
+	 * Creates a new adapter for an object of class '{@link reprotool.model.specification.SoftwareProject <em>Software Project</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see reprotool.model.specification.ISoftwareProject
+	 * @see reprotool.model.specification.SoftwareProject
 	 * @generated
 	 */
 	public Adapter createSoftwareProjectAdapter() {
@@ -136,13 +136,13 @@ public class SpecificationAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link reprotool.model.specification.IUseCase <em>Use Case</em>}'.
+	 * Creates a new adapter for an object of class '{@link reprotool.model.specification.UseCase <em>Use Case</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see reprotool.model.specification.IUseCase
+	 * @see reprotool.model.specification.UseCase
 	 * @generated
 	 */
 	public Adapter createUseCaseAdapter() {
@@ -150,13 +150,13 @@ public class SpecificationAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link reprotool.model.specification.IActor <em>Actor</em>}'.
+	 * Creates a new adapter for an object of class '{@link reprotool.model.specification.Actor <em>Actor</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see reprotool.model.specification.IActor
+	 * @see reprotool.model.specification.Actor
 	 * @generated
 	 */
 	public Adapter createActorAdapter() {
@@ -164,13 +164,13 @@ public class SpecificationAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link reprotool.model.specification.IUseCaseStep <em>Use Case Step</em>}'.
+	 * Creates a new adapter for an object of class '{@link reprotool.model.specification.UseCaseStep <em>Use Case Step</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see reprotool.model.specification.IUseCaseStep
+	 * @see reprotool.model.specification.UseCaseStep
 	 * @generated
 	 */
 	public Adapter createUseCaseStepAdapter() {
@@ -178,13 +178,13 @@ public class SpecificationAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link reprotool.model.specification.IGenericRequirement <em>Generic Requirement</em>}'.
+	 * Creates a new adapter for an object of class '{@link reprotool.model.specification.GenericRequirement <em>Generic Requirement</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see reprotool.model.specification.IGenericRequirement
+	 * @see reprotool.model.specification.GenericRequirement
 	 * @generated
 	 */
 	public Adapter createGenericRequirementAdapter() {
@@ -192,13 +192,13 @@ public class SpecificationAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link reprotool.model.specification.INonFunctionalRequirement <em>Non Functional Requirement</em>}'.
+	 * Creates a new adapter for an object of class '{@link reprotool.model.specification.NonFunctionalRequirement <em>Non Functional Requirement</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see reprotool.model.specification.INonFunctionalRequirement
+	 * @see reprotool.model.specification.NonFunctionalRequirement
 	 * @generated
 	 */
 	public Adapter createNonFunctionalRequirementAdapter() {
@@ -206,13 +206,13 @@ public class SpecificationAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link reprotool.model.traceability.ITraceableEntity <em>Traceable Entity</em>}'.
+	 * Creates a new adapter for an object of class '{@link reprotool.model.traceability.TraceableEntity <em>Traceable Entity</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see reprotool.model.traceability.ITraceableEntity
+	 * @see reprotool.model.traceability.TraceableEntity
 	 * @generated
 	 */
 	public Adapter createTraceableEntityAdapter() {
