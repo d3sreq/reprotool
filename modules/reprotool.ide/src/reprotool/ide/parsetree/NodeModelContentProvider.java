@@ -3,47 +3,79 @@ package reprotool.ide.parsetree;
 import java.util.ArrayList;
 import java.util.List;
 
+import reprotool.model.linguistic.EWordType;
+import reprotool.model.linguistic.LinguisticFactory;
+import reprotool.model.linguistic.SentenceNode;
+import reprotool.model.linguistic.Word;
+import reprotool.model.linguistic.impl.LinguisticFactoryImpl;
+
 public class NodeModelContentProvider {
-	private List<TreeNode> nodes;
+	private SentenceNode sentence;
 	
 	public NodeModelContentProvider() {
-		nodes = new ArrayList<TreeNode>();
+		LinguisticFactory factory = LinguisticFactoryImpl.init();
 		
-		TreeNode child1 = new TreeNode("Seller", null);
-		nodes.add(child1);
-		TreeNode child2 = new TreeNode("submits", null);
-		nodes.add(child2);
-		TreeNode child3 = new TreeNode("item", null);
-		nodes.add(child3);
-		TreeNode child4 = new TreeNode("description", null);
-		nodes.add(child4);
+		sentence = factory.createSentenceNode();
+		sentence.setType("sentence");
 		
-		List<TreeNode> children1 = new ArrayList<TreeNode>();
-		children1.add(child1);
-		TreeNode phrase1 = new TreeNode("Noun phrase", children1);
-		nodes.add(phrase1);
+		SentenceNode verbPhrase = factory.createSentenceNode();
+		verbPhrase.setType("verb phrase");
 		
-		List<TreeNode> children2 = new ArrayList<TreeNode>();
-		children2.add(child3);
-		children2.add(child4);
-		TreeNode phrase2 = new TreeNode("Noun phrase", children2);
-		nodes.add(phrase2);
+		SentenceNode nounPhrase = factory.createSentenceNode();
+		nounPhrase.setType("noun phrase");
 		
-		List<TreeNode> children3 = new ArrayList<TreeNode>();
-		children3.add(child2);
-		children3.add(phrase2);
-		TreeNode phrase3 = new TreeNode("Verb phrase", children3);
-		nodes.add(phrase3);
+		sentence.getChildFragments().add(nounPhrase);
+		sentence.getChildFragments().add(verbPhrase);
 		
-		List<TreeNode> children4 = new ArrayList<TreeNode>();
-		children4.add(phrase1);
-		children4.add(phrase3);
-		TreeNode sentence = new TreeNode("Sentence", children4);
-		nodes.add(sentence);
+		Word seller = factory.createWord();
+		seller.setWordStr("Seller");
+		seller.setType("Subject");
+		seller.setWordType(EWordType.SUBJECT);
+		
+		Word submits = factory.createWord();
+		submits.setWordStr("submits");
+		submits.setType("verb");
+		submits.setWordType(EWordType.VERB);
+		
+		nounPhrase.getChildFragments().add(seller);
+		verbPhrase.getChildFragments().add(submits);
+		
+		SentenceNode nounPhrase2 = factory.createSentenceNode();
+		nounPhrase2.setType("noun phrase");
+		
+		verbPhrase.getChildFragments().add(nounPhrase2);
+
+		Word item = factory.createWord();
+		item.setWordStr("item");
+		item.setType("Representative o.");
+		item.setWordType(EWordType.REPRESENTATIVE_OBJECT);
+		
+		Word desc = factory.createWord();
+		desc.setWordStr("description");
+		desc.setType("Representative o.");
+		desc.setWordType(EWordType.REPRESENTATIVE_OBJECT);
+		
+		nounPhrase2.getChildFragments().add(item);
+		nounPhrase2.getChildFragments().add(desc);
 	}
 	
-	public List<TreeNode> getNodes(){
-		return nodes;
+	public List<SentenceNode> getNodes() {
+		List<SentenceNode> list = new ArrayList<SentenceNode>();
+		return buildNodesList(sentence, list);
+	}
+	
+	public SentenceNode getRootNode() {
+		return sentence;
+	}
+	
+	private List<SentenceNode> buildNodesList(SentenceNode node, List<SentenceNode> list) {
+		list.add(node);
+		
+		for (SentenceNode i: node.getChildFragments()) {
+			buildNodesList(i, list);
+		}
+		
+		return list;
 	}
 
 }
