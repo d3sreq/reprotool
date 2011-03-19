@@ -72,7 +72,7 @@ public interface SpecificationPackage extends EPackage {
 	int SOFTWARE_PROJECT = 0;
 
 	/**
-	 * The feature id for the '<em><b>Use Cases</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Use Cases</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -81,7 +81,7 @@ public interface SpecificationPackage extends EPackage {
 	int SOFTWARE_PROJECT__USE_CASES = 0;
 
 	/**
-	 * The feature id for the '<em><b>Actors</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Actors</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -108,7 +108,7 @@ public interface SpecificationPackage extends EPackage {
 	int SOFTWARE_PROJECT__DESCRIPTION = 3;
 
 	/**
-	 * The feature id for the '<em><b>Requirements</b></em>' containment reference.
+	 * The feature id for the '<em><b>Requirements</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -286,10 +286,10 @@ public interface SpecificationPackage extends EPackage {
 	EClass getSoftwareProject();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link reprotool.model.specification.SoftwareProject#getUseCases <em>Use Cases</em>}'.
+	 * Returns the meta object for the reference list '{@link reprotool.model.specification.SoftwareProject#getUseCases <em>Use Cases</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Use Cases</em>'.
+	 * @return the meta object for the reference list '<em>Use Cases</em>'.
 	 * @see reprotool.model.specification.SoftwareProject#getUseCases()
 	 * @see #getSoftwareProject()
 	 * @generated
@@ -297,10 +297,10 @@ public interface SpecificationPackage extends EPackage {
 	EReference getSoftwareProject_UseCases();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link reprotool.model.specification.SoftwareProject#getActors <em>Actors</em>}'.
+	 * Returns the meta object for the reference list '{@link reprotool.model.specification.SoftwareProject#getActors <em>Actors</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Actors</em>'.
+	 * @return the meta object for the reference list '<em>Actors</em>'.
 	 * @see reprotool.model.specification.SoftwareProject#getActors()
 	 * @see #getSoftwareProject()
 	 * @generated
@@ -330,10 +330,10 @@ public interface SpecificationPackage extends EPackage {
 	EAttribute getSoftwareProject_Description();
 
 	/**
-	 * Returns the meta object for the containment reference '{@link reprotool.model.specification.SoftwareProject#getRequirements <em>Requirements</em>}'.
+	 * Returns the meta object for the reference '{@link reprotool.model.specification.SoftwareProject#getRequirements <em>Requirements</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Requirements</em>'.
+	 * @return the meta object for the reference '<em>Requirements</em>'.
 	 * @see reprotool.model.specification.SoftwareProject#getRequirements()
 	 * @see #getSoftwareProject()
 	 * @generated
@@ -489,7 +489,7 @@ public interface SpecificationPackage extends EPackage {
 		EClass SOFTWARE_PROJECT = eINSTANCE.getSoftwareProject();
 
 		/**
-		 * The meta object literal for the '<em><b>Use Cases</b></em>' containment reference list feature.
+		 * The meta object literal for the '<em><b>Use Cases</b></em>' reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
@@ -497,7 +497,7 @@ public interface SpecificationPackage extends EPackage {
 		EReference SOFTWARE_PROJECT__USE_CASES = eINSTANCE.getSoftwareProject_UseCases();
 
 		/**
-		 * The meta object literal for the '<em><b>Actors</b></em>' containment reference list feature.
+		 * The meta object literal for the '<em><b>Actors</b></em>' reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
@@ -521,7 +521,7 @@ public interface SpecificationPackage extends EPackage {
 		EAttribute SOFTWARE_PROJECT__DESCRIPTION = eINSTANCE.getSoftwareProject_Description();
 
 		/**
-		 * The meta object literal for the '<em><b>Requirements</b></em>' containment reference feature.
+		 * The meta object literal for the '<em><b>Requirements</b></em>' reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated

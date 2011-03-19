@@ -11,13 +11,15 @@ public class ReprotoolIdePerspectiveFactory implements IPerspectiveFactory {
 
 	public void createInitialLayout(IPageLayout myLayout) {
 		{
-			IFolderLayout mainLayout = myLayout.createFolder("folder", IPageLayout.RIGHT, 0.37f, "cz.cuni.mff.reprotool.ide.view_parsed_tree");
-			mainLayout.addView("cz.cuni.mff.reprotool.ide.usecase_step_view");
+			IFolderLayout folderLayout = myLayout.createFolder("folder", IPageLayout.BOTTOM, 0.66f, IPageLayout.ID_EDITOR_AREA);
+			folderLayout.addView("cz.cuni.mff.reprotool.ide.view_parsed_tree");
+			folderLayout.addView("cz.cuni.mff.reprotool.ide.views.view_linguistic_tools");
 		}
 		{
-			IFolderLayout folderLayout = myLayout.createFolder("folder", IPageLayout.BOTTOM, 0.72f, "cz.cuni.mff.reprotool.ide.view_parsed_tree");
-			folderLayout.addView("cz.cuni.mff.reprotool.ide.views.view_linguistic_tools");
-			folderLayout.addView("org.eclipse.ui.console.ConsoleView");
+			IFolderLayout folderLayout = myLayout.createFolder("folder_1", IPageLayout.RIGHT, 0.66f, IPageLayout.ID_EDITOR_AREA);
+			folderLayout.addView("cz.cuni.mff.reprotool.ide.uc_step_view");
+			folderLayout.addView("cz.cuni.mff.reprotool.ide.view_project");
+			folderLayout.addView("cz.cuni.mff.reprotool.ide.uc_step_view");
 		}
 	}
 

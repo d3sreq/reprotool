@@ -32,7 +32,7 @@ import org.eclipse.emf.ecore.EObject;
  */
 public interface SoftwareProject extends EObject {
 	/**
-	 * Returns the value of the '<em><b>Use Cases</b></em>' containment reference list.
+	 * Returns the value of the '<em><b>Use Cases</b></em>' reference list.
 	 * The list contents are of type {@link reprotool.model.specification.UseCase}.
 	 * <!-- begin-user-doc -->
 	 * <p>
@@ -40,15 +40,15 @@ public interface SoftwareProject extends EObject {
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Use Cases</em>' containment reference list.
+	 * @return the value of the '<em>Use Cases</em>' reference list.
 	 * @see reprotool.model.specification.SpecificationPackage#getSoftwareProject_UseCases()
-	 * @model containment="true"
+	 * @model
 	 * @generated
 	 */
 	EList<UseCase> getUseCases();
 
 	/**
-	 * Returns the value of the '<em><b>Actors</b></em>' containment reference list.
+	 * Returns the value of the '<em><b>Actors</b></em>' reference list.
 	 * The list contents are of type {@link reprotool.model.specification.Actor}.
 	 * <!-- begin-user-doc -->
 	 * <p>
@@ -56,9 +56,9 @@ public interface SoftwareProject extends EObject {
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Actors</em>' containment reference list.
+	 * @return the value of the '<em>Actors</em>' reference list.
 	 * @see reprotool.model.specification.SpecificationPackage#getSoftwareProject_Actors()
-	 * @model containment="true"
+	 * @model
 	 * @generated
 	 */
 	EList<Actor> getActors();
@@ -116,26 +116,26 @@ public interface SoftwareProject extends EObject {
 	void setDescription(String value);
 
 	/**
-	 * Returns the value of the '<em><b>Requirements</b></em>' containment reference.
+	 * Returns the value of the '<em><b>Requirements</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Requirements</em>' containment reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Requirements</em>' containment reference.
+	 * @return the value of the '<em>Requirements</em>' reference.
 	 * @see #setRequirements(GenericRequirement)
 	 * @see reprotool.model.specification.SpecificationPackage#getSoftwareProject_Requirements()
-	 * @model containment="true"
+	 * @model
 	 * @generated
 	 */
 	GenericRequirement getRequirements();
 
 	/**
-	 * Sets the value of the '{@link reprotool.model.specification.SoftwareProject#getRequirements <em>Requirements</em>}' containment reference.
+	 * Sets the value of the '{@link reprotool.model.specification.SoftwareProject#getRequirements <em>Requirements</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Requirements</em>' containment reference.
+	 * @param value the new value of the '<em>Requirements</em>' reference.
 	 * @see #getRequirements()
 	 * @generated
 	 */

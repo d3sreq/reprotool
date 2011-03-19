@@ -40,9 +40,9 @@
          point="org.eclipse.ui.perspectives">
       <perspective
             class="reprotool.ide.ReprotoolIdePerspectiveFactory"
-            icon="src/reprotool/ide/reprotool-web-logo.png"
+            icon="src/reprotool/ide/reprotool-web-logo-16x16.png"
             id="cz.cuni.mff.reprotool.ide.perspective_reprotool_ide"
-            name="REPROTOOL">
+            name="Reprotool">
       </perspective>
    </extension>
    <extension

@@ -5,13 +5,12 @@
     nsURI="http://d3s.mff.cuni.cz/reprotool/model/specification" nsPrefix="specification">
   <eClassifiers xsi:type="ecore:EClass" name="SoftwareProject">
     <eStructuralFeatures xsi:type="ecore:EReference" name="useCases" upperBound="-1"
-        eType="#//UseCase" containment="true"/>
+        eType="#//UseCase"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="actors" upperBound="-1"
-        eType="#//Actor" containment="true"/>
+        eType="#//Actor"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="Name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="Description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="requirements" eType="#//GenericRequirement"
-        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="requirements" eType="#//GenericRequirement"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="UseCase" eSuperTypes="#//GenericRequirement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="primaryActor" lowerBound="1"

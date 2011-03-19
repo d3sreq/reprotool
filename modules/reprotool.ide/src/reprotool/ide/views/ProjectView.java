@@ -286,49 +286,6 @@ public class ProjectView extends ViewPart {
 		return treeViewerActors;
 	}
 
-	protected DataBindingContext initDataBindings() {
-		DataBindingContext bindingContext = new DataBindingContext();
-		//
-		IObservableValue textObserveTextObserveWidget = SWTObservables
-				.observeText(textDescription, SWT.Modify);
-		IObservableValue projectDescriptionObserveValue = EMFObservables
-				.observeValue(project, Literals.SOFTWARE_PROJECT__DESCRIPTION);
-		bindingContext.bindValue(textObserveTextObserveWidget,
-				projectDescriptionObserveValue, null, null);
-		//
-		EMFBeansListObservableFactory treeObservableFactory = new EMFBeansListObservableFactory(
-				Actor.class, Literals.ACTOR__CHILDREN_ACTORS);
-		EMFTreeBeanAdvisor treeAdvisor = new EMFTreeBeanAdvisor(null,
-				Literals.ACTOR__CHILDREN_ACTORS, null);
-		ObservableListTreeContentProvider treeContentProvider = new ObservableListTreeContentProvider(
-				treeObservableFactory, treeAdvisor);
-		treeViewerActors.setContentProvider(treeContentProvider);
-		//
-		treeViewerActors.setLabelProvider(new EMFTreeObservableLabelProvider(
-				treeContentProvider.getKnownElements(), Literals.ACTOR__NAME,
-				null));
-		//
-		IObservableList projectActorsObserveList = EMFObservables.observeList(
-				Realm.getDefault(), project, Literals.SOFTWARE_PROJECT__ACTORS);
-		treeViewerActors.setInput(projectActorsObserveList);
-		//
-		ObservableListContentProvider listContentProvider = new ObservableListContentProvider();
-		listViewer.setContentProvider(listContentProvider);
-		//
-		IObservableMap[] observeMaps = EMFObservables.observeMaps(
-				listContentProvider.getKnownElements(),
-				new EStructuralFeature[] { Literals.USE_CASE__NAME });
-		listViewer
-				.setLabelProvider(new ObservableMapLabelProvider(observeMaps));
-		//
-		IObservableList projectUseCasesObserveList = EMFObservables
-				.observeList(Realm.getDefault(), project,
-						Literals.SOFTWARE_PROJECT__USE_CASES);
-		listViewer.setInput(projectUseCasesObserveList);
-		//
-		return bindingContext;
-	}
-
 	// TODO - move method to eclipse "command", open real file 
 	private void openEditor(UseCase useCase) {
 		try {
@@ -355,5 +312,33 @@ public class ProjectView extends ViewPart {
 			e1.printStackTrace();
 		}
 
+	}
+	protected DataBindingContext initDataBindings() {
+		DataBindingContext bindingContext = new DataBindingContext();
+		//
+		IObservableValue textDescriptionObserveTextObserveWidget = SWTObservables.observeText(textDescription, SWT.Modify);
+		IObservableValue projectDescriptionObserveValue = EMFObservables.observeValue(project, Literals.SOFTWARE_PROJECT__DESCRIPTION);
+		bindingContext.bindValue(textDescriptionObserveTextObserveWidget, projectDescriptionObserveValue, null, null);
+		//
+		EMFBeansListObservableFactory treeObservableFactory = new EMFBeansListObservableFactory(Actor.class, Literals.ACTOR__CHILDREN_ACTORS);
+		EMFTreeBeanAdvisor treeAdvisor = new EMFTreeBeanAdvisor(null, Literals.ACTOR__CHILDREN_ACTORS, null);
+		ObservableListTreeContentProvider treeContentProvider = new ObservableListTreeContentProvider(treeObservableFactory, treeAdvisor);
+		treeViewerActors.setContentProvider(treeContentProvider);
+		//
+		treeViewerActors.setLabelProvider(new EMFTreeObservableLabelProvider(treeContentProvider.getKnownElements(), Literals.ACTOR__NAME, null));
+		//
+		IObservableList projectActorsObserveList = EMFObservables.observeList(Realm.getDefault(), project, Literals.SOFTWARE_PROJECT__ACTORS);
+		treeViewerActors.setInput(projectActorsObserveList);
+		//
+		ObservableListContentProvider listContentProvider = new ObservableListContentProvider();
+		listViewer.setContentProvider(listContentProvider);
+		//
+		IObservableMap[] observeMaps = EMFObservables.observeMaps(listContentProvider.getKnownElements(), new EStructuralFeature[]{Literals.USE_CASE__NAME});
+		listViewer.setLabelProvider(new ObservableMapLabelProvider(observeMaps));
+		//
+		IObservableList projectUseCasesObserveList = EMFObservables.observeList(Realm.getDefault(), project, Literals.SOFTWARE_PROJECT__USE_CASES);
+		listViewer.setInput(projectUseCasesObserveList);
+		//
+		return bindingContext;
 	}
 }

@@ -20,6 +20,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 import reprotool.model.specification.Actor;
@@ -47,7 +48,7 @@ import reprotool.model.specification.UseCase;
  */
 public class SoftwareProjectImpl extends EObjectImpl implements SoftwareProject {
 	/**
-	 * The cached value of the '{@link #getUseCases() <em>Use Cases</em>}' containment reference list.
+	 * The cached value of the '{@link #getUseCases() <em>Use Cases</em>}' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getUseCases()
@@ -57,7 +58,7 @@ public class SoftwareProjectImpl extends EObjectImpl implements SoftwareProject 
 	protected EList<UseCase> useCases;
 
 	/**
-	 * The cached value of the '{@link #getActors() <em>Actors</em>}' containment reference list.
+	 * The cached value of the '{@link #getActors() <em>Actors</em>}' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getActors()
@@ -107,7 +108,7 @@ public class SoftwareProjectImpl extends EObjectImpl implements SoftwareProject 
 	protected String description = DESCRIPTION_EDEFAULT;
 
 	/**
-	 * The cached value of the '{@link #getRequirements() <em>Requirements</em>}' containment reference.
+	 * The cached value of the '{@link #getRequirements() <em>Requirements</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getRequirements()
@@ -142,7 +143,7 @@ public class SoftwareProjectImpl extends EObjectImpl implements SoftwareProject 
 	 */
 	public EList<UseCase> getUseCases() {
 		if (useCases == null) {
-			useCases = new EObjectContainmentEList<UseCase>(UseCase.class, this, SpecificationPackage.SOFTWARE_PROJECT__USE_CASES);
+			useCases = new EObjectResolvingEList<UseCase>(UseCase.class, this, SpecificationPackage.SOFTWARE_PROJECT__USE_CASES);
 		}
 		return useCases;
 	}
@@ -154,7 +155,7 @@ public class SoftwareProjectImpl extends EObjectImpl implements SoftwareProject 
 	 */
 	public EList<Actor> getActors() {
 		if (actors == null) {
-			actors = new EObjectContainmentEList<Actor>(Actor.class, this, SpecificationPackage.SOFTWARE_PROJECT__ACTORS);
+			actors = new EObjectResolvingEList<Actor>(Actor.class, this, SpecificationPackage.SOFTWARE_PROJECT__ACTORS);
 		}
 		return actors;
 	}
@@ -207,6 +208,14 @@ public class SoftwareProjectImpl extends EObjectImpl implements SoftwareProject 
 	 * @generated
 	 */
 	public GenericRequirement getRequirements() {
+		if (requirements != null && requirements.eIsProxy()) {
+			InternalEObject oldRequirements = (InternalEObject)requirements;
+			requirements = (GenericRequirement)eResolveProxy(oldRequirements);
+			if (requirements != oldRequirements) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, SpecificationPackage.SOFTWARE_PROJECT__REQUIREMENTS, oldRequirements, requirements));
+			}
+		}
 		return requirements;
 	}
 
@@ -215,14 +224,8 @@ public class SoftwareProjectImpl extends EObjectImpl implements SoftwareProject 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetRequirements(GenericRequirement newRequirements, NotificationChain msgs) {
-		GenericRequirement oldRequirements = requirements;
-		requirements = newRequirements;
-		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SpecificationPackage.SOFTWARE_PROJECT__REQUIREMENTS, oldRequirements, newRequirements);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
-		}
-		return msgs;
+	public GenericRequirement basicGetRequirements() {
+		return requirements;
 	}
 
 	/**
@@ -231,35 +234,10 @@ public class SoftwareProjectImpl extends EObjectImpl implements SoftwareProject 
 	 * @generated
 	 */
 	public void setRequirements(GenericRequirement newRequirements) {
-		if (newRequirements != requirements) {
-			NotificationChain msgs = null;
-			if (requirements != null)
-				msgs = ((InternalEObject)requirements).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - SpecificationPackage.SOFTWARE_PROJECT__REQUIREMENTS, null, msgs);
-			if (newRequirements != null)
-				msgs = ((InternalEObject)newRequirements).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - SpecificationPackage.SOFTWARE_PROJECT__REQUIREMENTS, null, msgs);
-			msgs = basicSetRequirements(newRequirements, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SpecificationPackage.SOFTWARE_PROJECT__REQUIREMENTS, newRequirements, newRequirements));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case SpecificationPackage.SOFTWARE_PROJECT__USE_CASES:
-				return ((InternalEList<?>)getUseCases()).basicRemove(otherEnd, msgs);
-			case SpecificationPackage.SOFTWARE_PROJECT__ACTORS:
-				return ((InternalEList<?>)getActors()).basicRemove(otherEnd, msgs);
-			case SpecificationPackage.SOFTWARE_PROJECT__REQUIREMENTS:
-				return basicSetRequirements(null, msgs);
-		}
-		return super.eInverseRemove(otherEnd, featureID, msgs);
+		GenericRequirement oldRequirements = requirements;
+		requirements = newRequirements;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, SpecificationPackage.SOFTWARE_PROJECT__REQUIREMENTS, oldRequirements, requirements));
 	}
 
 	/**
@@ -279,7 +257,8 @@ public class SoftwareProjectImpl extends EObjectImpl implements SoftwareProject 
 			case SpecificationPackage.SOFTWARE_PROJECT__DESCRIPTION:
 				return getDescription();
 			case SpecificationPackage.SOFTWARE_PROJECT__REQUIREMENTS:
-				return getRequirements();
+				if (resolve) return getRequirements();
+				return basicGetRequirements();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
