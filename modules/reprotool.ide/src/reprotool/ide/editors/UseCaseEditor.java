@@ -3,6 +3,7 @@ package reprotool.ide.editors;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
@@ -10,6 +11,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.EditorPart;
 import org.eclipse.wb.swt.layout.grouplayout.GroupLayout;
 import org.eclipse.wb.swt.layout.grouplayout.LayoutStyle;
@@ -74,6 +76,7 @@ public class UseCaseEditor extends EditorPart {
 		
 		Button btnDelete = new Button(composite_1, SWT.NONE);
 		btnDelete.setText("Delete");
+//		btnDelete.setImage(getImage());
 		
 		UseCaseTable useCaseTableExtensionsAndVariations = new UseCaseTable(composite_1, SWT.NONE);
 		
@@ -147,5 +150,9 @@ public class UseCaseEditor extends EditorPart {
 	@Override
 	public boolean isSaveAsAllowed() {
 		return false;
+	}
+	
+	private Image getDeleteImage() {
+		return PlatformUI.getWorkbench().getSharedImages().getImage(org.eclipse.ui.ISharedImages.IMG_TOOL_DELETE);
 	}
 }

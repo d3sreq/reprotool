@@ -3,6 +3,10 @@ package reprotool.ide.views;
 import java.io.File;
 import java.io.IOException;
 
+import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.core.commands.NotEnabledException;
+import org.eclipse.core.commands.NotHandledException;
+import org.eclipse.core.commands.common.NotDefinedException;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.observable.Realm;
 import org.eclipse.core.databinding.observable.list.IObservableList;
@@ -96,11 +100,20 @@ public class ProjectView extends ViewPart {
 						.getService(IHandlerService.class);
 				try {
 					handlerService.executeCommand("commands.addActor", null);
-				} catch (Exception ex) {
-					// TODO jvinarek - add logging
-					throw new RuntimeException(
-							"command with id \"commands.addActor\" not found");
+				} catch (ExecutionException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (NotDefinedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (NotEnabledException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (NotHandledException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
 				}
+
 			}
 		});
 		buttonActorAdd.setText("Add");
@@ -289,7 +302,7 @@ public class ProjectView extends ViewPart {
 
 	}
 
-	public TreeViewer getTreeViewer() {
+	public TreeViewer getTreeViewerActors() {
 		return treeViewerActors;
 	}
 
@@ -348,4 +361,9 @@ public class ProjectView extends ViewPart {
 		//
 		return bindingContext;
 	}
+
+	public SoftwareProject getProject() {
+		return project;
+	}
+	
 }

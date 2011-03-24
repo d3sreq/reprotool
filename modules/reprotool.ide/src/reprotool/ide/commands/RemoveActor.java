@@ -9,6 +9,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.handlers.HandlerUtil;
 
 import reprotool.ide.views.ProjectView;
+import reprotool.model.specification.Actor;
 
 
 
@@ -26,15 +27,19 @@ public class RemoveActor extends AbstractHandler {
 		IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindow(event);
 		IWorkbenchPage page = window.getActivePage();
 		ProjectView view = (ProjectView) page.findView(ProjectView.ID);
-		IStructuredSelection selection = (IStructuredSelection)view.getTreeViewer().getSelection();
+		IStructuredSelection selection = (IStructuredSelection)view.getTreeViewerActors().getSelection();
 		if (!selection.isEmpty()) {
+			Actor actor = (Actor)selection.getFirstElement();
+			
+			// remove actor from project
+			view.getProject().getActors().remove(actor);
 //			Actor actor = (Actor)selection.iterator().next();
 			
 			// remove from model
 //			ModelProvider.INSTANCE.getActors().remove(actor);
 	
 			// reload view
-			view.getTreeViewer().refresh();
+//			view.getTreeViewerActors().refresh();
 		}
 
 		return null;

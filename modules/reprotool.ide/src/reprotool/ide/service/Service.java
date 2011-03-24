@@ -1,5 +1,7 @@
 package reprotool.ide.service;
 
+import org.eclipse.swt.widgets.Shell;
+
 import reprotool.model.specification.Actor;
 import reprotool.model.specification.SoftwareProject;
 import reprotool.model.specification.SpecificationFactory;
@@ -18,8 +20,18 @@ public enum Service {
 
 	private SpecificationFactory factory = new SpecificationFactoryImpl();
 	
+	private SoftwareProject project;
+	
 	public SoftwareProject getSoftwareProject() {
-		SoftwareProject project = factory.createSoftwareProject();
+		if (project == null) { 
+			initProject();
+		}
+		
+		return project;
+	}
+	
+	private void initProject() {
+		project = factory.createSoftwareProject();
 		
 		project.setDescription("Simple project describing bank processes.");
 		project.setName("Bank");
@@ -53,8 +65,10 @@ public enum Service {
 		useCase2.setName("Use case with clerk as PA");
 		useCase2.setPrimaryActor(clerk);
 		project.getUseCases().add(useCase2);
-		
-		return project;
+	}
+
+	public Actor createActor() {
+		return factory.createActor();
 	}
 	
 }

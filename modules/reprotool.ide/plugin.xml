@@ -40,7 +40,7 @@
          point="org.eclipse.ui.perspectives">
       <perspective
             class="reprotool.ide.ReprotoolIdePerspectiveFactory"
-            icon="src/reprotool/ide/reprotool-web-logo-16x16.png"
+            icon="icons/reprotool-web-logo-16x16.png"
             id="cz.cuni.mff.reprotool.ide.perspective_reprotool_ide"
             name="Reprotool">
       </perspective>
@@ -52,7 +52,14 @@
             default="false"
             extensions="uc"
             id="cz.cuni.mff.reprotool.ide.editor_use_case"
-            name="use case">
+            name="Use case">
+      </editor>
+      <editor
+            class="reprotool.ide.editors.ProjectEditor"
+            default="false"
+            extensions="ucproj"
+            id="cz.cuni.mff.reprotool.ide.project"
+            name="Project">
       </editor>
    </extension>
    <extension
