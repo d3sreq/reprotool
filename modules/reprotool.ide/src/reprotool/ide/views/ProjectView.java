@@ -74,7 +74,7 @@ public class ProjectView extends ViewPart {
 	}
 
 	@Override
-	public void createPartControl(Composite parent) {
+	public void createPartControl(final Composite parent) {
 
 		SashForm sashForm = new SashForm(parent, SWT.NONE);
 		sashForm.setOrientation(SWT.VERTICAL);
@@ -106,6 +106,13 @@ public class ProjectView extends ViewPart {
 		buttonActorAdd.setText("Add");
 
 		Button buttonActorEdit = new Button(grpActorsStakeholders, SWT.NONE);
+		buttonActorEdit.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+        		ActorEdit dialog = new ActorEdit (parent.getShell(), SWT.NONE);
+        		dialog.open();
+			}
+		});
 		buttonActorEdit.setText("Edit");
 
 		Button buttonActorDelete = new Button(grpActorsStakeholders, SWT.NONE);
