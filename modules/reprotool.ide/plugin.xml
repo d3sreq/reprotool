@@ -74,6 +74,11 @@
             id="commands.removeActor"
             name="Remove actor">
       </command>
+      <command
+            defaultHandler="reprotool.ide.commands.ShowStep"
+            id="commands.showStep"
+            name="Show step">
+      </command>
    </extension>
 
 </plugin>

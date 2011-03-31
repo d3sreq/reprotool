@@ -19,6 +19,11 @@ import org.eclipse.swt.events.MouseEvent;
 
 public class UcStepView extends ViewPart {
 	
+	public static final String ID = "cz.cuni.mff.reprotool.ide.uc_step_view";
+	
+	// TODO better way to update the view
+	public Label lblStepSentence = null;
+	
 	public UcStepView() {
 		// TODO Auto-generated constructor stub
 	}
@@ -39,10 +44,9 @@ public class UcStepView extends ViewPart {
         fd_grpStep.top = new FormAttachment(0, 10);
         grpStep.setLayoutData(fd_grpStep);
         
-        Label lblStepSentence = new Label(grpStep, SWT.WRAP);
+        lblStepSentence = new Label(grpStep, SWT.WRAP);
         lblStepSentence.setText("Step sentence - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque feugiat, urna eu condimentum convallis, dui elit malesuada elit, id lacinia quam enim at nisl. Etiam faucibus nisi sit amet quam dignissim in sodales est elementum. In metus lorem, malesuada ac euismod sit amet, cursus nec neque.");
 
-        
         Group grpAnalysisResult = new Group(parent, SWT.NONE);
         grpAnalysisResult.setText("Analysis result");
         RowLayout rl_grpAnalysisResult = new RowLayout(SWT.VERTICAL);

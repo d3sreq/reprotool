@@ -12,6 +12,7 @@ import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.ui.part.EditorPart;
 import org.eclipse.wb.swt.layout.grouplayout.GroupLayout;
 import org.eclipse.wb.swt.layout.grouplayout.LayoutStyle;
@@ -19,8 +20,31 @@ import org.eclipse.wb.swt.layout.grouplayout.LayoutStyle;
 public class UseCaseEditor extends EditorPart {
 
 	public static final String ID = "cz.cuni.mff.reprotool.ide.editors.UseCaseEditor"; //$NON-NLS-1$
+	
+	private UseCaseTable mainScenario = null;
+	private UseCaseTable extensions = null;
 
 	public UseCaseEditor() {
+	}
+	
+	// TODO this will be fixed
+	public String getSelectedStep() {
+		UseCaseTable focused = null;
+		if (mainScenario.focus)
+			focused = mainScenario;
+		else if (extensions.focus)
+			focused = extensions;
+		return focused.selectedStep();
+	}
+	
+	public void showSelectedStep()
+	{
+		IHandlerService handlerService = (IHandlerService) getSite().getService(IHandlerService.class);
+		try {
+			handlerService.executeCommand("commands.showStep", null);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
 	}
 	
 	/**
@@ -36,7 +60,7 @@ public class UseCaseEditor extends EditorPart {
 		
 		Composite composite = new Composite(sashForm, SWT.NONE);
 		
-		UseCaseTable useCaseTableMainScenario = new UseCaseTable(composite, SWT.NONE);
+		mainScenario = new UseCaseTable(composite, SWT.NONE);
 		
 		Label labelMainScenario = new Label(composite, SWT.NONE);
 		labelMainScenario.setText("Main scenario");
@@ -50,7 +74,7 @@ public class UseCaseEditor extends EditorPart {
 							.add(labelMainScenario))
 						.add(gl_composite.createSequentialGroup()
 							.add(10)
-							.add(useCaseTableMainScenario, GroupLayout.DEFAULT_SIZE, 650, Short.MAX_VALUE)))
+							.add(mainScenario, GroupLayout.DEFAULT_SIZE, 650, Short.MAX_VALUE)))
 					.addContainerGap())
 		);
 		gl_composite.setVerticalGroup(
@@ -59,7 +83,7 @@ public class UseCaseEditor extends EditorPart {
 					.addContainerGap()
 					.add(labelMainScenario)
 					.addPreferredGap(LayoutStyle.RELATED)
-					.add(useCaseTableMainScenario, GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE))
+					.add(mainScenario, GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE))
 		);
 		composite.setLayout(gl_composite);
 		
@@ -78,7 +102,7 @@ public class UseCaseEditor extends EditorPart {
 		btnDelete.setText("Delete");
 //		btnDelete.setImage(getImage());
 		
-		UseCaseTable useCaseTableExtensionsAndVariations = new UseCaseTable(composite_1, SWT.NONE);
+		extensions = new UseCaseTable(composite_1, SWT.NONE);
 		
 		Label labelExtensionsAndVariations = new Label(composite_1, SWT.NONE);
 		labelExtensionsAndVariations.setText("Extensions and variations");
@@ -88,7 +112,7 @@ public class UseCaseEditor extends EditorPart {
 				.add(gl_composite_1.createSequentialGroup()
 					.addContainerGap()
 					.add(gl_composite_1.createParallelGroup(GroupLayout.LEADING)
-						.add(useCaseTableExtensionsAndVariations, GroupLayout.DEFAULT_SIZE, 430, Short.MAX_VALUE)
+						.add(extensions, GroupLayout.DEFAULT_SIZE, 430, Short.MAX_VALUE)
 						.add(gl_composite_1.createSequentialGroup()
 							.add(btnUp, GroupLayout.PREFERRED_SIZE, 70, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(LayoutStyle.RELATED)
@@ -106,7 +130,7 @@ public class UseCaseEditor extends EditorPart {
 					.addContainerGap()
 					.add(labelExtensionsAndVariations)
 					.addPreferredGap(LayoutStyle.RELATED)
-					.add(useCaseTableExtensionsAndVariations, GroupLayout.DEFAULT_SIZE, 186, Short.MAX_VALUE)
+					.add(extensions, GroupLayout.DEFAULT_SIZE, 186, Short.MAX_VALUE)
 					.addPreferredGap(LayoutStyle.RELATED)
 					.add(gl_composite_1.createParallelGroup(GroupLayout.BASELINE)
 						.add(btnUp)
