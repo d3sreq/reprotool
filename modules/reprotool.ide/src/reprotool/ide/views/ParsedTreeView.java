@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
+import org.eclipse.draw2d.SWTEventDispatcher;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
@@ -14,6 +15,8 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.ui.part.ViewPart;
@@ -208,15 +211,33 @@ public class ParsedTreeView extends ViewPart {
 
 	@Override
 	public void createPartControl(Composite parent) {
+		
+		parent.addListener(SWT.Resize, new Listener() {
+			public void handleEvent(Event e) {
+				viewer.applyLayout();
+			}
+		});
+		
 		parent.setLayout(new FillLayout());
         
 		viewer = new GraphViewer(parent, SWT.BORDER);
+		
+		viewer.getGraphControl().getLightweightSystem().setEventDispatcher(
+				new SWTEventDispatcher() {
+					@Override
+					public void dispatchMouseMoved(org.eclipse.swt.events.MouseEvent me) {
+						// Do nothing. This disables nodes replacing with mouse.
+					}
+				}
+		);
+		
 		viewer.setContentProvider(new NodeContentProvider());
 		
 		final NodeLabelProvider labelProvider = new NodeLabelProvider();
 		viewer.setLabelProvider(labelProvider);
 				
 		NodeModelContentProvider model = new NodeModelContentProvider();
+		model.loadSentence("Seller submits item description");
 		viewer.setInput(model.getNodes());
 		
 		final Menu menu = createMenu(parent);
@@ -273,8 +294,7 @@ public class ParsedTreeView extends ViewPart {
 					wordNode = (Word) modelNode;
 				}
 				
-				if (wordNode != null) {
-					
+				if (wordNode != null) {	
 					if ((dx + scrollX > 105) && (dy + scrollY < 17)) {
 						menu.setVisible(true);
 					}

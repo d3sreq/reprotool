@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Ling
+Bundle-SymbolicName: reprotool.ling
+Bundle-Version: 1.0.0
+Bundle-Activator: reprotool.ling.Activator
+Require-Bundle: org.eclipse.core.runtime,
+ reprotool.model;bundle-version="1.0.0"
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Export-Package: reprotool.ling
