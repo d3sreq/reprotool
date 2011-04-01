@@ -80,5 +80,21 @@
             name="Show step">
       </command>
    </extension>
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <category
+            id="reprotool.ide.category1"
+            name="Reprotool">
+      </category>
+      <wizard
+            category="reprotool.ide.category1"
+            class="reprotool.ide.wizards.ProjectWizard"
+            finalPerspective="cz.cuni.mff.reprotool.ide.perspective_reprotool_ide"
+            icon="icons/reprotool-web-logo-16x16.png"
+            id="reprotool.ide.wizard1"
+            name="Reprotool Project"
+            project="true">
+      </wizard>
+   </extension>
 
 </plugin>
