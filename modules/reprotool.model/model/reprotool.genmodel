@@ -5,11 +5,53 @@
     modelPluginID="reprotool.model" modelName="Reprotool" importerID="org.eclipse.emf.importer.ecore"
     complianceLevel="6.0" copyrightFields="false" language="" interfaceNamePattern=""
     classNamePattern="">
+  <foreignModel>reprotool.model.ast.ecore</foreignModel>
+  <foreignModel>reprotool.model.behaviour.ecore</foreignModel>
+  <foreignModel>reprotool.model.comp.ecore</foreignModel>
+  <foreignModel>reprotool.model.doc.ecore</foreignModel>
   <foreignModel>reprotool.model.linguistic.ecore</foreignModel>
   <foreignModel>reprotool.model.specification.ecore</foreignModel>
-  <foreignModel>reprotool.model.structure.ecore</foreignModel>
-  <foreignModel>reprotool.model.comp.ecore</foreignModel>
   <foreignModel>reprotool.model.traceability.ecore</foreignModel>
+  <genPackages prefix="Ast" basePackage="reprotool.model.structure" disposableProviderFactory="true"
+      ecorePackage="reprotool.model.ast.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="reprotool.model.ast.ecore#//MethodVisibility">
+      <genEnumLiterals ecoreEnumLiteral="reprotool.model.ast.ecore#//MethodVisibility/private"/>
+      <genEnumLiterals ecoreEnumLiteral="reprotool.model.ast.ecore#//MethodVisibility/public"/>
+    </genEnums>
+    <genClasses ecoreClass="reprotool.model.ast.ecore#//Method">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reprotool.model.ast.ecore#//Method/visibility"/>
+    </genClasses>
+    <genClasses ecoreClass="reprotool.model.ast.ecore#//Class">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference reprotool.model.ast.ecore#//Class/methods"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="reprotool.model.ast.ecore#//CodeElement">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reprotool.model.ast.ecore#//CodeElement/comment"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reprotool.model.ast.ecore#//CodeElement/name"/>
+    </genClasses>
+  </genPackages>
+  <genPackages prefix="Comp" basePackage="reprotool.model" disposableProviderFactory="true"
+      ecorePackage="reprotool.model.comp.ecore#/">
+    <genClasses ecoreClass="reprotool.model.comp.ecore#//Component">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference reprotool.model.comp.ecore#//Component/providedInterfaces"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference reprotool.model.comp.ecore#//Component/requiredInterfaces"/>
+    </genClasses>
+    <genClasses ecoreClass="reprotool.model.comp.ecore#//CompInterface">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference reprotool.model.comp.ecore#//CompInterface/interfaceType"/>
+    </genClasses>
+    <genClasses ecoreClass="reprotool.model.comp.ecore#//CompInterfaceType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reprotool.model.comp.ecore#//CompInterfaceType/signature"/>
+    </genClasses>
+  </genPackages>
+  <genPackages prefix="Doc" basePackage="reprotool.model.structure" disposableProviderFactory="true"
+      ecorePackage="reprotool.model.doc.ecore#/">
+    <genClasses ecoreClass="reprotool.model.doc.ecore#//Document">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference reprotool.model.doc.ecore#//Document/sections"/>
+    </genClasses>
+    <genClasses ecoreClass="reprotool.model.doc.ecore#//Section">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference reprotool.model.doc.ecore#//Section/paragraphs"/>
+    </genClasses>
+    <genClasses ecoreClass="reprotool.model.doc.ecore#//Paragraph"/>
+  </genPackages>
   <genPackages prefix="Linguistic" basePackage="reprotool.model" disposableProviderFactory="true"
       ecorePackage="reprotool.model.linguistic.ecore#/">
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="reprotool.model.linguistic.ecore#//EWordType">
@@ -33,11 +75,11 @@
   <genPackages prefix="Specification" basePackage="reprotool.model" disposableProviderFactory="true"
       ecorePackage="reprotool.model.specification.ecore#/">
     <genClasses ecoreClass="reprotool.model.specification.ecore#//SoftwareProject">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference reprotool.model.specification.ecore#//SoftwareProject/useCases"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference reprotool.model.specification.ecore#//SoftwareProject/actors"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reprotool.model.specification.ecore#//SoftwareProject/Name"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reprotool.model.specification.ecore#//SoftwareProject/Description"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference reprotool.model.specification.ecore#//SoftwareProject/requirements"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference reprotool.model.specification.ecore#//SoftwareProject/useCases"/>
     </genClasses>
     <genClasses ecoreClass="reprotool.model.specification.ecore#//UseCase">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference reprotool.model.specification.ecore#//UseCase/primaryActor"/>
@@ -50,54 +92,11 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reprotool.model.specification.ecore#//Actor/Name"/>
     </genClasses>
     <genClasses ecoreClass="reprotool.model.specification.ecore#//UseCaseStep"/>
-    <genClasses ecoreClass="reprotool.model.specification.ecore#//GenericRequirement"/>
+    <genClasses ecoreClass="reprotool.model.specification.ecore#//GenericRequirement">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reprotool.model.specification.ecore#//GenericRequirement/originalText"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reprotool.model.specification.ecore#//GenericRequirement/originalId"/>
+    </genClasses>
     <genClasses ecoreClass="reprotool.model.specification.ecore#//NonFunctionalRequirement"/>
-  </genPackages>
-  <genPackages prefix="Structure" basePackage="reprotool.model" disposableProviderFactory="true"
-      ecorePackage="reprotool.model.structure.ecore#/">
-    <nestedGenPackages prefix="Doc" basePackage="reprotool.model.structure" disposableProviderFactory="true"
-        ecorePackage="reprotool.model.structure.ecore#//doc">
-      <genClasses ecoreClass="reprotool.model.structure.ecore#//doc/Document">
-        <genFeatures notify="false" createChild="false" propertySortChoices="true"
-            ecoreFeature="ecore:EReference reprotool.model.structure.ecore#//doc/Document/sections"/>
-      </genClasses>
-      <genClasses ecoreClass="reprotool.model.structure.ecore#//doc/Section">
-        <genFeatures notify="false" createChild="false" propertySortChoices="true"
-            ecoreFeature="ecore:EReference reprotool.model.structure.ecore#//doc/Section/paragraphs"/>
-      </genClasses>
-      <genClasses ecoreClass="reprotool.model.structure.ecore#//doc/Paragraph"/>
-    </nestedGenPackages>
-    <nestedGenPackages prefix="Ast" basePackage="reprotool.model.structure" disposableProviderFactory="true"
-        ecorePackage="reprotool.model.structure.ecore#//ast">
-      <genEnums typeSafeEnumCompatible="false" ecoreEnum="reprotool.model.structure.ecore#//ast/MethodVisibility">
-        <genEnumLiterals ecoreEnumLiteral="reprotool.model.structure.ecore#//ast/MethodVisibility/private"/>
-        <genEnumLiterals ecoreEnumLiteral="reprotool.model.structure.ecore#//ast/MethodVisibility/public"/>
-      </genEnums>
-      <genClasses ecoreClass="reprotool.model.structure.ecore#//ast/Method">
-        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reprotool.model.structure.ecore#//ast/Method/visibility"/>
-      </genClasses>
-      <genClasses ecoreClass="reprotool.model.structure.ecore#//ast/Class">
-        <genFeatures notify="false" createChild="false" propertySortChoices="true"
-            ecoreFeature="ecore:EReference reprotool.model.structure.ecore#//ast/Class/methods"/>
-      </genClasses>
-      <genClasses image="false" ecoreClass="reprotool.model.structure.ecore#//ast/CodeElement">
-        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reprotool.model.structure.ecore#//ast/CodeElement/comment"/>
-        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reprotool.model.structure.ecore#//ast/CodeElement/name"/>
-      </genClasses>
-    </nestedGenPackages>
-  </genPackages>
-  <genPackages prefix="Comp" basePackage="reprotool.model" disposableProviderFactory="true"
-      ecorePackage="reprotool.model.comp.ecore#/">
-    <genClasses ecoreClass="reprotool.model.comp.ecore#//Component">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference reprotool.model.comp.ecore#//Component/providedInterfaces"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference reprotool.model.comp.ecore#//Component/requiredInterfaces"/>
-    </genClasses>
-    <genClasses ecoreClass="reprotool.model.comp.ecore#//CompInterface">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference reprotool.model.comp.ecore#//CompInterface/interfaceType"/>
-    </genClasses>
-    <genClasses ecoreClass="reprotool.model.comp.ecore#//CompInterfaceType">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reprotool.model.comp.ecore#//CompInterfaceType/signature"/>
-    </genClasses>
   </genPackages>
   <genPackages prefix="Traceability" basePackage="reprotool.model" ecorePackage="reprotool.model.traceability.ecore#/">
     <genClasses image="false" ecoreClass="reprotool.model.traceability.ecore#//TraceableEntity"/>

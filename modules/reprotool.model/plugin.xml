@@ -45,4 +45,11 @@
             genModel="model/reprotool.genmodel"/>
    </extension>
 
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <package
+            uri="http://d3s.mff.cuni.cz/reprotool/model/traceability"
+            class="reprotool.model.traceability.TraceabilityPackage"
+            genModel="model/reprotool.genmodel"/>
+   </extension>
+
 </plugin>

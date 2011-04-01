@@ -11,6 +11,7 @@ import java.util.Collection;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
+import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
@@ -20,7 +21,6 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
-import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 import reprotool.model.specification.Actor;
@@ -36,27 +36,17 @@ import reprotool.model.specification.UseCase;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link reprotool.model.specification.impl.SoftwareProjectImpl#getUseCases <em>Use Cases</em>}</li>
  *   <li>{@link reprotool.model.specification.impl.SoftwareProjectImpl#getActors <em>Actors</em>}</li>
  *   <li>{@link reprotool.model.specification.impl.SoftwareProjectImpl#getName <em>Name</em>}</li>
  *   <li>{@link reprotool.model.specification.impl.SoftwareProjectImpl#getDescription <em>Description</em>}</li>
  *   <li>{@link reprotool.model.specification.impl.SoftwareProjectImpl#getRequirements <em>Requirements</em>}</li>
+ *   <li>{@link reprotool.model.specification.impl.SoftwareProjectImpl#getUseCases <em>Use Cases</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
 public class SoftwareProjectImpl extends EObjectImpl implements SoftwareProject {
-	/**
-	 * The cached value of the '{@link #getUseCases() <em>Use Cases</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getUseCases()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<UseCase> useCases;
-
 	/**
 	 * The cached value of the '{@link #getActors() <em>Actors</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
@@ -108,14 +98,14 @@ public class SoftwareProjectImpl extends EObjectImpl implements SoftwareProject 
 	protected String description = DESCRIPTION_EDEFAULT;
 
 	/**
-	 * The cached value of the '{@link #getRequirements() <em>Requirements</em>}' containment reference.
+	 * The cached value of the '{@link #getRequirements() <em>Requirements</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getRequirements()
 	 * @generated
 	 * @ordered
 	 */
-	protected GenericRequirement requirements;
+	protected EList<GenericRequirement> requirements;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -134,18 +124,6 @@ public class SoftwareProjectImpl extends EObjectImpl implements SoftwareProject 
 	@Override
 	protected EClass eStaticClass() {
 		return SpecificationPackage.Literals.SOFTWARE_PROJECT;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EList<UseCase> getUseCases() {
-		if (useCases == null) {
-			useCases = new EObjectContainmentEList<UseCase>(UseCase.class, this, SpecificationPackage.SOFTWARE_PROJECT__USE_CASES);
-		}
-		return useCases;
 	}
 
 	/**
@@ -207,42 +185,27 @@ public class SoftwareProjectImpl extends EObjectImpl implements SoftwareProject 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public GenericRequirement getRequirements() {
+	public EList<GenericRequirement> getRequirements() {
+		if (requirements == null) {
+			requirements = new EObjectContainmentEList<GenericRequirement>(GenericRequirement.class, this, SpecificationPackage.SOFTWARE_PROJECT__REQUIREMENTS);
+		}
 		return requirements;
 	}
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
-	public NotificationChain basicSetRequirements(GenericRequirement newRequirements, NotificationChain msgs) {
-		GenericRequirement oldRequirements = requirements;
-		requirements = newRequirements;
-		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SpecificationPackage.SOFTWARE_PROJECT__REQUIREMENTS, oldRequirements, newRequirements);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
+	public EList<UseCase> getUseCases() {
+		//TODO: this code will be changed in future using feature map
+		EList<UseCase> list = new BasicEList<UseCase>();
+		for (GenericRequirement req : getRequirements()) {
+			if(req instanceof UseCase) {
+				list.add((UseCase)req);
+			}
 		}
-		return msgs;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setRequirements(GenericRequirement newRequirements) {
-		if (newRequirements != requirements) {
-			NotificationChain msgs = null;
-			if (requirements != null)
-				msgs = ((InternalEObject)requirements).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - SpecificationPackage.SOFTWARE_PROJECT__REQUIREMENTS, null, msgs);
-			if (newRequirements != null)
-				msgs = ((InternalEObject)newRequirements).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - SpecificationPackage.SOFTWARE_PROJECT__REQUIREMENTS, null, msgs);
-			msgs = basicSetRequirements(newRequirements, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SpecificationPackage.SOFTWARE_PROJECT__REQUIREMENTS, newRequirements, newRequirements));
+		return list;
 	}
 
 	/**
@@ -253,12 +216,12 @@ public class SoftwareProjectImpl extends EObjectImpl implements SoftwareProject 
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case SpecificationPackage.SOFTWARE_PROJECT__USE_CASES:
-				return ((InternalEList<?>)getUseCases()).basicRemove(otherEnd, msgs);
 			case SpecificationPackage.SOFTWARE_PROJECT__ACTORS:
 				return ((InternalEList<?>)getActors()).basicRemove(otherEnd, msgs);
 			case SpecificationPackage.SOFTWARE_PROJECT__REQUIREMENTS:
-				return basicSetRequirements(null, msgs);
+				return ((InternalEList<?>)getRequirements()).basicRemove(otherEnd, msgs);
+			case SpecificationPackage.SOFTWARE_PROJECT__USE_CASES:
+				return ((InternalEList<?>)getUseCases()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -271,8 +234,6 @@ public class SoftwareProjectImpl extends EObjectImpl implements SoftwareProject 
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case SpecificationPackage.SOFTWARE_PROJECT__USE_CASES:
-				return getUseCases();
 			case SpecificationPackage.SOFTWARE_PROJECT__ACTORS:
 				return getActors();
 			case SpecificationPackage.SOFTWARE_PROJECT__NAME:
@@ -281,6 +242,8 @@ public class SoftwareProjectImpl extends EObjectImpl implements SoftwareProject 
 				return getDescription();
 			case SpecificationPackage.SOFTWARE_PROJECT__REQUIREMENTS:
 				return getRequirements();
+			case SpecificationPackage.SOFTWARE_PROJECT__USE_CASES:
+				return getUseCases();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -294,10 +257,6 @@ public class SoftwareProjectImpl extends EObjectImpl implements SoftwareProject 
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case SpecificationPackage.SOFTWARE_PROJECT__USE_CASES:
-				getUseCases().clear();
-				getUseCases().addAll((Collection<? extends UseCase>)newValue);
-				return;
 			case SpecificationPackage.SOFTWARE_PROJECT__ACTORS:
 				getActors().clear();
 				getActors().addAll((Collection<? extends Actor>)newValue);
@@ -309,7 +268,12 @@ public class SoftwareProjectImpl extends EObjectImpl implements SoftwareProject 
 				setDescription((String)newValue);
 				return;
 			case SpecificationPackage.SOFTWARE_PROJECT__REQUIREMENTS:
-				setRequirements((GenericRequirement)newValue);
+				getRequirements().clear();
+				getRequirements().addAll((Collection<? extends GenericRequirement>)newValue);
+				return;
+			case SpecificationPackage.SOFTWARE_PROJECT__USE_CASES:
+				getUseCases().clear();
+				getUseCases().addAll((Collection<? extends UseCase>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -323,9 +287,6 @@ public class SoftwareProjectImpl extends EObjectImpl implements SoftwareProject 
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case SpecificationPackage.SOFTWARE_PROJECT__USE_CASES:
-				getUseCases().clear();
-				return;
 			case SpecificationPackage.SOFTWARE_PROJECT__ACTORS:
 				getActors().clear();
 				return;
@@ -336,7 +297,10 @@ public class SoftwareProjectImpl extends EObjectImpl implements SoftwareProject 
 				setDescription(DESCRIPTION_EDEFAULT);
 				return;
 			case SpecificationPackage.SOFTWARE_PROJECT__REQUIREMENTS:
-				setRequirements((GenericRequirement)null);
+				getRequirements().clear();
+				return;
+			case SpecificationPackage.SOFTWARE_PROJECT__USE_CASES:
+				getUseCases().clear();
 				return;
 		}
 		super.eUnset(featureID);
@@ -350,8 +314,6 @@ public class SoftwareProjectImpl extends EObjectImpl implements SoftwareProject 
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case SpecificationPackage.SOFTWARE_PROJECT__USE_CASES:
-				return useCases != null && !useCases.isEmpty();
 			case SpecificationPackage.SOFTWARE_PROJECT__ACTORS:
 				return actors != null && !actors.isEmpty();
 			case SpecificationPackage.SOFTWARE_PROJECT__NAME:
@@ -359,7 +321,9 @@ public class SoftwareProjectImpl extends EObjectImpl implements SoftwareProject 
 			case SpecificationPackage.SOFTWARE_PROJECT__DESCRIPTION:
 				return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
 			case SpecificationPackage.SOFTWARE_PROJECT__REQUIREMENTS:
-				return requirements != null;
+				return requirements != null && !requirements.isEmpty();
+			case SpecificationPackage.SOFTWARE_PROJECT__USE_CASES:
+				return !getUseCases().isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

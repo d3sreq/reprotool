@@ -18,11 +18,11 @@ import org.eclipse.emf.ecore.EObject;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link reprotool.model.specification.SoftwareProject#getUseCases <em>Use Cases</em>}</li>
  *   <li>{@link reprotool.model.specification.SoftwareProject#getActors <em>Actors</em>}</li>
  *   <li>{@link reprotool.model.specification.SoftwareProject#getName <em>Name</em>}</li>
  *   <li>{@link reprotool.model.specification.SoftwareProject#getDescription <em>Description</em>}</li>
  *   <li>{@link reprotool.model.specification.SoftwareProject#getRequirements <em>Requirements</em>}</li>
+ *   <li>{@link reprotool.model.specification.SoftwareProject#getUseCases <em>Use Cases</em>}</li>
  * </ul>
  * </p>
  *
@@ -31,22 +31,6 @@ import org.eclipse.emf.ecore.EObject;
  * @generated
  */
 public interface SoftwareProject extends EObject {
-	/**
-	 * Returns the value of the '<em><b>Use Cases</b></em>' containment reference list.
-	 * The list contents are of type {@link reprotool.model.specification.UseCase}.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Use Cases</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Use Cases</em>' containment reference list.
-	 * @see reprotool.model.specification.SpecificationPackage#getSoftwareProject_UseCases()
-	 * @model containment="true"
-	 * @generated
-	 */
-	EList<UseCase> getUseCases();
-
 	/**
 	 * Returns the value of the '<em><b>Actors</b></em>' containment reference list.
 	 * The list contents are of type {@link reprotool.model.specification.Actor}.
@@ -116,29 +100,35 @@ public interface SoftwareProject extends EObject {
 	void setDescription(String value);
 
 	/**
-	 * Returns the value of the '<em><b>Requirements</b></em>' containment reference.
+	 * Returns the value of the '<em><b>Requirements</b></em>' containment reference list.
+	 * The list contents are of type {@link reprotool.model.specification.GenericRequirement}.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Requirements</em>' containment reference isn't clear,
+	 * If the meaning of the '<em>Requirements</em>' containment reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Requirements</em>' containment reference.
-	 * @see #setRequirements(GenericRequirement)
+	 * @return the value of the '<em>Requirements</em>' containment reference list.
 	 * @see reprotool.model.specification.SpecificationPackage#getSoftwareProject_Requirements()
 	 * @model containment="true"
 	 * @generated
 	 */
-	GenericRequirement getRequirements();
+	EList<GenericRequirement> getRequirements();
 
 	/**
-	 * Sets the value of the '{@link reprotool.model.specification.SoftwareProject#getRequirements <em>Requirements</em>}' containment reference.
+	 * Returns the value of the '<em><b>Use Cases</b></em>' containment reference list.
+	 * The list contents are of type {@link reprotool.model.specification.UseCase}.
 	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Use Cases</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Requirements</em>' containment reference.
-	 * @see #getRequirements()
+	 * @return the value of the '<em>Use Cases</em>' containment reference list.
+	 * @see reprotool.model.specification.SpecificationPackage#getSoftwareProject_UseCases()
+	 * @model containment="true" transient="true" volatile="true" derived="true"
 	 * @generated
 	 */
-	void setRequirements(GenericRequirement value);
+	EList<UseCase> getUseCases();
 
 } // SoftwareProject

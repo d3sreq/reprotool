@@ -138,26 +138,26 @@ public class SpecificationPackageImpl extends EPackageImpl implements Specificat
 		isInited = true;
 
 		// Obtain or create and register interdependencies
-		LinguisticPackageImpl theLinguisticPackage = (LinguisticPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(LinguisticPackage.eNS_URI) instanceof LinguisticPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(LinguisticPackage.eNS_URI) : LinguisticPackage.eINSTANCE);
-		DocPackageImpl theDocPackage = (DocPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(DocPackage.eNS_URI) instanceof DocPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(DocPackage.eNS_URI) : DocPackage.eINSTANCE);
 		AstPackageImpl theAstPackage = (AstPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(AstPackage.eNS_URI) instanceof AstPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(AstPackage.eNS_URI) : AstPackage.eINSTANCE);
 		CompPackageImpl theCompPackage = (CompPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(CompPackage.eNS_URI) instanceof CompPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(CompPackage.eNS_URI) : CompPackage.eINSTANCE);
+		DocPackageImpl theDocPackage = (DocPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(DocPackage.eNS_URI) instanceof DocPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(DocPackage.eNS_URI) : DocPackage.eINSTANCE);
+		LinguisticPackageImpl theLinguisticPackage = (LinguisticPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(LinguisticPackage.eNS_URI) instanceof LinguisticPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(LinguisticPackage.eNS_URI) : LinguisticPackage.eINSTANCE);
 		TraceabilityPackageImpl theTraceabilityPackage = (TraceabilityPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(TraceabilityPackage.eNS_URI) instanceof TraceabilityPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(TraceabilityPackage.eNS_URI) : TraceabilityPackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theSpecificationPackage.createPackageContents();
-		theLinguisticPackage.createPackageContents();
-		theDocPackage.createPackageContents();
 		theAstPackage.createPackageContents();
 		theCompPackage.createPackageContents();
+		theDocPackage.createPackageContents();
+		theLinguisticPackage.createPackageContents();
 		theTraceabilityPackage.createPackageContents();
 
 		// Initialize created meta-data
 		theSpecificationPackage.initializePackageContents();
-		theLinguisticPackage.initializePackageContents();
-		theDocPackage.initializePackageContents();
 		theAstPackage.initializePackageContents();
 		theCompPackage.initializePackageContents();
+		theDocPackage.initializePackageContents();
+		theLinguisticPackage.initializePackageContents();
 		theTraceabilityPackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
@@ -183,7 +183,7 @@ public class SpecificationPackageImpl extends EPackageImpl implements Specificat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getSoftwareProject_UseCases() {
+	public EReference getSoftwareProject_Actors() {
 		return (EReference)softwareProjectEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -192,17 +192,8 @@ public class SpecificationPackageImpl extends EPackageImpl implements Specificat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getSoftwareProject_Actors() {
-		return (EReference)softwareProjectEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EAttribute getSoftwareProject_Name() {
-		return (EAttribute)softwareProjectEClass.getEStructuralFeatures().get(2);
+		return (EAttribute)softwareProjectEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -211,7 +202,7 @@ public class SpecificationPackageImpl extends EPackageImpl implements Specificat
 	 * @generated
 	 */
 	public EAttribute getSoftwareProject_Description() {
-		return (EAttribute)softwareProjectEClass.getEStructuralFeatures().get(3);
+		return (EAttribute)softwareProjectEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -220,6 +211,15 @@ public class SpecificationPackageImpl extends EPackageImpl implements Specificat
 	 * @generated
 	 */
 	public EReference getSoftwareProject_Requirements() {
+		return (EReference)softwareProjectEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getSoftwareProject_UseCases() {
 		return (EReference)softwareProjectEClass.getEStructuralFeatures().get(4);
 	}
 
@@ -318,6 +318,24 @@ public class SpecificationPackageImpl extends EPackageImpl implements Specificat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getGenericRequirement_OriginalText() {
+		return (EAttribute)genericRequirementEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getGenericRequirement_OriginalId() {
+		return (EAttribute)genericRequirementEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getNonFunctionalRequirement() {
 		return nonFunctionalRequirementEClass;
 	}
@@ -351,11 +369,11 @@ public class SpecificationPackageImpl extends EPackageImpl implements Specificat
 
 		// Create classes and their features
 		softwareProjectEClass = createEClass(SOFTWARE_PROJECT);
-		createEReference(softwareProjectEClass, SOFTWARE_PROJECT__USE_CASES);
 		createEReference(softwareProjectEClass, SOFTWARE_PROJECT__ACTORS);
 		createEAttribute(softwareProjectEClass, SOFTWARE_PROJECT__NAME);
 		createEAttribute(softwareProjectEClass, SOFTWARE_PROJECT__DESCRIPTION);
 		createEReference(softwareProjectEClass, SOFTWARE_PROJECT__REQUIREMENTS);
+		createEReference(softwareProjectEClass, SOFTWARE_PROJECT__USE_CASES);
 
 		useCaseEClass = createEClass(USE_CASE);
 		createEReference(useCaseEClass, USE_CASE__PRIMARY_ACTOR);
@@ -370,6 +388,8 @@ public class SpecificationPackageImpl extends EPackageImpl implements Specificat
 		useCaseStepEClass = createEClass(USE_CASE_STEP);
 
 		genericRequirementEClass = createEClass(GENERIC_REQUIREMENT);
+		createEAttribute(genericRequirementEClass, GENERIC_REQUIREMENT__ORIGINAL_TEXT);
+		createEAttribute(genericRequirementEClass, GENERIC_REQUIREMENT__ORIGINAL_ID);
 
 		nonFunctionalRequirementEClass = createEClass(NON_FUNCTIONAL_REQUIREMENT);
 	}
@@ -411,11 +431,11 @@ public class SpecificationPackageImpl extends EPackageImpl implements Specificat
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(softwareProjectEClass, SoftwareProject.class, "SoftwareProject", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getSoftwareProject_UseCases(), this.getUseCase(), null, "useCases", null, 0, -1, SoftwareProject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getSoftwareProject_Actors(), this.getActor(), null, "actors", null, 0, -1, SoftwareProject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getSoftwareProject_Name(), ecorePackage.getEString(), "Name", null, 0, 1, SoftwareProject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getSoftwareProject_Description(), ecorePackage.getEString(), "Description", null, 0, 1, SoftwareProject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getSoftwareProject_Requirements(), this.getGenericRequirement(), null, "requirements", null, 0, 1, SoftwareProject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getSoftwareProject_Requirements(), this.getGenericRequirement(), null, "requirements", null, 0, -1, SoftwareProject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getSoftwareProject_UseCases(), this.getUseCase(), null, "useCases", null, 0, -1, SoftwareProject.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 
 		initEClass(useCaseEClass, UseCase.class, "UseCase", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getUseCase_PrimaryActor(), this.getActor(), null, "primaryActor", null, 1, 1, UseCase.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -430,6 +450,8 @@ public class SpecificationPackageImpl extends EPackageImpl implements Specificat
 		initEClass(useCaseStepEClass, UseCaseStep.class, "UseCaseStep", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(genericRequirementEClass, GenericRequirement.class, "GenericRequirement", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getGenericRequirement_OriginalText(), ecorePackage.getEString(), "originalText", null, 0, 1, GenericRequirement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getGenericRequirement_OriginalId(), ecorePackage.getEString(), "originalId", null, 0, 1, GenericRequirement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(nonFunctionalRequirementEClass, NonFunctionalRequirement.class, "NonFunctionalRequirement", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 

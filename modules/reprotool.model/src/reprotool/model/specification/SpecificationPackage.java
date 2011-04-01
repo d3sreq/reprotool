@@ -72,22 +72,13 @@ public interface SpecificationPackage extends EPackage {
 	int SOFTWARE_PROJECT = 0;
 
 	/**
-	 * The feature id for the '<em><b>Use Cases</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SOFTWARE_PROJECT__USE_CASES = 0;
-
-	/**
 	 * The feature id for the '<em><b>Actors</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SOFTWARE_PROJECT__ACTORS = 1;
+	int SOFTWARE_PROJECT__ACTORS = 0;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -96,7 +87,7 @@ public interface SpecificationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SOFTWARE_PROJECT__NAME = 2;
+	int SOFTWARE_PROJECT__NAME = 1;
 
 	/**
 	 * The feature id for the '<em><b>Description</b></em>' attribute.
@@ -105,16 +96,25 @@ public interface SpecificationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SOFTWARE_PROJECT__DESCRIPTION = 3;
+	int SOFTWARE_PROJECT__DESCRIPTION = 2;
 
 	/**
-	 * The feature id for the '<em><b>Requirements</b></em>' containment reference.
+	 * The feature id for the '<em><b>Requirements</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SOFTWARE_PROJECT__REQUIREMENTS = 4;
+	int SOFTWARE_PROJECT__REQUIREMENTS = 3;
+
+	/**
+	 * The feature id for the '<em><b>Use Cases</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SOFTWARE_PROJECT__USE_CASES = 4;
 
 	/**
 	 * The number of structural features of the '<em>Software Project</em>' class.
@@ -136,13 +136,31 @@ public interface SpecificationPackage extends EPackage {
 	int GENERIC_REQUIREMENT = 4;
 
 	/**
+	 * The feature id for the '<em><b>Original Text</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERIC_REQUIREMENT__ORIGINAL_TEXT = TraceabilityPackage.TRACEABLE_ENTITY_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Original Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERIC_REQUIREMENT__ORIGINAL_ID = TraceabilityPackage.TRACEABLE_ENTITY_FEATURE_COUNT + 1;
+
+	/**
 	 * The number of structural features of the '<em>Generic Requirement</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int GENERIC_REQUIREMENT_FEATURE_COUNT = TraceabilityPackage.TRACEABLE_ENTITY_FEATURE_COUNT + 0;
+	int GENERIC_REQUIREMENT_FEATURE_COUNT = TraceabilityPackage.TRACEABLE_ENTITY_FEATURE_COUNT + 2;
 
 	/**
 	 * The meta object id for the '{@link reprotool.model.specification.impl.UseCaseImpl <em>Use Case</em>}' class.
@@ -153,6 +171,24 @@ public interface SpecificationPackage extends EPackage {
 	 * @generated
 	 */
 	int USE_CASE = 1;
+
+	/**
+	 * The feature id for the '<em><b>Original Text</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int USE_CASE__ORIGINAL_TEXT = GENERIC_REQUIREMENT__ORIGINAL_TEXT;
+
+	/**
+	 * The feature id for the '<em><b>Original Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int USE_CASE__ORIGINAL_ID = GENERIC_REQUIREMENT__ORIGINAL_ID;
 
 	/**
 	 * The feature id for the '<em><b>Primary Actor</b></em>' reference.
@@ -266,6 +302,24 @@ public interface SpecificationPackage extends EPackage {
 	int NON_FUNCTIONAL_REQUIREMENT = 5;
 
 	/**
+	 * The feature id for the '<em><b>Original Text</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NON_FUNCTIONAL_REQUIREMENT__ORIGINAL_TEXT = GENERIC_REQUIREMENT__ORIGINAL_TEXT;
+
+	/**
+	 * The feature id for the '<em><b>Original Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NON_FUNCTIONAL_REQUIREMENT__ORIGINAL_ID = GENERIC_REQUIREMENT__ORIGINAL_ID;
+
+	/**
 	 * The number of structural features of the '<em>Non Functional Requirement</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -284,17 +338,6 @@ public interface SpecificationPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getSoftwareProject();
-
-	/**
-	 * Returns the meta object for the containment reference list '{@link reprotool.model.specification.SoftwareProject#getUseCases <em>Use Cases</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Use Cases</em>'.
-	 * @see reprotool.model.specification.SoftwareProject#getUseCases()
-	 * @see #getSoftwareProject()
-	 * @generated
-	 */
-	EReference getSoftwareProject_UseCases();
 
 	/**
 	 * Returns the meta object for the containment reference list '{@link reprotool.model.specification.SoftwareProject#getActors <em>Actors</em>}'.
@@ -330,15 +373,26 @@ public interface SpecificationPackage extends EPackage {
 	EAttribute getSoftwareProject_Description();
 
 	/**
-	 * Returns the meta object for the containment reference '{@link reprotool.model.specification.SoftwareProject#getRequirements <em>Requirements</em>}'.
+	 * Returns the meta object for the containment reference list '{@link reprotool.model.specification.SoftwareProject#getRequirements <em>Requirements</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Requirements</em>'.
+	 * @return the meta object for the containment reference list '<em>Requirements</em>'.
 	 * @see reprotool.model.specification.SoftwareProject#getRequirements()
 	 * @see #getSoftwareProject()
 	 * @generated
 	 */
 	EReference getSoftwareProject_Requirements();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link reprotool.model.specification.SoftwareProject#getUseCases <em>Use Cases</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Use Cases</em>'.
+	 * @see reprotool.model.specification.SoftwareProject#getUseCases()
+	 * @see #getSoftwareProject()
+	 * @generated
+	 */
+	EReference getSoftwareProject_UseCases();
 
 	/**
 	 * Returns the meta object for class '{@link reprotool.model.specification.UseCase <em>Use Case</em>}'.
@@ -447,6 +501,28 @@ public interface SpecificationPackage extends EPackage {
 	EClass getGenericRequirement();
 
 	/**
+	 * Returns the meta object for the attribute '{@link reprotool.model.specification.GenericRequirement#getOriginalText <em>Original Text</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Original Text</em>'.
+	 * @see reprotool.model.specification.GenericRequirement#getOriginalText()
+	 * @see #getGenericRequirement()
+	 * @generated
+	 */
+	EAttribute getGenericRequirement_OriginalText();
+
+	/**
+	 * Returns the meta object for the attribute '{@link reprotool.model.specification.GenericRequirement#getOriginalId <em>Original Id</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Original Id</em>'.
+	 * @see reprotool.model.specification.GenericRequirement#getOriginalId()
+	 * @see #getGenericRequirement()
+	 * @generated
+	 */
+	EAttribute getGenericRequirement_OriginalId();
+
+	/**
 	 * Returns the meta object for class '{@link reprotool.model.specification.NonFunctionalRequirement <em>Non Functional Requirement</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -489,14 +565,6 @@ public interface SpecificationPackage extends EPackage {
 		EClass SOFTWARE_PROJECT = eINSTANCE.getSoftwareProject();
 
 		/**
-		 * The meta object literal for the '<em><b>Use Cases</b></em>' containment reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference SOFTWARE_PROJECT__USE_CASES = eINSTANCE.getSoftwareProject_UseCases();
-
-		/**
 		 * The meta object literal for the '<em><b>Actors</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -521,12 +589,20 @@ public interface SpecificationPackage extends EPackage {
 		EAttribute SOFTWARE_PROJECT__DESCRIPTION = eINSTANCE.getSoftwareProject_Description();
 
 		/**
-		 * The meta object literal for the '<em><b>Requirements</b></em>' containment reference feature.
+		 * The meta object literal for the '<em><b>Requirements</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
 		EReference SOFTWARE_PROJECT__REQUIREMENTS = eINSTANCE.getSoftwareProject_Requirements();
+
+		/**
+		 * The meta object literal for the '<em><b>Use Cases</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SOFTWARE_PROJECT__USE_CASES = eINSTANCE.getSoftwareProject_UseCases();
 
 		/**
 		 * The meta object literal for the '{@link reprotool.model.specification.impl.UseCaseImpl <em>Use Case</em>}' class.
@@ -615,6 +691,22 @@ public interface SpecificationPackage extends EPackage {
 		 * @generated
 		 */
 		EClass GENERIC_REQUIREMENT = eINSTANCE.getGenericRequirement();
+
+		/**
+		 * The meta object literal for the '<em><b>Original Text</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute GENERIC_REQUIREMENT__ORIGINAL_TEXT = eINSTANCE.getGenericRequirement_OriginalText();
+
+		/**
+		 * The meta object literal for the '<em><b>Original Id</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute GENERIC_REQUIREMENT__ORIGINAL_ID = eINSTANCE.getGenericRequirement_OriginalId();
 
 		/**
 		 * The meta object literal for the '{@link reprotool.model.specification.impl.NonFunctionalRequirementImpl <em>Non Functional Requirement</em>}' class.
