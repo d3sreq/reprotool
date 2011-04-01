@@ -309,6 +309,33 @@ public class SpecificationPackageImpl extends EPackageImpl implements Specificat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getUseCaseStep_Extensions() {
+		return (EReference)useCaseStepEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getUseCaseStep_Variations() {
+		return (EReference)useCaseStepEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getUseCaseStep_ParentStep() {
+		return (EReference)useCaseStepEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getGenericRequirement() {
 		return genericRequirementEClass;
 	}
@@ -386,6 +413,9 @@ public class SpecificationPackageImpl extends EPackageImpl implements Specificat
 		createEAttribute(actorEClass, ACTOR__NAME);
 
 		useCaseStepEClass = createEClass(USE_CASE_STEP);
+		createEReference(useCaseStepEClass, USE_CASE_STEP__EXTENSIONS);
+		createEReference(useCaseStepEClass, USE_CASE_STEP__VARIATIONS);
+		createEReference(useCaseStepEClass, USE_CASE_STEP__PARENT_STEP);
 
 		genericRequirementEClass = createEClass(GENERIC_REQUIREMENT);
 		createEAttribute(genericRequirementEClass, GENERIC_REQUIREMENT__ORIGINAL_TEXT);
@@ -439,7 +469,7 @@ public class SpecificationPackageImpl extends EPackageImpl implements Specificat
 
 		initEClass(useCaseEClass, UseCase.class, "UseCase", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getUseCase_PrimaryActor(), this.getActor(), null, "primaryActor", null, 1, 1, UseCase.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getUseCase_UseCaseSteps(), this.getUseCaseStep(), null, "useCaseSteps", null, 0, -1, UseCase.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getUseCase_UseCaseSteps(), this.getUseCaseStep(), null, "useCaseSteps", null, 0, -1, UseCase.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 		initEAttribute(getUseCase_Name(), ecorePackage.getEString(), "Name", null, 0, 1, UseCase.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(actorEClass, Actor.class, "Actor", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -448,6 +478,11 @@ public class SpecificationPackageImpl extends EPackageImpl implements Specificat
 		initEAttribute(getActor_Name(), ecorePackage.getEString(), "Name", null, 0, 1, Actor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(useCaseStepEClass, UseCaseStep.class, "UseCaseStep", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getUseCaseStep_Extensions(), this.getUseCaseStep(), null, "extensions", null, 0, -1, UseCaseStep.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getUseCaseStep_Variations(), this.getUseCaseStep(), null, "variations", null, 0, -1, UseCaseStep.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getUseCaseStep_ParentStep(), this.getUseCaseStep(), null, "parentStep", null, 0, 1, UseCaseStep.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+
+		addEOperation(useCaseStepEClass, ecorePackage.getEString(), "getLabel", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		initEClass(genericRequirementEClass, GenericRequirement.class, "GenericRequirement", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getGenericRequirement_OriginalText(), ecorePackage.getEString(), "originalText", null, 0, 1, GenericRequirement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

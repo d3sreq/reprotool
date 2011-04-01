@@ -283,13 +283,40 @@ public interface SpecificationPackage extends EPackage {
 	int USE_CASE_STEP = 3;
 
 	/**
+	 * The feature id for the '<em><b>Extensions</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int USE_CASE_STEP__EXTENSIONS = 0;
+
+	/**
+	 * The feature id for the '<em><b>Variations</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int USE_CASE_STEP__VARIATIONS = 1;
+
+	/**
+	 * The feature id for the '<em><b>Parent Step</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int USE_CASE_STEP__PARENT_STEP = 2;
+
+	/**
 	 * The number of structural features of the '<em>Use Case Step</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int USE_CASE_STEP_FEATURE_COUNT = 0;
+	int USE_CASE_STEP_FEATURE_COUNT = 3;
 
 	/**
 	 * The meta object id for the '{@link reprotool.model.specification.impl.NonFunctionalRequirementImpl <em>Non Functional Requirement</em>}' class.
@@ -491,6 +518,39 @@ public interface SpecificationPackage extends EPackage {
 	EClass getUseCaseStep();
 
 	/**
+	 * Returns the meta object for the containment reference list '{@link reprotool.model.specification.UseCaseStep#getExtensions <em>Extensions</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Extensions</em>'.
+	 * @see reprotool.model.specification.UseCaseStep#getExtensions()
+	 * @see #getUseCaseStep()
+	 * @generated
+	 */
+	EReference getUseCaseStep_Extensions();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link reprotool.model.specification.UseCaseStep#getVariations <em>Variations</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Variations</em>'.
+	 * @see reprotool.model.specification.UseCaseStep#getVariations()
+	 * @see #getUseCaseStep()
+	 * @generated
+	 */
+	EReference getUseCaseStep_Variations();
+
+	/**
+	 * Returns the meta object for the reference '{@link reprotool.model.specification.UseCaseStep#getParentStep <em>Parent Step</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Parent Step</em>'.
+	 * @see reprotool.model.specification.UseCaseStep#getParentStep()
+	 * @see #getUseCaseStep()
+	 * @generated
+	 */
+	EReference getUseCaseStep_ParentStep();
+
+	/**
 	 * Returns the meta object for class '{@link reprotool.model.specification.GenericRequirement <em>Generic Requirement</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -681,6 +741,30 @@ public interface SpecificationPackage extends EPackage {
 		 * @generated
 		 */
 		EClass USE_CASE_STEP = eINSTANCE.getUseCaseStep();
+
+		/**
+		 * The meta object literal for the '<em><b>Extensions</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference USE_CASE_STEP__EXTENSIONS = eINSTANCE.getUseCaseStep_Extensions();
+
+		/**
+		 * The meta object literal for the '<em><b>Variations</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference USE_CASE_STEP__VARIATIONS = eINSTANCE.getUseCaseStep_Variations();
+
+		/**
+		 * The meta object literal for the '<em><b>Parent Step</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference USE_CASE_STEP__PARENT_STEP = eINSTANCE.getUseCaseStep_ParentStep();
 
 		/**
 		 * The meta object literal for the '{@link reprotool.model.specification.impl.GenericRequirementImpl <em>Generic Requirement</em>}' class.

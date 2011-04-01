@@ -64,7 +64,7 @@ public interface UseCase extends GenericRequirement {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Use Case Steps</em>' containment reference list.
 	 * @see reprotool.model.specification.SpecificationPackage#getUseCase_UseCaseSteps()
-	 * @model containment="true"
+	 * @model containment="true" ordered="false"
 	 * @generated
 	 */
 	EList<UseCaseStep> getUseCaseSteps();
