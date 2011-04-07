@@ -17,18 +17,25 @@ import org.eclipse.ui.part.EditorPart;
 import org.eclipse.wb.swt.layout.grouplayout.GroupLayout;
 import org.eclipse.wb.swt.layout.grouplayout.LayoutStyle;
 
+import reprotool.ide.service.Service;
+import reprotool.model.specification.UseCase;
+import reprotool.model.specification.UseCaseStep;
+
 public class UseCaseEditor extends EditorPart {
 
 	public static final String ID = "cz.cuni.mff.reprotool.ide.editors.UseCaseEditor"; //$NON-NLS-1$
 	
 	private UseCaseTable mainScenario = null;
 	private UseCaseTable extensions = null;
+	
+	// the usecase to edit
+	private UseCase usecase = null;
 
 	public UseCaseEditor() {
 	}
 	
 	// TODO this will be fixed
-	public String getSelectedStep() {
+	public UseCaseStep getSelectedStep() {
 		UseCaseTable focused = null;
 		if (mainScenario.focus)
 			focused = mainScenario;
@@ -60,7 +67,9 @@ public class UseCaseEditor extends EditorPart {
 		
 		Composite composite = new Composite(sashForm, SWT.NONE);
 		
-		mainScenario = new UseCaseTable(composite, SWT.NONE);
+		// TODO hardwired for testing: show first usecase
+		usecase = Service.INSTANCE.getSoftwareProject().getUseCases().get(0);
+		mainScenario = new UseCaseTable(composite, SWT.NONE, usecase);
 		
 		Label labelMainScenario = new Label(composite, SWT.NONE);
 		labelMainScenario.setText("Main scenario");
@@ -102,7 +111,7 @@ public class UseCaseEditor extends EditorPart {
 		btnDelete.setText("Delete");
 //		btnDelete.setImage(getImage());
 		
-		extensions = new UseCaseTable(composite_1, SWT.NONE);
+		extensions = new UseCaseTable(composite_1, SWT.NONE, usecase);
 		
 		Label labelExtensionsAndVariations = new Label(composite_1, SWT.NONE);
 		labelExtensionsAndVariations.setText("Extensions and variations");

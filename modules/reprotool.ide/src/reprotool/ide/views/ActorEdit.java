@@ -19,7 +19,6 @@ public class ActorEdit extends Dialog {
 	protected Object result;
 	protected Shell shell;
 	private Text text;
-	private Text textAcronym;
 	private Text textDescription;
 
 	/**
@@ -54,80 +53,41 @@ public class ActorEdit extends Dialog {
 	 */
 	private void createContents() {
 		shell = new Shell(getParent(), SWT.DIALOG_TRIM | SWT.RESIZE);
-		shell.setMinimumSize(new Point(400, 550));
-		shell.setSize(400, 500);
+		shell.setMinimumSize(new Point(400, 200));
+		shell.setSize(400, 250);
 		shell.setText(getText());
 		FormLayout fl_shell = new FormLayout();
 		fl_shell.marginWidth = 5;
 		fl_shell.marginHeight = 5;
 		shell.setLayout(fl_shell);
 		
-		Label lblEntityName = new Label(shell, SWT.NONE);
-		FormData fd_lblEntityName = new FormData();
-		fd_lblEntityName.top = new FormAttachment(0, 0);
-		fd_lblEntityName.left = new FormAttachment(0, 0);
-		fd_lblEntityName.right = new FormAttachment(100, 0);
-		lblEntityName.setLayoutData(fd_lblEntityName);
-		lblEntityName.setText("Entity name");
+		Label lblActorName = new Label(shell, SWT.NONE);
+		FormData fd_lblActorName = new FormData();
+		fd_lblActorName.top = new FormAttachment(0, 0);
+		fd_lblActorName.left = new FormAttachment(0, 0);
+		fd_lblActorName.right = new FormAttachment(100, 0);
+		lblActorName.setLayoutData(fd_lblActorName);
+		lblActorName.setText("Actor name");
 		
 		text = new Text(shell, SWT.BORDER);
 		FormData fd_text = new FormData();
-		fd_text.top = new FormAttachment(lblEntityName, 5);
+		fd_text.top = new FormAttachment(lblActorName, 5);
 		fd_text.left = new FormAttachment(0, 0);
 		fd_text.right = new FormAttachment(100, 0);
 		text.setLayoutData(fd_text);
 		
-		Label lblAcronym = new Label(shell, SWT.NONE);
-		FormData fd_lblAcronym = new FormData();
-		fd_lblAcronym.top = new FormAttachment(text, 5);
-		fd_lblAcronym.left = new FormAttachment(0);
-		lblAcronym.setLayoutData(fd_lblAcronym);
-		lblAcronym.setText("Acronym");
-		
-		textAcronym = new Text(shell, SWT.BORDER);
-		FormData fd_textAcronym = new FormData();
-		fd_textAcronym.top = new FormAttachment(lblAcronym, 5);
-		fd_textAcronym.left = new FormAttachment(0, 0);
-		fd_textAcronym.right = new FormAttachment(100, 0);
-		textAcronym.setLayoutData(fd_textAcronym);
-		
 		Label lblEntityDescription = new Label(shell, SWT.NONE);
 		FormData fd_lblEntityDescription = new FormData();
-		fd_lblEntityDescription.top = new FormAttachment(textAcronym, 5);
+		fd_lblEntityDescription.top = new FormAttachment(text, 5);
 		fd_lblEntityDescription.left = new FormAttachment(0, 0);
 		lblEntityDescription.setLayoutData(fd_lblEntityDescription);
-		lblEntityDescription.setText("Entity description");
+		lblEntityDescription.setText("Actor description");
 		
 		textDescription = new Text(shell, SWT.BORDER | SWT.MULTI);
 		FormData fd_textDescription = new FormData();
 		fd_textDescription.top = new FormAttachment(lblEntityDescription, 5);
 		fd_textDescription.left = new FormAttachment(0, 0);
 		fd_textDescription.right = new FormAttachment(100, 0);
-		fd_textDescription.bottom = new FormAttachment(lblEntityDescription, 100);
-		textDescription.setLayoutData(fd_textDescription);
-		
-		Label lblParent = new Label(shell, SWT.NONE);
-		FormData fd_lblParent = new FormData();
-		fd_lblParent.top = new FormAttachment(textDescription, 5);
-		fd_lblParent.left = new FormAttachment(0, 0);
-		fd_lblParent.right = new FormAttachment(100, 0);
-		lblParent.setLayoutData(fd_lblParent);
-		lblParent.setText("Parent");
-		
-		Combo comboParent = new Combo(shell, SWT.NONE);
-		FormData fd_combo = new FormData();
-		fd_combo.top = new FormAttachment(lblParent, 5);
-		fd_combo.left = new FormAttachment(0, 0);
-		fd_combo.right = new FormAttachment(100, 0);
-		comboParent.setLayoutData(fd_combo);
-		
-		Label lblChildren = new Label(shell, SWT.NONE);
-		FormData fd_lblChildren = new FormData();
-		fd_lblChildren.top = new FormAttachment(comboParent, 5);
-		fd_lblChildren.left = new FormAttachment(0, 0);
-		fd_lblChildren.right = new FormAttachment(100, 0);
-		lblChildren.setLayoutData(fd_lblChildren);
-		lblChildren.setText("Children");
 		
 		Button btnSave = new Button(shell, SWT.NONE);
 		FormData fd_SaveButton = new FormData();
@@ -136,12 +96,7 @@ public class ActorEdit extends Dialog {
 		btnSave.setLayoutData(fd_SaveButton);
 		btnSave.setText("Save");
 		
-		List list = new List(shell, SWT.BORDER);
-		FormData fd_list = new FormData();
-		fd_list.bottom = new FormAttachment(btnSave, -5);
-		fd_list.top = new FormAttachment(lblChildren, 5);
-		fd_list.left = new FormAttachment(0, 0);
-		fd_list.right = new FormAttachment(100, 0);
-		list.setLayoutData(fd_list);
+		fd_textDescription.bottom = new FormAttachment(btnSave, -5);
+		textDescription.setLayoutData(fd_textDescription);
 	}
 }

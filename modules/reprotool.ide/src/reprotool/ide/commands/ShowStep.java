@@ -21,7 +21,7 @@ public class ShowStep extends AbstractHandler
 		IEditorPart editor = page.getActiveEditor();
 		UcStepView view = (UcStepView) page.findView(UcStepView.ID);
 		if (view != null && editor != null && editor instanceof UseCaseEditor)
-			view.lblStepSentence.setText(((UseCaseEditor)editor).getSelectedStep());
+			view.setStep(((UseCaseEditor)editor).getSelectedStep());
 		
 		return null;
 	}

@@ -20,6 +20,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link reprotool.model.specification.UseCaseStep#getExtensions <em>Extensions</em>}</li>
  *   <li>{@link reprotool.model.specification.UseCaseStep#getVariations <em>Variations</em>}</li>
  *   <li>{@link reprotool.model.specification.UseCaseStep#getParentStep <em>Parent Step</em>}</li>
+ *   <li>{@link reprotool.model.specification.UseCaseStep#getDesc <em>Desc</em>}</li>
  * </ul>
  * </p>
  *
@@ -86,6 +87,31 @@ public interface UseCaseStep extends EObject {
 	 * @generated
 	 */
 	void setParentStep(UseCaseStep value);
+
+	/**
+	 * Returns the value of the '<em><b>Desc</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * Description
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Desc</em>' attribute.
+	 * @see #setDesc(String)
+	 * @see reprotool.model.specification.SpecificationPackage#getUseCaseStep_Desc()
+	 * @model
+	 * @generated
+	 */
+	String getDesc();
+
+	/**
+	 * Sets the value of the '{@link reprotool.model.specification.UseCaseStep#getDesc <em>Desc</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Desc</em>' attribute.
+	 * @see #getDesc()
+	 * @generated
+	 */
+	void setDesc(String value);
 
 	/**
 	 * <!-- begin-user-doc -->

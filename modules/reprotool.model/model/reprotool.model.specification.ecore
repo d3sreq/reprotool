@@ -35,6 +35,11 @@
         eType="#//UseCaseStep" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="parentStep" eType="#//UseCaseStep"
         derived="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Desc" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Description"/>
+      </eAnnotations>
+    </eStructuralFeatures>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="GenericRequirement" eSuperTypes="reprotool.model.traceability.ecore#//TraceableEntity">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="originalText" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>

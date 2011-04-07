@@ -32,6 +32,7 @@ import reprotool.model.specification.UseCaseStep;
  *   <li>{@link reprotool.model.specification.impl.UseCaseStepImpl#getExtensions <em>Extensions</em>}</li>
  *   <li>{@link reprotool.model.specification.impl.UseCaseStepImpl#getVariations <em>Variations</em>}</li>
  *   <li>{@link reprotool.model.specification.impl.UseCaseStepImpl#getParentStep <em>Parent Step</em>}</li>
+ *   <li>{@link reprotool.model.specification.impl.UseCaseStepImpl#getDesc <em>Desc</em>}</li>
  * </ul>
  * </p>
  *
@@ -66,6 +67,24 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 	 */
 	protected UseCaseStep parentStep;
 	/**
+	 * The default value of the '{@link #getDesc() <em>Desc</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getDesc()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String DESC_EDEFAULT = null;
+	/**
+	 * The cached value of the '{@link #getDesc() <em>Desc</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getDesc()
+	 * @generated
+	 * @ordered
+	 */
+	protected String desc = DESC_EDEFAULT;
+	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -90,7 +109,8 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 	 * @generated
 	 */
 	public EList<UseCaseStep> getExtensions() {
-		if (extensions == null) {
+		if (extensions == null)
+		{
 			extensions = new EObjectContainmentEList<UseCaseStep>(UseCaseStep.class, this, SpecificationPackage.USE_CASE_STEP__EXTENSIONS);
 		}
 		return extensions;
@@ -102,7 +122,8 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 	 * @generated
 	 */
 	public EList<UseCaseStep> getVariations() {
-		if (variations == null) {
+		if (variations == null)
+		{
 			variations = new EObjectContainmentEList<UseCaseStep>(UseCaseStep.class, this, SpecificationPackage.USE_CASE_STEP__VARIATIONS);
 		}
 		return variations;
@@ -114,10 +135,12 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 	 * @generated
 	 */
 	public UseCaseStep getParentStep() {
-		if (parentStep != null && parentStep.eIsProxy()) {
+		if (parentStep != null && parentStep.eIsProxy())
+		{
 			InternalEObject oldParentStep = (InternalEObject)parentStep;
 			parentStep = (UseCaseStep)eResolveProxy(oldParentStep);
-			if (parentStep != oldParentStep) {
+			if (parentStep != oldParentStep)
+			{
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE, SpecificationPackage.USE_CASE_STEP__PARENT_STEP, oldParentStep, parentStep));
 			}
@@ -149,6 +172,29 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getDesc()
+	{
+		return desc;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setDesc(String newDesc)
+	{
+		String oldDesc = desc;
+		desc = newDesc;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, SpecificationPackage.USE_CASE_STEP__DESC, oldDesc, desc));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
 	public String getLabel() {
@@ -162,7 +208,8 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
+		switch (featureID)
+		{
 			case SpecificationPackage.USE_CASE_STEP__EXTENSIONS:
 				return ((InternalEList<?>)getExtensions()).basicRemove(otherEnd, msgs);
 			case SpecificationPackage.USE_CASE_STEP__VARIATIONS:
@@ -178,7 +225,8 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
+		switch (featureID)
+		{
 			case SpecificationPackage.USE_CASE_STEP__EXTENSIONS:
 				return getExtensions();
 			case SpecificationPackage.USE_CASE_STEP__VARIATIONS:
@@ -186,6 +234,8 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 			case SpecificationPackage.USE_CASE_STEP__PARENT_STEP:
 				if (resolve) return getParentStep();
 				return basicGetParentStep();
+			case SpecificationPackage.USE_CASE_STEP__DESC:
+				return getDesc();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -198,7 +248,8 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
+		switch (featureID)
+		{
 			case SpecificationPackage.USE_CASE_STEP__EXTENSIONS:
 				getExtensions().clear();
 				getExtensions().addAll((Collection<? extends UseCaseStep>)newValue);
@@ -209,6 +260,9 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 				return;
 			case SpecificationPackage.USE_CASE_STEP__PARENT_STEP:
 				setParentStep((UseCaseStep)newValue);
+				return;
+			case SpecificationPackage.USE_CASE_STEP__DESC:
+				setDesc((String)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -221,7 +275,8 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 	 */
 	@Override
 	public void eUnset(int featureID) {
-		switch (featureID) {
+		switch (featureID)
+		{
 			case SpecificationPackage.USE_CASE_STEP__EXTENSIONS:
 				getExtensions().clear();
 				return;
@@ -230,6 +285,9 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 				return;
 			case SpecificationPackage.USE_CASE_STEP__PARENT_STEP:
 				setParentStep((UseCaseStep)null);
+				return;
+			case SpecificationPackage.USE_CASE_STEP__DESC:
+				setDesc(DESC_EDEFAULT);
 				return;
 		}
 		super.eUnset(featureID);
@@ -242,15 +300,35 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 	 */
 	@Override
 	public boolean eIsSet(int featureID) {
-		switch (featureID) {
+		switch (featureID)
+		{
 			case SpecificationPackage.USE_CASE_STEP__EXTENSIONS:
 				return extensions != null && !extensions.isEmpty();
 			case SpecificationPackage.USE_CASE_STEP__VARIATIONS:
 				return variations != null && !variations.isEmpty();
 			case SpecificationPackage.USE_CASE_STEP__PARENT_STEP:
 				return parentStep != null;
+			case SpecificationPackage.USE_CASE_STEP__DESC:
+				return DESC_EDEFAULT == null ? desc != null : !DESC_EDEFAULT.equals(desc);
 		}
 		return super.eIsSet(featureID);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String toString()
+	{
+		if (eIsProxy()) return super.toString();
+
+		StringBuffer result = new StringBuffer(super.toString());
+		result.append(" (Desc: ");
+		result.append(desc);
+		result.append(')');
+		return result.toString();
 	}
 
 } //UseCaseStepImpl

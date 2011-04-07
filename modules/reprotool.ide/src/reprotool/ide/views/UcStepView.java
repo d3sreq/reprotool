@@ -17,12 +17,16 @@ import org.eclipse.swt.layout.RowData;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 
+import reprotool.ide.service.Service;
+import reprotool.model.specification.UseCase;
+import reprotool.model.specification.UseCaseStep;
+
 public class UcStepView extends ViewPart {
 	
 	public static final String ID = "cz.cuni.mff.reprotool.ide.uc_step_view";
 	
-	// TODO better way to update the view
 	public Label lblStepSentence = null;
+	public Label lblActorDesc = null;
 	
 	public UcStepView() {
 		// TODO Auto-generated constructor stub
@@ -45,14 +49,11 @@ public class UcStepView extends ViewPart {
         grpStep.setLayoutData(fd_grpStep);
         
         lblStepSentence = new Label(grpStep, SWT.WRAP);
-        lblStepSentence.setText("Step sentence - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque feugiat, urna eu condimentum convallis, dui elit malesuada elit, id lacinia quam enim at nisl. Etiam faucibus nisi sit amet quam dignissim in sodales est elementum. In metus lorem, malesuada ac euismod sit amet, cursus nec neque.");
+        lblStepSentence.setText("No step selected");
 
         Group grpAnalysisResult = new Group(parent, SWT.NONE);
         grpAnalysisResult.setText("Analysis result");
-        RowLayout rl_grpAnalysisResult = new RowLayout(SWT.VERTICAL);
-        rl_grpAnalysisResult.marginHeight = 5;
-        rl_grpAnalysisResult.spacing = 8;
-        grpAnalysisResult.setLayout(rl_grpAnalysisResult);
+        grpAnalysisResult.setLayout(new FillLayout(SWT.VERTICAL));
         FormData fd_grpAnalysisResult = new FormData();
         fd_grpAnalysisResult.top = new FormAttachment(grpStep, 10);
         fd_grpAnalysisResult.left = new FormAttachment(0, 10);
@@ -68,6 +69,7 @@ public class UcStepView extends ViewPart {
         Label lblStepIsA = new Label(c_actiontype, SWT.NONE);
         lblStepIsA.setText("Step is a");
         Combo combo = new Combo(c_actiontype, SWT.NONE);
+        combo.setEnabled(false);
         combo.setLayoutData(new RowData(150, 26));
         combo.setText("internal");
         Label lblAction = new Label(c_actiontype, SWT.NONE);
@@ -75,12 +77,17 @@ public class UcStepView extends ViewPart {
         
         Composite c_actor = new Composite(grpAnalysisResult, SWT.NONE);
         RowLayout rl_actor = new RowLayout(SWT.HORIZONTAL);
+        rl_actor.marginHeight = 5;
+        rl_actor.marginBottom = 0;
+        rl_actor.center = true;
+        rl_actor.fill = true;
+        rl_actor.pack = false;
         rl_actor.spacing = 5;
         c_actor.setLayout(rl_actor);
         Label lblActor = new Label(c_actor, SWT.NONE);
         lblActor.setText("Primary actor:");
-        Label lblActorDesc = new Label(c_actor, SWT.WRAP);
-        lblActorDesc.setText("<actor>");
+        lblActorDesc = new Label(c_actor, SWT.WRAP);
+        lblActorDesc.setLayoutData(new RowData(16, SWT.DEFAULT));
         
         
         Group grpToken = new Group(parent, SWT.NONE);
@@ -106,6 +113,17 @@ public class UcStepView extends ViewPart {
         lbltokentext.setFont(SWTResourceManager.getFont("Tahoma", 12, SWT.NORMAL));
         lbltokentext.setForeground(SWTResourceManager.getColor(SWT.COLOR_BLUE));
         lbltokentext.setText("#tokenText");
+	}
+	
+	public void setStep(UseCaseStep s) {
+		lblStepSentence.setText(s.getDesc());
+		// TODO reference from UCStep to UseCase?
+		for (UseCase u : Service.INSTANCE.getSoftwareProject().getUseCases()) {
+			if (u.getUseCaseSteps().contains(s)) {
+				lblActorDesc.setText(u.getPrimaryActor().getName());
+				break;
+			}
+		}
 	}
 
 	@Override
