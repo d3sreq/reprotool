@@ -79,7 +79,8 @@ public enum MethodVisibility implements Enumerator {
 	 * @generated
 	 */
 	private static final MethodVisibility[] VALUES_ARRAY =
-		new MethodVisibility[] {
+		new MethodVisibility[]
+		{
 			PRIVATE,
 			PUBLIC,
 		};
@@ -99,9 +100,11 @@ public enum MethodVisibility implements Enumerator {
 	 * @generated
 	 */
 	public static MethodVisibility get(String literal) {
-		for (int i = 0; i < VALUES_ARRAY.length; ++i) {
+		for (int i = 0; i < VALUES_ARRAY.length; ++i)
+		{
 			MethodVisibility result = VALUES_ARRAY[i];
-			if (result.toString().equals(literal)) {
+			if (result.toString().equals(literal))
+			{
 				return result;
 			}
 		}
@@ -115,9 +118,11 @@ public enum MethodVisibility implements Enumerator {
 	 * @generated
 	 */
 	public static MethodVisibility getByName(String name) {
-		for (int i = 0; i < VALUES_ARRAY.length; ++i) {
+		for (int i = 0; i < VALUES_ARRAY.length; ++i)
+		{
 			MethodVisibility result = VALUES_ARRAY[i];
-			if (result.getName().equals(name)) {
+			if (result.getName().equals(name))
+			{
 				return result;
 			}
 		}
@@ -131,7 +136,8 @@ public enum MethodVisibility implements Enumerator {
 	 * @generated
 	 */
 	public static MethodVisibility get(int value) {
-		switch (value) {
+		switch (value)
+		{
 			case PRIVATE_VALUE: return PRIVATE;
 			case PUBLIC_VALUE: return PUBLIC;
 		}

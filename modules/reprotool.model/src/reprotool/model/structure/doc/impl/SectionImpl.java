@@ -73,7 +73,8 @@ public class SectionImpl extends EObjectImpl implements Section {
 	 * @generated
 	 */
 	public EList<Paragraph> getParagraphs() {
-		if (paragraphs == null) {
+		if (paragraphs == null)
+		{
 			paragraphs = new EObjectContainmentEList<Paragraph>(Paragraph.class, this, DocPackage.SECTION__PARAGRAPHS);
 		}
 		return paragraphs;
@@ -86,7 +87,8 @@ public class SectionImpl extends EObjectImpl implements Section {
 	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
+		switch (featureID)
+		{
 			case DocPackage.SECTION__PARAGRAPHS:
 				return ((InternalEList<?>)getParagraphs()).basicRemove(otherEnd, msgs);
 		}
@@ -100,7 +102,8 @@ public class SectionImpl extends EObjectImpl implements Section {
 	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
+		switch (featureID)
+		{
 			case DocPackage.SECTION__PARAGRAPHS:
 				return getParagraphs();
 		}
@@ -115,7 +118,8 @@ public class SectionImpl extends EObjectImpl implements Section {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
+		switch (featureID)
+		{
 			case DocPackage.SECTION__PARAGRAPHS:
 				getParagraphs().clear();
 				getParagraphs().addAll((Collection<? extends Paragraph>)newValue);
@@ -131,7 +135,8 @@ public class SectionImpl extends EObjectImpl implements Section {
 	 */
 	@Override
 	public void eUnset(int featureID) {
-		switch (featureID) {
+		switch (featureID)
+		{
 			case DocPackage.SECTION__PARAGRAPHS:
 				getParagraphs().clear();
 				return;
@@ -146,7 +151,8 @@ public class SectionImpl extends EObjectImpl implements Section {
 	 */
 	@Override
 	public boolean eIsSet(int featureID) {
-		switch (featureID) {
+		switch (featureID)
+		{
 			case DocPackage.SECTION__PARAGRAPHS:
 				return paragraphs != null && !paragraphs.isEmpty();
 		}

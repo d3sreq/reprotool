@@ -155,7 +155,8 @@ public class ClassImpl extends EObjectImpl implements reprotool.model.structure.
 	 * @generated
 	 */
 	public EList<Method> getMethods() {
-		if (methods == null) {
+		if (methods == null)
+		{
 			methods = new EObjectResolvingEList<Method>(Method.class, this, AstPackage.CLASS__METHODS);
 		}
 		return methods;
@@ -168,7 +169,8 @@ public class ClassImpl extends EObjectImpl implements reprotool.model.structure.
 	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
+		switch (featureID)
+		{
 			case AstPackage.CLASS__COMMENT:
 				return getComment();
 			case AstPackage.CLASS__NAME:
@@ -187,7 +189,8 @@ public class ClassImpl extends EObjectImpl implements reprotool.model.structure.
 	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
+		switch (featureID)
+		{
 			case AstPackage.CLASS__COMMENT:
 				setComment((String)newValue);
 				return;
@@ -209,7 +212,8 @@ public class ClassImpl extends EObjectImpl implements reprotool.model.structure.
 	 */
 	@Override
 	public void eUnset(int featureID) {
-		switch (featureID) {
+		switch (featureID)
+		{
 			case AstPackage.CLASS__COMMENT:
 				setComment(COMMENT_EDEFAULT);
 				return;
@@ -230,7 +234,8 @@ public class ClassImpl extends EObjectImpl implements reprotool.model.structure.
 	 */
 	@Override
 	public boolean eIsSet(int featureID) {
-		switch (featureID) {
+		switch (featureID)
+		{
 			case AstPackage.CLASS__COMMENT:
 				return COMMENT_EDEFAULT == null ? comment != null : !COMMENT_EDEFAULT.equals(comment);
 			case AstPackage.CLASS__NAME:

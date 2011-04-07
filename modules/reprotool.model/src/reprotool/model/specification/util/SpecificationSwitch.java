@@ -44,7 +44,8 @@ public class SpecificationSwitch<T> {
 	 * @generated
 	 */
 	public SpecificationSwitch() {
-		if (modelPackage == null) {
+		if (modelPackage == null)
+		{
 			modelPackage = SpecificationPackage.eINSTANCE;
 		}
 	}
@@ -68,10 +69,12 @@ public class SpecificationSwitch<T> {
 	 * @generated
 	 */
 	protected T doSwitch(EClass theEClass, EObject theEObject) {
-		if (theEClass.eContainer() == modelPackage) {
+		if (theEClass.eContainer() == modelPackage)
+		{
 			return doSwitch(theEClass.getClassifierID(), theEObject);
 		}
-		else {
+		else
+		{
 			List<EClass> eSuperTypes = theEClass.getESuperTypes();
 			return
 				eSuperTypes.isEmpty() ?
@@ -88,14 +91,17 @@ public class SpecificationSwitch<T> {
 	 * @generated
 	 */
 	protected T doSwitch(int classifierID, EObject theEObject) {
-		switch (classifierID) {
-			case SpecificationPackage.SOFTWARE_PROJECT: {
+		switch (classifierID)
+		{
+			case SpecificationPackage.SOFTWARE_PROJECT:
+			{
 				SoftwareProject softwareProject = (SoftwareProject)theEObject;
 				T result = caseSoftwareProject(softwareProject);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case SpecificationPackage.USE_CASE: {
+			case SpecificationPackage.USE_CASE:
+			{
 				UseCase useCase = (UseCase)theEObject;
 				T result = caseUseCase(useCase);
 				if (result == null) result = caseGenericRequirement(useCase);
@@ -103,26 +109,30 @@ public class SpecificationSwitch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case SpecificationPackage.ACTOR: {
+			case SpecificationPackage.ACTOR:
+			{
 				Actor actor = (Actor)theEObject;
 				T result = caseActor(actor);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case SpecificationPackage.USE_CASE_STEP: {
+			case SpecificationPackage.USE_CASE_STEP:
+			{
 				UseCaseStep useCaseStep = (UseCaseStep)theEObject;
 				T result = caseUseCaseStep(useCaseStep);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case SpecificationPackage.GENERIC_REQUIREMENT: {
+			case SpecificationPackage.GENERIC_REQUIREMENT:
+			{
 				GenericRequirement genericRequirement = (GenericRequirement)theEObject;
 				T result = caseGenericRequirement(genericRequirement);
 				if (result == null) result = caseTraceableEntity(genericRequirement);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case SpecificationPackage.NON_FUNCTIONAL_REQUIREMENT: {
+			case SpecificationPackage.NON_FUNCTIONAL_REQUIREMENT:
+			{
 				NonFunctionalRequirement nonFunctionalRequirement = (NonFunctionalRequirement)theEObject;
 				T result = caseNonFunctionalRequirement(nonFunctionalRequirement);
 				if (result == null) result = caseGenericRequirement(nonFunctionalRequirement);

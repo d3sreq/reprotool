@@ -41,7 +41,8 @@ public class AstAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public AstAdapterFactory() {
-		if (modelPackage == null) {
+		if (modelPackage == null)
+		{
 			modelPackage = AstPackage.eINSTANCE;
 		}
 	}
@@ -56,10 +57,12 @@ public class AstAdapterFactory extends AdapterFactoryImpl {
 	 */
 	@Override
 	public boolean isFactoryForType(Object object) {
-		if (object == modelPackage) {
+		if (object == modelPackage)
+		{
 			return true;
 		}
-		if (object instanceof EObject) {
+		if (object instanceof EObject)
+		{
 			return ((EObject)object).eClass().getEPackage() == modelPackage;
 		}
 		return false;
@@ -72,21 +75,26 @@ public class AstAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	protected AstSwitch<Adapter> modelSwitch =
-		new AstSwitch<Adapter>() {
+		new AstSwitch<Adapter>()
+		{
 			@Override
-			public Adapter caseMethod(Method object) {
+			public Adapter caseMethod(Method object)
+			{
 				return createMethodAdapter();
 			}
 			@Override
-			public Adapter caseClass(reprotool.model.structure.ast.Class object) {
+			public Adapter caseClass(reprotool.model.structure.ast.Class object)
+			{
 				return createClassAdapter();
 			}
 			@Override
-			public Adapter caseCodeElement(CodeElement object) {
+			public Adapter caseCodeElement(CodeElement object)
+			{
 				return createCodeElementAdapter();
 			}
 			@Override
-			public Adapter defaultCase(EObject object) {
+			public Adapter defaultCase(EObject object)
+			{
 				return createEObjectAdapter();
 			}
 		};

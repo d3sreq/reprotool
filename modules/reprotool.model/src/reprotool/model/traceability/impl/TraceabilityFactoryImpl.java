@@ -30,13 +30,16 @@ public class TraceabilityFactoryImpl extends EFactoryImpl implements Traceabilit
 	 * @generated
 	 */
 	public static TraceabilityFactory init() {
-		try {
+		try
+		{
 			TraceabilityFactory theTraceabilityFactory = (TraceabilityFactory)EPackage.Registry.INSTANCE.getEFactory("http://d3s.mff.cuni.cz/reprotool/model/traceability"); 
-			if (theTraceabilityFactory != null) {
+			if (theTraceabilityFactory != null)
+			{
 				return theTraceabilityFactory;
 			}
 		}
-		catch (Exception exception) {
+		catch (Exception exception)
+		{
 			EcorePlugin.INSTANCE.log(exception);
 		}
 		return new TraceabilityFactoryImpl();
@@ -59,7 +62,8 @@ public class TraceabilityFactoryImpl extends EFactoryImpl implements Traceabilit
 	 */
 	@Override
 	public EObject create(EClass eClass) {
-		switch (eClass.getClassifierID()) {
+		switch (eClass.getClassifierID())
+		{
 			case TraceabilityPackage.TRACE_LINK: return createTraceLink();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");

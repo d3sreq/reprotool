@@ -42,7 +42,8 @@ public class LinguisticSwitch<T> {
 	 * @generated
 	 */
 	public LinguisticSwitch() {
-		if (modelPackage == null) {
+		if (modelPackage == null)
+		{
 			modelPackage = LinguisticPackage.eINSTANCE;
 		}
 	}
@@ -66,10 +67,12 @@ public class LinguisticSwitch<T> {
 	 * @generated
 	 */
 	protected T doSwitch(EClass theEClass, EObject theEObject) {
-		if (theEClass.eContainer() == modelPackage) {
+		if (theEClass.eContainer() == modelPackage)
+		{
 			return doSwitch(theEClass.getClassifierID(), theEObject);
 		}
-		else {
+		else
+		{
 			List<EClass> eSuperTypes = theEClass.getESuperTypes();
 			return
 				eSuperTypes.isEmpty() ?
@@ -86,14 +89,17 @@ public class LinguisticSwitch<T> {
 	 * @generated
 	 */
 	protected T doSwitch(int classifierID, EObject theEObject) {
-		switch (classifierID) {
-			case LinguisticPackage.SENTENCE_NODE: {
+		switch (classifierID)
+		{
+			case LinguisticPackage.SENTENCE_NODE:
+			{
 				SentenceNode sentenceNode = (SentenceNode)theEObject;
 				T result = caseSentenceNode(sentenceNode);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case LinguisticPackage.WORD: {
+			case LinguisticPackage.WORD:
+			{
 				Word word = (Word)theEObject;
 				T result = caseWord(word);
 				if (result == null) result = caseSentenceNode(word);

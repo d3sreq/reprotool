@@ -139,7 +139,8 @@ public class GenericRequirementImpl extends EObjectImpl implements GenericRequir
 	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
+		switch (featureID)
+		{
 			case SpecificationPackage.GENERIC_REQUIREMENT__ORIGINAL_TEXT:
 				return getOriginalText();
 			case SpecificationPackage.GENERIC_REQUIREMENT__ORIGINAL_ID:
@@ -155,7 +156,8 @@ public class GenericRequirementImpl extends EObjectImpl implements GenericRequir
 	 */
 	@Override
 	public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
+		switch (featureID)
+		{
 			case SpecificationPackage.GENERIC_REQUIREMENT__ORIGINAL_TEXT:
 				setOriginalText((String)newValue);
 				return;
@@ -173,7 +175,8 @@ public class GenericRequirementImpl extends EObjectImpl implements GenericRequir
 	 */
 	@Override
 	public void eUnset(int featureID) {
-		switch (featureID) {
+		switch (featureID)
+		{
 			case SpecificationPackage.GENERIC_REQUIREMENT__ORIGINAL_TEXT:
 				setOriginalText(ORIGINAL_TEXT_EDEFAULT);
 				return;
@@ -191,7 +194,8 @@ public class GenericRequirementImpl extends EObjectImpl implements GenericRequir
 	 */
 	@Override
 	public boolean eIsSet(int featureID) {
-		switch (featureID) {
+		switch (featureID)
+		{
 			case SpecificationPackage.GENERIC_REQUIREMENT__ORIGINAL_TEXT:
 				return ORIGINAL_TEXT_EDEFAULT == null ? originalText != null : !ORIGINAL_TEXT_EDEFAULT.equals(originalText);
 			case SpecificationPackage.GENERIC_REQUIREMENT__ORIGINAL_ID:

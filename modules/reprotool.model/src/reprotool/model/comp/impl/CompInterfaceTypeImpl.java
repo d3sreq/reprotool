@@ -97,7 +97,8 @@ public class CompInterfaceTypeImpl extends EObjectImpl implements CompInterfaceT
 	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
+		switch (featureID)
+		{
 			case CompPackage.COMP_INTERFACE_TYPE__SIGNATURE:
 				return getSignature();
 		}
@@ -111,7 +112,8 @@ public class CompInterfaceTypeImpl extends EObjectImpl implements CompInterfaceT
 	 */
 	@Override
 	public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
+		switch (featureID)
+		{
 			case CompPackage.COMP_INTERFACE_TYPE__SIGNATURE:
 				setSignature((String)newValue);
 				return;
@@ -126,7 +128,8 @@ public class CompInterfaceTypeImpl extends EObjectImpl implements CompInterfaceT
 	 */
 	@Override
 	public void eUnset(int featureID) {
-		switch (featureID) {
+		switch (featureID)
+		{
 			case CompPackage.COMP_INTERFACE_TYPE__SIGNATURE:
 				setSignature(SIGNATURE_EDEFAULT);
 				return;
@@ -141,7 +144,8 @@ public class CompInterfaceTypeImpl extends EObjectImpl implements CompInterfaceT
 	 */
 	@Override
 	public boolean eIsSet(int featureID) {
-		switch (featureID) {
+		switch (featureID)
+		{
 			case CompPackage.COMP_INTERFACE_TYPE__SIGNATURE:
 				return SIGNATURE_EDEFAULT == null ? signature != null : !SIGNATURE_EDEFAULT.equals(signature);
 		}

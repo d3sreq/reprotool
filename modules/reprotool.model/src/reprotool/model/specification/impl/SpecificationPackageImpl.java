@@ -336,6 +336,16 @@ public class SpecificationPackageImpl extends EPackageImpl implements Specificat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getUseCaseStep_Desc()
+	{
+		return (EAttribute)useCaseStepEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getGenericRequirement() {
 		return genericRequirementEClass;
 	}
@@ -416,6 +426,7 @@ public class SpecificationPackageImpl extends EPackageImpl implements Specificat
 		createEReference(useCaseStepEClass, USE_CASE_STEP__EXTENSIONS);
 		createEReference(useCaseStepEClass, USE_CASE_STEP__VARIATIONS);
 		createEReference(useCaseStepEClass, USE_CASE_STEP__PARENT_STEP);
+		createEAttribute(useCaseStepEClass, USE_CASE_STEP__DESC);
 
 		genericRequirementEClass = createEClass(GENERIC_REQUIREMENT);
 		createEAttribute(genericRequirementEClass, GENERIC_REQUIREMENT__ORIGINAL_TEXT);
@@ -481,6 +492,7 @@ public class SpecificationPackageImpl extends EPackageImpl implements Specificat
 		initEReference(getUseCaseStep_Extensions(), this.getUseCaseStep(), null, "extensions", null, 0, -1, UseCaseStep.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getUseCaseStep_Variations(), this.getUseCaseStep(), null, "variations", null, 0, -1, UseCaseStep.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getUseCaseStep_ParentStep(), this.getUseCaseStep(), null, "parentStep", null, 0, 1, UseCaseStep.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+		initEAttribute(getUseCaseStep_Desc(), ecorePackage.getEString(), "Desc", null, 0, 1, UseCaseStep.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		addEOperation(useCaseStepEClass, ecorePackage.getEString(), "getLabel", 0, 1, IS_UNIQUE, IS_ORDERED);
 

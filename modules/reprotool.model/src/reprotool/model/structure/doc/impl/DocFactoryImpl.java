@@ -30,13 +30,16 @@ public class DocFactoryImpl extends EFactoryImpl implements DocFactory {
 	 * @generated
 	 */
 	public static DocFactory init() {
-		try {
+		try
+		{
 			DocFactory theDocFactory = (DocFactory)EPackage.Registry.INSTANCE.getEFactory("http://d3s.mff.cuni.cz/reprotool/model/structure/doc"); 
-			if (theDocFactory != null) {
+			if (theDocFactory != null)
+			{
 				return theDocFactory;
 			}
 		}
-		catch (Exception exception) {
+		catch (Exception exception)
+		{
 			EcorePlugin.INSTANCE.log(exception);
 		}
 		return new DocFactoryImpl();
@@ -59,7 +62,8 @@ public class DocFactoryImpl extends EFactoryImpl implements DocFactory {
 	 */
 	@Override
 	public EObject create(EClass eClass) {
-		switch (eClass.getClassifierID()) {
+		switch (eClass.getClassifierID())
+		{
 			case DocPackage.DOCUMENT: return createDocument();
 			case DocPackage.SECTION: return createSection();
 			case DocPackage.PARAGRAPH: return createParagraph();

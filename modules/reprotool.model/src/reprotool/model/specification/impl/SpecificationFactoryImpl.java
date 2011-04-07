@@ -30,13 +30,16 @@ public class SpecificationFactoryImpl extends EFactoryImpl implements Specificat
 	 * @generated
 	 */
 	public static SpecificationFactory init() {
-		try {
+		try
+		{
 			SpecificationFactory theSpecificationFactory = (SpecificationFactory)EPackage.Registry.INSTANCE.getEFactory("http://d3s.mff.cuni.cz/reprotool/model/specification"); 
-			if (theSpecificationFactory != null) {
+			if (theSpecificationFactory != null)
+			{
 				return theSpecificationFactory;
 			}
 		}
-		catch (Exception exception) {
+		catch (Exception exception)
+		{
 			EcorePlugin.INSTANCE.log(exception);
 		}
 		return new SpecificationFactoryImpl();
@@ -59,7 +62,8 @@ public class SpecificationFactoryImpl extends EFactoryImpl implements Specificat
 	 */
 	@Override
 	public EObject create(EClass eClass) {
-		switch (eClass.getClassifierID()) {
+		switch (eClass.getClassifierID())
+		{
 			case SpecificationPackage.SOFTWARE_PROJECT: return createSoftwareProject();
 			case SpecificationPackage.USE_CASE: return createUseCase();
 			case SpecificationPackage.ACTOR: return createActor();

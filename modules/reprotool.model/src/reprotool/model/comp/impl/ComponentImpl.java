@@ -80,7 +80,8 @@ public class ComponentImpl extends EObjectImpl implements Component {
 	 * @generated
 	 */
 	public EList<CompInterface> getProvidedInterfaces() {
-		if (providedInterfaces == null) {
+		if (providedInterfaces == null)
+		{
 			providedInterfaces = new EObjectResolvingEList<CompInterface>(CompInterface.class, this, CompPackage.COMPONENT__PROVIDED_INTERFACES);
 		}
 		return providedInterfaces;
@@ -92,7 +93,8 @@ public class ComponentImpl extends EObjectImpl implements Component {
 	 * @generated
 	 */
 	public EList<CompInterface> getRequiredInterfaces() {
-		if (requiredInterfaces == null) {
+		if (requiredInterfaces == null)
+		{
 			requiredInterfaces = new EObjectResolvingEList<CompInterface>(CompInterface.class, this, CompPackage.COMPONENT__REQUIRED_INTERFACES);
 		}
 		return requiredInterfaces;
@@ -105,7 +107,8 @@ public class ComponentImpl extends EObjectImpl implements Component {
 	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
+		switch (featureID)
+		{
 			case CompPackage.COMPONENT__PROVIDED_INTERFACES:
 				return getProvidedInterfaces();
 			case CompPackage.COMPONENT__REQUIRED_INTERFACES:
@@ -122,7 +125,8 @@ public class ComponentImpl extends EObjectImpl implements Component {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
+		switch (featureID)
+		{
 			case CompPackage.COMPONENT__PROVIDED_INTERFACES:
 				getProvidedInterfaces().clear();
 				getProvidedInterfaces().addAll((Collection<? extends CompInterface>)newValue);
@@ -142,7 +146,8 @@ public class ComponentImpl extends EObjectImpl implements Component {
 	 */
 	@Override
 	public void eUnset(int featureID) {
-		switch (featureID) {
+		switch (featureID)
+		{
 			case CompPackage.COMPONENT__PROVIDED_INTERFACES:
 				getProvidedInterfaces().clear();
 				return;
@@ -160,7 +165,8 @@ public class ComponentImpl extends EObjectImpl implements Component {
 	 */
 	@Override
 	public boolean eIsSet(int featureID) {
-		switch (featureID) {
+		switch (featureID)
+		{
 			case CompPackage.COMPONENT__PROVIDED_INTERFACES:
 				return providedInterfaces != null && !providedInterfaces.isEmpty();
 			case CompPackage.COMPONENT__REQUIRED_INTERFACES:

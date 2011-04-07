@@ -30,13 +30,16 @@ public class CompFactoryImpl extends EFactoryImpl implements CompFactory {
 	 * @generated
 	 */
 	public static CompFactory init() {
-		try {
+		try
+		{
 			CompFactory theCompFactory = (CompFactory)EPackage.Registry.INSTANCE.getEFactory("http://d3s.mff.cuni.cz/reprotool/model/comp"); 
-			if (theCompFactory != null) {
+			if (theCompFactory != null)
+			{
 				return theCompFactory;
 			}
 		}
-		catch (Exception exception) {
+		catch (Exception exception)
+		{
 			EcorePlugin.INSTANCE.log(exception);
 		}
 		return new CompFactoryImpl();
@@ -59,7 +62,8 @@ public class CompFactoryImpl extends EFactoryImpl implements CompFactory {
 	 */
 	@Override
 	public EObject create(EClass eClass) {
-		switch (eClass.getClassifierID()) {
+		switch (eClass.getClassifierID())
+		{
 			case CompPackage.COMPONENT: return createComponent();
 			case CompPackage.COMP_INTERFACE: return createCompInterface();
 			case CompPackage.COMP_INTERFACE_TYPE: return createCompInterfaceType();

@@ -41,7 +41,8 @@ public class SpecificationAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public SpecificationAdapterFactory() {
-		if (modelPackage == null) {
+		if (modelPackage == null)
+		{
 			modelPackage = SpecificationPackage.eINSTANCE;
 		}
 	}
@@ -56,10 +57,12 @@ public class SpecificationAdapterFactory extends AdapterFactoryImpl {
 	 */
 	@Override
 	public boolean isFactoryForType(Object object) {
-		if (object == modelPackage) {
+		if (object == modelPackage)
+		{
 			return true;
 		}
-		if (object instanceof EObject) {
+		if (object instanceof EObject)
+		{
 			return ((EObject)object).eClass().getEPackage() == modelPackage;
 		}
 		return false;
@@ -72,37 +75,46 @@ public class SpecificationAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	protected SpecificationSwitch<Adapter> modelSwitch =
-		new SpecificationSwitch<Adapter>() {
+		new SpecificationSwitch<Adapter>()
+		{
 			@Override
-			public Adapter caseSoftwareProject(SoftwareProject object) {
+			public Adapter caseSoftwareProject(SoftwareProject object)
+			{
 				return createSoftwareProjectAdapter();
 			}
 			@Override
-			public Adapter caseUseCase(UseCase object) {
+			public Adapter caseUseCase(UseCase object)
+			{
 				return createUseCaseAdapter();
 			}
 			@Override
-			public Adapter caseActor(Actor object) {
+			public Adapter caseActor(Actor object)
+			{
 				return createActorAdapter();
 			}
 			@Override
-			public Adapter caseUseCaseStep(UseCaseStep object) {
+			public Adapter caseUseCaseStep(UseCaseStep object)
+			{
 				return createUseCaseStepAdapter();
 			}
 			@Override
-			public Adapter caseGenericRequirement(GenericRequirement object) {
+			public Adapter caseGenericRequirement(GenericRequirement object)
+			{
 				return createGenericRequirementAdapter();
 			}
 			@Override
-			public Adapter caseNonFunctionalRequirement(NonFunctionalRequirement object) {
+			public Adapter caseNonFunctionalRequirement(NonFunctionalRequirement object)
+			{
 				return createNonFunctionalRequirementAdapter();
 			}
 			@Override
-			public Adapter caseTraceableEntity(TraceableEntity object) {
+			public Adapter caseTraceableEntity(TraceableEntity object)
+			{
 				return createTraceableEntityAdapter();
 			}
 			@Override
-			public Adapter defaultCase(EObject object) {
+			public Adapter defaultCase(EObject object)
+			{
 				return createEObjectAdapter();
 			}
 		};

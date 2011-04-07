@@ -39,7 +39,8 @@ public class CompAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public CompAdapterFactory() {
-		if (modelPackage == null) {
+		if (modelPackage == null)
+		{
 			modelPackage = CompPackage.eINSTANCE;
 		}
 	}
@@ -54,10 +55,12 @@ public class CompAdapterFactory extends AdapterFactoryImpl {
 	 */
 	@Override
 	public boolean isFactoryForType(Object object) {
-		if (object == modelPackage) {
+		if (object == modelPackage)
+		{
 			return true;
 		}
-		if (object instanceof EObject) {
+		if (object instanceof EObject)
+		{
 			return ((EObject)object).eClass().getEPackage() == modelPackage;
 		}
 		return false;
@@ -70,21 +73,26 @@ public class CompAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	protected CompSwitch<Adapter> modelSwitch =
-		new CompSwitch<Adapter>() {
+		new CompSwitch<Adapter>()
+		{
 			@Override
-			public Adapter caseComponent(Component object) {
+			public Adapter caseComponent(Component object)
+			{
 				return createComponentAdapter();
 			}
 			@Override
-			public Adapter caseCompInterface(CompInterface object) {
+			public Adapter caseCompInterface(CompInterface object)
+			{
 				return createCompInterfaceAdapter();
 			}
 			@Override
-			public Adapter caseCompInterfaceType(CompInterfaceType object) {
+			public Adapter caseCompInterfaceType(CompInterfaceType object)
+			{
 				return createCompInterfaceTypeAdapter();
 			}
 			@Override
-			public Adapter defaultCase(EObject object) {
+			public Adapter defaultCase(EObject object)
+			{
 				return createEObjectAdapter();
 			}
 		};

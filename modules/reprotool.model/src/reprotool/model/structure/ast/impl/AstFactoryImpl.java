@@ -34,13 +34,16 @@ public class AstFactoryImpl extends EFactoryImpl implements AstFactory {
 	 * @generated
 	 */
 	public static AstFactory init() {
-		try {
+		try
+		{
 			AstFactory theAstFactory = (AstFactory)EPackage.Registry.INSTANCE.getEFactory("http://d3s.mff.cuni.cz/reprotool/model/structure/ast"); 
-			if (theAstFactory != null) {
+			if (theAstFactory != null)
+			{
 				return theAstFactory;
 			}
 		}
-		catch (Exception exception) {
+		catch (Exception exception)
+		{
 			EcorePlugin.INSTANCE.log(exception);
 		}
 		return new AstFactoryImpl();
@@ -63,7 +66,8 @@ public class AstFactoryImpl extends EFactoryImpl implements AstFactory {
 	 */
 	@Override
 	public EObject create(EClass eClass) {
-		switch (eClass.getClassifierID()) {
+		switch (eClass.getClassifierID())
+		{
 			case AstPackage.METHOD: return createMethod();
 			case AstPackage.CLASS: return createClass();
 			default:
@@ -78,7 +82,8 @@ public class AstFactoryImpl extends EFactoryImpl implements AstFactory {
 	 */
 	@Override
 	public Object createFromString(EDataType eDataType, String initialValue) {
-		switch (eDataType.getClassifierID()) {
+		switch (eDataType.getClassifierID())
+		{
 			case AstPackage.METHOD_VISIBILITY:
 				return createMethodVisibilityFromString(eDataType, initialValue);
 			default:
@@ -93,7 +98,8 @@ public class AstFactoryImpl extends EFactoryImpl implements AstFactory {
 	 */
 	@Override
 	public String convertToString(EDataType eDataType, Object instanceValue) {
-		switch (eDataType.getClassifierID()) {
+		switch (eDataType.getClassifierID())
+		{
 			case AstPackage.METHOD_VISIBILITY:
 				return convertMethodVisibilityToString(eDataType, instanceValue);
 			default:

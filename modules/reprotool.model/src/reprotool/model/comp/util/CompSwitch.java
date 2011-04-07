@@ -42,7 +42,8 @@ public class CompSwitch<T> {
 	 * @generated
 	 */
 	public CompSwitch() {
-		if (modelPackage == null) {
+		if (modelPackage == null)
+		{
 			modelPackage = CompPackage.eINSTANCE;
 		}
 	}
@@ -66,10 +67,12 @@ public class CompSwitch<T> {
 	 * @generated
 	 */
 	protected T doSwitch(EClass theEClass, EObject theEObject) {
-		if (theEClass.eContainer() == modelPackage) {
+		if (theEClass.eContainer() == modelPackage)
+		{
 			return doSwitch(theEClass.getClassifierID(), theEObject);
 		}
-		else {
+		else
+		{
 			List<EClass> eSuperTypes = theEClass.getESuperTypes();
 			return
 				eSuperTypes.isEmpty() ?
@@ -86,20 +89,24 @@ public class CompSwitch<T> {
 	 * @generated
 	 */
 	protected T doSwitch(int classifierID, EObject theEObject) {
-		switch (classifierID) {
-			case CompPackage.COMPONENT: {
+		switch (classifierID)
+		{
+			case CompPackage.COMPONENT:
+			{
 				Component component = (Component)theEObject;
 				T result = caseComponent(component);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case CompPackage.COMP_INTERFACE: {
+			case CompPackage.COMP_INTERFACE:
+			{
 				CompInterface compInterface = (CompInterface)theEObject;
 				T result = caseCompInterface(compInterface);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case CompPackage.COMP_INTERFACE_TYPE: {
+			case CompPackage.COMP_INTERFACE_TYPE:
+			{
 				CompInterfaceType compInterfaceType = (CompInterfaceType)theEObject;
 				T result = caseCompInterfaceType(compInterfaceType);
 				if (result == null) result = defaultCase(theEObject);

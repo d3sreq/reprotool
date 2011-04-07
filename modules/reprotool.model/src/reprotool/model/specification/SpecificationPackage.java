@@ -310,13 +310,22 @@ public interface SpecificationPackage extends EPackage {
 	int USE_CASE_STEP__PARENT_STEP = 2;
 
 	/**
+	 * The feature id for the '<em><b>Desc</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int USE_CASE_STEP__DESC = 3;
+
+	/**
 	 * The number of structural features of the '<em>Use Case Step</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int USE_CASE_STEP_FEATURE_COUNT = 3;
+	int USE_CASE_STEP_FEATURE_COUNT = 4;
 
 	/**
 	 * The meta object id for the '{@link reprotool.model.specification.impl.NonFunctionalRequirementImpl <em>Non Functional Requirement</em>}' class.
@@ -551,6 +560,17 @@ public interface SpecificationPackage extends EPackage {
 	EReference getUseCaseStep_ParentStep();
 
 	/**
+	 * Returns the meta object for the attribute '{@link reprotool.model.specification.UseCaseStep#getDesc <em>Desc</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Desc</em>'.
+	 * @see reprotool.model.specification.UseCaseStep#getDesc()
+	 * @see #getUseCaseStep()
+	 * @generated
+	 */
+	EAttribute getUseCaseStep_Desc();
+
+	/**
 	 * Returns the meta object for class '{@link reprotool.model.specification.GenericRequirement <em>Generic Requirement</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -765,6 +785,14 @@ public interface SpecificationPackage extends EPackage {
 		 * @generated
 		 */
 		EReference USE_CASE_STEP__PARENT_STEP = eINSTANCE.getUseCaseStep_ParentStep();
+
+		/**
+		 * The meta object literal for the '<em><b>Desc</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute USE_CASE_STEP__DESC = eINSTANCE.getUseCaseStep_Desc();
 
 		/**
 		 * The meta object literal for the '{@link reprotool.model.specification.impl.GenericRequirementImpl <em>Generic Requirement</em>}' class.

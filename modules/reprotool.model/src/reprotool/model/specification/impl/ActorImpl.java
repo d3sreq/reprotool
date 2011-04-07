@@ -106,7 +106,8 @@ public class ActorImpl extends EObjectImpl implements Actor {
 	 * @generated
 	 */
 	public EList<Actor> getChildrenActors() {
-		if (childrenActors == null) {
+		if (childrenActors == null)
+		{
 			childrenActors = new EObjectWithInverseResolvingEList<Actor>(Actor.class, this, SpecificationPackage.ACTOR__CHILDREN_ACTORS, SpecificationPackage.ACTOR__PARENT);
 		}
 		return childrenActors;
@@ -118,10 +119,12 @@ public class ActorImpl extends EObjectImpl implements Actor {
 	 * @generated
 	 */
 	public Actor getParent() {
-		if (parent != null && parent.eIsProxy()) {
+		if (parent != null && parent.eIsProxy())
+		{
 			InternalEObject oldParent = (InternalEObject)parent;
 			parent = (Actor)eResolveProxy(oldParent);
-			if (parent != oldParent) {
+			if (parent != oldParent)
+			{
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE, SpecificationPackage.ACTOR__PARENT, oldParent, parent));
 			}
@@ -146,7 +149,8 @@ public class ActorImpl extends EObjectImpl implements Actor {
 	public NotificationChain basicSetParent(Actor newParent, NotificationChain msgs) {
 		Actor oldParent = parent;
 		parent = newParent;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
+		{
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SpecificationPackage.ACTOR__PARENT, oldParent, newParent);
 			if (msgs == null) msgs = notification; else msgs.add(notification);
 		}
@@ -159,7 +163,8 @@ public class ActorImpl extends EObjectImpl implements Actor {
 	 * @generated
 	 */
 	public void setParent(Actor newParent) {
-		if (newParent != parent) {
+		if (newParent != parent)
+		{
 			NotificationChain msgs = null;
 			if (parent != null)
 				msgs = ((InternalEObject)parent).eInverseRemove(this, SpecificationPackage.ACTOR__CHILDREN_ACTORS, Actor.class, msgs);
@@ -201,7 +206,8 @@ public class ActorImpl extends EObjectImpl implements Actor {
 	@SuppressWarnings("unchecked")
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
+		switch (featureID)
+		{
 			case SpecificationPackage.ACTOR__CHILDREN_ACTORS:
 				return ((InternalEList<InternalEObject>)(InternalEList<?>)getChildrenActors()).basicAdd(otherEnd, msgs);
 			case SpecificationPackage.ACTOR__PARENT:
@@ -219,7 +225,8 @@ public class ActorImpl extends EObjectImpl implements Actor {
 	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
+		switch (featureID)
+		{
 			case SpecificationPackage.ACTOR__CHILDREN_ACTORS:
 				return ((InternalEList<?>)getChildrenActors()).basicRemove(otherEnd, msgs);
 			case SpecificationPackage.ACTOR__PARENT:
@@ -235,7 +242,8 @@ public class ActorImpl extends EObjectImpl implements Actor {
 	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
+		switch (featureID)
+		{
 			case SpecificationPackage.ACTOR__CHILDREN_ACTORS:
 				return getChildrenActors();
 			case SpecificationPackage.ACTOR__PARENT:
@@ -255,7 +263,8 @@ public class ActorImpl extends EObjectImpl implements Actor {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
+		switch (featureID)
+		{
 			case SpecificationPackage.ACTOR__CHILDREN_ACTORS:
 				getChildrenActors().clear();
 				getChildrenActors().addAll((Collection<? extends Actor>)newValue);
@@ -277,7 +286,8 @@ public class ActorImpl extends EObjectImpl implements Actor {
 	 */
 	@Override
 	public void eUnset(int featureID) {
-		switch (featureID) {
+		switch (featureID)
+		{
 			case SpecificationPackage.ACTOR__CHILDREN_ACTORS:
 				getChildrenActors().clear();
 				return;
@@ -298,7 +308,8 @@ public class ActorImpl extends EObjectImpl implements Actor {
 	 */
 	@Override
 	public boolean eIsSet(int featureID) {
-		switch (featureID) {
+		switch (featureID)
+		{
 			case SpecificationPackage.ACTOR__CHILDREN_ACTORS:
 				return childrenActors != null && !childrenActors.isEmpty();
 			case SpecificationPackage.ACTOR__PARENT:

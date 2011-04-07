@@ -41,7 +41,8 @@ public class DocAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public DocAdapterFactory() {
-		if (modelPackage == null) {
+		if (modelPackage == null)
+		{
 			modelPackage = DocPackage.eINSTANCE;
 		}
 	}
@@ -56,10 +57,12 @@ public class DocAdapterFactory extends AdapterFactoryImpl {
 	 */
 	@Override
 	public boolean isFactoryForType(Object object) {
-		if (object == modelPackage) {
+		if (object == modelPackage)
+		{
 			return true;
 		}
-		if (object instanceof EObject) {
+		if (object instanceof EObject)
+		{
 			return ((EObject)object).eClass().getEPackage() == modelPackage;
 		}
 		return false;
@@ -72,25 +75,31 @@ public class DocAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	protected DocSwitch<Adapter> modelSwitch =
-		new DocSwitch<Adapter>() {
+		new DocSwitch<Adapter>()
+		{
 			@Override
-			public Adapter caseDocument(Document object) {
+			public Adapter caseDocument(Document object)
+			{
 				return createDocumentAdapter();
 			}
 			@Override
-			public Adapter caseSection(Section object) {
+			public Adapter caseSection(Section object)
+			{
 				return createSectionAdapter();
 			}
 			@Override
-			public Adapter caseParagraph(Paragraph object) {
+			public Adapter caseParagraph(Paragraph object)
+			{
 				return createParagraphAdapter();
 			}
 			@Override
-			public Adapter caseTraceableEntity(TraceableEntity object) {
+			public Adapter caseTraceableEntity(TraceableEntity object)
+			{
 				return createTraceableEntityAdapter();
 			}
 			@Override
-			public Adapter defaultCase(EObject object) {
+			public Adapter defaultCase(EObject object)
+			{
 				return createEObjectAdapter();
 			}
 		};

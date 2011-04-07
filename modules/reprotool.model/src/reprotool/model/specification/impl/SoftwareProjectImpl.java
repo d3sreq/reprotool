@@ -132,7 +132,8 @@ public class SoftwareProjectImpl extends EObjectImpl implements SoftwareProject 
 	 * @generated
 	 */
 	public EList<Actor> getActors() {
-		if (actors == null) {
+		if (actors == null)
+		{
 			actors = new EObjectContainmentEList<Actor>(Actor.class, this, SpecificationPackage.SOFTWARE_PROJECT__ACTORS);
 		}
 		return actors;
@@ -186,7 +187,8 @@ public class SoftwareProjectImpl extends EObjectImpl implements SoftwareProject 
 	 * @generated
 	 */
 	public EList<GenericRequirement> getRequirements() {
-		if (requirements == null) {
+		if (requirements == null)
+		{
 			requirements = new EObjectContainmentEList<GenericRequirement>(GenericRequirement.class, this, SpecificationPackage.SOFTWARE_PROJECT__REQUIREMENTS);
 		}
 		return requirements;
@@ -215,7 +217,8 @@ public class SoftwareProjectImpl extends EObjectImpl implements SoftwareProject 
 	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
+		switch (featureID)
+		{
 			case SpecificationPackage.SOFTWARE_PROJECT__ACTORS:
 				return ((InternalEList<?>)getActors()).basicRemove(otherEnd, msgs);
 			case SpecificationPackage.SOFTWARE_PROJECT__REQUIREMENTS:
@@ -233,7 +236,8 @@ public class SoftwareProjectImpl extends EObjectImpl implements SoftwareProject 
 	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
+		switch (featureID)
+		{
 			case SpecificationPackage.SOFTWARE_PROJECT__ACTORS:
 				return getActors();
 			case SpecificationPackage.SOFTWARE_PROJECT__NAME:
@@ -256,7 +260,8 @@ public class SoftwareProjectImpl extends EObjectImpl implements SoftwareProject 
 	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
+		switch (featureID)
+		{
 			case SpecificationPackage.SOFTWARE_PROJECT__ACTORS:
 				getActors().clear();
 				getActors().addAll((Collection<? extends Actor>)newValue);
@@ -286,7 +291,8 @@ public class SoftwareProjectImpl extends EObjectImpl implements SoftwareProject 
 	 */
 	@Override
 	public void eUnset(int featureID) {
-		switch (featureID) {
+		switch (featureID)
+		{
 			case SpecificationPackage.SOFTWARE_PROJECT__ACTORS:
 				getActors().clear();
 				return;
@@ -313,7 +319,8 @@ public class SoftwareProjectImpl extends EObjectImpl implements SoftwareProject 
 	 */
 	@Override
 	public boolean eIsSet(int featureID) {
-		switch (featureID) {
+		switch (featureID)
+		{
 			case SpecificationPackage.SOFTWARE_PROJECT__ACTORS:
 				return actors != null && !actors.isEmpty();
 			case SpecificationPackage.SOFTWARE_PROJECT__NAME:

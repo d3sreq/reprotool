@@ -182,7 +182,8 @@ public class MethodImpl extends EObjectImpl implements Method {
 	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
+		switch (featureID)
+		{
 			case AstPackage.METHOD__COMMENT:
 				return getComment();
 			case AstPackage.METHOD__NAME:
@@ -200,7 +201,8 @@ public class MethodImpl extends EObjectImpl implements Method {
 	 */
 	@Override
 	public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
+		switch (featureID)
+		{
 			case AstPackage.METHOD__COMMENT:
 				setComment((String)newValue);
 				return;
@@ -221,7 +223,8 @@ public class MethodImpl extends EObjectImpl implements Method {
 	 */
 	@Override
 	public void eUnset(int featureID) {
-		switch (featureID) {
+		switch (featureID)
+		{
 			case AstPackage.METHOD__COMMENT:
 				setComment(COMMENT_EDEFAULT);
 				return;
@@ -242,7 +245,8 @@ public class MethodImpl extends EObjectImpl implements Method {
 	 */
 	@Override
 	public boolean eIsSet(int featureID) {
-		switch (featureID) {
+		switch (featureID)
+		{
 			case AstPackage.METHOD__COMMENT:
 				return COMMENT_EDEFAULT == null ? comment != null : !COMMENT_EDEFAULT.equals(comment);
 			case AstPackage.METHOD__NAME:
