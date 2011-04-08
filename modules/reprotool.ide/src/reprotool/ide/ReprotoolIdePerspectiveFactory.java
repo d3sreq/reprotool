@@ -14,6 +14,7 @@ public class ReprotoolIdePerspectiveFactory implements IPerspectiveFactory {
 			IFolderLayout folderLayout = myLayout.createFolder("folder", IPageLayout.BOTTOM, 0.66f, IPageLayout.ID_EDITOR_AREA);
 			folderLayout.addView("cz.cuni.mff.reprotool.ide.view_parsed_tree");
 			folderLayout.addView("cz.cuni.mff.reprotool.ide.views.view_linguistic_tools");
+			folderLayout.addView("org.eclipse.ui.views.ProgressView");
 		}
 		{
 			IFolderLayout folderLayout = myLayout.createFolder("folder_1", IPageLayout.RIGHT, 0.66f, IPageLayout.ID_EDITOR_AREA);

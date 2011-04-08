@@ -35,6 +35,13 @@
             name="usecase step"
             restorable="true">
       </view>
+      <view
+         name="progress view"
+         category="org.eclipse.ui"
+         class="org.eclipse.ui.ExtensionFactory:progressView"
+         id="org.eclipse.ui.views.ProgressView"
+         restorable="true">
+      </view>     
    </extension>
    <extension
          point="org.eclipse.ui.perspectives">

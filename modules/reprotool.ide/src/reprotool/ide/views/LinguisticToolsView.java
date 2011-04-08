@@ -1,5 +1,15 @@
 package reprotool.ide.views;
 
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
@@ -7,6 +17,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.ViewPart;
+import org.eclipse.ui.progress.IProgressConstants;
 
 public class LinguisticToolsView extends ViewPart {
 
@@ -68,10 +79,13 @@ public class LinguisticToolsView extends ViewPart {
 
 		// TODO wireframe only
 		treeViewer.setInput(new Object());
-
+		
 		createActions();
 		initializeToolBar();
 		initializeMenu();
+		
+		externalJob();
+		testJob();
 	}
 
 	/**
@@ -95,6 +109,79 @@ public class LinguisticToolsView extends ViewPart {
 //		IMenuManager menuManager = getViewSite().getActionBars().getMenuManager();
 	}
 
+	/**
+	 * External job.
+	 */
+	private void externalJob() {
+		Job job = new Job("External job") {
+		    @Override
+		    public IStatus run(IProgressMonitor monitor) {
+		    	setProperty(IProgressConstants.KEEP_PROPERTY, Boolean.TRUE);
+		    	try{
+			    	monitor.beginTask("Ping....", 100);
+		    		String[] cmd = {"/bin/sh", "-c", "ping -c10 www.seznam.cz"};
+		    		Process p = Runtime.getRuntime().exec(cmd);
+		    		BufferedReader in = new BufferedReader(  
+		    				new InputStreamReader(p.getInputStream()));  
+		    		String line = null;  
+		    		while ((line = in.readLine()) != null) {  
+		    			//System.out.println(line);  
+				    	monitor.worked(10);
+				    	monitor.subTask(line.concat("test"));
+		    		}
+		    	} catch (Exception e){
+	    			e.printStackTrace();  		    		
+		    	}
+		    	finally{
+		    		monitor.done();
+		    	}
+		    	return Status.OK_STATUS;
+		    }
+		};
+		job.schedule();	
+	}	
+
+	/**
+	 * Dummy test job.
+	 */
+	private void testJob() {
+		Job job = new Job("Test job") {
+		    @Override
+		    public IStatus run(IProgressMonitor monitor) {
+		    	setProperty(IProgressConstants.KEEP_PROPERTY, Boolean.TRUE);
+		    	try{
+			    	monitor.beginTask("Init....", 100);
+			        Thread.sleep(2000);    
+			    	monitor.worked(20);
+			        Thread.sleep(2000);    
+			    	monitor.worked(20);
+			        Thread.sleep(2000);    
+			    	monitor.worked(20);
+			    	monitor.subTask("Sub...");
+			        Thread.sleep(2000);    
+			    	monitor.worked(50);
+			    	
+			    	if(monitor.isCanceled()){
+			    		return Status.CANCEL_STATUS;
+			    	}
+			        Thread.sleep(2000);  
+			    	monitor.worked(100);
+		    	} catch (Exception e){}
+		    	finally{
+		    		monitor.done();
+		    	}
+		    	return Status.OK_STATUS;
+		    }
+		};
+		IAction gotoAction = new Action("Results") {
+			public void run() {
+		         // Show the results
+			}
+		};
+		job.setProperty(IProgressConstants.ACTION_PROPERTY, gotoAction);		
+		job.schedule();	
+	}	
+	
 	@Override
 	public void setFocus() {
 		// Set the focus
