@@ -95,8 +95,9 @@
       </category>
       <wizard
             category="reprotool.ide.category1"
-            class="reprotool.ide.wizards.ProjectWizard"
+            class="reprotool.ide.wizards.project.ProjectWizard"
             finalPerspective="cz.cuni.mff.reprotool.ide.perspective_reprotool_ide"
+            hasPages="true"
             icon="icons/reprotool-web-logo-16x16.png"
             id="reprotool.ide.wizard1"
             name="Reprotool Project"

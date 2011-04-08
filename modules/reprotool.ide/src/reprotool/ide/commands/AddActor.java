@@ -33,6 +33,7 @@ public class AddActor extends AbstractHandler {
 
 		if (dialog.open() == Window.OK) {
 			projectEditor.getProject().getActors().add(dialog.getActor());
+			projectEditor.markDirty();
 		}
 
 		return null;

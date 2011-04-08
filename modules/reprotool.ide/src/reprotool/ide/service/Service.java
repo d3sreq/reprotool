@@ -47,8 +47,8 @@ public enum Service {
 		
 		Actor bank = factory.createActor();
 		bank.setName("Bank");
-		bank.getChildrenActors().add(clerk);
-		bank.getChildrenActors().add(owner);
+//		bank.getChildrenActors().add(clerk);
+//		bank.getChildrenActors().add(owner);
 		project.getActors().add(bank);
 		
 		// non-compound actor
@@ -76,6 +76,10 @@ public enum Service {
 
 	public Actor createActor() {
 		return factory.createActor();
+	}
+
+	public SoftwareProject createSoftwareProject() {
+		return factory.createSoftwareProject();
 	}
 	
 }
