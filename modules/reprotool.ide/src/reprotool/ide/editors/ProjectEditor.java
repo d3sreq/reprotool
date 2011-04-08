@@ -534,7 +534,7 @@ public class ProjectEditor extends EditorPart {
 
 	// TODO - jvinarek - change
 	public SoftwareProject getProject() {
-		return Service.INSTANCE.createSoftwareProject();
+		return softwareProject;
 	}
 
 }
