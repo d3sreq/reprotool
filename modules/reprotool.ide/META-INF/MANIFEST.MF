@@ -17,6 +17,7 @@ Require-Bundle: org.eclipse.core.runtime,
  reprotool.ling;bundle-version="1.0.0",
  org.eclipse.core.resources;bundle-version="3.6.0",
  org.eclipse.emf.edit.ui;bundle-version="2.6.0",
- org.eclipse.emf.ecore.xmi;bundle-version="2.5.0"
+ org.eclipse.emf.ecore.xmi;bundle-version="2.5.0",
+ org.eclipse.ui
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

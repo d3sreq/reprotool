@@ -104,5 +104,28 @@
             project="true">
       </wizard>
    </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            class="reprotool.ide.preferences.ReprotoolPreferencePage"
+            id="reprotool.ide.preferences.ReprotoolPreferencePage"
+            name="ReProTool">
+      </page>
+      <page
+            class="reprotool.ide.preferences.LingToolsPreferencePage"
+            id="reprotool.ide.preferences.LingToolsPreferencePage"
+            name="Linguistics Tools"
+            category="reprotool.ide.preferences.ReprotoolPreferencePage">
+      </page>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="reprotool.ide.preferences.PreferenceInitializer">
+      </initializer>
+      <initializer
+            class="reprotool.ide.preferences.PreferenceInitializer">
+      </initializer>
+   </extension>
 
 </plugin>
