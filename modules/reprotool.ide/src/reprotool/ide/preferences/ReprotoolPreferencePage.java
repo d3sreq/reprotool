@@ -26,7 +26,7 @@ public class ReprotoolPreferencePage
 	public ReprotoolPreferencePage() {
 		super(GRID);
 		setPreferenceStore(Activator.getDefault().getPreferenceStore());
-		setDescription("ReProTool preference page - sample preferences");
+		setDescription("ReProTool preference page - sample preferences\nVersion: " + Activator.getDefault().getBundle().getVersion() );
 	}
 	
 	/**

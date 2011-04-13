@@ -1,5 +1,9 @@
 package reprotool.ide.preferences;
 
+import java.io.IOException;
+import java.net.URL;
+
+import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
 import org.eclipse.jface.preference.IPreferenceStore;
 
@@ -22,8 +26,29 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 		store.setDefault(PreferenceConstants.P_STRING,
 				"Default value");
 
-		store.setDefault(PreferenceConstants.MODEL_LOC, "/model");
-		store.setDefault(PreferenceConstants.WORDNET_DICT, "/dict");
+		// get path /reprotool
+        String rootPath = new java.io.File(getRootPath()).getParentFile().getParent();
+		
+		store.setDefault(PreferenceConstants.MODEL_LOC, rootPath);
+		store.setDefault(PreferenceConstants.WORDNET_DICT, rootPath + "/tools/WordNet-3.0/dict");
 	}
+	
+	/**
+	 * Returns the reprotool.ide directory
+	 *
+	 * @return the reprotool.ide directory
+	 */
+	public static String getRootPath() {
+		// URL to the root ("/") of the plugin-path
+		URL pluginURL = Activator.getDefault().getBundle().getEntry("/");
+		// resolving URL
+        try {
+        	pluginURL = FileLocator.toFileURL(pluginURL);
+        }
+        catch(IOException ex) {
+            ex.printStackTrace();
+        }
+		return pluginURL.getPath();
+	}	
 
 }

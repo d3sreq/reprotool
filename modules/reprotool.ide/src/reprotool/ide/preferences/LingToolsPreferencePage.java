@@ -36,11 +36,11 @@ public class LingToolsPreferencePage
 	 * restore itself.
 	 */
 	public void createFieldEditors() {
-		addField(new DirectoryFieldEditor(PreferenceConstants.P_PATH, 
+		addField(new DirectoryFieldEditor(PreferenceConstants.MODEL_LOC, 
 				"&Model location:", getFieldEditorParent()));
 
-		addField(new DirectoryFieldEditor(PreferenceConstants.P_PATH, 
-				"&WordNet directory:", getFieldEditorParent()));
+		addField(new DirectoryFieldEditor(PreferenceConstants.WORDNET_DICT, 
+				"&WordNet dictionary:", getFieldEditorParent()));
 	}
 
 	/* (non-Javadoc)

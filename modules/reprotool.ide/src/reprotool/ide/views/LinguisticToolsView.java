@@ -19,6 +19,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.ui.progress.IProgressConstants;
 
+import reprotool.ling.wordnet.WordNet;
+
 public class LinguisticToolsView extends ViewPart {
 
 	public static final String ID = "cz.cuni.mff.reprotool.ide.views.LinguisticToolsView"; //$NON-NLS-1$
@@ -54,9 +56,12 @@ public class LinguisticToolsView extends ViewPart {
 
 			@Override
             public Object[] getElements(Object inputElement) {
-	            return new String[] { "tokenizer [running]", "parser [running]", "tagger [running]" };
+	            return new String[] { "tokenizer [running]", "parser [running]", "tagger [running]"
+	            		, "bad: " + WordNet.getAntonyms("bad").toString()
+	            };
             }
-
+  		
+			
 			@Override
             public Object[] getChildren(Object parentElement) {
 	            // TODO Auto-generated method stub
