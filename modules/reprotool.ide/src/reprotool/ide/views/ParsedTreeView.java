@@ -20,9 +20,12 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.ui.part.ViewPart;
+
 import org.eclipse.zest.core.viewers.GraphViewer;
 import org.eclipse.zest.core.widgets.Graph;
+import org.eclipse.zest.core.widgets.GraphConnection;
 import org.eclipse.zest.core.widgets.GraphNode;
+import org.eclipse.zest.core.widgets.ZestStyles;
 import org.eclipse.zest.layouts.LayoutStyles;
 import org.eclipse.zest.layouts.algorithms.TreeLayoutAlgorithm;
 import reprotool.ide.parsetree.NodeContentProvider;
@@ -32,7 +35,6 @@ import reprotool.model.linguistic.EWordType;
 import reprotool.model.linguistic.SentenceNode;
 import reprotool.model.linguistic.Word;
 
-import org.eclipse.zest.core.widgets.GraphConnection;
 import org.eclipse.jface.viewers.LabelProvider;
 
 
@@ -230,19 +232,23 @@ public class ParsedTreeView extends ViewPart {
 					}
 				}
 		);
-		
+				
 		viewer.setContentProvider(new NodeContentProvider());
 		
 		final NodeLabelProvider labelProvider = new NodeLabelProvider();
 		viewer.setLabelProvider(labelProvider);
-				
+
+
 		NodeModelContentProvider model = new NodeModelContentProvider();
 		model.loadSentence("Seller submits item description");
+
 		viewer.setInput(model.getNodes());
-		
+		viewer.getGraphControl().setNodeStyle(ZestStyles.NODES_NO_ANIMATION);
+
 		final Menu menu = createMenu(parent);
 				
 		mapGraphNodes2EMF(model.getRootNode());
+		
 
 		TreeLayoutAlgorithm tla = 
 			new TreeLayoutAlgorithm(LayoutStyles.NO_LAYOUT_NODE_RESIZING);
@@ -294,8 +300,10 @@ public class ParsedTreeView extends ViewPart {
 					wordNode = (Word) modelNode;
 				}
 				
-				if (wordNode != null) {	
-					if ((dx + scrollX > 105) && (dy + scrollY < 17)) {
+				if (wordNode != null) {
+					int width = labelProvider.countNodeWidth(wordNode);
+					
+					if ((dx + scrollX > width - 4) && (dy + scrollY < 17)) {
 						menu.setVisible(true);
 					}
 				}
@@ -303,8 +311,10 @@ public class ParsedTreeView extends ViewPart {
 			
 		});
 		
+		
+
 		viewer.setLayoutAlgorithm(tla, true);
-		viewer.applyLayout();
+		viewer.applyLayout();		
 	}
 
 	@Override
