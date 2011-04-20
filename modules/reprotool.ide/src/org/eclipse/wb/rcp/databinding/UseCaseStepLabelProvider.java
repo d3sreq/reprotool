@@ -25,6 +25,11 @@ public class UseCaseStepLabelProvider extends LabelProvider implements ITableLab
             case 2:
                 result = step.getDesc();
                 break;
+            case 3:
+            	// TODO inefficient and not working
+            	if (step.getParentStep() != null)
+	                result = step.getParentStep().getExtensions().contains(step) ? "extension" : "variation";
+                break;
         }
         return result;
     }

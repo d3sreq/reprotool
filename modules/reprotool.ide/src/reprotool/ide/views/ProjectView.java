@@ -54,6 +54,7 @@ import org.eclipse.wb.swt.layout.grouplayout.GroupLayout;
 import org.eclipse.wb.swt.layout.grouplayout.LayoutStyle;
 
 import reprotool.ide.service.Service;
+import reprotool.ide.dialogs.ActorEdit;
 import reprotool.model.specification.Actor;
 import reprotool.model.specification.SoftwareProject;
 import reprotool.model.specification.SpecificationPackage.Literals;

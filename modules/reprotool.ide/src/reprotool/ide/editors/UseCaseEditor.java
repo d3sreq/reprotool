@@ -1,51 +1,61 @@
 package reprotool.ide.editors;
 
+import java.util.List;
+
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.SashForm;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
+import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.ui.part.EditorPart;
-import org.eclipse.wb.swt.layout.grouplayout.GroupLayout;
-import org.eclipse.wb.swt.layout.grouplayout.LayoutStyle;
+import org.eclipse.wb.rcp.databinding.UseCaseStepLabelProvider;
 
 import reprotool.ide.service.Service;
 import reprotool.model.specification.UseCase;
 import reprotool.model.specification.UseCaseStep;
+import org.eclipse.swt.widgets.Tree;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.ITreeContentProvider;
+import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.viewers.IDoubleClickListener;
+import org.eclipse.jface.viewers.DoubleClickEvent;
+import org.eclipse.jface.viewers.TreeViewerColumn;
+import org.eclipse.swt.layout.FormLayout;
+import org.eclipse.swt.layout.FormData;
+import org.eclipse.swt.layout.FormAttachment;
 
-public class UseCaseEditor extends EditorPart {
+public class UseCaseEditor extends EditorPart implements ITreeContentProvider {
 
 	public static final String ID = "cz.cuni.mff.reprotool.ide.editors.UseCaseEditor"; //$NON-NLS-1$
 	
-	private UseCaseTable mainScenario = null;
-	private UseCaseTable extensions = null;
-	
 	// the usecase to edit
 	private UseCase usecase = null;
+	
+	private TreeViewer treeViewer = null;
 
 	public UseCaseEditor() {
+		// TODO XXX always uses first usecase for testing
+		usecase = Service.INSTANCE.getSoftwareProject().getUseCases().get(0);
 	}
 	
-	// TODO this will be fixed
 	public UseCaseStep getSelectedStep() {
-		UseCaseTable focused = null;
-		if (mainScenario.focus)
-			focused = mainScenario;
-		else if (extensions.focus)
-			focused = extensions;
-		return focused.selectedStep();
+		if (treeViewer.getSelection().isEmpty())
+			return null;
+		else
+			return (UseCaseStep)((IStructuredSelection)treeViewer.getSelection()).getFirstElement();
 	}
 	
 	public void showSelectedStep()
 	{
+		if (treeViewer.getSelection().isEmpty())
+			return;
 		IHandlerService handlerService = (IHandlerService) getSite().getService(IHandlerService.class);
 		try {
 			handlerService.executeCommand("commands.showStep", null);
@@ -61,96 +71,72 @@ public class UseCaseEditor extends EditorPart {
 	@Override
 	public void createPartControl(Composite parent) {
 		Composite container = new Composite(parent, SWT.NONE);
-		container.setLayout(new FillLayout(SWT.HORIZONTAL));
+		container.setLayout(new FormLayout());
 		
-		SashForm sashForm = new SashForm(container, SWT.VERTICAL);
+		treeViewer = new TreeViewer(container, SWT.BORDER);
+		treeViewer.addDoubleClickListener(new IDoubleClickListener() {
+			public void doubleClick(DoubleClickEvent event) {
+				IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+				UseCaseEditor editor = (UseCaseEditor) page.getActiveEditor();
+				editor.showSelectedStep();
+			}
+		});
 		
-		Composite composite = new Composite(sashForm, SWT.NONE);
+		Tree tree = treeViewer.getTree();
+		FormData fd_tree = new FormData();
+		fd_tree.bottom = new FormAttachment(100, -50);
+		fd_tree.right = new FormAttachment(100, 0);
+		fd_tree.top = new FormAttachment(0);
+		fd_tree.left = new FormAttachment(0);
+		tree.setLayoutData(fd_tree);
+		tree.setLinesVisible(true);
+		tree.setHeaderVisible(true);
 		
-		// TODO hardwired for testing: show first usecase
-		usecase = Service.INSTANCE.getSoftwareProject().getUseCases().get(0);
-		mainScenario = new UseCaseTable(composite, SWT.NONE, usecase);
+		TreeColumn treeColumn = new TreeColumn(tree, SWT.NONE);
+		treeColumn.setWidth(53);
+		treeColumn.setText("*");
 		
-		Label labelMainScenario = new Label(composite, SWT.NONE);
-		labelMainScenario.setText("Main scenario");
-		GroupLayout gl_composite = new GroupLayout(composite);
-		gl_composite.setHorizontalGroup(
-			gl_composite.createParallelGroup(GroupLayout.LEADING)
-				.add(gl_composite.createSequentialGroup()
-					.add(gl_composite.createParallelGroup(GroupLayout.LEADING)
-						.add(gl_composite.createSequentialGroup()
-							.addContainerGap()
-							.add(labelMainScenario))
-						.add(gl_composite.createSequentialGroup()
-							.add(10)
-							.add(mainScenario, GroupLayout.DEFAULT_SIZE, 650, Short.MAX_VALUE)))
-					.addContainerGap())
-		);
-		gl_composite.setVerticalGroup(
-			gl_composite.createParallelGroup(GroupLayout.LEADING)
-				.add(gl_composite.createSequentialGroup()
-					.addContainerGap()
-					.add(labelMainScenario)
-					.addPreferredGap(LayoutStyle.RELATED)
-					.add(mainScenario, GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE))
-		);
-		composite.setLayout(gl_composite);
+		TreeColumn trclmnMark = new TreeColumn(tree, SWT.NONE);
+		trclmnMark.setWidth(62);
+		trclmnMark.setText("Mark");
 		
-		Composite composite_1 = new Composite(sashForm, SWT.NONE);
+		TreeColumn trclmnStepText = new TreeColumn(tree, SWT.NONE);
+		trclmnStepText.setWidth(245);
+		trclmnStepText.setText("Step text");
 		
-		Button btnUp = new Button(composite_1, SWT.NONE);
-		btnUp.setText("Up");
+		TreeViewerColumn treeViewerColumn = new TreeViewerColumn(treeViewer, SWT.NONE);
+		TreeColumn trclmnType = treeViewerColumn.getColumn();
+		trclmnType.setWidth(112);
+		trclmnType.setText("Type");
 		
-		Button btnDown = new Button(composite_1, SWT.NONE);
-		btnDown.setText("Down");
+		Composite composite = new Composite(container, SWT.NONE);
+		FormData fd_composite = new FormData();
+		fd_composite.top = new FormAttachment(tree, 5);
+		fd_composite.bottom = new FormAttachment(100);
+		fd_composite.right = new FormAttachment(100);
+		fd_composite.left = new FormAttachment(0);
+		composite.setLayoutData(fd_composite);
+		composite.setLayout(null);
 		
-		Button btnAdd = new Button(composite_1, SWT.NONE);
-		btnAdd.setText("Add");
+		Button button = new Button(composite, SWT.NONE);
+		button.setBounds(7, 7, 70, 29);
+		button.setText("Up");
 		
-		Button btnDelete = new Button(composite_1, SWT.NONE);
-		btnDelete.setText("Delete");
-//		btnDelete.setImage(getImage());
+		Button button_1 = new Button(composite, SWT.NONE);
+		button_1.setBounds(83, 7, 70, 29);
+		button_1.setText("Down");
 		
-		extensions = new UseCaseTable(composite_1, SWT.NONE, usecase);
+		Button button_2 = new Button(composite, SWT.NONE);
+		button_2.setBounds(159, 7, 70, 29);
+		button_2.setText("Add");
 		
-		Label labelExtensionsAndVariations = new Label(composite_1, SWT.NONE);
-		labelExtensionsAndVariations.setText("Extensions and variations");
-		GroupLayout gl_composite_1 = new GroupLayout(composite_1);
-		gl_composite_1.setHorizontalGroup(
-			gl_composite_1.createParallelGroup(GroupLayout.LEADING)
-				.add(gl_composite_1.createSequentialGroup()
-					.addContainerGap()
-					.add(gl_composite_1.createParallelGroup(GroupLayout.LEADING)
-						.add(extensions, GroupLayout.DEFAULT_SIZE, 430, Short.MAX_VALUE)
-						.add(gl_composite_1.createSequentialGroup()
-							.add(btnUp, GroupLayout.PREFERRED_SIZE, 70, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(LayoutStyle.RELATED)
-							.add(btnDown, GroupLayout.PREFERRED_SIZE, 70, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(LayoutStyle.RELATED)
-							.add(btnAdd, GroupLayout.PREFERRED_SIZE, 70, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(LayoutStyle.RELATED)
-							.add(btnDelete, GroupLayout.PREFERRED_SIZE, 70, GroupLayout.PREFERRED_SIZE))
-						.add(labelExtensionsAndVariations))
-					.addContainerGap())
-		);
-		gl_composite_1.setVerticalGroup(
-			gl_composite_1.createParallelGroup(GroupLayout.LEADING)
-				.add(GroupLayout.TRAILING, gl_composite_1.createSequentialGroup()
-					.addContainerGap()
-					.add(labelExtensionsAndVariations)
-					.addPreferredGap(LayoutStyle.RELATED)
-					.add(extensions, GroupLayout.DEFAULT_SIZE, 186, Short.MAX_VALUE)
-					.addPreferredGap(LayoutStyle.RELATED)
-					.add(gl_composite_1.createParallelGroup(GroupLayout.BASELINE)
-						.add(btnUp)
-						.add(btnDown)
-						.add(btnAdd)
-						.add(btnDelete))
-					.addContainerGap())
-		);
-		composite_1.setLayout(gl_composite_1);
-		sashForm.setWeights(new int[] {211, 260});
-
+		Button button_3 = new Button(composite, SWT.NONE);
+		button_3.setBounds(235, 7, 70, 29);
+		button_3.setText("Delete");
+		
+		treeViewer.setContentProvider(this);
+		treeViewer.setLabelProvider(new UseCaseStepLabelProvider());
+		treeViewer.setInput(usecase);
 	}
 
 	@Override
@@ -184,8 +170,40 @@ public class UseCaseEditor extends EditorPart {
 	public boolean isSaveAsAllowed() {
 		return false;
 	}
-	
-	private Image getDeleteImage() {
-		return PlatformUI.getWorkbench().getSharedImages().getImage(org.eclipse.ui.ISharedImages.IMG_TOOL_DELETE);
+
+	@Override
+	public void inputChanged(Viewer viewer, Object oldInput, Object newInput)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Object[] getElements(Object inputElement)
+	{
+		return ((UseCase)inputElement).getUseCaseSteps().toArray();
+	}
+
+	@Override
+	public Object[] getChildren(Object parentElement)
+	{
+		UseCaseStep step = (UseCaseStep)parentElement;
+		List<UseCaseStep> ret = step.getExtensions();
+		ret.addAll(step.getVariations());
+		return ret.toArray();
+	}
+
+	@Override
+	public Object getParent(Object element)
+	{
+		UseCaseStep step = (UseCaseStep)element;
+		return step.getParentStep();
+	}
+
+	@Override
+	public boolean hasChildren(Object element)
+	{
+		UseCaseStep step = (UseCaseStep)element;
+		return !(step.getExtensions().isEmpty() && step.getVariations().isEmpty());
 	}
 }
