@@ -49,8 +49,7 @@ public class UseCaseStepLabelProvider extends LabelProvider implements ITableLab
 	@Override
 	public boolean isLabelProperty(Object element, String property)
 	{
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 	@Override
 	public void removeListener(ILabelProviderListener listener)

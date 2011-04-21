@@ -7,6 +7,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.TreeColumn;
+import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IWorkbenchPage;
@@ -20,8 +21,11 @@ import reprotool.ide.service.Service;
 import reprotool.model.specification.UseCase;
 import reprotool.model.specification.UseCaseStep;
 import org.eclipse.swt.widgets.Tree;
+import org.eclipse.jface.viewers.CellEditor;
+import org.eclipse.jface.viewers.ICellModifier;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITreeContentProvider;
+import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.IDoubleClickListener;
@@ -30,6 +34,8 @@ import org.eclipse.jface.viewers.TreeViewerColumn;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormAttachment;
+import org.eclipse.swt.events.MouseAdapter;
+import org.eclipse.swt.events.MouseEvent;
 
 public class UseCaseEditor extends EditorPart implements ITreeContentProvider {
 
@@ -73,16 +79,17 @@ public class UseCaseEditor extends EditorPart implements ITreeContentProvider {
 		Composite container = new Composite(parent, SWT.NONE);
 		container.setLayout(new FormLayout());
 		
-		treeViewer = new TreeViewer(container, SWT.BORDER);
-		treeViewer.addDoubleClickListener(new IDoubleClickListener() {
-			public void doubleClick(DoubleClickEvent event) {
+		treeViewer = new TreeViewer(container, SWT.BORDER|SWT.FULL_SELECTION);
+		
+		Tree tree = treeViewer.getTree();
+		tree.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseDown(MouseEvent e) {
 				IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 				UseCaseEditor editor = (UseCaseEditor) page.getActiveEditor();
 				editor.showSelectedStep();
 			}
 		});
-		
-		Tree tree = treeViewer.getTree();
 		FormData fd_tree = new FormData();
 		fd_tree.bottom = new FormAttachment(100, -50);
 		fd_tree.right = new FormAttachment(100, 0);
@@ -136,6 +143,26 @@ public class UseCaseEditor extends EditorPart implements ITreeContentProvider {
 		
 		treeViewer.setContentProvider(this);
 		treeViewer.setLabelProvider(new UseCaseStepLabelProvider());
+		
+		treeViewer.setCellModifier(new ICellModifier() {
+			public boolean canModify(Object element, String property) {
+				return "text".equals(property);
+			}
+
+			public Object getValue(Object element, String property) {
+				return ((UseCaseStep)element).getDesc();
+			}
+
+			public void modify(Object element, String property, Object value) {
+				UseCaseStep step = (UseCaseStep)(((TreeItem)element).getData());
+				step.setDesc(value.toString());
+				treeViewer.update(step, new String[] {"text"});
+				showSelectedStep();
+			}
+		});
+		treeViewer.setColumnProperties(new String[] {"parsed", "mark", "text", "type"});
+		treeViewer.setCellEditors(new CellEditor[] { null, null ,new TextCellEditor(treeViewer.getTree()), null });
+		
 		treeViewer.setInput(usecase);
 	}
 
@@ -174,8 +201,6 @@ public class UseCaseEditor extends EditorPart implements ITreeContentProvider {
 	@Override
 	public void inputChanged(Viewer viewer, Object oldInput, Object newInput)
 	{
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
