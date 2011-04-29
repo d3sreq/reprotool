@@ -1,9 +1,11 @@
 package reprotool.ide.preferences;
 
 import org.eclipse.jface.preference.*;
+import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.IWorkbench;
 import reprotool.ide.Activator;
+import reprotool.ling.wordnet.WordNet;
 
 /**
  * This class represents a preference page that
@@ -23,12 +25,16 @@ public class LingToolsPreferencePage
 	extends FieldEditorPreferencePage
 	implements IWorkbenchPreferencePage {
 
+	private StringFieldEditor fieldDict; 
+
+	
 	public LingToolsPreferencePage() {
 		super(GRID);
 		setPreferenceStore(Activator.getDefault().getPreferenceStore());
 		setDescription("Linguistics tools settings");
 	}
 	
+
 	/**
 	 * Creates the field editors. Field editors are abstractions of
 	 * the common GUI blocks needed to manipulate various types
@@ -39,10 +45,36 @@ public class LingToolsPreferencePage
 		addField(new DirectoryFieldEditor(PreferenceConstants.MODEL_LOC, 
 				"&Model location:", getFieldEditorParent()));
 
-		addField(new DirectoryFieldEditor(PreferenceConstants.WORDNET_DICT, 
-				"&WordNet dictionary:", getFieldEditorParent()));
+		fieldDict = new DirectoryFieldEditor(PreferenceConstants.WORDNET_DICT, 
+				"&WordNet dictionary:", getFieldEditorParent());
+		addField(fieldDict);
 	}
 
+	
+	protected void checkState() {
+        super.checkState();
+        if(fieldDict.getStringValue()!= null && !fieldDict.getStringValue().equals("")){
+            if(WordNet.validateDictionary(fieldDict.getStringValue())){
+            	setErrorMessage(null);
+                setValid(true);            	
+            } else {
+                setErrorMessage("Folder must contain WordNet dictionary!");
+                setValid(false);           	
+            }
+        }else{
+              setErrorMessage("Folder name cannot be blank!");
+              setValid(false);
+        }
+	}
+	
+	public void propertyChange(PropertyChangeEvent event) {
+        super.propertyChange(event);
+        if (event.getProperty().equals(FieldEditor.VALUE)) {
+                  checkState();
+        }        
+	}
+
+	
 	/* (non-Javadoc)
 	 * @see org.eclipse.ui.IWorkbenchPreferencePage#init(org.eclipse.ui.IWorkbench)
 	 */

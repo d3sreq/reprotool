@@ -37,9 +37,9 @@ public class WordNet {
     	
 		// construct the dictionary and open it
 		IDictionary dict = new Dictionary(url);
+    	try{ dict.open(); 
+    	} catch(Exception e) { return antonyms; } 
 
-		dict.open();
-	
 		// look up first sense of the word
 		IIndexWord idxWord = dict.getIndexWord(inWord, POS.NOUN);
 		IWordID wordID = idxWord.getWordIDs().get(0);
@@ -53,6 +53,33 @@ public class WordNet {
 		return antonyms;
 	}	
 	
+	/**
+	 * Returns true if dictionary exists
+	 *
+	 * @return Boolean 
+	 */
+    public static Boolean validateDictionary(String path) {	
+    	//return false;
+    	
+		// check URL
+    	URL url = null;
+    	try{ 
+    		url = new URL("file", null, path); 
+    	} 
+    	catch(MalformedURLException e){ e.printStackTrace(); }
+    	if(url == null) return false;
+    	
+		IDictionary dict = new Dictionary(url);
+    	try{     	
+    		// construct the dictionary and open it
+    		dict.open(); 
+    	} 
+    	catch(Exception e){ return false; }		
+
+		dict.close();
+		return true;			
+	}    
+    
 	/*
 	 * testing purpose
 	 */
