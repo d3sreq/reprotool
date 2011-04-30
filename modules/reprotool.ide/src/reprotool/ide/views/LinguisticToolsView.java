@@ -30,6 +30,7 @@ public class LinguisticToolsView extends ViewPart {
 	private Text txtTextTestovaci;
 	private Text textInput;
 	private Text textTokenizer;
+	private Text textTagger;
 
 	public LinguisticToolsView() {
 	}
@@ -49,12 +50,15 @@ public class LinguisticToolsView extends ViewPart {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				textTokenizer.setText(Tokenizer.getTokens(textInput.getText()).toString());
+				textTagger.setText(Tagger.getMXPOST(textTokenizer.getText()).toString());
 			}
 		});
 		
 		btnAnalyze.setText("Analyze");
 		
 		textTokenizer = new Text(parent, SWT.BORDER);
+		
+		textTagger = new Text(parent, SWT.BORDER);
 		GroupLayout gl_parent = new GroupLayout(parent);
 		gl_parent.setHorizontalGroup(
 			gl_parent.createParallelGroup(GroupLayout.LEADING)
@@ -63,7 +67,8 @@ public class LinguisticToolsView extends ViewPart {
 					.add(gl_parent.createParallelGroup(GroupLayout.LEADING)
 						.add(textInput, GroupLayout.DEFAULT_SIZE, 572, Short.MAX_VALUE)
 						.add(btnAnalyze)
-						.add(textTokenizer, GroupLayout.DEFAULT_SIZE, 572, Short.MAX_VALUE))
+						.add(textTokenizer, GroupLayout.DEFAULT_SIZE, 572, Short.MAX_VALUE)
+						.add(textTagger, GroupLayout.DEFAULT_SIZE, 572, Short.MAX_VALUE))
 					.addContainerGap())
 		);
 		gl_parent.setVerticalGroup(
@@ -75,7 +80,9 @@ public class LinguisticToolsView extends ViewPart {
 					.add(btnAnalyze)
 					.addPreferredGap(LayoutStyle.RELATED)
 					.add(textTokenizer, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(373, Short.MAX_VALUE))
+					.addPreferredGap(LayoutStyle.RELATED)
+					.add(textTagger, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(344, Short.MAX_VALUE))
 		);
 		parent.setLayout(gl_parent);
 		Composite container = new Composite(parent, SWT.NONE);
@@ -211,20 +218,20 @@ public class LinguisticToolsView extends ViewPart {
 		    	setProperty(IProgressConstants.KEEP_PROPERTY, Boolean.TRUE);
 		    	try{
 			    	monitor.beginTask("Init....", 100);
-			        Thread.sleep(2000);    
+			        Thread.sleep(1000);    
 			    	monitor.worked(20);
-			        Thread.sleep(2000);    
+			        Thread.sleep(1000);    
 			    	monitor.worked(20);
-			        Thread.sleep(2000);    
+			        Thread.sleep(1000);    
 			    	monitor.worked(20);
 			    	monitor.subTask("Sub...");
-			        Thread.sleep(2000);    
+			        Thread.sleep(1000);    
 			    	monitor.worked(50);
 			    	
 			    	if(monitor.isCanceled()){
 			    		return Status.CANCEL_STATUS;
 			    	}
-			        Thread.sleep(2000);  
+			        Thread.sleep(1000);  
 			    	monitor.worked(100);
 		    	} catch (Exception e){}
 		    	finally{

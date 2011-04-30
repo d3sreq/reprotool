@@ -12,4 +12,5 @@ Export-Package: reprotool.ling,
  reprotool.ling.tools,
  reprotool.ling.wordnet
 Bundle-ClassPath: lib/edu.mit.jwi_2.1.5_jdk.jar,
- .
+ .,
+ lib/mxpost.jar

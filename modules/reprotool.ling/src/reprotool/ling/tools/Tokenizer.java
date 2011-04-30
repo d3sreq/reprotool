@@ -13,9 +13,10 @@ public class Tokenizer {
 	 *
 	 * @return List<String> tokens 
 	 */	
-    public static List<String> getTokens(String originalText) {	
-	
-		List<String> tokens = new ArrayList<String>();
+    public static String getTokens(String originalText) {	
+//	public static List<String> getTokens(String originalText) {		
+		//List<String> tokens = new ArrayList<String>();
+    	String tokens = "";
 		String text = originalText;
 		
 		//separate alphabetical tokens
@@ -36,8 +37,9 @@ public class Tokenizer {
 		text = Pattern.compile("shan \' t").matcher(text).replaceAll("shan* n\'t");
 		text = Pattern.compile("n ' t").matcher(text).replaceAll(" n't");
 		
-		tokens = Arrays.asList(text.trim().split("\\s+"));
-		//tokens.add(text.trim().);
+		//tokens = Arrays.asList(text.trim().split("\\s+"));
+		tokens = text.trim();
+		
 		return tokens;
 	}		
 }

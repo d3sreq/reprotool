@@ -45,6 +45,9 @@ public class LingToolsPreferencePage
 		addField(new DirectoryFieldEditor(PreferenceConstants.MODEL_LOC, 
 				"&Model location:", getFieldEditorParent()));
 
+		addField(new DirectoryFieldEditor(PreferenceConstants.MXPOST_MODEL, 
+				"&MXPOS Tagger model:", getFieldEditorParent()));
+		
 		fieldDict = new DirectoryFieldEditor(PreferenceConstants.WORDNET_DICT, 
 				"&WordNet dictionary:", getFieldEditorParent());
 		addField(fieldDict);
