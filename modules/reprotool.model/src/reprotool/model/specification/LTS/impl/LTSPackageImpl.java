@@ -4,11 +4,9 @@
  *
  * $Id$
  */
-package reprotool.model.linguistic.impl;
+package reprotool.model.specification.LTS.impl;
 
-import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
@@ -18,15 +16,14 @@ import reprotool.model.comp.CompPackage;
 
 import reprotool.model.comp.impl.CompPackageImpl;
 
-import reprotool.model.linguistic.EWordType;
-import reprotool.model.linguistic.LinguisticFactory;
 import reprotool.model.linguistic.LinguisticPackage;
-import reprotool.model.linguistic.SentenceNode;
-import reprotool.model.linguistic.Word;
 
+import reprotool.model.linguistic.impl.LinguisticPackageImpl;
+
+import reprotool.model.specification.LTS.LTSFactory;
 import reprotool.model.specification.LTS.LTSPackage;
-
-import reprotool.model.specification.LTS.impl.LTSPackageImpl;
+import reprotool.model.specification.LTS.State;
+import reprotool.model.specification.LTS.Transition;
 
 import reprotool.model.specification.SpecificationPackage;
 
@@ -50,27 +47,20 @@ import reprotool.model.traceability.impl.TraceabilityPackageImpl;
  * <!-- end-user-doc -->
  * @generated
  */
-public class LinguisticPackageImpl extends EPackageImpl implements LinguisticPackage {
+public class LTSPackageImpl extends EPackageImpl implements LTSPackage {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass sentenceNodeEClass = null;
+	private EClass transitionEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass wordEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EEnum eWordTypeEEnum = null;
+	private EClass stateEClass = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -83,12 +73,12 @@ public class LinguisticPackageImpl extends EPackageImpl implements LinguisticPac
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see org.eclipse.emf.ecore.EPackage.Registry
-	 * @see reprotool.model.linguistic.LinguisticPackage#eNS_URI
+	 * @see reprotool.model.specification.LTS.LTSPackage#eNS_URI
 	 * @see #init()
 	 * @generated
 	 */
-	private LinguisticPackageImpl() {
-		super(eNS_URI, LinguisticFactory.eINSTANCE);
+	private LTSPackageImpl() {
+		super(eNS_URI, LTSFactory.eINSTANCE);
 	}
 
 	/**
@@ -101,7 +91,7 @@ public class LinguisticPackageImpl extends EPackageImpl implements LinguisticPac
 	/**
 	 * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
 	 * 
-	 * <p>This method is used to initialize {@link LinguisticPackage#eINSTANCE} when that field is accessed.
+	 * <p>This method is used to initialize {@link LTSPackage#eINSTANCE} when that field is accessed.
 	 * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -110,11 +100,11 @@ public class LinguisticPackageImpl extends EPackageImpl implements LinguisticPac
 	 * @see #initializePackageContents()
 	 * @generated
 	 */
-	public static LinguisticPackage init() {
-		if (isInited) return (LinguisticPackage)EPackage.Registry.INSTANCE.getEPackage(LinguisticPackage.eNS_URI);
+	public static LTSPackage init() {
+		if (isInited) return (LTSPackage)EPackage.Registry.INSTANCE.getEPackage(LTSPackage.eNS_URI);
 
 		// Obtain or create and register package
-		LinguisticPackageImpl theLinguisticPackage = (LinguisticPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof LinguisticPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new LinguisticPackageImpl());
+		LTSPackageImpl theLTSPackage = (LTSPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof LTSPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new LTSPackageImpl());
 
 		isInited = true;
 
@@ -122,35 +112,35 @@ public class LinguisticPackageImpl extends EPackageImpl implements LinguisticPac
 		AstPackageImpl theAstPackage = (AstPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(AstPackage.eNS_URI) instanceof AstPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(AstPackage.eNS_URI) : AstPackage.eINSTANCE);
 		CompPackageImpl theCompPackage = (CompPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(CompPackage.eNS_URI) instanceof CompPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(CompPackage.eNS_URI) : CompPackage.eINSTANCE);
 		DocPackageImpl theDocPackage = (DocPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(DocPackage.eNS_URI) instanceof DocPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(DocPackage.eNS_URI) : DocPackage.eINSTANCE);
+		LinguisticPackageImpl theLinguisticPackage = (LinguisticPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(LinguisticPackage.eNS_URI) instanceof LinguisticPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(LinguisticPackage.eNS_URI) : LinguisticPackage.eINSTANCE);
 		SpecificationPackageImpl theSpecificationPackage = (SpecificationPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(SpecificationPackage.eNS_URI) instanceof SpecificationPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(SpecificationPackage.eNS_URI) : SpecificationPackage.eINSTANCE);
-		LTSPackageImpl theLTSPackage = (LTSPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(LTSPackage.eNS_URI) instanceof LTSPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(LTSPackage.eNS_URI) : LTSPackage.eINSTANCE);
 		TraceabilityPackageImpl theTraceabilityPackage = (TraceabilityPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(TraceabilityPackage.eNS_URI) instanceof TraceabilityPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(TraceabilityPackage.eNS_URI) : TraceabilityPackage.eINSTANCE);
 
 		// Create package meta-data objects
-		theLinguisticPackage.createPackageContents();
+		theLTSPackage.createPackageContents();
 		theAstPackage.createPackageContents();
 		theCompPackage.createPackageContents();
 		theDocPackage.createPackageContents();
+		theLinguisticPackage.createPackageContents();
 		theSpecificationPackage.createPackageContents();
-		theLTSPackage.createPackageContents();
 		theTraceabilityPackage.createPackageContents();
 
 		// Initialize created meta-data
-		theLinguisticPackage.initializePackageContents();
+		theLTSPackage.initializePackageContents();
 		theAstPackage.initializePackageContents();
 		theCompPackage.initializePackageContents();
 		theDocPackage.initializePackageContents();
+		theLinguisticPackage.initializePackageContents();
 		theSpecificationPackage.initializePackageContents();
-		theLTSPackage.initializePackageContents();
 		theTraceabilityPackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
-		theLinguisticPackage.freeze();
+		theLTSPackage.freeze();
 
   
 		// Update the registry and return the package
-		EPackage.Registry.INSTANCE.put(LinguisticPackage.eNS_URI, theLinguisticPackage);
-		return theLinguisticPackage;
+		EPackage.Registry.INSTANCE.put(LTSPackage.eNS_URI, theLTSPackage);
+		return theLTSPackage;
 	}
 
 	/**
@@ -158,8 +148,8 @@ public class LinguisticPackageImpl extends EPackageImpl implements LinguisticPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getSentenceNode() {
-		return sentenceNodeEClass;
+	public EClass getTransition() {
+		return transitionEClass;
 	}
 
 	/**
@@ -167,8 +157,8 @@ public class LinguisticPackageImpl extends EPackageImpl implements LinguisticPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getSentenceNode_ChildFragments() {
-		return (EReference)sentenceNodeEClass.getEStructuralFeatures().get(0);
+	public EReference getTransition_Sentence() {
+		return (EReference)transitionEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -176,8 +166,8 @@ public class LinguisticPackageImpl extends EPackageImpl implements LinguisticPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getSentenceNode_Type() {
-		return (EAttribute)sentenceNodeEClass.getEStructuralFeatures().get(1);
+	public EReference getTransition_Source() {
+		return (EReference)transitionEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -185,8 +175,8 @@ public class LinguisticPackageImpl extends EPackageImpl implements LinguisticPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getWord() {
-		return wordEClass;
+	public EReference getTransition_Target() {
+		return (EReference)transitionEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -194,8 +184,8 @@ public class LinguisticPackageImpl extends EPackageImpl implements LinguisticPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getWord_WordStr() {
-		return (EAttribute)wordEClass.getEStructuralFeatures().get(0);
+	public EClass getState() {
+		return stateEClass;
 	}
 
 	/**
@@ -203,26 +193,8 @@ public class LinguisticPackageImpl extends EPackageImpl implements LinguisticPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getWord_WordType() {
-		return (EAttribute)wordEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EEnum getEWordType() {
-		return eWordTypeEEnum;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public LinguisticFactory getLinguisticFactory() {
-		return (LinguisticFactory)getEFactoryInstance();
+	public LTSFactory getLTSFactory() {
+		return (LTSFactory)getEFactoryInstance();
 	}
 
 	/**
@@ -244,16 +216,12 @@ public class LinguisticPackageImpl extends EPackageImpl implements LinguisticPac
 		isCreated = true;
 
 		// Create classes and their features
-		sentenceNodeEClass = createEClass(SENTENCE_NODE);
-		createEReference(sentenceNodeEClass, SENTENCE_NODE__CHILD_FRAGMENTS);
-		createEAttribute(sentenceNodeEClass, SENTENCE_NODE__TYPE);
+		transitionEClass = createEClass(TRANSITION);
+		createEReference(transitionEClass, TRANSITION__SENTENCE);
+		createEReference(transitionEClass, TRANSITION__SOURCE);
+		createEReference(transitionEClass, TRANSITION__TARGET);
 
-		wordEClass = createEClass(WORD);
-		createEAttribute(wordEClass, WORD__WORD_STR);
-		createEAttribute(wordEClass, WORD__WORD_TYPE);
-
-		// Create enums
-		eWordTypeEEnum = createEEnum(EWORD_TYPE);
+		stateEClass = createEClass(STATE);
 	}
 
 	/**
@@ -279,34 +247,22 @@ public class LinguisticPackageImpl extends EPackageImpl implements LinguisticPac
 		setNsPrefix(eNS_PREFIX);
 		setNsURI(eNS_URI);
 
+		// Obtain other dependent packages
+		SpecificationPackage theSpecificationPackage = (SpecificationPackage)EPackage.Registry.INSTANCE.getEPackage(SpecificationPackage.eNS_URI);
+
 		// Create type parameters
 
 		// Set bounds for type parameters
 
 		// Add supertypes to classes
-		wordEClass.getESuperTypes().add(this.getSentenceNode());
 
 		// Initialize classes and features; add operations and parameters
-		initEClass(sentenceNodeEClass, SentenceNode.class, "SentenceNode", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getSentenceNode_ChildFragments(), this.getSentenceNode(), null, "childFragments", null, 0, -1, SentenceNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getSentenceNode_Type(), ecorePackage.getEString(), "type", null, 0, 1, SentenceNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(transitionEClass, Transition.class, "Transition", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getTransition_Sentence(), theSpecificationPackage.getUseCaseStep(), null, "sentence", null, 0, 1, Transition.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getTransition_Source(), this.getState(), null, "source", null, 1, 1, Transition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getTransition_Target(), this.getState(), null, "target", null, 1, 1, Transition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(wordEClass, Word.class, "Word", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getWord_WordStr(), ecorePackage.getEString(), "wordStr", null, 0, 1, Word.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getWord_WordType(), this.getEWordType(), "wordType", null, 0, 1, Word.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		// Initialize enums and add enum literals
-		initEEnum(eWordTypeEEnum, EWordType.class, "EWordType");
-		addEEnumLiteral(eWordTypeEEnum, EWordType.NOT_IMPORTANT);
-		addEEnumLiteral(eWordTypeEEnum, EWordType.SUBJECT);
-		addEEnumLiteral(eWordTypeEEnum, EWordType.INDIRECT_OBJECT);
-		addEEnumLiteral(eWordTypeEEnum, EWordType.VERB);
-		addEEnumLiteral(eWordTypeEEnum, EWordType.REPRESENTATIVE_OBJECT);
-		addEEnumLiteral(eWordTypeEEnum, EWordType.GOTO_TARGET);
-		addEEnumLiteral(eWordTypeEEnum, EWordType.CONDITION_LABEL);
-
-		// Create resource
-		createResource(eNS_URI);
+		initEClass(stateEClass, State.class, "State", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 	}
 
-} //LinguisticPackageImpl
+} //LTSPackageImpl

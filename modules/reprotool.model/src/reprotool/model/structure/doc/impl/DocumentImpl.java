@@ -73,8 +73,7 @@ public class DocumentImpl extends EObjectImpl implements Document {
 	 * @generated
 	 */
 	public EList<Section> getSections() {
-		if (sections == null)
-		{
+		if (sections == null) {
 			sections = new EObjectContainmentEList<Section>(Section.class, this, DocPackage.DOCUMENT__SECTIONS);
 		}
 		return sections;
@@ -87,8 +86,7 @@ public class DocumentImpl extends EObjectImpl implements Document {
 	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID)
-		{
+		switch (featureID) {
 			case DocPackage.DOCUMENT__SECTIONS:
 				return ((InternalEList<?>)getSections()).basicRemove(otherEnd, msgs);
 		}
@@ -102,8 +100,7 @@ public class DocumentImpl extends EObjectImpl implements Document {
 	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID)
-		{
+		switch (featureID) {
 			case DocPackage.DOCUMENT__SECTIONS:
 				return getSections();
 		}
@@ -118,8 +115,7 @@ public class DocumentImpl extends EObjectImpl implements Document {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
-		switch (featureID)
-		{
+		switch (featureID) {
 			case DocPackage.DOCUMENT__SECTIONS:
 				getSections().clear();
 				getSections().addAll((Collection<? extends Section>)newValue);
@@ -135,8 +131,7 @@ public class DocumentImpl extends EObjectImpl implements Document {
 	 */
 	@Override
 	public void eUnset(int featureID) {
-		switch (featureID)
-		{
+		switch (featureID) {
 			case DocPackage.DOCUMENT__SECTIONS:
 				getSections().clear();
 				return;
@@ -151,8 +146,7 @@ public class DocumentImpl extends EObjectImpl implements Document {
 	 */
 	@Override
 	public boolean eIsSet(int featureID) {
-		switch (featureID)
-		{
+		switch (featureID) {
 			case DocPackage.DOCUMENT__SECTIONS:
 				return sections != null && !sections.isEmpty();
 		}

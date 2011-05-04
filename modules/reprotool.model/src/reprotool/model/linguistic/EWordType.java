@@ -204,8 +204,7 @@ public enum EWordType implements Enumerator {
 	 * @generated
 	 */
 	private static final EWordType[] VALUES_ARRAY =
-		new EWordType[]
-		{
+		new EWordType[] {
 			NOT_IMPORTANT,
 			SUBJECT,
 			INDIRECT_OBJECT,
@@ -230,11 +229,9 @@ public enum EWordType implements Enumerator {
 	 * @generated
 	 */
 	public static EWordType get(String literal) {
-		for (int i = 0; i < VALUES_ARRAY.length; ++i)
-		{
+		for (int i = 0; i < VALUES_ARRAY.length; ++i) {
 			EWordType result = VALUES_ARRAY[i];
-			if (result.toString().equals(literal))
-			{
+			if (result.toString().equals(literal)) {
 				return result;
 			}
 		}
@@ -248,11 +245,9 @@ public enum EWordType implements Enumerator {
 	 * @generated
 	 */
 	public static EWordType getByName(String name) {
-		for (int i = 0; i < VALUES_ARRAY.length; ++i)
-		{
+		for (int i = 0; i < VALUES_ARRAY.length; ++i) {
 			EWordType result = VALUES_ARRAY[i];
-			if (result.getName().equals(name))
-			{
+			if (result.getName().equals(name)) {
 				return result;
 			}
 		}
@@ -266,8 +261,7 @@ public enum EWordType implements Enumerator {
 	 * @generated
 	 */
 	public static EWordType get(int value) {
-		switch (value)
-		{
+		switch (value) {
 			case NOT_IMPORTANT_VALUE: return NOT_IMPORTANT;
 			case SUBJECT_VALUE: return SUBJECT;
 			case INDIRECT_OBJECT_VALUE: return INDIRECT_OBJECT;

@@ -150,12 +150,12 @@ public class UseCaseEditor extends EditorPart implements ITreeContentProvider {
 			}
 
 			public Object getValue(Object element, String property) {
-				return ((UseCaseStep)element).getDesc();
+				return ((UseCaseStep)element).getSentence();
 			}
 
 			public void modify(Object element, String property, Object value) {
 				UseCaseStep step = (UseCaseStep)(((TreeItem)element).getData());
-				step.setDesc(value.toString());
+				step.setSentence(value.toString());
 				treeViewer.update(step, new String[] {"text"});
 				showSelectedStep();
 			}
@@ -221,8 +221,8 @@ public class UseCaseEditor extends EditorPart implements ITreeContentProvider {
 	@Override
 	public Object getParent(Object element)
 	{
-		UseCaseStep step = (UseCaseStep)element;
-		return step.getParentStep();
+		UseCaseStep step = (UseCaseStep) element;
+		return step.eContainer();
 	}
 
 	@Override

@@ -25,6 +25,9 @@ import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.Realm;
 import org.eclipse.emf.databinding.EMFObservables;
 import reprotool.model.specification.SpecificationPackage.Literals;
+import org.eclipse.core.databinding.observable.map.IObservableMap;
+import org.eclipse.core.databinding.beans.PojoObservables;
+import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
 
 public class UseCaseTable extends Composite {
 	private Table table;
@@ -33,6 +36,7 @@ public class UseCaseTable extends Composite {
 	public boolean focus = false;
 	
 	private DataBindingContext m_bindingContext;
+	private DataBindingContext my_bindingContext;
 	
 	private UseCase usecase = null;
 
@@ -87,6 +91,7 @@ public class UseCaseTable extends Composite {
 		TableViewerColumn arrowColumn = new TableViewerColumn(tableViewer, SWT.NONE);
 		TableColumn tableColumnAddExtension = arrowColumn.getColumn();
 		tcl_composite.setColumnData(tableColumnAddExtension, new ColumnPixelData(30, false, true));
+		my_bindingContext = myinitDataBindings();
 		m_bindingContext = initDataBindings();
 	}
 	
@@ -104,7 +109,7 @@ public class UseCaseTable extends Composite {
 		// Disable the check that prevents subclassing of SWT components
 	}
 	
-	protected DataBindingContext initDataBindings() {
+	protected DataBindingContext myinitDataBindings() {
 		DataBindingContext bindingContext = new DataBindingContext();
 		//
 		ObservableListContentProvider listContentProvider = new ObservableListContentProvider();
@@ -115,6 +120,19 @@ public class UseCaseTable extends Composite {
 		//
 		IObservableList usecaseUseCaseStepsObserveList = EMFObservables.observeList(Realm.getDefault(), usecase, Literals.USE_CASE__USE_CASE_STEPS);
 		tableViewer.setInput(usecaseUseCaseStepsObserveList);
+		//
+		return bindingContext;
+	}
+	protected DataBindingContext initDataBindings() {
+		DataBindingContext bindingContext = new DataBindingContext();
+		//
+		ObservableListContentProvider listContentProvider = new ObservableListContentProvider();
+		tableViewer.setContentProvider(listContentProvider);
+		//
+		IObservableMap[] observeMaps = PojoObservables.observeMaps(listContentProvider.getKnownElements(), UseCaseStep.class, new String[]{"label", "desc"});
+		tableViewer.setLabelProvider(new ObservableMapLabelProvider(observeMaps));
+		//
+		tableViewer.setInput(my_bindingContext.getBindings());
 		//
 		return bindingContext;
 	}

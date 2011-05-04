@@ -30,16 +30,13 @@ public class SpecificationFactoryImpl extends EFactoryImpl implements Specificat
 	 * @generated
 	 */
 	public static SpecificationFactory init() {
-		try
-		{
+		try {
 			SpecificationFactory theSpecificationFactory = (SpecificationFactory)EPackage.Registry.INSTANCE.getEFactory("http://d3s.mff.cuni.cz/reprotool/model/specification"); 
-			if (theSpecificationFactory != null)
-			{
+			if (theSpecificationFactory != null) {
 				return theSpecificationFactory;
 			}
 		}
-		catch (Exception exception)
-		{
+		catch (Exception exception) {
 			EcorePlugin.INSTANCE.log(exception);
 		}
 		return new SpecificationFactoryImpl();
@@ -62,14 +59,14 @@ public class SpecificationFactoryImpl extends EFactoryImpl implements Specificat
 	 */
 	@Override
 	public EObject create(EClass eClass) {
-		switch (eClass.getClassifierID())
-		{
+		switch (eClass.getClassifierID()) {
 			case SpecificationPackage.SOFTWARE_PROJECT: return createSoftwareProject();
 			case SpecificationPackage.USE_CASE: return createUseCase();
 			case SpecificationPackage.ACTOR: return createActor();
 			case SpecificationPackage.USE_CASE_STEP: return createUseCaseStep();
-			case SpecificationPackage.GENERIC_REQUIREMENT: return createGenericRequirement();
-			case SpecificationPackage.NON_FUNCTIONAL_REQUIREMENT: return createNonFunctionalRequirement();
+			case SpecificationPackage.REQUIREMENT: return createRequirement();
+			case SpecificationPackage.NF_REQUIREMENT: return createNFRequirement();
+			case SpecificationPackage.REQ_COVER: return createReqCover();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -120,9 +117,9 @@ public class SpecificationFactoryImpl extends EFactoryImpl implements Specificat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public GenericRequirement createGenericRequirement() {
-		GenericRequirementImpl genericRequirement = new GenericRequirementImpl();
-		return genericRequirement;
+	public Requirement createRequirement() {
+		RequirementImpl requirement = new RequirementImpl();
+		return requirement;
 	}
 
 	/**
@@ -130,9 +127,19 @@ public class SpecificationFactoryImpl extends EFactoryImpl implements Specificat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NonFunctionalRequirement createNonFunctionalRequirement() {
-		NonFunctionalRequirementImpl nonFunctionalRequirement = new NonFunctionalRequirementImpl();
-		return nonFunctionalRequirement;
+	public NFRequirement createNFRequirement() {
+		NFRequirementImpl nfRequirement = new NFRequirementImpl();
+		return nfRequirement;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ReqCover createReqCover() {
+		ReqCoverImpl reqCover = new ReqCoverImpl();
+		return reqCover;
 	}
 
 	/**

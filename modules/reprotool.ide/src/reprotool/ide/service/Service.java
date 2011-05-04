@@ -59,25 +59,23 @@ public enum Service {
 		useCase1.setName("Use case with owner as PA");
 		useCase1.setPrimaryActor(owner);
 		UseCaseStep uc1step1 = factory.createUseCaseStep();
-		uc1step1.setDesc("Seller submits item description");
+		uc1step1.setSentence("Seller submits item description");
 		UseCaseStep uc1step2 = factory.createUseCaseStep();
-		uc1step2.setDesc("System validates the description");
+		uc1step2.setSentence("System validates the description");
 		UseCaseStep uc1step2e1 = factory.createUseCaseStep();
-		uc1step2e1.setDesc("Item not valid, use case aborted");
+		uc1step2e1.setSentence("Item not valid, use case aborted");
 		uc1step2.getExtensions().add(uc1step2e1);
 		UseCaseStep uc1step2v1 = factory.createUseCaseStep();
-		uc1step2v1.setDesc("System provides seller with a price assessment");
+		uc1step2v1.setSentence("System provides seller with a price assessment");
 		uc1step2.getVariations().add(uc1step2v1);
-		uc1step2v1.setParentStep(uc1step1); // should this be necessary?
-		useCase1.getUseCaseSteps().add(uc1step1);
-		uc1step2e1.setParentStep(uc1step1); // should this be necessary?
+		
 		useCase1.getUseCaseSteps().add(uc1step2);
-		project.getRequirements().add(useCase1);
+		project.getUseCases().add(useCase1);
 		
 		UseCase useCase2 = factory.createUseCase();
 		useCase2.setName("Use case with clerk as PA");
 		useCase2.setPrimaryActor(clerk);
-		project.getRequirements().add(useCase2);
+		project.getUseCases().add(useCase2);
 	}
 
 	public Actor createActor() {

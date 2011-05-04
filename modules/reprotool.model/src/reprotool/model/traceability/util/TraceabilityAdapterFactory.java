@@ -39,8 +39,7 @@ public class TraceabilityAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public TraceabilityAdapterFactory() {
-		if (modelPackage == null)
-		{
+		if (modelPackage == null) {
 			modelPackage = TraceabilityPackage.eINSTANCE;
 		}
 	}
@@ -55,12 +54,10 @@ public class TraceabilityAdapterFactory extends AdapterFactoryImpl {
 	 */
 	@Override
 	public boolean isFactoryForType(Object object) {
-		if (object == modelPackage)
-		{
+		if (object == modelPackage) {
 			return true;
 		}
-		if (object instanceof EObject)
-		{
+		if (object instanceof EObject) {
 			return ((EObject)object).eClass().getEPackage() == modelPackage;
 		}
 		return false;
@@ -73,21 +70,17 @@ public class TraceabilityAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	protected TraceabilitySwitch<Adapter> modelSwitch =
-		new TraceabilitySwitch<Adapter>()
-		{
+		new TraceabilitySwitch<Adapter>() {
 			@Override
-			public Adapter caseTraceableEntity(TraceableEntity object)
-			{
+			public Adapter caseTraceableEntity(TraceableEntity object) {
 				return createTraceableEntityAdapter();
 			}
 			@Override
-			public Adapter caseTraceLink(TraceLink object)
-			{
+			public Adapter caseTraceLink(TraceLink object) {
 				return createTraceLinkAdapter();
 			}
 			@Override
-			public Adapter defaultCase(EObject object)
-			{
+			public Adapter defaultCase(EObject object) {
 				return createEObjectAdapter();
 			}
 		};

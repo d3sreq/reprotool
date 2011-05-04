@@ -9,11 +9,13 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="Name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="Description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="requirements" upperBound="-1"
-        eType="#//GenericRequirement" containment="true"/>
+        eType="#//Requirement" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="useCases" upperBound="-1"
-        eType="#//UseCase" volatile="true" transient="true" derived="true" containment="true"/>
+        eType="#//UseCase" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="srsDocuments" upperBound="-1"
+        eType="ecore:EClass reprotool.model.doc.ecore#//Document"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="UseCase" eSuperTypes="#//GenericRequirement">
+  <eClassifiers xsi:type="ecore:EClass" name="UseCase" eSuperTypes="#//ReqCover">
     <eStructuralFeatures xsi:type="ecore:EReference" name="primaryActor" lowerBound="1"
         eType="#//Actor"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="useCaseSteps" ordered="false"
@@ -26,24 +28,40 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="parent" eType="#//Actor"
         eOpposite="#//Actor/childrenActors"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="Name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="UseCaseStep">
+  <eClassifiers xsi:type="ecore:EClass" name="UseCaseStep" eSuperTypes="#//ReqCover">
     <eOperations name="getLabel" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="extensions" upperBound="-1"
         eType="#//UseCaseStep" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="variations" upperBound="-1"
         eType="#//UseCaseStep" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="parentStep" eType="#//UseCaseStep"
-        derived="true"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Desc" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Sentence" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="Description"/>
       </eAnnotations>
     </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="nextStep" eType="#//UseCaseStep"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="GenericRequirement" eSuperTypes="reprotool.model.traceability.ecore#//TraceableEntity">
+  <eClassifiers xsi:type="ecore:EClass" name="Requirement" eSuperTypes="reprotool.model.traceability.ecore#//TraceableEntity">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="originalText" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="originalId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="NonFunctionalRequirement" eSuperTypes="#//GenericRequirement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="NFRequirement" eSuperTypes="#//Requirement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ReqCover">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="relatedRequirements" upperBound="-1"
+        eType="#//Requirement"/>
+  </eClassifiers>
+  <eSubpackages name="LTS" nsURI="http://d3s.mff.cuni.cz/reprotool/model/specification/LTS"
+      nsPrefix="LTS">
+    <eClassifiers xsi:type="ecore:EClass" name="Transition">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="sentence" eType="#//UseCaseStep"
+          transient="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1"
+          eType="#//LTS/State"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="target" lowerBound="1"
+          eType="#//LTS/State"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="State"/>
+  </eSubpackages>
 </ecore:EPackage>

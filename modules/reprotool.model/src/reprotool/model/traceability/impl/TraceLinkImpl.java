@@ -80,8 +80,7 @@ public class TraceLinkImpl extends EObjectImpl implements TraceLink {
 	 * @generated
 	 */
 	public EList<TraceableEntity> getSource() {
-		if (source == null)
-		{
+		if (source == null) {
 			source = new EObjectResolvingEList<TraceableEntity>(TraceableEntity.class, this, TraceabilityPackage.TRACE_LINK__SOURCE);
 		}
 		return source;
@@ -93,8 +92,7 @@ public class TraceLinkImpl extends EObjectImpl implements TraceLink {
 	 * @generated
 	 */
 	public EList<TraceableEntity> getTarget() {
-		if (target == null)
-		{
+		if (target == null) {
 			target = new EObjectResolvingEList<TraceableEntity>(TraceableEntity.class, this, TraceabilityPackage.TRACE_LINK__TARGET);
 		}
 		return target;
@@ -107,8 +105,7 @@ public class TraceLinkImpl extends EObjectImpl implements TraceLink {
 	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID)
-		{
+		switch (featureID) {
 			case TraceabilityPackage.TRACE_LINK__SOURCE:
 				return getSource();
 			case TraceabilityPackage.TRACE_LINK__TARGET:
@@ -125,8 +122,7 @@ public class TraceLinkImpl extends EObjectImpl implements TraceLink {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
-		switch (featureID)
-		{
+		switch (featureID) {
 			case TraceabilityPackage.TRACE_LINK__SOURCE:
 				getSource().clear();
 				getSource().addAll((Collection<? extends TraceableEntity>)newValue);
@@ -146,8 +142,7 @@ public class TraceLinkImpl extends EObjectImpl implements TraceLink {
 	 */
 	@Override
 	public void eUnset(int featureID) {
-		switch (featureID)
-		{
+		switch (featureID) {
 			case TraceabilityPackage.TRACE_LINK__SOURCE:
 				getSource().clear();
 				return;
@@ -165,8 +160,7 @@ public class TraceLinkImpl extends EObjectImpl implements TraceLink {
 	 */
 	@Override
 	public boolean eIsSet(int featureID) {
-		switch (featureID)
-		{
+		switch (featureID) {
 			case TraceabilityPackage.TRACE_LINK__SOURCE:
 				return source != null && !source.isEmpty();
 			case TraceabilityPackage.TRACE_LINK__TARGET:

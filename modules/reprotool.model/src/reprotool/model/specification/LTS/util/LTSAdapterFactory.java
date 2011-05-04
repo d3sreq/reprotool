@@ -4,7 +4,7 @@
  *
  * $Id$
  */
-package reprotool.model.comp.util;
+package reprotool.model.specification.LTS.util;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
@@ -13,24 +13,24 @@ import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 
 import org.eclipse.emf.ecore.EObject;
 
-import reprotool.model.comp.*;
+import reprotool.model.specification.LTS.*;
 
 /**
  * <!-- begin-user-doc -->
  * The <b>Adapter Factory</b> for the model.
  * It provides an adapter <code>createXXX</code> method for each class of the model.
  * <!-- end-user-doc -->
- * @see reprotool.model.comp.CompPackage
+ * @see reprotool.model.specification.LTS.LTSPackage
  * @generated
  */
-public class CompAdapterFactory extends AdapterFactoryImpl {
+public class LTSAdapterFactory extends AdapterFactoryImpl {
 	/**
 	 * The cached model package.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected static CompPackage modelPackage;
+	protected static LTSPackage modelPackage;
 
 	/**
 	 * Creates an instance of the adapter factory.
@@ -38,9 +38,9 @@ public class CompAdapterFactory extends AdapterFactoryImpl {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public CompAdapterFactory() {
+	public LTSAdapterFactory() {
 		if (modelPackage == null) {
-			modelPackage = CompPackage.eINSTANCE;
+			modelPackage = LTSPackage.eINSTANCE;
 		}
 	}
 
@@ -69,19 +69,15 @@ public class CompAdapterFactory extends AdapterFactoryImpl {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected CompSwitch<Adapter> modelSwitch =
-		new CompSwitch<Adapter>() {
+	protected LTSSwitch<Adapter> modelSwitch =
+		new LTSSwitch<Adapter>() {
 			@Override
-			public Adapter caseComponent(Component object) {
-				return createComponentAdapter();
+			public Adapter caseTransition(Transition object) {
+				return createTransitionAdapter();
 			}
 			@Override
-			public Adapter caseCompInterface(CompInterface object) {
-				return createCompInterfaceAdapter();
-			}
-			@Override
-			public Adapter caseCompInterfaceType(CompInterfaceType object) {
-				return createCompInterfaceTypeAdapter();
+			public Adapter caseState(State object) {
+				return createStateAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -104,44 +100,30 @@ public class CompAdapterFactory extends AdapterFactoryImpl {
 
 
 	/**
-	 * Creates a new adapter for an object of class '{@link reprotool.model.comp.Component <em>Component</em>}'.
+	 * Creates a new adapter for an object of class '{@link reprotool.model.specification.LTS.Transition <em>Transition</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see reprotool.model.comp.Component
+	 * @see reprotool.model.specification.LTS.Transition
 	 * @generated
 	 */
-	public Adapter createComponentAdapter() {
+	public Adapter createTransitionAdapter() {
 		return null;
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link reprotool.model.comp.CompInterface <em>Interface</em>}'.
+	 * Creates a new adapter for an object of class '{@link reprotool.model.specification.LTS.State <em>State</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see reprotool.model.comp.CompInterface
+	 * @see reprotool.model.specification.LTS.State
 	 * @generated
 	 */
-	public Adapter createCompInterfaceAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link reprotool.model.comp.CompInterfaceType <em>Interface Type</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see reprotool.model.comp.CompInterfaceType
-	 * @generated
-	 */
-	public Adapter createCompInterfaceTypeAdapter() {
+	public Adapter createStateAdapter() {
 		return null;
 	}
 
@@ -157,4 +139,4 @@ public class CompAdapterFactory extends AdapterFactoryImpl {
 		return null;
 	}
 
-} //CompAdapterFactory
+} //LTSAdapterFactory

@@ -42,8 +42,7 @@ public class TraceabilitySwitch<T> {
 	 * @generated
 	 */
 	public TraceabilitySwitch() {
-		if (modelPackage == null)
-		{
+		if (modelPackage == null) {
 			modelPackage = TraceabilityPackage.eINSTANCE;
 		}
 	}
@@ -67,12 +66,10 @@ public class TraceabilitySwitch<T> {
 	 * @generated
 	 */
 	protected T doSwitch(EClass theEClass, EObject theEObject) {
-		if (theEClass.eContainer() == modelPackage)
-		{
+		if (theEClass.eContainer() == modelPackage) {
 			return doSwitch(theEClass.getClassifierID(), theEObject);
 		}
-		else
-		{
+		else {
 			List<EClass> eSuperTypes = theEClass.getESuperTypes();
 			return
 				eSuperTypes.isEmpty() ?
@@ -89,17 +86,14 @@ public class TraceabilitySwitch<T> {
 	 * @generated
 	 */
 	protected T doSwitch(int classifierID, EObject theEObject) {
-		switch (classifierID)
-		{
-			case TraceabilityPackage.TRACEABLE_ENTITY:
-			{
+		switch (classifierID) {
+			case TraceabilityPackage.TRACEABLE_ENTITY: {
 				TraceableEntity traceableEntity = (TraceableEntity)theEObject;
 				T result = caseTraceableEntity(traceableEntity);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case TraceabilityPackage.TRACE_LINK:
-			{
+			case TraceabilityPackage.TRACE_LINK: {
 				TraceLink traceLink = (TraceLink)theEObject;
 				T result = caseTraceLink(traceLink);
 				if (result == null) result = defaultCase(theEObject);

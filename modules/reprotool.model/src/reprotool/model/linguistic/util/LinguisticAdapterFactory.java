@@ -39,8 +39,7 @@ public class LinguisticAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public LinguisticAdapterFactory() {
-		if (modelPackage == null)
-		{
+		if (modelPackage == null) {
 			modelPackage = LinguisticPackage.eINSTANCE;
 		}
 	}
@@ -55,12 +54,10 @@ public class LinguisticAdapterFactory extends AdapterFactoryImpl {
 	 */
 	@Override
 	public boolean isFactoryForType(Object object) {
-		if (object == modelPackage)
-		{
+		if (object == modelPackage) {
 			return true;
 		}
-		if (object instanceof EObject)
-		{
+		if (object instanceof EObject) {
 			return ((EObject)object).eClass().getEPackage() == modelPackage;
 		}
 		return false;
@@ -73,21 +70,17 @@ public class LinguisticAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	protected LinguisticSwitch<Adapter> modelSwitch =
-		new LinguisticSwitch<Adapter>()
-		{
+		new LinguisticSwitch<Adapter>() {
 			@Override
-			public Adapter caseSentenceNode(SentenceNode object)
-			{
+			public Adapter caseSentenceNode(SentenceNode object) {
 				return createSentenceNodeAdapter();
 			}
 			@Override
-			public Adapter caseWord(Word object)
-			{
+			public Adapter caseWord(Word object) {
 				return createWordAdapter();
 			}
 			@Override
-			public Adapter defaultCase(EObject object)
-			{
+			public Adapter defaultCase(EObject object) {
 				return createEObjectAdapter();
 			}
 		};

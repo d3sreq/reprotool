@@ -126,7 +126,7 @@ public class UcStepView extends ViewPart {
 	}
 
 	public void setStep(UseCaseStep s) {
-		lblStepSentence.setText(s.getDesc());
+		lblStepSentence.setText(s.getSentence());
 		// TODO reference from UCStep to UseCase?
 		for (UseCase u : Service.INSTANCE.getSoftwareProject().getUseCases()) {
 			if (u.getUseCaseSteps().contains(s)) {

@@ -8,25 +8,25 @@ package reprotool.model.specification.impl;
 
 import org.eclipse.emf.ecore.EClass;
 
-import reprotool.model.specification.NonFunctionalRequirement;
+import reprotool.model.specification.NFRequirement;
 import reprotool.model.specification.SpecificationPackage;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Non Functional Requirement</b></em>'.
+ * An implementation of the model object '<em><b>NF Requirement</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * </p>
  *
  * @generated
  */
-public class NonFunctionalRequirementImpl extends GenericRequirementImpl implements NonFunctionalRequirement {
+public class NFRequirementImpl extends RequirementImpl implements NFRequirement {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected NonFunctionalRequirementImpl() {
+	protected NFRequirementImpl() {
 		super();
 	}
 
@@ -37,7 +37,7 @@ public class NonFunctionalRequirementImpl extends GenericRequirementImpl impleme
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return SpecificationPackage.Literals.NON_FUNCTIONAL_REQUIREMENT;
+		return SpecificationPackage.Literals.NF_REQUIREMENT;
 	}
 
-} //NonFunctionalRequirementImpl
+} //NFRequirementImpl

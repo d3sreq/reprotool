@@ -62,22 +62,31 @@ public interface SpecificationFactory extends EFactory {
 	UseCaseStep createUseCaseStep();
 
 	/**
-	 * Returns a new object of class '<em>Generic Requirement</em>'.
+	 * Returns a new object of class '<em>Requirement</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Generic Requirement</em>'.
+	 * @return a new object of class '<em>Requirement</em>'.
 	 * @generated
 	 */
-	GenericRequirement createGenericRequirement();
+	Requirement createRequirement();
 
 	/**
-	 * Returns a new object of class '<em>Non Functional Requirement</em>'.
+	 * Returns a new object of class '<em>NF Requirement</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Non Functional Requirement</em>'.
+	 * @return a new object of class '<em>NF Requirement</em>'.
 	 * @generated
 	 */
-	NonFunctionalRequirement createNonFunctionalRequirement();
+	NFRequirement createNFRequirement();
+
+	/**
+	 * Returns a new object of class '<em>Req Cover</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Req Cover</em>'.
+	 * @generated
+	 */
+	ReqCover createReqCover();
 
 	/**
 	 * Returns the package supported by this factory.

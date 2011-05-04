@@ -31,16 +31,13 @@ public class LinguisticFactoryImpl extends EFactoryImpl implements LinguisticFac
 	 * @generated
 	 */
 	public static LinguisticFactory init() {
-		try
-		{
+		try {
 			LinguisticFactory theLinguisticFactory = (LinguisticFactory)EPackage.Registry.INSTANCE.getEFactory("http://d3s.mff.cuni.cz/reprotool/model/linguistic"); 
-			if (theLinguisticFactory != null)
-			{
+			if (theLinguisticFactory != null) {
 				return theLinguisticFactory;
 			}
 		}
-		catch (Exception exception)
-		{
+		catch (Exception exception) {
 			EcorePlugin.INSTANCE.log(exception);
 		}
 		return new LinguisticFactoryImpl();
@@ -63,8 +60,7 @@ public class LinguisticFactoryImpl extends EFactoryImpl implements LinguisticFac
 	 */
 	@Override
 	public EObject create(EClass eClass) {
-		switch (eClass.getClassifierID())
-		{
+		switch (eClass.getClassifierID()) {
 			case LinguisticPackage.SENTENCE_NODE: return createSentenceNode();
 			case LinguisticPackage.WORD: return createWord();
 			default:
@@ -79,8 +75,7 @@ public class LinguisticFactoryImpl extends EFactoryImpl implements LinguisticFac
 	 */
 	@Override
 	public Object createFromString(EDataType eDataType, String initialValue) {
-		switch (eDataType.getClassifierID())
-		{
+		switch (eDataType.getClassifierID()) {
 			case LinguisticPackage.EWORD_TYPE:
 				return createEWordTypeFromString(eDataType, initialValue);
 			default:
@@ -95,8 +90,7 @@ public class LinguisticFactoryImpl extends EFactoryImpl implements LinguisticFac
 	 */
 	@Override
 	public String convertToString(EDataType eDataType, Object instanceValue) {
-		switch (eDataType.getClassifierID())
-		{
+		switch (eDataType.getClassifierID()) {
 			case LinguisticPackage.EWORD_TYPE:
 				return convertEWordTypeToString(eDataType, instanceValue);
 			default:

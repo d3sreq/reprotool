@@ -4,7 +4,7 @@
  *
  * $Id$
  */
-package reprotool.model.comp.impl;
+package reprotool.model.specification.LTS.impl;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -14,7 +14,7 @@ import org.eclipse.emf.ecore.impl.EFactoryImpl;
 
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
-import reprotool.model.comp.*;
+import reprotool.model.specification.LTS.*;
 
 /**
  * <!-- begin-user-doc -->
@@ -22,24 +22,24 @@ import reprotool.model.comp.*;
  * <!-- end-user-doc -->
  * @generated
  */
-public class CompFactoryImpl extends EFactoryImpl implements CompFactory {
+public class LTSFactoryImpl extends EFactoryImpl implements LTSFactory {
 	/**
 	 * Creates the default factory implementation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static CompFactory init() {
+	public static LTSFactory init() {
 		try {
-			CompFactory theCompFactory = (CompFactory)EPackage.Registry.INSTANCE.getEFactory("http://d3s.mff.cuni.cz/reprotool/model/comp"); 
-			if (theCompFactory != null) {
-				return theCompFactory;
+			LTSFactory theLTSFactory = (LTSFactory)EPackage.Registry.INSTANCE.getEFactory("http://d3s.mff.cuni.cz/reprotool/model/specification/LTS"); 
+			if (theLTSFactory != null) {
+				return theLTSFactory;
 			}
 		}
 		catch (Exception exception) {
 			EcorePlugin.INSTANCE.log(exception);
 		}
-		return new CompFactoryImpl();
+		return new LTSFactoryImpl();
 	}
 
 	/**
@@ -48,7 +48,7 @@ public class CompFactoryImpl extends EFactoryImpl implements CompFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public CompFactoryImpl() {
+	public LTSFactoryImpl() {
 		super();
 	}
 
@@ -60,9 +60,8 @@ public class CompFactoryImpl extends EFactoryImpl implements CompFactory {
 	@Override
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
-			case CompPackage.COMPONENT: return createComponent();
-			case CompPackage.COMP_INTERFACE: return createCompInterface();
-			case CompPackage.COMP_INTERFACE_TYPE: return createCompInterfaceType();
+			case LTSPackage.TRANSITION: return createTransition();
+			case LTSPackage.STATE: return createState();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -73,9 +72,9 @@ public class CompFactoryImpl extends EFactoryImpl implements CompFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Component createComponent() {
-		ComponentImpl component = new ComponentImpl();
-		return component;
+	public Transition createTransition() {
+		TransitionImpl transition = new TransitionImpl();
+		return transition;
 	}
 
 	/**
@@ -83,9 +82,9 @@ public class CompFactoryImpl extends EFactoryImpl implements CompFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public CompInterface createCompInterface() {
-		CompInterfaceImpl compInterface = new CompInterfaceImpl();
-		return compInterface;
+	public State createState() {
+		StateImpl state = new StateImpl();
+		return state;
 	}
 
 	/**
@@ -93,18 +92,8 @@ public class CompFactoryImpl extends EFactoryImpl implements CompFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public CompInterfaceType createCompInterfaceType() {
-		CompInterfaceTypeImpl compInterfaceType = new CompInterfaceTypeImpl();
-		return compInterfaceType;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public CompPackage getCompPackage() {
-		return (CompPackage)getEPackage();
+	public LTSPackage getLTSPackage() {
+		return (LTSPackage)getEPackage();
 	}
 
 	/**
@@ -114,8 +103,8 @@ public class CompFactoryImpl extends EFactoryImpl implements CompFactory {
 	 * @generated
 	 */
 	@Deprecated
-	public static CompPackage getPackage() {
-		return CompPackage.eINSTANCE;
+	public static LTSPackage getPackage() {
+		return LTSPackage.eINSTANCE;
 	}
 
-} //CompFactoryImpl
+} //LTSFactoryImpl

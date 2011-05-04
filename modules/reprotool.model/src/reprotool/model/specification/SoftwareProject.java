@@ -10,6 +10,8 @@ import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EObject;
 
+import reprotool.model.structure.doc.Document;
+
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Software Project</b></em>'.
@@ -23,6 +25,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link reprotool.model.specification.SoftwareProject#getDescription <em>Description</em>}</li>
  *   <li>{@link reprotool.model.specification.SoftwareProject#getRequirements <em>Requirements</em>}</li>
  *   <li>{@link reprotool.model.specification.SoftwareProject#getUseCases <em>Use Cases</em>}</li>
+ *   <li>{@link reprotool.model.specification.SoftwareProject#getSrsDocuments <em>Srs Documents</em>}</li>
  * </ul>
  * </p>
  *
@@ -101,7 +104,7 @@ public interface SoftwareProject extends EObject {
 
 	/**
 	 * Returns the value of the '<em><b>Requirements</b></em>' containment reference list.
-	 * The list contents are of type {@link reprotool.model.specification.GenericRequirement}.
+	 * The list contents are of type {@link reprotool.model.specification.Requirement}.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Requirements</em>' containment reference list isn't clear,
@@ -113,7 +116,7 @@ public interface SoftwareProject extends EObject {
 	 * @model containment="true"
 	 * @generated
 	 */
-	EList<GenericRequirement> getRequirements();
+	EList<Requirement> getRequirements();
 
 	/**
 	 * Returns the value of the '<em><b>Use Cases</b></em>' containment reference list.
@@ -126,9 +129,25 @@ public interface SoftwareProject extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Use Cases</em>' containment reference list.
 	 * @see reprotool.model.specification.SpecificationPackage#getSoftwareProject_UseCases()
-	 * @model containment="true" transient="true" volatile="true" derived="true"
+	 * @model containment="true"
 	 * @generated
 	 */
 	EList<UseCase> getUseCases();
+
+	/**
+	 * Returns the value of the '<em><b>Srs Documents</b></em>' reference list.
+	 * The list contents are of type {@link reprotool.model.structure.doc.Document}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Srs Documents</em>' reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Srs Documents</em>' reference list.
+	 * @see reprotool.model.specification.SpecificationPackage#getSoftwareProject_SrsDocuments()
+	 * @model
+	 * @generated
+	 */
+	EList<Document> getSrsDocuments();
 
 } // SoftwareProject

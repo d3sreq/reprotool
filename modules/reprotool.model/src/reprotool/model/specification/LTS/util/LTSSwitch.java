@@ -4,14 +4,14 @@
  *
  * $Id$
  */
-package reprotool.model.comp.util;
+package reprotool.model.specification.LTS.util;
 
 import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 
-import reprotool.model.comp.*;
+import reprotool.model.specification.LTS.*;
 
 /**
  * <!-- begin-user-doc -->
@@ -23,17 +23,17 @@ import reprotool.model.comp.*;
  * until a non-null result is returned,
  * which is the result of the switch.
  * <!-- end-user-doc -->
- * @see reprotool.model.comp.CompPackage
+ * @see reprotool.model.specification.LTS.LTSPackage
  * @generated
  */
-public class CompSwitch<T> {
+public class LTSSwitch<T> {
 	/**
 	 * The cached model package
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected static CompPackage modelPackage;
+	protected static LTSPackage modelPackage;
 
 	/**
 	 * Creates an instance of the switch.
@@ -41,9 +41,9 @@ public class CompSwitch<T> {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public CompSwitch() {
+	public LTSSwitch() {
 		if (modelPackage == null) {
-			modelPackage = CompPackage.eINSTANCE;
+			modelPackage = LTSPackage.eINSTANCE;
 		}
 	}
 
@@ -87,21 +87,15 @@ public class CompSwitch<T> {
 	 */
 	protected T doSwitch(int classifierID, EObject theEObject) {
 		switch (classifierID) {
-			case CompPackage.COMPONENT: {
-				Component component = (Component)theEObject;
-				T result = caseComponent(component);
+			case LTSPackage.TRANSITION: {
+				Transition transition = (Transition)theEObject;
+				T result = caseTransition(transition);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case CompPackage.COMP_INTERFACE: {
-				CompInterface compInterface = (CompInterface)theEObject;
-				T result = caseCompInterface(compInterface);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case CompPackage.COMP_INTERFACE_TYPE: {
-				CompInterfaceType compInterfaceType = (CompInterfaceType)theEObject;
-				T result = caseCompInterfaceType(compInterfaceType);
+			case LTSPackage.STATE: {
+				State state = (State)theEObject;
+				T result = caseState(state);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -110,47 +104,32 @@ public class CompSwitch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Component</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Transition</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Component</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Transition</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseComponent(Component object) {
+	public T caseTransition(Transition object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Interface</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>State</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Interface</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>State</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseCompInterface(CompInterface object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Interface Type</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Interface Type</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseCompInterfaceType(CompInterfaceType object) {
+	public T caseState(State object) {
 		return null;
 	}
 
@@ -169,4 +148,4 @@ public class CompSwitch<T> {
 		return null;
 	}
 
-} //CompSwitch
+} //LTSSwitch

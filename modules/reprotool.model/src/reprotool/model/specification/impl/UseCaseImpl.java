@@ -19,9 +19,12 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 import reprotool.model.specification.Actor;
+import reprotool.model.specification.ReqCover;
+import reprotool.model.specification.Requirement;
 import reprotool.model.specification.SpecificationPackage;
 import reprotool.model.specification.UseCase;
 import reprotool.model.specification.UseCaseStep;
@@ -41,7 +44,7 @@ import reprotool.model.specification.UseCaseStep;
  *
  * @generated
  */
-public class UseCaseImpl extends GenericRequirementImpl implements UseCase {
+public class UseCaseImpl extends ReqCoverImpl implements UseCase {
 	/**
 	 * The cached value of the '{@link #getPrimaryActor() <em>Primary Actor</em>}' reference.
 	 * <!-- begin-user-doc -->
@@ -107,12 +110,10 @@ public class UseCaseImpl extends GenericRequirementImpl implements UseCase {
 	 * @generated
 	 */
 	public Actor getPrimaryActor() {
-		if (primaryActor != null && primaryActor.eIsProxy())
-		{
+		if (primaryActor != null && primaryActor.eIsProxy()) {
 			InternalEObject oldPrimaryActor = (InternalEObject)primaryActor;
 			primaryActor = (Actor)eResolveProxy(oldPrimaryActor);
-			if (primaryActor != oldPrimaryActor)
-			{
+			if (primaryActor != oldPrimaryActor) {
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE, SpecificationPackage.USE_CASE__PRIMARY_ACTOR, oldPrimaryActor, primaryActor));
 			}
@@ -147,8 +148,7 @@ public class UseCaseImpl extends GenericRequirementImpl implements UseCase {
 	 * @generated
 	 */
 	public EList<UseCaseStep> getUseCaseSteps() {
-		if (useCaseSteps == null)
-		{
+		if (useCaseSteps == null) {
 			useCaseSteps = new EObjectContainmentEList<UseCaseStep>(UseCaseStep.class, this, SpecificationPackage.USE_CASE__USE_CASE_STEPS);
 		}
 		return useCaseSteps;
@@ -182,8 +182,7 @@ public class UseCaseImpl extends GenericRequirementImpl implements UseCase {
 	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID)
-		{
+		switch (featureID) {
 			case SpecificationPackage.USE_CASE__USE_CASE_STEPS:
 				return ((InternalEList<?>)getUseCaseSteps()).basicRemove(otherEnd, msgs);
 		}
@@ -197,8 +196,7 @@ public class UseCaseImpl extends GenericRequirementImpl implements UseCase {
 	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID)
-		{
+		switch (featureID) {
 			case SpecificationPackage.USE_CASE__PRIMARY_ACTOR:
 				if (resolve) return getPrimaryActor();
 				return basicGetPrimaryActor();
@@ -218,8 +216,7 @@ public class UseCaseImpl extends GenericRequirementImpl implements UseCase {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
-		switch (featureID)
-		{
+		switch (featureID) {
 			case SpecificationPackage.USE_CASE__PRIMARY_ACTOR:
 				setPrimaryActor((Actor)newValue);
 				return;
@@ -241,8 +238,7 @@ public class UseCaseImpl extends GenericRequirementImpl implements UseCase {
 	 */
 	@Override
 	public void eUnset(int featureID) {
-		switch (featureID)
-		{
+		switch (featureID) {
 			case SpecificationPackage.USE_CASE__PRIMARY_ACTOR:
 				setPrimaryActor((Actor)null);
 				return;
@@ -263,8 +259,7 @@ public class UseCaseImpl extends GenericRequirementImpl implements UseCase {
 	 */
 	@Override
 	public boolean eIsSet(int featureID) {
-		switch (featureID)
-		{
+		switch (featureID) {
 			case SpecificationPackage.USE_CASE__PRIMARY_ACTOR:
 				return primaryActor != null;
 			case SpecificationPackage.USE_CASE__USE_CASE_STEPS:

@@ -139,8 +139,7 @@ public class WordImpl extends SentenceNodeImpl implements Word {
 	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID)
-		{
+		switch (featureID) {
 			case LinguisticPackage.WORD__WORD_STR:
 				return getWordStr();
 			case LinguisticPackage.WORD__WORD_TYPE:
@@ -156,8 +155,7 @@ public class WordImpl extends SentenceNodeImpl implements Word {
 	 */
 	@Override
 	public void eSet(int featureID, Object newValue) {
-		switch (featureID)
-		{
+		switch (featureID) {
 			case LinguisticPackage.WORD__WORD_STR:
 				setWordStr((String)newValue);
 				return;
@@ -175,8 +173,7 @@ public class WordImpl extends SentenceNodeImpl implements Word {
 	 */
 	@Override
 	public void eUnset(int featureID) {
-		switch (featureID)
-		{
+		switch (featureID) {
 			case LinguisticPackage.WORD__WORD_STR:
 				setWordStr(WORD_STR_EDEFAULT);
 				return;
@@ -194,8 +191,7 @@ public class WordImpl extends SentenceNodeImpl implements Word {
 	 */
 	@Override
 	public boolean eIsSet(int featureID) {
-		switch (featureID)
-		{
+		switch (featureID) {
 			case LinguisticPackage.WORD__WORD_STR:
 				return WORD_STR_EDEFAULT == null ? wordStr != null : !WORD_STR_EDEFAULT.equals(wordStr);
 			case LinguisticPackage.WORD__WORD_TYPE:

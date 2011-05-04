@@ -26,7 +26,7 @@ import org.eclipse.emf.common.util.EList;
  * @model
  * @generated
  */
-public interface UseCase extends GenericRequirement {
+public interface UseCase extends ReqCover {
 	/**
 	 * Returns the value of the '<em><b>Primary Actor</b></em>' reference.
 	 * <!-- begin-user-doc -->

@@ -41,8 +41,7 @@ public class SpecificationAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public SpecificationAdapterFactory() {
-		if (modelPackage == null)
-		{
+		if (modelPackage == null) {
 			modelPackage = SpecificationPackage.eINSTANCE;
 		}
 	}
@@ -57,12 +56,10 @@ public class SpecificationAdapterFactory extends AdapterFactoryImpl {
 	 */
 	@Override
 	public boolean isFactoryForType(Object object) {
-		if (object == modelPackage)
-		{
+		if (object == modelPackage) {
 			return true;
 		}
-		if (object instanceof EObject)
-		{
+		if (object instanceof EObject) {
 			return ((EObject)object).eClass().getEPackage() == modelPackage;
 		}
 		return false;
@@ -75,46 +72,41 @@ public class SpecificationAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	protected SpecificationSwitch<Adapter> modelSwitch =
-		new SpecificationSwitch<Adapter>()
-		{
+		new SpecificationSwitch<Adapter>() {
 			@Override
-			public Adapter caseSoftwareProject(SoftwareProject object)
-			{
+			public Adapter caseSoftwareProject(SoftwareProject object) {
 				return createSoftwareProjectAdapter();
 			}
 			@Override
-			public Adapter caseUseCase(UseCase object)
-			{
+			public Adapter caseUseCase(UseCase object) {
 				return createUseCaseAdapter();
 			}
 			@Override
-			public Adapter caseActor(Actor object)
-			{
+			public Adapter caseActor(Actor object) {
 				return createActorAdapter();
 			}
 			@Override
-			public Adapter caseUseCaseStep(UseCaseStep object)
-			{
+			public Adapter caseUseCaseStep(UseCaseStep object) {
 				return createUseCaseStepAdapter();
 			}
 			@Override
-			public Adapter caseGenericRequirement(GenericRequirement object)
-			{
-				return createGenericRequirementAdapter();
+			public Adapter caseRequirement(Requirement object) {
+				return createRequirementAdapter();
 			}
 			@Override
-			public Adapter caseNonFunctionalRequirement(NonFunctionalRequirement object)
-			{
-				return createNonFunctionalRequirementAdapter();
+			public Adapter caseNFRequirement(NFRequirement object) {
+				return createNFRequirementAdapter();
 			}
 			@Override
-			public Adapter caseTraceableEntity(TraceableEntity object)
-			{
+			public Adapter caseReqCover(ReqCover object) {
+				return createReqCoverAdapter();
+			}
+			@Override
+			public Adapter caseTraceableEntity(TraceableEntity object) {
 				return createTraceableEntityAdapter();
 			}
 			@Override
-			public Adapter defaultCase(EObject object)
-			{
+			public Adapter defaultCase(EObject object) {
 				return createEObjectAdapter();
 			}
 		};
@@ -190,30 +182,44 @@ public class SpecificationAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link reprotool.model.specification.GenericRequirement <em>Generic Requirement</em>}'.
+	 * Creates a new adapter for an object of class '{@link reprotool.model.specification.Requirement <em>Requirement</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see reprotool.model.specification.GenericRequirement
+	 * @see reprotool.model.specification.Requirement
 	 * @generated
 	 */
-	public Adapter createGenericRequirementAdapter() {
+	public Adapter createRequirementAdapter() {
 		return null;
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link reprotool.model.specification.NonFunctionalRequirement <em>Non Functional Requirement</em>}'.
+	 * Creates a new adapter for an object of class '{@link reprotool.model.specification.NFRequirement <em>NF Requirement</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see reprotool.model.specification.NonFunctionalRequirement
+	 * @see reprotool.model.specification.NFRequirement
 	 * @generated
 	 */
-	public Adapter createNonFunctionalRequirementAdapter() {
+	public Adapter createNFRequirementAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link reprotool.model.specification.ReqCover <em>Req Cover</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see reprotool.model.specification.ReqCover
+	 * @generated
+	 */
+	public Adapter createReqCoverAdapter() {
 		return null;
 	}
 

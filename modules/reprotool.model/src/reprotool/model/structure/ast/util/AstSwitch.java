@@ -44,8 +44,7 @@ public class AstSwitch<T> {
 	 * @generated
 	 */
 	public AstSwitch() {
-		if (modelPackage == null)
-		{
+		if (modelPackage == null) {
 			modelPackage = AstPackage.eINSTANCE;
 		}
 	}
@@ -69,12 +68,10 @@ public class AstSwitch<T> {
 	 * @generated
 	 */
 	protected T doSwitch(EClass theEClass, EObject theEObject) {
-		if (theEClass.eContainer() == modelPackage)
-		{
+		if (theEClass.eContainer() == modelPackage) {
 			return doSwitch(theEClass.getClassifierID(), theEObject);
 		}
-		else
-		{
+		else {
 			List<EClass> eSuperTypes = theEClass.getESuperTypes();
 			return
 				eSuperTypes.isEmpty() ?
@@ -91,26 +88,22 @@ public class AstSwitch<T> {
 	 * @generated
 	 */
 	protected T doSwitch(int classifierID, EObject theEObject) {
-		switch (classifierID)
-		{
-			case AstPackage.METHOD:
-			{
+		switch (classifierID) {
+			case AstPackage.METHOD: {
 				Method method = (Method)theEObject;
 				T result = caseMethod(method);
 				if (result == null) result = caseCodeElement(method);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case AstPackage.CLASS:
-			{
+			case AstPackage.CLASS: {
 				reprotool.model.structure.ast.Class class_ = (reprotool.model.structure.ast.Class)theEObject;
 				T result = caseClass(class_);
 				if (result == null) result = caseCodeElement(class_);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case AstPackage.CODE_ELEMENT:
-			{
+			case AstPackage.CODE_ELEMENT: {
 				CodeElement codeElement = (CodeElement)theEObject;
 				T result = caseCodeElement(codeElement);
 				if (result == null) result = defaultCase(theEObject);

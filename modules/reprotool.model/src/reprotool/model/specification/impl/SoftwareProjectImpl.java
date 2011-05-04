@@ -11,7 +11,6 @@ import java.util.Collection;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
-import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
@@ -21,13 +20,16 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 import reprotool.model.specification.Actor;
-import reprotool.model.specification.GenericRequirement;
+import reprotool.model.specification.Requirement;
 import reprotool.model.specification.SoftwareProject;
 import reprotool.model.specification.SpecificationPackage;
 import reprotool.model.specification.UseCase;
+
+import reprotool.model.structure.doc.Document;
 
 /**
  * <!-- begin-user-doc -->
@@ -41,6 +43,7 @@ import reprotool.model.specification.UseCase;
  *   <li>{@link reprotool.model.specification.impl.SoftwareProjectImpl#getDescription <em>Description</em>}</li>
  *   <li>{@link reprotool.model.specification.impl.SoftwareProjectImpl#getRequirements <em>Requirements</em>}</li>
  *   <li>{@link reprotool.model.specification.impl.SoftwareProjectImpl#getUseCases <em>Use Cases</em>}</li>
+ *   <li>{@link reprotool.model.specification.impl.SoftwareProjectImpl#getSrsDocuments <em>Srs Documents</em>}</li>
  * </ul>
  * </p>
  *
@@ -105,7 +108,27 @@ public class SoftwareProjectImpl extends EObjectImpl implements SoftwareProject 
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<GenericRequirement> requirements;
+	protected EList<Requirement> requirements;
+
+	/**
+	 * The cached value of the '{@link #getUseCases() <em>Use Cases</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getUseCases()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<UseCase> useCases;
+
+	/**
+	 * The cached value of the '{@link #getSrsDocuments() <em>Srs Documents</em>}' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getSrsDocuments()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<Document> srsDocuments;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -132,8 +155,7 @@ public class SoftwareProjectImpl extends EObjectImpl implements SoftwareProject 
 	 * @generated
 	 */
 	public EList<Actor> getActors() {
-		if (actors == null)
-		{
+		if (actors == null) {
 			actors = new EObjectContainmentEList<Actor>(Actor.class, this, SpecificationPackage.SOFTWARE_PROJECT__ACTORS);
 		}
 		return actors;
@@ -186,10 +208,9 @@ public class SoftwareProjectImpl extends EObjectImpl implements SoftwareProject 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<GenericRequirement> getRequirements() {
-		if (requirements == null)
-		{
-			requirements = new EObjectContainmentEList<GenericRequirement>(GenericRequirement.class, this, SpecificationPackage.SOFTWARE_PROJECT__REQUIREMENTS);
+	public EList<Requirement> getRequirements() {
+		if (requirements == null) {
+			requirements = new EObjectContainmentEList<Requirement>(Requirement.class, this, SpecificationPackage.SOFTWARE_PROJECT__REQUIREMENTS);
 		}
 		return requirements;
 	}
@@ -197,17 +218,25 @@ public class SoftwareProjectImpl extends EObjectImpl implements SoftwareProject 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated NOT
+	 * @generated
 	 */
 	public EList<UseCase> getUseCases() {
-		//TODO: this code will be changed in future using feature map
-		EList<UseCase> list = new BasicEList<UseCase>();
-		for (GenericRequirement req : getRequirements()) {
-			if(req instanceof UseCase) {
-				list.add((UseCase)req);
-			}
+		if (useCases == null) {
+			useCases = new EObjectContainmentEList<UseCase>(UseCase.class, this, SpecificationPackage.SOFTWARE_PROJECT__USE_CASES);
 		}
-		return list;
+		return useCases;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<Document> getSrsDocuments() {
+		if (srsDocuments == null) {
+			srsDocuments = new EObjectResolvingEList<Document>(Document.class, this, SpecificationPackage.SOFTWARE_PROJECT__SRS_DOCUMENTS);
+		}
+		return srsDocuments;
 	}
 
 	/**
@@ -217,8 +246,7 @@ public class SoftwareProjectImpl extends EObjectImpl implements SoftwareProject 
 	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID)
-		{
+		switch (featureID) {
 			case SpecificationPackage.SOFTWARE_PROJECT__ACTORS:
 				return ((InternalEList<?>)getActors()).basicRemove(otherEnd, msgs);
 			case SpecificationPackage.SOFTWARE_PROJECT__REQUIREMENTS:
@@ -236,8 +264,7 @@ public class SoftwareProjectImpl extends EObjectImpl implements SoftwareProject 
 	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID)
-		{
+		switch (featureID) {
 			case SpecificationPackage.SOFTWARE_PROJECT__ACTORS:
 				return getActors();
 			case SpecificationPackage.SOFTWARE_PROJECT__NAME:
@@ -248,6 +275,8 @@ public class SoftwareProjectImpl extends EObjectImpl implements SoftwareProject 
 				return getRequirements();
 			case SpecificationPackage.SOFTWARE_PROJECT__USE_CASES:
 				return getUseCases();
+			case SpecificationPackage.SOFTWARE_PROJECT__SRS_DOCUMENTS:
+				return getSrsDocuments();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -260,8 +289,7 @@ public class SoftwareProjectImpl extends EObjectImpl implements SoftwareProject 
 	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
-		switch (featureID)
-		{
+		switch (featureID) {
 			case SpecificationPackage.SOFTWARE_PROJECT__ACTORS:
 				getActors().clear();
 				getActors().addAll((Collection<? extends Actor>)newValue);
@@ -274,11 +302,15 @@ public class SoftwareProjectImpl extends EObjectImpl implements SoftwareProject 
 				return;
 			case SpecificationPackage.SOFTWARE_PROJECT__REQUIREMENTS:
 				getRequirements().clear();
-				getRequirements().addAll((Collection<? extends GenericRequirement>)newValue);
+				getRequirements().addAll((Collection<? extends Requirement>)newValue);
 				return;
 			case SpecificationPackage.SOFTWARE_PROJECT__USE_CASES:
 				getUseCases().clear();
 				getUseCases().addAll((Collection<? extends UseCase>)newValue);
+				return;
+			case SpecificationPackage.SOFTWARE_PROJECT__SRS_DOCUMENTS:
+				getSrsDocuments().clear();
+				getSrsDocuments().addAll((Collection<? extends Document>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -291,8 +323,7 @@ public class SoftwareProjectImpl extends EObjectImpl implements SoftwareProject 
 	 */
 	@Override
 	public void eUnset(int featureID) {
-		switch (featureID)
-		{
+		switch (featureID) {
 			case SpecificationPackage.SOFTWARE_PROJECT__ACTORS:
 				getActors().clear();
 				return;
@@ -308,6 +339,9 @@ public class SoftwareProjectImpl extends EObjectImpl implements SoftwareProject 
 			case SpecificationPackage.SOFTWARE_PROJECT__USE_CASES:
 				getUseCases().clear();
 				return;
+			case SpecificationPackage.SOFTWARE_PROJECT__SRS_DOCUMENTS:
+				getSrsDocuments().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -319,8 +353,7 @@ public class SoftwareProjectImpl extends EObjectImpl implements SoftwareProject 
 	 */
 	@Override
 	public boolean eIsSet(int featureID) {
-		switch (featureID)
-		{
+		switch (featureID) {
 			case SpecificationPackage.SOFTWARE_PROJECT__ACTORS:
 				return actors != null && !actors.isEmpty();
 			case SpecificationPackage.SOFTWARE_PROJECT__NAME:
@@ -330,7 +363,9 @@ public class SoftwareProjectImpl extends EObjectImpl implements SoftwareProject 
 			case SpecificationPackage.SOFTWARE_PROJECT__REQUIREMENTS:
 				return requirements != null && !requirements.isEmpty();
 			case SpecificationPackage.SOFTWARE_PROJECT__USE_CASES:
-				return !getUseCases().isEmpty();
+				return useCases != null && !useCases.isEmpty();
+			case SpecificationPackage.SOFTWARE_PROJECT__SRS_DOCUMENTS:
+				return srsDocuments != null && !srsDocuments.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

@@ -44,8 +44,7 @@ public class DocSwitch<T> {
 	 * @generated
 	 */
 	public DocSwitch() {
-		if (modelPackage == null)
-		{
+		if (modelPackage == null) {
 			modelPackage = DocPackage.eINSTANCE;
 		}
 	}
@@ -69,12 +68,10 @@ public class DocSwitch<T> {
 	 * @generated
 	 */
 	protected T doSwitch(EClass theEClass, EObject theEObject) {
-		if (theEClass.eContainer() == modelPackage)
-		{
+		if (theEClass.eContainer() == modelPackage) {
 			return doSwitch(theEClass.getClassifierID(), theEObject);
 		}
-		else
-		{
+		else {
 			List<EClass> eSuperTypes = theEClass.getESuperTypes();
 			return
 				eSuperTypes.isEmpty() ?
@@ -91,24 +88,20 @@ public class DocSwitch<T> {
 	 * @generated
 	 */
 	protected T doSwitch(int classifierID, EObject theEObject) {
-		switch (classifierID)
-		{
-			case DocPackage.DOCUMENT:
-			{
+		switch (classifierID) {
+			case DocPackage.DOCUMENT: {
 				Document document = (Document)theEObject;
 				T result = caseDocument(document);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case DocPackage.SECTION:
-			{
+			case DocPackage.SECTION: {
 				Section section = (Section)theEObject;
 				T result = caseSection(section);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case DocPackage.PARAGRAPH:
-			{
+			case DocPackage.PARAGRAPH: {
 				Paragraph paragraph = (Paragraph)theEObject;
 				T result = caseParagraph(paragraph);
 				if (result == null) result = caseTraceableEntity(paragraph);

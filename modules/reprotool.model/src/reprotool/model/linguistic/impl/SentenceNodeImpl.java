@@ -92,8 +92,7 @@ public class SentenceNodeImpl extends EObjectImpl implements SentenceNode {
 	 * @generated
 	 */
 	public EList<SentenceNode> getChildFragments() {
-		if (childFragments == null)
-		{
+		if (childFragments == null) {
 			childFragments = new EObjectResolvingEList<SentenceNode>(SentenceNode.class, this, LinguisticPackage.SENTENCE_NODE__CHILD_FRAGMENTS);
 		}
 		return childFragments;
@@ -127,8 +126,7 @@ public class SentenceNodeImpl extends EObjectImpl implements SentenceNode {
 	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID)
-		{
+		switch (featureID) {
 			case LinguisticPackage.SENTENCE_NODE__CHILD_FRAGMENTS:
 				return getChildFragments();
 			case LinguisticPackage.SENTENCE_NODE__TYPE:
@@ -145,8 +143,7 @@ public class SentenceNodeImpl extends EObjectImpl implements SentenceNode {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
-		switch (featureID)
-		{
+		switch (featureID) {
 			case LinguisticPackage.SENTENCE_NODE__CHILD_FRAGMENTS:
 				getChildFragments().clear();
 				getChildFragments().addAll((Collection<? extends SentenceNode>)newValue);
@@ -165,8 +162,7 @@ public class SentenceNodeImpl extends EObjectImpl implements SentenceNode {
 	 */
 	@Override
 	public void eUnset(int featureID) {
-		switch (featureID)
-		{
+		switch (featureID) {
 			case LinguisticPackage.SENTENCE_NODE__CHILD_FRAGMENTS:
 				getChildFragments().clear();
 				return;
@@ -184,8 +180,7 @@ public class SentenceNodeImpl extends EObjectImpl implements SentenceNode {
 	 */
 	@Override
 	public boolean eIsSet(int featureID) {
-		switch (featureID)
-		{
+		switch (featureID) {
 			case LinguisticPackage.SENTENCE_NODE__CHILD_FRAGMENTS:
 				return childFragments != null && !childFragments.isEmpty();
 			case LinguisticPackage.SENTENCE_NODE__TYPE:

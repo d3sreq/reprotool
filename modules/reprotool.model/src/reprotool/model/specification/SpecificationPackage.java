@@ -117,50 +117,32 @@ public interface SpecificationPackage extends EPackage {
 	int SOFTWARE_PROJECT__USE_CASES = 4;
 
 	/**
+	 * The feature id for the '<em><b>Srs Documents</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SOFTWARE_PROJECT__SRS_DOCUMENTS = 5;
+
+	/**
 	 * The number of structural features of the '<em>Software Project</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SOFTWARE_PROJECT_FEATURE_COUNT = 5;
+	int SOFTWARE_PROJECT_FEATURE_COUNT = 6;
 
 	/**
-	 * The meta object id for the '{@link reprotool.model.specification.impl.GenericRequirementImpl <em>Generic Requirement</em>}' class.
+	 * The meta object id for the '{@link reprotool.model.specification.impl.RequirementImpl <em>Requirement</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see reprotool.model.specification.impl.GenericRequirementImpl
-	 * @see reprotool.model.specification.impl.SpecificationPackageImpl#getGenericRequirement()
+	 * @see reprotool.model.specification.impl.RequirementImpl
+	 * @see reprotool.model.specification.impl.SpecificationPackageImpl#getRequirement()
 	 * @generated
 	 */
-	int GENERIC_REQUIREMENT = 4;
-
-	/**
-	 * The feature id for the '<em><b>Original Text</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int GENERIC_REQUIREMENT__ORIGINAL_TEXT = TraceabilityPackage.TRACEABLE_ENTITY_FEATURE_COUNT + 0;
-
-	/**
-	 * The feature id for the '<em><b>Original Id</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int GENERIC_REQUIREMENT__ORIGINAL_ID = TraceabilityPackage.TRACEABLE_ENTITY_FEATURE_COUNT + 1;
-
-	/**
-	 * The number of structural features of the '<em>Generic Requirement</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int GENERIC_REQUIREMENT_FEATURE_COUNT = TraceabilityPackage.TRACEABLE_ENTITY_FEATURE_COUNT + 2;
+	int REQUIREMENT = 4;
 
 	/**
 	 * The meta object id for the '{@link reprotool.model.specification.impl.UseCaseImpl <em>Use Case</em>}' class.
@@ -173,60 +155,6 @@ public interface SpecificationPackage extends EPackage {
 	int USE_CASE = 1;
 
 	/**
-	 * The feature id for the '<em><b>Original Text</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int USE_CASE__ORIGINAL_TEXT = GENERIC_REQUIREMENT__ORIGINAL_TEXT;
-
-	/**
-	 * The feature id for the '<em><b>Original Id</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int USE_CASE__ORIGINAL_ID = GENERIC_REQUIREMENT__ORIGINAL_ID;
-
-	/**
-	 * The feature id for the '<em><b>Primary Actor</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int USE_CASE__PRIMARY_ACTOR = GENERIC_REQUIREMENT_FEATURE_COUNT + 0;
-
-	/**
-	 * The feature id for the '<em><b>Use Case Steps</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int USE_CASE__USE_CASE_STEPS = GENERIC_REQUIREMENT_FEATURE_COUNT + 1;
-
-	/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int USE_CASE__NAME = GENERIC_REQUIREMENT_FEATURE_COUNT + 2;
-
-	/**
-	 * The number of structural features of the '<em>Use Case</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int USE_CASE_FEATURE_COUNT = GENERIC_REQUIREMENT_FEATURE_COUNT + 3;
-
-	/**
 	 * The meta object id for the '{@link reprotool.model.specification.impl.ActorImpl <em>Actor</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -235,6 +163,79 @@ public interface SpecificationPackage extends EPackage {
 	 * @generated
 	 */
 	int ACTOR = 2;
+
+	/**
+	 * The meta object id for the '{@link reprotool.model.specification.impl.ReqCoverImpl <em>Req Cover</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see reprotool.model.specification.impl.ReqCoverImpl
+	 * @see reprotool.model.specification.impl.SpecificationPackageImpl#getReqCover()
+	 * @generated
+	 */
+	int REQ_COVER = 6;
+
+	/**
+	 * The feature id for the '<em><b>Related Requirements</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REQ_COVER__RELATED_REQUIREMENTS = 0;
+
+	/**
+	 * The number of structural features of the '<em>Req Cover</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REQ_COVER_FEATURE_COUNT = 1;
+
+	/**
+	 * The feature id for the '<em><b>Related Requirements</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int USE_CASE__RELATED_REQUIREMENTS = REQ_COVER__RELATED_REQUIREMENTS;
+
+	/**
+	 * The feature id for the '<em><b>Primary Actor</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int USE_CASE__PRIMARY_ACTOR = REQ_COVER_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Use Case Steps</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int USE_CASE__USE_CASE_STEPS = REQ_COVER_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int USE_CASE__NAME = REQ_COVER_FEATURE_COUNT + 2;
+
+	/**
+	 * The number of structural features of the '<em>Use Case</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int USE_CASE_FEATURE_COUNT = REQ_COVER_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>Children Actors</b></em>' reference list.
@@ -264,13 +265,22 @@ public interface SpecificationPackage extends EPackage {
 	int ACTOR__NAME = 2;
 
 	/**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ACTOR__DESCRIPTION = 3;
+
+	/**
 	 * The number of structural features of the '<em>Actor</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ACTOR_FEATURE_COUNT = 3;
+	int ACTOR_FEATURE_COUNT = 4;
 
 	/**
 	 * The meta object id for the '{@link reprotool.model.specification.impl.UseCaseStepImpl <em>Use Case Step</em>}' class.
@@ -283,13 +293,22 @@ public interface SpecificationPackage extends EPackage {
 	int USE_CASE_STEP = 3;
 
 	/**
+	 * The feature id for the '<em><b>Related Requirements</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int USE_CASE_STEP__RELATED_REQUIREMENTS = REQ_COVER__RELATED_REQUIREMENTS;
+
+	/**
 	 * The feature id for the '<em><b>Extensions</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int USE_CASE_STEP__EXTENSIONS = 0;
+	int USE_CASE_STEP__EXTENSIONS = REQ_COVER_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Variations</b></em>' containment reference list.
@@ -298,25 +317,25 @@ public interface SpecificationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int USE_CASE_STEP__VARIATIONS = 1;
+	int USE_CASE_STEP__VARIATIONS = REQ_COVER_FEATURE_COUNT + 1;
 
 	/**
-	 * The feature id for the '<em><b>Parent Step</b></em>' reference.
+	 * The feature id for the '<em><b>Sentence</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int USE_CASE_STEP__PARENT_STEP = 2;
+	int USE_CASE_STEP__SENTENCE = REQ_COVER_FEATURE_COUNT + 2;
 
 	/**
-	 * The feature id for the '<em><b>Desc</b></em>' attribute.
+	 * The feature id for the '<em><b>Next Step</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int USE_CASE_STEP__DESC = 3;
+	int USE_CASE_STEP__NEXT_STEP = REQ_COVER_FEATURE_COUNT + 3;
 
 	/**
 	 * The number of structural features of the '<em>Use Case Step</em>' class.
@@ -325,17 +344,7 @@ public interface SpecificationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int USE_CASE_STEP_FEATURE_COUNT = 4;
-
-	/**
-	 * The meta object id for the '{@link reprotool.model.specification.impl.NonFunctionalRequirementImpl <em>Non Functional Requirement</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see reprotool.model.specification.impl.NonFunctionalRequirementImpl
-	 * @see reprotool.model.specification.impl.SpecificationPackageImpl#getNonFunctionalRequirement()
-	 * @generated
-	 */
-	int NON_FUNCTIONAL_REQUIREMENT = 5;
+	int USE_CASE_STEP_FEATURE_COUNT = REQ_COVER_FEATURE_COUNT + 4;
 
 	/**
 	 * The feature id for the '<em><b>Original Text</b></em>' attribute.
@@ -344,7 +353,7 @@ public interface SpecificationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NON_FUNCTIONAL_REQUIREMENT__ORIGINAL_TEXT = GENERIC_REQUIREMENT__ORIGINAL_TEXT;
+	int REQUIREMENT__ORIGINAL_TEXT = TraceabilityPackage.TRACEABLE_ENTITY_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Original Id</b></em>' attribute.
@@ -353,16 +362,53 @@ public interface SpecificationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NON_FUNCTIONAL_REQUIREMENT__ORIGINAL_ID = GENERIC_REQUIREMENT__ORIGINAL_ID;
+	int REQUIREMENT__ORIGINAL_ID = TraceabilityPackage.TRACEABLE_ENTITY_FEATURE_COUNT + 1;
 
 	/**
-	 * The number of structural features of the '<em>Non Functional Requirement</em>' class.
+	 * The number of structural features of the '<em>Requirement</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int NON_FUNCTIONAL_REQUIREMENT_FEATURE_COUNT = GENERIC_REQUIREMENT_FEATURE_COUNT + 0;
+	int REQUIREMENT_FEATURE_COUNT = TraceabilityPackage.TRACEABLE_ENTITY_FEATURE_COUNT + 2;
+
+	/**
+	 * The meta object id for the '{@link reprotool.model.specification.impl.NFRequirementImpl <em>NF Requirement</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see reprotool.model.specification.impl.NFRequirementImpl
+	 * @see reprotool.model.specification.impl.SpecificationPackageImpl#getNFRequirement()
+	 * @generated
+	 */
+	int NF_REQUIREMENT = 5;
+
+	/**
+	 * The feature id for the '<em><b>Original Text</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NF_REQUIREMENT__ORIGINAL_TEXT = REQUIREMENT__ORIGINAL_TEXT;
+
+	/**
+	 * The feature id for the '<em><b>Original Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NF_REQUIREMENT__ORIGINAL_ID = REQUIREMENT__ORIGINAL_ID;
+
+	/**
+	 * The number of structural features of the '<em>NF Requirement</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NF_REQUIREMENT_FEATURE_COUNT = REQUIREMENT_FEATURE_COUNT + 0;
 
 
 	/**
@@ -429,6 +475,17 @@ public interface SpecificationPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getSoftwareProject_UseCases();
+
+	/**
+	 * Returns the meta object for the reference list '{@link reprotool.model.specification.SoftwareProject#getSrsDocuments <em>Srs Documents</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Srs Documents</em>'.
+	 * @see reprotool.model.specification.SoftwareProject#getSrsDocuments()
+	 * @see #getSoftwareProject()
+	 * @generated
+	 */
+	EReference getSoftwareProject_SrsDocuments();
 
 	/**
 	 * Returns the meta object for class '{@link reprotool.model.specification.UseCase <em>Use Case</em>}'.
@@ -517,6 +574,17 @@ public interface SpecificationPackage extends EPackage {
 	EAttribute getActor_Name();
 
 	/**
+	 * Returns the meta object for the attribute '{@link reprotool.model.specification.Actor#getDescription <em>Description</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Description</em>'.
+	 * @see reprotool.model.specification.Actor#getDescription()
+	 * @see #getActor()
+	 * @generated
+	 */
+	EAttribute getActor_Description();
+
+	/**
 	 * Returns the meta object for class '{@link reprotool.model.specification.UseCaseStep <em>Use Case Step</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -549,68 +617,89 @@ public interface SpecificationPackage extends EPackage {
 	EReference getUseCaseStep_Variations();
 
 	/**
-	 * Returns the meta object for the reference '{@link reprotool.model.specification.UseCaseStep#getParentStep <em>Parent Step</em>}'.
+	 * Returns the meta object for the attribute '{@link reprotool.model.specification.UseCaseStep#getSentence <em>Sentence</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Parent Step</em>'.
-	 * @see reprotool.model.specification.UseCaseStep#getParentStep()
+	 * @return the meta object for the attribute '<em>Sentence</em>'.
+	 * @see reprotool.model.specification.UseCaseStep#getSentence()
 	 * @see #getUseCaseStep()
 	 * @generated
 	 */
-	EReference getUseCaseStep_ParentStep();
+	EAttribute getUseCaseStep_Sentence();
 
 	/**
-	 * Returns the meta object for the attribute '{@link reprotool.model.specification.UseCaseStep#getDesc <em>Desc</em>}'.
+	 * Returns the meta object for the reference '{@link reprotool.model.specification.UseCaseStep#getNextStep <em>Next Step</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Desc</em>'.
-	 * @see reprotool.model.specification.UseCaseStep#getDesc()
+	 * @return the meta object for the reference '<em>Next Step</em>'.
+	 * @see reprotool.model.specification.UseCaseStep#getNextStep()
 	 * @see #getUseCaseStep()
 	 * @generated
 	 */
-	EAttribute getUseCaseStep_Desc();
+	EReference getUseCaseStep_NextStep();
 
 	/**
-	 * Returns the meta object for class '{@link reprotool.model.specification.GenericRequirement <em>Generic Requirement</em>}'.
+	 * Returns the meta object for class '{@link reprotool.model.specification.Requirement <em>Requirement</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Generic Requirement</em>'.
-	 * @see reprotool.model.specification.GenericRequirement
+	 * @return the meta object for class '<em>Requirement</em>'.
+	 * @see reprotool.model.specification.Requirement
 	 * @generated
 	 */
-	EClass getGenericRequirement();
+	EClass getRequirement();
 
 	/**
-	 * Returns the meta object for the attribute '{@link reprotool.model.specification.GenericRequirement#getOriginalText <em>Original Text</em>}'.
+	 * Returns the meta object for the attribute '{@link reprotool.model.specification.Requirement#getOriginalText <em>Original Text</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Original Text</em>'.
-	 * @see reprotool.model.specification.GenericRequirement#getOriginalText()
-	 * @see #getGenericRequirement()
+	 * @see reprotool.model.specification.Requirement#getOriginalText()
+	 * @see #getRequirement()
 	 * @generated
 	 */
-	EAttribute getGenericRequirement_OriginalText();
+	EAttribute getRequirement_OriginalText();
 
 	/**
-	 * Returns the meta object for the attribute '{@link reprotool.model.specification.GenericRequirement#getOriginalId <em>Original Id</em>}'.
+	 * Returns the meta object for the attribute '{@link reprotool.model.specification.Requirement#getOriginalId <em>Original Id</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Original Id</em>'.
-	 * @see reprotool.model.specification.GenericRequirement#getOriginalId()
-	 * @see #getGenericRequirement()
+	 * @see reprotool.model.specification.Requirement#getOriginalId()
+	 * @see #getRequirement()
 	 * @generated
 	 */
-	EAttribute getGenericRequirement_OriginalId();
+	EAttribute getRequirement_OriginalId();
 
 	/**
-	 * Returns the meta object for class '{@link reprotool.model.specification.NonFunctionalRequirement <em>Non Functional Requirement</em>}'.
+	 * Returns the meta object for class '{@link reprotool.model.specification.NFRequirement <em>NF Requirement</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Non Functional Requirement</em>'.
-	 * @see reprotool.model.specification.NonFunctionalRequirement
+	 * @return the meta object for class '<em>NF Requirement</em>'.
+	 * @see reprotool.model.specification.NFRequirement
 	 * @generated
 	 */
-	EClass getNonFunctionalRequirement();
+	EClass getNFRequirement();
+
+	/**
+	 * Returns the meta object for class '{@link reprotool.model.specification.ReqCover <em>Req Cover</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Req Cover</em>'.
+	 * @see reprotool.model.specification.ReqCover
+	 * @generated
+	 */
+	EClass getReqCover();
+
+	/**
+	 * Returns the meta object for the reference list '{@link reprotool.model.specification.ReqCover#getRelatedRequirements <em>Related Requirements</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Related Requirements</em>'.
+	 * @see reprotool.model.specification.ReqCover#getRelatedRequirements()
+	 * @see #getReqCover()
+	 * @generated
+	 */
+	EReference getReqCover_RelatedRequirements();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -685,6 +774,14 @@ public interface SpecificationPackage extends EPackage {
 		EReference SOFTWARE_PROJECT__USE_CASES = eINSTANCE.getSoftwareProject_UseCases();
 
 		/**
+		 * The meta object literal for the '<em><b>Srs Documents</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SOFTWARE_PROJECT__SRS_DOCUMENTS = eINSTANCE.getSoftwareProject_SrsDocuments();
+
+		/**
 		 * The meta object literal for the '{@link reprotool.model.specification.impl.UseCaseImpl <em>Use Case</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -753,6 +850,14 @@ public interface SpecificationPackage extends EPackage {
 		EAttribute ACTOR__NAME = eINSTANCE.getActor_Name();
 
 		/**
+		 * The meta object literal for the '<em><b>Description</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ACTOR__DESCRIPTION = eINSTANCE.getActor_Description();
+
+		/**
 		 * The meta object literal for the '{@link reprotool.model.specification.impl.UseCaseStepImpl <em>Use Case Step</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -779,30 +884,30 @@ public interface SpecificationPackage extends EPackage {
 		EReference USE_CASE_STEP__VARIATIONS = eINSTANCE.getUseCaseStep_Variations();
 
 		/**
-		 * The meta object literal for the '<em><b>Parent Step</b></em>' reference feature.
+		 * The meta object literal for the '<em><b>Sentence</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference USE_CASE_STEP__PARENT_STEP = eINSTANCE.getUseCaseStep_ParentStep();
+		EAttribute USE_CASE_STEP__SENTENCE = eINSTANCE.getUseCaseStep_Sentence();
 
 		/**
-		 * The meta object literal for the '<em><b>Desc</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Next Step</b></em>' reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute USE_CASE_STEP__DESC = eINSTANCE.getUseCaseStep_Desc();
+		EReference USE_CASE_STEP__NEXT_STEP = eINSTANCE.getUseCaseStep_NextStep();
 
 		/**
-		 * The meta object literal for the '{@link reprotool.model.specification.impl.GenericRequirementImpl <em>Generic Requirement</em>}' class.
+		 * The meta object literal for the '{@link reprotool.model.specification.impl.RequirementImpl <em>Requirement</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see reprotool.model.specification.impl.GenericRequirementImpl
-		 * @see reprotool.model.specification.impl.SpecificationPackageImpl#getGenericRequirement()
+		 * @see reprotool.model.specification.impl.RequirementImpl
+		 * @see reprotool.model.specification.impl.SpecificationPackageImpl#getRequirement()
 		 * @generated
 		 */
-		EClass GENERIC_REQUIREMENT = eINSTANCE.getGenericRequirement();
+		EClass REQUIREMENT = eINSTANCE.getRequirement();
 
 		/**
 		 * The meta object literal for the '<em><b>Original Text</b></em>' attribute feature.
@@ -810,7 +915,7 @@ public interface SpecificationPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute GENERIC_REQUIREMENT__ORIGINAL_TEXT = eINSTANCE.getGenericRequirement_OriginalText();
+		EAttribute REQUIREMENT__ORIGINAL_TEXT = eINSTANCE.getRequirement_OriginalText();
 
 		/**
 		 * The meta object literal for the '<em><b>Original Id</b></em>' attribute feature.
@@ -818,17 +923,35 @@ public interface SpecificationPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute GENERIC_REQUIREMENT__ORIGINAL_ID = eINSTANCE.getGenericRequirement_OriginalId();
+		EAttribute REQUIREMENT__ORIGINAL_ID = eINSTANCE.getRequirement_OriginalId();
 
 		/**
-		 * The meta object literal for the '{@link reprotool.model.specification.impl.NonFunctionalRequirementImpl <em>Non Functional Requirement</em>}' class.
+		 * The meta object literal for the '{@link reprotool.model.specification.impl.NFRequirementImpl <em>NF Requirement</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see reprotool.model.specification.impl.NonFunctionalRequirementImpl
-		 * @see reprotool.model.specification.impl.SpecificationPackageImpl#getNonFunctionalRequirement()
+		 * @see reprotool.model.specification.impl.NFRequirementImpl
+		 * @see reprotool.model.specification.impl.SpecificationPackageImpl#getNFRequirement()
 		 * @generated
 		 */
-		EClass NON_FUNCTIONAL_REQUIREMENT = eINSTANCE.getNonFunctionalRequirement();
+		EClass NF_REQUIREMENT = eINSTANCE.getNFRequirement();
+
+		/**
+		 * The meta object literal for the '{@link reprotool.model.specification.impl.ReqCoverImpl <em>Req Cover</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see reprotool.model.specification.impl.ReqCoverImpl
+		 * @see reprotool.model.specification.impl.SpecificationPackageImpl#getReqCover()
+		 * @generated
+		 */
+		EClass REQ_COVER = eINSTANCE.getReqCover();
+
+		/**
+		 * The meta object literal for the '<em><b>Related Requirements</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference REQ_COVER__RELATED_REQUIREMENTS = eINSTANCE.getReqCover_RelatedRequirements();
 
 	}
 

@@ -20,6 +20,10 @@ import reprotool.model.linguistic.LinguisticPackage;
 
 import reprotool.model.linguistic.impl.LinguisticPackageImpl;
 
+import reprotool.model.specification.LTS.LTSPackage;
+
+import reprotool.model.specification.LTS.impl.LTSPackageImpl;
+
 import reprotool.model.specification.SpecificationPackage;
 
 import reprotool.model.specification.impl.SpecificationPackageImpl;
@@ -110,6 +114,7 @@ public class TraceabilityPackageImpl extends EPackageImpl implements Traceabilit
 		DocPackageImpl theDocPackage = (DocPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(DocPackage.eNS_URI) instanceof DocPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(DocPackage.eNS_URI) : DocPackage.eINSTANCE);
 		LinguisticPackageImpl theLinguisticPackage = (LinguisticPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(LinguisticPackage.eNS_URI) instanceof LinguisticPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(LinguisticPackage.eNS_URI) : LinguisticPackage.eINSTANCE);
 		SpecificationPackageImpl theSpecificationPackage = (SpecificationPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(SpecificationPackage.eNS_URI) instanceof SpecificationPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(SpecificationPackage.eNS_URI) : SpecificationPackage.eINSTANCE);
+		LTSPackageImpl theLTSPackage = (LTSPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(LTSPackage.eNS_URI) instanceof LTSPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(LTSPackage.eNS_URI) : LTSPackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theTraceabilityPackage.createPackageContents();
@@ -118,6 +123,7 @@ public class TraceabilityPackageImpl extends EPackageImpl implements Traceabilit
 		theDocPackage.createPackageContents();
 		theLinguisticPackage.createPackageContents();
 		theSpecificationPackage.createPackageContents();
+		theLTSPackage.createPackageContents();
 
 		// Initialize created meta-data
 		theTraceabilityPackage.initializePackageContents();
@@ -126,6 +132,7 @@ public class TraceabilityPackageImpl extends EPackageImpl implements Traceabilit
 		theDocPackage.initializePackageContents();
 		theLinguisticPackage.initializePackageContents();
 		theSpecificationPackage.initializePackageContents();
+		theLTSPackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
 		theTraceabilityPackage.freeze();

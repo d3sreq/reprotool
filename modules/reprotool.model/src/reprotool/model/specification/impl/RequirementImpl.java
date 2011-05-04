@@ -13,24 +13,24 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
-import reprotool.model.specification.GenericRequirement;
+import reprotool.model.specification.Requirement;
 import reprotool.model.specification.SpecificationPackage;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Generic Requirement</b></em>'.
+ * An implementation of the model object '<em><b>Requirement</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link reprotool.model.specification.impl.GenericRequirementImpl#getOriginalText <em>Original Text</em>}</li>
- *   <li>{@link reprotool.model.specification.impl.GenericRequirementImpl#getOriginalId <em>Original Id</em>}</li>
+ *   <li>{@link reprotool.model.specification.impl.RequirementImpl#getOriginalText <em>Original Text</em>}</li>
+ *   <li>{@link reprotool.model.specification.impl.RequirementImpl#getOriginalId <em>Original Id</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class GenericRequirementImpl extends EObjectImpl implements GenericRequirement {
+public class RequirementImpl extends EObjectImpl implements Requirement {
 	/**
 	 * The default value of the '{@link #getOriginalText() <em>Original Text</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -76,7 +76,7 @@ public class GenericRequirementImpl extends EObjectImpl implements GenericRequir
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected GenericRequirementImpl() {
+	protected RequirementImpl() {
 		super();
 	}
 
@@ -87,7 +87,7 @@ public class GenericRequirementImpl extends EObjectImpl implements GenericRequir
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return SpecificationPackage.Literals.GENERIC_REQUIREMENT;
+		return SpecificationPackage.Literals.REQUIREMENT;
 	}
 
 	/**
@@ -108,7 +108,7 @@ public class GenericRequirementImpl extends EObjectImpl implements GenericRequir
 		String oldOriginalText = originalText;
 		originalText = newOriginalText;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SpecificationPackage.GENERIC_REQUIREMENT__ORIGINAL_TEXT, oldOriginalText, originalText));
+			eNotify(new ENotificationImpl(this, Notification.SET, SpecificationPackage.REQUIREMENT__ORIGINAL_TEXT, oldOriginalText, originalText));
 	}
 
 	/**
@@ -129,7 +129,7 @@ public class GenericRequirementImpl extends EObjectImpl implements GenericRequir
 		String oldOriginalId = originalId;
 		originalId = newOriginalId;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SpecificationPackage.GENERIC_REQUIREMENT__ORIGINAL_ID, oldOriginalId, originalId));
+			eNotify(new ENotificationImpl(this, Notification.SET, SpecificationPackage.REQUIREMENT__ORIGINAL_ID, oldOriginalId, originalId));
 	}
 
 	/**
@@ -139,11 +139,10 @@ public class GenericRequirementImpl extends EObjectImpl implements GenericRequir
 	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID)
-		{
-			case SpecificationPackage.GENERIC_REQUIREMENT__ORIGINAL_TEXT:
+		switch (featureID) {
+			case SpecificationPackage.REQUIREMENT__ORIGINAL_TEXT:
 				return getOriginalText();
-			case SpecificationPackage.GENERIC_REQUIREMENT__ORIGINAL_ID:
+			case SpecificationPackage.REQUIREMENT__ORIGINAL_ID:
 				return getOriginalId();
 		}
 		return super.eGet(featureID, resolve, coreType);
@@ -156,12 +155,11 @@ public class GenericRequirementImpl extends EObjectImpl implements GenericRequir
 	 */
 	@Override
 	public void eSet(int featureID, Object newValue) {
-		switch (featureID)
-		{
-			case SpecificationPackage.GENERIC_REQUIREMENT__ORIGINAL_TEXT:
+		switch (featureID) {
+			case SpecificationPackage.REQUIREMENT__ORIGINAL_TEXT:
 				setOriginalText((String)newValue);
 				return;
-			case SpecificationPackage.GENERIC_REQUIREMENT__ORIGINAL_ID:
+			case SpecificationPackage.REQUIREMENT__ORIGINAL_ID:
 				setOriginalId((String)newValue);
 				return;
 		}
@@ -175,12 +173,11 @@ public class GenericRequirementImpl extends EObjectImpl implements GenericRequir
 	 */
 	@Override
 	public void eUnset(int featureID) {
-		switch (featureID)
-		{
-			case SpecificationPackage.GENERIC_REQUIREMENT__ORIGINAL_TEXT:
+		switch (featureID) {
+			case SpecificationPackage.REQUIREMENT__ORIGINAL_TEXT:
 				setOriginalText(ORIGINAL_TEXT_EDEFAULT);
 				return;
-			case SpecificationPackage.GENERIC_REQUIREMENT__ORIGINAL_ID:
+			case SpecificationPackage.REQUIREMENT__ORIGINAL_ID:
 				setOriginalId(ORIGINAL_ID_EDEFAULT);
 				return;
 		}
@@ -194,11 +191,10 @@ public class GenericRequirementImpl extends EObjectImpl implements GenericRequir
 	 */
 	@Override
 	public boolean eIsSet(int featureID) {
-		switch (featureID)
-		{
-			case SpecificationPackage.GENERIC_REQUIREMENT__ORIGINAL_TEXT:
+		switch (featureID) {
+			case SpecificationPackage.REQUIREMENT__ORIGINAL_TEXT:
 				return ORIGINAL_TEXT_EDEFAULT == null ? originalText != null : !ORIGINAL_TEXT_EDEFAULT.equals(originalText);
-			case SpecificationPackage.GENERIC_REQUIREMENT__ORIGINAL_ID:
+			case SpecificationPackage.REQUIREMENT__ORIGINAL_ID:
 				return ORIGINAL_ID_EDEFAULT == null ? originalId != null : !ORIGINAL_ID_EDEFAULT.equals(originalId);
 		}
 		return super.eIsSet(featureID);
@@ -222,4 +218,4 @@ public class GenericRequirementImpl extends EObjectImpl implements GenericRequir
 		return result.toString();
 	}
 
-} //GenericRequirementImpl
+} //RequirementImpl

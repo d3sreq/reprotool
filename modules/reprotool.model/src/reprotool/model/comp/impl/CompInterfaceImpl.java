@@ -67,12 +67,10 @@ public class CompInterfaceImpl extends EObjectImpl implements CompInterface {
 	 * @generated
 	 */
 	public CompInterfaceType getInterfaceType() {
-		if (interfaceType != null && interfaceType.eIsProxy())
-		{
+		if (interfaceType != null && interfaceType.eIsProxy()) {
 			InternalEObject oldInterfaceType = (InternalEObject)interfaceType;
 			interfaceType = (CompInterfaceType)eResolveProxy(oldInterfaceType);
-			if (interfaceType != oldInterfaceType)
-			{
+			if (interfaceType != oldInterfaceType) {
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE, CompPackage.COMP_INTERFACE__INTERFACE_TYPE, oldInterfaceType, interfaceType));
 			}
@@ -108,8 +106,7 @@ public class CompInterfaceImpl extends EObjectImpl implements CompInterface {
 	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID)
-		{
+		switch (featureID) {
 			case CompPackage.COMP_INTERFACE__INTERFACE_TYPE:
 				if (resolve) return getInterfaceType();
 				return basicGetInterfaceType();
@@ -124,8 +121,7 @@ public class CompInterfaceImpl extends EObjectImpl implements CompInterface {
 	 */
 	@Override
 	public void eSet(int featureID, Object newValue) {
-		switch (featureID)
-		{
+		switch (featureID) {
 			case CompPackage.COMP_INTERFACE__INTERFACE_TYPE:
 				setInterfaceType((CompInterfaceType)newValue);
 				return;
@@ -140,8 +136,7 @@ public class CompInterfaceImpl extends EObjectImpl implements CompInterface {
 	 */
 	@Override
 	public void eUnset(int featureID) {
-		switch (featureID)
-		{
+		switch (featureID) {
 			case CompPackage.COMP_INTERFACE__INTERFACE_TYPE:
 				setInterfaceType((CompInterfaceType)null);
 				return;
@@ -156,8 +151,7 @@ public class CompInterfaceImpl extends EObjectImpl implements CompInterface {
 	 */
 	@Override
 	public boolean eIsSet(int featureID) {
-		switch (featureID)
-		{
+		switch (featureID) {
 			case CompPackage.COMP_INTERFACE__INTERFACE_TYPE:
 				return interfaceType != null;
 		}
