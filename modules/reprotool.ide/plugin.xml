@@ -11,7 +11,7 @@
             category="cz.cuni.mff.reprotool.ide.category_reprotool"
             class="reprotool.ide.views.LinguisticToolsView"
             id="cz.cuni.mff.reprotool.ide.views.view_linguistic_tools"
-            name="linguistic tools"
+            name="Linguistic tools"
             restorable="true">
       </view>
       <view

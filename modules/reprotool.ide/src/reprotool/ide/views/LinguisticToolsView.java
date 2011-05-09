@@ -16,13 +16,16 @@ import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.ui.progress.IProgressConstants;
 import org.eclipse.wb.swt.layout.grouplayout.GroupLayout;
 import org.eclipse.wb.swt.layout.grouplayout.LayoutStyle;
 
+import reprotool.ling.Sentence;
 import reprotool.ling.tools.Tagger;
 import reprotool.ling.tools.Tokenizer;
+import org.eclipse.swt.widgets.Label;
 
 public class LinguisticToolsView extends ViewPart {
 
@@ -31,6 +34,7 @@ public class LinguisticToolsView extends ViewPart {
 	private Text textInput;
 	private Text textTokenizer;
 	private Text textTagger;
+	private Text textNegation;
 
 	public LinguisticToolsView() {
 	}
@@ -43,7 +47,7 @@ public class LinguisticToolsView extends ViewPart {
 	public void createPartControl(Composite parent) {
 		
 		textInput = new Text(parent, SWT.BORDER);
-		textInput.setText("asj hasd hja!sjk hd didn't sd564!f6sd5");
+		textInput.setText("We haven't a car.");
 		
 		Button btnAnalyze = new Button(parent, SWT.NONE);
 		btnAnalyze.addSelectionListener(new SelectionAdapter() {
@@ -51,14 +55,20 @@ public class LinguisticToolsView extends ViewPart {
 			public void widgetSelected(SelectionEvent e) {
 				textTokenizer.setText(Tokenizer.getTokens(textInput.getText()).toString());
 				textTagger.setText(Tagger.getMXPOST(textTokenizer.getText()).toString());
+				textNegation.setText(Sentence.getNegation(textTagger.getText()).toString());
 			}
-		});
-		
+		});		
 		btnAnalyze.setText("Analyze");
+		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell().setDefaultButton(btnAnalyze);
 		
 		textTokenizer = new Text(parent, SWT.BORDER);
 		
 		textTagger = new Text(parent, SWT.BORDER);
+		
+		Label lblNegation = new Label(parent, SWT.NONE);
+		lblNegation.setText("Negation");
+		
+		textNegation = new Text(parent, SWT.BORDER);
 		GroupLayout gl_parent = new GroupLayout(parent);
 		gl_parent.setHorizontalGroup(
 			gl_parent.createParallelGroup(GroupLayout.LEADING)
@@ -68,7 +78,9 @@ public class LinguisticToolsView extends ViewPart {
 						.add(textInput, GroupLayout.DEFAULT_SIZE, 572, Short.MAX_VALUE)
 						.add(btnAnalyze)
 						.add(textTokenizer, GroupLayout.DEFAULT_SIZE, 572, Short.MAX_VALUE)
-						.add(textTagger, GroupLayout.DEFAULT_SIZE, 572, Short.MAX_VALUE))
+						.add(textTagger, GroupLayout.DEFAULT_SIZE, 572, Short.MAX_VALUE)
+						.add(lblNegation)
+						.add(textNegation, GroupLayout.DEFAULT_SIZE, 572, Short.MAX_VALUE))
 					.addContainerGap())
 		);
 		gl_parent.setVerticalGroup(
@@ -82,15 +94,19 @@ public class LinguisticToolsView extends ViewPart {
 					.add(textTokenizer, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(LayoutStyle.RELATED)
 					.add(textTagger, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(344, Short.MAX_VALUE))
+					.addPreferredGap(LayoutStyle.RELATED)
+					.add(lblNegation)
+					.addPreferredGap(LayoutStyle.RELATED)
+					.add(textNegation, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(292, Short.MAX_VALUE))
 		);
 		parent.setLayout(gl_parent);
 		Composite container = new Composite(parent, SWT.NONE);
 		container.setLayout(new FillLayout(SWT.HORIZONTAL));
-		
+		/*
 		txtTextTestovaci = new Text(container, SWT.BORDER);
 		txtTextTestovaci.setText("text testovaci");
-		
+		*/
 		TreeViewer treeViewer = new TreeViewer(container, SWT.BORDER);
 		//TreeViewer treeViewer = new TreeViewer(containertnNewButton = new Button(container, SWT.NONE);
 		//btnNewB	treeViewer.setContentProvider(new ITreeContentProvider() {
