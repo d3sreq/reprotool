@@ -379,6 +379,15 @@ public class SpecificationPackageImpl extends EPackageImpl implements Specificat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getUseCaseStep_Label() {
+		return (EAttribute)useCaseStepEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getRequirement() {
 		return requirementEClass;
 	}
@@ -480,6 +489,7 @@ public class SpecificationPackageImpl extends EPackageImpl implements Specificat
 		createEReference(useCaseStepEClass, USE_CASE_STEP__VARIATIONS);
 		createEAttribute(useCaseStepEClass, USE_CASE_STEP__SENTENCE);
 		createEReference(useCaseStepEClass, USE_CASE_STEP__NEXT_STEP);
+		createEAttribute(useCaseStepEClass, USE_CASE_STEP__LABEL);
 
 		requirementEClass = createEClass(REQUIREMENT);
 		createEAttribute(requirementEClass, REQUIREMENT__ORIGINAL_TEXT);
@@ -557,8 +567,7 @@ public class SpecificationPackageImpl extends EPackageImpl implements Specificat
 		initEReference(getUseCaseStep_Variations(), this.getUseCaseStep(), null, "variations", null, 0, -1, UseCaseStep.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getUseCaseStep_Sentence(), ecorePackage.getEString(), "Sentence", null, 0, 1, UseCaseStep.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getUseCaseStep_NextStep(), this.getUseCaseStep(), null, "nextStep", null, 0, 1, UseCaseStep.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		addEOperation(useCaseStepEClass, ecorePackage.getEString(), "getLabel", 0, 1, IS_UNIQUE, IS_ORDERED);
+		initEAttribute(getUseCaseStep_Label(), ecorePackage.getEString(), "Label", null, 0, 1, UseCaseStep.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(requirementEClass, Requirement.class, "Requirement", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getRequirement_OriginalText(), ecorePackage.getEString(), "originalText", null, 0, 1, Requirement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

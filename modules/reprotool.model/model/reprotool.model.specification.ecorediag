@@ -76,15 +76,15 @@
           <element xmi:type="ecore:EAttribute" href="reprotool.model.specification.ecore#//UseCaseStep/Sentence"/>
           <layoutConstraint xmi:type="notation:Location" xmi:id="_0N_xImCMEeCcoMm-DfWWYA"/>
         </children>
+        <children xmi:type="notation:Node" xmi:id="_GY2AYXpJEeCTS6e-Gy9-ag" type="2001">
+          <element xmi:type="ecore:EAttribute" href="reprotool.model.specification.ecore#//UseCaseStep/Label"/>
+          <layoutConstraint xmi:type="notation:Location" xmi:id="_GY2AYnpJEeCTS6e-Gy9-ag"/>
+        </children>
         <styles xmi:type="notation:DrawerStyle" xmi:id="_yij5502PEeC_QttPiSCGZQ"/>
         <styles xmi:type="notation:SortingStyle" xmi:id="_yij56E2PEeC_QttPiSCGZQ"/>
         <styles xmi:type="notation:FilteringStyle" xmi:id="_yij56U2PEeC_QttPiSCGZQ"/>
       </children>
       <children xmi:type="notation:Node" xmi:id="_yikg8E2PEeC_QttPiSCGZQ" type="5002">
-        <children xmi:type="notation:Node" xmi:id="_0MjhQFxbEeCn-MH63cYq7w" type="2002">
-          <element xmi:type="ecore:EOperation" href="reprotool.model.specification.ecore#//UseCaseStep/getLabel"/>
-          <layoutConstraint xmi:type="notation:Location" xmi:id="_0MjhQVxbEeCn-MH63cYq7w"/>
-        </children>
         <styles xmi:type="notation:DrawerStyle" xmi:id="_yikg8U2PEeC_QttPiSCGZQ"/>
         <styles xmi:type="notation:SortingStyle" xmi:id="_yikg8k2PEeC_QttPiSCGZQ"/>
         <styles xmi:type="notation:FilteringStyle" xmi:id="_yikg802PEeC_QttPiSCGZQ"/>

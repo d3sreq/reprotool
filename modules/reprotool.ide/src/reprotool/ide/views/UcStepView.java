@@ -15,7 +15,7 @@ import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 
-import reprotool.ide.service.Service;
+import reprotool.ide.editors.UseCaseEditor;
 import reprotool.model.specification.UseCase;
 import reprotool.model.specification.UseCaseStep;
 
@@ -125,15 +125,11 @@ public class UcStepView extends ViewPart {
 		lbltokentext.setText("#tokenText");
 	}
 
-	public void setStep(UseCaseStep s) {
-		lblStepSentence.setText(s.getSentence());
-		// TODO reference from UCStep to UseCase?
-		for (UseCase u : Service.INSTANCE.getSoftwareProject().getUseCases()) {
-			if (u.getUseCaseSteps().contains(s)) {
-				lblActorDesc.setText(u.getPrimaryActor().getName());
-				break;
-			}
-		}
+	public void setStep(UseCaseStep step) {
+		lblStepSentence.setText(step.getSentence());
+		UseCase uc = UseCaseEditor.getUseCaseEditor().getEditedUseCase();
+		if (uc != null)
+			lblActorDesc.setText(uc.getPrimaryActor().getName());
 		parentComposite.layout();
 	}
 

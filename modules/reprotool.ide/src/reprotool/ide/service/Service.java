@@ -54,7 +54,6 @@ public enum Service {
 		customer.setName("Customer");
 		project.getActors().add(customer);
 		
-		// TODO - use case steps
 		UseCase useCase1 = factory.createUseCase();
 		useCase1.setName("Use case with owner as PA");
 		useCase1.setPrimaryActor(owner);
@@ -62,13 +61,27 @@ public enum Service {
 		uc1step1.setSentence("Seller submits item description");
 		UseCaseStep uc1step2 = factory.createUseCaseStep();
 		uc1step2.setSentence("System validates the description");
-		UseCaseStep uc1step2e1 = factory.createUseCaseStep();
-		uc1step2e1.setSentence("Item not valid, use case aborted");
-		uc1step2.getExtensions().add(uc1step2e1);
-		UseCaseStep uc1step2v1 = factory.createUseCaseStep();
-		uc1step2v1.setSentence("System provides seller with a price assessment");
-		uc1step2.getVariations().add(uc1step2v1);
+		uc1step1.setNextStep(uc1step2);
+		UseCaseStep uc1step2a = factory.createUseCaseStep();
+		uc1step2a.setSentence("Item not valid");
+		uc1step2.getExtensions().add(uc1step2a);
+		UseCaseStep uc1step2a1 = factory.createUseCaseStep();
+		uc1step2a1.setSentence("Use case aborted");
+		uc1step2a.setNextStep(uc1step2a1);
+		UseCaseStep uc1step2b = factory.createUseCaseStep();
+		uc1step2b.setSentence("Price assessment available");
+		uc1step2.getVariations().add(uc1step2b);
+		UseCaseStep uc1step2b1 = factory.createUseCaseStep();
+		uc1step2b1.setSentence("System provides seller with a price assessment");
+		uc1step2b.setNextStep(uc1step2b1);
+		UseCaseStep uc1step2b1a = factory.createUseCaseStep();
+		uc1step2b1a.setSentence("Some variation.");
+		uc1step2b.getVariations().add(uc1step2b1a);
+		UseCaseStep uc1step2b1b = factory.createUseCaseStep();
+		uc1step2b1b.setSentence("Some extension.");
+		uc1step2b.getExtensions().add(uc1step2b1b);
 		
+		useCase1.getUseCaseSteps().add(uc1step1);
 		useCase1.getUseCaseSteps().add(uc1step2);
 		project.getUseCases().add(useCase1);
 		

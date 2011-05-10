@@ -20,6 +20,7 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link reprotool.model.specification.UseCaseStep#getVariations <em>Variations</em>}</li>
  *   <li>{@link reprotool.model.specification.UseCaseStep#getSentence <em>Sentence</em>}</li>
  *   <li>{@link reprotool.model.specification.UseCaseStep#getNextStep <em>Next Step</em>}</li>
+ *   <li>{@link reprotool.model.specification.UseCaseStep#getLabel <em>Label</em>}</li>
  * </ul>
  * </p>
  *
@@ -112,11 +113,25 @@ public interface UseCaseStep extends ReqCover {
 	void setNextStep(UseCaseStep value);
 
 	/**
+	 * Returns the value of the '<em><b>Label</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @model kind="operation"
+	 * @return the value of the '<em>Label</em>' attribute.
+	 * @see #setLabel(String)
+	 * @see reprotool.model.specification.SpecificationPackage#getUseCaseStep_Label()
+	 * @model
 	 * @generated
 	 */
 	String getLabel();
+
+	/**
+	 * Sets the value of the '{@link reprotool.model.specification.UseCaseStep#getLabel <em>Label</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Label</em>' attribute.
+	 * @see #getLabel()
+	 * @generated
+	 */
+	void setLabel(String value);
 
 } // UseCaseStep

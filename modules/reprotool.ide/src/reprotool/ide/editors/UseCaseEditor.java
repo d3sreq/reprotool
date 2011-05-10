@@ -1,7 +1,5 @@
 package reprotool.ide.editors;
 
-import java.util.List;
-
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Button;
@@ -9,13 +7,14 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.ui.part.EditorPart;
-import org.eclipse.wb.rcp.databinding.UseCaseStepLabelProvider;
 
 import reprotool.ide.service.Service;
 import reprotool.model.specification.UseCase;
@@ -24,12 +23,8 @@ import org.eclipse.swt.widgets.Tree;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ICellModifier;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.jface.viewers.TreeViewer;
-import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.jface.viewers.IDoubleClickListener;
-import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.TreeViewerColumn;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.FormData;
@@ -37,18 +32,38 @@ import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 
-public class UseCaseEditor extends EditorPart implements ITreeContentProvider {
+public class UseCaseEditor extends EditorPart {
 
 	public static final String ID = "cz.cuni.mff.reprotool.ide.editors.UseCaseEditor"; //$NON-NLS-1$
+	
+	private static final String LABEL_PROPERTY = "label";
+	private static final String SENTENCE_PROPERTY = "sentence";
+	private static final String TYPE_PROPERTY = "type";
+	private static final String PARSED_PROPERTY = "parsed";
 	
 	// the usecase to edit
 	private UseCase usecase = null;
 	
 	private TreeViewer treeViewer = null;
+	
+	public static UseCaseEditor getUseCaseEditor() {
+		IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
+		IWorkbenchPage page = window.getActivePage();
+		
+		IEditorPart editor = page.getActiveEditor();
+		if (editor != null && editor instanceof UseCaseEditor)
+			return (UseCaseEditor)editor;
+		else
+			return null;
+	}
 
 	public UseCaseEditor() {
 		// TODO XXX always uses first usecase for testing
 		usecase = Service.INSTANCE.getSoftwareProject().getUseCases().get(0);
+	}
+	
+	public UseCase getEditedUseCase() {
+		return usecase;
 	}
 	
 	public UseCaseStep getSelectedStep() {
@@ -80,6 +95,7 @@ public class UseCaseEditor extends EditorPart implements ITreeContentProvider {
 		container.setLayout(new FormLayout());
 		
 		treeViewer = new TreeViewer(container, SWT.BORDER|SWT.FULL_SELECTION);
+		treeViewer.setAutoExpandLevel(2);
 		
 		Tree tree = treeViewer.getTree();
 		tree.addMouseListener(new MouseAdapter() {
@@ -99,21 +115,17 @@ public class UseCaseEditor extends EditorPart implements ITreeContentProvider {
 		tree.setLinesVisible(true);
 		tree.setHeaderVisible(true);
 		
-		TreeColumn treeColumn = new TreeColumn(tree, SWT.NONE);
-		treeColumn.setWidth(53);
-		treeColumn.setText("*");
-		
-		TreeColumn trclmnMark = new TreeColumn(tree, SWT.NONE);
-		trclmnMark.setWidth(62);
-		trclmnMark.setText("Mark");
+		TreeColumn trclmnLabel = new TreeColumn(tree, SWT.NONE);
+		trclmnLabel.setWidth(100);
+		trclmnLabel.setText("Label");
 		
 		TreeColumn trclmnStepText = new TreeColumn(tree, SWT.NONE);
-		trclmnStepText.setWidth(245);
+		trclmnStepText.setWidth(333);
 		trclmnStepText.setText("Step text");
 		
 		TreeViewerColumn treeViewerColumn = new TreeViewerColumn(treeViewer, SWT.NONE);
 		TreeColumn trclmnType = treeViewerColumn.getColumn();
-		trclmnType.setWidth(112);
+		trclmnType.setWidth(139);
 		trclmnType.setText("Type");
 		
 		Composite composite = new Composite(container, SWT.NONE);
@@ -141,27 +153,50 @@ public class UseCaseEditor extends EditorPart implements ITreeContentProvider {
 		button_3.setBounds(235, 7, 70, 29);
 		button_3.setText("Delete");
 		
-		treeViewer.setContentProvider(this);
-		treeViewer.setLabelProvider(new UseCaseStepLabelProvider());
+		UseCaseStepTreeProvider provider = new UseCaseStepTreeProvider();
+		treeViewer.setContentProvider(provider);
+		treeViewer.setLabelProvider(provider);
 		
 		treeViewer.setCellModifier(new ICellModifier() {
 			public boolean canModify(Object element, String property) {
-				return "text".equals(property);
+				return SENTENCE_PROPERTY.equals(property) || LABEL_PROPERTY.equals(property);
 			}
 
 			public Object getValue(Object element, String property) {
-				return ((UseCaseStep)element).getSentence();
+				UseCaseStep step = (UseCaseStep)element;
+				if (SENTENCE_PROPERTY.equals(property))
+					return step.getSentence();
+				else if (LABEL_PROPERTY.equals(property)) {
+					if (step.getLabel() == null)
+						return "";
+					else
+						return step.getLabel();
+				} else
+					return null;
 			}
 
 			public void modify(Object element, String property, Object value) {
 				UseCaseStep step = (UseCaseStep)(((TreeItem)element).getData());
-				step.setSentence(value.toString());
-				treeViewer.update(step, new String[] {"text"});
+				if (SENTENCE_PROPERTY.equals(property)) {
+					step.setSentence(value.toString());
+					treeViewer.update(step, new String[] {SENTENCE_PROPERTY});
+				} else if (LABEL_PROPERTY.equals(property)) {
+					final String label = value.toString();
+					if (label.isEmpty() || label.equals("none"))
+						step.setLabel(null);
+					else
+						step.setLabel(label);
+					treeViewer.update(step, new String[] {LABEL_PROPERTY});
+				}
 				showSelectedStep();
 			}
 		});
-		treeViewer.setColumnProperties(new String[] {"parsed", "mark", "text", "type"});
-		treeViewer.setCellEditors(new CellEditor[] { null, null ,new TextCellEditor(treeViewer.getTree()), null });
+		treeViewer.setColumnProperties(new String[] {LABEL_PROPERTY, SENTENCE_PROPERTY, TYPE_PROPERTY, PARSED_PROPERTY});
+		treeViewer.setCellEditors(new CellEditor[] {new TextCellEditor(treeViewer.getTree()), new TextCellEditor(treeViewer.getTree()), null, null });
+		
+		TreeColumn treeColumn = new TreeColumn(tree, SWT.NONE);
+		treeColumn.setWidth(24);
+		treeColumn.setText("*");
 		
 		treeViewer.setInput(usecase);
 	}
@@ -196,39 +231,5 @@ public class UseCaseEditor extends EditorPart implements ITreeContentProvider {
 	@Override
 	public boolean isSaveAsAllowed() {
 		return false;
-	}
-
-	@Override
-	public void inputChanged(Viewer viewer, Object oldInput, Object newInput)
-	{
-	}
-
-	@Override
-	public Object[] getElements(Object inputElement)
-	{
-		return ((UseCase)inputElement).getUseCaseSteps().toArray();
-	}
-
-	@Override
-	public Object[] getChildren(Object parentElement)
-	{
-		UseCaseStep step = (UseCaseStep)parentElement;
-		List<UseCaseStep> ret = step.getExtensions();
-		ret.addAll(step.getVariations());
-		return ret.toArray();
-	}
-
-	@Override
-	public Object getParent(Object element)
-	{
-		UseCaseStep step = (UseCaseStep) element;
-		return step.eContainer();
-	}
-
-	@Override
-	public boolean hasChildren(Object element)
-	{
-		UseCaseStep step = (UseCaseStep)element;
-		return !(step.getExtensions().isEmpty() && step.getVariations().isEmpty());
 	}
 }

@@ -2,7 +2,6 @@ package reprotool.ide.commands;
 
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
-import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.handlers.HandlerUtil;
@@ -17,11 +16,11 @@ public class ShowStep extends AbstractHandler
 	{
 		IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindow(event);
 		IWorkbenchPage page = window.getActivePage();
-		
-		IEditorPart editor = page.getActiveEditor();
 		UcStepView view = (UcStepView) page.findView(UcStepView.ID);
-		if (view != null && editor != null && editor instanceof UseCaseEditor)
-			view.setStep(((UseCaseEditor)editor).getSelectedStep());
+		
+		UseCaseEditor editor = UseCaseEditor.getUseCaseEditor();
+		if (view != null && editor != null)
+			view.setStep(editor.getSelectedStep());
 		
 		return null;
 	}

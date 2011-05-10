@@ -338,13 +338,22 @@ public interface SpecificationPackage extends EPackage {
 	int USE_CASE_STEP__NEXT_STEP = REQ_COVER_FEATURE_COUNT + 3;
 
 	/**
+	 * The feature id for the '<em><b>Label</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int USE_CASE_STEP__LABEL = REQ_COVER_FEATURE_COUNT + 4;
+
+	/**
 	 * The number of structural features of the '<em>Use Case Step</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int USE_CASE_STEP_FEATURE_COUNT = REQ_COVER_FEATURE_COUNT + 4;
+	int USE_CASE_STEP_FEATURE_COUNT = REQ_COVER_FEATURE_COUNT + 5;
 
 	/**
 	 * The feature id for the '<em><b>Original Text</b></em>' attribute.
@@ -639,6 +648,17 @@ public interface SpecificationPackage extends EPackage {
 	EReference getUseCaseStep_NextStep();
 
 	/**
+	 * Returns the meta object for the attribute '{@link reprotool.model.specification.UseCaseStep#getLabel <em>Label</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Label</em>'.
+	 * @see reprotool.model.specification.UseCaseStep#getLabel()
+	 * @see #getUseCaseStep()
+	 * @generated
+	 */
+	EAttribute getUseCaseStep_Label();
+
+	/**
 	 * Returns the meta object for class '{@link reprotool.model.specification.Requirement <em>Requirement</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -898,6 +918,14 @@ public interface SpecificationPackage extends EPackage {
 		 * @generated
 		 */
 		EReference USE_CASE_STEP__NEXT_STEP = eINSTANCE.getUseCaseStep_NextStep();
+
+		/**
+		 * The meta object literal for the '<em><b>Label</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute USE_CASE_STEP__LABEL = eINSTANCE.getUseCaseStep_Label();
 
 		/**
 		 * The meta object literal for the '{@link reprotool.model.specification.impl.RequirementImpl <em>Requirement</em>}' class.

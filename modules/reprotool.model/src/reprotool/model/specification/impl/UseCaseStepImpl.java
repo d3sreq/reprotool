@@ -35,6 +35,7 @@ import reprotool.model.specification.UseCaseStep;
  *   <li>{@link reprotool.model.specification.impl.UseCaseStepImpl#getVariations <em>Variations</em>}</li>
  *   <li>{@link reprotool.model.specification.impl.UseCaseStepImpl#getSentence <em>Sentence</em>}</li>
  *   <li>{@link reprotool.model.specification.impl.UseCaseStepImpl#getNextStep <em>Next Step</em>}</li>
+ *   <li>{@link reprotool.model.specification.impl.UseCaseStepImpl#getLabel <em>Label</em>}</li>
  * </ul>
  * </p>
  *
@@ -90,6 +91,26 @@ public class UseCaseStepImpl extends ReqCoverImpl implements UseCaseStep {
 	 * @ordered
 	 */
 	protected UseCaseStep nextStep;
+
+	/**
+	 * The default value of the '{@link #getLabel() <em>Label</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getLabel()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String LABEL_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getLabel() <em>Label</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getLabel()
+	 * @generated
+	 * @ordered
+	 */
+	protected String label = LABEL_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -196,10 +217,22 @@ public class UseCaseStepImpl extends ReqCoverImpl implements UseCaseStep {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated NOT
+	 * @generated
 	 */
 	public String getLabel() {
-		return "TODO";
+		return label;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setLabel(String newLabel) {
+		String oldLabel = label;
+		label = newLabel;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, SpecificationPackage.USE_CASE_STEP__LABEL, oldLabel, label));
 	}
 
 	/**
@@ -235,6 +268,8 @@ public class UseCaseStepImpl extends ReqCoverImpl implements UseCaseStep {
 			case SpecificationPackage.USE_CASE_STEP__NEXT_STEP:
 				if (resolve) return getNextStep();
 				return basicGetNextStep();
+			case SpecificationPackage.USE_CASE_STEP__LABEL:
+				return getLabel();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -262,6 +297,9 @@ public class UseCaseStepImpl extends ReqCoverImpl implements UseCaseStep {
 			case SpecificationPackage.USE_CASE_STEP__NEXT_STEP:
 				setNextStep((UseCaseStep)newValue);
 				return;
+			case SpecificationPackage.USE_CASE_STEP__LABEL:
+				setLabel((String)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -286,6 +324,9 @@ public class UseCaseStepImpl extends ReqCoverImpl implements UseCaseStep {
 			case SpecificationPackage.USE_CASE_STEP__NEXT_STEP:
 				setNextStep((UseCaseStep)null);
 				return;
+			case SpecificationPackage.USE_CASE_STEP__LABEL:
+				setLabel(LABEL_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -306,6 +347,8 @@ public class UseCaseStepImpl extends ReqCoverImpl implements UseCaseStep {
 				return SENTENCE_EDEFAULT == null ? sentence != null : !SENTENCE_EDEFAULT.equals(sentence);
 			case SpecificationPackage.USE_CASE_STEP__NEXT_STEP:
 				return nextStep != null;
+			case SpecificationPackage.USE_CASE_STEP__LABEL:
+				return LABEL_EDEFAULT == null ? label != null : !LABEL_EDEFAULT.equals(label);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -322,6 +365,8 @@ public class UseCaseStepImpl extends ReqCoverImpl implements UseCaseStep {
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (Sentence: ");
 		result.append(sentence);
+		result.append(", Label: ");
+		result.append(label);
 		result.append(')');
 		return result.toString();
 	}

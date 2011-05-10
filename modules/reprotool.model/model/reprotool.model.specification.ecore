@@ -31,7 +31,6 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="Description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="UseCaseStep" eSuperTypes="#//ReqCover">
-    <eOperations name="getLabel" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="extensions" upperBound="-1"
         eType="#//UseCaseStep" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="variations" upperBound="-1"
@@ -42,6 +41,7 @@
       </eAnnotations>
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="nextStep" eType="#//UseCaseStep"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Label" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Requirement" eSuperTypes="reprotool.model.traceability.ecore#//TraceableEntity">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="originalText" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
