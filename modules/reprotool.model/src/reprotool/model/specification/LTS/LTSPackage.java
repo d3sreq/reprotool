@@ -59,10 +59,10 @@ public interface LTSPackage extends EPackage {
 	LTSPackage eINSTANCE = reprotool.model.specification.LTS.impl.LTSPackageImpl.init();
 
 	/**
-	 * The meta object id for the '{@link reprotool.model.specification.LTS.impl.TransitionImpl <em>Transition</em>}' class.
+	 * The meta object id for the '{@link reprotool.model.specification.LTS.Transition <em>Transition</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see reprotool.model.specification.LTS.impl.TransitionImpl
+	 * @see reprotool.model.specification.LTS.Transition
 	 * @see reprotool.model.specification.LTS.impl.LTSPackageImpl#getTransition()
 	 * @generated
 	 */
@@ -123,6 +123,153 @@ public interface LTSPackage extends EPackage {
 	 */
 	int STATE_FEATURE_COUNT = 0;
 
+	/**
+	 * The meta object id for the '{@link reprotool.model.specification.LTS.impl.StateMachineImpl <em>State Machine</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see reprotool.model.specification.LTS.impl.StateMachineImpl
+	 * @see reprotool.model.specification.LTS.impl.LTSPackageImpl#getStateMachine()
+	 * @generated
+	 */
+	int STATE_MACHINE = 2;
+
+	/**
+	 * The feature id for the '<em><b>Initial State</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STATE_MACHINE__INITIAL_STATE = 0;
+
+	/**
+	 * The feature id for the '<em><b>Abort State</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STATE_MACHINE__ABORT_STATE = 1;
+
+	/**
+	 * The feature id for the '<em><b>Success State</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STATE_MACHINE__SUCCESS_STATE = 2;
+
+	/**
+	 * The number of structural features of the '<em>State Machine</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STATE_MACHINE_FEATURE_COUNT = 3;
+
+	/**
+	 * The meta object id for the '{@link reprotool.model.specification.LTS.impl.ActionTransitionImpl <em>Action Transition</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see reprotool.model.specification.LTS.impl.ActionTransitionImpl
+	 * @see reprotool.model.specification.LTS.impl.LTSPackageImpl#getActionTransition()
+	 * @generated
+	 */
+	int ACTION_TRANSITION = 3;
+
+	/**
+	 * The feature id for the '<em><b>Sentence</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ACTION_TRANSITION__SENTENCE = TRANSITION__SENTENCE;
+
+	/**
+	 * The feature id for the '<em><b>Source</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ACTION_TRANSITION__SOURCE = TRANSITION__SOURCE;
+
+	/**
+	 * The feature id for the '<em><b>Target</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ACTION_TRANSITION__TARGET = TRANSITION__TARGET;
+
+	/**
+	 * The number of structural features of the '<em>Action Transition</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ACTION_TRANSITION_FEATURE_COUNT = TRANSITION_FEATURE_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link reprotool.model.specification.LTS.impl.GuardTransitionImpl <em>Guard Transition</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see reprotool.model.specification.LTS.impl.GuardTransitionImpl
+	 * @see reprotool.model.specification.LTS.impl.LTSPackageImpl#getGuardTransition()
+	 * @generated
+	 */
+	int GUARD_TRANSITION = 4;
+
+	/**
+	 * The feature id for the '<em><b>Sentence</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GUARD_TRANSITION__SENTENCE = TRANSITION__SENTENCE;
+
+	/**
+	 * The feature id for the '<em><b>Source</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GUARD_TRANSITION__SOURCE = TRANSITION__SOURCE;
+
+	/**
+	 * The feature id for the '<em><b>Target</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GUARD_TRANSITION__TARGET = TRANSITION__TARGET;
+
+	/**
+	 * The feature id for the '<em><b>Negated Guards</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GUARD_TRANSITION__NEGATED_GUARDS = TRANSITION_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Guard Transition</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GUARD_TRANSITION_FEATURE_COUNT = TRANSITION_FEATURE_COUNT + 1;
+
 
 	/**
 	 * Returns the meta object for class '{@link reprotool.model.specification.LTS.Transition <em>Transition</em>}'.
@@ -178,6 +325,80 @@ public interface LTSPackage extends EPackage {
 	EClass getState();
 
 	/**
+	 * Returns the meta object for class '{@link reprotool.model.specification.LTS.StateMachine <em>State Machine</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>State Machine</em>'.
+	 * @see reprotool.model.specification.LTS.StateMachine
+	 * @generated
+	 */
+	EClass getStateMachine();
+
+	/**
+	 * Returns the meta object for the reference '{@link reprotool.model.specification.LTS.StateMachine#getInitialState <em>Initial State</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Initial State</em>'.
+	 * @see reprotool.model.specification.LTS.StateMachine#getInitialState()
+	 * @see #getStateMachine()
+	 * @generated
+	 */
+	EReference getStateMachine_InitialState();
+
+	/**
+	 * Returns the meta object for the reference '{@link reprotool.model.specification.LTS.StateMachine#getAbortState <em>Abort State</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Abort State</em>'.
+	 * @see reprotool.model.specification.LTS.StateMachine#getAbortState()
+	 * @see #getStateMachine()
+	 * @generated
+	 */
+	EReference getStateMachine_AbortState();
+
+	/**
+	 * Returns the meta object for the reference '{@link reprotool.model.specification.LTS.StateMachine#getSuccessState <em>Success State</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Success State</em>'.
+	 * @see reprotool.model.specification.LTS.StateMachine#getSuccessState()
+	 * @see #getStateMachine()
+	 * @generated
+	 */
+	EReference getStateMachine_SuccessState();
+
+	/**
+	 * Returns the meta object for class '{@link reprotool.model.specification.LTS.ActionTransition <em>Action Transition</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Action Transition</em>'.
+	 * @see reprotool.model.specification.LTS.ActionTransition
+	 * @generated
+	 */
+	EClass getActionTransition();
+
+	/**
+	 * Returns the meta object for class '{@link reprotool.model.specification.LTS.GuardTransition <em>Guard Transition</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Guard Transition</em>'.
+	 * @see reprotool.model.specification.LTS.GuardTransition
+	 * @generated
+	 */
+	EClass getGuardTransition();
+
+	/**
+	 * Returns the meta object for the reference list '{@link reprotool.model.specification.LTS.GuardTransition#getNegatedGuards <em>Negated Guards</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Negated Guards</em>'.
+	 * @see reprotool.model.specification.LTS.GuardTransition#getNegatedGuards()
+	 * @see #getGuardTransition()
+	 * @generated
+	 */
+	EReference getGuardTransition_NegatedGuards();
+
+	/**
 	 * Returns the factory that creates the instances of the model.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -200,10 +421,10 @@ public interface LTSPackage extends EPackage {
 	 */
 	interface Literals {
 		/**
-		 * The meta object literal for the '{@link reprotool.model.specification.LTS.impl.TransitionImpl <em>Transition</em>}' class.
+		 * The meta object literal for the '{@link reprotool.model.specification.LTS.Transition <em>Transition</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see reprotool.model.specification.LTS.impl.TransitionImpl
+		 * @see reprotool.model.specification.LTS.Transition
 		 * @see reprotool.model.specification.LTS.impl.LTSPackageImpl#getTransition()
 		 * @generated
 		 */
@@ -242,6 +463,68 @@ public interface LTSPackage extends EPackage {
 		 * @generated
 		 */
 		EClass STATE = eINSTANCE.getState();
+
+		/**
+		 * The meta object literal for the '{@link reprotool.model.specification.LTS.impl.StateMachineImpl <em>State Machine</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see reprotool.model.specification.LTS.impl.StateMachineImpl
+		 * @see reprotool.model.specification.LTS.impl.LTSPackageImpl#getStateMachine()
+		 * @generated
+		 */
+		EClass STATE_MACHINE = eINSTANCE.getStateMachine();
+
+		/**
+		 * The meta object literal for the '<em><b>Initial State</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference STATE_MACHINE__INITIAL_STATE = eINSTANCE.getStateMachine_InitialState();
+
+		/**
+		 * The meta object literal for the '<em><b>Abort State</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference STATE_MACHINE__ABORT_STATE = eINSTANCE.getStateMachine_AbortState();
+
+		/**
+		 * The meta object literal for the '<em><b>Success State</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference STATE_MACHINE__SUCCESS_STATE = eINSTANCE.getStateMachine_SuccessState();
+
+		/**
+		 * The meta object literal for the '{@link reprotool.model.specification.LTS.impl.ActionTransitionImpl <em>Action Transition</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see reprotool.model.specification.LTS.impl.ActionTransitionImpl
+		 * @see reprotool.model.specification.LTS.impl.LTSPackageImpl#getActionTransition()
+		 * @generated
+		 */
+		EClass ACTION_TRANSITION = eINSTANCE.getActionTransition();
+
+		/**
+		 * The meta object literal for the '{@link reprotool.model.specification.LTS.impl.GuardTransitionImpl <em>Guard Transition</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see reprotool.model.specification.LTS.impl.GuardTransitionImpl
+		 * @see reprotool.model.specification.LTS.impl.LTSPackageImpl#getGuardTransition()
+		 * @generated
+		 */
+		EClass GUARD_TRANSITION = eINSTANCE.getGuardTransition();
+
+		/**
+		 * The meta object literal for the '<em><b>Negated Guards</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference GUARD_TRANSITION__NEGATED_GUARDS = eINSTANCE.getGuardTransition_NegatedGuards();
 
 	}
 

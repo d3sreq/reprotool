@@ -25,7 +25,7 @@ import reprotool.model.specification.UseCaseStep;
  * </p>
  *
  * @see reprotool.model.specification.LTS.LTSPackage#getTransition()
- * @model
+ * @model interface="true" abstract="true"
  * @generated
  */
 public interface Transition extends EObject {

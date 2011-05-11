@@ -99,12 +99,14 @@ public class SpecificationSwitch<T> {
 				UseCase useCase = (UseCase)theEObject;
 				T result = caseUseCase(useCase);
 				if (result == null) result = caseReqCover(useCase);
+				if (result == null) result = caseTraceableEntity(useCase);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case SpecificationPackage.ACTOR: {
 				Actor actor = (Actor)theEObject;
 				T result = caseActor(actor);
+				if (result == null) result = caseTraceableEntity(actor);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}

@@ -80,6 +80,18 @@ public class LTSAdapterFactory extends AdapterFactoryImpl {
 				return createStateAdapter();
 			}
 			@Override
+			public Adapter caseStateMachine(StateMachine object) {
+				return createStateMachineAdapter();
+			}
+			@Override
+			public Adapter caseActionTransition(ActionTransition object) {
+				return createActionTransitionAdapter();
+			}
+			@Override
+			public Adapter caseGuardTransition(GuardTransition object) {
+				return createGuardTransitionAdapter();
+			}
+			@Override
 			public Adapter defaultCase(EObject object) {
 				return createEObjectAdapter();
 			}
@@ -124,6 +136,48 @@ public class LTSAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createStateAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link reprotool.model.specification.LTS.StateMachine <em>State Machine</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see reprotool.model.specification.LTS.StateMachine
+	 * @generated
+	 */
+	public Adapter createStateMachineAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link reprotool.model.specification.LTS.ActionTransition <em>Action Transition</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see reprotool.model.specification.LTS.ActionTransition
+	 * @generated
+	 */
+	public Adapter createActionTransitionAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link reprotool.model.specification.LTS.GuardTransition <em>Guard Transition</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see reprotool.model.specification.LTS.GuardTransition
+	 * @generated
+	 */
+	public Adapter createGuardTransitionAdapter() {
 		return null;
 	}
 

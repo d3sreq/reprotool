@@ -8,7 +8,7 @@ package reprotool.model.specification;
 
 import org.eclipse.emf.common.util.EList;
 
-import org.eclipse.emf.ecore.EObject;
+import reprotool.model.traceability.TraceableEntity;
 
 /**
  * <!-- begin-user-doc -->
@@ -29,7 +29,7 @@ import org.eclipse.emf.ecore.EObject;
  * @model
  * @generated
  */
-public interface Actor extends EObject {
+public interface Actor extends TraceableEntity {
 	/**
 	 * Returns the value of the '<em><b>Children Actors</b></em>' reference list.
 	 * The list contents are of type {@link reprotool.model.specification.Actor}.

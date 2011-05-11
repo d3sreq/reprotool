@@ -21,6 +21,8 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
+import reprotool.model.linguistic.SentenceNode;
+
 import reprotool.model.specification.SpecificationPackage;
 import reprotool.model.specification.UseCaseStep;
 
@@ -36,6 +38,7 @@ import reprotool.model.specification.UseCaseStep;
  *   <li>{@link reprotool.model.specification.impl.UseCaseStepImpl#getSentence <em>Sentence</em>}</li>
  *   <li>{@link reprotool.model.specification.impl.UseCaseStepImpl#getNextStep <em>Next Step</em>}</li>
  *   <li>{@link reprotool.model.specification.impl.UseCaseStepImpl#getLabel <em>Label</em>}</li>
+ *   <li>{@link reprotool.model.specification.impl.UseCaseStepImpl#getParsedSentence <em>Parsed Sentence</em>}</li>
  * </ul>
  * </p>
  *
@@ -111,6 +114,16 @@ public class UseCaseStepImpl extends ReqCoverImpl implements UseCaseStep {
 	 * @ordered
 	 */
 	protected String label = LABEL_EDEFAULT;
+
+	/**
+	 * The cached value of the '{@link #getParsedSentence() <em>Parsed Sentence</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getParsedSentence()
+	 * @generated
+	 * @ordered
+	 */
+	protected SentenceNode parsedSentence;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -240,6 +253,44 @@ public class UseCaseStepImpl extends ReqCoverImpl implements UseCaseStep {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public SentenceNode getParsedSentence() {
+		if (parsedSentence != null && parsedSentence.eIsProxy()) {
+			InternalEObject oldParsedSentence = (InternalEObject)parsedSentence;
+			parsedSentence = (SentenceNode)eResolveProxy(oldParsedSentence);
+			if (parsedSentence != oldParsedSentence) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, SpecificationPackage.USE_CASE_STEP__PARSED_SENTENCE, oldParsedSentence, parsedSentence));
+			}
+		}
+		return parsedSentence;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public SentenceNode basicGetParsedSentence() {
+		return parsedSentence;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setParsedSentence(SentenceNode newParsedSentence) {
+		SentenceNode oldParsedSentence = parsedSentence;
+		parsedSentence = newParsedSentence;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, SpecificationPackage.USE_CASE_STEP__PARSED_SENTENCE, oldParsedSentence, parsedSentence));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -270,6 +321,9 @@ public class UseCaseStepImpl extends ReqCoverImpl implements UseCaseStep {
 				return basicGetNextStep();
 			case SpecificationPackage.USE_CASE_STEP__LABEL:
 				return getLabel();
+			case SpecificationPackage.USE_CASE_STEP__PARSED_SENTENCE:
+				if (resolve) return getParsedSentence();
+				return basicGetParsedSentence();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -300,6 +354,9 @@ public class UseCaseStepImpl extends ReqCoverImpl implements UseCaseStep {
 			case SpecificationPackage.USE_CASE_STEP__LABEL:
 				setLabel((String)newValue);
 				return;
+			case SpecificationPackage.USE_CASE_STEP__PARSED_SENTENCE:
+				setParsedSentence((SentenceNode)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -327,6 +384,9 @@ public class UseCaseStepImpl extends ReqCoverImpl implements UseCaseStep {
 			case SpecificationPackage.USE_CASE_STEP__LABEL:
 				setLabel(LABEL_EDEFAULT);
 				return;
+			case SpecificationPackage.USE_CASE_STEP__PARSED_SENTENCE:
+				setParsedSentence((SentenceNode)null);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -349,6 +409,8 @@ public class UseCaseStepImpl extends ReqCoverImpl implements UseCaseStep {
 				return nextStep != null;
 			case SpecificationPackage.USE_CASE_STEP__LABEL:
 				return LABEL_EDEFAULT == null ? label != null : !LABEL_EDEFAULT.equals(label);
+			case SpecificationPackage.USE_CASE_STEP__PARSED_SENTENCE:
+				return parsedSentence != null;
 		}
 		return super.eIsSet(featureID);
 	}

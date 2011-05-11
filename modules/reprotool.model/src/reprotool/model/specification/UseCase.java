@@ -8,6 +8,8 @@ package reprotool.model.specification;
 
 import org.eclipse.emf.common.util.EList;
 
+import reprotool.model.traceability.TraceableEntity;
+
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Use Case</b></em>'.
@@ -26,7 +28,7 @@ import org.eclipse.emf.common.util.EList;
  * @model
  * @generated
  */
-public interface UseCase extends ReqCover {
+public interface UseCase extends ReqCover, TraceableEntity {
 	/**
 	 * Returns the value of the '<em><b>Primary Actor</b></em>' reference.
 	 * <!-- begin-user-doc -->

@@ -388,6 +388,15 @@ public class SpecificationPackageImpl extends EPackageImpl implements Specificat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getUseCaseStep_ParsedSentence() {
+		return (EReference)useCaseStepEClass.getEStructuralFeatures().get(5);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getRequirement() {
 		return requirementEClass;
 	}
@@ -490,6 +499,7 @@ public class SpecificationPackageImpl extends EPackageImpl implements Specificat
 		createEAttribute(useCaseStepEClass, USE_CASE_STEP__SENTENCE);
 		createEReference(useCaseStepEClass, USE_CASE_STEP__NEXT_STEP);
 		createEAttribute(useCaseStepEClass, USE_CASE_STEP__LABEL);
+		createEReference(useCaseStepEClass, USE_CASE_STEP__PARSED_SENTENCE);
 
 		requirementEClass = createEClass(REQUIREMENT);
 		createEAttribute(requirementEClass, REQUIREMENT__ORIGINAL_TEXT);
@@ -528,6 +538,7 @@ public class SpecificationPackageImpl extends EPackageImpl implements Specificat
 		LTSPackage theLTSPackage = (LTSPackage)EPackage.Registry.INSTANCE.getEPackage(LTSPackage.eNS_URI);
 		DocPackage theDocPackage = (DocPackage)EPackage.Registry.INSTANCE.getEPackage(DocPackage.eNS_URI);
 		TraceabilityPackage theTraceabilityPackage = (TraceabilityPackage)EPackage.Registry.INSTANCE.getEPackage(TraceabilityPackage.eNS_URI);
+		LinguisticPackage theLinguisticPackage = (LinguisticPackage)EPackage.Registry.INSTANCE.getEPackage(LinguisticPackage.eNS_URI);
 
 		// Add subpackages
 		getESubpackages().add(theLTSPackage);
@@ -538,6 +549,8 @@ public class SpecificationPackageImpl extends EPackageImpl implements Specificat
 
 		// Add supertypes to classes
 		useCaseEClass.getESuperTypes().add(this.getReqCover());
+		useCaseEClass.getESuperTypes().add(theTraceabilityPackage.getTraceableEntity());
+		actorEClass.getESuperTypes().add(theTraceabilityPackage.getTraceableEntity());
 		useCaseStepEClass.getESuperTypes().add(this.getReqCover());
 		requirementEClass.getESuperTypes().add(theTraceabilityPackage.getTraceableEntity());
 		nfRequirementEClass.getESuperTypes().add(this.getRequirement());
@@ -568,6 +581,7 @@ public class SpecificationPackageImpl extends EPackageImpl implements Specificat
 		initEAttribute(getUseCaseStep_Sentence(), ecorePackage.getEString(), "Sentence", null, 0, 1, UseCaseStep.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getUseCaseStep_NextStep(), this.getUseCaseStep(), null, "nextStep", null, 0, 1, UseCaseStep.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getUseCaseStep_Label(), ecorePackage.getEString(), "Label", null, 0, 1, UseCaseStep.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getUseCaseStep_ParsedSentence(), theLinguisticPackage.getSentenceNode(), null, "parsedSentence", null, 0, 1, UseCaseStep.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(requirementEClass, Requirement.class, "Requirement", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getRequirement_OriginalText(), ecorePackage.getEString(), "originalText", null, 0, 1, Requirement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

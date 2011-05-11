@@ -26,15 +26,6 @@ public interface LTSFactory extends EFactory {
 	LTSFactory eINSTANCE = reprotool.model.specification.LTS.impl.LTSFactoryImpl.init();
 
 	/**
-	 * Returns a new object of class '<em>Transition</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Transition</em>'.
-	 * @generated
-	 */
-	Transition createTransition();
-
-	/**
 	 * Returns a new object of class '<em>State</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -42,6 +33,33 @@ public interface LTSFactory extends EFactory {
 	 * @generated
 	 */
 	State createState();
+
+	/**
+	 * Returns a new object of class '<em>State Machine</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>State Machine</em>'.
+	 * @generated
+	 */
+	StateMachine createStateMachine();
+
+	/**
+	 * Returns a new object of class '<em>Action Transition</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Action Transition</em>'.
+	 * @generated
+	 */
+	ActionTransition createActionTransition();
+
+	/**
+	 * Returns a new object of class '<em>Guard Transition</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Guard Transition</em>'.
+	 * @generated
+	 */
+	GuardTransition createGuardTransition();
 
 	/**
 	 * Returns the package supported by this factory.

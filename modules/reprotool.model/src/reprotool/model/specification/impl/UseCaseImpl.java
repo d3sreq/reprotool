@@ -19,12 +19,9 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
-import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 import reprotool.model.specification.Actor;
-import reprotool.model.specification.ReqCover;
-import reprotool.model.specification.Requirement;
 import reprotool.model.specification.SpecificationPackage;
 import reprotool.model.specification.UseCase;
 import reprotool.model.specification.UseCaseStep;

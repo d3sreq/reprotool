@@ -6,7 +6,11 @@
  */
 package reprotool.model.specification.LTS.impl;
 
+import java.util.Collection;
+
 import org.eclipse.emf.common.notify.Notification;
+
+import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
@@ -14,28 +18,31 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
+import org.eclipse.emf.ecore.util.EObjectResolvingEList;
+
+import reprotool.model.specification.LTS.GuardTransition;
 import reprotool.model.specification.LTS.LTSPackage;
 import reprotool.model.specification.LTS.State;
-import reprotool.model.specification.LTS.Transition;
 
 import reprotool.model.specification.UseCaseStep;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Transition</b></em>'.
+ * An implementation of the model object '<em><b>Guard Transition</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link reprotool.model.specification.LTS.impl.TransitionImpl#getSentence <em>Sentence</em>}</li>
- *   <li>{@link reprotool.model.specification.LTS.impl.TransitionImpl#getSource <em>Source</em>}</li>
- *   <li>{@link reprotool.model.specification.LTS.impl.TransitionImpl#getTarget <em>Target</em>}</li>
+ *   <li>{@link reprotool.model.specification.LTS.impl.GuardTransitionImpl#getSentence <em>Sentence</em>}</li>
+ *   <li>{@link reprotool.model.specification.LTS.impl.GuardTransitionImpl#getSource <em>Source</em>}</li>
+ *   <li>{@link reprotool.model.specification.LTS.impl.GuardTransitionImpl#getTarget <em>Target</em>}</li>
+ *   <li>{@link reprotool.model.specification.LTS.impl.GuardTransitionImpl#getNegatedGuards <em>Negated Guards</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class TransitionImpl extends EObjectImpl implements Transition {
+public class GuardTransitionImpl extends EObjectImpl implements GuardTransition {
 	/**
 	 * The cached value of the '{@link #getSentence() <em>Sentence</em>}' reference.
 	 * <!-- begin-user-doc -->
@@ -67,11 +74,21 @@ public class TransitionImpl extends EObjectImpl implements Transition {
 	protected State target;
 
 	/**
+	 * The cached value of the '{@link #getNegatedGuards() <em>Negated Guards</em>}' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getNegatedGuards()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<GuardTransition> negatedGuards;
+
+	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected TransitionImpl() {
+	protected GuardTransitionImpl() {
 		super();
 	}
 
@@ -82,7 +99,7 @@ public class TransitionImpl extends EObjectImpl implements Transition {
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return LTSPackage.Literals.TRANSITION;
+		return LTSPackage.Literals.GUARD_TRANSITION;
 	}
 
 	/**
@@ -96,7 +113,7 @@ public class TransitionImpl extends EObjectImpl implements Transition {
 			sentence = (UseCaseStep)eResolveProxy(oldSentence);
 			if (sentence != oldSentence) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, LTSPackage.TRANSITION__SENTENCE, oldSentence, sentence));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, LTSPackage.GUARD_TRANSITION__SENTENCE, oldSentence, sentence));
 			}
 		}
 		return sentence;
@@ -120,7 +137,7 @@ public class TransitionImpl extends EObjectImpl implements Transition {
 		UseCaseStep oldSentence = sentence;
 		sentence = newSentence;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, LTSPackage.TRANSITION__SENTENCE, oldSentence, sentence));
+			eNotify(new ENotificationImpl(this, Notification.SET, LTSPackage.GUARD_TRANSITION__SENTENCE, oldSentence, sentence));
 	}
 
 	/**
@@ -134,7 +151,7 @@ public class TransitionImpl extends EObjectImpl implements Transition {
 			source = (State)eResolveProxy(oldSource);
 			if (source != oldSource) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, LTSPackage.TRANSITION__SOURCE, oldSource, source));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, LTSPackage.GUARD_TRANSITION__SOURCE, oldSource, source));
 			}
 		}
 		return source;
@@ -158,7 +175,7 @@ public class TransitionImpl extends EObjectImpl implements Transition {
 		State oldSource = source;
 		source = newSource;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, LTSPackage.TRANSITION__SOURCE, oldSource, source));
+			eNotify(new ENotificationImpl(this, Notification.SET, LTSPackage.GUARD_TRANSITION__SOURCE, oldSource, source));
 	}
 
 	/**
@@ -172,7 +189,7 @@ public class TransitionImpl extends EObjectImpl implements Transition {
 			target = (State)eResolveProxy(oldTarget);
 			if (target != oldTarget) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, LTSPackage.TRANSITION__TARGET, oldTarget, target));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, LTSPackage.GUARD_TRANSITION__TARGET, oldTarget, target));
 			}
 		}
 		return target;
@@ -196,7 +213,19 @@ public class TransitionImpl extends EObjectImpl implements Transition {
 		State oldTarget = target;
 		target = newTarget;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, LTSPackage.TRANSITION__TARGET, oldTarget, target));
+			eNotify(new ENotificationImpl(this, Notification.SET, LTSPackage.GUARD_TRANSITION__TARGET, oldTarget, target));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<GuardTransition> getNegatedGuards() {
+		if (negatedGuards == null) {
+			negatedGuards = new EObjectResolvingEList<GuardTransition>(GuardTransition.class, this, LTSPackage.GUARD_TRANSITION__NEGATED_GUARDS);
+		}
+		return negatedGuards;
 	}
 
 	/**
@@ -207,15 +236,17 @@ public class TransitionImpl extends EObjectImpl implements Transition {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case LTSPackage.TRANSITION__SENTENCE:
+			case LTSPackage.GUARD_TRANSITION__SENTENCE:
 				if (resolve) return getSentence();
 				return basicGetSentence();
-			case LTSPackage.TRANSITION__SOURCE:
+			case LTSPackage.GUARD_TRANSITION__SOURCE:
 				if (resolve) return getSource();
 				return basicGetSource();
-			case LTSPackage.TRANSITION__TARGET:
+			case LTSPackage.GUARD_TRANSITION__TARGET:
 				if (resolve) return getTarget();
 				return basicGetTarget();
+			case LTSPackage.GUARD_TRANSITION__NEGATED_GUARDS:
+				return getNegatedGuards();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -225,17 +256,22 @@ public class TransitionImpl extends EObjectImpl implements Transition {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case LTSPackage.TRANSITION__SENTENCE:
+			case LTSPackage.GUARD_TRANSITION__SENTENCE:
 				setSentence((UseCaseStep)newValue);
 				return;
-			case LTSPackage.TRANSITION__SOURCE:
+			case LTSPackage.GUARD_TRANSITION__SOURCE:
 				setSource((State)newValue);
 				return;
-			case LTSPackage.TRANSITION__TARGET:
+			case LTSPackage.GUARD_TRANSITION__TARGET:
 				setTarget((State)newValue);
+				return;
+			case LTSPackage.GUARD_TRANSITION__NEGATED_GUARDS:
+				getNegatedGuards().clear();
+				getNegatedGuards().addAll((Collection<? extends GuardTransition>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -249,14 +285,17 @@ public class TransitionImpl extends EObjectImpl implements Transition {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case LTSPackage.TRANSITION__SENTENCE:
+			case LTSPackage.GUARD_TRANSITION__SENTENCE:
 				setSentence((UseCaseStep)null);
 				return;
-			case LTSPackage.TRANSITION__SOURCE:
+			case LTSPackage.GUARD_TRANSITION__SOURCE:
 				setSource((State)null);
 				return;
-			case LTSPackage.TRANSITION__TARGET:
+			case LTSPackage.GUARD_TRANSITION__TARGET:
 				setTarget((State)null);
+				return;
+			case LTSPackage.GUARD_TRANSITION__NEGATED_GUARDS:
+				getNegatedGuards().clear();
 				return;
 		}
 		super.eUnset(featureID);
@@ -270,14 +309,16 @@ public class TransitionImpl extends EObjectImpl implements Transition {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case LTSPackage.TRANSITION__SENTENCE:
+			case LTSPackage.GUARD_TRANSITION__SENTENCE:
 				return sentence != null;
-			case LTSPackage.TRANSITION__SOURCE:
+			case LTSPackage.GUARD_TRANSITION__SOURCE:
 				return source != null;
-			case LTSPackage.TRANSITION__TARGET:
+			case LTSPackage.GUARD_TRANSITION__TARGET:
 				return target != null;
+			case LTSPackage.GUARD_TRANSITION__NEGATED_GUARDS:
+				return negatedGuards != null && !negatedGuards.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}
 
-} //TransitionImpl
+} //GuardTransitionImpl

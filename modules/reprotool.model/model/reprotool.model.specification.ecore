@@ -15,14 +15,14 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="srsDocuments" upperBound="-1"
         eType="ecore:EClass reprotool.model.doc.ecore#//Document"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="UseCase" eSuperTypes="#//ReqCover">
+  <eClassifiers xsi:type="ecore:EClass" name="UseCase" eSuperTypes="#//ReqCover reprotool.model.traceability.ecore#//TraceableEntity">
     <eStructuralFeatures xsi:type="ecore:EReference" name="primaryActor" lowerBound="1"
         eType="#//Actor"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="useCaseSteps" ordered="false"
         upperBound="-1" eType="#//UseCaseStep" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="Name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Actor">
+  <eClassifiers xsi:type="ecore:EClass" name="Actor" eSuperTypes="reprotool.model.traceability.ecore#//TraceableEntity">
     <eStructuralFeatures xsi:type="ecore:EReference" name="childrenActors" upperBound="-1"
         eType="#//Actor" eOpposite="#//Actor/parent"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="parent" eType="#//Actor"
@@ -42,6 +42,7 @@
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="nextStep" eType="#//UseCaseStep"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="Label" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parsedSentence" eType="ecore:EClass reprotool.model.linguistic.ecore#//SentenceNode"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Requirement" eSuperTypes="reprotool.model.traceability.ecore#//TraceableEntity">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="originalText" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -54,7 +55,7 @@
   </eClassifiers>
   <eSubpackages name="LTS" nsURI="http://d3s.mff.cuni.cz/reprotool/model/specification/LTS"
       nsPrefix="LTS">
-    <eClassifiers xsi:type="ecore:EClass" name="Transition">
+    <eClassifiers xsi:type="ecore:EClass" name="Transition" abstract="true" interface="true">
       <eStructuralFeatures xsi:type="ecore:EReference" name="sentence" eType="#//UseCaseStep"
           transient="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1"
@@ -63,5 +64,17 @@
           eType="#//LTS/State"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="State"/>
+    <eClassifiers xsi:type="ecore:EClass" name="StateMachine">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="initialState" lowerBound="1"
+          eType="#//LTS/State"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="abortState" eType="#//LTS/State"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="successState" lowerBound="1"
+          eType="#//LTS/State"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ActionTransition" eSuperTypes="#//LTS/Transition"/>
+    <eClassifiers xsi:type="ecore:EClass" name="GuardTransition" eSuperTypes="#//LTS/Transition">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="negatedGuards" upperBound="-1"
+          eType="#//LTS/GuardTransition"/>
+    </eClassifiers>
   </eSubpackages>
 </ecore:EPackage>

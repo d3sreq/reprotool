@@ -60,8 +60,10 @@ public class LTSFactoryImpl extends EFactoryImpl implements LTSFactory {
 	@Override
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
-			case LTSPackage.TRANSITION: return createTransition();
 			case LTSPackage.STATE: return createState();
+			case LTSPackage.STATE_MACHINE: return createStateMachine();
+			case LTSPackage.ACTION_TRANSITION: return createActionTransition();
+			case LTSPackage.GUARD_TRANSITION: return createGuardTransition();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -72,9 +74,9 @@ public class LTSFactoryImpl extends EFactoryImpl implements LTSFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Transition createTransition() {
-		TransitionImpl transition = new TransitionImpl();
-		return transition;
+	public State createState() {
+		StateImpl state = new StateImpl();
+		return state;
 	}
 
 	/**
@@ -82,9 +84,29 @@ public class LTSFactoryImpl extends EFactoryImpl implements LTSFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public State createState() {
-		StateImpl state = new StateImpl();
-		return state;
+	public StateMachine createStateMachine() {
+		StateMachineImpl stateMachine = new StateMachineImpl();
+		return stateMachine;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ActionTransition createActionTransition() {
+		ActionTransitionImpl actionTransition = new ActionTransitionImpl();
+		return actionTransition;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public GuardTransition createGuardTransition() {
+		GuardTransitionImpl guardTransition = new GuardTransitionImpl();
+		return guardTransition;
 	}
 
 	/**

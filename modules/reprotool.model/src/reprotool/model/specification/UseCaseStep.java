@@ -8,6 +8,8 @@ package reprotool.model.specification;
 
 import org.eclipse.emf.common.util.EList;
 
+import reprotool.model.linguistic.SentenceNode;
+
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Use Case Step</b></em>'.
@@ -21,6 +23,7 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link reprotool.model.specification.UseCaseStep#getSentence <em>Sentence</em>}</li>
  *   <li>{@link reprotool.model.specification.UseCaseStep#getNextStep <em>Next Step</em>}</li>
  *   <li>{@link reprotool.model.specification.UseCaseStep#getLabel <em>Label</em>}</li>
+ *   <li>{@link reprotool.model.specification.UseCaseStep#getParsedSentence <em>Parsed Sentence</em>}</li>
  * </ul>
  * </p>
  *
@@ -133,5 +136,31 @@ public interface UseCaseStep extends ReqCover {
 	 * @generated
 	 */
 	void setLabel(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Parsed Sentence</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Parsed Sentence</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Parsed Sentence</em>' reference.
+	 * @see #setParsedSentence(SentenceNode)
+	 * @see reprotool.model.specification.SpecificationPackage#getUseCaseStep_ParsedSentence()
+	 * @model
+	 * @generated
+	 */
+	SentenceNode getParsedSentence();
+
+	/**
+	 * Sets the value of the '{@link reprotool.model.specification.UseCaseStep#getParsedSentence <em>Parsed Sentence</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Parsed Sentence</em>' reference.
+	 * @see #getParsedSentence()
+	 * @generated
+	 */
+	void setParsedSentence(SentenceNode value);
 
 } // UseCaseStep

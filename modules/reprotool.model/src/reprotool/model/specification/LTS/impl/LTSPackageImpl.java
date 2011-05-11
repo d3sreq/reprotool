@@ -20,9 +20,12 @@ import reprotool.model.linguistic.LinguisticPackage;
 
 import reprotool.model.linguistic.impl.LinguisticPackageImpl;
 
+import reprotool.model.specification.LTS.ActionTransition;
+import reprotool.model.specification.LTS.GuardTransition;
 import reprotool.model.specification.LTS.LTSFactory;
 import reprotool.model.specification.LTS.LTSPackage;
 import reprotool.model.specification.LTS.State;
+import reprotool.model.specification.LTS.StateMachine;
 import reprotool.model.specification.LTS.Transition;
 
 import reprotool.model.specification.SpecificationPackage;
@@ -61,6 +64,27 @@ public class LTSPackageImpl extends EPackageImpl implements LTSPackage {
 	 * @generated
 	 */
 	private EClass stateEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass stateMachineEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass actionTransitionEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass guardTransitionEClass = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -193,6 +217,69 @@ public class LTSPackageImpl extends EPackageImpl implements LTSPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getStateMachine() {
+		return stateMachineEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getStateMachine_InitialState() {
+		return (EReference)stateMachineEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getStateMachine_AbortState() {
+		return (EReference)stateMachineEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getStateMachine_SuccessState() {
+		return (EReference)stateMachineEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getActionTransition() {
+		return actionTransitionEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getGuardTransition() {
+		return guardTransitionEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getGuardTransition_NegatedGuards() {
+		return (EReference)guardTransitionEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public LTSFactory getLTSFactory() {
 		return (LTSFactory)getEFactoryInstance();
 	}
@@ -222,6 +309,16 @@ public class LTSPackageImpl extends EPackageImpl implements LTSPackage {
 		createEReference(transitionEClass, TRANSITION__TARGET);
 
 		stateEClass = createEClass(STATE);
+
+		stateMachineEClass = createEClass(STATE_MACHINE);
+		createEReference(stateMachineEClass, STATE_MACHINE__INITIAL_STATE);
+		createEReference(stateMachineEClass, STATE_MACHINE__ABORT_STATE);
+		createEReference(stateMachineEClass, STATE_MACHINE__SUCCESS_STATE);
+
+		actionTransitionEClass = createEClass(ACTION_TRANSITION);
+
+		guardTransitionEClass = createEClass(GUARD_TRANSITION);
+		createEReference(guardTransitionEClass, GUARD_TRANSITION__NEGATED_GUARDS);
 	}
 
 	/**
@@ -255,14 +352,26 @@ public class LTSPackageImpl extends EPackageImpl implements LTSPackage {
 		// Set bounds for type parameters
 
 		// Add supertypes to classes
+		actionTransitionEClass.getESuperTypes().add(this.getTransition());
+		guardTransitionEClass.getESuperTypes().add(this.getTransition());
 
 		// Initialize classes and features; add operations and parameters
-		initEClass(transitionEClass, Transition.class, "Transition", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEClass(transitionEClass, Transition.class, "Transition", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getTransition_Sentence(), theSpecificationPackage.getUseCaseStep(), null, "sentence", null, 0, 1, Transition.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getTransition_Source(), this.getState(), null, "source", null, 1, 1, Transition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getTransition_Target(), this.getState(), null, "target", null, 1, 1, Transition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(stateEClass, State.class, "State", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(stateMachineEClass, StateMachine.class, "StateMachine", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getStateMachine_InitialState(), this.getState(), null, "initialState", null, 1, 1, StateMachine.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getStateMachine_AbortState(), this.getState(), null, "abortState", null, 0, 1, StateMachine.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getStateMachine_SuccessState(), this.getState(), null, "successState", null, 1, 1, StateMachine.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(actionTransitionEClass, ActionTransition.class, "ActionTransition", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(guardTransitionEClass, GuardTransition.class, "GuardTransition", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getGuardTransition_NegatedGuards(), this.getGuardTransition(), null, "negatedGuards", null, 0, -1, GuardTransition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 	}
 
 } //LTSPackageImpl
