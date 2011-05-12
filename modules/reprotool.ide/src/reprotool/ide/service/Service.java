@@ -1,5 +1,6 @@
 package reprotool.ide.service;
 
+import reprotool.ling.LingTools;
 import reprotool.model.specification.Actor;
 import reprotool.model.specification.SoftwareProject;
 import reprotool.model.specification.SpecificationFactory;
@@ -54,26 +55,50 @@ public enum Service {
 		customer.setName("Customer");
 		project.getActors().add(customer);
 		
+		/*
+		 * LingTools is just a temporary stupid implementation of a sentence parsing
+		 * and tree building.
+		 * When the real linguistic tools are added to this project, they will be used. 
+		 */
+		LingTools lingTools = new LingTools();
+		
 		UseCase useCase1 = factory.createUseCase();
 		useCase1.setName("Use case with owner as PA");
 		useCase1.setPrimaryActor(owner);
+		
 		UseCaseStep uc1step1 = factory.createUseCaseStep();
 		uc1step1.setSentence("Seller submits item description");
+		uc1step1.setParsedSentence(lingTools.parseSentence(uc1step1.getSentence()));
+		
 		UseCaseStep uc1step2 = factory.createUseCaseStep();
 		uc1step2.setSentence("System validates the description");
+		uc1step2.setParsedSentence(lingTools.parseSentence(uc1step2.getSentence()));
+		
 		uc1step1.setNextStep(uc1step2);
+		
 		UseCaseStep uc1step2a = factory.createUseCaseStep();
 		uc1step2a.setSentence("Item not valid");
+		uc1step2a.setParsedSentence(lingTools.parseSentence(uc1step2a.getSentence()));
 		uc1step2.getExtensions().add(uc1step2a);
+		
 		UseCaseStep uc1step2a1 = factory.createUseCaseStep();
 		uc1step2a1.setSentence("Use case aborted");
+		uc1step2a1.setParsedSentence(lingTools.parseSentence(uc1step2a1.getSentence()));
+		
 		uc1step2a.setNextStep(uc1step2a1);
+		
 		UseCaseStep uc1step2b = factory.createUseCaseStep();
 		uc1step2b.setSentence("Price assessment available");
+		uc1step2b.setParsedSentence(lingTools.parseSentence(uc1step2b.getSentence()));
+		
 		uc1step2.getVariations().add(uc1step2b);
+		
 		UseCaseStep uc1step2b1 = factory.createUseCaseStep();
 		uc1step2b1.setSentence("System provides seller with a price assessment");
+		uc1step2b1.setParsedSentence(lingTools.parseSentence(uc1step2b1.getSentence()));
+		
 		uc1step2b.setNextStep(uc1step2b1);
+		
 		UseCaseStep uc1step2b1a = factory.createUseCaseStep();
 		uc1step2b1a.setSentence("Some variation.");
 		uc1step2b.getVariations().add(uc1step2b1a);

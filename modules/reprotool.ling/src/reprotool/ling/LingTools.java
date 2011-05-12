@@ -49,7 +49,13 @@ public class LingTools implements ILingTools {
 		item.setWordType(EWordType.REPRESENTATIVE_OBJECT);
 		
 		Word desc = factory.createWord();
-		desc.setWordStr(words[3]);
+		
+		if (words.length >= 4) {
+			desc.setWordStr(words[3]);
+		} else {
+			desc.setWordStr("dummy");
+		}
+		
 		desc.setType("Representative o.");
 		desc.setWordType(EWordType.REPRESENTATIVE_OBJECT);
 		

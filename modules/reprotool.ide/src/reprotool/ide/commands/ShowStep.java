@@ -8,6 +8,7 @@ import org.eclipse.ui.handlers.HandlerUtil;
 import org.eclipse.core.commands.AbstractHandler;
 
 import reprotool.ide.editors.UseCaseEditor;
+import reprotool.ide.views.ParsedTreeView;
 import reprotool.ide.views.UcStepView;
 
 public class ShowStep extends AbstractHandler
@@ -21,6 +22,11 @@ public class ShowStep extends AbstractHandler
 		UseCaseEditor editor = UseCaseEditor.getUseCaseEditor();
 		if (view != null && editor != null)
 			view.setStep(editor.getSelectedStep());
+		
+		ParsedTreeView treeView = (ParsedTreeView) page.findView(ParsedTreeView.ID);
+		if (treeView != null && editor != null && editor.getSelectedStep() != null) {
+			treeView.showTree(editor.getSelectedStep().getParsedSentence());
+		}
 		
 		return null;
 	}

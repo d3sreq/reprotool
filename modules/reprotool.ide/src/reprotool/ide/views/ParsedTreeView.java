@@ -39,8 +39,10 @@ import org.eclipse.jface.viewers.LabelProvider;
 
 
 public class ParsedTreeView extends ViewPart {
+	public static final String ID = "cz.cuni.mff.reprotool.ide.view_parsed_tree";
 
 	private GraphViewer viewer;
+	private NodeModelContentProvider sentenceModel = new NodeModelContentProvider();
 	
 	public ParsedTreeView() {
 		// TODO Auto-generated constructor stub
@@ -210,6 +212,14 @@ public class ParsedTreeView extends ViewPart {
 			createGraph2EMFMapping(gChild, mChild);
 		}
 	}
+	
+	public void showTree(SentenceNode treeRoot) {
+		sentenceModel.setRootNode(treeRoot);
+		viewer.setInput(sentenceModel.getNodes());
+		viewer.getGraphControl().setNodeStyle(ZestStyles.NODES_NO_ANIMATION);
+		mapGraphNodes2EMF(sentenceModel.getRootNode());
+		viewer.applyLayout();
+	}
 
 	@Override
 	public void createPartControl(Composite parent) {
@@ -238,17 +248,7 @@ public class ParsedTreeView extends ViewPart {
 		final NodeLabelProvider labelProvider = new NodeLabelProvider();
 		viewer.setLabelProvider(labelProvider);
 
-
-		NodeModelContentProvider model = new NodeModelContentProvider();
-		model.loadSentence("Seller submits item description");
-
-		viewer.setInput(model.getNodes());
-		viewer.getGraphControl().setNodeStyle(ZestStyles.NODES_NO_ANIMATION);
-
 		final Menu menu = createMenu(parent);
-				
-		mapGraphNodes2EMF(model.getRootNode());
-		
 
 		TreeLayoutAlgorithm tla = 
 			new TreeLayoutAlgorithm(LayoutStyles.NO_LAYOUT_NODE_RESIZING);
@@ -312,9 +312,7 @@ public class ParsedTreeView extends ViewPart {
 		});
 		
 		
-
-		viewer.setLayoutAlgorithm(tla, true);
-		viewer.applyLayout();		
+		viewer.setLayoutAlgorithm(tla, true);		
 	}
 
 	@Override

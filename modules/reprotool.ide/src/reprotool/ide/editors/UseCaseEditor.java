@@ -17,6 +17,7 @@ import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.ui.part.EditorPart;
 
 import reprotool.ide.service.Service;
+import reprotool.ling.LingTools;
 import reprotool.model.specification.UseCase;
 import reprotool.model.specification.UseCaseStep;
 import org.eclipse.swt.widgets.Tree;
@@ -40,6 +41,13 @@ public class UseCaseEditor extends EditorPart {
 	private static final String SENTENCE_PROPERTY = "sentence";
 	private static final String TYPE_PROPERTY = "type";
 	private static final String PARSED_PROPERTY = "parsed";
+	
+	/*
+	 * LingTools is just a temporary stupid implementation of a sentence parsing
+	 * and tree building.
+	 * When the real linguistic tools are added to this project, they will be used. 
+	 */
+	private static final LingTools lingTools = new LingTools();
 	
 	// the usecase to edit
 	private UseCase usecase = null;
@@ -180,6 +188,7 @@ public class UseCaseEditor extends EditorPart {
 				if (SENTENCE_PROPERTY.equals(property)) {
 					step.setSentence(value.toString());
 					treeViewer.update(step, new String[] {SENTENCE_PROPERTY});
+					step.setParsedSentence(lingTools.parseSentence(step.getSentence()));
 				} else if (LABEL_PROPERTY.equals(property)) {
 					final String label = value.toString();
 					if (label.isEmpty() || label.equals("none"))
