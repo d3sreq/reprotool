@@ -127,7 +127,7 @@ public interface UseCaseStep extends ReqCover {
 	 * @return the value of the '<em>Parsed Sentence</em>' reference.
 	 * @see #setParsedSentence(SentenceNode)
 	 * @see reprotool.model.usecase.UsecasePackage#getUseCaseStep_ParsedSentence()
-	 * @model
+	 * @model transient="true"
 	 * @generated
 	 */
 	SentenceNode getParsedSentence();

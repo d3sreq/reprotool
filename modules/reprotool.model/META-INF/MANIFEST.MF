@@ -7,10 +7,6 @@ Bundle-ClassPath: .
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Require-Bundle: org.eclipse.core.runtime,
- org.eclipse.emf.ecore;visibility:=reexport,
- org.eclipse.emf.ecore.xmi;visibility:=reexport
-Bundle-ActivationPolicy: lazy
 Export-Package: reprotool.model.ast,
  reprotool.model.ast.impl,
  reprotool.model.ast.util,
@@ -38,3 +34,7 @@ Export-Package: reprotool.model.ast,
  reprotool.model.usecase,
  reprotool.model.usecase.impl,
  reprotool.model.usecase.util
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.emf.ecore;visibility:=reexport,
+ org.eclipse.emf.ecore.xmi;visibility:=reexport
+Bundle-ActivationPolicy: lazy

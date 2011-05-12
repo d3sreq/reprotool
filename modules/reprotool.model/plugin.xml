@@ -10,17 +10,91 @@
 
 <plugin>
 
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <package
+            uri="http://d3s.mff.cuni.cz/reprotool/model/lts"
+            class="reprotool.model.lts.LtsPackage"
+            genModel="model/reprotool.model.genmodel"/>
+   </extension>
 
+   <extension point="org.eclipse.emf.ecore.extension_parser">
+      <parser
+            type="lts"
+            class="reprotool.model.lts.util.LtsResourceFactoryImpl"/>
+   </extension>
 
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <package
+            uri="http://d3s.mff.cuni.cz/reprotool/model/usecase"
+            class="reprotool.model.usecase.UsecasePackage"
+            genModel="model/reprotool.model.genmodel"/>
+   </extension>
 
+   <extension point="org.eclipse.emf.ecore.extension_parser">
+      <parser
+            type="usecase"
+            class="reprotool.model.usecase.util.UsecaseResourceFactoryImpl"/>
+   </extension>
 
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <package
+            uri="http://d3s.mff.cuni.cz/reprotool/model/swproj"
+            class="reprotool.model.swproj.SwprojPackage"
+            genModel="model/reprotool.model.genmodel"/>
+   </extension>
 
+   <extension point="org.eclipse.emf.ecore.extension_parser">
+      <parser
+            type="swproj"
+            class="reprotool.model.swproj.util.SwprojResourceFactoryImpl"/>
+   </extension>
 
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <package
+            uri="http://d3s.mff.cuni.cz/reprotool/model/traceability"
+            class="reprotool.model.traceability.TraceabilityPackage"
+            genModel="model/reprotool.model.genmodel"/>
+   </extension>
 
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <package
+            uri="http://d3s.mff.cuni.cz/reprotool/model/linguistic"
+            class="reprotool.model.linguistic.LinguisticPackage"
+            genModel="model/reprotool.model.genmodel"/>
+   </extension>
 
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <package
+            uri="http://d3s.mff.cuni.cz/reprotool/model/structure/ast"
+            class="reprotool.model.ast.AstPackage"
+            genModel="model/reprotool.model.genmodel"/>
+   </extension>
 
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <package
+            uri="http://d3s.mff.cuni.cz/reprotool/model/comp"
+            class="reprotool.model.comp.CompPackage"
+            genModel="model/reprotool.model.genmodel"/>
+   </extension>
 
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <package
+            uri="http://d3s.mff.cuni.cz/reprotool/model/structure/doc"
+            class="reprotool.model.doc.DocPackage"
+            genModel="model/reprotool.model.genmodel"/>
+   </extension>
 
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <package
+            uri="http://d3s.mff.cuni.cz/reprotool/model/procases"
+            class="reprotool.model.procases.ProcasesPackage"
+            genModel="model/reprotool.model.genmodel"/>
+   </extension>
 
+   <extension point="org.eclipse.emf.ecore.extension_parser">
+      <parser
+            type="procases"
+            class="reprotool.model.procases.util.ProcasesResourceFactoryImpl"/>
+   </extension>
 
 </plugin>
