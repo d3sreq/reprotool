@@ -1,23 +1,23 @@
 package reprotool.ide.views;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.ui.part.ViewPart;
-import org.eclipse.swt.layout.FormLayout;
-import org.eclipse.swt.layout.FormData;
-import org.eclipse.swt.layout.FormAttachment;
-import org.eclipse.swt.widgets.Group;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Combo;
-
-import com.swtdesigner.SWTResourceManager;
-import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.layout.FormAttachment;
+import org.eclipse.swt.layout.FormData;
+import org.eclipse.swt.layout.FormLayout;
+import org.eclipse.swt.widgets.Combo;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.ui.part.ViewPart;
 
 import reprotool.ide.editors.UseCaseEditor;
-import reprotool.model.specification.UseCase;
-import reprotool.model.specification.UseCaseStep;
+import reprotool.model.usecase.UseCase;
+import reprotool.model.usecase.UseCaseStep;
+
+import com.swtdesigner.SWTResourceManager;
 
 public class UcStepView extends ViewPart {
 
@@ -126,10 +126,16 @@ public class UcStepView extends ViewPart {
 	}
 
 	public void setStep(UseCaseStep step) {
-		lblStepSentence.setText(step.getSentence());
-		UseCase uc = UseCaseEditor.getUseCaseEditor().getEditedUseCase();
-		if (uc != null)
-			lblActorDesc.setText(uc.getPrimaryActor().getName());
+		
+		if(step == null) {
+			lblStepSentence.setText("NOT A USE-CASE STEP");
+			lblActorDesc.setText("");
+		} else {	
+			lblStepSentence.setText(step.getSentence());
+			UseCase uc = UseCaseEditor.getUseCaseEditor().getEditedUseCase();
+			if (uc != null)
+				lblActorDesc.setText(uc.getPrimaryActor().getName());
+		}
 		parentComposite.layout();
 	}
 

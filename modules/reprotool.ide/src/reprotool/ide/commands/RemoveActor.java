@@ -9,7 +9,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.handlers.HandlerUtil;
 
 import reprotool.ide.views.ProjectView;
-import reprotool.model.specification.Actor;
+import reprotool.model.swproj.Actor;
 
 
 

@@ -1,16 +1,8 @@
 package reprotool.ide.wizards.project;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.StringReader;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.wizard.WizardPage;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
 
 public class ProjectWizardPage extends WizardNewFileCreationPage {

@@ -1,24 +1,29 @@
 package reprotool.ide.service;
 
+import org.eclipse.emf.ecore.EObject;
+
 import reprotool.ling.LingTools;
-import reprotool.model.specification.Actor;
-import reprotool.model.specification.SoftwareProject;
-import reprotool.model.specification.SpecificationFactory;
-import reprotool.model.specification.UseCase;
-import reprotool.model.specification.UseCaseStep;
-import reprotool.model.specification.impl.SpecificationFactoryImpl;
+import reprotool.model.swproj.Actor;
+import reprotool.model.swproj.SoftwareProject;
+import reprotool.model.swproj.SwprojFactory;
+import reprotool.model.swproj.impl.SwprojFactoryImpl;
+import reprotool.model.usecase.Scenario;
+import reprotool.model.usecase.UseCase;
+import reprotool.model.usecase.UseCaseStep;
+import reprotool.model.usecase.UsecaseFactory;
+import reprotool.model.usecase.impl.UsecaseFactoryImpl;
 
 /**
  * Service layer class for interaction between model and view.
- * TODO - jvinarek - proof of concept.
+ * TODO - also implement loading data from some example XMI file that was created using the generated editor
  * 
  * @author jvinarek
- *
  */
 public enum Service {
 	INSTANCE;
 
-	private SpecificationFactory factory = new SpecificationFactoryImpl();
+	private SwprojFactory swprojFactory = new SwprojFactoryImpl();
+	private UsecaseFactory ucFactory = new UsecaseFactoryImpl();
 	
 	private SoftwareProject project;
 	
@@ -31,27 +36,28 @@ public enum Service {
 	}
 	
 	private void initProject() {
-		project = factory.createSoftwareProject();
+		project = swprojFactory.createSoftwareProject();
 		
 		project.setDescription("Simple project describing bank processes.");
 		project.setName("Bank");
 		
 		// actors
+		// ================================================
 		// bank - compound actor
-		Actor clerk = factory.createActor();
+		Actor clerk = swprojFactory.createActor();
 		clerk.setName("Clerk");
 		
-		Actor owner = factory.createActor();
+		Actor owner = swprojFactory.createActor();
 		owner.setName("Owner");
 		
-		Actor bank = factory.createActor();
+		Actor bank = swprojFactory.createActor();
 		bank.setName("Bank");
 //		bank.getChildrenActors().add(clerk);
 //		bank.getChildrenActors().add(owner);
 		project.getActors().add(bank);
 		
 		// non-compound actor
-		Actor customer = factory.createActor();
+		Actor customer = swprojFactory.createActor();
 		customer.setName("Customer");
 		project.getActors().add(customer);
 		
@@ -62,66 +68,81 @@ public enum Service {
 		 */
 		LingTools lingTools = new LingTools();
 		
-		UseCase useCase1 = factory.createUseCase();
-		useCase1.setName("Use case with owner as PA");
-		useCase1.setPrimaryActor(owner);
+		UseCase uc;
+		UseCaseStep step;
+		Scenario scen;
+		Scenario extscen; // scenario representing an extension
+		Scenario varscen; // scenario representing a variation
 		
-		UseCaseStep uc1step1 = factory.createUseCaseStep();
-		uc1step1.setSentence("Seller submits item description");
-		uc1step1.setParsedSentence(lingTools.parseSentence(uc1step1.getSentence()));
+		// example use-case #1
+		// ================================================
+		uc = ucFactory.createUseCase();
+		uc.setName("Use case with owner as PA");
+		uc.setPrimaryActor(owner);
 		
-		UseCaseStep uc1step2 = factory.createUseCaseStep();
-		uc1step2.setSentence("System validates the description");
-		uc1step2.setParsedSentence(lingTools.parseSentence(uc1step2.getSentence()));
+		scen = ucFactory.createScenario();
+		uc.setMainScenario(scen);
 		
-		uc1step1.setNextStep(uc1step2);
+		// step 1
+		step = ucFactory.createUseCaseStep();
+		step.setSentence("Seller submits item description");
+		step.setParsedSentence(lingTools.parseSentence(step.getSentence()));
+		scen.getSteps().add(step);
 		
-		UseCaseStep uc1step2a = factory.createUseCaseStep();
-		uc1step2a.setSentence("Item not valid");
-		uc1step2a.setParsedSentence(lingTools.parseSentence(uc1step2a.getSentence()));
-		uc1step2.getExtensions().add(uc1step2a);
+		// step 2
+		step = ucFactory.createUseCaseStep();
+		step.setSentence("System validates the description");
+		step.setParsedSentence(lingTools.parseSentence(step.getSentence()));
+		scen.getSteps().add(step);
+
+		// extension scenario from step 2
+		extscen = ucFactory.createScenario();
+		step.getExtension().add(extscen);
 		
-		UseCaseStep uc1step2a1 = factory.createUseCaseStep();
-		uc1step2a1.setSentence("Use case aborted");
-		uc1step2a1.setParsedSentence(lingTools.parseSentence(uc1step2a1.getSentence()));
+		// variation scenario from step 2
+		varscen = ucFactory.createScenario();
+		step.getVariation().add(varscen);
+
+		// step 2a
+		step = ucFactory.createUseCaseStep();
+		step.setSentence("Item not valid");
+		step.setParsedSentence(lingTools.parseSentence(step.getSentence()));
+		extscen.getSteps().add(step);
 		
-		uc1step2a.setNextStep(uc1step2a1);
+		// step 2a1
+		step = ucFactory.createUseCaseStep();
+		step.setSentence("Use case aborted");
+		step.setParsedSentence(lingTools.parseSentence(step.getSentence()));
+		extscen.getSteps().add(step);
 		
-		UseCaseStep uc1step2b = factory.createUseCaseStep();
-		uc1step2b.setSentence("Price assessment available");
-		uc1step2b.setParsedSentence(lingTools.parseSentence(uc1step2b.getSentence()));
-		
-		uc1step2.getVariations().add(uc1step2b);
-		
-		UseCaseStep uc1step2b1 = factory.createUseCaseStep();
-		uc1step2b1.setSentence("System provides seller with a price assessment");
-		uc1step2b1.setParsedSentence(lingTools.parseSentence(uc1step2b1.getSentence()));
-		
-		uc1step2b.setNextStep(uc1step2b1);
-		
-		UseCaseStep uc1step2b1a = factory.createUseCaseStep();
-		uc1step2b1a.setSentence("Some variation.");
-		uc1step2b.getVariations().add(uc1step2b1a);
-		UseCaseStep uc1step2b1b = factory.createUseCaseStep();
-		uc1step2b1b.setSentence("Some extension.");
-		uc1step2b.getExtensions().add(uc1step2b1b);
-		
-		useCase1.getUseCaseSteps().add(uc1step1);
-		useCase1.getUseCaseSteps().add(uc1step2);
-		project.getUseCases().add(useCase1);
-		
-		UseCase useCase2 = factory.createUseCase();
-		useCase2.setName("Use case with clerk as PA");
-		useCase2.setPrimaryActor(clerk);
-		project.getUseCases().add(useCase2);
+		// step 2b
+		step = ucFactory.createUseCaseStep();
+		step.setSentence("Price assessment available");
+		step.setParsedSentence(lingTools.parseSentence(step.getSentence()));
+		varscen.getSteps().add(step);
+
+		// step 2b1
+		step = ucFactory.createUseCaseStep();
+		step.setSentence("System provides seller with a price assessment");
+		step.setParsedSentence(lingTools.parseSentence(step.getSentence()));
+		varscen.getSteps().add(step);
+
+		project.getUseCases().add(uc);
+
+		// example use-case #2
+		// ================================================
+		uc = ucFactory.createUseCase();
+		uc.setName("Use case with clerk as PA");
+		uc.setPrimaryActor(clerk);
+		project.getUseCases().add(uc);
 	}
 
 	public Actor createActor() {
-		return factory.createActor();
+		return swprojFactory.createActor();
 	}
 
-	public SoftwareProject createSoftwareProject() {
-		return factory.createSoftwareProject();
+	public EObject createSoftwareProject() {
+		return swprojFactory.createSoftwareProject();
 	}
-	
+
 }

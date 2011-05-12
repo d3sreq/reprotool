@@ -1,78 +1,66 @@
 package reprotool.ide.editors;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;
-import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.graphics.Image;
 
-import reprotool.model.specification.UseCase;
-import reprotool.model.specification.UseCaseStep;
+import reprotool.model.usecase.Scenario;
+import reprotool.model.usecase.UseCase;
+import reprotool.model.usecase.UseCaseStep;
 
-public class UseCaseStepTreeProvider implements ITreeContentProvider,ITableLabelProvider  {
-	private HashMap<UseCaseStep, UseCaseStep> parentMap = null;
+public class UseCaseStepTreeProvider implements ITreeContentProvider, ITableLabelProvider  {
 	
-	// ITreeContentProvider methods
-	
-	private void buildParentMap(UseCase uc) {
-		parentMap = new HashMap<UseCaseStep, UseCaseStep>();
-		for (UseCaseStep step : uc.getUseCaseSteps()) {
-			do {
-				addChildren(step);
-				step = step.getNextStep();
-			} while (step != null);
-		}
-	}
-
-	private void addChildren(UseCaseStep root) {
-		Object[] children = getChildren(root);
-		for (Object ch : children) {
-			UseCaseStep child = (UseCaseStep)ch;
-			parentMap.put(child, root);
-			addChildren(child);
-		}
-	}
-
 	@Override
-	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-		if (newInput != null)
-			buildParentMap((UseCase)newInput);
+	public void inputChanged(org.eclipse.jface.viewers.Viewer viewer,
+			Object oldInput, Object newInput) {
+		// TODO Auto-generated method stub
 	}
 
 	@Override
 	public Object[] getElements(Object inputElement) {
-		return ((UseCase) inputElement).getUseCaseSteps().toArray();
+		
+		// list only contents of a UseCase
+		if( ! (inputElement instanceof UseCase) )
+			return null;
+			
+		UseCase usecase = (UseCase) inputElement;
+		return usecase.getMainScenario().getSteps().toArray();
 	}
 
 	@Override
 	public Object[] getChildren(Object parentElement) {
-		UseCaseStep step = (UseCaseStep)parentElement;
-		List<UseCaseStep> res = new ArrayList<UseCaseStep>();
-		List<UseCaseStep> children = new ArrayList<UseCaseStep>();
-		children.addAll(step.getVariations());
-		children.addAll(step.getExtensions());
-		for (UseCaseStep child : children) {
-			do {
-				res.add(child);
-				child = child.getNextStep();
-			} while (child != null);
-		}
-		return res.toArray();
-	}
+		if(parentElement instanceof UseCaseStep) {
+			
+			UseCaseStep parentStep = (UseCaseStep) parentElement; 
 
+			List<Scenario> children = new ArrayList<Scenario>();
+			children.addAll(parentStep.getExtension());
+			children.addAll(parentStep.getVariation());
+
+			return children.toArray();
+			
+		} else if (parentElement instanceof Scenario) {
+			return ((Scenario) parentElement).getSteps().toArray();
+		}
+		
+		return null;
+	}
+	
 	@Override
 	public Object getParent(Object element) {
-		return parentMap.get(element);
+		EObject obj = (EObject) element;
+		return obj.eContainer();
 	}
 
 	@Override
 	public boolean hasChildren(Object element) {
-		UseCaseStep step = (UseCaseStep)element;
-		return !(step.getExtensions().isEmpty() && step.getVariations().isEmpty());
+		EObject obj = (EObject) element;
+		return ! obj.eContents().isEmpty();
 	}
 	
 	// ITableLabelProvider methods
@@ -80,50 +68,114 @@ public class UseCaseStepTreeProvider implements ITreeContentProvider,ITableLabel
 	public Image getColumnImage(Object element, int columnIndex) {
 		return null;
 	}
-
-	public String getColumnText(Object element, int columnIndex) {
-		UseCaseStep step = (UseCaseStep) element;
-		String result = "";
-		switch (columnIndex) {
-		case 0:
-			result = step.getLabel();
-			if (result == null)
-				result = "none";
-			if (!step.getVariations().isEmpty()) {
-				result += " (!)";
-			}
-			break;
-		case 1:
-			result = step.getSentence();
-			break;
-		case 2:
-			UseCaseStep parent = parentMap.get(step);
-			if (parent != null) {
-				if (parent.getExtensions().contains(step)) {
-					result = "extension";
-				}
-				else if (parent.getVariations().contains(step)) {
-					result = "variation";
-				}
-			}
-			break;
-		case 3:
-			result = "x";
-			break;
+	
+	/**
+	 * Used for the implementation of different row types (UseCaseStep and Scenario)
+	 * @author Viliam Simko
+	 */
+	private interface RowRenderer {
+		public void setElement(Object element);
+		public String getLabelColumn();
+		public String getSentenceColumn();
+		public String getTypeColumn();
+		public String getParsedColumn();
+	}
+	
+	RowRenderer useCaseStepRenderer = new RowRenderer() {
+		private UseCaseStep step;
+		
+		@Override
+		public void setElement(Object element) {
+			step = (UseCaseStep) element;
 		}
-		return result;
+		
+		@Override
+		public String getTypeColumn() {
+			return "step";
+		}
+
+		@Override
+		public String getSentenceColumn() {
+			return step.getSentence();
+		}
+
+		@Override
+		public String getParsedColumn() {
+			return "x";
+		}
+
+		@Override
+		public String getLabelColumn() {
+			return step.getLabel();
+		}
+	};
+	
+	RowRenderer scenarioRenderer = new RowRenderer() {
+		Scenario scen;
+		
+		@Override
+		public void setElement(Object element) {
+			scen = (Scenario) element;
+		}
+				
+		@Override
+		public String getTypeColumn() {
+			UseCaseStep parentStep = (UseCaseStep) scen.eContainer();
+
+			if (parentStep.getExtension().contains(scen))
+				return "extension";
+
+			if (parentStep.getVariation().contains(scen))
+				return "variation";
+
+			return "unknown";
+		}
+
+		@Override
+		public String getSentenceColumn() {
+			return getTypeColumn();
+		}
+
+		@Override
+		public String getParsedColumn() {
+			return "";
+		}
+
+		@Override
+		public String getLabelColumn() {
+			return "";
+		}
+	};
+	
+	public String getColumnText(final Object element, int columnIndex) {
+		
+		RowRenderer adapter = null;
+		
+		if(element instanceof UseCaseStep)
+			adapter = useCaseStepRenderer;
+		else if(element instanceof Scenario)
+			adapter = scenarioRenderer;
+			
+		if(adapter == null)
+			return "null";
+		
+		adapter.setElement(element);
+		
+		switch (columnIndex) {
+			case 0: return adapter.getLabelColumn();
+			case 1: return adapter.getSentenceColumn();
+			case 2: return adapter.getTypeColumn();
+			case 3: return adapter.getParsedColumn();
+		}
+		
+		return null;
 	}
 
 	@Override
-	public void dispose() {
-		// TODO Auto-generated method stub
-		
-	}
+	public void dispose() {}
 
 	@Override
 	public void addListener(ILabelProviderListener listener) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -132,8 +184,5 @@ public class UseCaseStepTreeProvider implements ITreeContentProvider,ITableLabel
 	}
 
 	@Override
-	public void removeListener(ILabelProviderListener listener) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void removeListener(ILabelProviderListener listener) {}
 }

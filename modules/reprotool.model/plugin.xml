@@ -10,46 +10,17 @@
 
 <plugin>
 
-   <extension point="org.eclipse.emf.ecore.generated_package">
-      <package
-            uri="http://d3s.mff.cuni.cz/reprotool/model/linguistic"
-            class="reprotool.model.linguistic.LinguisticPackage"
-            genModel="model/reprotool.genmodel"/>
-   </extension>
 
-   <extension point="org.eclipse.emf.ecore.generated_package">
-      <package
-            uri="http://d3s.mff.cuni.cz/reprotool/model/specification"
-            class="reprotool.model.specification.SpecificationPackage"
-            genModel="model/reprotool.genmodel"/>
-   </extension>
 
-   <extension point="org.eclipse.emf.ecore.generated_package">
-      <package
-            uri="http://d3s.mff.cuni.cz/reprotool/model/structure/doc"
-            class="reprotool.model.structure.doc.DocPackage"
-            genModel="model/reprotool.genmodel"/>
-   </extension>
 
-   <extension point="org.eclipse.emf.ecore.generated_package">
-      <package
-            uri="http://d3s.mff.cuni.cz/reprotool/model/structure/ast"
-            class="reprotool.model.structure.ast.AstPackage"
-            genModel="model/reprotool.genmodel"/>
-   </extension>
 
-   <extension point="org.eclipse.emf.ecore.generated_package">
-      <package
-            uri="http://d3s.mff.cuni.cz/reprotool/model/comp"
-            class="reprotool.model.comp.CompPackage"
-            genModel="model/reprotool.genmodel"/>
-   </extension>
 
-   <extension point="org.eclipse.emf.ecore.generated_package">
-      <package
-            uri="http://d3s.mff.cuni.cz/reprotool/model/traceability"
-            class="reprotool.model.traceability.TraceabilityPackage"
-            genModel="model/reprotool.genmodel"/>
-   </extension>
+
+
+
+
+
+
+
 
 </plugin>

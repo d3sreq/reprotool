@@ -68,10 +68,8 @@ import org.eclipse.wb.swt.layout.grouplayout.GroupLayout;
 import org.eclipse.wb.swt.layout.grouplayout.LayoutStyle;
 
 import reprotool.ide.service.Service;
-import reprotool.model.specification.Actor;
-import reprotool.model.specification.SoftwareProject;
-import reprotool.model.specification.SpecificationPackage.Literals;
-import reprotool.model.specification.impl.SoftwareProjectImpl;
+import reprotool.model.swproj.*;
+import reprotool.model.usecase.UsecasePackage;
 
 /**
  * @author jvinarek
@@ -492,25 +490,25 @@ public class ProjectEditor extends EditorPart {
 				.observeText(textDescription, SWT.Modify);
 		IObservableValue projectDescriptionObserveValue = EMFObservables
 				.observeValue(softwareProject,
-						Literals.SOFTWARE_PROJECT__DESCRIPTION);
+						SwprojPackage.Literals.SOFTWARE_PROJECT__DESCRIPTION);
 		bindingContext.bindValue(textObserveTextObserveWidget,
 				projectDescriptionObserveValue, null, null);
 		//
 		EMFBeansListObservableFactory treeObservableFactory = new EMFBeansListObservableFactory(
-				Actor.class, Literals.ACTOR__CHILDREN_ACTORS);
+				Actor.class, SwprojPackage.Literals.ACTOR__CHILDREN_ACTORS);
 		EMFTreeBeanAdvisor treeAdvisor = new EMFTreeBeanAdvisor(null,
-				Literals.ACTOR__CHILDREN_ACTORS, null);
+				SwprojPackage.Literals.ACTOR__CHILDREN_ACTORS, null);
 		ObservableListTreeContentProvider treeContentProvider = new ObservableListTreeContentProvider(
 				treeObservableFactory, treeAdvisor);
 		treeViewer.setContentProvider(treeContentProvider);
 		//
 		treeViewer.setLabelProvider(new EMFTreeObservableLabelProvider(
-				treeContentProvider.getKnownElements(), Literals.ACTOR__NAME,
+				treeContentProvider.getKnownElements(), SwprojPackage.Literals.ACTOR__NAME,
 				null));
 		//
 		IObservableList projectActorsObserveList = EMFObservables.observeList(
 				Realm.getDefault(), softwareProject,
-				Literals.SOFTWARE_PROJECT__ACTORS);
+				SwprojPackage.Literals.SOFTWARE_PROJECT__ACTORS);
 		treeViewer.setInput(projectActorsObserveList);
 		//
 		ObservableListContentProvider listContentProvider = new ObservableListContentProvider();
@@ -518,13 +516,13 @@ public class ProjectEditor extends EditorPart {
 		//
 		IObservableMap[] observeMaps = EMFObservables.observeMaps(
 				listContentProvider.getKnownElements(),
-				new EStructuralFeature[] { Literals.USE_CASE__NAME });
+				new EStructuralFeature[] { UsecasePackage.Literals.USE_CASE__NAME });
 		listViewer
 				.setLabelProvider(new ObservableMapLabelProvider(observeMaps));
 		//
 		IObservableList projectUseCasesObserveList = EMFObservables
 				.observeList(Realm.getDefault(), softwareProject,
-						Literals.SOFTWARE_PROJECT__USE_CASES);
+						SwprojPackage.Literals.SOFTWARE_PROJECT__USE_CASES);
 		listViewer.setInput(projectUseCasesObserveList);
 		//
 		return bindingContext;

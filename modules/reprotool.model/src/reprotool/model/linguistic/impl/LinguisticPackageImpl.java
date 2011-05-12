@@ -14,9 +14,17 @@ import org.eclipse.emf.ecore.EReference;
 
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
+import reprotool.model.ast.AstPackage;
+
+import reprotool.model.ast.impl.AstPackageImpl;
+
 import reprotool.model.comp.CompPackage;
 
 import reprotool.model.comp.impl.CompPackageImpl;
+
+import reprotool.model.doc.DocPackage;
+
+import reprotool.model.doc.impl.DocPackageImpl;
 
 import reprotool.model.linguistic.EWordType;
 import reprotool.model.linguistic.LinguisticFactory;
@@ -24,25 +32,25 @@ import reprotool.model.linguistic.LinguisticPackage;
 import reprotool.model.linguistic.SentenceNode;
 import reprotool.model.linguistic.Word;
 
-import reprotool.model.specification.LTS.LTSPackage;
+import reprotool.model.lts.LtsPackage;
 
-import reprotool.model.specification.LTS.impl.LTSPackageImpl;
+import reprotool.model.lts.impl.LtsPackageImpl;
 
-import reprotool.model.specification.SpecificationPackage;
+import reprotool.model.procases.ProcasesPackage;
 
-import reprotool.model.specification.impl.SpecificationPackageImpl;
+import reprotool.model.procases.impl.ProcasesPackageImpl;
 
-import reprotool.model.structure.ast.AstPackage;
+import reprotool.model.swproj.SwprojPackage;
 
-import reprotool.model.structure.ast.impl.AstPackageImpl;
-
-import reprotool.model.structure.doc.DocPackage;
-
-import reprotool.model.structure.doc.impl.DocPackageImpl;
+import reprotool.model.swproj.impl.SwprojPackageImpl;
 
 import reprotool.model.traceability.TraceabilityPackage;
 
 import reprotool.model.traceability.impl.TraceabilityPackageImpl;
+
+import reprotool.model.usecase.UsecasePackage;
+
+import reprotool.model.usecase.impl.UsecasePackageImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -119,30 +127,36 @@ public class LinguisticPackageImpl extends EPackageImpl implements LinguisticPac
 		isInited = true;
 
 		// Obtain or create and register interdependencies
+		LtsPackageImpl theLtsPackage = (LtsPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(LtsPackage.eNS_URI) instanceof LtsPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(LtsPackage.eNS_URI) : LtsPackage.eINSTANCE);
+		UsecasePackageImpl theUsecasePackage = (UsecasePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(UsecasePackage.eNS_URI) instanceof UsecasePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(UsecasePackage.eNS_URI) : UsecasePackage.eINSTANCE);
+		SwprojPackageImpl theSwprojPackage = (SwprojPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(SwprojPackage.eNS_URI) instanceof SwprojPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(SwprojPackage.eNS_URI) : SwprojPackage.eINSTANCE);
+		TraceabilityPackageImpl theTraceabilityPackage = (TraceabilityPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(TraceabilityPackage.eNS_URI) instanceof TraceabilityPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(TraceabilityPackage.eNS_URI) : TraceabilityPackage.eINSTANCE);
 		AstPackageImpl theAstPackage = (AstPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(AstPackage.eNS_URI) instanceof AstPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(AstPackage.eNS_URI) : AstPackage.eINSTANCE);
 		CompPackageImpl theCompPackage = (CompPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(CompPackage.eNS_URI) instanceof CompPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(CompPackage.eNS_URI) : CompPackage.eINSTANCE);
 		DocPackageImpl theDocPackage = (DocPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(DocPackage.eNS_URI) instanceof DocPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(DocPackage.eNS_URI) : DocPackage.eINSTANCE);
-		SpecificationPackageImpl theSpecificationPackage = (SpecificationPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(SpecificationPackage.eNS_URI) instanceof SpecificationPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(SpecificationPackage.eNS_URI) : SpecificationPackage.eINSTANCE);
-		LTSPackageImpl theLTSPackage = (LTSPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(LTSPackage.eNS_URI) instanceof LTSPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(LTSPackage.eNS_URI) : LTSPackage.eINSTANCE);
-		TraceabilityPackageImpl theTraceabilityPackage = (TraceabilityPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(TraceabilityPackage.eNS_URI) instanceof TraceabilityPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(TraceabilityPackage.eNS_URI) : TraceabilityPackage.eINSTANCE);
+		ProcasesPackageImpl theProcasesPackage = (ProcasesPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ProcasesPackage.eNS_URI) instanceof ProcasesPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ProcasesPackage.eNS_URI) : ProcasesPackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theLinguisticPackage.createPackageContents();
+		theLtsPackage.createPackageContents();
+		theUsecasePackage.createPackageContents();
+		theSwprojPackage.createPackageContents();
+		theTraceabilityPackage.createPackageContents();
 		theAstPackage.createPackageContents();
 		theCompPackage.createPackageContents();
 		theDocPackage.createPackageContents();
-		theSpecificationPackage.createPackageContents();
-		theLTSPackage.createPackageContents();
-		theTraceabilityPackage.createPackageContents();
+		theProcasesPackage.createPackageContents();
 
 		// Initialize created meta-data
 		theLinguisticPackage.initializePackageContents();
+		theLtsPackage.initializePackageContents();
+		theUsecasePackage.initializePackageContents();
+		theSwprojPackage.initializePackageContents();
+		theTraceabilityPackage.initializePackageContents();
 		theAstPackage.initializePackageContents();
 		theCompPackage.initializePackageContents();
 		theDocPackage.initializePackageContents();
-		theSpecificationPackage.initializePackageContents();
-		theLTSPackage.initializePackageContents();
-		theTraceabilityPackage.initializePackageContents();
+		theProcasesPackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
 		theLinguisticPackage.freeze();

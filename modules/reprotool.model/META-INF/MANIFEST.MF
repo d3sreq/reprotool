@@ -7,26 +7,34 @@ Bundle-ClassPath: .
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Export-Package: reprotool.model.comp,
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.emf.ecore;visibility:=reexport,
+ org.eclipse.emf.ecore.xmi;visibility:=reexport
+Bundle-ActivationPolicy: lazy
+Export-Package: reprotool.model.ast,
+ reprotool.model.ast.impl,
+ reprotool.model.ast.util,
+ reprotool.model.comp,
  reprotool.model.comp.impl,
  reprotool.model.comp.util,
+ reprotool.model.doc,
+ reprotool.model.doc.impl,
+ reprotool.model.doc.util,
  reprotool.model.linguistic,
  reprotool.model.linguistic.impl,
  reprotool.model.linguistic.util,
- reprotool.model.specification,
- reprotool.model.specification.LTS,
- reprotool.model.specification.LTS.impl,
- reprotool.model.specification.LTS.util,
- reprotool.model.specification.impl,
- reprotool.model.specification.util,
- reprotool.model.structure.ast,
- reprotool.model.structure.ast.impl,
- reprotool.model.structure.ast.util,
- reprotool.model.structure.doc,
- reprotool.model.structure.doc.impl,
- reprotool.model.structure.doc.util,
+ reprotool.model.lts,
+ reprotool.model.lts.impl,
+ reprotool.model.lts.util,
+ reprotool.model.procases,
+ reprotool.model.procases.impl,
+ reprotool.model.procases.util,
+ reprotool.model.swproj,
+ reprotool.model.swproj.impl,
+ reprotool.model.swproj.util,
  reprotool.model.traceability,
  reprotool.model.traceability.impl,
- reprotool.model.traceability.util
-Require-Bundle: org.eclipse.emf.ecore;visibility:=reexport
-Bundle-ActivationPolicy: lazy
+ reprotool.model.traceability.util,
+ reprotool.model.usecase,
+ reprotool.model.usecase.impl,
+ reprotool.model.usecase.util

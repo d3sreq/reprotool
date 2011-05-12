@@ -1,9 +1,21 @@
 package reprotool.ide.editors;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.jface.viewers.CellEditor;
+import org.eclipse.jface.viewers.ICellModifier;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.TextCellEditor;
+import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.jface.viewers.TreeViewerColumn;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.MouseAdapter;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.layout.FormAttachment;
+import org.eclipse.swt.layout.FormData;
+import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.IEditorInput;
@@ -18,20 +30,8 @@ import org.eclipse.ui.part.EditorPart;
 
 import reprotool.ide.service.Service;
 import reprotool.ling.LingTools;
-import reprotool.model.specification.UseCase;
-import reprotool.model.specification.UseCaseStep;
-import org.eclipse.swt.widgets.Tree;
-import org.eclipse.jface.viewers.CellEditor;
-import org.eclipse.jface.viewers.ICellModifier;
-import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.TextCellEditor;
-import org.eclipse.jface.viewers.TreeViewer;
-import org.eclipse.jface.viewers.TreeViewerColumn;
-import org.eclipse.swt.layout.FormLayout;
-import org.eclipse.swt.layout.FormData;
-import org.eclipse.swt.layout.FormAttachment;
-import org.eclipse.swt.events.MouseAdapter;
-import org.eclipse.swt.events.MouseEvent;
+import reprotool.model.usecase.UseCase;
+import reprotool.model.usecase.UseCaseStep;
 
 public class UseCaseEditor extends EditorPart {
 
@@ -77,8 +77,13 @@ public class UseCaseEditor extends EditorPart {
 	public UseCaseStep getSelectedStep() {
 		if (treeViewer.getSelection().isEmpty())
 			return null;
-		else
-			return (UseCaseStep)((IStructuredSelection)treeViewer.getSelection()).getFirstElement();
+		
+		Object element = ((IStructuredSelection)treeViewer.getSelection()).getFirstElement();
+		
+		if(element instanceof UseCaseStep)
+			return (UseCaseStep) element;
+		
+		return null;
 	}
 	
 	public void showSelectedStep()
@@ -167,37 +172,41 @@ public class UseCaseEditor extends EditorPart {
 		
 		treeViewer.setCellModifier(new ICellModifier() {
 			public boolean canModify(Object element, String property) {
-				return SENTENCE_PROPERTY.equals(property) || LABEL_PROPERTY.equals(property);
+				return (element instanceof UseCaseStep) && (SENTENCE_PROPERTY.equals(property) || LABEL_PROPERTY.equals(property));
 			}
 
 			public Object getValue(Object element, String property) {
-				UseCaseStep step = (UseCaseStep)element;
-				if (SENTENCE_PROPERTY.equals(property))
-					return step.getSentence();
-				else if (LABEL_PROPERTY.equals(property)) {
-					if (step.getLabel() == null)
-						return "";
-					else
-						return step.getLabel();
-				} else
-					return null;
+				if(element instanceof UseCaseStep) {
+					UseCaseStep step = (UseCaseStep)element;
+					if (SENTENCE_PROPERTY.equals(property))
+						return step.getSentence();
+					else if (LABEL_PROPERTY.equals(property)) {
+						if (step.getLabel() == null)
+							return "";
+						else
+							return step.getLabel();
+					}
+				}
+				return "";
 			}
 
 			public void modify(Object element, String property, Object value) {
-				UseCaseStep step = (UseCaseStep)(((TreeItem)element).getData());
-				if (SENTENCE_PROPERTY.equals(property)) {
-					step.setSentence(value.toString());
-					treeViewer.update(step, new String[] {SENTENCE_PROPERTY});
-					step.setParsedSentence(lingTools.parseSentence(step.getSentence()));
-				} else if (LABEL_PROPERTY.equals(property)) {
-					final String label = value.toString();
-					if (label.isEmpty() || label.equals("none"))
-						step.setLabel(null);
-					else
-						step.setLabel(label);
-					treeViewer.update(step, new String[] {LABEL_PROPERTY});
+				if(element instanceof UseCaseStep) {
+					UseCaseStep step = (UseCaseStep)(((TreeItem)element).getData());
+					if (SENTENCE_PROPERTY.equals(property)) {
+						step.setSentence(value.toString());
+						treeViewer.update(step, new String[] {SENTENCE_PROPERTY});
+						step.setParsedSentence(lingTools.parseSentence(step.getSentence()));
+					} else if (LABEL_PROPERTY.equals(property)) {
+						final String label = value.toString();
+						if (label.isEmpty() || label.equals("none"))
+							step.setLabel(null);
+						else
+							step.setLabel(label);
+						treeViewer.update(step, new String[] {LABEL_PROPERTY});
+					}
+					showSelectedStep();
 				}
-				showSelectedStep();
 			}
 		});
 		treeViewer.setColumnProperties(new String[] {LABEL_PROPERTY, SENTENCE_PROPERTY, TYPE_PROPERTY, PARSED_PROPERTY});

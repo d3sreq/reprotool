@@ -1,11 +1,11 @@
 package reprotool.ide.commands;
 
+import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.handlers.HandlerUtil;
-import org.eclipse.core.commands.AbstractHandler;
 
 import reprotool.ide.editors.UseCaseEditor;
 import reprotool.ide.views.ParsedTreeView;

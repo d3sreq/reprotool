@@ -5,38 +5,38 @@
          point="org.eclipse.ui.views">
       <category
             id="cz.cuni.mff.reprotool.ide.category_reprotool"
-            name="reprotool">
+            name="ReProTool">
       </category>
       <view
             category="cz.cuni.mff.reprotool.ide.category_reprotool"
             class="reprotool.ide.views.LinguisticToolsView"
             id="cz.cuni.mff.reprotool.ide.views.view_linguistic_tools"
-            name="Linguistic tools"
+            name="Linguistic Tools"
             restorable="true">
       </view>
       <view
             category="cz.cuni.mff.reprotool.ide.category_reprotool"
             class="reprotool.ide.views.ParsedTreeView"
             id="cz.cuni.mff.reprotool.ide.view_parsed_tree"
-            name="parsed tree"
+            name="Parsed Tree"
             restorable="true">
       </view>
       <view
             category="cz.cuni.mff.reprotool.ide.category_reprotool"
             class="reprotool.ide.views.ProjectView"
             id="cz.cuni.mff.reprotool.ide.view_project"
-            name="project"
+            name="Software Project"
             restorable="true">
       </view>
             <view
             category="cz.cuni.mff.reprotool.ide.category_reprotool"
             class="reprotool.ide.views.UcStepView"
             id="cz.cuni.mff.reprotool.ide.uc_step_view"
-            name="usecase step"
+            name="Use-Case Step"
             restorable="true">
       </view>
       <view
-         name="progress view"
+         name="Progress View"
          category="org.eclipse.ui"
          class="org.eclipse.ui.ExtensionFactory:progressView"
          id="org.eclipse.ui.views.ProgressView"

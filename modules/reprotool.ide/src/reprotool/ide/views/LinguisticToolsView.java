@@ -15,6 +15,7 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
@@ -25,7 +26,6 @@ import org.eclipse.wb.swt.layout.grouplayout.LayoutStyle;
 import reprotool.ling.Sentence;
 import reprotool.ling.tools.Tagger;
 import reprotool.ling.tools.Tokenizer;
-import org.eclipse.swt.widgets.Label;
 
 public class LinguisticToolsView extends ViewPart {
 

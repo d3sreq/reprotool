@@ -10,17 +10,20 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.swt.widgets.Combo;
+
+import reprotool.model.swproj.Actor;
+import reprotool.model.swproj.SwprojPackage;
 
 public class ActorDetail extends Dialog {
 
 	private DataBindingContext m_bindingContext;
-	private reprotool.model.specification.Actor actor;
+	private Actor actor;
 	private Text nameText;
 
 	/**
@@ -31,7 +34,7 @@ public class ActorDetail extends Dialog {
 	}
 
 	public ActorDetail(Shell parentShell,
-			reprotool.model.specification.Actor newActor) {
+			Actor newActor) {
 		super(parentShell);
 		setActor(newActor, false);
 	}
@@ -93,7 +96,7 @@ public class ActorDetail extends Dialog {
 		IObservableValue nameObserveValue = EMFObservables
 				.observeValue(
 						actor,
-						reprotool.model.specification.SpecificationPackage.Literals.ACTOR__NAME);
+						SwprojPackage.Literals.ACTOR__NAME);
 		//
 		DataBindingContext bindingContext = new DataBindingContext();
 		//
@@ -103,15 +106,15 @@ public class ActorDetail extends Dialog {
 		return bindingContext;
 	}
 
-	public reprotool.model.specification.Actor getActor() {
+	public Actor getActor() {
 		return actor;
 	}
 
-	public void setActor(reprotool.model.specification.Actor newActor) {
+	public void setActor(Actor newActor) {
 		setActor(newActor, true);
 	}
 
-	public void setActor(reprotool.model.specification.Actor newActor,
+	public void setActor(Actor newActor,
 			boolean update) {
 		actor = newActor;
 		if (update) {

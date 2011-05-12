@@ -6,6 +6,7 @@ import java.util.List;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.SWTEventDispatcher;
+import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
@@ -20,7 +21,6 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.ui.part.ViewPart;
-
 import org.eclipse.zest.core.viewers.GraphViewer;
 import org.eclipse.zest.core.widgets.Graph;
 import org.eclipse.zest.core.widgets.GraphConnection;
@@ -28,14 +28,13 @@ import org.eclipse.zest.core.widgets.GraphNode;
 import org.eclipse.zest.core.widgets.ZestStyles;
 import org.eclipse.zest.layouts.LayoutStyles;
 import org.eclipse.zest.layouts.algorithms.TreeLayoutAlgorithm;
+
 import reprotool.ide.parsetree.NodeContentProvider;
 import reprotool.ide.parsetree.NodeLabelProvider;
 import reprotool.ide.parsetree.NodeModelContentProvider;
 import reprotool.model.linguistic.EWordType;
 import reprotool.model.linguistic.SentenceNode;
 import reprotool.model.linguistic.Word;
-
-import org.eclipse.jface.viewers.LabelProvider;
 
 
 public class ParsedTreeView extends ViewPart {
