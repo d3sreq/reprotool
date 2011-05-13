@@ -8,9 +8,9 @@
             name="REPROTOOL Textual Specification Editor"
             extensions="txtspec"
             icon="icons/sample.gif"
-            contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
-            class="reprotool.ide.txtspec.editors.TxtSpecEditor"
-            id="reprotool.ide.txtspec.editors.TxtSpecEditor">
+            contributorClass="reprotool.ide.txtspec.editors.MultiPageEditorContributor"
+            class="reprotool.ide.txtspec.editors.MultiPageEditor"
+            id="reprotool.ide.txtspec.editors.MultiPageEditor">
       </editor>
    </extension>
 
