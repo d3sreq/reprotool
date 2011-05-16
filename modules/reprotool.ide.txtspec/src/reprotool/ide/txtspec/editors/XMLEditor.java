@@ -11,16 +11,17 @@ public class XMLEditor extends TextEditor {
 		super();
 		colorManager = new ColorManager();
 		setSourceViewerConfiguration(new XMLConfiguration(colorManager));
-		XMLDocProv=new XMLDocumentProvider();
+		XMLDocProv = new XMLDocumentProvider();
 		setDocumentProvider(XMLDocProv);
 	}
+
 	public void dispose() {
 		colorManager.dispose();
 		super.dispose();
 	}
-	public void setDocument(String content)
-	{	
-		XMLDocProv.setDocument(content);
+
+	public void setDocument(String content) {
+//		XMLDocProv.setDocument(content);
 		setDocumentProvider(XMLDocProv);
 	}
 }

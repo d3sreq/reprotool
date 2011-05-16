@@ -21,7 +21,7 @@ import org.xml.sax.ErrorHandler;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
- 
+
 public class ReadXMLFile 
 {
 	private static int count;
@@ -49,6 +49,7 @@ public class ReadXMLFile
  			        throw e;
  			    }
  			};
+ 			
  			File fXmlFile = new File("/home/d/Apps/eclipse-emf/WORKSPACE/DOMParser/src/abc.xml");
  			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
  			dbFactory.setNamespaceAware(true);
@@ -64,7 +65,7 @@ public class ReadXMLFile
  			{
  				String language = XMLConstants.W3C_XML_SCHEMA_NS_URI;
  				SchemaFactory factory = SchemaFactory.newInstance(language);
- 				schema = factory.newSchema(new File("/home/d/Apps/eclipse-emf/WORKSPACE/DOMParser/src/testxsd.xsd"));
+ 				schema = factory.newSchema(new File("platform:/home/d/Apps/eclipse-emf/WORKSPACE/DOMParser/src/testxsd.xsd"));
  			} 
  			catch (Exception e) 
  			{
