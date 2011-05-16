@@ -167,7 +167,7 @@ public class MultiPageEditor extends MultiPageEditorPart implements
 	 * correspond to the nested editor's.
 	 */
 	public void doSaveAs() {
-		IEditorPart editor = getEditor(3);
+		IEditorPart editor = getEditor(1);
 		editor.doSaveAs();
 		setPageText(1, editor.getTitle());
 		setInput(editor.getEditorInput());
