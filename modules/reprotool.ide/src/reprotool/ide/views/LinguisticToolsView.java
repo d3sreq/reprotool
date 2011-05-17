@@ -1,5 +1,7 @@
 package reprotool.ide.views;
 
+import javax.swing.JOptionPane;
+
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -26,11 +28,11 @@ import org.eclipse.wb.swt.layout.grouplayout.LayoutStyle;
 import reprotool.ling.Sentence;
 import reprotool.ling.tools.Tagger;
 import reprotool.ling.tools.Tokenizer;
+import reprotool.ling.wordnet.WordNet;
 
 public class LinguisticToolsView extends ViewPart {
 
 	public static final String ID = "cz.cuni.mff.reprotool.ide.views.LinguisticToolsView"; //$NON-NLS-1$
-	private Text txtTextTestovaci;
 	private Text textInput;
 	private Text textTokenizer;
 	private Text textTagger;
@@ -53,9 +55,21 @@ public class LinguisticToolsView extends ViewPart {
 		btnAnalyze.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				
+				
 				textTokenizer.setText(Tokenizer.getTokens(textInput.getText()).toString());
 				textTagger.setText(Tagger.getMXPOST(textTokenizer.getText()).toString());
-				textNegation.setText(Sentence.getNegation(textTagger.getText()).toString());
+				
+				WordNet.open();
+				
+				Sentence sentence = new Sentence(textTagger.getText());
+				//textNegation.setText("ahoj");
+				//Sentence sentence = new Sentence(textTagger.getText());
+				//JOptionPane.showMessageDialog(null, textTagger.getText(),"Text Message",0);
+				Sentence negation = sentence.getNegation();
+				textNegation.setText(negation.toString());
+				//JOptionPane.showMessageDialog(null, sentence.words.get(0).text,"Text Message",0);
+				WordNet.close();
 			}
 		});		
 		btnAnalyze.setText("Analyze");
