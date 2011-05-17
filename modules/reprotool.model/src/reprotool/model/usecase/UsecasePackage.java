@@ -172,7 +172,7 @@ public interface UsecasePackage extends EPackage {
 	int USE_CASE_STEP__LABEL = SwprojPackage.REQ_COVER_FEATURE_COUNT + 3;
 
 	/**
-	 * The feature id for the '<em><b>Parsed Sentence</b></em>' reference.
+	 * The feature id for the '<em><b>Parsed Sentence</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -209,13 +209,124 @@ public interface UsecasePackage extends EPackage {
 	int SCENARIO__STEPS = 0;
 
 	/**
+	 * The feature id for the '<em><b>Preconditions</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SCENARIO__PRECONDITIONS = 1;
+
+	/**
+	 * The feature id for the '<em><b>Postconditions</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SCENARIO__POSTCONDITIONS = 2;
+
+	/**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SCENARIO__DESCRIPTION = 3;
+
+	/**
 	 * The number of structural features of the '<em>Scenario</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SCENARIO_FEATURE_COUNT = 1;
+	int SCENARIO_FEATURE_COUNT = 4;
+
+	/**
+	 * The meta object id for the '{@link reprotool.model.usecase.Condition <em>Condition</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see reprotool.model.usecase.Condition
+	 * @see reprotool.model.usecase.impl.UsecasePackageImpl#getCondition()
+	 * @generated
+	 */
+	int CONDITION = 5;
+
+	/**
+	 * The feature id for the '<em><b>Sentence</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONDITION__SENTENCE = 0;
+
+	/**
+	 * The number of structural features of the '<em>Condition</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONDITION_FEATURE_COUNT = 1;
+
+	/**
+	 * The meta object id for the '{@link reprotool.model.usecase.impl.PreconditionImpl <em>Precondition</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see reprotool.model.usecase.impl.PreconditionImpl
+	 * @see reprotool.model.usecase.impl.UsecasePackageImpl#getPrecondition()
+	 * @generated
+	 */
+	int PRECONDITION = 3;
+
+	/**
+	 * The feature id for the '<em><b>Sentence</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PRECONDITION__SENTENCE = CONDITION__SENTENCE;
+
+	/**
+	 * The number of structural features of the '<em>Precondition</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PRECONDITION_FEATURE_COUNT = CONDITION_FEATURE_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link reprotool.model.usecase.impl.PostconditionImpl <em>Postcondition</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see reprotool.model.usecase.impl.PostconditionImpl
+	 * @see reprotool.model.usecase.impl.UsecasePackageImpl#getPostcondition()
+	 * @generated
+	 */
+	int POSTCONDITION = 4;
+
+	/**
+	 * The feature id for the '<em><b>Sentence</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int POSTCONDITION__SENTENCE = CONDITION__SENTENCE;
+
+	/**
+	 * The number of structural features of the '<em>Postcondition</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int POSTCONDITION_FEATURE_COUNT = CONDITION_FEATURE_COUNT + 0;
 
 
 	/**
@@ -316,10 +427,10 @@ public interface UsecasePackage extends EPackage {
 	EAttribute getUseCaseStep_Label();
 
 	/**
-	 * Returns the meta object for the reference '{@link reprotool.model.usecase.UseCaseStep#getParsedSentence <em>Parsed Sentence</em>}'.
+	 * Returns the meta object for the containment reference '{@link reprotool.model.usecase.UseCaseStep#getParsedSentence <em>Parsed Sentence</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Parsed Sentence</em>'.
+	 * @return the meta object for the containment reference '<em>Parsed Sentence</em>'.
 	 * @see reprotool.model.usecase.UseCaseStep#getParsedSentence()
 	 * @see #getUseCaseStep()
 	 * @generated
@@ -346,6 +457,80 @@ public interface UsecasePackage extends EPackage {
 	 * @generated
 	 */
 	EReference getScenario_Steps();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link reprotool.model.usecase.Scenario#getPreconditions <em>Preconditions</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Preconditions</em>'.
+	 * @see reprotool.model.usecase.Scenario#getPreconditions()
+	 * @see #getScenario()
+	 * @generated
+	 */
+	EReference getScenario_Preconditions();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link reprotool.model.usecase.Scenario#getPostconditions <em>Postconditions</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Postconditions</em>'.
+	 * @see reprotool.model.usecase.Scenario#getPostconditions()
+	 * @see #getScenario()
+	 * @generated
+	 */
+	EReference getScenario_Postconditions();
+
+	/**
+	 * Returns the meta object for the attribute '{@link reprotool.model.usecase.Scenario#getDescription <em>Description</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Description</em>'.
+	 * @see reprotool.model.usecase.Scenario#getDescription()
+	 * @see #getScenario()
+	 * @generated
+	 */
+	EAttribute getScenario_Description();
+
+	/**
+	 * Returns the meta object for class '{@link reprotool.model.usecase.Precondition <em>Precondition</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Precondition</em>'.
+	 * @see reprotool.model.usecase.Precondition
+	 * @generated
+	 */
+	EClass getPrecondition();
+
+	/**
+	 * Returns the meta object for class '{@link reprotool.model.usecase.Postcondition <em>Postcondition</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Postcondition</em>'.
+	 * @see reprotool.model.usecase.Postcondition
+	 * @generated
+	 */
+	EClass getPostcondition();
+
+	/**
+	 * Returns the meta object for class '{@link reprotool.model.usecase.Condition <em>Condition</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Condition</em>'.
+	 * @see reprotool.model.usecase.Condition
+	 * @generated
+	 */
+	EClass getCondition();
+
+	/**
+	 * Returns the meta object for the attribute '{@link reprotool.model.usecase.Condition#getSentence <em>Sentence</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Sentence</em>'.
+	 * @see reprotool.model.usecase.Condition#getSentence()
+	 * @see #getCondition()
+	 * @generated
+	 */
+	EAttribute getCondition_Sentence();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -446,7 +631,7 @@ public interface UsecasePackage extends EPackage {
 		EAttribute USE_CASE_STEP__LABEL = eINSTANCE.getUseCaseStep_Label();
 
 		/**
-		 * The meta object literal for the '<em><b>Parsed Sentence</b></em>' reference feature.
+		 * The meta object literal for the '<em><b>Parsed Sentence</b></em>' containment reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
@@ -470,6 +655,68 @@ public interface UsecasePackage extends EPackage {
 		 * @generated
 		 */
 		EReference SCENARIO__STEPS = eINSTANCE.getScenario_Steps();
+
+		/**
+		 * The meta object literal for the '<em><b>Preconditions</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SCENARIO__PRECONDITIONS = eINSTANCE.getScenario_Preconditions();
+
+		/**
+		 * The meta object literal for the '<em><b>Postconditions</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SCENARIO__POSTCONDITIONS = eINSTANCE.getScenario_Postconditions();
+
+		/**
+		 * The meta object literal for the '<em><b>Description</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SCENARIO__DESCRIPTION = eINSTANCE.getScenario_Description();
+
+		/**
+		 * The meta object literal for the '{@link reprotool.model.usecase.impl.PreconditionImpl <em>Precondition</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see reprotool.model.usecase.impl.PreconditionImpl
+		 * @see reprotool.model.usecase.impl.UsecasePackageImpl#getPrecondition()
+		 * @generated
+		 */
+		EClass PRECONDITION = eINSTANCE.getPrecondition();
+
+		/**
+		 * The meta object literal for the '{@link reprotool.model.usecase.impl.PostconditionImpl <em>Postcondition</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see reprotool.model.usecase.impl.PostconditionImpl
+		 * @see reprotool.model.usecase.impl.UsecasePackageImpl#getPostcondition()
+		 * @generated
+		 */
+		EClass POSTCONDITION = eINSTANCE.getPostcondition();
+
+		/**
+		 * The meta object literal for the '{@link reprotool.model.usecase.Condition <em>Condition</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see reprotool.model.usecase.Condition
+		 * @see reprotool.model.usecase.impl.UsecasePackageImpl#getCondition()
+		 * @generated
+		 */
+		EClass CONDITION = eINSTANCE.getCondition();
+
+		/**
+		 * The meta object literal for the '<em><b>Sentence</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CONDITION__SENTENCE = eINSTANCE.getCondition_Sentence();
 
 	}
 

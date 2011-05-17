@@ -80,6 +80,26 @@ public class LinguisticAdapterFactory extends AdapterFactoryImpl {
 				return createWordAdapter();
 			}
 			@Override
+			public Adapter caseParseNode(ParseNode object) {
+				return createParseNodeAdapter();
+			}
+			@Override
+			public Adapter caseNounPhraseNode(NounPhraseNode object) {
+				return createNounPhraseNodeAdapter();
+			}
+			@Override
+			public Adapter caseVerbPhraseNode(VerbPhraseNode object) {
+				return createVerbPhraseNodeAdapter();
+			}
+			@Override
+			public Adapter casePrepositionalPhraseNode(PrepositionalPhraseNode object) {
+				return createPrepositionalPhraseNodeAdapter();
+			}
+			@Override
+			public Adapter caseInnerParseNode(InnerParseNode object) {
+				return createInnerParseNodeAdapter();
+			}
+			@Override
 			public Adapter defaultCase(EObject object) {
 				return createEObjectAdapter();
 			}
@@ -124,6 +144,76 @@ public class LinguisticAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createWordAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link reprotool.model.linguistic.ParseNode <em>Parse Node</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see reprotool.model.linguistic.ParseNode
+	 * @generated
+	 */
+	public Adapter createParseNodeAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link reprotool.model.linguistic.NounPhraseNode <em>Noun Phrase Node</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see reprotool.model.linguistic.NounPhraseNode
+	 * @generated
+	 */
+	public Adapter createNounPhraseNodeAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link reprotool.model.linguistic.VerbPhraseNode <em>Verb Phrase Node</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see reprotool.model.linguistic.VerbPhraseNode
+	 * @generated
+	 */
+	public Adapter createVerbPhraseNodeAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link reprotool.model.linguistic.PrepositionalPhraseNode <em>Prepositional Phrase Node</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see reprotool.model.linguistic.PrepositionalPhraseNode
+	 * @generated
+	 */
+	public Adapter createPrepositionalPhraseNodeAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link reprotool.model.linguistic.InnerParseNode <em>Inner Parse Node</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see reprotool.model.linguistic.InnerParseNode
+	 * @generated
+	 */
+	public Adapter createInnerParseNodeAdapter() {
 		return null;
 	}
 

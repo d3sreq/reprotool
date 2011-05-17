@@ -22,22 +22,22 @@ import org.eclipse.emf.ecore.util.InternalEList;
 
 import reprotool.model.linguistic.LinguisticPackage;
 import reprotool.model.linguistic.ParseNode;
-import reprotool.model.linguistic.SentenceNode;
+import reprotool.model.linguistic.VerbPhraseNode;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Sentence Node</b></em>'.
+ * An implementation of the model object '<em><b>Verb Phrase Node</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link reprotool.model.linguistic.impl.SentenceNodeImpl#getChildNodes <em>Child Nodes</em>}</li>
+ *   <li>{@link reprotool.model.linguistic.impl.VerbPhraseNodeImpl#getChildNodes <em>Child Nodes</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class SentenceNodeImpl extends EObjectImpl implements SentenceNode {
+public class VerbPhraseNodeImpl extends EObjectImpl implements VerbPhraseNode {
 	/**
 	 * The cached value of the '{@link #getChildNodes() <em>Child Nodes</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
@@ -53,7 +53,7 @@ public class SentenceNodeImpl extends EObjectImpl implements SentenceNode {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected SentenceNodeImpl() {
+	protected VerbPhraseNodeImpl() {
 		super();
 	}
 
@@ -64,7 +64,7 @@ public class SentenceNodeImpl extends EObjectImpl implements SentenceNode {
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return LinguisticPackage.Literals.SENTENCE_NODE;
+		return LinguisticPackage.Literals.VERB_PHRASE_NODE;
 	}
 
 	/**
@@ -74,7 +74,7 @@ public class SentenceNodeImpl extends EObjectImpl implements SentenceNode {
 	 */
 	public EList<ParseNode> getChildNodes() {
 		if (childNodes == null) {
-			childNodes = new EObjectContainmentEList<ParseNode>(ParseNode.class, this, LinguisticPackage.SENTENCE_NODE__CHILD_NODES);
+			childNodes = new EObjectContainmentEList<ParseNode>(ParseNode.class, this, LinguisticPackage.VERB_PHRASE_NODE__CHILD_NODES);
 		}
 		return childNodes;
 	}
@@ -87,7 +87,7 @@ public class SentenceNodeImpl extends EObjectImpl implements SentenceNode {
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case LinguisticPackage.SENTENCE_NODE__CHILD_NODES:
+			case LinguisticPackage.VERB_PHRASE_NODE__CHILD_NODES:
 				return ((InternalEList<?>)getChildNodes()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
@@ -101,7 +101,7 @@ public class SentenceNodeImpl extends EObjectImpl implements SentenceNode {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case LinguisticPackage.SENTENCE_NODE__CHILD_NODES:
+			case LinguisticPackage.VERB_PHRASE_NODE__CHILD_NODES:
 				return getChildNodes();
 		}
 		return super.eGet(featureID, resolve, coreType);
@@ -116,7 +116,7 @@ public class SentenceNodeImpl extends EObjectImpl implements SentenceNode {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case LinguisticPackage.SENTENCE_NODE__CHILD_NODES:
+			case LinguisticPackage.VERB_PHRASE_NODE__CHILD_NODES:
 				getChildNodes().clear();
 				getChildNodes().addAll((Collection<? extends ParseNode>)newValue);
 				return;
@@ -132,7 +132,7 @@ public class SentenceNodeImpl extends EObjectImpl implements SentenceNode {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case LinguisticPackage.SENTENCE_NODE__CHILD_NODES:
+			case LinguisticPackage.VERB_PHRASE_NODE__CHILD_NODES:
 				getChildNodes().clear();
 				return;
 		}
@@ -147,10 +147,10 @@ public class SentenceNodeImpl extends EObjectImpl implements SentenceNode {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case LinguisticPackage.SENTENCE_NODE__CHILD_NODES:
+			case LinguisticPackage.VERB_PHRASE_NODE__CHILD_NODES:
 				return childNodes != null && !childNodes.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}
 
-} //SentenceNodeImpl
+} //VerbPhraseNodeImpl

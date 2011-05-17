@@ -61,6 +61,53 @@ public interface LinguisticPackage extends EPackage {
 	LinguisticPackage eINSTANCE = reprotool.model.linguistic.impl.LinguisticPackageImpl.init();
 
 	/**
+	 * The meta object id for the '{@link reprotool.model.linguistic.ParseNode <em>Parse Node</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see reprotool.model.linguistic.ParseNode
+	 * @see reprotool.model.linguistic.impl.LinguisticPackageImpl#getParseNode()
+	 * @generated
+	 */
+	int PARSE_NODE = 2;
+
+	/**
+	 * The number of structural features of the '<em>Parse Node</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PARSE_NODE_FEATURE_COUNT = 0;
+
+	/**
+	 * The meta object id for the '{@link reprotool.model.linguistic.InnerParseNode <em>Inner Parse Node</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see reprotool.model.linguistic.InnerParseNode
+	 * @see reprotool.model.linguistic.impl.LinguisticPackageImpl#getInnerParseNode()
+	 * @generated
+	 */
+	int INNER_PARSE_NODE = 6;
+
+	/**
+	 * The feature id for the '<em><b>Child Nodes</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INNER_PARSE_NODE__CHILD_NODES = PARSE_NODE_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Inner Parse Node</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INNER_PARSE_NODE_FEATURE_COUNT = PARSE_NODE_FEATURE_COUNT + 1;
+
+	/**
 	 * The meta object id for the '{@link reprotool.model.linguistic.impl.SentenceNodeImpl <em>Sentence Node</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -71,22 +118,13 @@ public interface LinguisticPackage extends EPackage {
 	int SENTENCE_NODE = 0;
 
 	/**
-	 * The feature id for the '<em><b>Child Fragments</b></em>' reference list.
+	 * The feature id for the '<em><b>Child Nodes</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SENTENCE_NODE__CHILD_FRAGMENTS = 0;
-
-	/**
-	 * The feature id for the '<em><b>Type</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SENTENCE_NODE__TYPE = 1;
+	int SENTENCE_NODE__CHILD_NODES = INNER_PARSE_NODE__CHILD_NODES;
 
 	/**
 	 * The number of structural features of the '<em>Sentence Node</em>' class.
@@ -95,7 +133,7 @@ public interface LinguisticPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SENTENCE_NODE_FEATURE_COUNT = 2;
+	int SENTENCE_NODE_FEATURE_COUNT = INNER_PARSE_NODE_FEATURE_COUNT + 0;
 
 	/**
 	 * The meta object id for the '{@link reprotool.model.linguistic.impl.WordImpl <em>Word</em>}' class.
@@ -108,31 +146,13 @@ public interface LinguisticPackage extends EPackage {
 	int WORD = 1;
 
 	/**
-	 * The feature id for the '<em><b>Child Fragments</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int WORD__CHILD_FRAGMENTS = SENTENCE_NODE__CHILD_FRAGMENTS;
-
-	/**
-	 * The feature id for the '<em><b>Type</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int WORD__TYPE = SENTENCE_NODE__TYPE;
-
-	/**
 	 * The feature id for the '<em><b>Word Str</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int WORD__WORD_STR = SENTENCE_NODE_FEATURE_COUNT + 0;
+	int WORD__WORD_STR = PARSE_NODE_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Word Type</b></em>' attribute.
@@ -141,7 +161,7 @@ public interface LinguisticPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int WORD__WORD_TYPE = SENTENCE_NODE_FEATURE_COUNT + 1;
+	int WORD__WORD_TYPE = PARSE_NODE_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of structural features of the '<em>Word</em>' class.
@@ -150,7 +170,91 @@ public interface LinguisticPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int WORD_FEATURE_COUNT = SENTENCE_NODE_FEATURE_COUNT + 2;
+	int WORD_FEATURE_COUNT = PARSE_NODE_FEATURE_COUNT + 2;
+
+	/**
+	 * The meta object id for the '{@link reprotool.model.linguistic.impl.NounPhraseNodeImpl <em>Noun Phrase Node</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see reprotool.model.linguistic.impl.NounPhraseNodeImpl
+	 * @see reprotool.model.linguistic.impl.LinguisticPackageImpl#getNounPhraseNode()
+	 * @generated
+	 */
+	int NOUN_PHRASE_NODE = 3;
+
+	/**
+	 * The feature id for the '<em><b>Child Nodes</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NOUN_PHRASE_NODE__CHILD_NODES = INNER_PARSE_NODE__CHILD_NODES;
+
+	/**
+	 * The number of structural features of the '<em>Noun Phrase Node</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NOUN_PHRASE_NODE_FEATURE_COUNT = INNER_PARSE_NODE_FEATURE_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link reprotool.model.linguistic.impl.VerbPhraseNodeImpl <em>Verb Phrase Node</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see reprotool.model.linguistic.impl.VerbPhraseNodeImpl
+	 * @see reprotool.model.linguistic.impl.LinguisticPackageImpl#getVerbPhraseNode()
+	 * @generated
+	 */
+	int VERB_PHRASE_NODE = 4;
+
+	/**
+	 * The feature id for the '<em><b>Child Nodes</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VERB_PHRASE_NODE__CHILD_NODES = INNER_PARSE_NODE__CHILD_NODES;
+
+	/**
+	 * The number of structural features of the '<em>Verb Phrase Node</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VERB_PHRASE_NODE_FEATURE_COUNT = INNER_PARSE_NODE_FEATURE_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link reprotool.model.linguistic.impl.PrepositionalPhraseNodeImpl <em>Prepositional Phrase Node</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see reprotool.model.linguistic.impl.PrepositionalPhraseNodeImpl
+	 * @see reprotool.model.linguistic.impl.LinguisticPackageImpl#getPrepositionalPhraseNode()
+	 * @generated
+	 */
+	int PREPOSITIONAL_PHRASE_NODE = 5;
+
+	/**
+	 * The feature id for the '<em><b>Child Nodes</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PREPOSITIONAL_PHRASE_NODE__CHILD_NODES = INNER_PARSE_NODE__CHILD_NODES;
+
+	/**
+	 * The number of structural features of the '<em>Prepositional Phrase Node</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PREPOSITIONAL_PHRASE_NODE_FEATURE_COUNT = INNER_PARSE_NODE_FEATURE_COUNT + 0;
 
 	/**
 	 * The meta object id for the '{@link reprotool.model.linguistic.EWordType <em>EWord Type</em>}' enum.
@@ -160,7 +264,7 @@ public interface LinguisticPackage extends EPackage {
 	 * @see reprotool.model.linguistic.impl.LinguisticPackageImpl#getEWordType()
 	 * @generated
 	 */
-	int EWORD_TYPE = 2;
+	int EWORD_TYPE = 7;
 
 
 	/**
@@ -172,28 +276,6 @@ public interface LinguisticPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getSentenceNode();
-
-	/**
-	 * Returns the meta object for the reference list '{@link reprotool.model.linguistic.SentenceNode#getChildFragments <em>Child Fragments</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Child Fragments</em>'.
-	 * @see reprotool.model.linguistic.SentenceNode#getChildFragments()
-	 * @see #getSentenceNode()
-	 * @generated
-	 */
-	EReference getSentenceNode_ChildFragments();
-
-	/**
-	 * Returns the meta object for the attribute '{@link reprotool.model.linguistic.SentenceNode#getType <em>Type</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Type</em>'.
-	 * @see reprotool.model.linguistic.SentenceNode#getType()
-	 * @see #getSentenceNode()
-	 * @generated
-	 */
-	EAttribute getSentenceNode_Type();
 
 	/**
 	 * Returns the meta object for class '{@link reprotool.model.linguistic.Word <em>Word</em>}'.
@@ -226,6 +308,67 @@ public interface LinguisticPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getWord_WordType();
+
+	/**
+	 * Returns the meta object for class '{@link reprotool.model.linguistic.ParseNode <em>Parse Node</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Parse Node</em>'.
+	 * @see reprotool.model.linguistic.ParseNode
+	 * @generated
+	 */
+	EClass getParseNode();
+
+	/**
+	 * Returns the meta object for class '{@link reprotool.model.linguistic.NounPhraseNode <em>Noun Phrase Node</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Noun Phrase Node</em>'.
+	 * @see reprotool.model.linguistic.NounPhraseNode
+	 * @generated
+	 */
+	EClass getNounPhraseNode();
+
+	/**
+	 * Returns the meta object for class '{@link reprotool.model.linguistic.VerbPhraseNode <em>Verb Phrase Node</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Verb Phrase Node</em>'.
+	 * @see reprotool.model.linguistic.VerbPhraseNode
+	 * @generated
+	 */
+	EClass getVerbPhraseNode();
+
+	/**
+	 * Returns the meta object for class '{@link reprotool.model.linguistic.PrepositionalPhraseNode <em>Prepositional Phrase Node</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Prepositional Phrase Node</em>'.
+	 * @see reprotool.model.linguistic.PrepositionalPhraseNode
+	 * @generated
+	 */
+	EClass getPrepositionalPhraseNode();
+
+	/**
+	 * Returns the meta object for class '{@link reprotool.model.linguistic.InnerParseNode <em>Inner Parse Node</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Inner Parse Node</em>'.
+	 * @see reprotool.model.linguistic.InnerParseNode
+	 * @generated
+	 */
+	EClass getInnerParseNode();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link reprotool.model.linguistic.InnerParseNode#getChildNodes <em>Child Nodes</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Child Nodes</em>'.
+	 * @see reprotool.model.linguistic.InnerParseNode#getChildNodes()
+	 * @see #getInnerParseNode()
+	 * @generated
+	 */
+	EReference getInnerParseNode_ChildNodes();
 
 	/**
 	 * Returns the meta object for enum '{@link reprotool.model.linguistic.EWordType <em>EWord Type</em>}'.
@@ -270,22 +413,6 @@ public interface LinguisticPackage extends EPackage {
 		EClass SENTENCE_NODE = eINSTANCE.getSentenceNode();
 
 		/**
-		 * The meta object literal for the '<em><b>Child Fragments</b></em>' reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference SENTENCE_NODE__CHILD_FRAGMENTS = eINSTANCE.getSentenceNode_ChildFragments();
-
-		/**
-		 * The meta object literal for the '<em><b>Type</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute SENTENCE_NODE__TYPE = eINSTANCE.getSentenceNode_Type();
-
-		/**
 		 * The meta object literal for the '{@link reprotool.model.linguistic.impl.WordImpl <em>Word</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -310,6 +437,64 @@ public interface LinguisticPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute WORD__WORD_TYPE = eINSTANCE.getWord_WordType();
+
+		/**
+		 * The meta object literal for the '{@link reprotool.model.linguistic.ParseNode <em>Parse Node</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see reprotool.model.linguistic.ParseNode
+		 * @see reprotool.model.linguistic.impl.LinguisticPackageImpl#getParseNode()
+		 * @generated
+		 */
+		EClass PARSE_NODE = eINSTANCE.getParseNode();
+
+		/**
+		 * The meta object literal for the '{@link reprotool.model.linguistic.impl.NounPhraseNodeImpl <em>Noun Phrase Node</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see reprotool.model.linguistic.impl.NounPhraseNodeImpl
+		 * @see reprotool.model.linguistic.impl.LinguisticPackageImpl#getNounPhraseNode()
+		 * @generated
+		 */
+		EClass NOUN_PHRASE_NODE = eINSTANCE.getNounPhraseNode();
+
+		/**
+		 * The meta object literal for the '{@link reprotool.model.linguistic.impl.VerbPhraseNodeImpl <em>Verb Phrase Node</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see reprotool.model.linguistic.impl.VerbPhraseNodeImpl
+		 * @see reprotool.model.linguistic.impl.LinguisticPackageImpl#getVerbPhraseNode()
+		 * @generated
+		 */
+		EClass VERB_PHRASE_NODE = eINSTANCE.getVerbPhraseNode();
+
+		/**
+		 * The meta object literal for the '{@link reprotool.model.linguistic.impl.PrepositionalPhraseNodeImpl <em>Prepositional Phrase Node</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see reprotool.model.linguistic.impl.PrepositionalPhraseNodeImpl
+		 * @see reprotool.model.linguistic.impl.LinguisticPackageImpl#getPrepositionalPhraseNode()
+		 * @generated
+		 */
+		EClass PREPOSITIONAL_PHRASE_NODE = eINSTANCE.getPrepositionalPhraseNode();
+
+		/**
+		 * The meta object literal for the '{@link reprotool.model.linguistic.InnerParseNode <em>Inner Parse Node</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see reprotool.model.linguistic.InnerParseNode
+		 * @see reprotool.model.linguistic.impl.LinguisticPackageImpl#getInnerParseNode()
+		 * @generated
+		 */
+		EClass INNER_PARSE_NODE = eINSTANCE.getInnerParseNode();
+
+		/**
+		 * The meta object literal for the '<em><b>Child Nodes</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference INNER_PARSE_NODE__CHILD_NODES = eINSTANCE.getInnerParseNode_ChildNodes();
 
 		/**
 		 * The meta object literal for the '{@link reprotool.model.linguistic.EWordType <em>EWord Type</em>}' enum.

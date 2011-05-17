@@ -63,6 +63,8 @@ public class UsecaseFactoryImpl extends EFactoryImpl implements UsecaseFactory {
 			case UsecasePackage.USE_CASE: return createUseCase();
 			case UsecasePackage.USE_CASE_STEP: return createUseCaseStep();
 			case UsecasePackage.SCENARIO: return createScenario();
+			case UsecasePackage.PRECONDITION: return createPrecondition();
+			case UsecasePackage.POSTCONDITION: return createPostcondition();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -96,6 +98,26 @@ public class UsecaseFactoryImpl extends EFactoryImpl implements UsecaseFactory {
 	public Scenario createScenario() {
 		ScenarioImpl scenario = new ScenarioImpl();
 		return scenario;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Precondition createPrecondition() {
+		PreconditionImpl precondition = new PreconditionImpl();
+		return precondition;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Postcondition createPostcondition() {
+		PostconditionImpl postcondition = new PostconditionImpl();
+		return postcondition;
 	}
 
 	/**

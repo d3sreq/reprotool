@@ -2,13 +2,16 @@ package reprotool.ide.parsetree;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import reprotool.model.linguistic.InnerParseNode;
+import reprotool.model.linguistic.ParseNode;
 import reprotool.model.linguistic.SentenceNode;
 
 public class NodeModelContentProvider {
 	private SentenceNode sentence;
 	
-	public List<SentenceNode> getNodes() {
-		List<SentenceNode> list = new ArrayList<SentenceNode>();
+	public List<ParseNode> getNodes() {
+		List<ParseNode> list = new ArrayList<ParseNode>();
 		return buildNodesList(sentence, list);
 	}
 	
@@ -20,11 +23,13 @@ public class NodeModelContentProvider {
 		return sentence;
 	}
 	
-	private List<SentenceNode> buildNodesList(SentenceNode node, List<SentenceNode> list) {
+	private List<ParseNode> buildNodesList(ParseNode node, List<ParseNode> list) {
 		list.add(node);
 		
-		for (SentenceNode i: node.getChildFragments()) {
-			buildNodesList(i, list);
+		if(node instanceof InnerParseNode) {
+			for (ParseNode i: ((InnerParseNode)node).getChildNodes()) {
+				buildNodesList(i, list);
+			}
 		}
 		
 		return list;

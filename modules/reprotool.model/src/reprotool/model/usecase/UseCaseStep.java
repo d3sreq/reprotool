@@ -68,10 +68,11 @@ public interface UseCaseStep extends ReqCover {
 	/**
 	 * Returns the value of the '<em><b>Sentence</b></em>' attribute.
 	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Sentence</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
 	 * <!-- end-user-doc -->
-	 * <!-- begin-model-doc -->
-	 * Description
-	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Sentence</em>' attribute.
 	 * @see #setSentence(String)
 	 * @see reprotool.model.usecase.UsecasePackage#getUseCaseStep_Sentence()
@@ -117,26 +118,26 @@ public interface UseCaseStep extends ReqCover {
 	void setLabel(String value);
 
 	/**
-	 * Returns the value of the '<em><b>Parsed Sentence</b></em>' reference.
+	 * Returns the value of the '<em><b>Parsed Sentence</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Parsed Sentence</em>' reference isn't clear,
+	 * If the meaning of the '<em>Parsed Sentence</em>' containment reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Parsed Sentence</em>' reference.
+	 * @return the value of the '<em>Parsed Sentence</em>' containment reference.
 	 * @see #setParsedSentence(SentenceNode)
 	 * @see reprotool.model.usecase.UsecasePackage#getUseCaseStep_ParsedSentence()
-	 * @model transient="true"
+	 * @model containment="true"
 	 * @generated
 	 */
 	SentenceNode getParsedSentence();
 
 	/**
-	 * Sets the value of the '{@link reprotool.model.usecase.UseCaseStep#getParsedSentence <em>Parsed Sentence</em>}' reference.
+	 * Sets the value of the '{@link reprotool.model.usecase.UseCaseStep#getParsedSentence <em>Parsed Sentence</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Parsed Sentence</em>' reference.
+	 * @param value the new value of the '<em>Parsed Sentence</em>' containment reference.
 	 * @see #getParsedSentence()
 	 * @generated
 	 */

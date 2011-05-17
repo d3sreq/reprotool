@@ -44,6 +44,33 @@ public interface LinguisticFactory extends EFactory {
 	Word createWord();
 
 	/**
+	 * Returns a new object of class '<em>Noun Phrase Node</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Noun Phrase Node</em>'.
+	 * @generated
+	 */
+	NounPhraseNode createNounPhraseNode();
+
+	/**
+	 * Returns a new object of class '<em>Verb Phrase Node</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Verb Phrase Node</em>'.
+	 * @generated
+	 */
+	VerbPhraseNode createVerbPhraseNode();
+
+	/**
+	 * Returns a new object of class '<em>Prepositional Phrase Node</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Prepositional Phrase Node</em>'.
+	 * @generated
+	 */
+	PrepositionalPhraseNode createPrepositionalPhraseNode();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

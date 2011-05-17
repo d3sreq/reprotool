@@ -2,13 +2,12 @@
 <genmodel:GenModel xmi:version="2.0"
     xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
     xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/reprotool.model/src"
-    modelPluginID="reprotool.model" modelName="Reprotool Model" importerID="org.eclipse.emf.importer.ecore"
+    modelPluginID="reprotool.model" modelName="Reprotool" importerID="org.eclipse.emf.importer.ecore"
     complianceLevel="6.0" copyrightFields="false">
   <foreignModel>reprotool.model.ecore</foreignModel>
   <genPackages prefix="Model" basePackage="reprotool" disposableProviderFactory="true"
       ecorePackage="reprotool.model.ecore#/">
-    <nestedGenPackages prefix="Lts" resource="XML" disposableProviderFactory="true"
-        ecorePackage="reprotool.model.ecore#//lts">
+    <nestedGenPackages prefix="Lts" disposableProviderFactory="true" ecorePackage="reprotool.model.ecore#//lts">
       <genClasses image="false" ecoreClass="reprotool.model.ecore#//lts/Transition">
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
             ecoreFeature="ecore:EReference reprotool.model.ecore#//lts/Transition/sentence"/>
@@ -34,8 +33,7 @@
             ecoreFeature="ecore:EReference reprotool.model.ecore#//lts/GuardTransition/negatedGuards"/>
       </genClasses>
     </nestedGenPackages>
-    <nestedGenPackages prefix="Usecase" resource="XML" disposableProviderFactory="true"
-        ecorePackage="reprotool.model.ecore#//usecase">
+    <nestedGenPackages prefix="Usecase" disposableProviderFactory="true" ecorePackage="reprotool.model.ecore#//usecase">
       <genClasses ecoreClass="reprotool.model.ecore#//usecase/UseCase">
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
             ecoreFeature="ecore:EReference reprotool.model.ecore#//usecase/UseCase/primaryActor"/>
@@ -47,15 +45,22 @@
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference reprotool.model.ecore#//usecase/UseCaseStep/variation"/>
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reprotool.model.ecore#//usecase/UseCaseStep/Sentence"/>
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reprotool.model.ecore#//usecase/UseCaseStep/Label"/>
-        <genFeatures notify="false" createChild="false" propertySortChoices="true"
-            ecoreFeature="ecore:EReference reprotool.model.ecore#//usecase/UseCaseStep/parsedSentence"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference reprotool.model.ecore#//usecase/UseCaseStep/parsedSentence"/>
       </genClasses>
       <genClasses ecoreClass="reprotool.model.ecore#//usecase/Scenario">
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference reprotool.model.ecore#//usecase/Scenario/steps"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference reprotool.model.ecore#//usecase/Scenario/preconditions"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference reprotool.model.ecore#//usecase/Scenario/postconditions"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reprotool.model.ecore#//usecase/Scenario/Description"/>
+        <genOperations ecoreOperation="reprotool.model.ecore#//usecase/Scenario/getInfo"/>
+      </genClasses>
+      <genClasses ecoreClass="reprotool.model.ecore#//usecase/Precondition"/>
+      <genClasses ecoreClass="reprotool.model.ecore#//usecase/Postcondition"/>
+      <genClasses image="false" ecoreClass="reprotool.model.ecore#//usecase/Condition">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reprotool.model.ecore#//usecase/Condition/Sentence"/>
       </genClasses>
     </nestedGenPackages>
-    <nestedGenPackages prefix="Swproj" resource="XML" disposableProviderFactory="true"
-        ecorePackage="reprotool.model.ecore#//swproj">
+    <nestedGenPackages prefix="Swproj" disposableProviderFactory="true" ecorePackage="reprotool.model.ecore#//swproj">
       <genClasses ecoreClass="reprotool.model.ecore#//swproj/SoftwareProject">
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference reprotool.model.ecore#//swproj/SoftwareProject/actors"/>
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reprotool.model.ecore#//swproj/SoftwareProject/Name"/>
@@ -74,16 +79,14 @@
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reprotool.model.ecore#//swproj/Actor/Name"/>
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reprotool.model.ecore#//swproj/Actor/Description"/>
       </genClasses>
-    </nestedGenPackages>
-    <nestedGenPackages prefix="Requirements" disposableProviderFactory="true" ecorePackage="reprotool.model.ecore#//requirements">
-      <genClasses ecoreClass="reprotool.model.ecore#//requirements/Requirement">
-        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reprotool.model.ecore#//requirements/Requirement/originalText"/>
-        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reprotool.model.ecore#//requirements/Requirement/originalId"/>
+      <genClasses ecoreClass="reprotool.model.ecore#//swproj/Requirement">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reprotool.model.ecore#//swproj/Requirement/originalText"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reprotool.model.ecore#//swproj/Requirement/originalId"/>
       </genClasses>
-      <genClasses ecoreClass="reprotool.model.ecore#//requirements/NFRequirement"/>
-      <genClasses image="false" ecoreClass="reprotool.model.ecore#//requirements/ReqCover">
+      <genClasses ecoreClass="reprotool.model.ecore#//swproj/NFRequirement"/>
+      <genClasses image="false" ecoreClass="reprotool.model.ecore#//swproj/ReqCover">
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
-            ecoreFeature="ecore:EReference reprotool.model.ecore#//requirements/ReqCover/relatedRequirements"/>
+            ecoreFeature="ecore:EReference reprotool.model.ecore#//swproj/ReqCover/relatedRequirements"/>
       </genClasses>
     </nestedGenPackages>
     <nestedGenPackages prefix="Traceability" disposableProviderFactory="true" ecorePackage="reprotool.model.ecore#//traceability">
@@ -106,8 +109,7 @@
         <genEnumLiterals ecoreEnumLiteral="reprotool.model.ecore#//linguistic/EWordType/ConditionLabel"/>
       </genEnums>
       <genClasses ecoreClass="reprotool.model.ecore#//linguistic/SentenceNode">
-        <genFeatures notify="false" createChild="false" propertySortChoices="true"
-            ecoreFeature="ecore:EReference reprotool.model.ecore#//linguistic/SentenceNode/childFragments"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference reprotool.model.ecore#//linguistic/SentenceNode/childFragments"/>
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reprotool.model.ecore#//linguistic/SentenceNode/type"/>
       </genClasses>
       <genClasses ecoreClass="reprotool.model.ecore#//linguistic/Word">
@@ -156,8 +158,7 @@
       </genClasses>
       <genClasses ecoreClass="reprotool.model.ecore#//doc/Paragraph"/>
     </nestedGenPackages>
-    <nestedGenPackages prefix="Procases" resource="XML" disposableProviderFactory="true"
-        ecorePackage="reprotool.model.ecore#//procases">
+    <nestedGenPackages prefix="Procases" disposableProviderFactory="true" ecorePackage="reprotool.model.ecore#//procases">
       <genClasses image="false" ecoreClass="reprotool.model.ecore#//procases/Action">
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
             ecoreFeature="ecore:EReference reprotool.model.ecore#//procases/Action/nextAction"/>

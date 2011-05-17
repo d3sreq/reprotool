@@ -11,7 +11,10 @@ import org.eclipse.swt.graphics.PaletteData;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.zest.core.viewers.EntityConnectionData;
 
+import reprotool.model.linguistic.NounPhraseNode;
+import reprotool.model.linguistic.PrepositionalPhraseNode;
 import reprotool.model.linguistic.SentenceNode;
+import reprotool.model.linguistic.VerbPhraseNode;
 import reprotool.model.linguistic.Word;
 
 public class NodeLabelProvider extends LabelProvider {
@@ -19,14 +22,16 @@ public class NodeLabelProvider extends LabelProvider {
 	@Override
 	public String getText(Object element) {
 		
-		if (element instanceof Word) {
+		if (element instanceof Word)
 			return null;
-		}
-		
-		if (element instanceof SentenceNode) {
-			SentenceNode sentence = (SentenceNode) element;
-			return sentence.getType();
-		}
+		if (element instanceof SentenceNode)
+			return "Sentence";
+		if(element instanceof NounPhraseNode)
+			return "Noun phrase";
+		if(element instanceof VerbPhraseNode)
+			return "Verb phrase";
+		if(element instanceof PrepositionalPhraseNode)
+			return "Prep. phrase";
 		
 		if (element instanceof EntityConnectionData) {
 			return null;
@@ -36,7 +41,7 @@ public class NodeLabelProvider extends LabelProvider {
 	}
 	
 	public int countNodeWidth(Word w) {
-		int strLen = w.getType().length();
+		int strLen = "wordType".length();
 		if (strLen < w.getWordStr().length()) {
 			strLen = w.getWordStr().length();
 		}
@@ -47,8 +52,8 @@ public class NodeLabelProvider extends LabelProvider {
 		}
 		
 		if (
-				(w.getType().length() <= 7) &&
-				(w.getWordStr().length() <= w.getType().length())
+				("wordType".length() <= 7) &&
+				(w.getWordStr().length() <= "wordType".length())
 		) {
 			width += 7;
 		}
@@ -65,8 +70,8 @@ public class NodeLabelProvider extends LabelProvider {
 			
 			String offset = "";
 			if (
-					(word.getType().length() <= 7) &&
-					(word.getWordStr().length() <= word.getType().length())
+					("wordType".length() <= 7) &&
+					(word.getWordStr().length() <= "wordType".length())
 			) {	
 				offset = " ";
 			}
@@ -84,7 +89,7 @@ public class NodeLabelProvider extends LabelProvider {
 			gc.fillRectangle(image.getBounds());
 			gc.drawLine(0, 15, 110, 15);
 			gc.setFont(new Font(Display.getDefault(), "Arial", 8, SWT.BOLD | SWT.ITALIC));
-			gc.drawText(word.getType() + offset, 0, 0);
+			gc.drawText("wordType" + offset, 0, 0);
 			gc.setForeground(new Color(Display.getDefault(), 255, 0, 0));
 			gc.setFont(new Font(Display.getDefault(), "Arial", 8, SWT.BOLD));
 			gc.drawText(word.getWordStr(), 0, 18);

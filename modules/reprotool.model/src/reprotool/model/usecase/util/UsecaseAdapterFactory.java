@@ -88,6 +88,18 @@ public class UsecaseAdapterFactory extends AdapterFactoryImpl {
 				return createScenarioAdapter();
 			}
 			@Override
+			public Adapter casePrecondition(Precondition object) {
+				return createPreconditionAdapter();
+			}
+			@Override
+			public Adapter casePostcondition(Postcondition object) {
+				return createPostconditionAdapter();
+			}
+			@Override
+			public Adapter caseCondition(Condition object) {
+				return createConditionAdapter();
+			}
+			@Override
 			public Adapter caseReqCover(ReqCover object) {
 				return createReqCoverAdapter();
 			}
@@ -154,6 +166,48 @@ public class UsecaseAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createScenarioAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link reprotool.model.usecase.Precondition <em>Precondition</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see reprotool.model.usecase.Precondition
+	 * @generated
+	 */
+	public Adapter createPreconditionAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link reprotool.model.usecase.Postcondition <em>Postcondition</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see reprotool.model.usecase.Postcondition
+	 * @generated
+	 */
+	public Adapter createPostconditionAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link reprotool.model.usecase.Condition <em>Condition</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see reprotool.model.usecase.Condition
+	 * @generated
+	 */
+	public Adapter createConditionAdapter() {
 		return null;
 	}
 

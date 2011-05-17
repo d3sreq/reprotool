@@ -63,6 +63,9 @@ public class LinguisticFactoryImpl extends EFactoryImpl implements LinguisticFac
 		switch (eClass.getClassifierID()) {
 			case LinguisticPackage.SENTENCE_NODE: return createSentenceNode();
 			case LinguisticPackage.WORD: return createWord();
+			case LinguisticPackage.NOUN_PHRASE_NODE: return createNounPhraseNode();
+			case LinguisticPackage.VERB_PHRASE_NODE: return createVerbPhraseNode();
+			case LinguisticPackage.PREPOSITIONAL_PHRASE_NODE: return createPrepositionalPhraseNode();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -116,6 +119,36 @@ public class LinguisticFactoryImpl extends EFactoryImpl implements LinguisticFac
 	public Word createWord() {
 		WordImpl word = new WordImpl();
 		return word;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NounPhraseNode createNounPhraseNode() {
+		NounPhraseNodeImpl nounPhraseNode = new NounPhraseNodeImpl();
+		return nounPhraseNode;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public VerbPhraseNode createVerbPhraseNode() {
+		VerbPhraseNodeImpl verbPhraseNode = new VerbPhraseNodeImpl();
+		return verbPhraseNode;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public PrepositionalPhraseNode createPrepositionalPhraseNode() {
+		PrepositionalPhraseNodeImpl prepositionalPhraseNode = new PrepositionalPhraseNodeImpl();
+		return prepositionalPhraseNode;
 	}
 
 	/**

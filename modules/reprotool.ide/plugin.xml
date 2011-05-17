@@ -206,6 +206,9 @@
                relative="org.eclipse.ui.views.PropertySheet"
                visible="true">
          </view>
+         <newWizardShortcut
+               id="reprotool.ide.wizard1">
+         </newWizardShortcut>
       </perspectiveExtension>
    </extension>
 

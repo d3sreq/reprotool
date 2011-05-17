@@ -24,7 +24,7 @@ package reprotool.model.linguistic;
  * @model
  * @generated
  */
-public interface Word extends SentenceNode {
+public interface Word extends ParseNode {
 	/**
 	 * Returns the value of the '<em><b>Word Str</b></em>' attribute.
 	 * <!-- begin-user-doc -->

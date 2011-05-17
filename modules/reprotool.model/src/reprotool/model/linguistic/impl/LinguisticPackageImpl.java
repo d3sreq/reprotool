@@ -27,9 +27,14 @@ import reprotool.model.doc.DocPackage;
 import reprotool.model.doc.impl.DocPackageImpl;
 
 import reprotool.model.linguistic.EWordType;
+import reprotool.model.linguistic.InnerParseNode;
 import reprotool.model.linguistic.LinguisticFactory;
 import reprotool.model.linguistic.LinguisticPackage;
+import reprotool.model.linguistic.NounPhraseNode;
+import reprotool.model.linguistic.ParseNode;
+import reprotool.model.linguistic.PrepositionalPhraseNode;
 import reprotool.model.linguistic.SentenceNode;
+import reprotool.model.linguistic.VerbPhraseNode;
 import reprotool.model.linguistic.Word;
 
 import reprotool.model.lts.LtsPackage;
@@ -72,6 +77,41 @@ public class LinguisticPackageImpl extends EPackageImpl implements LinguisticPac
 	 * @generated
 	 */
 	private EClass wordEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass parseNodeEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass nounPhraseNodeEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass verbPhraseNodeEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass prepositionalPhraseNodeEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass innerParseNodeEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -181,24 +221,6 @@ public class LinguisticPackageImpl extends EPackageImpl implements LinguisticPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getSentenceNode_ChildFragments() {
-		return (EReference)sentenceNodeEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getSentenceNode_Type() {
-		return (EAttribute)sentenceNodeEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EClass getWord() {
 		return wordEClass;
 	}
@@ -219,6 +241,60 @@ public class LinguisticPackageImpl extends EPackageImpl implements LinguisticPac
 	 */
 	public EAttribute getWord_WordType() {
 		return (EAttribute)wordEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getParseNode() {
+		return parseNodeEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getNounPhraseNode() {
+		return nounPhraseNodeEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getVerbPhraseNode() {
+		return verbPhraseNodeEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getPrepositionalPhraseNode() {
+		return prepositionalPhraseNodeEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getInnerParseNode() {
+		return innerParseNodeEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getInnerParseNode_ChildNodes() {
+		return (EReference)innerParseNodeEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -259,12 +335,21 @@ public class LinguisticPackageImpl extends EPackageImpl implements LinguisticPac
 
 		// Create classes and their features
 		sentenceNodeEClass = createEClass(SENTENCE_NODE);
-		createEReference(sentenceNodeEClass, SENTENCE_NODE__CHILD_FRAGMENTS);
-		createEAttribute(sentenceNodeEClass, SENTENCE_NODE__TYPE);
 
 		wordEClass = createEClass(WORD);
 		createEAttribute(wordEClass, WORD__WORD_STR);
 		createEAttribute(wordEClass, WORD__WORD_TYPE);
+
+		parseNodeEClass = createEClass(PARSE_NODE);
+
+		nounPhraseNodeEClass = createEClass(NOUN_PHRASE_NODE);
+
+		verbPhraseNodeEClass = createEClass(VERB_PHRASE_NODE);
+
+		prepositionalPhraseNodeEClass = createEClass(PREPOSITIONAL_PHRASE_NODE);
+
+		innerParseNodeEClass = createEClass(INNER_PARSE_NODE);
+		createEReference(innerParseNodeEClass, INNER_PARSE_NODE__CHILD_NODES);
 
 		// Create enums
 		eWordTypeEEnum = createEEnum(EWORD_TYPE);
@@ -298,16 +383,30 @@ public class LinguisticPackageImpl extends EPackageImpl implements LinguisticPac
 		// Set bounds for type parameters
 
 		// Add supertypes to classes
-		wordEClass.getESuperTypes().add(this.getSentenceNode());
+		sentenceNodeEClass.getESuperTypes().add(this.getInnerParseNode());
+		wordEClass.getESuperTypes().add(this.getParseNode());
+		nounPhraseNodeEClass.getESuperTypes().add(this.getInnerParseNode());
+		verbPhraseNodeEClass.getESuperTypes().add(this.getInnerParseNode());
+		prepositionalPhraseNodeEClass.getESuperTypes().add(this.getInnerParseNode());
+		innerParseNodeEClass.getESuperTypes().add(this.getParseNode());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(sentenceNodeEClass, SentenceNode.class, "SentenceNode", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getSentenceNode_ChildFragments(), this.getSentenceNode(), null, "childFragments", null, 0, -1, SentenceNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getSentenceNode_Type(), ecorePackage.getEString(), "type", null, 0, 1, SentenceNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(wordEClass, Word.class, "Word", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getWord_WordStr(), ecorePackage.getEString(), "wordStr", null, 0, 1, Word.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getWord_WordType(), this.getEWordType(), "wordType", null, 0, 1, Word.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(parseNodeEClass, ParseNode.class, "ParseNode", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(nounPhraseNodeEClass, NounPhraseNode.class, "NounPhraseNode", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(verbPhraseNodeEClass, VerbPhraseNode.class, "VerbPhraseNode", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(prepositionalPhraseNodeEClass, PrepositionalPhraseNode.class, "PrepositionalPhraseNode", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(innerParseNodeEClass, InnerParseNode.class, "InnerParseNode", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getInnerParseNode_ChildNodes(), this.getParseNode(), null, "childNodes", null, 0, -1, InnerParseNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(eWordTypeEEnum, EWordType.class, "EWordType");

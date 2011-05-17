@@ -121,7 +121,7 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 	protected String label = LABEL_EDEFAULT;
 
 	/**
-	 * The cached value of the '{@link #getParsedSentence() <em>Parsed Sentence</em>}' reference.
+	 * The cached value of the '{@link #getParsedSentence() <em>Parsed Sentence</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getParsedSentence()
@@ -233,14 +233,6 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 	 * @generated
 	 */
 	public SentenceNode getParsedSentence() {
-		if (parsedSentence != null && parsedSentence.eIsProxy()) {
-			InternalEObject oldParsedSentence = (InternalEObject)parsedSentence;
-			parsedSentence = (SentenceNode)eResolveProxy(oldParsedSentence);
-			if (parsedSentence != oldParsedSentence) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, UsecasePackage.USE_CASE_STEP__PARSED_SENTENCE, oldParsedSentence, parsedSentence));
-			}
-		}
 		return parsedSentence;
 	}
 
@@ -249,8 +241,14 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public SentenceNode basicGetParsedSentence() {
-		return parsedSentence;
+	public NotificationChain basicSetParsedSentence(SentenceNode newParsedSentence, NotificationChain msgs) {
+		SentenceNode oldParsedSentence = parsedSentence;
+		parsedSentence = newParsedSentence;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, UsecasePackage.USE_CASE_STEP__PARSED_SENTENCE, oldParsedSentence, newParsedSentence);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
 	}
 
 	/**
@@ -259,10 +257,17 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 	 * @generated
 	 */
 	public void setParsedSentence(SentenceNode newParsedSentence) {
-		SentenceNode oldParsedSentence = parsedSentence;
-		parsedSentence = newParsedSentence;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, UsecasePackage.USE_CASE_STEP__PARSED_SENTENCE, oldParsedSentence, parsedSentence));
+		if (newParsedSentence != parsedSentence) {
+			NotificationChain msgs = null;
+			if (parsedSentence != null)
+				msgs = ((InternalEObject)parsedSentence).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - UsecasePackage.USE_CASE_STEP__PARSED_SENTENCE, null, msgs);
+			if (newParsedSentence != null)
+				msgs = ((InternalEObject)newParsedSentence).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - UsecasePackage.USE_CASE_STEP__PARSED_SENTENCE, null, msgs);
+			msgs = basicSetParsedSentence(newParsedSentence, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, UsecasePackage.USE_CASE_STEP__PARSED_SENTENCE, newParsedSentence, newParsedSentence));
 	}
 
 	/**
@@ -277,6 +282,8 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 				return ((InternalEList<?>)getExtension()).basicRemove(otherEnd, msgs);
 			case UsecasePackage.USE_CASE_STEP__VARIATION:
 				return ((InternalEList<?>)getVariation()).basicRemove(otherEnd, msgs);
+			case UsecasePackage.USE_CASE_STEP__PARSED_SENTENCE:
+				return basicSetParsedSentence(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -300,8 +307,7 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 			case UsecasePackage.USE_CASE_STEP__LABEL:
 				return getLabel();
 			case UsecasePackage.USE_CASE_STEP__PARSED_SENTENCE:
-				if (resolve) return getParsedSentence();
-				return basicGetParsedSentence();
+				return getParsedSentence();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}

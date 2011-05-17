@@ -33,6 +33,8 @@ import reprotool.ide.parsetree.NodeContentProvider;
 import reprotool.ide.parsetree.NodeLabelProvider;
 import reprotool.ide.parsetree.NodeModelContentProvider;
 import reprotool.model.linguistic.EWordType;
+import reprotool.model.linguistic.InnerParseNode;
+import reprotool.model.linguistic.ParseNode;
 import reprotool.model.linguistic.SentenceNode;
 import reprotool.model.linguistic.Word;
 
@@ -74,7 +76,6 @@ public class ParsedTreeView extends ViewPart {
 				GraphNode node = (GraphNode) selection.get(0);
 				Word word = (Word) node.getData();
 				word.setWordType(EWordType.NOT_IMPORTANT);
-				word.setType("Not important");
 				node.setImage(((LabelProvider) viewer.getLabelProvider()).getImage(word));
 			}
 			
@@ -92,7 +93,6 @@ public class ParsedTreeView extends ViewPart {
 				GraphNode node = (GraphNode) selection.get(0);
 				Word word = (Word) node.getData();
 				word.setWordType(EWordType.SUBJECT);
-				word.setType("Subject");
 				node.setImage(((LabelProvider) viewer.getLabelProvider()).getImage(word));
 			}
 			
@@ -110,7 +110,6 @@ public class ParsedTreeView extends ViewPart {
 				GraphNode node = (GraphNode) selection.get(0);
 				Word word = (Word) node.getData();
 				word.setWordType(EWordType.INDIRECT_OBJECT);
-				word.setType("Indirect o.");
 				node.setImage(((LabelProvider) viewer.getLabelProvider()).getImage(word));
 			}
 			
@@ -128,7 +127,6 @@ public class ParsedTreeView extends ViewPart {
 				GraphNode node = (GraphNode) selection.get(0);
 				Word word = (Word) node.getData();
 				word.setWordType(EWordType.VERB);
-				word.setType("verb");
 				node.setImage(((LabelProvider) viewer.getLabelProvider()).getImage(word));
 			}
 			
@@ -146,7 +144,6 @@ public class ParsedTreeView extends ViewPart {
 				GraphNode node = (GraphNode) selection.get(0);
 				Word word = (Word) node.getData();
 				word.setWordType(EWordType.REPRESENTATIVE_OBJECT);
-				word.setType("Representative o.");
 				node.setImage(((LabelProvider) viewer.getLabelProvider()).getImage(word));
 			}
 		});
@@ -162,7 +159,6 @@ public class ParsedTreeView extends ViewPart {
 				GraphNode node = (GraphNode) selection.get(0);
 				Word word = (Word) node.getData();
 				word.setWordType(EWordType.GOTO_TARGET);
-				word.setType("Goto target");
 				node.setImage(((LabelProvider) viewer.getLabelProvider()).getImage(word));
 			}
 		});
@@ -179,7 +175,6 @@ public class ParsedTreeView extends ViewPart {
 				GraphNode node = (GraphNode) selection.get(0);
 				Word word = (Word) node.getData();
 				word.setWordType(EWordType.CONDITION_LABEL);
-				word.setType("Condition label");
 				node.setImage(((LabelProvider) viewer.getLabelProvider()).getImage(word));
 			}
 		});
@@ -187,7 +182,7 @@ public class ParsedTreeView extends ViewPart {
 		return menu;
 	}
 	
-	private void initGraphNode(GraphNode gNode, SentenceNode mNode) {
+	private void initGraphNode(GraphNode gNode, ParseNode mNode) {
 		gNode.setData(mNode);
 		gNode.setBackgroundColor(new Color(Display.getDefault(), 255, 255, 255));
 		gNode.setHighlightColor(new Color(Display.getDefault(), 255, 255, 255));
@@ -200,15 +195,16 @@ public class ParsedTreeView extends ViewPart {
 		}
 	}
 	
-	private void createGraph2EMFMapping(GraphNode gNode, SentenceNode mNode) {
+	private void createGraph2EMFMapping(GraphNode gNode, InnerParseNode mNode) {
 		initGraphNode(gNode, mNode);
 		
 		for (int i = 0; i < gNode.getSourceConnections().size(); i++) {
 			GraphConnection con = (GraphConnection) gNode.getSourceConnections().get(i);
-			GraphNode gChild = con.getDestination();			
-			SentenceNode mChild = mNode.getChildFragments().get(i);
+			GraphNode gChild = con.getDestination();
+			ParseNode mChild = mNode.getChildNodes().get(i);
 			
-			createGraph2EMFMapping(gChild, mChild);
+			if(mChild instanceof InnerParseNode)
+				createGraph2EMFMapping(gChild, (InnerParseNode) mChild);
 		}
 	}
 	
@@ -293,7 +289,7 @@ public class ParsedTreeView extends ViewPart {
 					scrollY = viewer.getGraphControl().getVerticalBar().getSelection();
 				}
 												
-				SentenceNode modelNode = (SentenceNode) node.getData();
+				ParseNode modelNode = (ParseNode) node.getData();
 				Word wordNode = null;
 				if (modelNode instanceof Word) {
 					wordNode = (Word) modelNode;
