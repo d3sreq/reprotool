@@ -6,7 +6,14 @@ import java.io.InputStream;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.ui.progress.IProgressConstants;
+
+import reprotool.ling.LingJob;
 
 public class Tagger {
 	/**
@@ -16,18 +23,7 @@ public class Tagger {
 	 */	
     public static String getMXPOST(String originalText) {	
 		String path = Platform.getPreferencesService().getString("reprotool.ide", "mxpostModel", "/tagger.project", null);
-		
 		String text = "";
-		
-		/*
-		//create file object
-		File file = new File("D://Projects//ReProTool//SVN//trunk//tools//MXPost_tagger//tagger.project//test.txt");
-		// set input stream
-		try {
-			InputStream input = new FileInputStream(file);
-			System.setIn(input); 
-		} catch(FileNotFoundException e){}
-		*/
 	
 		try{
 			InputStream input = new ByteArrayInputStream(originalText.getBytes("UTF-8"));
@@ -47,5 +43,23 @@ public class Tagger {
 		} catch (UnsupportedEncodingException e){}
 		
 		return text;
-	}		
+	}	
+    
+	/**
+	 * Returns tokens from given text
+	 *
+	 * @return String part-of-speech_tagged_text 
+	 */	
+    public static String jobGetMXPOST(String originalText) {	
+    	String text = "";
+		
+    	LingJob job = new LingJob("MX POS tagger", originalText);
+    	 
+    	job.schedule();
+    	
+    	text = job.returnText();
+		
+		return text;
+	}    
+        
 }

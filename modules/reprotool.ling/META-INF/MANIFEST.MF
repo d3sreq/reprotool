@@ -5,7 +5,8 @@ Bundle-SymbolicName: reprotool.ling
 Bundle-Version: 1.0.0
 Bundle-Activator: reprotool.ling.Activator
 Require-Bundle: org.eclipse.core.runtime,
- reprotool.model;bundle-version="1.0.0"
+ reprotool.model;bundle-version="1.0.0",
+ org.eclipse.jface;bundle-version="3.6.2"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: reprotool.ling,
@@ -14,3 +15,6 @@ Export-Package: reprotool.ling,
 Bundle-ClassPath: lib/edu.mit.jwi_2.1.5_jdk.jar,
  .,
  lib/mxpost.jar
+Import-Package: org.eclipse.jface.action,
+ org.eclipse.swt.widgets,
+ org.eclipse.ui.progress

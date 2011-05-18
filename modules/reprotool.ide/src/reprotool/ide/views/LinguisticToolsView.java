@@ -55,17 +55,17 @@ public class LinguisticToolsView extends ViewPart {
 		btnAnalyze.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				
-				
 				textTokenizer.setText(Tokenizer.getTokens(textInput.getText()).toString());
+				//textTagger.setText(Tagger.jobGetMXPOST(textTokenizer.getText()).toString());
 				textTagger.setText(Tagger.getMXPOST(textTokenizer.getText()).toString());
+				
+				// TODO use only jobs
+				Tagger.jobGetMXPOST(textTokenizer.getText());
 				
 				WordNet.open();
 				
 				Sentence sentence = new Sentence(textTagger.getText());
-				//textNegation.setText("ahoj");
-				//Sentence sentence = new Sentence(textTagger.getText());
-				//JOptionPane.showMessageDialog(null, textTagger.getText(),"Text Message",0);
+
 				Sentence negation = sentence.getNegation();
 				textNegation.setText(negation.toString());
 				//JOptionPane.showMessageDialog(null, sentence.words.get(0).text,"Text Message",0);
@@ -211,6 +211,7 @@ public class LinguisticToolsView extends ViewPart {
 	private void externalJob() {
 		Job job = new Job("External job") {
 		    @Override
+		    
 		    public IStatus run(IProgressMonitor monitor) {
 		    	setProperty(IProgressConstants.KEEP_PROPERTY, Boolean.TRUE);
 		    	try{
