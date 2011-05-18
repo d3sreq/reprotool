@@ -1,6 +1,10 @@
 package reprotool.ide.txtspec.editors;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.StringWriter;
+import java.net.URL;
 import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -11,6 +15,7 @@ import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.swt.SWT;
@@ -35,6 +40,7 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.MultiPageEditorPart;
+import org.osgi.framework.Bundle;
 
 /**
  * An example showing how to create a multi-page editor. This example has 3
@@ -128,6 +134,32 @@ public class MultiPageEditor extends MultiPageEditorPart implements
 			xmlEditor = new XMLEditor();
 			int index = addPage(xmlEditor, getEditorInput());
 			setPageText(index, xmlEditor.getTitle() + "Xml View");
+			IDocument inputDocument = xmlEditor.getDocumentProvider()
+					.getDocument(xmlEditor.getEditorInput());
+			String documentContent = inputDocument.get();
+			String newDocumentContent = "";
+			if (documentContent.isEmpty()) {
+				documentContent = "";
+				Bundle bundle = Platform.getBundle("reprotool.ide.txtspec");
+				URL url = bundle.getResource("schema/default.txtspec.xml");
+				try {
+					InputStream ir = url.openStream();
+					InputStreamReader isr = new InputStreamReader(ir);
+					BufferedReader br = new BufferedReader(isr);
+					String append;
+					if ((documentContent = (br.readLine())) != null)
+						;
+					while ((append = (br.readLine())) != null)
+						documentContent += ("\n" + append);
+					br.close();
+				} catch (Exception e) {
+					System.err.println(e.getMessage() + " " + e.getCause().toString());
+				}
+				documentContent = documentContent.trim();
+				xmlEditor.setDocument(documentContent);
+			}
+			newDocumentContent += (new ReadXMLFile()).VPO(documentContent);
+			editor.setDocument(newDocumentContent);
 		} catch (PartInitException e) {
 			ErrorDialog.openError(getSite().getShell(),
 					"Error creating xml text editor", null, e.getStatus());
@@ -205,14 +237,55 @@ public class MultiPageEditor extends MultiPageEditorPart implements
 	 */
 	protected void pageChange(int newPageIndex) {
 		super.pageChange(newPageIndex);
-		if (newPageIndex == 2) {
-			sortWords();
+		if (newPageIndex == 1) {
+			IDocument inputDocument = xmlEditor.getDocumentProvider()
+					.getDocument(xmlEditor.getEditorInput());
+			String documentContent = inputDocument.get();
+			if (documentContent.isEmpty()) {
+				documentContent = "";
+				Bundle bundle = Platform.getBundle("reprotool.ide.txtspec");
+				URL url = bundle.getResource("schema/default.txtspec.xml");
+				try {
+					InputStream ir = url.openStream();
+					InputStreamReader isr = new InputStreamReader(ir);
+					BufferedReader br = new BufferedReader(isr);
+					String append;
+					if ((documentContent = (br.readLine())) != null)
+						;
+					while ((append = (br.readLine())) != null)
+						documentContent += ("\n" + append);
+					br.close();
+				} catch (Exception e) {
+					System.err.println(e.getMessage() + " "+ e.getCause().toString());
+				}
+				documentContent = documentContent.trim();
+			}
+			xmlEditor.setDocument(documentContent);			
 		} else if (newPageIndex == 0) {
 			IDocument inputDocument = xmlEditor.getDocumentProvider()
 					.getDocument(xmlEditor.getEditorInput());
 			String documentContent = inputDocument.get();
-			String newDocumentContent = (new ReadXMLFile())
-					.VPO(documentContent);
+			String newDocumentContent = "";
+			if (documentContent.isEmpty()) {
+				documentContent = "";
+				Bundle bundle = Platform.getBundle("reprotool.ide.txtspec");
+				URL url = bundle.getResource("schema/default.txtspec.xml");
+				try {
+					InputStream ir = url.openStream();
+					InputStreamReader isr = new InputStreamReader(ir);
+					BufferedReader br = new BufferedReader(isr);
+					String append;
+					if ((documentContent = (br.readLine())) != null)
+						;
+					while ((append = (br.readLine())) != null)
+						documentContent += ("\n" + append);
+					br.close();
+				} catch (Exception e) {
+					System.err.println(e.getMessage() + " " + e.getCause().toString());
+				}
+				documentContent = documentContent.trim();
+			}
+			newDocumentContent = (new ReadXMLFile()).VPO(documentContent);
 			editor.setDocument(newDocumentContent);
 		}
 	}

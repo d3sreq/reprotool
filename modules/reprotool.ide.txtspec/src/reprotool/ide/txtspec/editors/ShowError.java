@@ -35,12 +35,13 @@ public class ShowError extends ApplicationWindow {
 	 */
 	public void run() {
 		// Don't return from open() until window closes
-		setBlockOnOpen(true);
+		//setBlockOnOpen(true);
 
 		// Open the main window
-		open();
+		//open();
 
-		this.setStatus(message[0]);
+		System.err.println(message[0]+"\n"+message[1]+"\n"+message[2]);
+		//this.setStatus(message[0]);
 		// Dispose the display
 		// Display.getCurrent().dispose();
 	}

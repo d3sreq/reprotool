@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+targetNamespace="http://www.example.org/testxsd"
+	xmlns:tns="http://www.example.org/testxsd" elementFormDefault="qualified">
+
+	<simpleType name="yes-no">
+		<restriction base="token">
+			<enumeration value="yes" />
+			<enumeration value="no" />
+		</restriction>
+	</simpleType>
+
+	<complexType name="nestedComplex" mixed="true">
+		<sequence minOccurs="0" maxOccurs="unbounded">
+			<element name="e" type="tns:nestedComplex"></element>
+		</sequence>
+		<attribute name="id" type="ID" use="optional"></attribute>
+		<attribute name="editText" type="tns:yes-no" default="yes" use="optional"></attribute>
+	</complexType>
+	
+	<complexType name="rootElement" mixed="true">
+		<sequence minOccurs="0" maxOccurs="unbounded">
+			<element name="e" type="tns:nestedComplex"></element>
+		</sequence>
+		<attribute name="editText" type="tns:yes-no" default="yes" use="optional"></attribute>
+	</complexType>
+
+	<element name="spec" type="tns:rootElement">		
+	</element>
+</schema>

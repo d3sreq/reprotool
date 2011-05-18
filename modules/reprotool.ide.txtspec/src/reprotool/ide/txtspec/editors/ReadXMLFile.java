@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.net.URL;
 
 import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
@@ -15,6 +16,8 @@ import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 
+import org.eclipse.core.runtime.Platform;
+import org.osgi.framework.Bundle;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -66,9 +69,11 @@ public class ReadXMLFile {
 			try {
 				String language = XMLConstants.W3C_XML_SCHEMA_NS_URI;
 				SchemaFactory factory = SchemaFactory.newInstance(language);
-				schema = factory
-						.newSchema(new File(
-								"platform:/home/d/Apps/eclipse-emf/WORKSPACE/DOMParser/src/testxsd.xsd"));
+				
+				Bundle bundle = Platform.getBundle("reprotool.ide.txtspec");
+				URL url = bundle.getResource("schema/testxsd.xsd");
+				schema = factory.newSchema(url);
+				//schema = factory.newSchema(new File("platform:/home/d/Apps/eclipse-emf/WORKSPACE/DOMParser/src/testxsd.xsd"));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -171,9 +176,11 @@ public class ReadXMLFile {
 			try {
 				String language = XMLConstants.W3C_XML_SCHEMA_NS_URI;
 				SchemaFactory factory = SchemaFactory.newInstance(language);
-				schema = factory
-						.newSchema(new File(
-								"/home/d/Apps/eclipse-emf/WORKSPACE/DOMParser/src/testxsd.xsd"));
+				
+				Bundle bundle = Platform.getBundle("reprotool.ide.txtspec");
+				URL url = bundle.getResource("schema/testxsd.xsd");
+				schema = factory.newSchema(url);
+				//schema = factory.newSchema(new File("/home/d/Apps/eclipse-emf/WORKSPACE/DOMParser/src/testxsd.xsd"));
 			} catch (Exception e) {
 				String[] m = new String[2];
 				m[0] = "[error] " + e.getMessage();

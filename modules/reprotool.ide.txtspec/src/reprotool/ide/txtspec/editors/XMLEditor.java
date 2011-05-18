@@ -21,7 +21,7 @@ public class XMLEditor extends TextEditor {
 	}
 
 	public void setDocument(String content) {
-//		XMLDocProv.setDocument(content);
+		XMLDocProv.setDocument(content);
 		setDocumentProvider(XMLDocProv);
 	}
 }

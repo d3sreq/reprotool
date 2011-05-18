@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<spec 	xmlns="http://www.example.org/testxsd" 
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xsi:schemaLocation="http://www.example.org/testxsd testxsd.xsd ">
+<e>
+<!-- You can write your text here or add more elements of type e like it self here -->
+</e>
+</spec>
