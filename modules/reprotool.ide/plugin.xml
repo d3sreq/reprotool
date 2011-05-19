@@ -57,8 +57,8 @@
       <editor
             class="reprotool.ide.editors.UseCaseEditor"
             default="false"
-            extensions="uc"
-            id="cz.cuni.mff.reprotool.ide.editor_use_case"
+            extensions="usecase"
+            id="cz.cuni.mff.reprotool.ide.UseCaseEditor"
             name="Use case">
       </editor>
       <editor

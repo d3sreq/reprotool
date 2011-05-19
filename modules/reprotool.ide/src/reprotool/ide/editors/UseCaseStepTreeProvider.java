@@ -29,6 +29,8 @@ public class UseCaseStepTreeProvider implements ITreeContentProvider, ITableLabe
 			return null;
 			
 		UseCase usecase = (UseCase) inputElement;
+		if (usecase.getMainScenario() == null)
+			return new Object[] {};
 		return usecase.getMainScenario().getSteps().toArray();
 	}
 

@@ -1,6 +1,13 @@
 package reprotool.ide.editors;
 
+import java.io.IOException;
+import java.util.Collections;
+
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ICellModifier;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -27,6 +34,7 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.ui.part.EditorPart;
+import org.eclipse.ui.part.FileEditorInput;
 
 import reprotool.ide.service.Service;
 import reprotool.ling.LingTools;
@@ -52,7 +60,11 @@ public class UseCaseEditor extends EditorPart {
 	// the usecase to edit
 	private UseCase usecase = null;
 	
+	private ResourceSet resourceSet = null;
+	
 	private TreeViewer treeViewer = null;
+	
+	private boolean dirty = false;
 	
 	public static UseCaseEditor getUseCaseEditor() {
 		IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
@@ -66,8 +78,6 @@ public class UseCaseEditor extends EditorPart {
 	}
 
 	public UseCaseEditor() {
-		// TODO XXX always uses first usecase for testing
-		usecase = Service.INSTANCE.getSoftwareProject().getUseCases().get(0);
 	}
 	
 	public UseCase getEditedUseCase() {
@@ -108,7 +118,7 @@ public class UseCaseEditor extends EditorPart {
 		container.setLayout(new FormLayout());
 		
 		treeViewer = new TreeViewer(container, SWT.BORDER|SWT.FULL_SELECTION);
-		treeViewer.setAutoExpandLevel(2);
+		treeViewer.setAutoExpandLevel(4);
 		
 		Tree tree = treeViewer.getTree();
 		tree.addMouseListener(new MouseAdapter() {
@@ -191,19 +201,22 @@ public class UseCaseEditor extends EditorPart {
 			}
 
 			public void modify(Object element, String property, Object value) {
-				if(element instanceof UseCaseStep) {
-					UseCaseStep step = (UseCaseStep)(((TreeItem)element).getData());
-					if (SENTENCE_PROPERTY.equals(property)) {
+				Object item = ((TreeItem)element).getData();
+				if (item instanceof UseCaseStep) {
+					UseCaseStep step = (UseCaseStep)item;
+					if (SENTENCE_PROPERTY.equals(property) && !step.getSentence().equals(value.toString())) {
 						step.setSentence(value.toString());
 						treeViewer.update(step, new String[] {SENTENCE_PROPERTY});
-						step.setParsedSentence(lingTools.parseSentence(step.getSentence()));
-					} else if (LABEL_PROPERTY.equals(property)) {
+						//step.setParsedSentence(lingTools.parseSentence(step.getSentence()));
+						setDirty(true);
+					} else if (LABEL_PROPERTY.equals(property) && !step.getLabel().equals(value.toString())) {
 						final String label = value.toString();
-						if (label.isEmpty() || label.equals("none"))
+						if (label.isEmpty())
 							step.setLabel(null);
 						else
 							step.setLabel(label);
 						treeViewer.update(step, new String[] {LABEL_PROPERTY});
+						setDirty(true);
 					}
 					showSelectedStep();
 				}
@@ -226,24 +239,47 @@ public class UseCaseEditor extends EditorPart {
 
 	@Override
 	public void doSave(IProgressMonitor monitor) {
-		// Do the Save operation
+        Resource resource = resourceSet.getResource(URI.createURI(getInputFilePath()), true);
+        try {
+                resource.save(Collections.EMPTY_MAP);
+        } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+        }
+        setDirty(false);
 	}
 
 	@Override
 	public void doSaveAs() {
 		// Do the Save As operation
 	}
+	
+	private String getInputFilePath() {
+		return ((FileEditorInput)getEditorInput()).getFile().getFullPath().toString();
+	}
 
 	@Override
 	public void init(IEditorSite site, IEditorInput input) throws PartInitException {
 		// Initialize the editor part
 		setSite(site);
-		setInput(input);
+		setInputWithNotify(input);
+		setPartName(input.getName());
+		
+        resourceSet = new ResourceSetImpl();
+        Resource resource = resourceSet.getResource(URI.createURI(getInputFilePath()), true);
+        // for testing
+        //resource.getContents().set(0, Service.INSTANCE.getSoftwareProject().getUseCases().get(0));
+        usecase = (UseCase)resource.getContents().get(0);
 	}
 
+	private void setDirty(boolean state) {
+		dirty = state;
+		firePropertyChange(PROP_DIRTY);
+	}
+	
 	@Override
 	public boolean isDirty() {
-		return false;
+		return dirty;
 	}
 
 	@Override

@@ -133,8 +133,10 @@ public class UcStepView extends ViewPart {
 		} else {	
 			lblStepSentence.setText(step.getSentence());
 			UseCase uc = UseCaseEditor.getUseCaseEditor().getEditedUseCase();
-			if (uc != null)
+			if (uc != null && uc.getPrimaryActor() != null)
 				lblActorDesc.setText(uc.getPrimaryActor().getName());
+			else
+				lblActorDesc.setText("");
 		}
 		parentComposite.layout();
 	}
