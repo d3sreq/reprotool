@@ -1,4 +1,4 @@
-package reprotool.ide.wizards.project;
+package reprotool.ide.wizards;
 
 import java.util.ArrayList;
 import java.util.Collection;

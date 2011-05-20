@@ -95,7 +95,7 @@
       </category>
       <wizard
             category="reprotool.ide.category1"
-            class="reprotool.ide.wizards.project.ProjectWizard"
+            class="reprotool.ide.wizards.ProjectWizard"
             finalPerspective="cz.cuni.mff.reprotool.ide.perspective_reprotool_ide"
             hasPages="true"
             icon="icons/reprotool-web-logo-16x16.png"
@@ -105,7 +105,7 @@
       </wizard>
       <wizard
             category="reprotool.ide.category1"
-            class="reprotool.ide.wizards.project.UsecaseWizard"
+            class="reprotool.ide.wizards.UsecaseWizard"
             id="reprotool.ide.UseCaseWizard"
             name="Use case">
       </wizard>
