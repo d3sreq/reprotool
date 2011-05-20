@@ -1,9 +1,6 @@
 package reprotool.ide.txtspec.editors;
 
-import org.eclipse.jface.text.BadLocationException;
-import org.eclipse.jface.text.IDocument;
-import org.eclipse.jface.text.ITextDoubleClickStrategy;
-import org.eclipse.jface.text.ITextViewer;
+import org.eclipse.jface.text.*;
 
 public class XMLDoubleClickStrategy implements ITextDoubleClickStrategy {
 	protected ITextViewer fText;

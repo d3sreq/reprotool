@@ -57,13 +57,13 @@ public class MultiPageEditor extends MultiPageEditorPart implements
 	/** The text editor used in page 0. */
 	private DOMParsedEditor editor;
 
-	/** The font chosen in page 1. */
+	/** The font chosen in no page */
 	private Font font;
 
-	/** The text widget used in page 2. */
+	/** The text widget used in no page */
 	private StyledText text;
 
-	/** the xml editor used in page 3 */
+	/** the xml editor used in page 1 */
 	private XMLEditor xmlEditor;
 
 	/**
@@ -75,7 +75,7 @@ public class MultiPageEditor extends MultiPageEditorPart implements
 	}
 
 	/**
-	 * Creates page 0 of the multi-page editor, which contains a text editor.
+	 * Creates page 0 of the multi-page editor, which contains a text editor with DOM.
 	 */
 	void createPage0() {
 		try {
@@ -89,10 +89,10 @@ public class MultiPageEditor extends MultiPageEditorPart implements
 	}
 
 	/**
-	 * Creates page 1 of the multi-page editor, which allows you to change the
+	 * Creates page 3 of the multi-page editor, which allows you to change the
 	 * font used in page 2.
 	 */
-	void createPage1() {
+	void createPage3() {
 
 		Composite composite = new Composite(getContainer(), SWT.NONE);
 		GridLayout layout = new GridLayout();
@@ -116,9 +116,9 @@ public class MultiPageEditor extends MultiPageEditorPart implements
 	}
 
 	/**
-	 * Creates page 2 of the multi-page editor, which shows the sorted text.
+	 * Creates page 4 of the multi-page editor, which shows the sorted text.
 	 */
-	void createPage2() {
+	void createPage4() {
 		Composite composite = new Composite(getContainer(), SWT.NONE);
 		FillLayout layout = new FillLayout();
 		composite.setLayout(layout);
@@ -129,7 +129,7 @@ public class MultiPageEditor extends MultiPageEditorPart implements
 		setPageText(index, "Preview");
 	}
 
-	void createPage3() {
+	void createPage1() {
 		try {
 			xmlEditor = new XMLEditor();
 			int index = addPage(xmlEditor, getEditorInput());
@@ -171,9 +171,9 @@ public class MultiPageEditor extends MultiPageEditorPart implements
 	 */
 	protected void createPages() {
 		createPage0();
-		// createPage1();
-		// /createPage2();
-		createPage3();
+		createPage1();
+		//createPage2();
+		//createPage3();
 	}
 
 	/**
