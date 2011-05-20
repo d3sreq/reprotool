@@ -2,6 +2,8 @@ package reprotool.ide.editors;
 
 import java.io.IOException;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.util.URI;
@@ -241,7 +243,9 @@ public class UseCaseEditor extends EditorPart {
 	public void doSave(IProgressMonitor monitor) {
         Resource resource = resourceSet.getResource(URI.createURI(getInputFilePath()), true);
         try {
-                resource.save(Collections.EMPTY_MAP);
+				final Map<Object, Object> saveOptions = new HashMap<Object, Object>();
+				saveOptions.put(Resource.OPTION_SAVE_ONLY_IF_CHANGED, Resource.OPTION_SAVE_ONLY_IF_CHANGED_MEMORY_BUFFER);
+                resource.save(saveOptions);
         } catch (IOException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -265,10 +269,17 @@ public class UseCaseEditor extends EditorPart {
 		setInputWithNotify(input);
 		setPartName(input.getName());
 		
+		if ( ! (input instanceof FileEditorInput))
+			throw new PartInitException("UseCaseEditor input must be FileEditorInput");
+		
         resourceSet = new ResourceSetImpl();
         Resource resource = resourceSet.getResource(URI.createURI(getInputFilePath()), true);
+        
         // for testing
         //resource.getContents().set(0, Service.INSTANCE.getSoftwareProject().getUseCases().get(0));
+		if ( resource.getContents().isEmpty() || !(resource.getContents().get(0) instanceof UseCase))
+			throw new PartInitException("File does not contain a use case");
+		
         usecase = (UseCase)resource.getContents().get(0);
 	}
 
