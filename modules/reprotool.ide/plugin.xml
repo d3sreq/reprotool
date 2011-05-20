@@ -56,7 +56,7 @@
          point="org.eclipse.ui.editors">
       <editor
             class="reprotool.ide.editors.UseCaseEditor"
-            default="false"
+            default="true"
             extensions="usecase"
             id="cz.cuni.mff.reprotool.ide.UseCaseEditor"
             name="Use case">
@@ -102,6 +102,12 @@
             id="reprotool.ide.wizard1"
             name="Reprotool Project"
             project="true">
+      </wizard>
+      <wizard
+            category="reprotool.ide.category1"
+            class="reprotool.ide.wizards.project.UsecaseWizard"
+            id="reprotool.ide.UseCaseWizard"
+            name="Use case">
       </wizard>
    </extension>
    <extension

@@ -10,6 +10,8 @@ import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -29,9 +31,18 @@ import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.dialogs.WizardNewProjectCreationPage;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.ISetSelectionTarget;
+import org.eclipse.ui.statushandlers.StatusManager;
 
+import reprotool.ide.Activator;
 import reprotool.ide.service.Service;
 
+/**
+ * Wizard creating new reprotool project.
+ * <p>
+ * Creates eclipse project with reprotool's <code>project.ucproj</code> model file.
+ * 
+ * @author jvinarek
+ */
 public class ProjectWizard extends Wizard implements INewWizard {
 
 	private static final String PROJECT_FILE_NAME = "project.ucproj";
@@ -103,9 +114,8 @@ public class ProjectWizard extends Wizard implements INewWizard {
 						//
 						projectHandle.open(progressMonitor);
 					} catch (Exception exception) {
-						// TODO - jvinarek - log
-						// ReprotoolEditorPlugin.INSTANCE.log(exception);
-						throw new RuntimeException(exception);
+						StatusManager.getManager().handle(new Status(IStatus.ERROR, Activator.PLUGIN_ID,
+								"Error during new project creation", exception), StatusManager.BLOCK | StatusManager.LOG);
 					} finally {
 						progressMonitor.done();
 					}
@@ -145,18 +155,15 @@ public class ProjectWizard extends Wizard implements INewWizard {
 										modelFile.getFullPath().toString())
 								.getId());
 			} catch (PartInitException exception) {
-				// TODO - jvinarek - messagebox
-				// MessageDialog.openError(workbenchWindow.getShell(),
-				// ReprotoolModelEditorPlugin.INSTANCE.getString("_UI_OpenEditorError_label"),
-				// exception.getMessage());
-				exception.printStackTrace();
+				StatusManager.getManager().handle(new Status(IStatus.ERROR, Activator.PLUGIN_ID,
+						"Error while opening project editor", exception), StatusManager.BLOCK | StatusManager.LOG);
 				return false;
 			}
 
 			return true;
 		} catch (Exception exception) {
-			// TODO - jvinarek - log
-			exception.printStackTrace();
+			StatusManager.getManager().handle(new Status(IStatus.ERROR, Activator.PLUGIN_ID,
+					"Error during project initialization", exception), StatusManager.BLOCK | StatusManager.LOG);
 			return false;
 		}
 	}
