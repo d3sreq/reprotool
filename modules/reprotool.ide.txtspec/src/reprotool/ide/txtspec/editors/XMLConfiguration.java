@@ -23,8 +23,7 @@ public class XMLConfiguration extends SourceViewerConfiguration {
 		return new String[] {
 			IDocument.DEFAULT_CONTENT_TYPE,
 			XMLPartitionScanner.XML_COMMENT,
-			XMLPartitionScanner.XML_TAG,
-			XMLPartitionScanner.TAG_CONTENT};
+			XMLPartitionScanner.XML_TAG};
 	}
 	public ITextDoubleClickStrategy getDoubleClickStrategy(
 		ISourceViewer sourceViewer,
@@ -63,10 +62,6 @@ public class XMLConfiguration extends SourceViewerConfiguration {
 		reconciler.setDamager(dr, XMLPartitionScanner.XML_TAG);
 		reconciler.setRepairer(dr, XMLPartitionScanner.XML_TAG);
 		
-		dr =new DefaultDamagerRepairer(getXMLTagScanner());
-		reconciler.setDamager(dr, XMLPartitionScanner.XML_TAG);
-		reconciler.setRepairer(dr, XMLPartitionScanner.XML_TAG);
-
 		dr = new DefaultDamagerRepairer(getXMLScanner());
 		reconciler.setDamager(dr, IDocument.DEFAULT_CONTENT_TYPE);
 		reconciler.setRepairer(dr, IDocument.DEFAULT_CONTENT_TYPE);
