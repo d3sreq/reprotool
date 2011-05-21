@@ -206,12 +206,14 @@ public class UseCaseEditor extends EditorPart {
 				Object item = ((TreeItem)element).getData();
 				if (item instanceof UseCaseStep) {
 					UseCaseStep step = (UseCaseStep)item;
-					if (SENTENCE_PROPERTY.equals(property) && !step.getSentence().equals(value.toString())) {
+					if (SENTENCE_PROPERTY.equals(property) && 
+							(step.getSentence() == null || !step.getSentence().equals(value.toString())) ) {
 						step.setSentence(value.toString());
 						treeViewer.update(step, new String[] {SENTENCE_PROPERTY});
 						//step.setParsedSentence(lingTools.parseSentence(step.getSentence()));
 						setDirty(true);
-					} else if (LABEL_PROPERTY.equals(property) && !step.getLabel().equals(value.toString())) {
+					} else if (LABEL_PROPERTY.equals(property) && 
+							(step.getLabel() == null || !step.getLabel().equals(value.toString()))) {
 						final String label = value.toString();
 						if (label.isEmpty())
 							step.setLabel(null);
@@ -241,15 +243,16 @@ public class UseCaseEditor extends EditorPart {
 
 	@Override
 	public void doSave(IProgressMonitor monitor) {
-        Resource resource = resourceSet.getResource(URI.createURI(getInputFilePath()), true);
-        try {
-				final Map<Object, Object> saveOptions = new HashMap<Object, Object>();
-				saveOptions.put(Resource.OPTION_SAVE_ONLY_IF_CHANGED, Resource.OPTION_SAVE_ONLY_IF_CHANGED_MEMORY_BUFFER);
-                resource.save(saveOptions);
-        } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-        }
+		Resource resource = resourceSet.getResource(URI.createURI(getInputFilePath()), true);
+		try {
+			final Map<Object, Object> saveOptions = new HashMap<Object, Object>();
+			saveOptions.put(Resource.OPTION_SAVE_ONLY_IF_CHANGED,
+					Resource.OPTION_SAVE_ONLY_IF_CHANGED_MEMORY_BUFFER);
+			resource.save(saveOptions);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         setDirty(false);
 	}
 
@@ -261,18 +264,8 @@ public class UseCaseEditor extends EditorPart {
 	private String getInputFilePath() {
 		return ((FileEditorInput)getEditorInput()).getFile().getFullPath().toString();
 	}
-
-	@Override
-	public void init(IEditorSite site, IEditorInput input) throws PartInitException {
-		// Initialize the editor part
-		setSite(site);
-		setInputWithNotify(input);
-		setPartName(input.getName());
-		
-		if ( ! (input instanceof FileEditorInput))
-			throw new PartInitException("UseCaseEditor input must be FileEditorInput");
-		
-        resourceSet = new ResourceSetImpl();
+	
+	private void loadUseCase() throws PartInitException {
         Resource resource = resourceSet.getResource(URI.createURI(getInputFilePath()), true);
         
         // for testing
@@ -281,6 +274,27 @@ public class UseCaseEditor extends EditorPart {
 			throw new PartInitException("File does not contain a use case");
 		
         usecase = (UseCase)resource.getContents().get(0);
+	}
+
+	@Override
+	public void init(IEditorSite site, IEditorInput input) throws PartInitException {
+		// Initialize the editor part
+		setSite(site);
+		setInputWithNotify(input);
+		
+		if ( ! (input instanceof FileEditorInput))
+			throw new PartInitException("UseCaseEditor input must be FileEditorInput");
+		
+        resourceSet = new ResourceSetImpl();
+        loadUseCase();
+        setTitle();
+	}
+	
+	private void setTitle() {
+		if (usecase.getName() == null || usecase.getName().equals(""))
+			setPartName("Unnamed use case");
+		else
+			setPartName(usecase.getName());
 	}
 
 	private void setDirty(boolean state) {
