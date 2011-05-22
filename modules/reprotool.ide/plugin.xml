@@ -217,5 +217,37 @@
          </newWizardShortcut>
       </perspectiveExtension>
    </extension>
+   <extension
+         point="org.eclipse.ui.navigator.navigatorContent">
+      <navigatorContent
+            activeByDefault="true"
+            contentProvider="reprotool.ide.views.ActorsContentProvider"
+            id="reprotool.ide.navigator.actorsContent"
+            labelProvider="reprotool.ide.views.ActorsLabelProvider"
+            name="Actors included in project">
+         <triggerPoints>
+            <instanceof
+                  value="org.eclipse.core.resources.IProject">
+            </instanceof></triggerPoints>
+         <possibleChildren>
+            <or>
+               <instanceof
+                     value="java.lang.String">
+               </instanceof>
+            </or>
+         </possibleChildren>
+      </navigatorContent>
+   </extension>
+   <extension
+         point="org.eclipse.ui.navigator.viewer">
+      <viewerContentBinding
+            viewerId="org.eclipse.ui.navigator.ProjectExplorer">
+         <includes>
+            <contentExtension
+                  pattern="reprotool.ide.navigator.actorsContent">
+            </contentExtension>
+         </includes>
+      </viewerContentBinding>
+   </extension>
 
 </plugin>
