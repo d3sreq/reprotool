@@ -1,7 +1,6 @@
 package reprotool.ide.editors;
 
 import java.io.IOException;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,16 +13,22 @@ import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ICellModifier;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TextCellEditor;
+import org.eclipse.jface.viewers.TreePath;
+import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.TreeViewerColumn;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.swt.widgets.TreeItem;
@@ -38,7 +43,6 @@ import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.ui.part.EditorPart;
 import org.eclipse.ui.part.FileEditorInput;
 
-import reprotool.ide.service.Service;
 import reprotool.ling.LingTools;
 import reprotool.model.usecase.UseCase;
 import reprotool.model.usecase.UseCaseStep;
@@ -68,7 +72,7 @@ public class UseCaseEditor extends EditorPart {
 	
 	private boolean dirty = false;
 	
-	public static UseCaseEditor getUseCaseEditor() {
+	public static UseCaseEditor getActiveUseCaseEditor() {
 		IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
 		IWorkbenchPage page = window.getActivePage();
 		
@@ -82,15 +86,25 @@ public class UseCaseEditor extends EditorPart {
 	public UseCaseEditor() {
 	}
 	
+	private void runCommand(String command) {
+		IHandlerService handlerService = (IHandlerService)getSite().getService(IHandlerService.class);
+		try {
+			handlerService.executeCommand(command, null);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+	
 	public UseCase getEditedUseCase() {
 		return usecase;
 	}
 	
-	public UseCaseStep getSelectedStep() {
-		if (treeViewer.getSelection().isEmpty())
-			return null;
-		
-		Object element = ((IStructuredSelection)treeViewer.getSelection()).getFirstElement();
+	public Object[] getSelection() {
+		return ((IStructuredSelection)treeViewer.getSelection()).toArray();
+	}
+	
+	public UseCaseStep getFirstSelectedStep() {
+		Object element = getFirstSelectedObject();
 		
 		if(element instanceof UseCaseStep)
 			return (UseCaseStep) element;
@@ -98,16 +112,18 @@ public class UseCaseEditor extends EditorPart {
 		return null;
 	}
 	
+	public Object getFirstSelectedObject() {
+		if (treeViewer.getSelection().isEmpty())
+			return null;
+		
+		return ((IStructuredSelection)treeViewer.getSelection()).getFirstElement();
+	}
+	
 	public void showSelectedStep()
 	{
 		if (treeViewer.getSelection().isEmpty())
 			return;
-		IHandlerService handlerService = (IHandlerService) getSite().getService(IHandlerService.class);
-		try {
-			handlerService.executeCommand("commands.showStep", null);
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
+		runCommand("commands.showStep");
 	}
 	
 	/**
@@ -119,7 +135,7 @@ public class UseCaseEditor extends EditorPart {
 		Composite container = new Composite(parent, SWT.NONE);
 		container.setLayout(new FormLayout());
 		
-		treeViewer = new TreeViewer(container, SWT.BORDER|SWT.FULL_SELECTION);
+		treeViewer = new TreeViewer(container, SWT.BORDER|SWT.FULL_SELECTION|SWT.MULTI);
 		treeViewer.setAutoExpandLevel(4);
 		
 		Tree tree = treeViewer.getTree();
@@ -163,18 +179,46 @@ public class UseCaseEditor extends EditorPart {
 		composite.setLayout(null);
 		
 		Button button = new Button(composite, SWT.NONE);
+		button.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				runCommand("commands.stepUp");
+				setDirty(true);
+			}
+		});
 		button.setBounds(7, 7, 70, 29);
 		button.setText("Up");
 		
 		Button button_1 = new Button(composite, SWT.NONE);
+		button_1.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				runCommand("commands.stepDown");
+				setDirty(true);
+			}
+		});
 		button_1.setBounds(83, 7, 70, 29);
 		button_1.setText("Down");
 		
 		Button button_2 = new Button(composite, SWT.NONE);
+		button_2.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				runCommand("commands.newStep");
+				setDirty(true);
+			}
+		});
 		button_2.setBounds(159, 7, 70, 29);
 		button_2.setText("Add");
 		
 		Button button_3 = new Button(composite, SWT.NONE);
+		button_3.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				runCommand("commands.deleteStep");
+				setDirty(true);
+			}
+		});
 		button_3.setBounds(235, 7, 70, 29);
 		button_3.setText("Delete");
 		
@@ -212,15 +256,18 @@ public class UseCaseEditor extends EditorPart {
 						treeViewer.update(step, new String[] {SENTENCE_PROPERTY});
 						//step.setParsedSentence(lingTools.parseSentence(step.getSentence()));
 						setDirty(true);
-					} else if (LABEL_PROPERTY.equals(property) && 
-							(step.getLabel() == null || !step.getLabel().equals(value.toString()))) {
+					} else if (LABEL_PROPERTY.equals(property)) {
 						final String label = value.toString();
-						if (label.isEmpty())
+						final String oldlabel = step.getLabel();
+						if ((label.isEmpty() || label.equals("*")))
 							step.setLabel(null);
 						else
 							step.setLabel(label);
-						treeViewer.update(step, new String[] {LABEL_PROPERTY});
-						setDirty(true);
+						// update if the label actually changed
+						if ( ! (oldlabel == step.getLabel() || label.equals(oldlabel))) {
+							setDirty(true);
+							treeViewer.update(step, new String[] {LABEL_PROPERTY});
+						}
 					}
 					showSelectedStep();
 				}
@@ -233,12 +280,73 @@ public class UseCaseEditor extends EditorPart {
 		treeColumn.setWidth(24);
 		treeColumn.setText("*");
 		
+		Menu menu = new Menu(tree);
+		tree.setMenu(menu);
+		
+		MenuItem mntmNewStep = new MenuItem(menu, SWT.NONE);
+		mntmNewStep.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				runCommand("commands.newStep");
+				setDirty(true);
+			}
+		});
+		mntmNewStep.setText("New step");
+		
+		MenuItem mntmDuplicateStep = new MenuItem(menu, SWT.NONE);
+		mntmDuplicateStep.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				runCommand("commands.duplicateStep");
+				setDirty(true);
+			}
+		});
+		mntmDuplicateStep.setText("Duplicate step");
+		
+		MenuItem mntmAddExtension = new MenuItem(menu, SWT.NONE);
+		mntmAddExtension.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				runCommand("commands.addExtension");
+				setDirty(true);
+			}
+		});
+		mntmAddExtension.setText("Add extension");
+		
+		MenuItem mntmAddVariation = new MenuItem(menu, SWT.NONE);
+		mntmAddVariation.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				runCommand("commands.addVariation");
+				setDirty(true);
+			}
+		});
+		mntmAddVariation.setText("Add variation");
+		
+		MenuItem mntmDeleteStep = new MenuItem(menu, SWT.NONE);
+		mntmDeleteStep.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				runCommand("commands.deleteStep");
+				setDirty(true);
+			}
+		});
+		mntmDeleteStep.setText("Delete step");
+		
 		treeViewer.setInput(usecase);
 	}
 
 	@Override
 	public void setFocus() {
 		// Set the focus
+	}
+
+	public void setSelection(UseCaseStep newStep) {
+		treeViewer.setSelection(new TreeSelection(new TreePath(new Object[] {newStep})));
+	}
+	
+	public void refresh() {
+		treeViewer.refresh();
 	}
 
 	@Override

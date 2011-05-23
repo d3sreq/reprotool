@@ -132,7 +132,7 @@ public class UcStepView extends ViewPart {
 			lblActorDesc.setText("");
 		} else {	
 			lblStepSentence.setText(step.getSentence());
-			UseCase uc = UseCaseEditor.getUseCaseEditor().getEditedUseCase();
+			UseCase uc = UseCaseEditor.getActiveUseCaseEditor().getEditedUseCase();
 			if (uc != null && uc.getPrimaryActor() != null)
 				lblActorDesc.setText(uc.getPrimaryActor().getName());
 			else

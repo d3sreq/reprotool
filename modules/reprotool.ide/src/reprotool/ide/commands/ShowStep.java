@@ -19,13 +19,13 @@ public class ShowStep extends AbstractHandler
 		IWorkbenchPage page = window.getActivePage();
 		UcStepView view = (UcStepView) page.findView(UcStepView.ID);
 		
-		UseCaseEditor editor = UseCaseEditor.getUseCaseEditor();
+		UseCaseEditor editor = UseCaseEditor.getActiveUseCaseEditor();
 		if (view != null && editor != null)
-			view.setStep(editor.getSelectedStep());
+			view.setStep(editor.getFirstSelectedStep());
 		
 		ParsedTreeView treeView = (ParsedTreeView) page.findView(ParsedTreeView.ID);
-		if (treeView != null && editor != null && editor.getSelectedStep() != null) {
-			treeView.showTree(editor.getSelectedStep().getParsedSentence());
+		if (treeView != null && editor != null && editor.getFirstSelectedStep() != null) {
+			//treeView.showTree(editor.getSelectedStep().getParsedSentence());
 		}
 		
 		return null;

@@ -41,8 +41,8 @@ public class UseCaseStepTreeProvider implements ITreeContentProvider, ITableLabe
 			UseCaseStep parentStep = (UseCaseStep) parentElement; 
 
 			List<Scenario> children = new ArrayList<Scenario>();
-			children.addAll(parentStep.getExtension());
 			children.addAll(parentStep.getVariation());
+			children.addAll(parentStep.getExtension());
 
 			return children.toArray();
 			
@@ -61,8 +61,16 @@ public class UseCaseStepTreeProvider implements ITreeContentProvider, ITableLabe
 
 	@Override
 	public boolean hasChildren(Object element) {
-		EObject obj = (EObject) element;
-		return ! obj.eContents().isEmpty();
+		//return getChildren(element).length > 0;
+		if(element instanceof UseCaseStep) {
+			UseCaseStep step = (UseCaseStep)element;
+			return ! (step.getExtension().isEmpty() && step.getVariation().isEmpty());
+		} else if (element instanceof Scenario) {
+			return ! ((Scenario) element).getSteps().isEmpty();
+		} else {
+			assert(false);
+			return false;
+		}
 	}
 	
 	// ITableLabelProvider methods
@@ -108,6 +116,8 @@ public class UseCaseStepTreeProvider implements ITreeContentProvider, ITableLabe
 
 		@Override
 		public String getLabelColumn() {
+			if (step.getLabel() == null || step.getLabel().length() == 0)
+				return "*";
 			return step.getLabel();
 		}
 	};

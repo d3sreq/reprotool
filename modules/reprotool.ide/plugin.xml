@@ -86,6 +86,41 @@
             id="commands.showStep"
             name="Show step">
       </command>
+      <command
+            defaultHandler="reprotool.ide.commands.NewStep"
+            id="commands.newStep"
+            name="New step">
+      </command>
+      <command
+            defaultHandler="reprotool.ide.commands.AddScenario"
+            id="commands.addExtension"
+            name="Add extension">
+      </command>
+      <command
+            defaultHandler="reprotool.ide.commands.AddScenario"
+            id="commands.addVariation"
+            name="Add variaton">
+      </command>
+      <command
+            defaultHandler="reprotool.ide.commands.DeleteStep"
+            id="commands.deleteStep"
+            name="Delete step">
+      </command>
+      <command
+            defaultHandler="reprotool.ide.commands.DuplicateStep"
+            id="commands.duplicateStep"
+            name="Duplicate step">
+      </command>
+      <command
+            defaultHandler="reprotool.ide.commands.MoveStep"
+            id="commands.stepUp"
+            name="Move up">
+      </command>
+      <command
+            defaultHandler="reprotool.ide.commands.MoveStep"
+            id="commands.stepDown"
+            name="Move down">
+      </command>
    </extension>
    <extension
          point="org.eclipse.ui.newWizards">
