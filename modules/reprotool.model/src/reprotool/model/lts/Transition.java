@@ -40,7 +40,7 @@ public interface Transition extends EObject {
 	 * @return the value of the '<em>Sentence</em>' reference.
 	 * @see #setSentence(UseCaseStep)
 	 * @see reprotool.model.lts.LtsPackage#getTransition_Sentence()
-	 * @model transient="true"
+	 * @model
 	 * @generated
 	 */
 	UseCaseStep getSentence();

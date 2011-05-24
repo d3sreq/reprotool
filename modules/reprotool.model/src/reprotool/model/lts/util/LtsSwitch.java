@@ -112,13 +112,6 @@ public class LtsSwitch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case LtsPackage.GUARD_TRANSITION: {
-				GuardTransition guardTransition = (GuardTransition)theEObject;
-				T result = caseGuardTransition(guardTransition);
-				if (result == null) result = caseTransition(guardTransition);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
 			default: return defaultCase(theEObject);
 		}
 	}
@@ -180,21 +173,6 @@ public class LtsSwitch<T> {
 	 * @generated
 	 */
 	public T caseActionTransition(ActionTransition object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Guard Transition</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Guard Transition</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseGuardTransition(GuardTransition object) {
 		return null;
 	}
 

@@ -88,10 +88,6 @@ public class LtsAdapterFactory extends AdapterFactoryImpl {
 				return createActionTransitionAdapter();
 			}
 			@Override
-			public Adapter caseGuardTransition(GuardTransition object) {
-				return createGuardTransitionAdapter();
-			}
-			@Override
 			public Adapter defaultCase(EObject object) {
 				return createEObjectAdapter();
 			}
@@ -164,20 +160,6 @@ public class LtsAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createActionTransitionAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link reprotool.model.lts.GuardTransition <em>Guard Transition</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see reprotool.model.lts.GuardTransition
-	 * @generated
-	 */
-	public Adapter createGuardTransitionAdapter() {
 		return null;
 	}
 

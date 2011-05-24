@@ -53,15 +53,6 @@ public interface LtsFactory extends EFactory {
 	ActionTransition createActionTransition();
 
 	/**
-	 * Returns a new object of class '<em>Guard Transition</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Guard Transition</em>'.
-	 * @generated
-	 */
-	GuardTransition createGuardTransition();
-
-	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

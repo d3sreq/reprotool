@@ -6,6 +6,7 @@
  */
 package reprotool.model.lts;
 
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
@@ -115,13 +116,22 @@ public interface LtsPackage extends EPackage {
 	int STATE = 1;
 
 	/**
+	 * The feature id for the '<em><b>Token</b></em>' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STATE__TOKEN = 0;
+
+	/**
 	 * The number of structural features of the '<em>State</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int STATE_FEATURE_COUNT = 0;
+	int STATE_FEATURE_COUNT = 1;
 
 	/**
 	 * The meta object id for the '{@link reprotool.model.lts.impl.StateMachineImpl <em>State Machine</em>}' class.
@@ -234,62 +244,6 @@ public interface LtsPackage extends EPackage {
 	int ACTION_TRANSITION_FEATURE_COUNT = TRANSITION_FEATURE_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link reprotool.model.lts.impl.GuardTransitionImpl <em>Guard Transition</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see reprotool.model.lts.impl.GuardTransitionImpl
-	 * @see reprotool.model.lts.impl.LtsPackageImpl#getGuardTransition()
-	 * @generated
-	 */
-	int GUARD_TRANSITION = 4;
-
-	/**
-	 * The feature id for the '<em><b>Sentence</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int GUARD_TRANSITION__SENTENCE = TRANSITION__SENTENCE;
-
-	/**
-	 * The feature id for the '<em><b>Source</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int GUARD_TRANSITION__SOURCE = TRANSITION__SOURCE;
-
-	/**
-	 * The feature id for the '<em><b>Target</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int GUARD_TRANSITION__TARGET = TRANSITION__TARGET;
-
-	/**
-	 * The feature id for the '<em><b>Negated Guards</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int GUARD_TRANSITION__NEGATED_GUARDS = TRANSITION_FEATURE_COUNT + 0;
-
-	/**
-	 * The number of structural features of the '<em>Guard Transition</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int GUARD_TRANSITION_FEATURE_COUNT = TRANSITION_FEATURE_COUNT + 1;
-
-
-	/**
 	 * Returns the meta object for class '{@link reprotool.model.lts.Transition <em>Transition</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -341,6 +295,17 @@ public interface LtsPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getState();
+
+	/**
+	 * Returns the meta object for the attribute list '{@link reprotool.model.lts.State#getToken <em>Token</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute list '<em>Token</em>'.
+	 * @see reprotool.model.lts.State#getToken()
+	 * @see #getState()
+	 * @generated
+	 */
+	EAttribute getState_Token();
 
 	/**
 	 * Returns the meta object for class '{@link reprotool.model.lts.StateMachine <em>State Machine</em>}'.
@@ -418,27 +383,6 @@ public interface LtsPackage extends EPackage {
 	EClass getActionTransition();
 
 	/**
-	 * Returns the meta object for class '{@link reprotool.model.lts.GuardTransition <em>Guard Transition</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Guard Transition</em>'.
-	 * @see reprotool.model.lts.GuardTransition
-	 * @generated
-	 */
-	EClass getGuardTransition();
-
-	/**
-	 * Returns the meta object for the reference list '{@link reprotool.model.lts.GuardTransition#getNegatedGuards <em>Negated Guards</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Negated Guards</em>'.
-	 * @see reprotool.model.lts.GuardTransition#getNegatedGuards()
-	 * @see #getGuardTransition()
-	 * @generated
-	 */
-	EReference getGuardTransition_NegatedGuards();
-
-	/**
 	 * Returns the factory that creates the instances of the model.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -505,6 +449,14 @@ public interface LtsPackage extends EPackage {
 		EClass STATE = eINSTANCE.getState();
 
 		/**
+		 * The meta object literal for the '<em><b>Token</b></em>' attribute list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute STATE__TOKEN = eINSTANCE.getState_Token();
+
+		/**
 		 * The meta object literal for the '{@link reprotool.model.lts.impl.StateMachineImpl <em>State Machine</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -563,24 +515,6 @@ public interface LtsPackage extends EPackage {
 		 * @generated
 		 */
 		EClass ACTION_TRANSITION = eINSTANCE.getActionTransition();
-
-		/**
-		 * The meta object literal for the '{@link reprotool.model.lts.impl.GuardTransitionImpl <em>Guard Transition</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see reprotool.model.lts.impl.GuardTransitionImpl
-		 * @see reprotool.model.lts.impl.LtsPackageImpl#getGuardTransition()
-		 * @generated
-		 */
-		EClass GUARD_TRANSITION = eINSTANCE.getGuardTransition();
-
-		/**
-		 * The meta object literal for the '<em><b>Negated Guards</b></em>' reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference GUARD_TRANSITION__NEGATED_GUARDS = eINSTANCE.getGuardTransition_NegatedGuards();
 
 	}
 

@@ -63,7 +63,6 @@ public class LtsFactoryImpl extends EFactoryImpl implements LtsFactory {
 			case LtsPackage.STATE: return createState();
 			case LtsPackage.STATE_MACHINE: return createStateMachine();
 			case LtsPackage.ACTION_TRANSITION: return createActionTransition();
-			case LtsPackage.GUARD_TRANSITION: return createGuardTransition();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -97,16 +96,6 @@ public class LtsFactoryImpl extends EFactoryImpl implements LtsFactory {
 	public ActionTransition createActionTransition() {
 		ActionTransitionImpl actionTransition = new ActionTransitionImpl();
 		return actionTransition;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public GuardTransition createGuardTransition() {
-		GuardTransitionImpl guardTransition = new GuardTransitionImpl();
-		return guardTransition;
 	}
 
 	/**
