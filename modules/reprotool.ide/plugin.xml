@@ -58,6 +58,7 @@
             class="reprotool.ide.editors.UseCaseEditor"
             default="true"
             extensions="usecase"
+            icon="icons/use-case-icon-16x16.png"
             id="cz.cuni.mff.reprotool.ide.UseCaseEditor"
             name="Use case">
       </editor>
@@ -291,15 +292,6 @@
       <runtime>
          <run
                class="reprotool.ide.natures.ReprotoolProjectNature">
-         </run>
-      </runtime>
-   </extension>
-   <extension
-         id="id1"
-         point="org.eclipse.core.resources.natures">
-      <runtime>
-         <run
-               class="reprotool.ide.ProjectNature1">
          </run>
       </runtime>
    </extension>

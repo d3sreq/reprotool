@@ -6,28 +6,49 @@ import org.eclipse.core.runtime.CoreException;
 
 public class ReprotoolProjectNature implements IProjectNature {
 
+	/**
+	 * ID of this project nature
+	 */
+	public static final String NATURE_ID = "reprotool.ide.natures.ReprotoolProjectNature";
+	
+	/**
+	 * Here we keep the reference to the project to which this nature is attached
+	 */
+	private IProject project;
+	
 	@Override
 	public void configure() throws CoreException {
-		// TODO Auto-generated method stub
-
+		// nothing here
 	}
 
 	@Override
 	public void deconfigure() throws CoreException {
-		// TODO Auto-generated method stub
-
+		// nothing here
 	}
 
 	@Override
 	public IProject getProject() {
-		// TODO Auto-generated method stub
-		return null;
+		assert(project != null);
+		return project;
 	}
 
 	@Override
 	public void setProject(IProject project) {
-		// TODO Auto-generated method stub
+		assert(project != null);
+		this.project = project;
+	}
 
+	/**
+	 * Helper static method.
+	 * @param project
+	 * @return TRUE if the given project has got the REPROTOOL Nature
+	 */
+	public static boolean hasThisNature(IProject project) {
+		try {
+			return project.hasNature(NATURE_ID);
+		} catch (CoreException e) {
+			return false;
+		}
 	}
 
 }
