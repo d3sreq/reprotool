@@ -192,20 +192,19 @@ public class ExtendedLtsEditor extends
 		HashMap<State, CGraphNode> map = new HashMap<State, CGraphNode>();
 		
 		// draw the states
-		//TODO: this is just a proof of concept that nodes can be rendered with different images
-		ImageFigure figNormalState = new ImageFigure(IMG_NORMAL_STATE);
-		figNormalState.setSize(16, 16);
-		
-		ImageFigure figInitialState = new ImageFigure(IMG_INITIAL_STATE);
-		figInitialState.setSize(16, 16);
-		
 		for (State s : machine.getAllStates()) {
 			CGraphNode gNode;
 			
-			if(machine.getInitialState() == s)
+			//TODO: this is just a proof of concept that nodes can be rendered with different images
+			if(machine.getInitialState() == s) {
+				ImageFigure figInitialState = new ImageFigure(IMG_INITIAL_STATE);
+				figInitialState.setSize(16, 16);
 				gNode = new CGraphNode(graph, SWT.NONE, figInitialState);
-			else
+			} else {
+				ImageFigure figNormalState = new ImageFigure(IMG_NORMAL_STATE);
+				figNormalState.setSize(16, 16);
 				gNode = new CGraphNode(graph, SWT.NONE, figNormalState);
+			}
 			
 			gNode.setData(s);
 			map.put(s, gNode);
@@ -219,7 +218,11 @@ public class ExtendedLtsEditor extends
 			if (node1 != null && node2 != null) {
 				GraphConnection conn = new GraphConnection(graph,
 						ZestStyles.CONNECTIONS_DIRECTED, node1, node2);
-				conn.setText(t.getSentence().getLabel());
+				
+				String transitionLabel = t.getSentence().getLabel();
+				if(transitionLabel != null) {
+					conn.setText(transitionLabel);
+				}
 			}
 		}
 
