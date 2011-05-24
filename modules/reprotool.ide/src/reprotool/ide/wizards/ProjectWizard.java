@@ -81,6 +81,7 @@ public class ProjectWizard extends Wizard implements INewWizard {
 						IProjectDescription desc = workspace
 								.newProjectDescription(projectHandle.getName());
 						desc.setLocationURI(projectURI);
+						desc.setNatureIds(new String[] {"reprotool.ide.natures.ReprotoolProjectNature"});
 
 						projectHandle.create(desc, progressMonitor);
 
@@ -97,6 +98,7 @@ public class ProjectWizard extends Wizard implements INewWizard {
 						// Create a resource for this file.
 						//
 						Resource resource = resourceSet.createResource(fileURI);
+						
 
 						// Add the initial model object to the contents.
 						//

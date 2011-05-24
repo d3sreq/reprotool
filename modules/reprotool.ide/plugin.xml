@@ -284,5 +284,32 @@
          </includes>
       </viewerContentBinding>
    </extension>
+   <extension
+         id="reprotool.ide.natures.ReprotoolProjectNature"
+         name="Reprotool Nature"
+         point="org.eclipse.core.resources.natures">
+      <runtime>
+         <run
+               class="reprotool.ide.natures.ReprotoolProjectNature">
+         </run>
+      </runtime>
+   </extension>
+   <extension
+         id="id1"
+         point="org.eclipse.core.resources.natures">
+      <runtime>
+         <run
+               class="reprotool.ide.ProjectNature1">
+         </run>
+      </runtime>
+   </extension>
+   <extension
+         point="org.eclipse.ui.ide.projectNatureImages">
+      <image
+            icon="icons/reprotool-web-logo-16x16.png"
+            id="reprotool.ide.natures.ProjectIcon"
+            natureId="reprotool.ide.natures.ReprotoolProjectNature">
+      </image>
+   </extension>
 
 </plugin>
