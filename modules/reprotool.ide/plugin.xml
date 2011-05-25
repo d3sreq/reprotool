@@ -303,5 +303,22 @@
             natureId="reprotool.ide.natures.ReprotoolProjectNature">
       </image>
    </extension>
+   <extension
+         point="org.eclipse.core.runtime.adapters">
+      <factory
+            adaptableType="reprotool.model.usecase.UseCaseStep"
+            class="reprotool.ide.adapter.UseCaseStepAdapterFactory">
+         <adapter
+               type="org.eclipse.ui.views.properties.IPropertySource">
+         </adapter>
+      </factory>
+      <factory
+            adaptableType="reprotool.ide.Factory2"
+            class="reprotool.ide.AdapterFactory2">
+         <adapter
+               type="reprotool.ide.Adapter2">
+         </adapter>
+      </factory>
+   </extension>
 
 </plugin>

@@ -42,6 +42,8 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.ui.part.EditorPart;
 import org.eclipse.ui.part.FileEditorInput;
+import org.eclipse.ui.views.properties.IPropertySheetPage;
+import org.eclipse.ui.views.properties.PropertySheetPage;
 
 import reprotool.ling.LingTools;
 import reprotool.model.usecase.UseCase;
@@ -71,6 +73,8 @@ public class UseCaseEditor extends EditorPart {
 	private TreeViewer treeViewer = null;
 	
 	private boolean dirty = false;
+	
+	private PropertySheetPage propertySheetPage;
 	
 	public static UseCaseEditor getActiveUseCaseEditor() {
 		IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
@@ -269,6 +273,7 @@ public class UseCaseEditor extends EditorPart {
 							treeViewer.update(step, new String[] {LABEL_PROPERTY});
 						}
 					}
+					refreshPropertySheet();
 					showSelectedStep();
 				}
 			}
@@ -333,6 +338,7 @@ public class UseCaseEditor extends EditorPart {
 		});
 		mntmDeleteStep.setText("Delete step");
 		
+		getSite().setSelectionProvider(treeViewer);
 		treeViewer.setInput(usecase);
 	}
 
@@ -343,6 +349,7 @@ public class UseCaseEditor extends EditorPart {
 
 	public void setSelection(UseCaseStep newStep) {
 		treeViewer.setSelection(new TreeSelection(new TreePath(new Object[] {newStep})));
+		refreshPropertySheet();
 	}
 	
 	public void refresh() {
@@ -418,5 +425,21 @@ public class UseCaseEditor extends EditorPart {
 	@Override
 	public boolean isSaveAsAllowed() {
 		return false;
+	}
+	
+	@SuppressWarnings("rawtypes")
+	@Override
+	public Object getAdapter(Class key) {
+		if (key.equals(IPropertySheetPage.class)) {
+			if (propertySheetPage == null)
+				propertySheetPage = new PropertySheetPage();
+			return propertySheetPage;
+		}
+		return super.getAdapter(key);
+	}
+	
+	private void refreshPropertySheet() {
+		if (propertySheetPage != null)
+			propertySheetPage.refresh();
 	}
 }
