@@ -7,6 +7,7 @@ import org.eclipse.ui.views.properties.PropertyDescriptor;
 import reprotool.model.usecase.UseCaseStep;
 
 public class UseCaseStepPropertySource implements IPropertySource {
+	private static final String ID_LABEL = "label";
 	private static final String ID_SENTENCE = "sentence";
 	private static final String ID_ACTION_TYPE = "actionType";
 	private static final String ID_TOKEN = "token";
@@ -26,10 +27,11 @@ public class UseCaseStepPropertySource implements IPropertySource {
 	@Override
 	public IPropertyDescriptor[] getPropertyDescriptors() {
 		if (propertyDescriptors == null) {
+            IPropertyDescriptor label = new PropertyDescriptor(ID_LABEL, "Label");
             IPropertyDescriptor sentence = new PropertyDescriptor(ID_SENTENCE, "Sentence");
             IPropertyDescriptor actionType = new PropertyDescriptor(ID_ACTION_TYPE, "Action type");
             IPropertyDescriptor token = new PropertyDescriptor(ID_TOKEN, "Token");
-            propertyDescriptors = new IPropertyDescriptor[] { sentence, actionType, token };
+            propertyDescriptors = new IPropertyDescriptor[] { label, sentence, actionType, token };
 	    }
 		return propertyDescriptors;
 	}
@@ -41,6 +43,8 @@ public class UseCaseStepPropertySource implements IPropertySource {
 			return "internal";
 		} else if (id.equals(ID_SENTENCE)) {
 			return step.getSentence();
+		} else if (id.equals(ID_LABEL)) {
+			return step.getLabel();
 		} else if (id.equals(ID_TOKEN)) {
 			return "#tokenText";
 		}
