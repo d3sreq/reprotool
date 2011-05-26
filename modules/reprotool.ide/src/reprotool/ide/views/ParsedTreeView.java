@@ -195,16 +195,20 @@ public class ParsedTreeView extends ViewPart {
 		}
 	}
 	
-	private void createGraph2EMFMapping(GraphNode gNode, InnerParseNode mNode) {
+	private void createGraph2EMFMapping(GraphNode gNode, ParseNode mNode) {
 		initGraphNode(gNode, mNode);
 		
+		if (!(mNode instanceof InnerParseNode)) {
+			return;
+		}
+		
+		InnerParseNode innerNode = (InnerParseNode) mNode;
 		for (int i = 0; i < gNode.getSourceConnections().size(); i++) {
 			GraphConnection con = (GraphConnection) gNode.getSourceConnections().get(i);
 			GraphNode gChild = con.getDestination();
-			ParseNode mChild = mNode.getChildNodes().get(i);
+			ParseNode mChild = innerNode.getChildNodes().get(i);
 			
-			if(mChild instanceof InnerParseNode)
-				createGraph2EMFMapping(gChild, (InnerParseNode) mChild);
+			createGraph2EMFMapping(gChild, mChild);
 		}
 	}
 	

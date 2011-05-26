@@ -1,5 +1,8 @@
 package reprotool.ide.parsetree;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
@@ -11,6 +14,7 @@ import org.eclipse.swt.graphics.PaletteData;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.zest.core.viewers.EntityConnectionData;
 
+import reprotool.model.linguistic.EWordType;
 import reprotool.model.linguistic.NounPhraseNode;
 import reprotool.model.linguistic.PrepositionalPhraseNode;
 import reprotool.model.linguistic.SentenceNode;
@@ -18,6 +22,20 @@ import reprotool.model.linguistic.VerbPhraseNode;
 import reprotool.model.linguistic.Word;
 
 public class NodeLabelProvider extends LabelProvider {
+    
+    private static final Map<EWordType, String>stringConsts = 
+    	new HashMap<EWordType, String>();
+
+    static {
+    	stringConsts.put(EWordType.SUBJECT, "subject");
+    	stringConsts.put(EWordType.VERB, "verb");
+    	stringConsts.put(EWordType.REPRESENTATIVE_OBJECT, "representative object");
+    	stringConsts.put(EWordType.NOT_IMPORTANT, "not important");
+    	stringConsts.put(EWordType.INDIRECT_OBJECT, "indirect object");
+    	stringConsts.put(EWordType.GOTO_TARGET, "goto target");
+    	stringConsts.put(EWordType.CONDITION_LABEL, "condition lable");
+    }
+    
 	
 	@Override
 	public String getText(Object element) {
@@ -32,28 +50,28 @@ public class NodeLabelProvider extends LabelProvider {
 			return "Verb phrase";
 		if(element instanceof PrepositionalPhraseNode)
 			return "Prep. phrase";
-		
-		if (element instanceof EntityConnectionData) {
+		if (element instanceof EntityConnectionData)
 			return null;
-		}
 		
-		throw new RuntimeException("Type not supported");
+		throw new RuntimeException("Type " + element.getClass() + " not supported");
+		
 	}
 	
 	public int countNodeWidth(Word w) {
-		int strLen = "wordType".length();
+		int strLen = stringConsts.get(w.getWordType()).length();
+		
 		if (strLen < w.getWordStr().length()) {
 			strLen = w.getWordStr().length();
 		}
 		
 		int width = strLen * 7;
 		if (strLen > 14) {
-			width -= 16;
+			width -= 25;
 		}
 		
 		if (
-				("wordType".length() <= 7) &&
-				(w.getWordStr().length() <= "wordType".length())
+				(stringConsts.get(w.getWordType()).length() <= 7) &&
+				(w.getWordStr().length() <= stringConsts.get(w.getWordType()).length())
 		) {
 			width += 7;
 		}
@@ -70,8 +88,8 @@ public class NodeLabelProvider extends LabelProvider {
 			
 			String offset = "";
 			if (
-					("wordType".length() <= 7) &&
-					(word.getWordStr().length() <= "wordType".length())
+					(stringConsts.get(word.getWordType()).length() <= 7) &&
+					(word.getWordStr().length() <= stringConsts.get(word.getWordType()).length())
 			) {	
 				offset = " ";
 			}
@@ -89,7 +107,7 @@ public class NodeLabelProvider extends LabelProvider {
 			gc.fillRectangle(image.getBounds());
 			gc.drawLine(0, 15, 110, 15);
 			gc.setFont(new Font(Display.getDefault(), "Arial", 8, SWT.BOLD | SWT.ITALIC));
-			gc.drawText("wordType" + offset, 0, 0);
+			gc.drawText(stringConsts.get(word.getWordType()) + offset, 0, 0);
 			gc.setForeground(new Color(Display.getDefault(), 255, 0, 0));
 			gc.setFont(new Font(Display.getDefault(), "Arial", 8, SWT.BOLD));
 			gc.drawText(word.getWordStr(), 0, 18);
@@ -102,7 +120,5 @@ public class NodeLabelProvider extends LabelProvider {
 		}
 		
 		return null;
-	}
-	
-	
+	}	
 }

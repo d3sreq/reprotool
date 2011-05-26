@@ -258,7 +258,7 @@ public class UseCaseEditor extends EditorPart {
 							(step.getSentence() == null || !step.getSentence().equals(value.toString())) ) {
 						step.setSentence(value.toString());
 						treeViewer.update(step, new String[] {SENTENCE_PROPERTY});
-						//step.setParsedSentence(lingTools.parseSentence(step.getSentence()));
+						step.setParsedSentence(lingTools.parseSentence(step.getSentence()));
 						setDirty(true);
 					} else if (LABEL_PROPERTY.equals(property)) {
 						final String label = value.toString();

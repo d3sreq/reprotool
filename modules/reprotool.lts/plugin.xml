@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            class="reprotool.lts.editor.LTSDebugEditor"
+            contributorClass="reprotool.lts.editor.LTSDebugActionBarContributor"
+            default="false"
+            extensions="lts"
+            id="cz.cuni.mff.reprotool.lts.LTSDebugEditor"
+            name="LTSDebugEditor">
+      </editor>
+   </extension>
+
+</plugin>
