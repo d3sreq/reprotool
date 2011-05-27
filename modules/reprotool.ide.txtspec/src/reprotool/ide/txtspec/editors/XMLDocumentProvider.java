@@ -20,7 +20,6 @@ public class XMLDocumentProvider extends FileDocumentProvider {
 						XMLPartitionScanner.XML_COMMENT });
 			partitioner.connect(document);
 			document.setDocumentPartitioner(partitioner);
-			//document.set(new String((new ReadXMLFile()).OVPO()));
 		}
 		return document;
 	}
