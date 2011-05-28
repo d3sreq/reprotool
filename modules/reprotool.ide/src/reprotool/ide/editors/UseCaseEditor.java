@@ -83,7 +83,6 @@ public class UseCaseEditor extends EditorPart {
 	// global actions for toolbar contribution
 	public IAction undoAction;
 	public IAction redoAction;
-	public IAction deleteAction;
 	private UndoStack undoStack;
 
 	/**
@@ -285,7 +284,7 @@ public class UseCaseEditor extends EditorPart {
 		button_3.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				deleteAction.run();
+				runCommand("org.eclipse.ui.edit.delete");
 			}
 		});
 		button_3.setBounds(235, 7, 70, 29);
@@ -398,7 +397,7 @@ public class UseCaseEditor extends EditorPart {
 		mntmDeleteStep.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				deleteAction.run();
+				runCommand("org.eclipse.ui.edit.delete");
 			}
 		});
 		mntmDeleteStep.setText("Delete step");
@@ -425,13 +424,6 @@ public class UseCaseEditor extends EditorPart {
 				undoStack.redo();
 			}
 		};
-		deleteAction = new Action() {
-			@Override
-			public void run() {
-				runCommand("commands.deleteStep");
-			}
-		};
-
 	}
 
 	@Override

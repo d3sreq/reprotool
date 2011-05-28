@@ -10,7 +10,6 @@ import org.eclipse.ui.part.EditorActionBarContributor;
 public class UseCaseActionBarContributor extends EditorActionBarContributor {
 	private LabelRetargetAction undo = new LabelRetargetAction(ActionFactory.UNDO.getId(), "");
 	private LabelRetargetAction redo = new LabelRetargetAction(ActionFactory.REDO.getId(), "");
-	private LabelRetargetAction delete = new LabelRetargetAction(ActionFactory.DELETE.getId(), "");
 
 	public UseCaseActionBarContributor() {
 	}
@@ -29,8 +28,6 @@ public class UseCaseActionBarContributor extends EditorActionBarContributor {
 				((UseCaseEditor) editor).undoAction);
 		bars.setGlobalActionHandler(ActionFactory.REDO.getId(),
 				((UseCaseEditor) editor).redoAction);
-		bars.setGlobalActionHandler(ActionFactory.DELETE.getId(),
-				((UseCaseEditor) editor).deleteAction);
 		bars.updateActionBars();
 	}
 
@@ -40,14 +37,12 @@ public class UseCaseActionBarContributor extends EditorActionBarContributor {
 		bars.clearGlobalActionHandlers();
 		page.addPartListener(undo);
 		page.addPartListener(redo);
-		page.addPartListener(delete);
 	}
 
 	@Override
 	public void dispose() {
 		getPage().removePartListener(undo);
 		getPage().removePartListener(redo);
-		getPage().removePartListener(delete);
 		super.dispose();
 	}
 }
