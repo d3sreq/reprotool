@@ -18,6 +18,8 @@ public class MoveStep extends AbstractHandler {
 		if (step == null)
 			return null;
 		
+		editor.saveUndoState();
+		
 		Scenario parent = (Scenario)step.eContainer();
 		
 		int pos = parent.getSteps().indexOf(step);
@@ -26,6 +28,7 @@ public class MoveStep extends AbstractHandler {
 		else if (event.getCommand().getId().equals("commands.stepDown") && pos < parent.getSteps().size()-1)
 			parent.getSteps().move(pos+1, pos);
 		
+		editor.setDirty();
 		editor.refresh();
 		editor.setSelection(step);
 		return null;

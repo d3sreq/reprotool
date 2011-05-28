@@ -12,8 +12,9 @@ public class DeleteStep extends AbstractHandler {
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		UseCaseEditor editor = UseCaseEditor.getActiveUseCaseEditor();
-		if (editor == null)
+		if (editor == null || editor.getSelection().length == 0)
 			return null;
+		editor.saveUndoState();
 		for (Object o : editor.getSelection()) {
 			if (o instanceof UseCaseStep) {
 				UseCaseStep step = (UseCaseStep)o;
@@ -25,6 +26,7 @@ public class DeleteStep extends AbstractHandler {
 			}
 		}
 		
+		editor.setDirty();
 		editor.refresh();
 		return null;
 	}

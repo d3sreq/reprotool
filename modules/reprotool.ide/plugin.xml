@@ -56,6 +56,7 @@
          point="org.eclipse.ui.editors">
       <editor
             class="reprotool.ide.editors.UseCaseEditor"
+            contributorClass="reprotool.ide.editors.UseCaseActionBarContributor"
             default="true"
             extensions="usecase"
             icon="icons/use-case-icon-16x16.png"
@@ -310,13 +311,6 @@
             class="reprotool.ide.adapter.UseCaseStepAdapterFactory">
          <adapter
                type="org.eclipse.ui.views.properties.IPropertySource">
-         </adapter>
-      </factory>
-      <factory
-            adaptableType="reprotool.ide.Factory2"
-            class="reprotool.ide.AdapterFactory2">
-         <adapter
-               type="reprotool.ide.Adapter2">
          </adapter>
       </factory>
    </extension>

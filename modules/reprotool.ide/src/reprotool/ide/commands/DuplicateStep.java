@@ -19,6 +19,8 @@ public class DuplicateStep extends AbstractHandler {
 		if (selected == null || ! (selected instanceof UseCaseStep))
 			return null;
 		
+		editor.saveUndoState();
+		
 		// clone the EObject
 		UseCaseStep newStep = EcoreUtil.copy(selected);
 		
@@ -26,6 +28,7 @@ public class DuplicateStep extends AbstractHandler {
 		// add new step just after the selected step
 		parent.getSteps().add(parent.getSteps().indexOf(selected)+1, newStep);
 		editor.refresh();
+		editor.setDirty();
 		editor.setSelection(newStep);
 		return null;
 	}

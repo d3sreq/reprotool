@@ -19,6 +19,8 @@ public class NewStep extends AbstractHandler {
 		if (editor == null)
 			return null;
 		
+		editor.saveUndoState();
+		
 		UseCase uc = editor.getEditedUseCase();
 		UsecaseFactory ucFactory = new UsecaseFactoryImpl();
 		UseCaseStep newStep = ucFactory.createUseCaseStep();
@@ -42,6 +44,7 @@ public class NewStep extends AbstractHandler {
 			// add new step to the beginning
 			scen.getSteps().add(0, newStep);
 		}
+		editor.setDirty();
 		editor.setSelection(newStep);
 		editor.refresh();
 		return null;
