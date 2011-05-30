@@ -145,7 +145,10 @@ public class UseCaseStepTreeProvider implements ITreeContentProvider, ITableLabe
 
 		@Override
 		public String getSentenceColumn() {
-			return getTypeColumn();
+			if (scen.getDescription() == null || scen.getDescription().isEmpty())
+				return getTypeColumn();
+			else
+				return getTypeColumn()+": "+scen.getDescription();
 		}
 
 		@Override

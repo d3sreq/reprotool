@@ -50,6 +50,7 @@ import org.eclipse.ui.views.properties.IPropertySheetPage;
 import org.eclipse.ui.views.properties.PropertySheetPage;
 
 import reprotool.ling.LingTools;
+import reprotool.model.usecase.Scenario;
 import reprotool.model.usecase.UseCase;
 import reprotool.model.usecase.UseCaseStep;
 
@@ -81,8 +82,8 @@ public class UseCaseEditor extends EditorPart {
 	private PropertySheetPage propertySheetPage;
 
 	// global actions for toolbar contribution
-	public IAction undoAction;
-	public IAction redoAction;
+	private IAction undoAction;
+	private IAction redoAction;
 	private UndoStack undoStack;
 
 	/**
@@ -296,8 +297,9 @@ public class UseCaseEditor extends EditorPart {
 
 		treeViewer.setCellModifier(new ICellModifier() {
 			public boolean canModify(Object element, String property) {
-				return (element instanceof UseCaseStep)
-						&& (SENTENCE_PROPERTY.equals(property) || LABEL_PROPERTY.equals(property));
+				return ((element instanceof UseCaseStep && 
+						(SENTENCE_PROPERTY.equals(property) || LABEL_PROPERTY.equals(property))) || 
+						(element instanceof Scenario && SENTENCE_PROPERTY.equals(property)));
 			}
 
 			public Object getValue(Object element, String property) {
@@ -311,6 +313,12 @@ public class UseCaseEditor extends EditorPart {
 						else
 							return step.getLabel();
 					}
+				} else if (element instanceof Scenario) {
+					Scenario scen = (Scenario)element;
+					if (scen.getDescription() == null)
+						return "";
+					else
+						return scen.getDescription();
 				}
 				return "";
 			}
@@ -327,22 +335,29 @@ public class UseCaseEditor extends EditorPart {
 						step.setParsedSentence(lingTools.parseSentence(step.getSentence()));
 						setDirty();
 					} else if (LABEL_PROPERTY.equals(property)) {
-						final String label = value.toString();
-						final String oldlabel = step.getLabel();
-						saveUndoState();
-						if ((label.isEmpty() || label.equals("*")))
-							step.setLabel(null);
-						else
-							step.setLabel(label);
-						// update if the label actually changed
-						if (!(oldlabel == step.getLabel() || label.equals(oldlabel))) {
+						if (step.getLabel() == null)
+							step.setLabel("");
+						if (!step.getLabel().equals(value.toString())) {
+							saveUndoState();
+							step.setLabel(value.toString());
 							setDirty();
 							treeViewer.update(step, new String[] { LABEL_PROPERTY });
+							refreshPropertySheet();
 						}
 					}
-					refreshPropertySheet();
-					showSelectedStep();
+				} else if (item instanceof Scenario) {
+					Scenario scen = (Scenario)item;
+					if (scen.getDescription() == null)
+						scen.setDescription("");
+					if (!scen.getDescription().equals(value.toString())) {
+						saveUndoState();
+						scen.setDescription(value.toString());
+						setDirty();
+						treeViewer.update(scen, new String[] { SENTENCE_PROPERTY });
+						refreshPropertySheet();
+					}
 				}
+				showSelectedStep();
 			}
 		});
 		treeViewer
@@ -514,6 +529,14 @@ public class UseCaseEditor extends EditorPart {
 	@Override
 	public boolean isSaveAsAllowed() {
 		return false;
+	}
+	
+	public IAction getUndoAction() {
+		return undoAction;
+	}
+	
+	public IAction getRedoAction() {
+		return redoAction;
 	}
 
 	// this method is here only to save the propertySheetPage reference to allow

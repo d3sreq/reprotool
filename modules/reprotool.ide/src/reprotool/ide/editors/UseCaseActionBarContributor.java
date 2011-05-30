@@ -25,9 +25,9 @@ public class UseCaseActionBarContributor extends EditorActionBarContributor {
 
 	private void hookActions(IEditorPart editor, IActionBars bars) {
 		bars.setGlobalActionHandler(ActionFactory.UNDO.getId(),
-				((UseCaseEditor) editor).undoAction);
+				((UseCaseEditor) editor).getUndoAction());
 		bars.setGlobalActionHandler(ActionFactory.REDO.getId(),
-				((UseCaseEditor) editor).redoAction);
+				((UseCaseEditor) editor).getRedoAction());
 		bars.updateActionBars();
 	}
 

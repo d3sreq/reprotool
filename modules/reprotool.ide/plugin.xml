@@ -308,7 +308,14 @@
          point="org.eclipse.core.runtime.adapters">
       <factory
             adaptableType="reprotool.model.usecase.UseCaseStep"
-            class="reprotool.ide.adapter.UseCaseStepAdapterFactory">
+            class="reprotool.ide.adapter.UseCaseElementAdapterFactory">
+         <adapter
+               type="org.eclipse.ui.views.properties.IPropertySource">
+         </adapter>
+      </factory>
+      <factory
+            adaptableType="reprotool.model.usecase.Scenario"
+            class="reprotool.ide.adapter.UseCaseElementAdapterFactory">
          <adapter
                type="org.eclipse.ui.views.properties.IPropertySource">
          </adapter>
