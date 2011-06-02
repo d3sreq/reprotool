@@ -26,7 +26,10 @@ import org.eclipse.zest.core.widgets.Graph;
 import org.eclipse.zest.core.widgets.GraphConnection;
 import org.eclipse.zest.core.widgets.GraphNode;
 import org.eclipse.zest.core.widgets.ZestStyles;
+import org.eclipse.zest.layouts.LayoutAlgorithm;
 import org.eclipse.zest.layouts.LayoutStyles;
+import org.eclipse.zest.layouts.algorithms.CompositeLayoutAlgorithm;
+import org.eclipse.zest.layouts.algorithms.HorizontalShift;
 import org.eclipse.zest.layouts.algorithms.TreeLayoutAlgorithm;
 
 import reprotool.ide.parsetree.NodeContentProvider;
@@ -310,8 +313,16 @@ public class ParsedTreeView extends ViewPart {
 			
 		});
 		
-		
-		viewer.setLayoutAlgorithm(tla, true);		
+		viewer.setLayoutAlgorithm(
+				new CompositeLayoutAlgorithm(
+						new LayoutAlgorithm[] {
+								
+								tla,
+								new HorizontalShift(LayoutStyles.ENFORCE_BOUNDS)
+						}
+				),
+				true
+			);
 	}
 
 	@Override

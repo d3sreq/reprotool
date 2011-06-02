@@ -3,6 +3,7 @@ package reprotool.lts.editor;
 import java.util.Comparator;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.draw2d.SWTEventDispatcher;
+import org.eclipse.draw2d.SWTGraphics;
 import org.eclipse.emf.common.ui.ViewerPane;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.ui.celleditor.AdapterFactoryTreeEditor;
@@ -14,13 +15,29 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ControlAdapter;
 import org.eclipse.swt.events.ControlEvent;
+import org.eclipse.swt.events.MouseAdapter;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.ImageData;
+import org.eclipse.swt.graphics.ImageLoader;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.FileDialog;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.MenuItem;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.zest.core.viewers.GraphViewer;
+import org.eclipse.zest.core.widgets.Graph;
 import org.eclipse.zest.core.widgets.ZestStyles;
+import org.eclipse.zest.layouts.LayoutAlgorithm;
 import org.eclipse.zest.layouts.LayoutStyles;
-import org.eclipse.zest.layouts.algorithms.TreeLayoutAlgorithm;
+
 
 import reprotool.model.lts.StateMachine;
 import reprotool.model.lts.presentation.LtsEditor;
@@ -30,8 +47,7 @@ public class LTSDebugEditor extends LtsEditor {
 	private StateMachine machine;
 	private GraphViewer viewer;
 	private Composite graphParent;
-	private TreeLayoutAlgorithm tla;
-	
+	private LayoutAlgorithm la;
 	
 	@Override
 	public boolean isDirty() {
@@ -106,9 +122,8 @@ public class LTSDebugEditor extends LtsEditor {
 				machine = (StateMachine) obj;				
 				graphParent = getContainer();
 				
-				tla = new TreeLayoutAlgorithm(LayoutStyles.NO_LAYOUT_NODE_RESIZING);
-				
-				tla.setComparator(new Comparator() {
+				la = new GXTreeLayoutAlgorithm(LayoutStyles.NO_LAYOUT_NODE_RESIZING);
+				la.setComparator(new Comparator() {
 					
 					/* We just keep the original order */
 					@Override
@@ -130,9 +145,51 @@ public class LTSDebugEditor extends LtsEditor {
 						}
 				);
 				
+				
 				viewer.setContentProvider(new NodeContentProvider());
 				viewer.setLabelProvider(new NodeLabelProvider());							
-				viewer.setLayoutAlgorithm(tla, false);
+				viewer.setLayoutAlgorithm(la, false);
+				
+				final Menu menu = new Menu(graphParent);
+				MenuItem saveItem = new MenuItem(menu, SWT.PUSH);
+				saveItem.setText("save image");
+				
+				saveItem.addSelectionListener(new SelectionAdapter() {
+
+					@Override
+					public void widgetSelected(SelectionEvent e) {
+						Display d = Display.getDefault();
+						Shell s = graphParent.getShell();
+						FileDialog fd = new FileDialog(s, SWT.SAVE);
+						fd.setFilterExtensions(new String[] {"*.png"});
+						fd.setText("Save");
+						String selected = fd.open();
+					        
+						Graph g = viewer.getGraphControl();
+						Point size = new Point(g.getContents().getSize().width, g.getContents().getSize().height);
+						final Image image = new Image(null, size.x, size.y);
+						GC gc = new GC(image);
+						SWTGraphics swtGraphics = new SWTGraphics(gc);
+						g.getViewport().paint(swtGraphics);
+						gc.dispose();
+
+						ImageLoader loader = new ImageLoader();
+						loader.data = new ImageData[] {image.getImageData()};
+						loader.save(selected, SWT.IMAGE_PNG);
+					}
+					
+				});
+				
+				viewer.getGraphControl().addMouseListener(new MouseAdapter() {
+					
+					public void mouseDown(MouseEvent e) {
+						/* TODO there must be a nicer way how to do this :-) */
+						if (e.button == 3) {
+							menu.setVisible(true);
+						}
+					}
+					
+				});
 				
 				showGraph();
 
