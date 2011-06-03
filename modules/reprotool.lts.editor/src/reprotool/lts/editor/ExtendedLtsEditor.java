@@ -1,87 +1,65 @@
 package reprotool.lts.editor;
 
-import java.net.URL;
 import java.util.Comparator;
-import java.util.HashMap;
 
-import org.eclipse.core.runtime.Platform;
-import org.eclipse.draw2d.Ellipse;
-import org.eclipse.draw2d.IFigure;
-import org.eclipse.draw2d.ImageFigure;
 import org.eclipse.draw2d.SWTEventDispatcher;
+import org.eclipse.draw2d.SWTGraphics;
 import org.eclipse.emf.common.ui.ViewerPane;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.ui.celleditor.AdapterFactoryTreeEditor;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ControlAdapter;
 import org.eclipse.swt.events.ControlEvent;
+import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
-import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.ImageData;
+import org.eclipse.swt.graphics.ImageLoader;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.FileDialog;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.MenuItem;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Tree;
-import org.eclipse.zest.core.widgets.CGraphNode;
+import org.eclipse.zest.core.viewers.GraphViewer;
 import org.eclipse.zest.core.widgets.Graph;
-import org.eclipse.zest.core.widgets.GraphConnection;
-import org.eclipse.zest.core.widgets.GraphNode;
 import org.eclipse.zest.core.widgets.ZestStyles;
+import org.eclipse.zest.layouts.LayoutAlgorithm;
 import org.eclipse.zest.layouts.LayoutStyles;
-import org.eclipse.zest.layouts.algorithms.TreeLayoutAlgorithm;
-import org.osgi.framework.Bundle;
 
-import reprotool.model.lts.State;
 import reprotool.model.lts.StateMachine;
-import reprotool.model.lts.Transition;
-import reprotool.model.lts.presentation.ReprotoolEditorPlugin;
+import reprotool.model.lts.presentation.LtsEditor;
 
 /**
  * This is extended LTS editor build upon the generated LtsEditor
  */
-public class ExtendedLtsEditor extends
-		reprotool.model.lts.presentation.LtsEditor {
+public class ExtendedLtsEditor extends LtsEditor {
 
-	private static Image IMG_INITIAL_STATE = createImageFromBundledIcon("initial-state-16x16.png");
-	private static Image IMG_NORMAL_STATE = createImageFromBundledIcon("normal-state-16x16.png");
-	private static Image IMG_ABORT_STATE = createImageFromBundledIcon("abort-state-16x16.png");
-	private static Image IMG_SUCCESS_STATE = createImageFromBundledIcon("initial-state-16x16.png");
+	private GraphViewer viewer;
 	
-	/**
-	 * Creates an Image object from the icon image located in "icons"
-	 * directory of the bundle.
-	 * Remember that content of a fragment is merged to the original plugin.
-	 * You have to use name of the original plugin instead of the fragment's name
-	 * (in this case use reprotool.model.editor instead of reprotool.lts.editor)
-	 * @param iconName
-	 */
-	private static Image createImageFromBundledIcon(String iconName) {
-		// because this is a fragment's code, we have to access the resources using the original plugin name 
-		Bundle bundle = Platform.getBundle("reprotool.model.editor");
-		
-		// the icons dir in reprotool.lts.editor will be merged with icons dir in reprotool.model.editor
-		URL url = bundle.getResource("icons/" + iconName);
-		
-		ImageDescriptor imgDescriptor = ImageDescriptor.createFromURL(url);
-		return imgDescriptor.createImage();
+	public void showGraph(StateMachine machine) {
+		viewer.setInput(machine);
+		viewer.getGraphControl().setNodeStyle(ZestStyles.NODES_NO_ANIMATION);
+		viewer.applyLayout();
 	}
 	
 	@Override
 	public void createPages() {
 		// Creates the model from the editor input
-		//
 		createModel();
 
 		// Only creates the other pages if there is something that can be edited
-		//
 		if (!getEditingDomain().getResourceSet().getResources().isEmpty()) {
 			// Create a page for the selection tree view.
-			//
 			{
 				ViewerPane viewerPane = new ViewerPane(getSite().getPage(),
 						ExtendedLtsEditor.this) {
@@ -100,37 +78,29 @@ public class ExtendedLtsEditor extends
 				};
 				viewerPane.createControl(getContainer());
 
-				selectionViewer = (TreeViewer) viewerPane.getViewer();
-				selectionViewer
-						.setContentProvider(new AdapterFactoryContentProvider(
-								adapterFactory));
+				selectionViewer = (TreeViewer)viewerPane.getViewer();
+				selectionViewer.setContentProvider(new AdapterFactoryContentProvider(adapterFactory));
 
-				selectionViewer
-						.setLabelProvider(new AdapterFactoryLabelProvider(
-								adapterFactory));
+				selectionViewer.setLabelProvider(new AdapterFactoryLabelProvider(adapterFactory));
 				selectionViewer.setInput(editingDomain.getResourceSet());
-				selectionViewer.setSelection(new StructuredSelection(
-						editingDomain.getResourceSet().getResources().get(0)),
-						true);
+				selectionViewer.setSelection(new StructuredSelection(editingDomain.getResourceSet().getResources().get(0)), true);
 				viewerPane.setTitle(editingDomain.getResourceSet());
 
-				new AdapterFactoryTreeEditor(selectionViewer.getTree(),
-						adapterFactory);
+				new AdapterFactoryTreeEditor(selectionViewer.getTree(), adapterFactory);
 
 				createContextMenuFor(selectionViewer);
 				int pageIndex = addPage(viewerPane.getControl());
-				setPageText(pageIndex,
-						ReprotoolEditorPlugin.INSTANCE
-								.getString("_UI_SelectionPage_label"));
+				setPageText(pageIndex, "Selection");
 			}
 
 			// Create a page for the Graph view.
-			//
 			{
-				Resource resource = editingDomain.getResourceSet()
-						.getResources().get(0);
+				Resource resource = editingDomain.getResourceSet().getResources().get(0);
 				Object obj = resource.getContents().get(0);
-				createLtsGraph(getContainer(), (StateMachine) obj);
+
+				StateMachine machine = (StateMachine) obj;
+				createLtsGraph(getContainer(), machine);
+				showGraph(machine);
 			}
 
 			getSite().getShell().getDisplay().asyncExec(new Runnable() {
@@ -163,82 +133,85 @@ public class ExtendedLtsEditor extends
 		});
 	}
 
-	static private final Color COLOR_WHITE = new Color(Display.getDefault(),
-			255, 255, 255);
-
 	/**
-	 * @param parent
+	 * @param graphParent
 	 *            Where to paint the graph
 	 * @param machine
 	 *            Which StateMachine to show
 	 */
-	private void createLtsGraph(Composite parent, StateMachine machine) {
-
-		Graph graph = new Graph(parent, SWT.NONE);
-
-		int pageIndex = addPage(graph);
-		setPageText(pageIndex, "Graph view");
-
-		graph.setNodeStyle(ZestStyles.NODES_NO_ANIMATION);
-		graph.getLightweightSystem().setEventDispatcher(
+	private void createLtsGraph(final Composite graphParent, StateMachine machine) {
+		
+		// Create a new graph
+		viewer = new GraphViewer(graphParent, SWT.NONE);
+		viewer.setConnectionStyle(ZestStyles.CONNECTIONS_DIRECTED);
+		viewer.getGraphControl().getLightweightSystem().setEventDispatcher(
 				new SWTEventDispatcher() {
 					@Override
-					public void dispatchMouseMoved(MouseEvent me) {
+					public void dispatchMouseMoved(org.eclipse.swt.events.MouseEvent me) {
 						// Do nothing. This disables nodes replacing with mouse.
 					}
-				});
-
-		// which state is represented with which graph node
-		HashMap<State, CGraphNode> map = new HashMap<State, CGraphNode>();
-		
-		// draw the states
-		for (State s : machine.getAllStates()) {
-			CGraphNode gNode;
-			
-			//TODO: this is just a proof of concept that nodes can be rendered with different images
-			if(machine.getInitialState() == s) {
-				ImageFigure figInitialState = new ImageFigure(IMG_INITIAL_STATE);
-				figInitialState.setSize(16, 16);
-				gNode = new CGraphNode(graph, SWT.NONE, figInitialState);
-			} else {
-				ImageFigure figNormalState = new ImageFigure(IMG_NORMAL_STATE);
-				figNormalState.setSize(16, 16);
-				gNode = new CGraphNode(graph, SWT.NONE, figNormalState);
-			}
-			
-			gNode.setData(s);
-			map.put(s, gNode);
-		}
-		
-		// now connect the states with transitions
-		for (Transition t : machine.getAllTransitions()) {
-			GraphNode node1 = map.get(t.getSource());
-			GraphNode node2 = map.get(t.getTarget());
-
-			if (node1 != null && node2 != null) {
-				GraphConnection conn = new GraphConnection(graph,
-						ZestStyles.CONNECTIONS_DIRECTED, node1, node2);
-				
-				String transitionLabel = t.getSentence().getLabel();
-				if(transitionLabel != null) {
-					conn.setText(transitionLabel);
 				}
-			}
-		}
+		);
+		
+		
+		viewer.setContentProvider(new NodeContentProvider());
+		viewer.setLabelProvider( new NodeLabelProvider(machine) );
 
-		TreeLayoutAlgorithm tla = new TreeLayoutAlgorithm(
-				LayoutStyles.NO_LAYOUT_NODE_RESIZING);
-
-		tla.setComparator(new Comparator<Object>() {
-
+		// layout algorithm
+		LayoutAlgorithm la = new GXTreeLayoutAlgorithm(LayoutStyles.NO_LAYOUT_NODE_RESIZING);
+		la.setComparator(new Comparator<Object>() {
+			
+			/* We just keep the original order */
 			@Override
-			public int compare(Object node1, Object node2) {
-				// We just keep the original order
+			public int compare (Object node1, Object node2) {
 				return 0;
 			}
-
+			
 		});
+		viewer.setLayoutAlgorithm(la, false);
 
-		graph.setLayoutAlgorithm(tla, true);
+		// popup menu
+		final Menu menu = new Menu(graphParent);
+		MenuItem saveItem = new MenuItem(menu, SWT.PUSH);
+		saveItem.setText("save image");
+		
+		saveItem.addSelectionListener(new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				Shell s = graphParent.getShell();
+				FileDialog fd = new FileDialog(s, SWT.SAVE);
+				fd.setFilterExtensions(new String[] {"*.png"});
+				fd.setText("Save");
+				String selected = fd.open();
+			        
+				Graph g = viewer.getGraphControl();
+				Point size = new Point(g.getContents().getSize().width, g.getContents().getSize().height);
+				final Image image = new Image(null, size.x, size.y);
+				GC gc = new GC(image);
+				SWTGraphics swtGraphics = new SWTGraphics(gc);
+				g.getViewport().paint(swtGraphics);
+				gc.dispose();
+
+				ImageLoader loader = new ImageLoader();
+				loader.data = new ImageData[] {image.getImageData()};
+				loader.save(selected, SWT.IMAGE_PNG);
+			}
+			
+		});
+		
+		viewer.getGraphControl().addMouseListener(new MouseAdapter() {
+			
+			public void mouseDown(MouseEvent e) {
+				/* TODO there must be a nicer way how to do this :-) */
+				if (e.button == 3) {
+					menu.setVisible(true);
+				}
+			}
+			
+		});
+		
+		int pageIndex = addPage(viewer.getGraphControl());
+		setPageText(pageIndex, "Graph view");
 	}
 }
