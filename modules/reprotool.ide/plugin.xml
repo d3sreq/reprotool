@@ -105,7 +105,7 @@
       </command>
       <command
             defaultHandler="reprotool.ide.commands.DeleteStep"
-            id="org.eclipse.ui.edit.delete"
+            id="commands.deleteStep"
             name="Delete step">
       </command>
       <command
@@ -320,6 +320,50 @@
                type="org.eclipse.ui.views.properties.IPropertySource">
          </adapter>
       </factory>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="popup:org.eclipse.ui.navigator.ProjectExplorer#PopupMenu">
+         <command
+               commandId="commands.addActor"
+               label="Add actor"
+               style="push">
+            <visibleWhen
+                  checkEnabled="false">
+                  <with
+                        variable="activeMenuSelection">
+                     <iterate
+                           ifEmpty="false">
+                        <instanceof
+                              value="reprotool.model.swproj.SoftwareProject">
+                        </instanceof>
+                     </iterate>
+                  </with>
+            </visibleWhen>
+            <parameter
+                  name="reprotool.ide.parameter1"
+                  value="reprotool.ide.parameter1">
+            </parameter>
+         </command>
+         <command
+               commandId="org.eclipse.ui.edit.delete"
+               label="Remove actor"
+               style="push">
+            <visibleWhen
+                  checkEnabled="false">
+               <with
+                     variable="activeMenuSelection">
+                  <iterate>
+                     <instanceof
+                           value="reprotool.model.swproj.Actor">
+                     </instanceof>
+                  </iterate>
+               </with>
+            </visibleWhen>
+         </command>
+      </menuContribution>
    </extension>
 
 </plugin>

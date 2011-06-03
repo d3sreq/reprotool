@@ -3,13 +3,14 @@ package reprotool.ide.commands;
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
-import org.eclipse.jface.window.Window;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.handlers.HandlerUtil;
 
-import reprotool.ide.dialogs.ActorDetail;
-import reprotool.ide.editors.ProjectEditor;
 import reprotool.ide.service.Service;
 import reprotool.model.swproj.Actor;
+import reprotool.model.swproj.SoftwareProject;
 
 /**
  * Command to add actor. Proof of concept
@@ -21,14 +22,22 @@ public class AddActor extends AbstractHandler {
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-		Actor newActor = Service.INSTANCE.createActor();
-		ProjectEditor projectEditor = (ProjectEditor)HandlerUtil.getActiveEditor(event);
-		
-		ActorDetail dialog = new ActorDetail(null, newActor);
 
-		if (dialog.open() == Window.OK) {
-			projectEditor.getProject().getActors().add(dialog.getActor());
-			projectEditor.markDirty();
+		ISelection selection = HandlerUtil.getActiveWorkbenchWindow(event).getActivePage().getSelection();
+		if (selection != null && selection instanceof IStructuredSelection) {
+			IStructuredSelection structuredSelection = (IStructuredSelection) selection;
+
+			if (structuredSelection.getFirstElement() instanceof SoftwareProject) {
+				SoftwareProject project = (SoftwareProject) structuredSelection.getFirstElement();
+				Actor newActor = Service.INSTANCE.createActor();
+				newActor.setName("test");
+				project.getActors().add(newActor);
+
+				// TODO - notify navigator
+//				org.eclipse.ui.navigator.CommonNavigator c;
+//				c.getCommonViewer().refresh();
+
+			}
 		}
 
 		return null;
