@@ -80,16 +80,32 @@ public class Sentence {
         			iword.remove();
         		}
             }       	
-        } else if (has_neg > 0){
+        } else {
+        	// positive sentence -> creating negative
         	Iterator<Word> iword = negation.words.iterator();
         	Boolean goon = true;
-        	while(iword.hasNext() && goon){
-        		Word word = iword.next();
-        		
-        		if(!word.negation.isEmpty()){ 
-        			word.negate();
+        	int i = 0;
+        	for(i = 0; (goon && i<negation.words.size()); i++){
+        		if(negation.words.get(i).POS.contains("VBP")){ 
         			goon = false;
         		}       		
+        	}       	
+        	if(!goon){
+        		negation.words.add(i, new Word("not_RB"));
+        	} else {
+        		// last - logic negation (antonyms)
+	        	if (has_neg > 0){
+		        	iword = negation.words.iterator();
+		        	goon = true;
+		        	while(iword.hasNext() && goon){
+		        		Word word = iword.next();
+		        		
+		        		if(!word.negation.isEmpty()){ 
+		        			word.negate();
+		        			goon = false;
+		        		}       		
+		        	}
+	        	}
         	}
         }
     	return negation;
