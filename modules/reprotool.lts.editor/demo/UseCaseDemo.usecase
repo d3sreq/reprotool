@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<usecase:UseCase xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:usecase="http://d3s.mff.cuni.cz/reprotool/model/usecase">
-  <mainScenario>
-    <steps Sentence="Sentence 1" Label="UcStep1"/>
-    <steps Sentence="Sentence 2" Label="UcStep2"/>
-    <steps Sentence="Sentence 3" Label="UcStep3"/>
-    <steps Sentence="Sentence 4" Label="UcStep4"/>
-  </mainScenario>
-</usecase:UseCase>
