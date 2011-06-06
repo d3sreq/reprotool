@@ -446,8 +446,8 @@ public class UseCaseEditor extends EditorPart {
 		// Set the focus
 	}
 
-	public void setSelection(UseCaseStep newStep) {
-		treeViewer.setSelection(new TreeSelection(new TreePath(new Object[] { newStep })));
+	public void setSelection(Object selection) {
+		treeViewer.setSelection(new TreeSelection(new TreePath(new Object[] { selection })));
 		refreshPropertySheet();
 	}
 
@@ -480,9 +480,6 @@ public class UseCaseEditor extends EditorPart {
 	private void loadUseCase() throws PartInitException {
 		Resource resource = resourceSet.getResource(URI.createURI(getInputFilePath()), true);
 
-		// for testing
-		// resource.getContents().set(0,
-		// Service.INSTANCE.getSoftwareProject().getUseCases().get(0));
 		if (resource.getContents().isEmpty() || !(resource.getContents().get(0) instanceof UseCase))
 			throw new PartInitException("File does not contain a use case");
 

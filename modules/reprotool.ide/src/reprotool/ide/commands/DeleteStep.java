@@ -3,10 +3,11 @@ package reprotool.ide.commands;
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.emf.ecore.EObject;
 
 import reprotool.ide.editors.UseCaseEditor;
-import reprotool.model.usecase.UseCaseStep;
 import reprotool.model.usecase.Scenario;
+import reprotool.model.usecase.UseCaseStep;
 
 public class DeleteStep extends AbstractHandler {
 	@Override
@@ -22,7 +23,9 @@ public class DeleteStep extends AbstractHandler {
 				scen.getSteps().remove(step);
 				checkEmptyScenario(scen);
 			} else if (o instanceof Scenario) {
-				checkEmptyScenario((Scenario)o);
+				UseCaseStep parent = (UseCaseStep)((EObject)o).eContainer();
+				parent.getExtension().remove(o);
+				parent.getVariation().remove(o);
 			}
 		}
 		

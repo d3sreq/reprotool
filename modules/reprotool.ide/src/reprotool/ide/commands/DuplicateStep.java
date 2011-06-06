@@ -3,6 +3,7 @@ package reprotool.ide.commands;
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import reprotool.ide.editors.UseCaseEditor;
@@ -15,21 +16,28 @@ public class DuplicateStep extends AbstractHandler {
 		UseCaseEditor editor = UseCaseEditor.getActiveUseCaseEditor();
 		if (editor == null)
 			return null;
-		UseCaseStep selected = editor.getFirstSelectedStep();
-		if (selected == null || ! (selected instanceof UseCaseStep))
+		EObject selected = (EObject)editor.getFirstSelectedObject();
+		if (selected == null)
 			return null;
 		
 		editor.saveUndoState();
 		
-		// clone the EObject
-		UseCaseStep newStep = EcoreUtil.copy(selected);
+		EObject clone = EcoreUtil.copy(selected);
+		if (selected instanceof UseCaseStep) {
+			Scenario parent = (Scenario)selected.eContainer();
+			// add new step just after the selected step
+			parent.getSteps().add(parent.getSteps().indexOf(selected)+1, (UseCaseStep)clone);
+		} else if (selected instanceof Scenario) {
+			UseCaseStep parent = (UseCaseStep)selected.eContainer();
+			if (parent.getExtension().contains(selected))
+				parent.getExtension().add((Scenario)clone);
+			else
+				parent.getVariation().add((Scenario)clone);
+		}
 		
-		Scenario parent = (Scenario)selected.eContainer();
-		// add new step just after the selected step
-		parent.getSteps().add(parent.getSteps().indexOf(selected)+1, newStep);
 		editor.refresh();
 		editor.setDirty();
-		editor.setSelection(newStep);
+		editor.setSelection(clone);
 		return null;
 	}
 }
