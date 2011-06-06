@@ -443,7 +443,7 @@ public class UseCaseEditor extends EditorPart {
 
 	@Override
 	public void setFocus() {
-		// Set the focus
+		treeViewer.getTree().setFocus();
 	}
 
 	public void setSelection(Object selection) {
