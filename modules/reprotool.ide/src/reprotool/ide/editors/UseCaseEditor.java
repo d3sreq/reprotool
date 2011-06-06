@@ -208,7 +208,7 @@ public class UseCaseEditor extends EditorPart {
 		Composite container = new Composite(parent, SWT.NONE);
 		container.setLayout(new FormLayout());
 
-		treeViewer = new TreeViewer(container, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI);
+		treeViewer = new TreeViewer(container, SWT.BORDER | SWT.FULL_SELECTION);
 		treeViewer.setAutoExpandLevel(4);
 
 		Tree tree = treeViewer.getTree();
