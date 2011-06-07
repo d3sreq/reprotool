@@ -17,4 +17,5 @@ Bundle-ClassPath: lib/edu.mit.jwi_2.1.5_jdk.jar,
  lib/mxpost.jar
 Import-Package: org.eclipse.jface.action,
  org.eclipse.swt.widgets,
+ org.eclipse.ui,
  org.eclipse.ui.progress

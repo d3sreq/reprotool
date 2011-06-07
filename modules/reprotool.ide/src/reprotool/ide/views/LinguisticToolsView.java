@@ -1,7 +1,5 @@
 package reprotool.ide.views;
 
-import javax.swing.JOptionPane;
-
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -179,9 +177,10 @@ public class LinguisticToolsView extends ViewPart {
 		initializeToolBar();
 		initializeMenu();
 
-		
+		/* Tests
 		externalJob();
 		testJob();
+		*/
 	}
 
 	/**

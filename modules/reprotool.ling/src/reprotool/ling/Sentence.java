@@ -61,7 +61,7 @@ public class Sentence {
     	// preprocessing
         for (Iterator<Word> iword = negation.words.iterator(); iword.hasNext();) {
         	Word word = iword.next();
-    		if(word.text.equals("n't")){        	
+    		if(word.text.equals("n't")||word.text.equals("not")){        	
     			count_not++;
     		}
     		if(word.text.equals("no")){        	
@@ -76,7 +76,7 @@ public class Sentence {
         	// removing
             for (Iterator<Word> iword = negation.words.iterator(); iword.hasNext();) {
             	Word word = iword.next();
-        		if(word.text.equals("n't")||word.text.equals("no")){   
+        		if(word.text.equals("n't")||word.text.equals("not")||word.text.equals("no")){   
         			iword.remove();
         		}
             }       	
