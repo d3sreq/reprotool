@@ -34,6 +34,7 @@ import org.eclipse.ui.part.ISetSelectionTarget;
 import org.eclipse.ui.statushandlers.StatusManager;
 
 import reprotool.ide.Activator;
+import reprotool.ide.natures.ReprotoolProjectNature;
 import reprotool.ide.service.Service;
 
 /**
@@ -81,7 +82,7 @@ public class ProjectWizard extends Wizard implements INewWizard {
 						IProjectDescription desc = workspace
 								.newProjectDescription(projectHandle.getName());
 						desc.setLocationURI(projectURI);
-						desc.setNatureIds(new String[] {"reprotool.ide.natures.ReprotoolProjectNature"});
+						desc.setNatureIds(new String[] {ReprotoolProjectNature.NATURE_ID});
 
 						projectHandle.create(desc, progressMonitor);
 
