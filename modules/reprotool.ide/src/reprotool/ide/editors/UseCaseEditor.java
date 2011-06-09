@@ -427,7 +427,6 @@ public class UseCaseEditor extends EditorPart {
 	}
 
 	private void initializeGlobalActions() {
-		undoStack = new UndoStack();
 		undoAction = new Action() {
 			@Override
 			public void run() {
@@ -440,6 +439,7 @@ public class UseCaseEditor extends EditorPart {
 				undoStack.redo();
 			}
 		};
+		undoStack = new UndoStack();
 	}
 
 	@Override
