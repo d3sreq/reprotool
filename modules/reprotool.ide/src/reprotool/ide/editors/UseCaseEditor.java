@@ -57,6 +57,7 @@ import reprotool.ling.LingTools;
 import reprotool.model.usecase.Scenario;
 import reprotool.model.usecase.UseCase;
 import reprotool.model.usecase.UseCaseStep;
+import org.eclipse.wb.swt.SWTResourceManager;
 
 public class UseCaseEditor extends EditorPart {
 
@@ -479,6 +480,35 @@ public class UseCaseEditor extends EditorPart {
 			}
 		});
 		mntmDeleteStep.setText("Delete step");
+		
+		new MenuItem(menu, SWT.SEPARATOR);
+		
+		MenuItem mntmCut = new MenuItem(menu, SWT.NONE);
+		mntmCut.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				runCommand("org.eclipse.ui.edit.cut");
+			}
+		});
+		mntmCut.setText("Cut");
+		
+		MenuItem mntmCopy = new MenuItem(menu, SWT.NONE);
+		mntmCopy.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				runCommand("org.eclipse.ui.edit.copy");
+			}
+		});
+		mntmCopy.setText("Copy");
+		
+		MenuItem mntmPaste = new MenuItem(menu, SWT.NONE);
+		mntmPaste.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				runCommand("org.eclipse.ui.edit.paste");
+			}
+		});
+		mntmPaste.setText("Paste");
 
 		clipboard = new Clipboard();
 		
@@ -618,5 +648,4 @@ public class UseCaseEditor extends EditorPart {
 		if (propertySheetPage != null)
 			propertySheetPage.refresh();
 	}
-
 }
