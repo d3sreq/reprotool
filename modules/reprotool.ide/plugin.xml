@@ -41,7 +41,7 @@
          class="org.eclipse.ui.ExtensionFactory:progressView"
          id="org.eclipse.ui.views.ProgressView"
          restorable="true">
-      </view>     
+      </view>
    </extension>
    <extension
          point="org.eclipse.ui.perspectives">
@@ -281,7 +281,11 @@
             viewerId="org.eclipse.ui.navigator.ProjectExplorer">
          <includes>
             <contentExtension
+                  isRoot="false"
                   pattern="reprotool.ide.navigator.actorsContent">
+            </contentExtension>
+            <contentExtension
+                  pattern="org.eclipse.ui.navigator.resources.filters.*">
             </contentExtension>
          </includes>
       </viewerContentBinding>
@@ -335,17 +339,14 @@
                   <with
                         variable="activeMenuSelection">
                      <iterate
-                           ifEmpty="false">
+                           ifEmpty="false"
+                           operator="or">
                         <instanceof
                               value="reprotool.model.swproj.SoftwareProject">
                         </instanceof>
                      </iterate>
                   </with>
             </visibleWhen>
-            <parameter
-                  name="reprotool.ide.parameter1"
-                  value="reprotool.ide.parameter1">
-            </parameter>
          </command>
          <command
                commandId="org.eclipse.ui.edit.delete"

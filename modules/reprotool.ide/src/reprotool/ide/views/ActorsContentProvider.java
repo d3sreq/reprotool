@@ -1,46 +1,48 @@
 package reprotool.ide.views;
 
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.HashMap;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IResourceChangeEvent;
+import org.eclipse.core.resources.IResourceChangeListener;
+import org.eclipse.core.resources.IResourceDelta;
+import org.eclipse.core.resources.IResourceDeltaVisitor;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.ui.PartInitException;
 
 import reprotool.ide.natures.ReprotoolProjectNature;
-import reprotool.ide.service.Service;
-import reprotool.model.swproj.Actor;
 import reprotool.model.swproj.SoftwareProject;
-import reprotool.model.swproj.impl.SoftwareProjectImpl;
-import reprotool.model.swproj.impl.SwprojFactoryImpl;
 
-public class ActorsContentProvider implements ITreeContentProvider {
+public class ActorsContentProvider implements ITreeContentProvider, IResourceChangeListener, IResourceDeltaVisitor {
 
-	// private static final String UCPROJ_EXT = "ucproj";
+	private ResourceSet resourceSet;
+	private Viewer inputChangedViewer;
 	private static final Object[] NO_CHILDREN = new Object[0];
-	// private static final Object[] ACTORS = new String[] { "Actors" };
-	// private static final Object[] DUMMY_ACTORS = new String[] { "Clerk",
-	// "Account manager", "Bank information system"};
 
-	private SoftwareProject[] swProjectModelArray;
-	
-	// TODO - jvinarek - mock only
-	private static final SoftwareProject[] PROJECT = new SoftwareProject[] { Service.INSTANCE.getSoftwareProject() };
+	public ActorsContentProvider() {
+		resourceSet = new ResourceSetImpl();
+		// listener to refresh project explorer view when actor is added/removed
+		ResourcesPlugin.getWorkspace().addResourceChangeListener(this, IResourceChangeEvent.POST_CHANGE);
+	}
 
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
-
+		ResourcesPlugin.getWorkspace().removeResourceChangeListener(this);
 	}
 
 	@Override
 	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 		// TODO Auto-generated method stub
-
+		this.inputChangedViewer = viewer;
 	}
 
 	@Override
@@ -51,14 +53,10 @@ public class ActorsContentProvider implements ITreeContentProvider {
 	@Override
 	public Object[] getChildren(Object parentElement) {
 		if (parentElement instanceof IProject) {
-			// TODO - jvinarek - test only, change
-			IProject project = (IProject)parentElement;
+			IProject project = (IProject) parentElement;
 			try {
 				if (project.hasNature(ReprotoolProjectNature.NATURE_ID)) {
-					if (swProjectModelArray == null) {
-						swProjectModelArray = loadSwProjectModel(project);
-					}
-					return swProjectModelArray; 
+					return loadSwProjectModel(project);
 				} else {
 					return NO_CHILDREN;
 				}
@@ -71,44 +69,73 @@ public class ActorsContentProvider implements ITreeContentProvider {
 			}
 		}
 		if (parentElement instanceof SoftwareProject) {
-			return ((SoftwareProject)parentElement).getActors().toArray(); 
+			return ((SoftwareProject) parentElement).getActors().toArray();
 		}
 		return NO_CHILDREN;
 	}
 
 	private SoftwareProject[] loadSwProjectModel(IProject project) throws IOException, CoreException {
-		XMIResourceImpl resource = new XMIResourceImpl();
-		IFile file = project.getFile("project.ucproj");
-		
-		HashMap<Object, Object> options = new HashMap<Object, Object>(); 
-		resource.load(file.getContents(), options);
-		SoftwareProject softwareProject = (SoftwareProject)resource.getContents().get(0);
-		
+		String filePath = project.getFile("project.ucproj").getFullPath().toString();
+		URI uri = URI.createPlatformResourceURI(filePath, true);
+		Resource resource = resourceSet.getResource(uri, true);
+		resource.load(resourceSet.getLoadOptions());
+
+		if (resource.getContents().isEmpty() || !(resource.getContents().get(0) instanceof SoftwareProject)) {
+			throw new PartInitException("File does not contain a reprotool project");
+		}
+
+		SoftwareProject softwareProject = (SoftwareProject) resource.getContents().get(0);
 		return new SoftwareProject[] { softwareProject };
 	}
 
 	@Override
 	public Object getParent(Object element) {
-		// TODO - dummy implementation
-		if (element instanceof Actor) {
-			return PROJECT[0];
-		}
-		
 		return null;
 	}
 
 	@Override
 	public boolean hasChildren(Object element) {
-		
+
 		if (element instanceof IProject) {
 			return true;
 		}
-		
+
 		if (element instanceof SoftwareProject) {
-			return !((SoftwareProject)element).getActors().isEmpty();
+			return !((SoftwareProject) element).getActors().isEmpty();
 		}
 
 		return false;
+	}
+
+	@Override
+	public boolean visit(IResourceDelta delta) throws CoreException {
+		IResource changedResource = delta.getResource();
+		if (changedResource.getType() == IResource.FILE && changedResource.getFileExtension().equals("ucproj")) {
+			try {
+				String path = ((IFile) changedResource).getFullPath().toString();
+				URI uri = URI.createPlatformResourceURI(path, true);
+				Resource res = resourceSet.getResource(uri, true);
+				res.unload();
+				res.load(resourceSet.getLoadOptions());
+			
+				inputChangedViewer.refresh();
+			} catch (IOException ie) {
+				System.out.println("Error reloading resource - " + ie.toString());
+			}
+//			return false;
+		}
+		return true;
+	}
+	
+	@Override
+	public void resourceChanged(IResourceChangeEvent event) {
+		// TODO Auto-generated method stub
+		try {
+			IResourceDelta delta = event.getDelta();
+			delta.accept(this);
+		} catch (CoreException e) {
+			e.printStackTrace();
+		}
 	}
 
 }
