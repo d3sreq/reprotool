@@ -13,20 +13,20 @@ public class DeleteStep extends AbstractHandler {
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		UseCaseEditor editor = UseCaseEditor.getActiveUseCaseEditor();
-		if (editor == null || editor.getSelection().length == 0)
+		if (editor == null || editor.getSelectedObject() == null)
 			return null;
 		editor.saveUndoState();
-		for (Object o : editor.getSelection()) {
-			if (o instanceof UseCaseStep) {
-				UseCaseStep step = (UseCaseStep)o;
-				Scenario scen = (Scenario)step.eContainer();
-				scen.getSteps().remove(step);
-				checkEmptyScenario(scen);
-			} else if (o instanceof Scenario) {
-				UseCaseStep parent = (UseCaseStep)((EObject)o).eContainer();
-				parent.getExtension().remove(o);
-				parent.getVariation().remove(o);
-			}
+		
+		Object selected = editor.getSelectedObject();
+		if (selected instanceof UseCaseStep) {
+			UseCaseStep step = (UseCaseStep)selected;
+			Scenario scen = (Scenario)step.eContainer();
+			scen.getSteps().remove(step);
+			checkEmptyScenario(scen);
+		} else if (selected instanceof Scenario) {
+			UseCaseStep parent = (UseCaseStep)((EObject)selected).eContainer();
+			parent.getExtension().remove(selected);
+			parent.getVariation().remove(selected);
 		}
 		
 		editor.setDirty();

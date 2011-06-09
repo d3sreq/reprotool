@@ -28,13 +28,6 @@
             name="Software Project"
             restorable="true">
       </view>
-            <view
-            category="cz.cuni.mff.reprotool.ide.category_reprotool"
-            class="reprotool.ide.views.UcStepView"
-            id="cz.cuni.mff.reprotool.ide.uc_step_view"
-            name="Use-Case Step"
-            restorable="true">
-      </view>
       <view
          name="Progress View"
          category="org.eclipse.ui"
@@ -56,7 +49,6 @@
          point="org.eclipse.ui.editors">
       <editor
             class="reprotool.ide.editors.UseCaseEditor"
-            contributorClass="reprotool.ide.editors.UseCaseActionBarContributor"
             default="true"
             extensions="usecase"
             icon="icons/use-case-icon-16x16.png"
@@ -105,7 +97,7 @@
       </command>
       <command
             defaultHandler="reprotool.ide.commands.DeleteStep"
-            id="commands.deleteStep"
+            id="org.eclipse.ui.edit.delete"
             name="Delete step">
       </command>
       <command
@@ -183,9 +175,6 @@
          <viewShortcut
                id="cz.cuni.mff.reprotool.ide.view_parsed_tree">
          </viewShortcut>
-         <viewShortcut
-               id="cz.cuni.mff.reprotool.ide.uc_step_view">
-         </viewShortcut>
          <perspectiveShortcut
                id="org.tigris.subversion.subclipse.ui.svnPerspective">
          </perspectiveShortcut>
@@ -229,15 +218,6 @@
                moveable="true"
                relationship="stack"
                relative="org.eclipse.ui.views.ProgressView"
-               visible="true">
-         </view>
-         <view
-               closeable="true"
-               id="cz.cuni.mff.reprotool.ide.uc_step_view"
-               minimized="false"
-               moveable="true"
-               relationship="stack"
-               relative="org.eclipse.ui.views.PropertySheet"
                visible="true">
          </view>
          <view

@@ -36,6 +36,7 @@ import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.swt.widgets.TreeItem;
+import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorSite;
@@ -43,6 +44,7 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.ui.part.EditorPart;
 import org.eclipse.ui.part.FileEditorInput;
@@ -172,12 +174,8 @@ public class UseCaseEditor extends EditorPart {
 		return usecase;
 	}
 
-	public Object[] getSelection() {
-		return ((IStructuredSelection) treeViewer.getSelection()).toArray();
-	}
-
-	public UseCaseStep getFirstSelectedStep() {
-		Object element = getFirstSelectedObject();
+	public UseCaseStep getSelectedStep() {
+		Object element = getSelectedObject();
 
 		if (element instanceof UseCaseStep)
 			return (UseCaseStep) element;
@@ -185,7 +183,7 @@ public class UseCaseEditor extends EditorPart {
 		return null;
 	}
 
-	public Object getFirstSelectedObject() {
+	public Object getSelectedObject() {
 		if (treeViewer.getSelection().isEmpty())
 			return null;
 
@@ -418,7 +416,9 @@ public class UseCaseEditor extends EditorPart {
 		mntmDeleteStep.setText("Delete step");
 
 		initializeGlobalActions();
-		undoStack = new UndoStack();
+		IActionBars bars = getEditorSite().getActionBars();
+		bars.setGlobalActionHandler(ActionFactory.UNDO.getId(), undoAction);
+		bars.setGlobalActionHandler(ActionFactory.REDO.getId(), redoAction);
 
 		setTitle();
 
@@ -427,6 +427,7 @@ public class UseCaseEditor extends EditorPart {
 	}
 
 	private void initializeGlobalActions() {
+		undoStack = new UndoStack();
 		undoAction = new Action() {
 			@Override
 			public void run() {
@@ -526,14 +527,6 @@ public class UseCaseEditor extends EditorPart {
 	@Override
 	public boolean isSaveAsAllowed() {
 		return false;
-	}
-	
-	public IAction getUndoAction() {
-		return undoAction;
-	}
-	
-	public IAction getRedoAction() {
-		return redoAction;
 	}
 
 	// this method is here only to save the propertySheetPage reference to allow

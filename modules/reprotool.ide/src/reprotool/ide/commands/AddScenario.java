@@ -17,7 +17,7 @@ public class AddScenario extends AbstractHandler {
 		UseCaseEditor editor = UseCaseEditor.getActiveUseCaseEditor();
 		if (editor == null)
 			return null;
-		UseCaseStep step = editor.getFirstSelectedStep();
+		UseCaseStep step = editor.getSelectedStep();
 		if (step == null)
 			return null;
 		editor.saveUndoState();

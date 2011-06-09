@@ -31,7 +31,7 @@ public class NewStep extends AbstractHandler {
 			uc.setMainScenario(main);
 		}
 		
-		Object selected = editor.getFirstSelectedObject();
+		Object selected = editor.getSelectedObject();
 		if (selected == null) {
 			uc.getMainScenario().getSteps().add(newStep);
 		} else if (selected instanceof UseCaseStep) {

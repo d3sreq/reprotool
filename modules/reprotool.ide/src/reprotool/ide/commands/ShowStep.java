@@ -29,12 +29,12 @@ public class ShowStep extends AbstractHandler
 		UseCaseEditor editor = UseCaseEditor.getActiveUseCaseEditor();
 		
 		ParsedTreeView treeView = (ParsedTreeView) page.findView(ParsedTreeView.ID);
-		if (treeView != null && editor != null && editor.getFirstSelectedStep() != null) {
-			UseCaseStep ucstep = editor.getFirstSelectedStep();
+		if (treeView != null && editor != null && editor.getSelectedStep() != null) {
+			UseCaseStep ucstep = editor.getSelectedStep();
 			if (ucstep.getParsedSentence() == null) {
 				ucstep.setParsedSentence(lingTools.parseSentence(ucstep.getSentence()));
 			}
-			treeView.showTree(editor.getFirstSelectedStep().getParsedSentence());
+			treeView.showTree(editor.getSelectedStep().getParsedSentence());
 		}
 		
 		return null;

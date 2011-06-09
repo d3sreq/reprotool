@@ -16,7 +16,7 @@ public class DuplicateStep extends AbstractHandler {
 		UseCaseEditor editor = UseCaseEditor.getActiveUseCaseEditor();
 		if (editor == null)
 			return null;
-		EObject selected = (EObject)editor.getFirstSelectedObject();
+		EObject selected = (EObject)editor.getSelectedObject();
 		if (selected == null)
 			return null;
 		
