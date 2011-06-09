@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
@@ -51,6 +52,7 @@ import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.views.properties.IPropertySheetPage;
 import org.eclipse.ui.views.properties.PropertySheetPage;
 
+import reprotool.ide.commands.ClipboardHandler;
 import reprotool.ling.LingTools;
 import reprotool.model.usecase.Scenario;
 import reprotool.model.usecase.UseCase;
@@ -82,6 +84,69 @@ public class UseCaseEditor extends EditorPart {
 	private boolean dirty = false;
 
 	private PropertySheetPage propertySheetPage;
+	
+	/**
+	 * Stores the object in the clipboard and implements cut/copy/paste actions
+	 */
+	private Clipboard clipboard;
+	public class Clipboard {
+		boolean isVariation; // when pasting a Scenario, we have to remember if it was a variation or an extension
+		EObject clipboardItem;
+		public void doCut() {
+			if (getSelectedObject() == null)
+				return;
+			EObject selected = (EObject)getSelectedObject();
+			clipboardItem = EcoreUtil.copy(selected);
+			if (selected instanceof Scenario)
+				isVariation = ((UseCaseStep)selected.eContainer()).getVariation().contains(selected);
+			runCommand("org.eclipse.ui.edit.delete");
+		}
+		
+		public void doCopy() {
+			if (getSelectedObject() == null)
+				return;
+			EObject selected = (EObject)getSelectedObject();
+			if (selected instanceof Scenario)
+				isVariation = ((UseCaseStep)selected.eContainer()).getVariation().contains(selected);
+			clipboardItem = EcoreUtil.copy(selected);
+		}
+		
+		public void doPaste() {
+			if (clipboardItem == null)
+				return;
+			saveUndoState();
+			
+			EObject selected = (EObject)getSelectedObject();
+			if (clipboardItem instanceof Scenario) {
+				if (selected instanceof Scenario)
+					insertScenario((UseCaseStep)selected.eContainer(), (Scenario)clipboardItem);
+				else if (selected instanceof UseCaseStep)
+					insertScenario((UseCaseStep)selected, (Scenario)clipboardItem);
+			} else if (clipboardItem instanceof UseCaseStep) {
+				if (selected instanceof Scenario)
+					((Scenario)selected).getSteps().add((UseCaseStep)clipboardItem);
+				else if (selected instanceof UseCaseStep) {
+					Scenario parent = (Scenario)selected.eContainer();
+					// add new step just after the selected step
+					parent.getSteps().add(parent.getSteps().indexOf(selected)+1, (UseCaseStep)clipboardItem);
+				}
+			}
+			
+			setDirty();
+			clipboardItem = EcoreUtil.copy(clipboardItem);
+			refresh();
+		}
+		
+		private void insertScenario(UseCaseStep step, Scenario scen) {
+			if (isVariation)
+				step.getVariation().add(scen);
+			else
+				step.getExtension().add(scen);
+		}
+	};
+	public Clipboard getClipboard() {
+		return clipboard;
+	}
 
 	// global actions for toolbar contribution
 	private IAction undoAction;
@@ -415,10 +480,17 @@ public class UseCaseEditor extends EditorPart {
 		});
 		mntmDeleteStep.setText("Delete step");
 
+		clipboard = new Clipboard();
+		
 		initializeGlobalActions();
 		IActionBars bars = getEditorSite().getActionBars();
 		bars.setGlobalActionHandler(ActionFactory.UNDO.getId(), undoAction);
 		bars.setGlobalActionHandler(ActionFactory.REDO.getId(), redoAction);
+		
+		IHandlerService hs = (IHandlerService) getSite().getService(IHandlerService.class);
+		hs.activateHandler("org.eclipse.ui.edit.copy", new ClipboardHandler());
+		hs.activateHandler("org.eclipse.ui.edit.cut", new ClipboardHandler());
+		hs.activateHandler("org.eclipse.ui.edit.paste", new ClipboardHandler());
 
 		setTitle();
 
