@@ -49,15 +49,16 @@ import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.ui.part.EditorPart;
 import org.eclipse.ui.part.FileEditorInput;
+import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 import org.eclipse.ui.views.properties.IPropertySheetPage;
 import org.eclipse.ui.views.properties.PropertySheetPage;
 
+import reprotool.ide.adapter.UseCaseContentOutlinePage;
 import reprotool.ide.commands.ClipboardHandler;
 import reprotool.ling.LingTools;
 import reprotool.model.usecase.Scenario;
 import reprotool.model.usecase.UseCase;
 import reprotool.model.usecase.UseCaseStep;
-import org.eclipse.wb.swt.SWTResourceManager;
 
 public class UseCaseEditor extends EditorPart {
 
@@ -85,6 +86,7 @@ public class UseCaseEditor extends EditorPart {
 	private boolean dirty = false;
 
 	private PropertySheetPage propertySheetPage;
+	private UseCaseContentOutlinePage outlinePage;
 	
 	/**
 	 * Stores the object in the clipboard and implements cut/copy/paste actions
@@ -641,6 +643,14 @@ public class UseCaseEditor extends EditorPart {
 				propertySheetPage = new PropertySheetPage();
 			return propertySheetPage;
 		}
+		
+		if (IContentOutlinePage.class.equals(key)) {
+			if (outlinePage  == null) {
+				outlinePage = new UseCaseContentOutlinePage(this.usecase);
+			}	
+			return outlinePage;
+		} 
+		
 		return super.getAdapter(key);
 	}
 
@@ -648,4 +658,6 @@ public class UseCaseEditor extends EditorPart {
 		if (propertySheetPage != null)
 			propertySheetPage.refresh();
 	}
+	
+	
 }

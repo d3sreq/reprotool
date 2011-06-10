@@ -35,6 +35,11 @@
          id="org.eclipse.ui.views.ProgressView"
          restorable="true">
       </view>
+      <view
+            class="reprotool.ide.views.OutlineContents"
+            id="reprotool.ide.views.OutlineContents"
+            name="New ViewPart">
+      </view>
    </extension>
    <extension
          point="org.eclipse.ui.perspectives">
@@ -175,12 +180,6 @@
          <viewShortcut
                id="cz.cuni.mff.reprotool.ide.view_parsed_tree">
          </viewShortcut>
-         <perspectiveShortcut
-               id="org.tigris.subversion.subclipse.ui.svnPerspective">
-         </perspectiveShortcut>
-         <perspectiveShortcut
-               id="org.tigris.subversion.subclipse.ui.svnPerspective">
-         </perspectiveShortcut>
          <view
                closeable="true"
                id="org.eclipse.ui.navigator.ProjectExplorer"
@@ -232,6 +231,15 @@
          <newWizardShortcut
                id="reprotool.ide.wizard1">
          </newWizardShortcut>
+         <view
+               closeable="true"
+               id="org.eclipse.ui.views.ContentOutline"
+               minimized="false"
+               moveable="true"
+               relationship="bottom"
+               relative="org.eclipse.ui.views.PropertySheet"
+               visible="true">
+         </view>
       </perspectiveExtension>
    </extension>
    <extension
@@ -302,6 +310,13 @@
             class="reprotool.ide.adapter.UseCaseElementAdapterFactory">
          <adapter
                type="org.eclipse.ui.views.properties.IPropertySource">
+         </adapter>
+      </factory>
+      <factory
+            adaptableType="reprotool.model.usecase.UseCase"
+            class="reprotool.ide.adapter.UseCaseAdapterFactory">
+         <adapter
+               type="org.eclipse.ui.views.contentoutline.IContentOutlinePage">
          </adapter>
       </factory>
    </extension>
