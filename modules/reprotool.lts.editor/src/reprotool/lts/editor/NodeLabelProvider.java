@@ -64,24 +64,18 @@ public class NodeLabelProvider extends LabelProvider implements IFigureProvider 
 
 	@Override
 	public IFigure getFigure(Object element) {
-		// TODO: there is probably a bug in org.eclipse.zest.core.viewers.internal.AbstractStylingModelFactory.createConnection(Graph, Object, Object, Object)
-		// the figure provider cannot be used until the ZEST bug is fixed
-		// the problem is that getFigure() is called multiple times for the same node
-		// try System.out.println(element) and you will see the same object multiple times
-		return null;
+		Image img;
 
-//		Image img;
-//
-//		if(machine.getInitialState() == element)
-//			img = getInitialStateImage();
-//		else
-//			img = getNormalStateImage();
-//		
-//		ImageFigure figure = new ImageFigure();
-//		figure.setImage(img);
-//		figure.setSize(img.getBounds().width, img.getBounds().height);
+		if(machine.getInitialState() == element)
+			img = getInitialStateImage();
+		else
+			img = getNormalStateImage();
 		
-//		return figure;
+		ImageFigure figure = new ImageFigure();
+		figure.setImage(img);
+		figure.setSize(img.getBounds().width, img.getBounds().height);
+		
+		return figure;
 	}
 	
 	
@@ -89,15 +83,7 @@ public class NodeLabelProvider extends LabelProvider implements IFigureProvider 
 	@Override
 	public Image getImage(Object element) {
 		if (element instanceof State) {
-			
-			//TODO: we will use getImage instead of getFigure until the bug is fixed in ZEST
-			Image img;
-			if(machine.getInitialState() == element)
-				img = getInitialStateImage();
-			else
-				img = getNormalStateImage();
-			return img;
-//			return null;
+			return null;
 		}
 		
 		if (element instanceof Transition) {
