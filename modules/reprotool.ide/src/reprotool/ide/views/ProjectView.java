@@ -62,6 +62,7 @@ import reprotool.model.usecase.UseCase;
 import reprotool.model.usecase.UsecasePackage;
 
 public class ProjectView extends ViewPart {
+	@SuppressWarnings("unused")
 	private DataBindingContext m_bindingContext;
 
 	private Service service = Service.INSTANCE;

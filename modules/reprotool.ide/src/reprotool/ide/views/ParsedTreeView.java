@@ -53,11 +53,7 @@ public class ParsedTreeView extends ViewPart {
 	}
 	
 	private void mapGraphNodes2EMF(SentenceNode modelRootNode) {
-		Graph g = viewer.getGraphControl();
-		List graphNodes = g.getNodes();
-		
-		// Find the root graph node.
-		GraphNode root = (GraphNode) graphNodes.get(0);
+		GraphNode root = getFirstGraphNode( viewer.getGraphControl().getNodes() );
 		while (root.getTargetConnections().size() != 0) {
 			root =  ((GraphConnection) root.getTargetConnections().get(0)).getSource();
 		}
@@ -75,8 +71,7 @@ public class ParsedTreeView extends ViewPart {
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				List selection = viewer.getGraphControl().getSelection();
-				GraphNode node = (GraphNode) selection.get(0);
+				GraphNode node = getFirstGraphNode(viewer);
 				Word word = (Word) node.getData();
 				word.setWordType(EWordType.NOT_IMPORTANT);
 				node.setImage(((LabelProvider) viewer.getLabelProvider()).getImage(word));
@@ -92,8 +87,7 @@ public class ParsedTreeView extends ViewPart {
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				List selection = viewer.getGraphControl().getSelection();
-				GraphNode node = (GraphNode) selection.get(0);
+				GraphNode node = getFirstGraphNode( viewer );
 				Word word = (Word) node.getData();
 				word.setWordType(EWordType.SUBJECT);
 				node.setImage(((LabelProvider) viewer.getLabelProvider()).getImage(word));
@@ -109,8 +103,7 @@ public class ParsedTreeView extends ViewPart {
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				List selection = viewer.getGraphControl().getSelection();
-				GraphNode node = (GraphNode) selection.get(0);
+				GraphNode node = getFirstGraphNode( viewer );
 				Word word = (Word) node.getData();
 				word.setWordType(EWordType.INDIRECT_OBJECT);
 				node.setImage(((LabelProvider) viewer.getLabelProvider()).getImage(word));
@@ -126,8 +119,7 @@ public class ParsedTreeView extends ViewPart {
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				List selection = viewer.getGraphControl().getSelection();
-				GraphNode node = (GraphNode) selection.get(0);
+				GraphNode node = getFirstGraphNode( viewer );
 				Word word = (Word) node.getData();
 				word.setWordType(EWordType.VERB);
 				node.setImage(((LabelProvider) viewer.getLabelProvider()).getImage(word));
@@ -143,8 +135,7 @@ public class ParsedTreeView extends ViewPart {
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				List selection = viewer.getGraphControl().getSelection();
-				GraphNode node = (GraphNode) selection.get(0);
+				GraphNode node = getFirstGraphNode( viewer );
 				Word word = (Word) node.getData();
 				word.setWordType(EWordType.REPRESENTATIVE_OBJECT);
 				node.setImage(((LabelProvider) viewer.getLabelProvider()).getImage(word));
@@ -158,8 +149,7 @@ public class ParsedTreeView extends ViewPart {
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				List selection = viewer.getGraphControl().getSelection();
-				GraphNode node = (GraphNode) selection.get(0);
+				GraphNode node = getFirstGraphNode( viewer );
 				Word word = (Word) node.getData();
 				word.setWordType(EWordType.GOTO_TARGET);
 				node.setImage(((LabelProvider) viewer.getLabelProvider()).getImage(word));
@@ -174,8 +164,7 @@ public class ParsedTreeView extends ViewPart {
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				List selection = viewer.getGraphControl().getSelection();
-				GraphNode node = (GraphNode) selection.get(0);
+				GraphNode node = getFirstGraphNode( viewer );
 				Word word = (Word) node.getData();
 				word.setWordType(EWordType.CONDITION_LABEL);
 				node.setImage(((LabelProvider) viewer.getLabelProvider()).getImage(word));
@@ -185,6 +174,32 @@ public class ParsedTreeView extends ViewPart {
 		return menu;
 	}
 	
+	/**
+	 * Helper method.
+	 * @param viewer2
+	 * @return first graph node from viewer's selection
+	 */
+	protected static GraphNode getFirstGraphNode(GraphViewer viewer2) {
+		return getFirstGraphNode( viewer2.getGraphControl().getSelection() );
+	}
+
+	/**
+	 * Helper method.
+	 * @param nodes
+	 * @return first graph node from a list
+	 */
+	protected static GraphNode getFirstGraphNode(List<?> nodes) {
+		if(nodes.size() == 0)
+			return null;
+		
+		Object firstNode = nodes.get(0);
+		if(firstNode instanceof GraphNode)
+			return (GraphNode) firstNode;
+		
+		return null;
+	}
+
+
 	private void initGraphNode(GraphNode gNode, ParseNode mNode) {
 		gNode.setData(mNode);
 		gNode.setBackgroundColor(new Color(Display.getDefault(), 255, 255, 255));
@@ -255,7 +270,7 @@ public class ParsedTreeView extends ViewPart {
 		TreeLayoutAlgorithm tla = 
 			new TreeLayoutAlgorithm(LayoutStyles.NO_LAYOUT_NODE_RESIZING);
 		
-		tla.setComparator(new Comparator() {
+		tla.setComparator(new Comparator<Object>() {
 			
 			/* We just keep the original order */
 			@Override
@@ -268,19 +283,9 @@ public class ParsedTreeView extends ViewPart {
 		viewer.getGraphControl().addMouseListener(new MouseAdapter() {
 			
 			public void mouseDown(MouseEvent e) {
-				List selection = ((Graph) e.widget).getSelection();
-				
-				/* Nothing is selected. */
-				if (selection.size() == 0) {
+				GraphNode node = getFirstGraphNode( ((Graph) e.widget).getSelection() );
+				if(node == null)
 					return;
-				}
-				
-				/* We are only interested if a graph node has been selected. */
-				if (!(selection.get(0) instanceof GraphNode)){
-					return;
-				}
-				
-				GraphNode node = (GraphNode) selection.get(0);
 					
 				int dx = e.x - node.getLocation().x;
 				int dy = e.y - node.getLocation().y;
