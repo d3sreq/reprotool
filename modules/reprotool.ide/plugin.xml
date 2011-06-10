@@ -22,13 +22,6 @@
             restorable="true">
       </view>
       <view
-            category="cz.cuni.mff.reprotool.ide.category_reprotool"
-            class="reprotool.ide.views.ProjectView"
-            id="cz.cuni.mff.reprotool.ide.view_project"
-            name="Software Project"
-            restorable="true">
-      </view>
-      <view
          name="Progress View"
          category="org.eclipse.ui"
          class="org.eclipse.ui.ExtensionFactory:progressView"
@@ -38,7 +31,7 @@
       <view
             class="reprotool.ide.views.OutlineContents"
             id="reprotool.ide.views.OutlineContents"
-            name="New ViewPart">
+            name="Outline View">
       </view>
    </extension>
    <extension
@@ -344,7 +337,7 @@
             </visibleWhen>
          </command>
          <command
-               commandId="org.eclipse.ui.edit.delete"
+               commandId="commands.removeActor"
                label="Remove actor"
                style="push">
             <visibleWhen
