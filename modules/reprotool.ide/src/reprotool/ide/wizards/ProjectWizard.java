@@ -35,7 +35,7 @@ import org.eclipse.ui.statushandlers.StatusManager;
 
 import reprotool.ide.Activator;
 import reprotool.ide.natures.ReprotoolProjectNature;
-import reprotool.ide.service.Service;
+import reprotool.model.swproj.SwprojFactory;
 
 /**
  * Wizard creating new reprotool project.
@@ -180,7 +180,8 @@ public class ProjectWizard extends Wizard implements INewWizard {
 	}
 
 	private EObject createInitialModel() {
-		return Service.INSTANCE.createSoftwareProject();
+		return SwprojFactory.eINSTANCE.createActor();
+//		return Service.INSTANCE.createSoftwareProject();
 	}
 
 	private IPath getModelFilePath() {
