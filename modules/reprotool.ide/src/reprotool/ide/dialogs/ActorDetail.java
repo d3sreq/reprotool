@@ -3,23 +3,31 @@ package reprotool.ide.dialogs;
 import java.util.List;
 
 import org.eclipse.core.databinding.DataBindingContext;
-import org.eclipse.core.databinding.observable.value.IObservableValue;
-import org.eclipse.emf.databinding.EMFObservables;
-import org.eclipse.jface.databinding.swt.SWTObservables;
+import org.eclipse.core.databinding.beans.PojoObservables;
+import org.eclipse.core.databinding.observable.list.WritableList;
+import org.eclipse.core.databinding.observable.map.IObservableMap;
+import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
+import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.swt.widgets.Combo;
 
 import reprotool.model.swproj.Actor;
+import org.eclipse.core.databinding.observable.value.IObservableValue;
+import org.eclipse.jface.databinding.swt.SWTObservables;
+import org.eclipse.emf.databinding.EMFObservables;
+import reprotool.model.swproj.SwprojPackage.Literals;
+import org.eclipse.jface.databinding.viewers.ViewersObservables;
 
 public class ActorDetail extends Dialog {
 
@@ -28,8 +36,9 @@ public class ActorDetail extends Dialog {
 	private Text descriptionText;
 	private Text nameText;
 	private Label labelParentActor;
-	private Combo parentActorCombo;
 	private List<Actor> parentActorList;
+	private Combo combo;
+	private ComboViewer comboViewer;
 
 	/**
 	 * @wbp.parser.constructor
@@ -38,9 +47,15 @@ public class ActorDetail extends Dialog {
 		super(parentShell);
 	}
 
-	public ActorDetail(Shell parentShell, reprotool.model.swproj.Actor newActor) {
+	public ActorDetail(Shell parentShell, Actor newActor, List<Actor> parentActorList) {
 		super(parentShell);
-		setActor(newActor, false);
+		this.parentActorList = parentActorList;
+		this.actor = newActor;
+		
+//		comboViewer.set
+//		comboViewer.setInput(parentActorList.toArray());
+		// comboViewer.set
+//		setActor(newActor, false);
 	}
 
 	/**
@@ -69,14 +84,16 @@ public class ActorDetail extends Dialog {
 		descriptionText.setLayoutData(gd_descriptionText);
 
 		labelParentActor = new Label(container, SWT.NONE);
+		labelParentActor.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 		labelParentActor.setText("Parent actor");
 
-		parentActorCombo = new Combo(container, SWT.NONE);
-		parentActorCombo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		comboViewer = new ComboViewer(container, SWT.READ_ONLY);
+		combo = comboViewer.getCombo();
+		combo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 
-		if (actor != null) {
-			m_bindingContext = initDataBindings();
-		}
+//		if (actor != null) {
+//			m_bindingContext = initDataBindings();
+//		}
 		return container;
 	}
 
@@ -89,6 +106,7 @@ public class ActorDetail extends Dialog {
 	protected void createButtonsForButtonBar(Composite parent) {
 		createButton(parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL, true);
 		createButton(parent, IDialogConstants.CANCEL_ID, IDialogConstants.CANCEL_LABEL, false);
+		m_bindingContext = initDataBindings();
 	}
 
 	/**
@@ -99,51 +117,39 @@ public class ActorDetail extends Dialog {
 		return new Point(340, 175);
 	}
 
-	private DataBindingContext initDataBindings() {
-		IObservableValue descriptionObserveWidget = SWTObservables.observeText(descriptionText, SWT.Modify);
-		IObservableValue descriptionObserveValue = EMFObservables.observeValue(actor,
-				reprotool.model.swproj.SwprojPackage.Literals.ACTOR__DESCRIPTION);
-		
-		IObservableValue nameObserveWidget = SWTObservables.observeText(nameText, SWT.Modify);
-		IObservableValue nameObserveValue = EMFObservables.observeValue(actor,
-				reprotool.model.swproj.SwprojPackage.Literals.ACTOR__NAME);
-		
-		// TODO - jvinarek - add parent actor
-		
-		//
-		DataBindingContext bindingContext = new DataBindingContext();
-		//
-		bindingContext.bindValue(descriptionObserveWidget, descriptionObserveValue, null, null);
-		bindingContext.bindValue(nameObserveWidget, nameObserveValue, null, null);
-		//
-		return bindingContext;
-	}
-
 	@Override
 	protected void configureShell(Shell shell) {
 		super.configureShell(shell);
 		shell.setText("Actor detail");
 	}
 
-	public reprotool.model.swproj.Actor getActor() {
+	public Actor getActor() {
 		return actor;
 	}
-
-	public void setActor(reprotool.model.swproj.Actor newActor) {
-		setActor(newActor, true);
+	protected DataBindingContext initDataBindings() {
+		DataBindingContext bindingContext = new DataBindingContext();
+		//
+		ObservableListContentProvider listContentProvider = new ObservableListContentProvider();
+		comboViewer.setContentProvider(listContentProvider);
+		//
+		IObservableMap observeMap = PojoObservables.observeMap(listContentProvider.getKnownElements(), Actor.class, "name");
+		comboViewer.setLabelProvider(new ObservableMapLabelProvider(observeMap));
+		//
+		WritableList writableList = new WritableList(parentActorList, Actor.class);
+		comboViewer.setInput(writableList);
+		//
+		IObservableValue nameTextObserveTextObserveWidget = SWTObservables.observeText(nameText, SWT.Modify);
+		IObservableValue actorNameObserveValue = EMFObservables.observeValue(actor, Literals.ACTOR__NAME);
+		bindingContext.bindValue(nameTextObserveTextObserveWidget, actorNameObserveValue, null, null);
+		//
+		IObservableValue descriptionTextObserveTextObserveWidget = SWTObservables.observeText(descriptionText, SWT.Modify);
+		IObservableValue actorDescriptionObserveValue = EMFObservables.observeValue(actor, Literals.ACTOR__DESCRIPTION);
+		bindingContext.bindValue(descriptionTextObserveTextObserveWidget, actorDescriptionObserveValue, null, null);
+		//
+		IObservableValue comboViewerObserveSingleSelection = ViewersObservables.observeSingleSelection(comboViewer);
+		IObservableValue actorParentActorObserveValue = EMFObservables.observeValue(actor, Literals.ACTOR__PARENT_ACTOR);
+		bindingContext.bindValue(comboViewerObserveSingleSelection, actorParentActorObserveValue, null, null);
+		//
+		return bindingContext;
 	}
-
-	public void setActor(reprotool.model.swproj.Actor newActor, boolean update) {
-		actor = newActor;
-		if (update) {
-			if (m_bindingContext != null) {
-				m_bindingContext.dispose();
-				m_bindingContext = null;
-			}
-			if (actor != null) {
-				m_bindingContext = initDataBindings();
-			}
-		}
-	}
-
 }

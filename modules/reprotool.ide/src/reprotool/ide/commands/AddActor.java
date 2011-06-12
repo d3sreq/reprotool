@@ -2,6 +2,7 @@ package reprotool.ide.commands;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.commands.AbstractHandler;
@@ -36,7 +37,9 @@ public class AddActor extends AbstractHandler {
 			Shell shell = HandlerUtil.getActiveWorkbenchWindow(event).getShell();
 			
 			Actor newActor = SwprojFactoryImpl.eINSTANCE.createActor();
-			ActorDetail actorDetail = new ActorDetail(shell, newActor);
+			List<Actor> possibleParents = softwareProject.getActors();
+			
+			ActorDetail actorDetail = new ActorDetail(shell, newActor, possibleParents);
 			
 			if (actorDetail.open() == Window.OK) {
 				softwareProject.getActors().add(newActor);
