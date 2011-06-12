@@ -14,17 +14,24 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
-import org.eclipse.jface.viewers.CellEditor;
-import org.eclipse.jface.viewers.ICellModifier;
+import org.eclipse.jface.text.Document;
+import org.eclipse.jface.text.IDocument;
+import org.eclipse.jface.text.Position;
+import org.eclipse.jface.text.source.Annotation;
+import org.eclipse.jface.text.source.AnnotationModel;
+import org.eclipse.jface.text.source.SourceViewer;
+import org.eclipse.jface.text.source.SourceViewerConfiguration;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.TextCellEditor;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TreePath;
 import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.TreeViewerColumn;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.MouseAdapter;
-import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.custom.StyledText;
+import org.eclipse.swt.events.FocusAdapter;
+import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.FormAttachment;
@@ -36,7 +43,6 @@ import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeColumn;
-import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
@@ -47,15 +53,17 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.handlers.IHandlerService;
+import org.eclipse.ui.internal.editors.text.EditorsPlugin;
 import org.eclipse.ui.part.EditorPart;
 import org.eclipse.ui.part.FileEditorInput;
+import org.eclipse.ui.texteditor.AnnotationPreference;
+import org.eclipse.ui.texteditor.SourceViewerDecorationSupport;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 import org.eclipse.ui.views.properties.IPropertySheetPage;
 import org.eclipse.ui.views.properties.PropertySheetPage;
 
 import reprotool.ide.adapter.UseCaseContentOutlinePage;
 import reprotool.ide.commands.ClipboardHandler;
-import reprotool.ling.LingTools;
 import reprotool.model.usecase.Scenario;
 import reprotool.model.usecase.UseCase;
 import reprotool.model.usecase.UseCaseStep;
@@ -64,17 +72,7 @@ public class UseCaseEditor extends EditorPart {
 
 	public static final String ID = "cz.cuni.mff.reprotool.ide.editors.UseCaseEditor"; //$NON-NLS-1$
 
-	private static final String LABEL_PROPERTY = "label";
-	private static final String SENTENCE_PROPERTY = "sentence";
-	private static final String TYPE_PROPERTY = "type";
-	private static final String PARSED_PROPERTY = "parsed";
-
-	/*
-	 * LingTools is just a temporary stupid implementation of a sentence parsing
-	 * and tree building. When the real linguistic tools are added to this
-	 * project, they will be used.
-	 */
-	private static final LingTools lingTools = new LingTools();
+	private static final String ANNOTATION_TYPE = "reprotool.ide.tag";
 
 	// the usecase to edit
 	private UseCase usecase = null;
@@ -82,6 +80,7 @@ public class UseCaseEditor extends EditorPart {
 	private ResourceSet resourceSet = null;
 
 	private TreeViewer treeViewer = null;
+	private SourceViewer sentenceText = null;
 
 	private boolean dirty = false;
 
@@ -192,6 +191,7 @@ public class UseCaseEditor extends EditorPart {
 			undoAction.setEnabled(!undoStack.isEmpty());
 			redoAction.setEnabled(true);
 			treeViewer.setInput(usecase);
+			treeViewer.getTree().setFocus();
 			setDirty();
 		}
 
@@ -203,6 +203,7 @@ public class UseCaseEditor extends EditorPart {
 			redoAction.setEnabled(!redoStack.isEmpty());
 			undoAction.setEnabled(true);
 			treeViewer.setInput(usecase);
+			treeViewer.getTree().setFocus();
 			setDirty();
 		}
 	}
@@ -278,22 +279,87 @@ public class UseCaseEditor extends EditorPart {
 		treeViewer.setAutoExpandLevel(4);
 
 		Tree tree = treeViewer.getTree();
-		tree.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseDown(MouseEvent e) {
-				IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-				UseCaseEditor editor = (UseCaseEditor) page.getActiveEditor();
-				editor.showSelectedStep();
-			}
-		});
 		FormData fd_tree = new FormData();
-		fd_tree.bottom = new FormAttachment(100, -50);
+		fd_tree.bottom = new FormAttachment(100, -110);
 		fd_tree.right = new FormAttachment(100, 0);
 		fd_tree.top = new FormAttachment(0);
 		fd_tree.left = new FormAttachment(0);
 		tree.setLayoutData(fd_tree);
 		tree.setLinesVisible(true);
 		tree.setHeaderVisible(true);
+		
+		sentenceText = new SourceViewer(container, null, SWT.V_SCROLL);
+		StyledText styledText = sentenceText.getTextWidget();
+		styledText.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusLost(FocusEvent e) {
+				Object selected = getSelectedObject();
+				if (selected instanceof UseCaseStep) {
+					UseCaseStep step = (UseCaseStep)selected;
+					if (step.getSentence() == null)
+						step.setSentence("");
+					if (! step.getSentence().equals(sentenceText.getDocument().get())) {
+						saveUndoState();
+						step.setSentence(sentenceText.getDocument().get());
+					}
+				} else if (selected instanceof Scenario) {
+					Scenario scen = (Scenario)selected;
+					if (scen.getDescription() == null)
+						scen.setDescription("");
+					if (! scen.getDescription().equals(sentenceText.getDocument().get())) {
+						saveUndoState();
+						scen.setDescription(sentenceText.getDocument().get());
+					}
+				}
+				treeViewer.refresh();
+			}
+		});
+		FormData fd_text = new FormData();
+		fd_text.bottom = new FormAttachment(100, -50);
+		fd_text.right = new FormAttachment(100, 0);
+		fd_text.top = new FormAttachment(100, -105);
+		fd_text.left = new FormAttachment(0);
+		sentenceText.getTextWidget().setLayoutData(fd_text);
+		
+		sentenceText.configure(new SourceViewerConfiguration());
+
+		SourceViewerDecorationSupport svds = new SourceViewerDecorationSupport(sentenceText, null, null, EditorsPlugin.getDefault().getSharedTextColors());
+		AnnotationPreference ap = new AnnotationPreference();
+		ap.setColorPreferenceKey("tagColor");
+		ap.setHighlightPreferenceKey("tagHighlight");
+		ap.setTextPreferenceKey("tagText");
+		ap.setAnnotationType(ANNOTATION_TYPE);
+		svds.setAnnotationPreference(ap);
+		svds.install(EditorsPlugin.getDefault().getPreferenceStore());
+		
+		treeViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+			public void selectionChanged(SelectionChangedEvent event) {
+				Object selection = getSelectedObject();
+				if (selection == null)
+					return;
+				showSelectedStep();
+				
+				IDocument doc = new Document();
+				if (selection instanceof UseCaseStep)
+					doc.set(getSelectedStep().getSentence());
+				else
+					doc.set(((Scenario) getSelectedObject()).getDescription());
+				
+				AnnotationModel annotations = new AnnotationModel();
+				annotations.connect(doc);
+				sentenceText.setDocument(doc, annotations);
+
+				// XXX for testing - add example annotation to the second word
+				if (doc.get().split(" ").length > 1) {
+					int start = doc.get().indexOf(" ")+1;
+					int end = doc.get().indexOf(" ", start + 1);
+					if (end == -1)
+						end = doc.get().length();
+					Annotation a = new Annotation(ANNOTATION_TYPE, false, "hidden text");
+					annotations.addAnnotation(a, new Position(start, end - start));
+				}
+			}
+		});
 
 		TreeColumn trclmnLabel = new TreeColumn(tree, SWT.NONE);
 		trclmnLabel.setWidth(100);
@@ -310,7 +376,7 @@ public class UseCaseEditor extends EditorPart {
 
 		Composite composite = new Composite(container, SWT.NONE);
 		FormData fd_composite = new FormData();
-		fd_composite.top = new FormAttachment(tree, 5);
+		fd_composite.top = new FormAttachment(sentenceText.getTextWidget(), 5);
 		fd_composite.bottom = new FormAttachment(100);
 		fd_composite.right = new FormAttachment(100);
 		fd_composite.left = new FormAttachment(0);
@@ -360,76 +426,6 @@ public class UseCaseEditor extends EditorPart {
 		UseCaseStepTreeProvider provider = new UseCaseStepTreeProvider();
 		treeViewer.setContentProvider(provider);
 		treeViewer.setLabelProvider(provider);
-
-		treeViewer.setCellModifier(new ICellModifier() {
-			public boolean canModify(Object element, String property) {
-				return ((element instanceof UseCaseStep && 
-						(SENTENCE_PROPERTY.equals(property) || LABEL_PROPERTY.equals(property))) || 
-						(element instanceof Scenario && SENTENCE_PROPERTY.equals(property)));
-			}
-
-			public Object getValue(Object element, String property) {
-				if (element instanceof UseCaseStep) {
-					UseCaseStep step = (UseCaseStep) element;
-					if (SENTENCE_PROPERTY.equals(property))
-						return step.getSentence();
-					else if (LABEL_PROPERTY.equals(property)) {
-						if (step.getLabel() == null)
-							return "";
-						else
-							return step.getLabel();
-					}
-				} else if (element instanceof Scenario) {
-					Scenario scen = (Scenario)element;
-					if (scen.getDescription() == null)
-						return "";
-					else
-						return scen.getDescription();
-				}
-				return "";
-			}
-
-			public void modify(Object element, String property, Object value) {
-				Object item = ((TreeItem) element).getData();
-				if (item instanceof UseCaseStep) {
-					UseCaseStep step = (UseCaseStep) item;
-					if (SENTENCE_PROPERTY.equals(property)
-							&& (step.getSentence() == null || !step.getSentence().equals(value.toString()))) {
-						saveUndoState();
-						step.setSentence(value.toString());
-						treeViewer.update(step, new String[] { SENTENCE_PROPERTY });
-						step.setParsedSentence(lingTools.parseSentence(step.getSentence()));
-						setDirty();
-					} else if (LABEL_PROPERTY.equals(property)) {
-						if (step.getLabel() == null)
-							step.setLabel("");
-						if (!step.getLabel().equals(value.toString())) {
-							saveUndoState();
-							step.setLabel(value.toString());
-							setDirty();
-							treeViewer.update(step, new String[] { LABEL_PROPERTY });
-							refreshPropertySheet();
-						}
-					}
-				} else if (item instanceof Scenario) {
-					Scenario scen = (Scenario)item;
-					if (scen.getDescription() == null)
-						scen.setDescription("");
-					if (!scen.getDescription().equals(value.toString())) {
-						saveUndoState();
-						scen.setDescription(value.toString());
-						setDirty();
-						treeViewer.update(scen, new String[] { SENTENCE_PROPERTY });
-						refreshPropertySheet();
-					}
-				}
-				showSelectedStep();
-			}
-		});
-		treeViewer
-				.setColumnProperties(new String[] { LABEL_PROPERTY, SENTENCE_PROPERTY, TYPE_PROPERTY, PARSED_PROPERTY });
-		treeViewer.setCellEditors(new CellEditor[] { new TextCellEditor(treeViewer.getTree()),
-				new TextCellEditor(treeViewer.getTree()), null, null });
 
 		TreeColumn treeColumn = new TreeColumn(tree, SWT.NONE);
 		treeColumn.setWidth(24);
@@ -515,6 +511,7 @@ public class UseCaseEditor extends EditorPart {
 		clipboard = new Clipboard();
 		
 		initializeGlobalActions();
+		undoStack = new UndoStack();
 		IActionBars bars = getEditorSite().getActionBars();
 		bars.setGlobalActionHandler(ActionFactory.UNDO.getId(), undoAction);
 		bars.setGlobalActionHandler(ActionFactory.REDO.getId(), redoAction);
@@ -543,7 +540,6 @@ public class UseCaseEditor extends EditorPart {
 				undoStack.redo();
 			}
 		};
-		undoStack = new UndoStack();
 	}
 
 	@Override
