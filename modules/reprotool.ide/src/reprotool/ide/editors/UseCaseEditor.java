@@ -72,8 +72,6 @@ public class UseCaseEditor extends EditorPart {
 
 	public static final String ID = "cz.cuni.mff.reprotool.ide.editors.UseCaseEditor"; //$NON-NLS-1$
 
-	private static final String ANNOTATION_TYPE = "reprotool.ide.tag";
-
 	// the usecase to edit
 	private UseCase usecase = null;
 
@@ -289,31 +287,7 @@ public class UseCaseEditor extends EditorPart {
 		tree.setHeaderVisible(true);
 		
 		sentenceText = new SourceViewer(container, null, SWT.V_SCROLL);
-		StyledText styledText = sentenceText.getTextWidget();
-		styledText.addFocusListener(new FocusAdapter() {
-			@Override
-			public void focusLost(FocusEvent e) {
-				Object selected = getSelectedObject();
-				if (selected instanceof UseCaseStep) {
-					UseCaseStep step = (UseCaseStep)selected;
-					if (step.getSentence() == null)
-						step.setSentence("");
-					if (! step.getSentence().equals(sentenceText.getDocument().get())) {
-						saveUndoState();
-						step.setSentence(sentenceText.getDocument().get());
-					}
-				} else if (selected instanceof Scenario) {
-					Scenario scen = (Scenario)selected;
-					if (scen.getDescription() == null)
-						scen.setDescription("");
-					if (! scen.getDescription().equals(sentenceText.getDocument().get())) {
-						saveUndoState();
-						scen.setDescription(sentenceText.getDocument().get());
-					}
-				}
-				treeViewer.refresh();
-			}
-		});
+		
 		FormData fd_text = new FormData();
 		fd_text.bottom = new FormAttachment(100, -50);
 		fd_text.right = new FormAttachment(100, 0);
@@ -321,16 +295,7 @@ public class UseCaseEditor extends EditorPart {
 		fd_text.left = new FormAttachment(0);
 		sentenceText.getTextWidget().setLayoutData(fd_text);
 		
-		sentenceText.configure(new SourceViewerConfiguration());
-
-		SourceViewerDecorationSupport svds = new SourceViewerDecorationSupport(sentenceText, null, null, EditorsPlugin.getDefault().getSharedTextColors());
-		AnnotationPreference ap = new AnnotationPreference();
-		ap.setColorPreferenceKey("tagColor");
-		ap.setHighlightPreferenceKey("tagHighlight");
-		ap.setTextPreferenceKey("tagText");
-		ap.setAnnotationType(ANNOTATION_TYPE);
-		svds.setAnnotationPreference(ap);
-		svds.install(EditorsPlugin.getDefault().getPreferenceStore());
+		initializeSentenceEditor();
 		
 		treeViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 			public void selectionChanged(SelectionChangedEvent event) {
@@ -525,6 +490,49 @@ public class UseCaseEditor extends EditorPart {
 
 		getSite().setSelectionProvider(treeViewer);
 		treeViewer.setInput(usecase);
+	}
+	
+	private static final String ANNOTATION_TYPE = "reprotool.ide.tag";
+	private static final String KEY_TAG_COLOR_PREF = "tagColor";
+	private static final String KEY_TAG_HIGHLIGHT_PREF = "tagHighlight";
+	private static final String KEY_TAG_TEXT_PREF = "tagText";
+	
+	private void initializeSentenceEditor() {
+		StyledText styledText = sentenceText.getTextWidget();
+		styledText.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusLost(FocusEvent e) {
+				Object selected = getSelectedObject();
+				if (selected instanceof UseCaseStep) {
+					UseCaseStep step = (UseCaseStep)selected;
+					if (step.getSentence() == null)
+						step.setSentence("");
+					if (! step.getSentence().equals(sentenceText.getDocument().get())) {
+						saveUndoState();
+						step.setSentence(sentenceText.getDocument().get());
+					}
+				} else if (selected instanceof Scenario) {
+					Scenario scen = (Scenario)selected;
+					if (scen.getDescription() == null)
+						scen.setDescription("");
+					if (! scen.getDescription().equals(sentenceText.getDocument().get())) {
+						saveUndoState();
+						scen.setDescription(sentenceText.getDocument().get());
+					}
+				}
+				treeViewer.refresh();
+			}
+		});
+		sentenceText.configure(new SourceViewerConfiguration());
+
+		SourceViewerDecorationSupport svds = new SourceViewerDecorationSupport(sentenceText, null, null, EditorsPlugin.getDefault().getSharedTextColors());
+		AnnotationPreference ap = new AnnotationPreference();
+		ap.setColorPreferenceKey(KEY_TAG_COLOR_PREF);
+		ap.setHighlightPreferenceKey(KEY_TAG_HIGHLIGHT_PREF);
+		ap.setTextPreferenceKey(KEY_TAG_TEXT_PREF);
+		ap.setAnnotationType(ANNOTATION_TYPE);
+		svds.setAnnotationPreference(ap);
+		svds.install(EditorsPlugin.getDefault().getPreferenceStore());
 	}
 
 	private void initializeGlobalActions() {
