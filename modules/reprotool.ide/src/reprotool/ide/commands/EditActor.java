@@ -2,7 +2,6 @@ package reprotool.ide.commands;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.commands.AbstractHandler;
@@ -11,6 +10,7 @@ import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Shell;
@@ -21,42 +21,43 @@ import reprotool.ide.Activator;
 import reprotool.ide.dialogs.ActorDetail;
 import reprotool.model.swproj.Actor;
 import reprotool.model.swproj.SoftwareProject;
-import reprotool.model.swproj.impl.SwprojFactoryImpl;
 
 /**
- * Command to add actor to project. Used in project explorer
+ * Command to remove selected actor from project. Used in project explorer.
  * 
  * @author jvinarek
  * 
  */
-public class AddActor extends AbstractHandler {
+public class EditActor extends AbstractHandler {
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		IStructuredSelection selection = (IStructuredSelection) HandlerUtil.getActiveWorkbenchWindow(event)
 				.getActivePage().getSelection();
-		if (!selection.isEmpty()) {
-			SoftwareProject softwareProject = (SoftwareProject) selection.getFirstElement();
 
+		if (!selection.isEmpty()) {
 			Shell shell = HandlerUtil.getActiveWorkbenchWindow(event).getShell();
 
-			Actor newActor = SwprojFactoryImpl.eINSTANCE.createActor();
-			List<Actor> possibleParents = softwareProject.getActors();
+			Actor actor = (Actor) selection.getFirstElement();
+			SoftwareProject project = (SoftwareProject) ((Actor) selection.getFirstElement()).eContainer();
 
-			ActorDetail actorDetail = new ActorDetail(shell, newActor, possibleParents);
+			Actor newActor = EcoreUtil.copy(actor);
+
+			// TODO - remove parent actors to prevent cycles
+			ActorDetail actorDetail = new ActorDetail(shell, newActor, project.getActors());
 
 			if (actorDetail.open() == Window.OK) {
-				softwareProject.getActors().add(newActor);
+				updateActor(newActor, actor);
 
 				try {
 					final Map<Object, Object> saveOptions = new HashMap<Object, Object>();
 					saveOptions.put(Resource.OPTION_SAVE_ONLY_IF_CHANGED,
 							Resource.OPTION_SAVE_ONLY_IF_CHANGED_MEMORY_BUFFER);
-					softwareProject.eResource().save(saveOptions);
+					project.eResource().save(saveOptions);
 				} catch (IOException e) {
 					StatusManager.getManager().handle(
-							new Status(IStatus.ERROR, Activator.PLUGIN_ID, "Saving of the actor failed", e),
-							StatusManager.BLOCK | StatusManager.LOG);
+							new Status(IStatus.ERROR, Activator.PLUGIN_ID, "Saving of the edited actor "
+									+ actor.getName() + " failed", e), StatusManager.BLOCK | StatusManager.LOG);
 				}
 			}
 		}
@@ -64,4 +65,9 @@ public class AddActor extends AbstractHandler {
 		return null;
 	}
 
+	private void updateActor(Actor srcActor, Actor tgtActor) {
+		tgtActor.setName(srcActor.getName());
+		tgtActor.setDescription(srcActor.getDescription());
+		tgtActor.setParentActor(srcActor.getParentActor());
+	}
 }

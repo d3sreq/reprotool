@@ -51,11 +51,6 @@ public class ActorDetail extends Dialog {
 		super(parentShell);
 		this.parentActorList = parentActorList;
 		this.actor = newActor;
-		
-//		comboViewer.set
-//		comboViewer.setInput(parentActorList.toArray());
-		// comboViewer.set
-//		setActor(newActor, false);
 	}
 
 	/**
@@ -91,9 +86,6 @@ public class ActorDetail extends Dialog {
 		combo = comboViewer.getCombo();
 		combo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 
-//		if (actor != null) {
-//			m_bindingContext = initDataBindings();
-//		}
 		return container;
 	}
 

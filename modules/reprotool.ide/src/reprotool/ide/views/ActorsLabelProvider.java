@@ -7,6 +7,12 @@ import org.eclipse.swt.graphics.Image;
 import reprotool.model.swproj.Actor;
 import reprotool.model.swproj.SoftwareProject;
 
+/**
+ * Provides labels for the content added by {@link ActorsContentProvider}.
+ * 
+ * @author jvinarek
+ * 
+ */
 public class ActorsLabelProvider implements ILabelProvider {
 
 	@Override
@@ -36,12 +42,12 @@ public class ActorsLabelProvider implements ILabelProvider {
 	@Override
 	public Image getImage(Object element) {
 
-//		if (element instanceof SoftwareProject) {
-//			return Activator.getImageDescriptor("icons/diary.gif").createImage();
-//		}
-//		if (element instanceof Actor) {
-//			return Activator.getImageDescriptor("icons/actor.gif").createImage();
-//		}
+		// if (element instanceof SoftwareProject) {
+		// return Activator.getImageDescriptor("icons/diary.gif").createImage();
+		// }
+		// if (element instanceof Actor) {
+		// return Activator.getImageDescriptor("icons/actor.gif").createImage();
+		// }
 		return null;
 	}
 

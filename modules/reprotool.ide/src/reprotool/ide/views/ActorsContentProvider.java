@@ -22,6 +22,13 @@ import org.eclipse.ui.PartInitException;
 import reprotool.ide.natures.ReprotoolProjectNature;
 import reprotool.model.swproj.SoftwareProject;
 
+/**
+ * Provides additional content (actors hierarchy) for the navigator (project
+ * explorer).
+ * 
+ * @author jvinarek
+ * 
+ */
 public class ActorsContentProvider implements ITreeContentProvider, IResourceChangeListener, IResourceDeltaVisitor {
 
 	private ResourceSet resourceSet;
@@ -117,16 +124,16 @@ public class ActorsContentProvider implements ITreeContentProvider, IResourceCha
 				Resource res = resourceSet.getResource(uri, true);
 				res.unload();
 				res.load(resourceSet.getLoadOptions());
-			
+
 				inputChangedViewer.refresh();
 			} catch (IOException ie) {
 				System.out.println("Error reloading resource - " + ie.toString());
 			}
-//			return false;
+			// return false;
 		}
 		return true;
 	}
-	
+
 	@Override
 	public void resourceChanged(IResourceChangeEvent event) {
 		// TODO Auto-generated method stub

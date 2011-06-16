@@ -40,7 +40,8 @@ import reprotool.model.swproj.SwprojFactory;
 /**
  * Wizard creating new reprotool project.
  * <p>
- * Creates eclipse project with reprotool's <code>project.ucproj</code> model file.
+ * Creates eclipse project with reprotool's <code>project.ucproj</code> model
+ * file.
  * 
  * @author jvinarek
  */
@@ -72,17 +73,15 @@ public class ProjectWizard extends Wizard implements INewWizard {
 						// Create project
 						//
 						IProject projectHandle = wizardPage.getProjectHandle();
-						java.net.URI projectURI = wizardPage.useDefaults() ? null
-								: wizardPage.getLocationURI();
+						java.net.URI projectURI = wizardPage.useDefaults() ? null : wizardPage.getLocationURI();
 
 						IWorkspace workspace = ResourcesPlugin.getWorkspace();
 
 						// TODO - jvinarek - add project description, not only
 						// project name
-						IProjectDescription desc = workspace
-								.newProjectDescription(projectHandle.getName());
+						IProjectDescription desc = workspace.newProjectDescription(projectHandle.getName());
 						desc.setLocationURI(projectURI);
-						desc.setNatureIds(new String[] {ReprotoolProjectNature.NATURE_ID});
+						desc.setNatureIds(new String[] { ReprotoolProjectNature.NATURE_ID });
 
 						projectHandle.create(desc, progressMonitor);
 
@@ -92,14 +91,12 @@ public class ProjectWizard extends Wizard implements INewWizard {
 
 						// Get the URI of the model file.
 						//
-						URI fileURI = URI.createFileURI(projectHandle
-								.getLocation().append(PROJECT_FILE_NAME)
+						URI fileURI = URI.createFileURI(projectHandle.getLocation().append(PROJECT_FILE_NAME)
 								.toString());
 
 						// Create a resource for this file.
 						//
 						Resource resource = resourceSet.createResource(fileURI);
-						
 
 						// Add the initial model object to the contents.
 						//
@@ -117,8 +114,9 @@ public class ProjectWizard extends Wizard implements INewWizard {
 						//
 						projectHandle.open(progressMonitor);
 					} catch (Exception exception) {
-						StatusManager.getManager().handle(new Status(IStatus.ERROR, Activator.PLUGIN_ID,
-								"Error during new project creation", exception), StatusManager.BLOCK | StatusManager.LOG);
+						StatusManager.getManager().handle(
+								new Status(IStatus.ERROR, Activator.PLUGIN_ID, "Error during new project creation",
+										exception), StatusManager.BLOCK | StatusManager.LOG);
 					} finally {
 						progressMonitor.done();
 					}
@@ -127,22 +125,18 @@ public class ProjectWizard extends Wizard implements INewWizard {
 
 			getContainer().run(false, false, operation);
 
-			IFile modelFile = ResourcesPlugin.getWorkspace().getRoot()
-					.getFile(getModelFilePath());
+			IFile modelFile = ResourcesPlugin.getWorkspace().getRoot().getFile(getModelFilePath());
 
 			// Select the new file resource in the current view.
 			//
-			IWorkbenchWindow workbenchWindow = workbench
-					.getActiveWorkbenchWindow();
+			IWorkbenchWindow workbenchWindow = workbench.getActiveWorkbenchWindow();
 			IWorkbenchPage page = workbenchWindow.getActivePage();
 			final IWorkbenchPart activePart = page.getActivePart();
 			if (activePart instanceof ISetSelectionTarget) {
-				final ISelection targetSelection = new StructuredSelection(
-						modelFile);
+				final ISelection targetSelection = new StructuredSelection(modelFile);
 				getShell().getDisplay().asyncExec(new Runnable() {
 					public void run() {
-						((ISetSelectionTarget) activePart)
-								.selectReveal(targetSelection);
+						((ISetSelectionTarget) activePart).selectReveal(targetSelection);
 					}
 				});
 			}
@@ -150,23 +144,20 @@ public class ProjectWizard extends Wizard implements INewWizard {
 			// Open an editor on the new file.
 			//
 			try {
-				page.openEditor(
-						new FileEditorInput(modelFile),
-						workbench
-								.getEditorRegistry()
-								.getDefaultEditor(
-										modelFile.getFullPath().toString())
-								.getId());
+				page.openEditor(new FileEditorInput(modelFile),
+						workbench.getEditorRegistry().getDefaultEditor(modelFile.getFullPath().toString()).getId());
 			} catch (PartInitException exception) {
-				StatusManager.getManager().handle(new Status(IStatus.ERROR, Activator.PLUGIN_ID,
-						"Error while opening project editor", exception), StatusManager.BLOCK | StatusManager.LOG);
+				StatusManager.getManager()
+						.handle(new Status(IStatus.ERROR, Activator.PLUGIN_ID, "Error while opening project editor",
+								exception), StatusManager.BLOCK | StatusManager.LOG);
 				return false;
 			}
 
 			return true;
 		} catch (Exception exception) {
-			StatusManager.getManager().handle(new Status(IStatus.ERROR, Activator.PLUGIN_ID,
-					"Error during project initialization", exception), StatusManager.BLOCK | StatusManager.LOG);
+			IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, "Error during project initialization",
+					exception);
+			StatusManager.getManager().handle(status, StatusManager.BLOCK | StatusManager.LOG);
 			return false;
 		}
 	}
@@ -181,13 +172,12 @@ public class ProjectWizard extends Wizard implements INewWizard {
 
 	private EObject createInitialModel() {
 		return SwprojFactory.eINSTANCE.createActor();
-//		return Service.INSTANCE.createSoftwareProject();
+		// return Service.INSTANCE.createSoftwareProject();
 	}
 
 	private IPath getModelFilePath() {
 		IProject projectHandle = wizardPage.getProjectHandle();
-		return projectHandle.getProjectRelativePath()
-				.append(projectHandle.getName()).append(PROJECT_FILE_NAME);
+		return projectHandle.getProjectRelativePath().append(projectHandle.getName()).append(PROJECT_FILE_NAME);
 	}
 
 }
