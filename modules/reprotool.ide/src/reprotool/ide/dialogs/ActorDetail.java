@@ -49,7 +49,7 @@ public class ActorDetail extends Dialog {
 	}
 
 	public ActorDetail(Shell parentShell, Actor newActor, List<Actor> parentActorList) {
-		super(parentShell);
+		this(parentShell);
 		this.parentActorList = parentActorList;
 		this.actor = newActor;
 	}
