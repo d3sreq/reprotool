@@ -68,7 +68,9 @@ public class ActorDetail extends Dialog {
 		labelName.setText("Name:");
 
 		nameText = new Text(container, SWT.BORDER | SWT.SINGLE);
-		nameText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		GridData gd_nameText = new GridData(SWT.FILL, SWT.CENTER, true, false);
+		gd_nameText.widthHint = 200;
+		nameText.setLayoutData(gd_nameText);
 
 		Label labelDescription = new Label(container, SWT.NONE);
 		labelDescription.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, false, 1, 1));
@@ -100,14 +102,6 @@ public class ActorDetail extends Dialog {
 		createButton(parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL, true);
 		createButton(parent, IDialogConstants.CANCEL_ID, IDialogConstants.CANCEL_LABEL, false);
 		m_bindingContext = initDataBindings();
-	}
-
-	/**
-	 * Return the initial size of the dialog.
-	 */
-	@Override
-	protected Point getInitialSize() {
-		return new Point(360, 220);
 	}
 
 	@Override
