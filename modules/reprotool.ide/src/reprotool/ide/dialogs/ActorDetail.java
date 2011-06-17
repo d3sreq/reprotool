@@ -45,6 +45,7 @@ public class ActorDetail extends Dialog {
 	 */
 	public ActorDetail(Shell parentShell) {
 		super(parentShell);
+		setShellStyle(SWT.DIALOG_TRIM | SWT.RESIZE);
 	}
 
 	public ActorDetail(Shell parentShell, Actor newActor, List<Actor> parentActorList) {
@@ -106,7 +107,7 @@ public class ActorDetail extends Dialog {
 	 */
 	@Override
 	protected Point getInitialSize() {
-		return new Point(340, 175);
+		return new Point(360, 220);
 	}
 
 	@Override
