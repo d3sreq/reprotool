@@ -1,36 +1,40 @@
 package reprotool.ide.preferences;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.eclipse.core.internal.registry.Extension;
+import org.eclipse.core.runtime.IExtension;
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.jface.preference.BooleanFieldEditor;
+import org.eclipse.jface.preference.ComboFieldEditor;
 import org.eclipse.jface.preference.DirectoryFieldEditor;
 import org.eclipse.jface.preference.FieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
+import org.eclipse.jface.preference.RadioGroupFieldEditor;
 import org.eclipse.jface.preference.StringFieldEditor;
 import org.eclipse.jface.util.PropertyChangeEvent;
+import org.eclipse.swt.SWT;
+
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Group;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
 import reprotool.ide.Activator;
 import reprotool.ling.wordnet.WordNet;
 
-/**
- * This class represents a preference page that
- * is contributed to the Preferences dialog. By 
- * subclassing <samp>FieldEditorPreferencePage</samp>, we
- * can use the field support built into JFace that allows
- * us to create a page that is small and knows how to 
- * save, restore and apply itself.
- * <p>
- * This page is used to modify preferences only. They
- * are stored in the preference store that belongs to
- * the main plug-in class. That way, preferences can
- * be accessed directly via the preference store.
- */
 
 public class LingToolsPreferencePage
 	extends FieldEditorPreferencePage
 	implements IWorkbenchPreferencePage {
 
-	private StringFieldEditor fieldDict; 
+	private ComboFieldEditor comboDict;	
 
+	private StringFieldEditor fieldDict; 
+	private BooleanFieldEditor externalWordnet; 
+	private Group wordnetGroup;
 	
 	public LingToolsPreferencePage() {
 		super(GRID);
@@ -51,9 +55,47 @@ public class LingToolsPreferencePage
 
 		addField(new DirectoryFieldEditor(PreferenceConstants.MXPOST_MODEL, 
 				"&MXPOS Tagger model:", getFieldEditorParent()));
+
+		wordnetGroup = new Group(getFieldEditorParent(),SWT.NONE); 
+		wordnetGroup.setText("WordNet settings");
+		GridLayout wordnetLayout = new GridLayout();		
+		wordnetLayout.verticalSpacing = 10;		
+		wordnetGroup.setLayout(wordnetLayout);
+		
+		GridData wordnetLayoutData = new GridData(GridData.FILL_HORIZONTAL);
+		wordnetLayoutData.horizontalSpan = 3;
+		wordnetGroup.setLayoutData(wordnetLayoutData);
+			
+		IExtension[] allfield = Platform.getExtensionRegistry().getExtensions("reprotool.ide");
+
+		ArrayList<String[]> test = new ArrayList<String[]>();
+		//List<String[]> test = new ArrayList<String[]>();
+        //test.add(new String[] {"foo","foo"});
+        
+        /*int i = 0;
+        for (IExtension ext : allfield) {
+        	if((ext != null)&&(ext.getExtensionPointUniqueIdentifier().contains("org"))){
+        		test.add(new String[] {"foo","foo"});
+        		i++;
+        	}
+        	
+        }*/
+		
+		
+		comboDict = new ComboFieldEditor(PreferenceConstants.WORDNET_SELECTION,
+			"Dictionary", //test.toArray(String[])
+			new String[][] { { "Choice 1", "choice1" }, {"Choice 2", "choice2" }}
+		, wordnetGroup);
+		addField(comboDict);
+		
+		externalWordnet = new BooleanFieldEditor(PreferenceConstants.EXTERNAL_WORDNET,
+				"&External WordNet dictionary",	wordnetGroup);
+		addField(externalWordnet);
 		
 		fieldDict = new DirectoryFieldEditor(PreferenceConstants.WORDNET_DICT, 
-				"&WordNet dictionary:", getFieldEditorParent());
+				"&WordNet path:", wordnetGroup);
+		fieldDict.setEnabled(false, wordnetGroup);
+		
 		addField(fieldDict);
 	}
 
@@ -72,13 +114,17 @@ public class LingToolsPreferencePage
               setErrorMessage("Folder name cannot be blank!");
               setValid(false);
         }
+        
+        comboDict.setEnabled(!externalWordnet.getBooleanValue(), wordnetGroup);     
+        fieldDict.setEnabled(externalWordnet.getBooleanValue(), wordnetGroup);      
+
 	}
 	
 	public void propertyChange(PropertyChangeEvent event) {
         super.propertyChange(event);
         if (event.getProperty().equals(FieldEditor.VALUE)) {
-                  checkState();
-        }        
+        	checkState();
+        }              
 	}
 
 	

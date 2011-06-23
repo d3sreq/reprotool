@@ -29,6 +29,8 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 		// get path /reprotool
         String rootPath = new java.io.File(getRootPath()).getParentFile().getParent();
 		
+		store.setDefault(PreferenceConstants.EXTERNAL_WORDNET, false);
+        
 		store.setDefault(PreferenceConstants.MODEL_LOC, rootPath);
 		store.setDefault(PreferenceConstants.MXPOST_MODEL, rootPath + "/tools/MXPost_tagger/tagger.project");
 		store.setDefault(PreferenceConstants.WORDNET_DICT, rootPath + "/tools/WordNet-3.0/dict");
