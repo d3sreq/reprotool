@@ -342,8 +342,8 @@
             </visibleWhen>
          </command>
          <command
-               commandId="commands.removeActor"
-               label="Remove actor"
+               commandId="commands.editActor"
+               label="Edit actor"
                style="push">
             <visibleWhen
                   checkEnabled="false">
@@ -358,8 +358,8 @@
             </visibleWhen>
          </command>
          <command
-               commandId="commands.editActor"
-               label="Edit actor"
+               commandId="commands.removeActor"
+               label="Remove actor"
                style="push">
             <visibleWhen
                   checkEnabled="false">
