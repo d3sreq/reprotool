@@ -31,7 +31,6 @@ public class AddScenario extends AbstractHandler {
 		else if (event.getCommand().getId().equals("commands.addVariation"))
 			step.getVariation().add(scen);
 		editor.setDirty();
-		editor.refresh();
 		editor.setSelection(newStep);
 		return null;
 	}

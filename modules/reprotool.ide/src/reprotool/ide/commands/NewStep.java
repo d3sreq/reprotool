@@ -26,11 +26,6 @@ public class NewStep extends AbstractHandler {
 		UseCaseStep newStep = ucFactory.createUseCaseStep();
 		newStep.setSentence("New step");
 		
-		if (uc.getMainScenario() == null) {
-			Scenario main = ucFactory.createScenario();
-			uc.setMainScenario(main);
-		}
-		
 		Object selected = editor.getSelectedObject();
 		if (selected == null) {
 			uc.getMainScenario().getSteps().add(newStep);
@@ -44,9 +39,8 @@ public class NewStep extends AbstractHandler {
 			// add new step to the beginning
 			scen.getSteps().add(0, newStep);
 		}
-		editor.setDirty();
 		editor.setSelection(newStep);
-		editor.refresh();
+		editor.setDirty();
 		return null;
 	}
 }

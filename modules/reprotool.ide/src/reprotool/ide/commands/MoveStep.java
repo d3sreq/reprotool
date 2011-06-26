@@ -29,7 +29,6 @@ public class MoveStep extends AbstractHandler {
 			parent.getSteps().move(pos+1, pos);
 		
 		editor.setDirty();
-		editor.refresh();
 		editor.setSelection(step);
 		return null;
 	}

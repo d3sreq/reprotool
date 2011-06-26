@@ -21,6 +21,7 @@ import org.eclipse.jface.text.source.Annotation;
 import org.eclipse.jface.text.source.AnnotationModel;
 import org.eclipse.jface.text.source.SourceViewer;
 import org.eclipse.jface.text.source.SourceViewerConfiguration;
+import org.eclipse.jface.util.LocalSelectionTransfer;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
@@ -28,8 +29,15 @@ import org.eclipse.jface.viewers.TreePath;
 import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.TreeViewerColumn;
+import org.eclipse.jface.viewers.ViewerDropAdapter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyledText;
+import org.eclipse.swt.dnd.DND;
+import org.eclipse.swt.dnd.DragSource;
+import org.eclipse.swt.dnd.DropTarget;
+import org.eclipse.swt.dnd.DropTargetEvent;
+import org.eclipse.swt.dnd.Transfer;
+import org.eclipse.swt.dnd.TransferData;
 import org.eclipse.swt.events.FocusAdapter;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -67,6 +75,7 @@ import reprotool.ide.commands.ClipboardHandler;
 import reprotool.model.usecase.Scenario;
 import reprotool.model.usecase.UseCase;
 import reprotool.model.usecase.UseCaseStep;
+import reprotool.model.usecase.impl.UsecaseFactoryImpl;
 
 public class UseCaseEditor extends EditorPart {
 
@@ -132,9 +141,8 @@ public class UseCaseEditor extends EditorPart {
 				}
 			}
 			
-			setDirty();
 			clipboardItem = EcoreUtil.copy(clipboardItem);
-			refresh();
+			setDirty();
 		}
 		
 		private void insertScenario(UseCaseStep step, Scenario scen) {
@@ -262,6 +270,32 @@ public class UseCaseEditor extends EditorPart {
 			return;
 		runCommand("commands.showStep");
 	}
+	
+	public void deleteItem(Object item) {
+		if (item instanceof UseCaseStep) {
+			UseCaseStep step = (UseCaseStep)item;
+			Scenario scen = (Scenario)step.eContainer();
+			scen.getSteps().remove(step);
+			checkEmptyScenario(scen);
+		} else if (item instanceof Scenario) {
+			UseCaseStep parent = (UseCaseStep)((EObject)item).eContainer();
+			parent.getExtension().remove(item);
+			parent.getVariation().remove(item);
+		}
+		sentenceText.setDocument(new Document());
+		refresh();
+	}
+
+	private void checkEmptyScenario(Scenario scen) {
+		// remove empty variation / extension
+		if (scen.getSteps().isEmpty()) {
+			if (scen.eContainer() instanceof UseCaseStep) {
+				UseCaseStep parent = (UseCaseStep)scen.eContainer();
+				parent.getExtension().remove(scen);
+				parent.getVariation().remove(scen);
+			}
+		}
+	}
 
 	/**
 	 * Create contents of the editor part.
@@ -285,6 +319,9 @@ public class UseCaseEditor extends EditorPart {
 		tree.setLayoutData(fd_tree);
 		tree.setLinesVisible(true);
 		tree.setHeaderVisible(true);
+		
+
+		initializeDragAndDrop();
 		
 		sentenceText = new SourceViewer(container, null, SWT.V_SCROLL);
 		
@@ -492,6 +529,104 @@ public class UseCaseEditor extends EditorPart {
 		treeViewer.setInput(usecase);
 	}
 	
+	private void initializeDragAndDrop() {
+		Transfer[] types = new Transfer[] { LocalSelectionTransfer.getTransfer() };
+		int operations = DND.DROP_MOVE;
+
+		final DragSource source = new DragSource(treeViewer.getTree(), operations);
+		source.setTransfer(types);
+
+		DropTarget target = new DropTarget(treeViewer.getTree(), operations);
+		target.setTransfer(types);
+		target.addDropListener(new ViewerDropAdapter(treeViewer) {
+			@Override
+			public void drop(DropTargetEvent event) {
+				int location = determineLocation(event);
+				EObject src = (EObject)getSelectedObject();
+				EObject target = (EObject)determineTarget(event);
+				switch (location) {
+				case 1: // Dropped before the target
+					if (src instanceof UseCaseStep && target instanceof UseCaseStep && !isTransitiveParent(src, target)) {
+						saveUndoState();
+						deleteItem(src);
+						Scenario parent = (Scenario)((UseCaseStep)target).eContainer();
+						parent.getSteps().add(parent.getSteps().indexOf(target), (UseCaseStep)src);
+						setDirty();
+					}
+					break;
+				case 2: // Dropped after the target
+					if (src instanceof Scenario || isTransitiveParent(src, target))
+						return;
+					saveUndoState();
+					deleteItem(src);
+					if (target instanceof UseCaseStep) {
+						Scenario parent = (Scenario)((UseCaseStep)target).eContainer();
+						parent.getSteps().add(parent.getSteps().indexOf(target)+1, (UseCaseStep)src);
+					} else if (target instanceof Scenario)
+						((Scenario)target).getSteps().add(0, (UseCaseStep)src);
+					setDirty();
+					break;
+				case 3: // Dropped on the target
+					if (src == target || src.eContainer() == target || isTransitiveParent(src, target))
+						return;
+					if  (src instanceof Scenario && target instanceof UseCaseStep) {
+						saveUndoState();
+						Scenario scen = (Scenario)src;
+						UseCaseStep parent = (UseCaseStep)scen.eContainer();
+						if (parent.getVariation().contains(scen)) {
+							((UseCaseStep)target).getVariation().add(scen);
+							parent.getVariation().remove(scen);
+						} else {
+							((UseCaseStep)target).getExtension().add(scen);
+							parent.getExtension().remove(scen);
+						}
+						setDirty();
+					} else if (src instanceof UseCaseStep && target instanceof Scenario) {
+						if (isTransitiveParent(src, target))
+							return;
+						saveUndoState();
+						((Scenario)target).getSteps().add(EcoreUtil.copy((UseCaseStep)src));
+						deleteItem(src);
+						setDirty();
+					}
+					break;
+				case 4: // Dropped into nothing
+					if (src instanceof Scenario)
+						return;
+					saveUndoState();
+					UseCaseStep step = (UseCaseStep)src;
+					deleteItem(step);
+					usecase.getMainScenario().getSteps().add(step);
+					setDirty();
+					break;
+				}
+			}
+
+			@Override
+			public boolean performDrop(Object data) {
+				return true;
+			}
+
+			@Override
+			public boolean validateDrop(Object target, int operation, TransferData transferType) {
+				EObject src = (EObject)getSelectedObject();
+				if (src instanceof Scenario && target instanceof Scenario || isTransitiveParent(src, (EObject)target))
+					return false;
+				return true;
+			}
+		});
+	}
+	
+	private boolean isTransitiveParent(EObject source, EObject target) {
+		EObject parent = target;
+		while (parent != null) {
+			if (parent == source)
+				return true;
+			parent = parent.eContainer();
+		}
+		return false;
+	}
+
 	private static final String ANNOTATION_TYPE = "reprotool.ide.tag";
 	private static final String KEY_TAG_COLOR_PREF = "tagColor";
 	private static final String KEY_TAG_HIGHLIGHT_PREF = "tagHighlight";
@@ -593,6 +728,9 @@ public class UseCaseEditor extends EditorPart {
 			throw new PartInitException("File does not contain a use case");
 
 		usecase = (UseCase) resource.getContents().get(0);
+		
+		if (usecase.getMainScenario() == null)
+			usecase.setMainScenario(new UsecaseFactoryImpl().createScenario());
 	}
 
 	@Override
@@ -621,6 +759,7 @@ public class UseCaseEditor extends EditorPart {
 	private void setDirty(boolean state) {
 		dirty = state;
 		firePropertyChange(PROP_DIRTY);
+		refresh();
 	}
 
 	public void setDirty() {

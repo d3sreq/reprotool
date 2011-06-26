@@ -35,7 +35,6 @@ public class DuplicateStep extends AbstractHandler {
 				parent.getVariation().add((Scenario)clone);
 		}
 		
-		editor.refresh();
 		editor.setDirty();
 		editor.setSelection(clone);
 		return null;
