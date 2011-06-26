@@ -68,7 +68,8 @@ import org.eclipse.ui.texteditor.AnnotationPreference;
 import org.eclipse.ui.texteditor.SourceViewerDecorationSupport;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 import org.eclipse.ui.views.properties.IPropertySheetPage;
-import org.eclipse.ui.views.properties.PropertySheetPage;
+import org.eclipse.ui.views.properties.tabbed.ITabbedPropertySheetPageContributor;
+import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 
 import reprotool.ide.adapter.UseCaseContentOutlinePage;
 import reprotool.ide.commands.ClipboardHandler;
@@ -77,7 +78,7 @@ import reprotool.model.usecase.UseCase;
 import reprotool.model.usecase.UseCaseStep;
 import reprotool.model.usecase.impl.UsecaseFactoryImpl;
 
-public class UseCaseEditor extends EditorPart {
+public class UseCaseEditor extends EditorPart implements ITabbedPropertySheetPageContributor {
 
 	public static final String ID = "cz.cuni.mff.reprotool.ide.editors.UseCaseEditor"; //$NON-NLS-1$
 
@@ -91,7 +92,7 @@ public class UseCaseEditor extends EditorPart {
 
 	private boolean dirty = false;
 
-	private PropertySheetPage propertySheetPage;
+	private TabbedPropertySheetPage propertySheetPage;
 	private UseCaseContentOutlinePage outlinePage;
 	
 	/**
@@ -795,7 +796,7 @@ public class UseCaseEditor extends EditorPart {
 	public Object getAdapter(Class key) {
 		if (key.equals(IPropertySheetPage.class)) {
 			if (propertySheetPage == null)
-				propertySheetPage = new PropertySheetPage();
+				propertySheetPage = new TabbedPropertySheetPage(this);
 			return propertySheetPage;
 		}
 		
@@ -813,6 +814,9 @@ public class UseCaseEditor extends EditorPart {
 		if (propertySheetPage != null)
 			propertySheetPage.refresh();
 	}
-	
-	
+
+	@Override
+	public String getContributorId() {
+		return getSite().getId();
+	}
 }

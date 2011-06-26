@@ -24,6 +24,9 @@ public class ShowStep extends AbstractHandler
 	public Object execute(ExecutionEvent event) throws ExecutionException
 	{
 		IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindow(event);
+		if (window == null)
+			return null;
+		
 		IWorkbenchPage page = window.getActivePage();
 		
 		UseCaseEditor editor = UseCaseEditor.getActiveUseCaseEditor();

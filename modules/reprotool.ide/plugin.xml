@@ -297,20 +297,6 @@
    <extension
          point="org.eclipse.core.runtime.adapters">
       <factory
-            adaptableType="reprotool.model.usecase.UseCaseStep"
-            class="reprotool.ide.adapter.UseCaseElementAdapterFactory">
-         <adapter
-               type="org.eclipse.ui.views.properties.IPropertySource">
-         </adapter>
-      </factory>
-      <factory
-            adaptableType="reprotool.model.usecase.Scenario"
-            class="reprotool.ide.adapter.UseCaseElementAdapterFactory">
-         <adapter
-               type="org.eclipse.ui.views.properties.IPropertySource">
-         </adapter>
-      </factory>
-      <factory
             adaptableType="reprotool.model.usecase.UseCase"
             class="reprotool.ide.adapter.UseCaseAdapterFactory">
          <adapter
@@ -398,6 +384,42 @@
       <type
             name="reprotool.ide.tag">
       </type>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views.properties.tabbed.propertyContributor">
+      <propertyContributor
+            contributorId="cz.cuni.mff.reprotool.ide.UseCaseEditor">
+         <propertyCategory category="main"/>
+      </propertyContributor>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views.properties.tabbed.propertyTabs">
+      <propertyTabs
+            contributorId="cz.cuni.mff.reprotool.ide.UseCaseEditor">
+         <propertyTab
+               category="main"
+               id="reprotool.ide.properties.uc"
+               label="Item">
+         </propertyTab>
+      </propertyTabs>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views.properties.tabbed.propertySections">
+      <propertySections
+            contributorId="cz.cuni.mff.reprotool.ide.UseCaseEditor">
+         <propertySection
+               class="reprotool.ide.adapter.UseCaseStepPropertySource"
+               id="reprotool.ide.properties.uc.UseCaseSection"
+               tab="reprotool.ide.properties.uc">
+               <input type="reprotool.model.usecase.UseCaseStep"/>
+         </propertySection>
+         <propertySection
+               class="reprotool.ide.adapter.ScenarioPropertySource"
+               id="reprotool.ide.properties.uc.ScenarioSection"
+               tab="reprotool.ide.properties.uc">
+               <input type="reprotool.model.usecase.Scenario"/>
+         </propertySection>
+      </propertySections>
    </extension>
 
 </plugin>

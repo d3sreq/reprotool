@@ -1,59 +1,110 @@
 package reprotool.ide.adapter;
 
-import org.eclipse.ui.views.properties.IPropertyDescriptor;
-import org.eclipse.ui.views.properties.IPropertySource;
-import org.eclipse.ui.views.properties.PropertyDescriptor;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CCombo;
+import org.eclipse.swt.custom.CLabel;
+import org.eclipse.swt.layout.FormAttachment;
+import org.eclipse.swt.layout.FormData;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.views.properties.tabbed.AbstractPropertySection;
+import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
+import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 
-import reprotool.model.usecase.UseCaseStep;
+import reprotool.ide.views.TokenWizard;
 
-public class UseCaseStepPropertySource implements IPropertySource {
-	private static final String ID_ACTION_TYPE = "actionType";
-	private static final String ID_TOKEN = "token";
+public class UseCaseStepPropertySource extends AbstractPropertySection {
 	
-	private UseCaseStep step;
-	private IPropertyDescriptor[] propertyDescriptors;
+	private Text tokenText;
+	private CCombo actorCombo;
+	private CCombo actionCombo;
 	
-	public UseCaseStepPropertySource(UseCaseStep step) {
-		this.step = step;
-	}
-
 	@Override
-	public Object getEditableValue() {
-		return null;
-	}
+	public void createControls(final Composite parent, TabbedPropertySheetPage aTabbedPropertySheetPage) {
+		super.createControls(parent, aTabbedPropertySheetPage);
 
+		Composite composite = getWidgetFactory().createFlatFormComposite(parent);
+		FormData data;
+
+		Button tokenButton = getWidgetFactory().createButton(composite, "...", SWT.NONE);
+		data = new FormData();
+		data.right = new FormAttachment(100);
+		data.top = new FormAttachment(0);
+		tokenButton.setLayoutData(data);
+		
+		tokenButton.addListener(SWT.Selection, new Listener() {
+			@Override
+			public void handleEvent(Event event) {
+				TokenWizard tw = new TokenWizard(parent.getShell(), SWT.NONE);
+				tw.open();
+			}
+		});
+
+		tokenText = getWidgetFactory().createText(composite, "#exampleToken");
+		data = new FormData();
+		data.left = new FormAttachment(0, STANDARD_LABEL_WIDTH);
+		data.right = new FormAttachment(tokenButton, -ITabbedPropertyConstants.HSPACE);
+		data.top = new FormAttachment(tokenButton, 0, SWT.CENTER);
+		tokenText.setLayoutData(data);
+
+		CLabel tokenLabel = getWidgetFactory().createCLabel(composite, "Token:");
+		data = new FormData();
+		data.left = new FormAttachment(0, 0);
+		data.right = new FormAttachment(tokenText, -ITabbedPropertyConstants.HSPACE);
+		data.top = new FormAttachment(tokenText, 0, SWT.CENTER);
+		tokenLabel.setLayoutData(data);
+		
+		
+		actorCombo = getWidgetFactory().createCCombo(composite);
+		data = new FormData();
+		data.left = new FormAttachment(0, STANDARD_LABEL_WIDTH);
+		data.right = new FormAttachment(100);
+		data.top = new FormAttachment(tokenText, ITabbedPropertyConstants.VSPACE);
+		actorCombo.setLayoutData(data);
+		
+		actorCombo.add("dummy actor 1");
+		actorCombo.add("dummy actor 2");
+		actorCombo.add("dummy actor 3");
+		actorCombo.select(0);
+
+		CLabel actorLabel = getWidgetFactory().createCLabel(composite, "Actor:");
+		data = new FormData();
+		data.left = new FormAttachment(0);
+		data.right = new FormAttachment(actorCombo, -ITabbedPropertyConstants.HSPACE);
+		data.top = new FormAttachment(actorCombo, 0, SWT.CENTER);
+		actorLabel.setLayoutData(data);
+		
+		
+		actionCombo = getWidgetFactory().createCCombo(composite);
+		data = new FormData();
+		data.left = new FormAttachment(0, STANDARD_LABEL_WIDTH);
+		data.right = new FormAttachment(100);
+		data.top = new FormAttachment(actorCombo, ITabbedPropertyConstants.VSPACE);
+		actionCombo.setLayoutData(data);
+		
+		actionCombo.add("action type 1");
+		actionCombo.add("action type 2");
+		actionCombo.select(0);
+
+		CLabel actionLabel = getWidgetFactory().createCLabel(composite, "Action:");
+		data = new FormData();
+		data.left = new FormAttachment(0);
+		data.right = new FormAttachment(actionCombo, -ITabbedPropertyConstants.HSPACE);
+		data.top = new FormAttachment(actionCombo, 0, SWT.CENTER);
+		actionLabel.setLayoutData(data);
+	}
+	
 	@Override
-	public IPropertyDescriptor[] getPropertyDescriptors() {
-		if (propertyDescriptors == null) {
-            IPropertyDescriptor actionType = new PropertyDescriptor(ID_ACTION_TYPE, "Action type");
-            IPropertyDescriptor token = new PropertyDescriptor(ID_TOKEN, "Token");
-            propertyDescriptors = new IPropertyDescriptor[] { actionType, token };
-	    }
-		return propertyDescriptors;
+	public void setInput(IWorkbenchPart part, ISelection selection) {
+		super.setInput(part, selection);
 	}
-
+	
 	@Override
-	public Object getPropertyValue(Object id) {
-		if (id.equals(ID_ACTION_TYPE)) {
-			// TODO
-			return "internal";
-		} else if (id.equals(ID_TOKEN)) {
-			return "#tokenText";
-		}
-		return null;
+	public void refresh() {
 	}
-
-	@Override
-	public boolean isPropertySet(Object id) {
-		return false;
-	}
-
-	@Override
-	public void resetPropertyValue(Object id) {
-	}
-
-	@Override
-	public void setPropertyValue(Object id, Object value) {
-	}
-
 }
