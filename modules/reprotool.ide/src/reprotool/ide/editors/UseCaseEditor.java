@@ -545,18 +545,14 @@ public class UseCaseEditor extends EditorPart {
 				EObject src = (EObject)getSelectedObject();
 				EObject target = (EObject)determineTarget(event);
 				switch (location) {
-				case 1: // Dropped before the target
-					if (src instanceof UseCaseStep && target instanceof UseCaseStep && !isTransitiveParent(src, target)) {
-						saveUndoState();
-						deleteItem(src);
-						Scenario parent = (Scenario)((UseCaseStep)target).eContainer();
-						parent.getSteps().add(parent.getSteps().indexOf(target), (UseCaseStep)src);
-						setDirty();
-					}
+				case LOCATION_BEFORE:
+					saveUndoState();
+					deleteItem(src);
+					Scenario cont = (Scenario)((UseCaseStep)target).eContainer();
+					cont.getSteps().add(cont.getSteps().indexOf(target), (UseCaseStep)src);
+					setDirty();
 					break;
-				case 2: // Dropped after the target
-					if (src instanceof Scenario || isTransitiveParent(src, target))
-						return;
+				case LOCATION_AFTER:
 					saveUndoState();
 					deleteItem(src);
 					if (target instanceof UseCaseStep) {
@@ -566,9 +562,7 @@ public class UseCaseEditor extends EditorPart {
 						((Scenario)target).getSteps().add(0, (UseCaseStep)src);
 					setDirty();
 					break;
-				case 3: // Dropped on the target
-					if (src == target || src.eContainer() == target || isTransitiveParent(src, target))
-						return;
+				case LOCATION_ON:
 					if  (src instanceof Scenario && target instanceof UseCaseStep) {
 						saveUndoState();
 						Scenario scen = (Scenario)src;
@@ -590,9 +584,7 @@ public class UseCaseEditor extends EditorPart {
 						setDirty();
 					}
 					break;
-				case 4: // Dropped into nothing
-					if (src instanceof Scenario)
-						return;
+				case LOCATION_NONE:
 					saveUndoState();
 					UseCaseStep step = (UseCaseStep)src;
 					deleteItem(step);
@@ -610,9 +602,29 @@ public class UseCaseEditor extends EditorPart {
 			@Override
 			public boolean validateDrop(Object target, int operation, TransferData transferType) {
 				EObject src = (EObject)getSelectedObject();
-				if (src instanceof Scenario && target instanceof Scenario || isTransitiveParent(src, (EObject)target))
-					return false;
-				return true;
+				EObject tgt = (EObject)target;
+				int location = getCurrentLocation();
+				switch (location) {
+				case LOCATION_BEFORE:
+					if (src instanceof UseCaseStep && target instanceof UseCaseStep && !isTransitiveParent(src, tgt))
+						return true;
+					break;
+				case LOCATION_ON:
+					if (src == target || src.eContainer() == target || isTransitiveParent(src, tgt))
+						return false;
+					if ( (src instanceof Scenario && target instanceof UseCaseStep) || (src instanceof UseCaseStep && target instanceof Scenario) )
+						return true;
+					break;
+				case LOCATION_AFTER:
+					if (src instanceof UseCaseStep && !isTransitiveParent(src, tgt))
+						return true;
+					break;
+				case LOCATION_NONE:
+					if (src instanceof UseCaseStep)
+						return true;
+					break;
+				}
+				return false;
 			}
 		});
 	}
