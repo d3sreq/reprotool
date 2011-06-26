@@ -85,7 +85,6 @@ public class UseCaseStepTreeProvider implements ITreeContentProvider, ITableLabe
 	 */
 	private interface RowRenderer {
 		public void setElement(Object element);
-		public String getLabelColumn();
 		public String getSentenceColumn();
 		public String getTypeColumn();
 		public String getParsedColumn();
@@ -112,13 +111,6 @@ public class UseCaseStepTreeProvider implements ITreeContentProvider, ITableLabe
 		@Override
 		public String getParsedColumn() {
 			return "x";
-		}
-
-		@Override
-		public String getLabelColumn() {
-			if (step.getLabel() == null || step.getLabel().length() == 0)
-				return "*";
-			return step.getLabel();
 		}
 	};
 	
@@ -155,11 +147,6 @@ public class UseCaseStepTreeProvider implements ITreeContentProvider, ITableLabe
 		public String getParsedColumn() {
 			return "";
 		}
-
-		@Override
-		public String getLabelColumn() {
-			return "";
-		}
 	};
 	
 	public String getColumnText(final Object element, int columnIndex) {
@@ -177,13 +164,32 @@ public class UseCaseStepTreeProvider implements ITreeContentProvider, ITableLabe
 		adapter.setElement(element);
 		
 		switch (columnIndex) {
-			case 0: return adapter.getLabelColumn();
+			case 0: return getLabel((EObject)element);
 			case 1: return adapter.getSentenceColumn();
 			case 2: return adapter.getTypeColumn();
 			case 3: return adapter.getParsedColumn();
 		}
 		
 		return null;
+	}
+	
+	private String getLabel(EObject item) {
+		if (item.eContainer() instanceof UseCase)
+			return "";
+		StringBuffer s = new StringBuffer(getLabel(item.eContainer()));
+		if (item instanceof Scenario) {
+			UseCaseStep parent = (UseCaseStep)item.eContainer();
+			int idx;
+			if (parent.getVariation().contains(item))
+				idx = parent.getVariation().indexOf(item);
+			else
+				idx = parent.getVariation().size() + parent.getExtension().indexOf(item);
+			s.append((char)('a'+idx));
+		} else if (item instanceof UseCaseStep) {
+			Scenario parent = (Scenario)item.eContainer();
+			s.append(parent.getSteps().indexOf(item)+1);
+		}
+		return s.toString();
 	}
 
 	@Override
