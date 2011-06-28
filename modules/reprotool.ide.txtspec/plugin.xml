@@ -13,5 +13,132 @@
             id="reprotool.ide.txtspec.editors.MultiPageEditor">
       </editor>
    </extension>
+   <extension
+         point="org.eclipse.ui.editors.annotationTypes">
+      <type
+            name="reprotool.ide.txtspec.tag0">
+      </type>
+      <type
+            name="reprotool.ide.txtspec.tag1">
+      </type>
+      <type
+            name="reprotool.ide.txtspec.tag2">
+      </type>
+      <type
+            name="reprotool.ide.txtspec.tag3">
+      </type>
+      <type
+            name="reprotool.ide.txtspec.tag4">
+      </type>
+      <type
+            name="reprotool.ide.txtspec.tag5">
+      </type>
+      <type
+            name="reprotool.ide.txtspec.tag">
+      </type>
+   </extension> <extension
+         point="org.eclipse.ui.editors.markerAnnotationSpecification">
+      <specification
+            annotationType="reprotool.ide.txtspec.tag0"
+            colorPreferenceKey="tagColor0"
+            colorPreferenceValue="255,255,0"
+            highlightPreferenceKey="tagHighlight0"
+            highlightPreferenceValue="true"
+            includeOnPreferencePage="true"
+            label="annotation background 0"
+            overviewRulerPreferenceKey="x"
+            overviewRulerPreferenceValue="false"
+            textPreferenceKey="tagText0"
+            textPreferenceValue="false"
+            verticalRulerPreferenceKey="x"
+            verticalRulerPreferenceValue="false">
+      </specification>
+      <specification
+            annotationType="reprotool.ide.txtspec.tag1"
+            colorPreferenceKey="tagColor1"
+            colorPreferenceValue="255,204,0"
+            highlightPreferenceKey="tagHighlight1"
+            highlightPreferenceValue="true"
+            includeOnPreferencePage="true"
+            label="annotation background 1"
+            overviewRulerPreferenceKey="x"
+            overviewRulerPreferenceValue="false"
+            textPreferenceKey="tagText1"
+            textPreferenceValue="false"
+            verticalRulerPreferenceKey="x"
+            verticalRulerPreferenceValue="false">
+      </specification>
+      <specification
+            annotationType="reprotool.ide.txtspec.tag2"
+            colorPreferenceKey="tagColor2"
+            colorPreferenceValue="255,153,0"
+            highlightPreferenceKey="tagHighlight2"
+            highlightPreferenceValue="true"
+            includeOnPreferencePage="true"
+            label="annotation background 2"
+            overviewRulerPreferenceKey="x"
+            overviewRulerPreferenceValue="false"
+            textPreferenceKey="tagText2"
+            textPreferenceValue="false"
+            verticalRulerPreferenceKey="x"
+            verticalRulerPreferenceValue="false">
+      </specification>
+      <specification
+            annotationType="reprotool.ide.txtspec.tag3"
+            colorPreferenceKey="tagColor3"
+            colorPreferenceValue="255,102,0"
+            highlightPreferenceKey="tagHighlight3"
+            highlightPreferenceValue="true"
+            includeOnPreferencePage="true"
+            label="annonation background 3"
+            overviewRulerPreferenceKey="x"
+            overviewRulerPreferenceValue="false"
+            textPreferenceKey="tagText3"
+            textPreferenceValue="false"
+            verticalRulerPreferenceKey="x"
+            verticalRulerPreferenceValue="false">
+      </specification>
+      <specification
+            annotationType="reprotool.ide.txtspec.tag4"
+            colorPreferenceKey="tagColor4"
+            colorPreferenceValue="255,51,0"
+            highlightPreferenceKey="tagHighlight4"
+            highlightPreferenceValue="true"
+            includeOnPreferencePage="true"
+            label="annotation background 4"
+            overviewRulerPreferenceKey="x"
+            overviewRulerPreferenceValue="false"
+            textPreferenceKey="tagText4"
+            textPreferenceValue="false"
+            verticalRulerPreferenceKey="x"
+            verticalRulerPreferenceValue="false">
+      </specification>
+      <specification
+            annotationType="reprotool.ide.txtspec.tag5"
+            colorPreferenceKey="tagColor5"
+            colorPreferenceValue="255,0,0"
+            highlightPreferenceKey="tagHighlight5"
+            highlightPreferenceValue="true"
+            includeOnPreferencePage="true"
+            label="annotation background 5"
+            overviewRulerPreferenceKey="x"
+            overviewRulerPreferenceValue="false"
+            textPreferenceKey="tagText5"
+            textPreferenceValue="false"
+            verticalRulerPreferenceKey="x"
+            verticalRulerPreferenceValue="false">
+      </specification>
+      <specification
+            annotationType="reprotool.ide.txtspec.specification7"
+            colorPreferenceKey="tagcolor"
+            colorPreferenceValue="0,0,0"
+            highlightPreferenceKey="tagHighlight"
+            includeOnPreferencePage="true"
+            label="annotation background"
+            overviewRulerPreferenceKey="x"
+            textPreferenceKey="tagText"
+            verticalRulerPreferenceKey="x">
+      </specification>
+   </extension>
 
 </plugin>

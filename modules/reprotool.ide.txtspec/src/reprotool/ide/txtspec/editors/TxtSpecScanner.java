@@ -8,9 +8,9 @@ import org.eclipse.jface.text.rules.SingleLineRule;
 import org.eclipse.jface.text.rules.Token;
 import org.eclipse.jface.text.rules.WhitespaceRule;
 
-public class XMLScanner extends RuleBasedScanner {
+public class TxtSpecScanner extends RuleBasedScanner {
 
-	public XMLScanner(ColorManager manager) {
+	public TxtSpecScanner(ColorManager manager) {
 		IToken procInstr =
 			new Token(
 				new TextAttribute(

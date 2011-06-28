@@ -54,6 +54,8 @@ import org.osgi.framework.Bundle;
 public class MultiPageEditor extends MultiPageEditorPart implements
 		IResourceChangeListener {
 
+	private TxtSpecEditor TSEditor;
+	
 	/** The text editor used in page 0. */
 	private DOMParsedEditor editor;
 
@@ -81,13 +83,102 @@ public class MultiPageEditor extends MultiPageEditorPart implements
 		try {
 			editor = new DOMParsedEditor();
 			int index = addPage(editor, getEditorInput());
-			setPageText(index, editor.getTitle() + "Enriched-Text View");
+			setPageText(index, editor.getTitle() + " (Enriched-Text View)");
 		} catch (PartInitException e) {
 			ErrorDialog.openError(getSite().getShell(),
 					"Error creating nested text editor", null, e.getStatus());
 		}
 	}
 
+	void createPage1() {
+		try {
+			xmlEditor = new XMLEditor();
+			int index = addPage(xmlEditor, getEditorInput());
+			setPageText(index, xmlEditor.getTitle() + " (Xml View)");
+			IDocument inputDocument = xmlEditor.getDocumentProvider()
+					.getDocument(xmlEditor.getEditorInput());
+			String documentContent = inputDocument.get();
+			String newDocumentContent = "";
+			if (documentContent.isEmpty()) {
+				documentContent = "";
+				Bundle bundle = Platform.getBundle("reprotool.ide.txtspec");
+				URL url = bundle.getResource("schema/default.txtspec.xml");
+				try {
+					InputStream ir = url.openStream();
+					InputStreamReader isr = new InputStreamReader(ir);
+					BufferedReader br = new BufferedReader(isr);
+					String append;
+					if ((documentContent = (br.readLine())) != null)
+						;
+					while ((append = (br.readLine())) != null)
+						documentContent += ("\n" + append);
+					br.close();
+				} catch (Exception e) {
+					System.err.println(e.getMessage() + " " + e.getCause().toString());
+				}
+				documentContent = documentContent.trim();
+				xmlEditor.setDocument(documentContent);
+			}
+			newDocumentContent += (new ReadXMLFile()).VPO(documentContent);
+			editor.setDocument(newDocumentContent);
+			
+		} catch (PartInitException e) {
+			ErrorDialog.openError(getSite().getShell(),
+					"Error creating xml text editor", null, e.getStatus());
+		}
+	}
+
+//	private String changeFormat(String documentContent) 
+//	{
+//		int i;char ch;
+//		String output="";
+//		for(ch=documentContent.charAt(i=0);ch!='\0';ch=documentContent.charAt(++i))
+//		{
+//			if(ch=='<') output+="<\n";
+//			else if(ch=='>') output+="\n>";
+//			else output+=ch;
+//		}
+//		System.out.println(output);
+//		return output;
+//	}
+
+	void createPage2() 
+	{
+		try 
+		{
+			TSEditor = new TxtSpecEditor(xmlEditor.getDocumentProvider());
+			int index = addPage(TSEditor, getEditorInput());
+			setPageText(index, TSEditor.getTitle() + " (TextSpec View)");
+			IDocument inputDocument = xmlEditor.getDocumentProvider().getDocument(xmlEditor.getEditorInput());
+			String documentContent = inputDocument.get();
+			if (documentContent.isEmpty()) 
+			{
+				documentContent = "";
+				Bundle bundle = Platform.getBundle("reprotool.ide.txtspec");
+				URL url = bundle.getResource("schema/default.txtspec.xml");
+				try 
+				{
+					InputStream ir = url.openStream();
+					InputStreamReader isr = new InputStreamReader(ir);
+					BufferedReader br = new BufferedReader(isr);
+					String append;
+					if ((documentContent = (br.readLine())) != null);
+						while ((append = (br.readLine())) != null)
+							documentContent += ("\n" + append);
+						br.close();
+				} catch (Exception e) {
+					System.err.println(e.getMessage() + " " + e.getCause().toString());
+				}
+				documentContent = documentContent.trim();
+				TSEditor.setDocument(documentContent);
+			}
+		} 
+		catch (PartInitException e) 
+		{
+			ErrorDialog.openError(getSite().getShell(),"Error creating TextSpec Editor", null, e.getStatus());
+		}
+	}
+	
 	/**
 	 * Creates page 3 of the multi-page editor, which allows you to change the
 	 * font used in page 2.
@@ -129,51 +220,15 @@ public class MultiPageEditor extends MultiPageEditorPart implements
 		setPageText(index, "Preview");
 	}
 
-	void createPage1() {
-		try {
-			xmlEditor = new XMLEditor();
-			int index = addPage(xmlEditor, getEditorInput());
-			setPageText(index, xmlEditor.getTitle() + "Xml View");
-			IDocument inputDocument = xmlEditor.getDocumentProvider()
-					.getDocument(xmlEditor.getEditorInput());
-			String documentContent = inputDocument.get();
-			String newDocumentContent = "";
-			if (documentContent.isEmpty()) {
-				documentContent = "";
-				Bundle bundle = Platform.getBundle("reprotool.ide.txtspec");
-				URL url = bundle.getResource("schema/default.txtspec.xml");
-				try {
-					InputStream ir = url.openStream();
-					InputStreamReader isr = new InputStreamReader(ir);
-					BufferedReader br = new BufferedReader(isr);
-					String append;
-					if ((documentContent = (br.readLine())) != null)
-						;
-					while ((append = (br.readLine())) != null)
-						documentContent += ("\n" + append);
-					br.close();
-				} catch (Exception e) {
-					System.err.println(e.getMessage() + " " + e.getCause().toString());
-				}
-				documentContent = documentContent.trim();
-				xmlEditor.setDocument(documentContent);
-			}
-			newDocumentContent += (new ReadXMLFile()).VPO(documentContent);
-			editor.setDocument(newDocumentContent);
-		} catch (PartInitException e) {
-			ErrorDialog.openError(getSite().getShell(),
-					"Error creating xml text editor", null, e.getStatus());
-		}
-	}
-
 	/**
 	 * Creates the pages of the multi-page editor.
 	 */
 	protected void createPages() {
 		createPage0();
 		createPage1();
-		//createPage2();
+		createPage2();
 		//createPage3();
+		//createPage4();
 	}
 
 	/**
@@ -237,7 +292,7 @@ public class MultiPageEditor extends MultiPageEditorPart implements
 	 */
 	protected void pageChange(int newPageIndex) {
 		super.pageChange(newPageIndex);
-		if (newPageIndex == 1) {
+		if (newPageIndex == 2) {
 			IDocument inputDocument = xmlEditor.getDocumentProvider()
 					.getDocument(xmlEditor.getEditorInput());
 			String documentContent = inputDocument.get();
@@ -250,8 +305,32 @@ public class MultiPageEditor extends MultiPageEditorPart implements
 					InputStreamReader isr = new InputStreamReader(ir);
 					BufferedReader br = new BufferedReader(isr);
 					String append;
-					if ((documentContent = (br.readLine())) != null)
-						;
+					if ((documentContent = (br.readLine())) != null);
+					while ((append = (br.readLine())) != null)
+						documentContent += ("\n" + append);
+					br.close();
+				} catch (Exception e) {
+					System.err.println(e.getMessage() + " "+ e.getCause().toString());
+				}
+				documentContent = documentContent.trim();
+			}
+			TSEditor.setDocument(documentContent);
+		}else 
+			if (newPageIndex == 1) {
+				IDocument inputDocument = xmlEditor.getDocumentProvider()
+					.getDocument(xmlEditor.getEditorInput());
+				String documentContent = inputDocument.get();
+				TSEditor.getMasterDocument();
+				if (documentContent.isEmpty()) {
+				documentContent = "";
+				Bundle bundle = Platform.getBundle("reprotool.ide.txtspec");
+				URL url = bundle.getResource("schema/default.txtspec.xml");
+				try {
+					InputStream ir = url.openStream();
+					InputStreamReader isr = new InputStreamReader(ir);
+					BufferedReader br = new BufferedReader(isr);
+					String append;
+					if ((documentContent = (br.readLine())) != null);
 					while ((append = (br.readLine())) != null)
 						documentContent += ("\n" + append);
 					br.close();
