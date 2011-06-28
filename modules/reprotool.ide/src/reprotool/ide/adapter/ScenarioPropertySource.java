@@ -52,7 +52,7 @@ public class ScenarioPropertySource extends AbstractPropertySection {
 					parent.getVariation().add(scenario);
 				} else {
 					parent.getVariation().remove(scenario);
-					parent.getExtension().add(scenario);
+					parent.getExtension().add(0, scenario);
 				}
 				editor.setDirty();
 			}

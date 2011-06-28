@@ -1,10 +1,13 @@
 package reprotool.ide.editors;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
+import org.eclipse.core.internal.resources.ResourceException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -73,6 +76,7 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 
 import reprotool.ide.adapter.UseCaseContentOutlinePage;
 import reprotool.ide.commands.ClipboardHandler;
+import reprotool.model.swproj.Actor;
 import reprotool.model.usecase.Scenario;
 import reprotool.model.usecase.UseCase;
 import reprotool.model.usecase.UseCaseStep;
@@ -818,5 +822,21 @@ public class UseCaseEditor extends EditorPart implements ITabbedPropertySheetPag
 	@Override
 	public String getContributorId() {
 		return getSite().getId();
+	}
+	
+	public List<Actor> getProjectActors() {
+		ArrayList<Actor> ret = new ArrayList<Actor>();
+		
+		try {
+			// XXX this will break when the project extension is changed to .swproj
+			String projectPath = ((FileEditorInput) getEditorInput()).getFile().getProject().getFile("project.ucproj").getFullPath().toString();
+			Resource projectRes = resourceSet.getResource(URI.createPlatformResourceURI(projectPath, true), true);
+			for (EObject o : projectRes.getContents())
+				if (o instanceof Actor)
+					ret.add((Actor)o);
+		} catch (RuntimeException e) {
+			System.out.println("UseCaseEditor failed to load actors from project");
+		}
+		return ret;
 	}
 }

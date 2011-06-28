@@ -16,7 +16,9 @@ import org.eclipse.ui.views.properties.tabbed.AbstractPropertySection;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 
+import reprotool.ide.editors.UseCaseEditor;
 import reprotool.ide.views.TokenWizard;
+import reprotool.model.swproj.Actor;
 
 public class UseCaseStepPropertySource extends AbstractPropertySection {
 	
@@ -67,9 +69,12 @@ public class UseCaseStepPropertySource extends AbstractPropertySection {
 		data.top = new FormAttachment(tokenText, ITabbedPropertyConstants.VSPACE);
 		actorCombo.setLayoutData(data);
 		
+		UseCaseEditor editor = UseCaseEditor.getActiveUseCaseEditor();
+		for (Actor a : editor.getProjectActors()) {
+			actorCombo.add(a.getName());
+		}
 		actorCombo.add("dummy actor 1");
 		actorCombo.add("dummy actor 2");
-		actorCombo.add("dummy actor 3");
 		actorCombo.select(0);
 
 		CLabel actorLabel = getWidgetFactory().createCLabel(composite, "Actor:");
