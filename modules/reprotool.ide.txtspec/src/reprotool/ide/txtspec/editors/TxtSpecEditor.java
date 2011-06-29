@@ -4,7 +4,6 @@ import java.util.Iterator;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.text.BadLocationException;
-import org.eclipse.jface.text.Document;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.Position;
 import org.eclipse.jface.text.projection.ProjectionDocument;
@@ -15,7 +14,6 @@ import org.eclipse.jface.text.source.IAnnotationModelExtension;
 import org.eclipse.jface.text.source.SourceViewerConfiguration;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ExtendedModifyEvent;
-import org.eclipse.swt.custom.ExtendedModifyListener;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
@@ -39,16 +37,17 @@ public class TxtSpecEditor extends TextEditor {
 	private Composite compo;
 	private ColorManager colorManager;
 	private TxtSpecDocumentProvider TSDocProv;
-	private XMLDocumentProvider XMLDocProv;
 	private NewAnnotationModel annotations;
 	private NewAnnotationSupport newAnnotationSupport;
 	private NewAnnotationViewer viewer = null;
 	private StyledText Text;
 	private Annotation[] oldAnnotations;
+	private IDocument masterDocument;
+	private ProjectionDocumentManager manager;
+	private ProjectionDocument projectionDocument;
 	
 	public TxtSpecEditor(IDocumentProvider iDocumentProvider) 
 	{
-		XMLDocProv=(XMLDocumentProvider) iDocumentProvider;
 		super.initializeEditor();
 		colorManager = new ColorManager();
 		setSourceViewerConfiguration(new TxtSpecConfiguration(colorManager,this));
@@ -63,7 +62,11 @@ public class TxtSpecEditor extends TextEditor {
 
 	public void setDocument(String documentContent) {
 		TSDocProv.setDocument(documentContent);
-        update(compo);//setDocumentProvider(TSDocProv);
+        try {
+			update();
+		} catch (BadLocationException e) {
+			e.printStackTrace();
+		}//setDocumentProvider(TSDocProv);
 	}
 	
 	public IDocument getMasterDocument()
@@ -79,8 +82,49 @@ public class TxtSpecEditor extends TextEditor {
     public void createPartControl(Composite parent)
     {
     	super.createPartControl(parent);
-    	compo=parent;
-    	update(compo);   
+    	Composite container = new Composite(parent, SWT.NONE);
+        container.setLayout(new FormLayout());
+        viewer = new NewAnnotationViewer(container, null, SWT.V_SCROLL);
+        //viewer =(NewAnnotationViewer)getSourceViewer();
+        
+    	newAnnotationSupport = new NewAnnotationSupport(viewer,getAnnotationAccess(),getSharedColors());
+		newAnnotationSupport.install();
+		//turn projection mode on
+		viewer.doOperation(NewAnnotationViewer.TOGGLE);
+
+		IAnnotationModel model= viewer.getVisualAnnotationModel();	
+		if (model instanceof IAnnotationModelExtension) {
+			IAnnotationModelExtension extension= (IAnnotationModelExtension) model;
+			annotations = (NewAnnotationModel) extension.getAnnotationModel(NewAnnotationSupport.NEW_ANNOTATION);
+			//annotationModel.collapseAll(0, TSDocProv.getDocument().getLength()-1);
+		}
+		else
+			annotations = null;
+
+        
+        FormData fd_text = new FormData();
+        fd_text.bottom = new FormAttachment(100, 0);
+        fd_text.right = new FormAttachment(100, 0);
+        //fd_text.top = new FormAttachment(100, -105);
+        fd_text.top = new FormAttachment(0);
+        fd_text.left = new FormAttachment(0);
+        Text=viewer.getTextWidget();
+        
+        Text.setLayoutData(fd_text);
+//        Text.addExtendedModifyListener(new ExtendedModifyListener() {
+//			public void modifyText(ExtendedModifyEvent e) 
+//			{
+//				handleExtendedModify(e);
+//			}
+//		});
+        
+        initializeTextEditor();
+                
+    	try {
+			update();
+		} catch (BadLocationException e) {
+			e.printStackTrace();
+		}   
     }
 //    	//super.createPartControl(parent);
 //    	viewer =(NewAnnotationViewer)getSourceViewer();
@@ -118,66 +162,16 @@ public class TxtSpecEditor extends TextEditor {
 //       	 	b = new NewAnnotation(ANNOTATION_TYPE1, false, doc.get().substring(start, end));
 //       	 	annotations.addAnnotation(b, new Position(start, end - start));  
     
-    private void update(Composite parent)
-    {
-    	IDocument masterDocument;
-    	ProjectionDocumentManager manager;
-    	ProjectionDocument projectionDocument; 
-    	
-    	Composite container = new Composite(parent, SWT.NONE);
-        container.setLayout(new FormLayout());
-        viewer = new NewAnnotationViewer(container, null, SWT.V_SCROLL);
-        //viewer =(NewAnnotationViewer)getSourceViewer();
-        
-    	newAnnotationSupport = new NewAnnotationSupport(viewer,getAnnotationAccess(),getSharedColors());
-		newAnnotationSupport.install();
-		//turn projection mode on
-		viewer.doOperation(NewAnnotationViewer.TOGGLE);
-
-		IAnnotationModel model= viewer.getVisualAnnotationModel();	
-		if (model instanceof IAnnotationModelExtension) {
-			IAnnotationModelExtension extension= (IAnnotationModelExtension) model;
-			annotations = (NewAnnotationModel) extension.getAnnotationModel(NewAnnotationSupport.NEW_ANNOTATION);
-			//annotationModel.collapseAll(0, TSDocProv.getDocument().getLength()-1);
-		}
-		else
-			annotations = null;
-
-        
-        FormData fd_text = new FormData();
-        fd_text.bottom = new FormAttachment(100, 0);
-        fd_text.right = new FormAttachment(100, 0);
-        //fd_text.top = new FormAttachment(100, -105);
-        fd_text.top = new FormAttachment(0);
-        fd_text.left = new FormAttachment(0);
-        Text=viewer.getTextWidget();
-        
-        Text.setLayoutData(fd_text);
-        Text.addExtendedModifyListener(new ExtendedModifyListener() {
-			public void modifyText(ExtendedModifyEvent e) 
-			{
-				handleExtendedModify(e);
-			}
-		});
-        
-        initializeTextEditor();
-        
-        masterDocument=TSDocProv.getDocument();
-        manager = new ProjectionDocumentManager();
-        projectionDocument=(ProjectionDocument) manager.createSlaveDocument(masterDocument);
-        
+    private void update() throws BadLocationException
+    {        
 		annotations = new NewAnnotationModel();
         annotations.connect(projectionDocument);
 //		annotations.connect(masterDocument);
         
 //      viewer.setDocument(masterDocument, annotations);
         viewer.setDocument(projectionDocument, annotations);
-        try {
-			projectionDocument.removeMasterDocumentRange(0, masterDocument.getLength());
-		} catch (BadLocationException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
-		}
+        projectionDocument.removeMasterDocumentRange(0, masterDocument.getLength());
+		
     	NewAnnotation anno;
         int beg=0,end=0,start=0,finish=0,count=-1,flag=0,offset=0;
         count++;
@@ -193,14 +187,8 @@ public class TxtSpecEditor extends TextEditor {
     	anno=new NewAnnotation(ANNOTATION_TYPE,false,masterDocument.get().substring(start, finish));
 //    	annotations.addAnnotation(anno, new Position(beg,end-beg));
     	
-    	try {
-			projectionDocument.addMasterDocumentRange(beg, end-beg);
-		} catch (BadLocationException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-    	
-    	annotations.addAnnotation(anno, new Position(offset,end-beg));
+    	projectionDocument.addMasterDocumentRange(beg, end-beg);
+		annotations.addAnnotation(anno, new Position(offset,end-beg));
     	offset+=end-beg;
     	
     	//System.out.print(count+" ");
@@ -234,24 +222,14 @@ public class TxtSpecEditor extends TextEditor {
         		if(end<=beg)
         		{
         			anno=new NewAnnotation(getAnnotationType(count),false,masterDocument.get().substring(start, finish+1));
-        			try {
-						projectionDocument.addMasterDocumentRange(beg, end-beg);
-					} catch (BadLocationException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-    				annotations.addAnnotation(anno, new Position(offset,0));
+        			annotations.addAnnotation(anno, new Position(offset,0));
 //        			annotations.addAnnotation(anno, new Position(beg,0));
         		}
         		else
         		{
         			anno=new NewAnnotation(getAnnotationType(count),false,masterDocument.get().substring(start, end));
-        			try {
-						projectionDocument.addMasterDocumentRange(beg, end-beg);
-					} catch (BadLocationException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
+        			projectionDocument.addMasterDocumentRange(beg, end-beg);
+					
         			annotations.addAnnotation(anno, new Position(offset,end-beg));
         			offset+=end-beg;
 //        			annotations.addAnnotation(anno, new Position(beg,end-beg));
@@ -291,7 +269,11 @@ public class TxtSpecEditor extends TextEditor {
     			anno.setText(doc.get().substring(annotations.getPosition(anno).offset,
 				annotations.getPosition(anno).offset+annotations.getPosition(anno).length));
     		} 
-    		update(compo);
+    		try {
+				update();
+			} catch (BadLocationException e1) {
+				e1.printStackTrace();
+			}
     	}
 	}
 //	
@@ -420,7 +402,10 @@ public class TxtSpecEditor extends TextEditor {
 	private void initializeTextEditor() 
     { 
         viewer.configure(new SourceViewerConfiguration());
-
+        masterDocument=TSDocProv.getDocument();
+        manager = new ProjectionDocumentManager();
+        projectionDocument=(ProjectionDocument) manager.createSlaveDocument(masterDocument);
+        
         SourceViewerDecorationSupport svds = new SourceViewerDecorationSupport(viewer, null, null, EditorsPlugin.getDefault().getSharedTextColors());
         AnnotationPreference ap = new AnnotationPreference();
         AnnotationPreference ap0 = new AnnotationPreference();
