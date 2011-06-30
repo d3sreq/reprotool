@@ -17,6 +17,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.dialogs.ErrorDialog;
+import org.eclipse.jface.text.Document;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyledText;
@@ -146,32 +147,32 @@ public class MultiPageEditor extends MultiPageEditorPart implements
 	{
 		try 
 		{
-			TSEditor = new TxtSpecEditor(xmlEditor.getDocumentProvider());
+			TSEditor = new TxtSpecEditor(xmlEditor.getDocument());
 			int index = addPage(TSEditor, getEditorInput());
 			setPageText(index, TSEditor.getTitle() + " (TextSpec View)");
-			IDocument inputDocument = xmlEditor.getDocumentProvider().getDocument(xmlEditor.getEditorInput());
-			String documentContent = inputDocument.get();
-			if (documentContent.isEmpty()) 
-			{
-				documentContent = "";
-				Bundle bundle = Platform.getBundle("reprotool.ide.txtspec");
-				URL url = bundle.getResource("schema/default.txtspec.xml");
-				try 
-				{
-					InputStream ir = url.openStream();
-					InputStreamReader isr = new InputStreamReader(ir);
-					BufferedReader br = new BufferedReader(isr);
-					String append;
-					if ((documentContent = (br.readLine())) != null);
-						while ((append = (br.readLine())) != null)
-							documentContent += ("\n" + append);
-						br.close();
-				} catch (Exception e) {
-					System.err.println(e.getMessage() + " " + e.getCause().toString());
-				}
-				documentContent = documentContent.trim();
-				TSEditor.setDocument(documentContent);
-			}
+//			IDocument inputDocument = xmlEditor.getDocumentProvider().getDocument(xmlEditor.getEditorInput());
+//			String documentContent = inputDocument.get();
+//			if (documentContent.isEmpty()) 
+//			{
+//				documentContent = "";
+//				Bundle bundle = Platform.getBundle("reprotool.ide.txtspec");
+//				URL url = bundle.getResource("schema/default.txtspec.xml");
+//				try 
+//				{
+//					InputStream ir = url.openStream();
+//					InputStreamReader isr = new InputStreamReader(ir);
+//					BufferedReader br = new BufferedReader(isr);
+//					String append;
+//					if ((documentContent = (br.readLine())) != null);
+//						while ((append = (br.readLine())) != null)
+//							documentContent += ("\n" + append);
+//						br.close();
+//				} catch (Exception e) {
+//					System.err.println(e.getMessage() + " " + e.getCause().toString());
+//				}
+//				documentContent = documentContent.trim();
+//				TSEditor.setDocument(documentContent);
+//			}
 		} 
 		catch (PartInitException e) 
 		{
@@ -296,31 +297,12 @@ public class MultiPageEditor extends MultiPageEditorPart implements
 			IDocument inputDocument = xmlEditor.getDocumentProvider()
 					.getDocument(xmlEditor.getEditorInput());
 			String documentContent = inputDocument.get();
-			if (documentContent.isEmpty()) {
-				documentContent = "";
-				Bundle bundle = Platform.getBundle("reprotool.ide.txtspec");
-				URL url = bundle.getResource("schema/default.txtspec.xml");
-				try {
-					InputStream ir = url.openStream();
-					InputStreamReader isr = new InputStreamReader(ir);
-					BufferedReader br = new BufferedReader(isr);
-					String append;
-					if ((documentContent = (br.readLine())) != null);
-					while ((append = (br.readLine())) != null)
-						documentContent += ("\n" + append);
-					br.close();
-				} catch (Exception e) {
-					System.err.println(e.getMessage() + " "+ e.getCause().toString());
-				}
-				documentContent = documentContent.trim();
-			}
 			TSEditor.setDocument(documentContent);
 		}else 
 			if (newPageIndex == 1) {
 				IDocument inputDocument = xmlEditor.getDocumentProvider()
 					.getDocument(xmlEditor.getEditorInput());
 				String documentContent = inputDocument.get();
-				TSEditor.getMasterDocument();
 				if (documentContent.isEmpty()) {
 				documentContent = "";
 				Bundle bundle = Platform.getBundle("reprotool.ide.txtspec");
