@@ -123,6 +123,7 @@ public interface SoftwareProject extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Use Cases</b></em>' reference list.
 	 * The list contents are of type {@link reprotool.model.usecase.UseCase}.
+	 * It is bidirectional and its opposite is '{@link reprotool.model.usecase.UseCase#getEnclosingProject <em>Enclosing Project</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Use Cases</em>' reference list isn't clear,
@@ -131,7 +132,8 @@ public interface SoftwareProject extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Use Cases</em>' reference list.
 	 * @see reprotool.model.swproj.SwprojPackage#getSoftwareProject_UseCases()
-	 * @model
+	 * @see reprotool.model.usecase.UseCase#getEnclosingProject
+	 * @model opposite="enclosingProject"
 	 * @generated
 	 */
 	EList<UseCase> getUseCases();

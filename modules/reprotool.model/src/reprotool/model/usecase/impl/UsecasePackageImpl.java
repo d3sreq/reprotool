@@ -231,8 +231,17 @@ public class UsecasePackageImpl extends EPackageImpl implements UsecasePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getUseCase_PreceededUseCases() {
+	public EReference getUseCase_PrecedesUseCases() {
 		return (EReference)useCaseEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getUseCase_EnclosingProject() {
+		return (EReference)useCaseEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -402,7 +411,8 @@ public class UsecasePackageImpl extends EPackageImpl implements UsecasePackage {
 		createEReference(useCaseEClass, USE_CASE__PRIMARY_ACTOR);
 		createEAttribute(useCaseEClass, USE_CASE__NAME);
 		createEReference(useCaseEClass, USE_CASE__MAIN_SCENARIO);
-		createEReference(useCaseEClass, USE_CASE__PRECEEDED_USE_CASES);
+		createEReference(useCaseEClass, USE_CASE__PRECEDES_USE_CASES);
+		createEReference(useCaseEClass, USE_CASE__ENCLOSING_PROJECT);
 
 		useCaseStepEClass = createEClass(USE_CASE_STEP);
 		createEReference(useCaseStepEClass, USE_CASE_STEP__EXTENSION);
@@ -469,7 +479,8 @@ public class UsecasePackageImpl extends EPackageImpl implements UsecasePackage {
 		initEReference(getUseCase_PrimaryActor(), theSwprojPackage.getActor(), null, "primaryActor", null, 1, 1, UseCase.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getUseCase_Name(), ecorePackage.getEString(), "Name", null, 0, 1, UseCase.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getUseCase_MainScenario(), this.getScenario(), null, "mainScenario", null, 1, 1, UseCase.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getUseCase_PreceededUseCases(), this.getUseCase(), null, "preceededUseCases", null, 0, -1, UseCase.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+		initEReference(getUseCase_PrecedesUseCases(), this.getUseCase(), null, "precedesUseCases", null, 0, -1, UseCase.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+		initEReference(getUseCase_EnclosingProject(), theSwprojPackage.getSoftwareProject(), theSwprojPackage.getSoftwareProject_UseCases(), "enclosingProject", null, 0, 1, UseCase.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(useCaseStepEClass, UseCaseStep.class, "UseCaseStep", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getUseCaseStep_Extension(), this.getScenario(), null, "extension", null, 0, -1, UseCaseStep.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

@@ -6,6 +6,7 @@
  */
 package reprotool.model.lts;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 
 import reprotool.model.usecase.UseCaseStep;
@@ -21,6 +22,7 @@ import reprotool.model.usecase.UseCaseStep;
  *   <li>{@link reprotool.model.lts.Transition#getSentence <em>Sentence</em>}</li>
  *   <li>{@link reprotool.model.lts.Transition#getSource <em>Source</em>}</li>
  *   <li>{@link reprotool.model.lts.Transition#getTarget <em>Target</em>}</li>
+ *   <li>{@link reprotool.model.lts.Transition#getTokens <em>Tokens</em>}</li>
  * </ul>
  * </p>
  *
@@ -106,5 +108,21 @@ public interface Transition extends EObject {
 	 * @generated
 	 */
 	void setTarget(State value);
+
+	/**
+	 * Returns the value of the '<em><b>Tokens</b></em>' attribute list.
+	 * The list contents are of type {@link java.lang.String}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Tokens</em>' attribute list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Tokens</em>' attribute list.
+	 * @see reprotool.model.lts.LtsPackage#getTransition_Tokens()
+	 * @model
+	 * @generated
+	 */
+	EList<String> getTokens();
 
 } // Transition

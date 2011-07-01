@@ -97,13 +97,22 @@ public interface LtsPackage extends EPackage {
 	int TRANSITION__TARGET = 2;
 
 	/**
+	 * The feature id for the '<em><b>Tokens</b></em>' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TRANSITION__TOKENS = 3;
+
+	/**
 	 * The number of structural features of the '<em>Transition</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TRANSITION_FEATURE_COUNT = 3;
+	int TRANSITION_FEATURE_COUNT = 4;
 
 	/**
 	 * The meta object id for the '{@link reprotool.model.lts.impl.StateImpl <em>State</em>}' class.
@@ -116,22 +125,13 @@ public interface LtsPackage extends EPackage {
 	int STATE = 1;
 
 	/**
-	 * The feature id for the '<em><b>Token</b></em>' attribute list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int STATE__TOKEN = 0;
-
-	/**
 	 * The number of structural features of the '<em>State</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int STATE_FEATURE_COUNT = 1;
+	int STATE_FEATURE_COUNT = 0;
 
 	/**
 	 * The meta object id for the '{@link reprotool.model.lts.impl.StateMachineImpl <em>State Machine</em>}' class.
@@ -235,6 +235,15 @@ public interface LtsPackage extends EPackage {
 	int ACTION_TRANSITION__TARGET = TRANSITION__TARGET;
 
 	/**
+	 * The feature id for the '<em><b>Tokens</b></em>' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ACTION_TRANSITION__TOKENS = TRANSITION__TOKENS;
+
+	/**
 	 * The number of structural features of the '<em>Action Transition</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -287,6 +296,17 @@ public interface LtsPackage extends EPackage {
 	EReference getTransition_Target();
 
 	/**
+	 * Returns the meta object for the attribute list '{@link reprotool.model.lts.Transition#getTokens <em>Tokens</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute list '<em>Tokens</em>'.
+	 * @see reprotool.model.lts.Transition#getTokens()
+	 * @see #getTransition()
+	 * @generated
+	 */
+	EAttribute getTransition_Tokens();
+
+	/**
 	 * Returns the meta object for class '{@link reprotool.model.lts.State <em>State</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -295,17 +315,6 @@ public interface LtsPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getState();
-
-	/**
-	 * Returns the meta object for the attribute list '{@link reprotool.model.lts.State#getToken <em>Token</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute list '<em>Token</em>'.
-	 * @see reprotool.model.lts.State#getToken()
-	 * @see #getState()
-	 * @generated
-	 */
-	EAttribute getState_Token();
 
 	/**
 	 * Returns the meta object for class '{@link reprotool.model.lts.StateMachine <em>State Machine</em>}'.
@@ -439,6 +448,14 @@ public interface LtsPackage extends EPackage {
 		EReference TRANSITION__TARGET = eINSTANCE.getTransition_Target();
 
 		/**
+		 * The meta object literal for the '<em><b>Tokens</b></em>' attribute list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute TRANSITION__TOKENS = eINSTANCE.getTransition_Tokens();
+
+		/**
 		 * The meta object literal for the '{@link reprotool.model.lts.impl.StateImpl <em>State</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -447,14 +464,6 @@ public interface LtsPackage extends EPackage {
 		 * @generated
 		 */
 		EClass STATE = eINSTANCE.getState();
-
-		/**
-		 * The meta object literal for the '<em><b>Token</b></em>' attribute list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute STATE__TOKEN = eINSTANCE.getState_Token();
 
 		/**
 		 * The meta object literal for the '{@link reprotool.model.lts.impl.StateMachineImpl <em>State Machine</em>}' class.

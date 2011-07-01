@@ -21,6 +21,7 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
 
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
+import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 import reprotool.model.doc.Document;
@@ -31,6 +32,7 @@ import reprotool.model.swproj.SoftwareProject;
 import reprotool.model.swproj.SwprojPackage;
 
 import reprotool.model.usecase.UseCase;
+import reprotool.model.usecase.UsecasePackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -223,7 +225,7 @@ public class SoftwareProjectImpl extends EObjectImpl implements SoftwareProject 
 	 */
 	public EList<UseCase> getUseCases() {
 		if (useCases == null) {
-			useCases = new EObjectResolvingEList<UseCase>(UseCase.class, this, SwprojPackage.SOFTWARE_PROJECT__USE_CASES);
+			useCases = new EObjectWithInverseResolvingEList<UseCase>(UseCase.class, this, SwprojPackage.SOFTWARE_PROJECT__USE_CASES, UsecasePackage.USE_CASE__ENCLOSING_PROJECT);
 		}
 		return useCases;
 	}
@@ -245,6 +247,21 @@ public class SoftwareProjectImpl extends EObjectImpl implements SoftwareProject 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case SwprojPackage.SOFTWARE_PROJECT__USE_CASES:
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getUseCases()).basicAdd(otherEnd, msgs);
+		}
+		return super.eInverseAdd(otherEnd, featureID, msgs);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -252,6 +269,8 @@ public class SoftwareProjectImpl extends EObjectImpl implements SoftwareProject 
 				return ((InternalEList<?>)getActors()).basicRemove(otherEnd, msgs);
 			case SwprojPackage.SOFTWARE_PROJECT__REQUIREMENTS:
 				return ((InternalEList<?>)getRequirements()).basicRemove(otherEnd, msgs);
+			case SwprojPackage.SOFTWARE_PROJECT__USE_CASES:
+				return ((InternalEList<?>)getUseCases()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}

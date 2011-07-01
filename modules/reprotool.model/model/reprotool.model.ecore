@@ -10,15 +10,10 @@
           eType="#//lts/State"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="target" lowerBound="1"
           eType="#//lts/State"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="tokens" upperBound="-1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="State">
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="token" upperBound="-1"
-          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
-        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-          <details key="documentation" value="Annotation token used for model checking using temporal formulas"/>
-        </eAnnotations>
-      </eStructuralFeatures>
-    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="State"/>
     <eClassifiers xsi:type="ecore:EClass" name="StateMachine">
       <eStructuralFeatures xsi:type="ecore:EReference" name="initialState" lowerBound="1"
           eType="#//lts/State"/>
@@ -40,8 +35,10 @@
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="Name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="mainScenario" lowerBound="1"
           eType="#//usecase/Scenario" containment="true"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="preceededUseCases" ordered="false"
+      <eStructuralFeatures xsi:type="ecore:EReference" name="precedesUseCases" ordered="false"
           upperBound="-1" eType="#//usecase/UseCase"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="enclosingProject" eType="#//swproj/SoftwareProject"
+          eOpposite="#//swproj/SoftwareProject/useCases"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="UseCaseStep" eSuperTypes="#//swproj/ReqCover">
       <eStructuralFeatures xsi:type="ecore:EReference" name="extension" upperBound="-1"
@@ -79,7 +76,7 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="requirements" upperBound="-1"
           eType="#//swproj/Requirement" containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="useCases" upperBound="-1"
-          eType="#//usecase/UseCase"/>
+          eType="#//usecase/UseCase" eOpposite="#//usecase/UseCase/enclosingProject"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="srsDocuments" upperBound="-1"
           eType="#//doc/Document"/>
     </eClassifiers>

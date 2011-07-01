@@ -198,8 +198,8 @@ public class LtsPackageImpl extends EPackageImpl implements LtsPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getState() {
-		return stateEClass;
+	public EAttribute getTransition_Tokens() {
+		return (EAttribute)transitionEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -207,8 +207,8 @@ public class LtsPackageImpl extends EPackageImpl implements LtsPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getState_Token() {
-		return (EAttribute)stateEClass.getEStructuralFeatures().get(0);
+	public EClass getState() {
+		return stateEClass;
 	}
 
 	/**
@@ -306,9 +306,9 @@ public class LtsPackageImpl extends EPackageImpl implements LtsPackage {
 		createEReference(transitionEClass, TRANSITION__SENTENCE);
 		createEReference(transitionEClass, TRANSITION__SOURCE);
 		createEReference(transitionEClass, TRANSITION__TARGET);
+		createEAttribute(transitionEClass, TRANSITION__TOKENS);
 
 		stateEClass = createEClass(STATE);
-		createEAttribute(stateEClass, STATE__TOKEN);
 
 		stateMachineEClass = createEClass(STATE_MACHINE);
 		createEReference(stateMachineEClass, STATE_MACHINE__INITIAL_STATE);
@@ -358,9 +358,9 @@ public class LtsPackageImpl extends EPackageImpl implements LtsPackage {
 		initEReference(getTransition_Sentence(), theUsecasePackage.getUseCaseStep(), null, "sentence", null, 0, 1, Transition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getTransition_Source(), this.getState(), null, "source", null, 1, 1, Transition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getTransition_Target(), this.getState(), null, "target", null, 1, 1, Transition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getTransition_Tokens(), ecorePackage.getEString(), "tokens", null, 0, -1, Transition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(stateEClass, State.class, "State", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getState_Token(), ecorePackage.getEString(), "token", null, 0, -1, State.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(stateMachineEClass, StateMachine.class, "StateMachine", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getStateMachine_InitialState(), this.getState(), null, "initialState", null, 1, 1, StateMachine.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

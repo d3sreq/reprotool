@@ -15,10 +15,9 @@
             ecoreFeature="ecore:EReference reprotool.model.ecore#//lts/Transition/source"/>
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
             ecoreFeature="ecore:EReference reprotool.model.ecore#//lts/Transition/target"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reprotool.model.ecore#//lts/Transition/tokens"/>
       </genClasses>
-      <genClasses ecoreClass="reprotool.model.ecore#//lts/State">
-        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reprotool.model.ecore#//lts/State/token"/>
-      </genClasses>
+      <genClasses ecoreClass="reprotool.model.ecore#//lts/State"/>
       <genClasses ecoreClass="reprotool.model.ecore#//lts/StateMachine">
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
             ecoreFeature="ecore:EReference reprotool.model.ecore#//lts/StateMachine/initialState"/>
@@ -38,7 +37,7 @@
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reprotool.model.ecore#//usecase/UseCase/Name"/>
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference reprotool.model.ecore#//usecase/UseCase/mainScenario"/>
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
-            ecoreFeature="ecore:EReference reprotool.model.ecore#//usecase/UseCase/preceededUseCases"/>
+            ecoreFeature="ecore:EReference reprotool.model.ecore#//usecase/UseCase/precedesUseCases"/>
       </genClasses>
       <genClasses ecoreClass="reprotool.model.ecore#//usecase/UseCaseStep">
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference reprotool.model.ecore#//usecase/UseCaseStep/extension"/>
@@ -60,7 +59,8 @@
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reprotool.model.ecore#//usecase/Condition/Sentence"/>
       </genClasses>
     </nestedGenPackages>
-    <nestedGenPackages prefix="Swproj" disposableProviderFactory="true" ecorePackage="reprotool.model.ecore#//swproj">
+    <nestedGenPackages prefix="Swproj" disposableProviderFactory="true" multipleEditorPages="false"
+        generateModelWizard="false" ecorePackage="reprotool.model.ecore#//swproj">
       <genClasses ecoreClass="reprotool.model.ecore#//swproj/SoftwareProject">
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference reprotool.model.ecore#//swproj/SoftwareProject/actors"/>
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reprotool.model.ecore#//swproj/SoftwareProject/Name"/>

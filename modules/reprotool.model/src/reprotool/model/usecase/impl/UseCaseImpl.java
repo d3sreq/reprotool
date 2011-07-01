@@ -24,6 +24,8 @@ import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import reprotool.model.swproj.Actor;
 import reprotool.model.swproj.Requirement;
 
+import reprotool.model.swproj.SoftwareProject;
+import reprotool.model.swproj.SwprojPackage;
 import reprotool.model.usecase.Scenario;
 import reprotool.model.usecase.UseCase;
 import reprotool.model.usecase.UsecasePackage;
@@ -39,7 +41,8 @@ import reprotool.model.usecase.UsecasePackage;
  *   <li>{@link reprotool.model.usecase.impl.UseCaseImpl#getPrimaryActor <em>Primary Actor</em>}</li>
  *   <li>{@link reprotool.model.usecase.impl.UseCaseImpl#getName <em>Name</em>}</li>
  *   <li>{@link reprotool.model.usecase.impl.UseCaseImpl#getMainScenario <em>Main Scenario</em>}</li>
- *   <li>{@link reprotool.model.usecase.impl.UseCaseImpl#getPreceededUseCases <em>Preceeded Use Cases</em>}</li>
+ *   <li>{@link reprotool.model.usecase.impl.UseCaseImpl#getPrecedesUseCases <em>Precedes Use Cases</em>}</li>
+ *   <li>{@link reprotool.model.usecase.impl.UseCaseImpl#getEnclosingProject <em>Enclosing Project</em>}</li>
  * </ul>
  * </p>
  *
@@ -97,14 +100,24 @@ public class UseCaseImpl extends EObjectImpl implements UseCase {
 	protected Scenario mainScenario;
 
 	/**
-	 * The cached value of the '{@link #getPreceededUseCases() <em>Preceeded Use Cases</em>}' reference list.
+	 * The cached value of the '{@link #getPrecedesUseCases() <em>Precedes Use Cases</em>}' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getPreceededUseCases()
+	 * @see #getPrecedesUseCases()
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<UseCase> preceededUseCases;
+	protected EList<UseCase> precedesUseCases;
+
+	/**
+	 * The cached value of the '{@link #getEnclosingProject() <em>Enclosing Project</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getEnclosingProject()
+	 * @generated
+	 * @ordered
+	 */
+	protected SoftwareProject enclosingProject;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -244,11 +257,87 @@ public class UseCaseImpl extends EObjectImpl implements UseCase {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<UseCase> getPreceededUseCases() {
-		if (preceededUseCases == null) {
-			preceededUseCases = new EObjectResolvingEList<UseCase>(UseCase.class, this, UsecasePackage.USE_CASE__PRECEEDED_USE_CASES);
+	public EList<UseCase> getPrecedesUseCases() {
+		if (precedesUseCases == null) {
+			precedesUseCases = new EObjectResolvingEList<UseCase>(UseCase.class, this, UsecasePackage.USE_CASE__PRECEDES_USE_CASES);
 		}
-		return preceededUseCases;
+		return precedesUseCases;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public SoftwareProject getEnclosingProject() {
+		if (enclosingProject != null && enclosingProject.eIsProxy()) {
+			InternalEObject oldEnclosingProject = (InternalEObject)enclosingProject;
+			enclosingProject = (SoftwareProject)eResolveProxy(oldEnclosingProject);
+			if (enclosingProject != oldEnclosingProject) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, UsecasePackage.USE_CASE__ENCLOSING_PROJECT, oldEnclosingProject, enclosingProject));
+			}
+		}
+		return enclosingProject;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public SoftwareProject basicGetEnclosingProject() {
+		return enclosingProject;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetEnclosingProject(SoftwareProject newEnclosingProject, NotificationChain msgs) {
+		SoftwareProject oldEnclosingProject = enclosingProject;
+		enclosingProject = newEnclosingProject;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, UsecasePackage.USE_CASE__ENCLOSING_PROJECT, oldEnclosingProject, newEnclosingProject);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setEnclosingProject(SoftwareProject newEnclosingProject) {
+		if (newEnclosingProject != enclosingProject) {
+			NotificationChain msgs = null;
+			if (enclosingProject != null)
+				msgs = ((InternalEObject)enclosingProject).eInverseRemove(this, SwprojPackage.SOFTWARE_PROJECT__USE_CASES, SoftwareProject.class, msgs);
+			if (newEnclosingProject != null)
+				msgs = ((InternalEObject)newEnclosingProject).eInverseAdd(this, SwprojPackage.SOFTWARE_PROJECT__USE_CASES, SoftwareProject.class, msgs);
+			msgs = basicSetEnclosingProject(newEnclosingProject, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, UsecasePackage.USE_CASE__ENCLOSING_PROJECT, newEnclosingProject, newEnclosingProject));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case UsecasePackage.USE_CASE__ENCLOSING_PROJECT:
+				if (enclosingProject != null)
+					msgs = ((InternalEObject)enclosingProject).eInverseRemove(this, SwprojPackage.SOFTWARE_PROJECT__USE_CASES, SoftwareProject.class, msgs);
+				return basicSetEnclosingProject((SoftwareProject)otherEnd, msgs);
+		}
+		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
 
 	/**
@@ -261,6 +350,8 @@ public class UseCaseImpl extends EObjectImpl implements UseCase {
 		switch (featureID) {
 			case UsecasePackage.USE_CASE__MAIN_SCENARIO:
 				return basicSetMainScenario(null, msgs);
+			case UsecasePackage.USE_CASE__ENCLOSING_PROJECT:
+				return basicSetEnclosingProject(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -282,8 +373,11 @@ public class UseCaseImpl extends EObjectImpl implements UseCase {
 				return getName();
 			case UsecasePackage.USE_CASE__MAIN_SCENARIO:
 				return getMainScenario();
-			case UsecasePackage.USE_CASE__PRECEEDED_USE_CASES:
-				return getPreceededUseCases();
+			case UsecasePackage.USE_CASE__PRECEDES_USE_CASES:
+				return getPrecedesUseCases();
+			case UsecasePackage.USE_CASE__ENCLOSING_PROJECT:
+				if (resolve) return getEnclosingProject();
+				return basicGetEnclosingProject();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -310,9 +404,12 @@ public class UseCaseImpl extends EObjectImpl implements UseCase {
 			case UsecasePackage.USE_CASE__MAIN_SCENARIO:
 				setMainScenario((Scenario)newValue);
 				return;
-			case UsecasePackage.USE_CASE__PRECEEDED_USE_CASES:
-				getPreceededUseCases().clear();
-				getPreceededUseCases().addAll((Collection<? extends UseCase>)newValue);
+			case UsecasePackage.USE_CASE__PRECEDES_USE_CASES:
+				getPrecedesUseCases().clear();
+				getPrecedesUseCases().addAll((Collection<? extends UseCase>)newValue);
+				return;
+			case UsecasePackage.USE_CASE__ENCLOSING_PROJECT:
+				setEnclosingProject((SoftwareProject)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -338,8 +435,11 @@ public class UseCaseImpl extends EObjectImpl implements UseCase {
 			case UsecasePackage.USE_CASE__MAIN_SCENARIO:
 				setMainScenario((Scenario)null);
 				return;
-			case UsecasePackage.USE_CASE__PRECEEDED_USE_CASES:
-				getPreceededUseCases().clear();
+			case UsecasePackage.USE_CASE__PRECEDES_USE_CASES:
+				getPrecedesUseCases().clear();
+				return;
+			case UsecasePackage.USE_CASE__ENCLOSING_PROJECT:
+				setEnclosingProject((SoftwareProject)null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -361,8 +461,10 @@ public class UseCaseImpl extends EObjectImpl implements UseCase {
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 			case UsecasePackage.USE_CASE__MAIN_SCENARIO:
 				return mainScenario != null;
-			case UsecasePackage.USE_CASE__PRECEEDED_USE_CASES:
-				return preceededUseCases != null && !preceededUseCases.isEmpty();
+			case UsecasePackage.USE_CASE__PRECEDES_USE_CASES:
+				return precedesUseCases != null && !precedesUseCases.isEmpty();
+			case UsecasePackage.USE_CASE__ENCLOSING_PROJECT:
+				return enclosingProject != null;
 		}
 		return super.eIsSet(featureID);
 	}
