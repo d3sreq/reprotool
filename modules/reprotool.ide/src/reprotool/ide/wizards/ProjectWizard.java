@@ -47,7 +47,7 @@ import reprotool.model.swproj.SwprojFactory;
  */
 public class ProjectWizard extends Wizard implements INewWizard {
 
-	private static final String PROJECT_FILE_NAME = "project.ucproj";
+	private static final String PROJECT_FILE_NAME = "project.swproj";
 	private static final String WIZARD_PAGE_TITLE = "New Reprotool Project";
 	private static final String WIZARD_PAGE_DESCRIPTION = "Create a new Reprotool Project.";
 	private static final String WIZARD_PAGE_NAME = "NewReprotoolProject";
@@ -58,7 +58,7 @@ public class ProjectWizard extends Wizard implements INewWizard {
 	@Override
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
 		this.workbench = workbench;
-		setWindowTitle("New Reprotool project");
+		setWindowTitle(WIZARD_PAGE_TITLE);
 	}
 
 	@Override
@@ -98,8 +98,6 @@ public class ProjectWizard extends Wizard implements INewWizard {
 						//
 						Resource resource = resourceSet.createResource(fileURI);
 
-						// Add the initial model object to the contents.
-						//
 						EObject rootObject = createInitialModel();
 						if (rootObject != null) {
 							resource.getContents().add(rootObject);
@@ -171,8 +169,7 @@ public class ProjectWizard extends Wizard implements INewWizard {
 	}
 
 	private EObject createInitialModel() {
-		return SwprojFactory.eINSTANCE.createActor();
-		// return Service.INSTANCE.createSoftwareProject();
+		return SwprojFactory.eINSTANCE.createSoftwareProject();
 	}
 
 	private IPath getModelFilePath() {

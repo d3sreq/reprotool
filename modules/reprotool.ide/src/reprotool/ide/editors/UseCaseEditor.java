@@ -74,6 +74,7 @@ import org.eclipse.ui.views.properties.IPropertySheetPage;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertySheetPageContributor;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 
+import reprotool.ide.Constants;
 import reprotool.ide.adapter.UseCaseContentOutlinePage;
 import reprotool.ide.commands.ClipboardHandler;
 import reprotool.model.swproj.Actor;
@@ -676,7 +677,9 @@ public class UseCaseEditor extends EditorPart implements ITabbedPropertySheetPag
 			}
 		});
 		sentenceText.configure(new SourceViewerConfiguration());
-
+		
+//		usecase.
+		
 		SourceViewerDecorationSupport svds = new SourceViewerDecorationSupport(sentenceText, null, null, EditorsPlugin.getDefault().getSharedTextColors());
 		AnnotationPreference ap = new AnnotationPreference();
 		ap.setColorPreferenceKey(KEY_TAG_COLOR_PREF);
@@ -829,7 +832,7 @@ public class UseCaseEditor extends EditorPart implements ITabbedPropertySheetPag
 		
 		try {
 			// XXX this will break when the project extension is changed to .swproj
-			String projectPath = ((FileEditorInput) getEditorInput()).getFile().getProject().getFile("project.ucproj").getFullPath().toString();
+			String projectPath = ((FileEditorInput) getEditorInput()).getFile().getProject().getFile(Constants.PROJECT_FILE).getFullPath().toString();
 			Resource projectRes = resourceSet.getResource(URI.createPlatformResourceURI(projectPath, true), true);
 			for (EObject o : projectRes.getContents())
 				if (o instanceof Actor)

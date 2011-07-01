@@ -53,13 +53,6 @@
             id="cz.cuni.mff.reprotool.ide.UseCaseEditor"
             name="Use case">
       </editor>
-      <editor
-            class="reprotool.ide.editors.ProjectEditor"
-            default="false"
-            extensions="ucproj"
-            id="cz.cuni.mff.reprotool.ide.project"
-            name="Project">
-      </editor>
    </extension>
    <extension
          point="org.eclipse.ui.commands">

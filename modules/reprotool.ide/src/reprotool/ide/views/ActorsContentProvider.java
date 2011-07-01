@@ -19,6 +19,7 @@ import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.ui.PartInitException;
 
+import reprotool.ide.Constants;
 import reprotool.ide.natures.ReprotoolProjectNature;
 import reprotool.model.swproj.SoftwareProject;
 
@@ -31,6 +32,7 @@ import reprotool.model.swproj.SoftwareProject;
  */
 public class ActorsContentProvider implements ITreeContentProvider, IResourceChangeListener, IResourceDeltaVisitor {
 
+	private static final String PROJECT_FILE = "project.swproj";
 	private ResourceSet resourceSet;
 	private Viewer inputChangedViewer;
 	private static final Object[] NO_CHILDREN = new Object[0];
@@ -82,7 +84,7 @@ public class ActorsContentProvider implements ITreeContentProvider, IResourceCha
 	}
 
 	private SoftwareProject[] loadSwProjectModel(IProject project) throws IOException, CoreException {
-		String filePath = project.getFile("project.ucproj").getFullPath().toString();
+		String filePath = project.getFile(PROJECT_FILE).getFullPath().toString();
 		URI uri = URI.createPlatformResourceURI(filePath, true);
 		Resource resource = resourceSet.getResource(uri, true);
 		resource.load(resourceSet.getLoadOptions());
@@ -102,7 +104,6 @@ public class ActorsContentProvider implements ITreeContentProvider, IResourceCha
 
 	@Override
 	public boolean hasChildren(Object element) {
-
 		if (element instanceof IProject) {
 			return true;
 		}
@@ -117,7 +118,7 @@ public class ActorsContentProvider implements ITreeContentProvider, IResourceCha
 	@Override
 	public boolean visit(IResourceDelta delta) throws CoreException {
 		IResource changedResource = delta.getResource();
-		if (changedResource.getType() == IResource.FILE && changedResource.getFileExtension().equals("ucproj")) {
+		if (changedResource.getType() == IResource.FILE && changedResource.getFileExtension().equals(Constants.PROJECT_EXTENSION)) {
 			try {
 				String path = ((IFile) changedResource).getFullPath().toString();
 				URI uri = URI.createPlatformResourceURI(path, true);
