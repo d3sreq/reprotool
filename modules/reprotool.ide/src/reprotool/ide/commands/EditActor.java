@@ -42,16 +42,16 @@ public class EditActor extends AbstractHandler {
 			SoftwareProject project = (SoftwareProject) ((Actor) selection.getFirstElement()).eContainer();
 
 			Actor newActor = EcoreUtil.copy(actor);
+			newActor.setParentActor(actor.getParentActor());
 
 			// TODO - remove self and children actors to prevent cycles
 			ActorDetail actorDetail = new ActorDetail(shell, newActor, project.getActors());
 
 			if (actorDetail.open() == Window.OK) {
 				updateActor(newActor, actor);
-				if (newActor.getParentActor() != null) {
-					// remove copy of the actor from the parent
-					newActor.getParentActor().getChildrenActors().remove(newActor);
-				}
+				
+				// make sure that the copy of the actor is not saved through it's parent
+				newActor.setParentActor(null);
 
 				try {
 					final Map<Object, Object> saveOptions = new HashMap<Object, Object>();
