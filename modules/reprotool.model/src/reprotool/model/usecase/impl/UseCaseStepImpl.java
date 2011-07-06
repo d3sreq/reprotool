@@ -10,24 +10,20 @@ import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
-
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 import reprotool.model.linguistic.SentenceNode;
-
 import reprotool.model.swproj.Requirement;
-
 import reprotool.model.usecase.Scenario;
+import reprotool.model.usecase.UseCase;
 import reprotool.model.usecase.UseCaseStep;
 import reprotool.model.usecase.UsecasePackage;
 
@@ -42,7 +38,6 @@ import reprotool.model.usecase.UsecasePackage;
  *   <li>{@link reprotool.model.usecase.impl.UseCaseStepImpl#getExtension <em>Extension</em>}</li>
  *   <li>{@link reprotool.model.usecase.impl.UseCaseStepImpl#getVariation <em>Variation</em>}</li>
  *   <li>{@link reprotool.model.usecase.impl.UseCaseStepImpl#getSentence <em>Sentence</em>}</li>
- *   <li>{@link reprotool.model.usecase.impl.UseCaseStepImpl#getLabel <em>Label</em>}</li>
  *   <li>{@link reprotool.model.usecase.impl.UseCaseStepImpl#getParsedSentence <em>Parsed Sentence</em>}</li>
  * </ul>
  * </p>
@@ -99,26 +94,6 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 	 * @ordered
 	 */
 	protected String sentence = SENTENCE_EDEFAULT;
-
-	/**
-	 * The default value of the '{@link #getLabel() <em>Label</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getLabel()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String LABEL_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getLabel() <em>Label</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getLabel()
-	 * @generated
-	 * @ordered
-	 */
-	protected String label = LABEL_EDEFAULT;
 
 	/**
 	 * The cached value of the '{@link #getParsedSentence() <em>Parsed Sentence</em>}' containment reference.
@@ -209,22 +184,32 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	public String getLabel() {
-		return label;
+		return getLabel(this);
 	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setLabel(String newLabel) {
-		String oldLabel = label;
-		label = newLabel;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, UsecasePackage.USE_CASE_STEP__LABEL, oldLabel, label));
+	
+	/** @generated NOT */
+	private String getLabel(EObject item) {
+		if (item.eContainer() instanceof UseCase)
+			return "";
+		StringBuffer s = new StringBuffer(getLabel(item.eContainer()));
+		if (item instanceof Scenario) {
+			UseCaseStep parent = (UseCaseStep)item.eContainer();
+			int idx;
+			if (parent.getVariation().contains(item))
+				idx = parent.getVariation().indexOf(item);
+			else
+				idx = parent.getVariation().size() + parent.getExtension().indexOf(item);
+			s.append((char)('a'+idx));
+		} else if (item instanceof UseCaseStep) {
+			Scenario parent = (Scenario)item.eContainer();
+			int idx = parent.getSteps().indexOf(item);
+			if (idx != 0)
+				s.append(idx);
+		}
+		return s.toString();
 	}
 
 	/**
@@ -304,8 +289,6 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 				return getVariation();
 			case UsecasePackage.USE_CASE_STEP__SENTENCE:
 				return getSentence();
-			case UsecasePackage.USE_CASE_STEP__LABEL:
-				return getLabel();
 			case UsecasePackage.USE_CASE_STEP__PARSED_SENTENCE:
 				return getParsedSentence();
 		}
@@ -336,9 +319,6 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 			case UsecasePackage.USE_CASE_STEP__SENTENCE:
 				setSentence((String)newValue);
 				return;
-			case UsecasePackage.USE_CASE_STEP__LABEL:
-				setLabel((String)newValue);
-				return;
 			case UsecasePackage.USE_CASE_STEP__PARSED_SENTENCE:
 				setParsedSentence((SentenceNode)newValue);
 				return;
@@ -366,9 +346,6 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 			case UsecasePackage.USE_CASE_STEP__SENTENCE:
 				setSentence(SENTENCE_EDEFAULT);
 				return;
-			case UsecasePackage.USE_CASE_STEP__LABEL:
-				setLabel(LABEL_EDEFAULT);
-				return;
 			case UsecasePackage.USE_CASE_STEP__PARSED_SENTENCE:
 				setParsedSentence((SentenceNode)null);
 				return;
@@ -392,8 +369,6 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 				return variation != null && !variation.isEmpty();
 			case UsecasePackage.USE_CASE_STEP__SENTENCE:
 				return SENTENCE_EDEFAULT == null ? sentence != null : !SENTENCE_EDEFAULT.equals(sentence);
-			case UsecasePackage.USE_CASE_STEP__LABEL:
-				return LABEL_EDEFAULT == null ? label != null : !LABEL_EDEFAULT.equals(label);
 			case UsecasePackage.USE_CASE_STEP__PARSED_SENTENCE:
 				return parsedSentence != null;
 		}
@@ -412,8 +387,6 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (Sentence: ");
 		result.append(sentence);
-		result.append(", Label: ");
-		result.append(label);
 		result.append(')');
 		return result.toString();
 	}

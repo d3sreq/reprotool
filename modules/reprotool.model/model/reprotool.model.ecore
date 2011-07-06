@@ -41,12 +41,12 @@
           eOpposite="#//swproj/SoftwareProject/useCases"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="UseCaseStep" eSuperTypes="#//swproj/ReqCover">
+      <eOperations name="getLabel" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="extension" upperBound="-1"
           eType="#//usecase/Scenario" containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="variation" upperBound="-1"
           eType="#//usecase/Scenario" containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="Sentence" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="Label" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="parsedSentence" eType="#//linguistic/SentenceNode"
           containment="true"/>
     </eClassifiers>

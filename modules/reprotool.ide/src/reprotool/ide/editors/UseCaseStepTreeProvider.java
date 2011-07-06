@@ -88,6 +88,7 @@ public class UseCaseStepTreeProvider implements ITreeContentProvider, ITableLabe
 		public String getSentenceColumn();
 		public String getTypeColumn();
 		public String getParsedColumn();
+		public String getLabelColumn();
 	}
 	
 	RowRenderer useCaseStepRenderer = new RowRenderer() {
@@ -96,6 +97,11 @@ public class UseCaseStepTreeProvider implements ITreeContentProvider, ITableLabe
 		@Override
 		public void setElement(Object element) {
 			step = (UseCaseStep) element;
+		}
+		
+		@Override
+		public String getLabelColumn() {
+			return step.getLabel();
 		}
 		
 		@Override
@@ -120,6 +126,11 @@ public class UseCaseStepTreeProvider implements ITreeContentProvider, ITableLabe
 		@Override
 		public void setElement(Object element) {
 			scen = (Scenario) element;
+		}
+		
+		@Override
+		public String getLabelColumn() {
+			return "*";
 		}
 				
 		@Override
@@ -164,32 +175,13 @@ public class UseCaseStepTreeProvider implements ITreeContentProvider, ITableLabe
 		adapter.setElement(element);
 		
 		switch (columnIndex) {
-			case 0: return getLabel((EObject)element);
+			case 0: return adapter.getLabelColumn();
 			case 1: return adapter.getSentenceColumn();
 			case 2: return adapter.getTypeColumn();
 			case 3: return adapter.getParsedColumn();
 		}
 		
 		return null;
-	}
-	
-	private String getLabel(EObject item) {
-		if (item.eContainer() instanceof UseCase)
-			return "";
-		StringBuffer s = new StringBuffer(getLabel(item.eContainer()));
-		if (item instanceof Scenario) {
-			UseCaseStep parent = (UseCaseStep)item.eContainer();
-			int idx;
-			if (parent.getVariation().contains(item))
-				idx = parent.getVariation().indexOf(item);
-			else
-				idx = parent.getVariation().size() + parent.getExtension().indexOf(item);
-			s.append((char)('a'+idx));
-		} else if (item instanceof UseCaseStep) {
-			Scenario parent = (Scenario)item.eContainer();
-			s.append(parent.getSteps().indexOf(item)+1);
-		}
-		return s.toString();
 	}
 
 	@Override

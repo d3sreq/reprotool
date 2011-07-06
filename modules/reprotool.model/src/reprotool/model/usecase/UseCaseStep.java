@@ -23,7 +23,6 @@ import reprotool.model.swproj.ReqCover;
  *   <li>{@link reprotool.model.usecase.UseCaseStep#getExtension <em>Extension</em>}</li>
  *   <li>{@link reprotool.model.usecase.UseCaseStep#getVariation <em>Variation</em>}</li>
  *   <li>{@link reprotool.model.usecase.UseCaseStep#getSentence <em>Sentence</em>}</li>
- *   <li>{@link reprotool.model.usecase.UseCaseStep#getLabel <em>Label</em>}</li>
  *   <li>{@link reprotool.model.usecase.UseCaseStep#getParsedSentence <em>Parsed Sentence</em>}</li>
  * </ul>
  * </p>
@@ -92,30 +91,16 @@ public interface UseCaseStep extends ReqCover {
 	void setSentence(String value);
 
 	/**
-	 * Returns the value of the '<em><b>Label</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Label</em>' attribute isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Label</em>' attribute.
-	 * @see #setLabel(String)
-	 * @see reprotool.model.usecase.UsecasePackage#getUseCaseStep_Label()
-	 * @model
+	 * @model kind="operation"
 	 * @generated
 	 */
 	String getLabel();
-
-	/**
-	 * Sets the value of the '{@link reprotool.model.usecase.UseCaseStep#getLabel <em>Label</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Label</em>' attribute.
-	 * @see #getLabel()
-	 * @generated
-	 */
-	void setLabel(String value);
 
 	/**
 	 * Returns the value of the '<em><b>Parsed Sentence</b></em>' containment reference.

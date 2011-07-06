@@ -678,8 +678,6 @@ public class UseCaseEditor extends EditorPart implements ITabbedPropertySheetPag
 		});
 		sentenceText.configure(new SourceViewerConfiguration());
 		
-//		usecase.
-		
 		SourceViewerDecorationSupport svds = new SourceViewerDecorationSupport(sentenceText, null, null, EditorsPlugin.getDefault().getSharedTextColors());
 		AnnotationPreference ap = new AnnotationPreference();
 		ap.setColorPreferenceKey(KEY_TAG_COLOR_PREF);
@@ -818,7 +816,7 @@ public class UseCaseEditor extends EditorPart implements ITabbedPropertySheetPag
 	}
 
 	private void refreshPropertySheet() {
-		if (propertySheetPage != null)
+		if (propertySheetPage != null && propertySheetPage.getCurrentTab() != null)
 			propertySheetPage.refresh();
 	}
 
@@ -828,18 +826,9 @@ public class UseCaseEditor extends EditorPart implements ITabbedPropertySheetPag
 	}
 	
 	public List<Actor> getProjectActors() {
-		ArrayList<Actor> ret = new ArrayList<Actor>();
-		
-		try {
-			// XXX this will break when the project extension is changed to .swproj
-			String projectPath = ((FileEditorInput) getEditorInput()).getFile().getProject().getFile(Constants.PROJECT_FILE).getFullPath().toString();
-			Resource projectRes = resourceSet.getResource(URI.createPlatformResourceURI(projectPath, true), true);
-			for (EObject o : projectRes.getContents())
-				if (o instanceof Actor)
-					ret.add((Actor)o);
-		} catch (RuntimeException e) {
-			System.out.println("UseCaseEditor failed to load actors from project");
-		}
-		return ret;
+		if (usecase.getEnclosingProject() != null)
+			return usecase.getEnclosingProject().getActors();
+		else
+			return new ArrayList<Actor>();
 	}
 }
