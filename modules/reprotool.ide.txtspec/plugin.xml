@@ -129,15 +129,19 @@
             verticalRulerPreferenceValue="false">
       </specification>
       <specification
-            annotationType="reprotool.ide.txtspec.specification7"
+            annotationType="reprotool.ide.txtspec.tag"
             colorPreferenceKey="tagcolor"
-            colorPreferenceValue="0,0,0"
+            colorPreferenceValue="0,255,0"
             highlightPreferenceKey="tagHighlight"
+            highlightPreferenceValue="true"
             includeOnPreferencePage="true"
             label="annotation background"
             overviewRulerPreferenceKey="x"
+            overviewRulerPreferenceValue="false"
             textPreferenceKey="tagText"
-            verticalRulerPreferenceKey="x">
+            textPreferenceValue="false"
+            verticalRulerPreferenceKey="x"
+            verticalRulerPreferenceValue="false">
       </specification>
    </extension>
 

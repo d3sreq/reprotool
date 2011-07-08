@@ -25,6 +25,7 @@ import org.eclipse.jface.text.source.AnnotationModel;
 import org.eclipse.jface.text.source.IAnnotationModel;
 import org.eclipse.jface.text.source.IAnnotationModelExtension;
 import org.eclipse.jface.text.source.ISourceViewer;
+import org.eclipse.jface.text.source.SourceViewer;
 import org.eclipse.jface.text.source.SourceViewerConfiguration;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ExtendedModifyEvent;
@@ -80,10 +81,11 @@ public class TxtSpecEditor extends TextEditor {
     private static final String KEY_TAG_TEXT_PREF5 = "tagText5";
 	
 	private ColorManager colorManager;
-	private NewAnnotationModel annotations;
-	private NewAnnotationViewer viewer = null;
+	private AnnotationModel annotations;
+	private SourceViewer viewer = null;
 	private TxtSpecDocumentManager manager;
 	private ProjectionDocument projectionDocument;
+	private ProjectionDocument txtspecDocument;
 	private static Node RootNode;
 	private IDocument masterDocument;
     
@@ -119,7 +121,7 @@ public class TxtSpecEditor extends TextEditor {
 	@Override
 	public void createPartControl(Composite parent)
 	{
-        viewer = new NewAnnotationViewer(parent, null, SWT.V_SCROLL);
+        viewer = new SourceViewer(parent, null, SWT.V_SCROLL);
         initializeTextEditor();
         ValidateUpdate(); 
 	}
@@ -129,6 +131,7 @@ public class TxtSpecEditor extends TextEditor {
         viewer.configure(new SourceViewerConfiguration());
         manager = new TxtSpecDocumentManager();
         projectionDocument=(ProjectionDocument) manager.createSlaveDocument(masterDocument);
+        txtspecDocument=(ProjectionDocument) manager.createSlaveDocument(projectionDocument);
         
         SourceViewerDecorationSupport svds = new SourceViewerDecorationSupport(viewer, null, null, EditorsPlugin.getDefault().getSharedTextColors());
         AnnotationPreference ap = new AnnotationPreference();
@@ -299,28 +302,28 @@ public class TxtSpecEditor extends TextEditor {
 	
 	private void Update() throws BadLocationException
     {      
-    	findlength(RootNode);
-		Nodes=new String[index];
-		
-		for(int i=0;i<index;i++)
-		{
-			Nodes[i]="";
-		}
-		
-		index=0;
-		count=0;
-		restructureTree(RootNode);
+//    	findlength(RootNode);
+//		Nodes=new String[index];
+//		
+//		for(int i=0;i<index;i++)
+//		{
+//			Nodes[i]="";
+//		}
+//		
+//		index=0;
+//		count=0;
+//		restructureTree(RootNode);
 //		System.out.println(index);
 		
         annotations = new NewAnnotationModel();
-        annotations.connect(projectionDocument);
+//      annotations.connect(projectionDocument);
 //		annotations.connect(masterDocument);
         
 //      viewer.setDocument(masterDocument, annotations);
-        viewer.setDocument(projectionDocument, annotations);
-//      projectionDocument.removeMasterDocumentRange(0, masterDocument.getLength());
-        
-        int flag=1,a=0,b=0,counter=0;char ch;
+        projectionDocument.addMasterDocumentRange(0, masterDocument.getLength());
+         
+        int flag=1,a=0,b=0;char ch;
+        int c=masterDocument.get().indexOf("<");
         
 //        projectionDocument.removeMasterDocumentRange(0, masterDocument.getLength());
         
@@ -332,8 +335,10 @@ public class TxtSpecEditor extends TextEditor {
         
         while(flag==1)
         {
-        	a=masterDocument.get().indexOf("<",b);
+        	a=c;
         	b=masterDocument.get().indexOf(">",a+1);
+        	c=masterDocument.get().indexOf("<",b+1);
+        	
         	ch=masterDocument.get().substring(a+1, b).trim().charAt(0);
         	
         	switch(ch)
@@ -358,7 +363,7 @@ public class TxtSpecEditor extends TextEditor {
         			if(!masterDocument.get().substring(a+1,b).startsWith("spec "))break;
         		case 'e':
         			projectionDocument.removeMasterDocumentRange(a, b-a+1);
-        			b=b+1;
+//        			b=b+1;
 //        			a=masterDocument.get().indexOf("<",b);
 //        			System.out.println(counter);
 //        			if(Nodes[counter++]!=null)
@@ -367,14 +372,18 @@ public class TxtSpecEditor extends TextEditor {
         		case '?':
         		case '!':
         		default :
-        			b=masterDocument.get().indexOf("<",b)-1;
-        			projectionDocument.removeMasterDocumentRange(a, b-a+1);
+        			projectionDocument.removeMasterDocumentRange(a, c-a);
         			break;
         	}
         }
     	NewAnnotation anno;
-    	int count=-1;
-        int c=masterDocument.get().indexOf("<");
+    	int count=-1,chars_deleted=0;
+        c=masterDocument.get().indexOf("<");
+
+        txtspecDocument.addMasterDocumentRange(0, projectionDocument.getLength());
+        viewer.setDocument(txtspecDocument,annotations);
+//        annotations.disconnect(projectionDocument);
+//        annotations.connect(masterDocument);
         
         while(flag==0)
         {
@@ -389,13 +398,14 @@ public class TxtSpecEditor extends TextEditor {
         		case '/':
         			if(masterDocument.get().substring(a+2,b).trim().equals("e"))
         			{
+        				chars_deleted+=b-a+1;
         				count--;
         				if(c-b-1>0)
     					{
-        					projectionDocument.addMasterDocumentRange(b+1, c-b-1);
+        					//projectionDocument.addMasterDocumentRange(b+1, c-b-1);
         					anno=new NewAnnotation(getAnnotationType(count),false,masterDocument.get().substring(b+1, c));
 //        					System.out.println("/:" + masterDocument.get().substring(b+1, c));
-        					annotations.addAnnotation(anno, new Position(b+1,c-b-1));
+        					annotations.addAnnotation(anno, new Position(b+1-chars_deleted,c-b-1));
     					}
 //            			masterDocument.replace(b, a-b, Nodes[counter-1]);
 //        				b=b+1;
@@ -406,9 +416,9 @@ public class TxtSpecEditor extends TextEditor {
         			}
         			else if(masterDocument.get().substring(a+2,b).trim().equals("spec"))
         			{
+        				chars_deleted+=b-a+1;
         				count--;
         				flag=1;
-        				System.out.println("flag changed");
         				break;
         			}
         		case 's':
@@ -417,20 +427,21 @@ public class TxtSpecEditor extends TextEditor {
     					count++;
     					if(c-b-1>0)
     					{
-    						projectionDocument.addMasterDocumentRange(b+1, c-b-1);
+    						//projectionDocument.addMasterDocumentRange(b+1, c-b-1);
     						anno=new NewAnnotation(getAnnotationType(count),false,masterDocument.get().substring(b+1, c));
-    						annotations.addAnnotation(anno, new Position(b+1,c-b-1));
+    						annotations.addAnnotation(anno, new Position(b+1-chars_deleted,c-b-1));
 //            				System.out.println("S:" + masterDocument.get().substring(b+1, c));
     					}
     					break;
     				}
         		case 'e':
         			count++;
+    				chars_deleted+=b-a+1;
         			if(c-b-1>0)
 					{
-						projectionDocument.addMasterDocumentRange(b+1, c-b-1);
+						//projectionDocument.addMasterDocumentRange(b+1, c-b-1);
 	    				anno=new NewAnnotation(getAnnotationType(count),false,masterDocument.get().substring(b+1, c));
-	    				annotations.addAnnotation(anno, new Position(b+1,c-b-1));
+	    				annotations.addAnnotation(anno, new Position(b+1-chars_deleted,c-b-1));
 //	    				System.out.println("E:" + masterDocument.get().substring(b+1, c));
 					}
 //        			b=b+1;
@@ -442,6 +453,7 @@ public class TxtSpecEditor extends TextEditor {
         		case '?':
         		case '!':
         		default :
+    				chars_deleted+=c-a;
         			break;
         	}
         }
