@@ -3,8 +3,6 @@ package reprotool.ide.txtspec.editors;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IDocumentPartitioner;
-import org.eclipse.jface.text.projection.ProjectionDocument;
-import org.eclipse.jface.text.projection.ProjectionDocumentManager;
 import org.eclipse.jface.text.rules.FastPartitioner;
 import org.eclipse.ui.editors.text.FileDocumentProvider;
 
