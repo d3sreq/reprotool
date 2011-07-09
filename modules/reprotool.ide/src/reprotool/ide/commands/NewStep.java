@@ -39,8 +39,8 @@ public class NewStep extends AbstractHandler {
 			// add new step to the beginning
 			scen.getSteps().add(0, newStep);
 		}
-		editor.setSelection(newStep);
 		editor.setDirty();
+		editor.setSelection(newStep);
 		return null;
 	}
 }

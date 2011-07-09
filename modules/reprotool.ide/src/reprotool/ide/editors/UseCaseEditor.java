@@ -7,7 +7,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.core.internal.resources.ResourceException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -18,7 +17,6 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.text.Document;
-import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.Position;
 import org.eclipse.jface.text.source.Annotation;
 import org.eclipse.jface.text.source.AnnotationModel;
@@ -74,7 +72,6 @@ import org.eclipse.ui.views.properties.IPropertySheetPage;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertySheetPageContributor;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 
-import reprotool.ide.Constants;
 import reprotool.ide.adapter.UseCaseContentOutlinePage;
 import reprotool.ide.commands.ClipboardHandler;
 import reprotool.model.swproj.Actor;
@@ -94,6 +91,33 @@ public class UseCaseEditor extends EditorPart implements ITabbedPropertySheetPag
 
 	private TreeViewer treeViewer = null;
 	private SourceViewer sentenceText = null;
+	private AnnotatedDocument sentenceDoc = null;
+	private class AnnotatedDocument {
+		private Document doc;
+		private AnnotationModel model;
+		public AnnotatedDocument(String raw) {
+			doc = new Document(raw);
+			// TODO parse for annotations
+			model = new AnnotationModel();
+			model.connect(doc);
+			
+			sentenceText.setDocument(doc, model);
+
+			// XXX for testing - add example annotation to the second word
+			if (doc.get().split(" ").length > 1) {
+				int start = doc.get().indexOf(" ")+1;
+				int end = doc.get().indexOf(" ", start + 1);
+				if (end == -1)
+					end = doc.get().length();
+				Annotation a = new Annotation(ANNOTATION_TYPE_STEP, false, "hidden text");
+				model.addAnnotation(a, new Position(start, end - start));
+			}
+		}
+		public String getAnnotatedText() {
+			// TODO place annotations to text
+			return doc.get();
+		}
+	};
 
 	private boolean dirty = false;
 
@@ -347,25 +371,12 @@ public class UseCaseEditor extends EditorPart implements ITabbedPropertySheetPag
 					return;
 				showSelectedStep();
 				
-				IDocument doc = new Document();
+				String raw;
 				if (selection instanceof UseCaseStep)
-					doc.set(getSelectedStep().getSentence());
+					raw = getSelectedStep().getSentence();
 				else
-					doc.set(((Scenario) getSelectedObject()).getDescription());
-				
-				AnnotationModel annotations = new AnnotationModel();
-				annotations.connect(doc);
-				sentenceText.setDocument(doc, annotations);
-
-				// XXX for testing - add example annotation to the second word
-				if (doc.get().split(" ").length > 1) {
-					int start = doc.get().indexOf(" ")+1;
-					int end = doc.get().indexOf(" ", start + 1);
-					if (end == -1)
-						end = doc.get().length();
-					Annotation a = new Annotation(ANNOTATION_TYPE, false, "hidden text");
-					annotations.addAnnotation(a, new Position(start, end - start));
-				}
+					raw = ((Scenario) getSelectedObject()).getDescription();
+				sentenceDoc = new AnnotatedDocument(raw);
 			}
 		});
 
@@ -645,7 +656,7 @@ public class UseCaseEditor extends EditorPart implements ITabbedPropertySheetPag
 		return false;
 	}
 
-	private static final String ANNOTATION_TYPE = "reprotool.ide.tag";
+	private static final String ANNOTATION_TYPE_STEP = "reprotool.ide.stepLabel";
 	private static final String KEY_TAG_COLOR_PREF = "tagColor";
 	private static final String KEY_TAG_HIGHLIGHT_PREF = "tagHighlight";
 	private static final String KEY_TAG_TEXT_PREF = "tagText";
@@ -656,21 +667,22 @@ public class UseCaseEditor extends EditorPart implements ITabbedPropertySheetPag
 			@Override
 			public void focusLost(FocusEvent e) {
 				Object selected = getSelectedObject();
+				String newText = sentenceDoc.getAnnotatedText();
 				if (selected instanceof UseCaseStep) {
 					UseCaseStep step = (UseCaseStep)selected;
 					if (step.getSentence() == null)
 						step.setSentence("");
-					if (! step.getSentence().equals(sentenceText.getDocument().get())) {
+					if (! step.getSentence().equals(newText)) {
 						saveUndoState();
-						step.setSentence(sentenceText.getDocument().get());
+						step.setSentence(newText);
 					}
 				} else if (selected instanceof Scenario) {
 					Scenario scen = (Scenario)selected;
 					if (scen.getDescription() == null)
 						scen.setDescription("");
-					if (! scen.getDescription().equals(sentenceText.getDocument().get())) {
+					if (! scen.getDescription().equals(newText)) {
 						saveUndoState();
-						scen.setDescription(sentenceText.getDocument().get());
+						scen.setDescription(newText);
 					}
 				}
 				treeViewer.refresh();
@@ -683,7 +695,7 @@ public class UseCaseEditor extends EditorPart implements ITabbedPropertySheetPag
 		ap.setColorPreferenceKey(KEY_TAG_COLOR_PREF);
 		ap.setHighlightPreferenceKey(KEY_TAG_HIGHLIGHT_PREF);
 		ap.setTextPreferenceKey(KEY_TAG_TEXT_PREF);
-		ap.setAnnotationType(ANNOTATION_TYPE);
+		ap.setAnnotationType(ANNOTATION_TYPE_STEP);
 		svds.setAnnotationPreference(ap);
 		svds.install(EditorsPlugin.getDefault().getPreferenceStore());
 	}

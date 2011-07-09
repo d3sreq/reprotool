@@ -205,9 +205,7 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 			s.append((char)('a'+idx));
 		} else if (item instanceof UseCaseStep) {
 			Scenario parent = (Scenario)item.eContainer();
-			int idx = parent.getSteps().indexOf(item);
-			if (idx != 0)
-				s.append(idx);
+			s.append(parent.getSteps().indexOf(item)+1);
 		}
 		return s.toString();
 	}
