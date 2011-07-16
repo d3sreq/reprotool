@@ -294,6 +294,15 @@ public class UsecasePackageImpl extends EPackageImpl implements UsecasePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getUseCaseStep_ID() {
+		return (EAttribute)useCaseStepEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getScenario() {
 		return scenarioEClass;
 	}
@@ -410,6 +419,7 @@ public class UsecasePackageImpl extends EPackageImpl implements UsecasePackage {
 		createEReference(useCaseStepEClass, USE_CASE_STEP__VARIATION);
 		createEAttribute(useCaseStepEClass, USE_CASE_STEP__SENTENCE);
 		createEReference(useCaseStepEClass, USE_CASE_STEP__PARSED_SENTENCE);
+		createEAttribute(useCaseStepEClass, USE_CASE_STEP__ID);
 
 		scenarioEClass = createEClass(SCENARIO);
 		createEReference(scenarioEClass, SCENARIO__STEPS);
@@ -477,6 +487,7 @@ public class UsecasePackageImpl extends EPackageImpl implements UsecasePackage {
 		initEReference(getUseCaseStep_Variation(), this.getScenario(), null, "variation", null, 0, -1, UseCaseStep.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getUseCaseStep_Sentence(), ecorePackage.getEString(), "Sentence", null, 0, 1, UseCaseStep.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getUseCaseStep_ParsedSentence(), theLinguisticPackage.getSentenceNode(), null, "parsedSentence", null, 0, 1, UseCaseStep.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getUseCaseStep_ID(), ecorePackage.getEString(), "ID", null, 0, 1, UseCaseStep.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		addEOperation(useCaseStepEClass, ecorePackage.getEString(), "getLabel", 0, 1, IS_UNIQUE, IS_ORDERED);
 

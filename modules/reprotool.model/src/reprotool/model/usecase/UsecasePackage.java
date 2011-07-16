@@ -190,13 +190,22 @@ public interface UsecasePackage extends EPackage {
 	int USE_CASE_STEP__PARSED_SENTENCE = SwprojPackage.REQ_COVER_FEATURE_COUNT + 3;
 
 	/**
+	 * The feature id for the '<em><b>ID</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int USE_CASE_STEP__ID = SwprojPackage.REQ_COVER_FEATURE_COUNT + 4;
+
+	/**
 	 * The number of structural features of the '<em>Use Case Step</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int USE_CASE_STEP_FEATURE_COUNT = SwprojPackage.REQ_COVER_FEATURE_COUNT + 4;
+	int USE_CASE_STEP_FEATURE_COUNT = SwprojPackage.REQ_COVER_FEATURE_COUNT + 5;
 
 	/**
 	 * The meta object id for the '{@link reprotool.model.usecase.impl.ScenarioImpl <em>Scenario</em>}' class.
@@ -458,6 +467,17 @@ public interface UsecasePackage extends EPackage {
 	EReference getUseCaseStep_ParsedSentence();
 
 	/**
+	 * Returns the meta object for the attribute '{@link reprotool.model.usecase.UseCaseStep#getID <em>ID</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>ID</em>'.
+	 * @see reprotool.model.usecase.UseCaseStep#getID()
+	 * @see #getUseCaseStep()
+	 * @generated
+	 */
+	EAttribute getUseCaseStep_ID();
+
+	/**
 	 * Returns the meta object for class '{@link reprotool.model.usecase.Scenario <em>Scenario</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -665,6 +685,14 @@ public interface UsecasePackage extends EPackage {
 		 * @generated
 		 */
 		EReference USE_CASE_STEP__PARSED_SENTENCE = eINSTANCE.getUseCaseStep_ParsedSentence();
+
+		/**
+		 * The meta object literal for the '<em><b>ID</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute USE_CASE_STEP__ID = eINSTANCE.getUseCaseStep_ID();
 
 		/**
 		 * The meta object literal for the '{@link reprotool.model.usecase.impl.ScenarioImpl <em>Scenario</em>}' class.

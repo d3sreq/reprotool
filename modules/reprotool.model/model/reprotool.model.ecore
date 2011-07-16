@@ -49,6 +49,8 @@
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="Sentence" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="parsedSentence" eType="#//linguistic/SentenceNode"
           containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="ID" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+          iD="true"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="Scenario">
       <eOperations name="getInfo" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>

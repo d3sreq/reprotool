@@ -30,6 +30,10 @@
       </eAnnotations>
       <children xmi:type="notation:Node" xmi:id="_k0WhYHyKEeCmJ7JyIPKPOg" type="4001"/>
       <children xmi:type="notation:Node" xmi:id="_k0WhYXyKEeCmJ7JyIPKPOg" type="5001">
+        <children xmi:type="notation:Node" xmi:id="_EDoWwK-iEeCctZiGoglP0g" type="2001">
+          <element xmi:type="ecore:EAttribute" href="reprotool.model.ecore#//usecase/UseCaseStep/ID"/>
+          <layoutConstraint xmi:type="notation:Location" xmi:id="_EDoWwa-iEeCctZiGoglP0g"/>
+        </children>
         <styles xmi:type="notation:DrawerStyle" xmi:id="_k0WhYnyKEeCmJ7JyIPKPOg"/>
         <styles xmi:type="notation:SortingStyle" xmi:id="_k0WhY3yKEeCmJ7JyIPKPOg"/>
         <styles xmi:type="notation:FilteringStyle" xmi:id="_k0WhZHyKEeCmJ7JyIPKPOg"/>

@@ -2,10 +2,15 @@ package reprotool.ide.editors;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.util.URI;
@@ -16,6 +21,7 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.Document;
 import org.eclipse.jface.text.Position;
 import org.eclipse.jface.text.source.Annotation;
@@ -48,6 +54,8 @@ import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Tree;
@@ -88,36 +96,88 @@ public class UseCaseEditor extends EditorPart implements ITabbedPropertySheetPag
 	private UseCase usecase = null;
 
 	private ResourceSet resourceSet = null;
+	
+	private Menu insertStepMenu;
 
 	private TreeViewer treeViewer = null;
 	private SourceViewer sentenceText = null;
 	private AnnotatedDocument sentenceDoc = null;
-	private class AnnotatedDocument {
+	public class AnnotatedDocument {
 		private Document doc;
 		private AnnotationModel model;
 		public AnnotatedDocument(String raw) {
 			doc = new Document(raw);
-			// TODO parse for annotations
 			model = new AnnotationModel();
 			model.connect(doc);
 			
 			sentenceText.setDocument(doc, model);
-
-			// XXX for testing - add example annotation to the second word
-			if (doc.get().split(" ").length > 1) {
-				int start = doc.get().indexOf(" ")+1;
-				int end = doc.get().indexOf(" ", start + 1);
-				if (end == -1)
-					end = doc.get().length();
-				Annotation a = new Annotation(ANNOTATION_TYPE_STEP, false, "hidden text");
-				model.addAnnotation(a, new Position(start, end - start));
-			}
+			parseSentence(doc, model, usecase);
 		}
-		public String getAnnotatedText() {
-			// TODO place annotations to text
+		public String getPlainText() {
 			return doc.get();
 		}
+		public String getAnnotatedText() {
+			@SuppressWarnings("rawtypes")
+			Iterator i = model.getAnnotationIterator();
+			ArrayList<Annotation> anns = new ArrayList<Annotation>();
+			while (i.hasNext())
+				anns.add((Annotation)i.next());
+			// sort by descending position so we can safely replace from end to beginning
+			Collections.sort(anns, new Comparator<Annotation>() {
+				@Override
+				public int compare(Annotation a, Annotation b) {
+					if (model.getPosition(a).offset < model.getPosition(b).offset)
+						return 1;
+					else
+						return -1;
+				}
+			});
+			StringBuffer sb = new StringBuffer(doc.get());
+			for (Annotation a : anns) {
+				if (!a.getType().equals(ANNOTATION_TYPE_STEP))
+					continue;
+				Position pos = model.getPosition(a);
+				if (pos.length == 0) { // deleted
+					model.removeAnnotation(a);
+					continue;
+				}
+				//System.out.println("substr "+sb.substring(pos.offset, pos.offset+pos.length));
+				sb.replace(pos.offset, pos.offset+pos.length, "##"+a.getText()+"##");
+				//System.out.println("replaced "+a.getText());
+			}
+			return sb.toString();
+		}
 	};
+	// resolves references in sentence tags and creates annotations
+	public static void parseSentence(Document doc, AnnotationModel model, UseCase uc) {
+		Pattern stepRef = Pattern.compile("##(_.+?)##");
+		Matcher m = stepRef.matcher(doc.get());
+		StringBuffer plain = new StringBuffer();
+		Map<Annotation, Position> annotations = new HashMap<Annotation, Position>();
+		while (m.find()) {
+			// find next step reference
+			String id = m.group(1);
+			// find label of the referenced step
+			UseCaseStep ref = getStepByID(uc, id);
+			String label = "[invalid]";
+			if (ref != null)
+				label = ref.getLabel();
+			// replace the reference with the label
+			m.appendReplacement(plain, label);
+			// add an annotation for the label
+			Annotation a = new Annotation(ANNOTATION_TYPE_STEP, false, id);
+			annotations.put(a, new Position(plain.length()-label.length(), label.length()));
+		}
+		m.appendTail(plain);
+		doc.set(plain.toString());
+		for (Annotation key : annotations.keySet())
+			model.addAnnotation(key, annotations.get(key));
+	}
+	
+	public String getPlainSentence(UseCaseStep step) {
+		AnnotatedDocument d = new AnnotatedDocument(step.getSentence());
+		return d.getPlainText();
+	}
 
 	private boolean dirty = false;
 
@@ -167,10 +227,12 @@ public class UseCaseEditor extends EditorPart implements ITabbedPropertySheetPag
 				else if (selected instanceof UseCaseStep) {
 					Scenario parent = (Scenario)selected.eContainer();
 					// add new step just after the selected step
-					parent.getSteps().add(parent.getSteps().indexOf(selected)+1, (UseCaseStep)clipboardItem);
+					UseCaseStep step = (UseCaseStep)clipboardItem;
+					parent.getSteps().add(parent.getSteps().indexOf(selected)+1, step);
 				}
 			}
 			
+			fixDuplicateIDs();
 			clipboardItem = EcoreUtil.copy(clipboardItem);
 			setDirty();
 		}
@@ -184,6 +246,17 @@ public class UseCaseEditor extends EditorPart implements ITabbedPropertySheetPag
 	};
 	public Clipboard getClipboard() {
 		return clipboard;
+	}
+
+	public void fixDuplicateIDs() {
+		ArrayList<String> ids = new ArrayList<String>();
+		List<UseCaseStep> steps = getSteps(usecase.getMainScenario());
+		for (UseCaseStep s : steps) {
+			System.out.println(ids.contains(s.getID()));
+			if (ids.contains(s.getID()))
+				s.setID(EcoreUtil.generateUUID());
+			ids.add(s.getID());
+		}
 	}
 
 	// global actions for toolbar contribution
@@ -255,7 +328,8 @@ public class UseCaseEditor extends EditorPart implements ITabbedPropertySheetPag
 	public static UseCaseEditor getActiveUseCaseEditor() {
 		IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
 		IWorkbenchPage page = window.getActivePage();
-
+		if (page == null)
+			return null;
 		IEditorPart editor = page.getActiveEditor();
 		if (editor != null && editor instanceof UseCaseEditor)
 			return (UseCaseEditor) editor;
@@ -370,6 +444,9 @@ public class UseCaseEditor extends EditorPart implements ITabbedPropertySheetPag
 				if (selection == null)
 					return;
 				showSelectedStep();
+				
+				//if (getSelectedStep() != null)
+				//	System.out.println("step ID: "+getSelectedStep().getID());
 				
 				String raw;
 				if (selection instanceof UseCaseStep)
@@ -663,6 +740,43 @@ public class UseCaseEditor extends EditorPart implements ITabbedPropertySheetPag
 	
 	private void initializeSentenceEditor() {
 		StyledText styledText = sentenceText.getTextWidget();
+		
+		Menu menu = new Menu(styledText);
+		styledText.setMenu(menu);
+		
+		MenuItem mntmInsertStep = new MenuItem(menu, SWT.CASCADE);
+		mntmInsertStep.setText("Insert step reference");
+		
+		insertStepMenu = new Menu(mntmInsertStep);
+		mntmInsertStep.setMenu(insertStepMenu);
+		
+		insertStepMenu.addListener(SWT.Show, new Listener() {
+			@Override
+			public void handleEvent(Event event) {
+				for (MenuItem i : insertStepMenu.getItems())
+					i.dispose();
+				List<UseCaseStep> steps = getSteps(usecase.getMainScenario());
+				for (UseCaseStep s : steps) {
+					MenuItem m = new MenuItem(insertStepMenu, SWT.PUSH);
+					m.setText(s.getLabel());
+					m.addSelectionListener(new SelectionAdapter() {
+						@Override
+						public void widgetSelected(SelectionEvent e) {
+							MenuItem i = (MenuItem)e.widget;
+							UseCaseStep step = findStepByLabel(usecase.getMainScenario(), i.getText());
+							int start = sentenceText.getTextWidget().getCaretOffset();
+							try {
+								sentenceDoc.doc.replace(start, 0, step.getLabel());
+							} catch (BadLocationException e1) {
+								e1.printStackTrace();
+							}
+							Annotation a = new Annotation(ANNOTATION_TYPE_STEP, false, step.getID());
+							sentenceDoc.model.addAnnotation(a, new Position(start, step.getLabel().length()));
+						}
+					});
+				}
+			}
+		});
 		styledText.addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusLost(FocusEvent e) {
@@ -675,6 +789,7 @@ public class UseCaseEditor extends EditorPart implements ITabbedPropertySheetPag
 					if (! step.getSentence().equals(newText)) {
 						saveUndoState();
 						step.setSentence(newText);
+						setDirty();
 					}
 				} else if (selected instanceof Scenario) {
 					Scenario scen = (Scenario)selected;
@@ -683,9 +798,9 @@ public class UseCaseEditor extends EditorPart implements ITabbedPropertySheetPag
 					if (! scen.getDescription().equals(newText)) {
 						saveUndoState();
 						scen.setDescription(newText);
+						setDirty();
 					}
 				}
-				treeViewer.refresh();
 			}
 		});
 		sentenceText.configure(new SourceViewerConfiguration());
@@ -698,6 +813,35 @@ public class UseCaseEditor extends EditorPart implements ITabbedPropertySheetPag
 		ap.setAnnotationType(ANNOTATION_TYPE_STEP);
 		svds.setAnnotationPreference(ap);
 		svds.install(EditorsPlugin.getDefault().getPreferenceStore());
+	}
+	
+	private List<UseCaseStep> getSteps(Scenario scen) {
+		ArrayList<UseCaseStep> res = new ArrayList<UseCaseStep>();
+		for (UseCaseStep step : scen.getSteps()) {
+			res.add(step);
+			for (Scenario s : step.getVariation())
+				res.addAll(getSteps(s));
+			for (Scenario s : step.getExtension())
+				res.addAll(getSteps(s));
+		}
+		return res;
+	}
+	
+	private UseCaseStep findStepByLabel(Scenario scen, String label) {
+		for (UseCaseStep step : scen.getSteps()) {
+			if (step.getLabel().equals(label))
+				return step;
+			UseCaseStep found = null;
+			for (Scenario s : step.getVariation())
+				found = findStepByLabel(s, label);
+			if (found != null)
+				return found;
+			for (Scenario s : step.getExtension())
+				found = findStepByLabel(s, label);
+			if (found != null)
+				return found;
+		}
+		return null;
 	}
 
 	private void initializeGlobalActions() {
@@ -837,10 +981,40 @@ public class UseCaseEditor extends EditorPart implements ITabbedPropertySheetPag
 		return getSite().getId();
 	}
 	
+	public UseCaseStep getStepByID(String id) {
+		return searchForID(usecase.getMainScenario(), id);
+	}
+	public static UseCaseStep getStepByID(UseCase uc, String id) {
+		return searchForID(uc.getMainScenario(), id);
+	}
+	private static UseCaseStep searchForID(Scenario root, String id) {
+		for (UseCaseStep step : root.getSteps()) {
+			if (step.getID().equals(id))
+				return step;
+			ArrayList<Scenario> children = new ArrayList<Scenario>();
+			children.addAll(step.getExtension());
+			children.addAll(step.getVariation());
+			for (Scenario s : children) {
+				UseCaseStep res = searchForID(s, id);
+				if (res != null)
+					return res;
+			}
+		}
+		return null;
+	}
+	
 	public List<Actor> getProjectActors() {
 		if (usecase.getEnclosingProject() != null)
 			return usecase.getEnclosingProject().getActors();
 		else
 			return new ArrayList<Actor>();
+	}
+	
+	public static UseCase getUseCase(UseCaseStep step) {
+		EObject c = step;
+		while (c != null && !(c instanceof UseCase)) {
+			c = c.eContainer();
+		}
+		return (UseCase)c;
 	}
 }

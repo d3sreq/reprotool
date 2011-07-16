@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.jface.text.Document;
+import org.eclipse.jface.text.source.AnnotationModel;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;
@@ -111,7 +113,13 @@ public class UseCaseStepTreeProvider implements ITreeContentProvider, ITableLabe
 
 		@Override
 		public String getSentenceColumn() {
-			return step.getSentence();
+			if (step.getSentence().contains("##")) {
+				Document d = new Document(step.getSentence());
+				UseCaseEditor.parseSentence(d, new AnnotationModel(), UseCaseEditor.getUseCase(step));
+				return d.get();
+			}
+			else
+				return step.getSentence();
 		}
 
 		@Override

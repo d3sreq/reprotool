@@ -18,6 +18,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 import reprotool.model.linguistic.SentenceNode;
@@ -39,6 +40,7 @@ import reprotool.model.usecase.UsecasePackage;
  *   <li>{@link reprotool.model.usecase.impl.UseCaseStepImpl#getVariation <em>Variation</em>}</li>
  *   <li>{@link reprotool.model.usecase.impl.UseCaseStepImpl#getSentence <em>Sentence</em>}</li>
  *   <li>{@link reprotool.model.usecase.impl.UseCaseStepImpl#getParsedSentence <em>Parsed Sentence</em>}</li>
+ *   <li>{@link reprotool.model.usecase.impl.UseCaseStepImpl#getID <em>ID</em>}</li>
  * </ul>
  * </p>
  *
@@ -106,12 +108,33 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 	protected SentenceNode parsedSentence;
 
 	/**
+	 * The default value of the '{@link #getID() <em>ID</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * @see #getID()
 	 * @generated
+	 * @ordered
+	 */
+	protected static final String ID_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getID() <em>ID</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getID()
+	 * @generated
+	 * @ordered
+	 */
+	protected String id = ID_EDEFAULT;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
 	 */
 	protected UseCaseStepImpl() {
 		super();
+		setID(EcoreUtil.generateUUID());
 	}
 
 	/**
@@ -205,7 +228,9 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 			s.append((char)('a'+idx));
 		} else if (item instanceof UseCaseStep) {
 			Scenario parent = (Scenario)item.eContainer();
-			s.append(parent.getSteps().indexOf(item)+1);
+			int idx = parent.getSteps().indexOf(item);
+			if (idx != 0 || parent.eContainer() instanceof UseCase)
+				s.append(idx+1);
 		}
 		return s.toString();
 	}
@@ -258,6 +283,27 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public String getID() {
+		return id;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setID(String newID) {
+		String oldID = id;
+		id = newID;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, UsecasePackage.USE_CASE_STEP__ID, oldID, id));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -289,6 +335,8 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 				return getSentence();
 			case UsecasePackage.USE_CASE_STEP__PARSED_SENTENCE:
 				return getParsedSentence();
+			case UsecasePackage.USE_CASE_STEP__ID:
+				return getID();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -320,6 +368,9 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 			case UsecasePackage.USE_CASE_STEP__PARSED_SENTENCE:
 				setParsedSentence((SentenceNode)newValue);
 				return;
+			case UsecasePackage.USE_CASE_STEP__ID:
+				setID((String)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -347,6 +398,9 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 			case UsecasePackage.USE_CASE_STEP__PARSED_SENTENCE:
 				setParsedSentence((SentenceNode)null);
 				return;
+			case UsecasePackage.USE_CASE_STEP__ID:
+				setID(ID_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -369,6 +423,8 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 				return SENTENCE_EDEFAULT == null ? sentence != null : !SENTENCE_EDEFAULT.equals(sentence);
 			case UsecasePackage.USE_CASE_STEP__PARSED_SENTENCE:
 				return parsedSentence != null;
+			case UsecasePackage.USE_CASE_STEP__ID:
+				return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -385,6 +441,8 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (Sentence: ");
 		result.append(sentence);
+		result.append(", ID: ");
+		result.append(id);
 		result.append(')');
 		return result.toString();
 	}
