@@ -69,6 +69,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory;
+import org.eclipse.ui.handlers.IHandlerActivation;
 import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.ui.internal.editors.text.EditorsPlugin;
 import org.eclipse.ui.part.EditorPart;
@@ -247,6 +248,7 @@ public class UseCaseEditor extends EditorPart implements ITabbedPropertySheetPag
 	public Clipboard getClipboard() {
 		return clipboard;
 	}
+	private IHandlerActivation[] clipboardHandlers;
 
 	public void fixDuplicateIDs() {
 		ArrayList<String> ids = new ArrayList<String>();
@@ -611,10 +613,8 @@ public class UseCaseEditor extends EditorPart implements ITabbedPropertySheetPag
 		bars.setGlobalActionHandler(ActionFactory.UNDO.getId(), undoAction);
 		bars.setGlobalActionHandler(ActionFactory.REDO.getId(), redoAction);
 		
-		IHandlerService hs = (IHandlerService) getSite().getService(IHandlerService.class);
-		hs.activateHandler("org.eclipse.ui.edit.copy", new ClipboardHandler());
-		hs.activateHandler("org.eclipse.ui.edit.cut", new ClipboardHandler());
-		hs.activateHandler("org.eclipse.ui.edit.paste", new ClipboardHandler());
+		clipboardHandlers = new IHandlerActivation[3];
+		activateClipboard();
 
 		setTitle();
 
@@ -622,6 +622,19 @@ public class UseCaseEditor extends EditorPart implements ITabbedPropertySheetPag
 		treeViewer.setInput(usecase);
 	}
 	
+	private void activateClipboard() {
+		IHandlerService hs = (IHandlerService) getSite().getService(IHandlerService.class);
+		clipboardHandlers[0] = hs.activateHandler("org.eclipse.ui.edit.copy", new ClipboardHandler());
+		clipboardHandlers[1] = hs.activateHandler("org.eclipse.ui.edit.cut", new ClipboardHandler());
+		clipboardHandlers[2] = hs.activateHandler("org.eclipse.ui.edit.paste", new ClipboardHandler());
+	}
+	
+	private void deactivateClipboard() {
+		IHandlerService hs = (IHandlerService) getSite().getService(IHandlerService.class);
+		for (int i = 0; i < 3; ++i)
+			hs.deactivateHandler(clipboardHandlers[i]);
+	}
+
 	private void initializeDragAndDrop() {
 		Transfer[] types = new Transfer[] { LocalSelectionTransfer.getTransfer() };
 		int operations = DND.DROP_MOVE;
@@ -778,7 +791,12 @@ public class UseCaseEditor extends EditorPart implements ITabbedPropertySheetPag
 		});
 		styledText.addFocusListener(new FocusAdapter() {
 			@Override
+			public void focusGained(FocusEvent e) {
+				deactivateClipboard();
+			}
+			@Override
 			public void focusLost(FocusEvent e) {
+				activateClipboard();
 				Object selected = getSelectedObject();
 				String newText = sentenceDoc.getAnnotatedText();
 				if (selected instanceof UseCaseStep) {
