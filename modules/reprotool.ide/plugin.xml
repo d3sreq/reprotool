@@ -363,10 +363,25 @@
             highlightPreferenceKey="tagHighlight"
             highlightPreferenceValue="true"
             includeOnPreferencePage="true"
-            label="Reprotool tag annotation"
+            label="Reprotool use case step reference annotation"
             overviewRulerPreferenceKey="x"
             overviewRulerPreferenceValue="false"
             textPreferenceKey="tagText"
+            textPreferenceValue="false"
+            verticalRulerPreferenceKey="x"
+            verticalRulerPreferenceValue="false">
+      </specification>
+      <specification
+            annotationType="reprotool.ide.actorLabel"
+            colorPreferenceKey="actorTagColor"
+            colorPreferenceValue="200,180,255"
+            highlightPreferenceKey="actorTagHighlight"
+            highlightPreferenceValue="true"
+            includeOnPreferencePage="true"
+            label="Reprotool actor reference annotation"
+            overviewRulerPreferenceKey="x"
+            overviewRulerPreferenceValue="false"
+            textPreferenceKey="actorTagText"
             textPreferenceValue="false"
             verticalRulerPreferenceKey="x"
             verticalRulerPreferenceValue="false">
@@ -376,6 +391,9 @@
          point="org.eclipse.ui.editors.annotationTypes">
       <type
             name="reprotool.ide.stepLabel">
+      </type>
+      <type
+            name="reprotool.ide.actorLabel">
       </type>
    </extension>
    <extension

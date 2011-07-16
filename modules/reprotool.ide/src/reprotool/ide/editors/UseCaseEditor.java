@@ -99,7 +99,10 @@ public class UseCaseEditor extends EditorPart implements ITabbedPropertySheetPag
 	private ResourceSet resourceSet = null;
 	
 	private Menu insertStepMenu;
+	private Menu insertActorMenu;
 
+	public final static String STEP_ESCAPE_SEQ = "##";
+	public final static String ACTOR_ESCAPE_SEQ = "%%";
 	private TreeViewer treeViewer = null;
 	private SourceViewer sentenceText = null;
 	private AnnotatedDocument sentenceDoc = null;
@@ -135,39 +138,48 @@ public class UseCaseEditor extends EditorPart implements ITabbedPropertySheetPag
 			});
 			StringBuffer sb = new StringBuffer(doc.get());
 			for (Annotation a : anns) {
-				if (!a.getType().equals(ANNOTATION_TYPE_STEP))
-					continue;
 				Position pos = model.getPosition(a);
 				if (pos.length == 0) { // deleted
 					model.removeAnnotation(a);
 					continue;
 				}
-				//System.out.println("substr "+sb.substring(pos.offset, pos.offset+pos.length));
-				sb.replace(pos.offset, pos.offset+pos.length, "##"+a.getText()+"##");
-				//System.out.println("replaced "+a.getText());
+				if (a.getType().equals(ANNOTATION_TYPE_STEP)) {
+					//System.out.println("substr "+sb.substring(pos.offset, pos.offset+pos.length));
+					sb.replace(pos.offset, pos.offset+pos.length, STEP_ESCAPE_SEQ+a.getText()+STEP_ESCAPE_SEQ);
+					//System.out.println("replaced "+a.getText());
+				} else if (a.getText().equals(ANNOTATION_TYPE_ACTOR)) {
+					sb.replace(pos.offset, pos.offset+pos.length, ACTOR_ESCAPE_SEQ+a.getText()+ACTOR_ESCAPE_SEQ);
+				}
 			}
 			return sb.toString();
 		}
 	};
 	// resolves references in sentence tags and creates annotations
 	public static void parseSentence(Document doc, AnnotationModel model, UseCase uc) {
-		Pattern stepRef = Pattern.compile("##(_.+?)##");
+		Pattern stepRef = Pattern.compile(STEP_ESCAPE_SEQ+"(_.+?)"+STEP_ESCAPE_SEQ+"|"+ACTOR_ESCAPE_SEQ+"(.+?)"+ACTOR_ESCAPE_SEQ);
 		Matcher m = stepRef.matcher(doc.get());
 		StringBuffer plain = new StringBuffer();
 		Map<Annotation, Position> annotations = new HashMap<Annotation, Position>();
 		while (m.find()) {
 			// find next step reference
-			String id = m.group(1);
-			// find label of the referenced step
-			UseCaseStep ref = getStepByID(uc, id);
-			String label = "[invalid]";
-			if (ref != null)
-				label = ref.getLabel();
-			// replace the reference with the label
-			m.appendReplacement(plain, label);
-			// add an annotation for the label
-			Annotation a = new Annotation(ANNOTATION_TYPE_STEP, false, id);
-			annotations.put(a, new Position(plain.length()-label.length(), label.length()));
+			if (m.group(1) != null) {
+				String id = m.group(1);
+				// find label of the referenced step
+				UseCaseStep ref = getStepByID(uc, id);
+				String label = "[invalid]";
+				if (ref != null)
+					label = ref.getLabel();
+				// replace the reference with the label
+				m.appendReplacement(plain, label);
+				// add an annotation for the label
+				Annotation a = new Annotation(ANNOTATION_TYPE_STEP, false, id);
+				annotations.put(a, new Position(plain.length()-label.length(), label.length()));
+			} else if (m.group(2) != null) {
+				String name = m.group(2);
+				m.appendReplacement(plain, name);
+				Annotation a = new Annotation(ANNOTATION_TYPE_ACTOR, false, name);
+				annotations.put(a, new Position(plain.length()-name.length(), name.length()));
+			}
 		}
 		m.appendTail(plain);
 		doc.set(plain.toString());
@@ -624,14 +636,15 @@ public class UseCaseEditor extends EditorPart implements ITabbedPropertySheetPag
 	
 	private void activateClipboard() {
 		IHandlerService hs = (IHandlerService) getSite().getService(IHandlerService.class);
-		clipboardHandlers[0] = hs.activateHandler("org.eclipse.ui.edit.copy", new ClipboardHandler());
-		clipboardHandlers[1] = hs.activateHandler("org.eclipse.ui.edit.cut", new ClipboardHandler());
-		clipboardHandlers[2] = hs.activateHandler("org.eclipse.ui.edit.paste", new ClipboardHandler());
+		ClipboardHandler ch = new ClipboardHandler();
+		clipboardHandlers[0] = hs.activateHandler("org.eclipse.ui.edit.copy", ch);
+		clipboardHandlers[1] = hs.activateHandler("org.eclipse.ui.edit.cut", ch);
+		clipboardHandlers[2] = hs.activateHandler("org.eclipse.ui.edit.paste", ch);
 	}
 	
 	private void deactivateClipboard() {
 		IHandlerService hs = (IHandlerService) getSite().getService(IHandlerService.class);
-		for (int i = 0; i < 3; ++i)
+		for (int i = 0; i < clipboardHandlers.length; ++i)
 			hs.deactivateHandler(clipboardHandlers[i]);
 	}
 
@@ -749,6 +762,11 @@ public class UseCaseEditor extends EditorPart implements ITabbedPropertySheetPag
 	private static final String KEY_TAG_COLOR_PREF = "tagColor";
 	private static final String KEY_TAG_HIGHLIGHT_PREF = "tagHighlight";
 	private static final String KEY_TAG_TEXT_PREF = "tagText";
+
+	private static final String ANNOTATION_TYPE_ACTOR = "reprotool.ide.actorLabel";
+	private static final String KEY_TAG_COLOR_PREF_ACTOR = "actorTagColor";
+	private static final String KEY_TAG_HIGHLIGHT_PREF_ACTOR = "actorTagHighlight";
+	private static final String KEY_TAG_TEXT_PREF_ACTOR = "actorTagText";
 	
 	private void initializeSentenceEditor() {
 		StyledText styledText = sentenceText.getTextWidget();
@@ -761,6 +779,39 @@ public class UseCaseEditor extends EditorPart implements ITabbedPropertySheetPag
 		
 		insertStepMenu = new Menu(mntmInsertStep);
 		mntmInsertStep.setMenu(insertStepMenu);
+		
+		MenuItem mntmInsertActor = new MenuItem(menu, SWT.CASCADE);
+		mntmInsertActor.setText("Insert actor reference");
+		
+		insertActorMenu = new Menu(mntmInsertActor);
+		mntmInsertActor.setMenu(insertActorMenu);
+		insertActorMenu.addListener(SWT.Show, new Listener() {
+			@Override
+			public void handleEvent(Event event) {
+				for (MenuItem i : insertStepMenu.getItems())
+					i.dispose();
+				List<Actor> actors = getProjectActors();
+				for (Actor a : actors) {
+					MenuItem m = new MenuItem(insertStepMenu, SWT.PUSH);
+					m.setText(a.getName());
+					m.addSelectionListener(new SelectionAdapter() {
+						@Override
+						public void widgetSelected(SelectionEvent e) {
+							MenuItem i = (MenuItem)e.widget;
+							int start = sentenceText.getTextWidget().getCaretOffset();
+							try {
+								sentenceDoc.doc.replace(start, 0, i.getText());
+							} catch (BadLocationException e1) {
+								// should never happen
+								e1.printStackTrace();
+							}
+							Annotation a = new Annotation(ANNOTATION_TYPE_ACTOR, false, i.getText());
+							sentenceDoc.model.addAnnotation(a, new Position(start, i.getText().length()));
+						}
+					});
+				}
+			}
+		});
 		
 		insertStepMenu.addListener(SWT.Show, new Listener() {
 			@Override
@@ -780,6 +831,7 @@ public class UseCaseEditor extends EditorPart implements ITabbedPropertySheetPag
 							try {
 								sentenceDoc.doc.replace(start, 0, step.getLabel());
 							} catch (BadLocationException e1) {
+								// should never happen
 								e1.printStackTrace();
 							}
 							Annotation a = new Annotation(ANNOTATION_TYPE_STEP, false, step.getID());
@@ -828,6 +880,15 @@ public class UseCaseEditor extends EditorPart implements ITabbedPropertySheetPag
 		ap.setHighlightPreferenceKey(KEY_TAG_HIGHLIGHT_PREF);
 		ap.setTextPreferenceKey(KEY_TAG_TEXT_PREF);
 		ap.setAnnotationType(ANNOTATION_TYPE_STEP);
+		svds.setAnnotationPreference(ap);
+		svds.install(EditorsPlugin.getDefault().getPreferenceStore());
+		
+		svds = new SourceViewerDecorationSupport(sentenceText, null, null, EditorsPlugin.getDefault().getSharedTextColors());
+		ap = new AnnotationPreference();
+		ap.setColorPreferenceKey(KEY_TAG_COLOR_PREF_ACTOR);
+		ap.setHighlightPreferenceKey(KEY_TAG_HIGHLIGHT_PREF_ACTOR);
+		ap.setTextPreferenceKey(KEY_TAG_TEXT_PREF_ACTOR);
+		ap.setAnnotationType(ANNOTATION_TYPE_ACTOR);
 		svds.setAnnotationPreference(ap);
 		svds.install(EditorsPlugin.getDefault().getPreferenceStore());
 	}
