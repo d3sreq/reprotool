@@ -252,7 +252,6 @@ public class UseCaseEditor extends EditorPart implements ITabbedPropertySheetPag
 		ArrayList<String> ids = new ArrayList<String>();
 		List<UseCaseStep> steps = getSteps(usecase.getMainScenario());
 		for (UseCaseStep s : steps) {
-			System.out.println(ids.contains(s.getID()));
 			if (ids.contains(s.getID()))
 				s.setID(EcoreUtil.generateUUID());
 			ids.add(s.getID());
