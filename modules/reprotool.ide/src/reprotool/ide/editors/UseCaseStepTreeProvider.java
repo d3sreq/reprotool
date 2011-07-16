@@ -113,13 +113,7 @@ public class UseCaseStepTreeProvider implements ITreeContentProvider, ITableLabe
 
 		@Override
 		public String getSentenceColumn() {
-			if (step.getSentence().contains(UseCaseEditor.ACTOR_ESCAPE_SEQ) || step.getSentence().contains(UseCaseEditor.STEP_ESCAPE_SEQ)) {
-				Document d = new Document(step.getSentence());
-				UseCaseEditor.parseSentence(d, new AnnotationModel(), UseCaseEditor.getUseCase(step));
-				return d.get();
-			}
-			else
-				return step.getSentence();
+			return UseCaseEditor.getPlainSentence(step);
 		}
 
 		@Override

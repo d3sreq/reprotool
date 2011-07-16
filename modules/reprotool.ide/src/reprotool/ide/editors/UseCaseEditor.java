@@ -187,9 +187,14 @@ public class UseCaseEditor extends EditorPart implements ITabbedPropertySheetPag
 			model.addAnnotation(key, annotations.get(key));
 	}
 	
-	public String getPlainSentence(UseCaseStep step) {
-		AnnotatedDocument d = new AnnotatedDocument(step.getSentence());
-		return d.getPlainText();
+	public static String getPlainSentence(UseCaseStep step) {
+		if (step.getSentence().contains(UseCaseEditor.ACTOR_ESCAPE_SEQ) || step.getSentence().contains(UseCaseEditor.STEP_ESCAPE_SEQ)) {
+			Document d = new Document(step.getSentence());
+			UseCaseEditor.parseSentence(d, new AnnotationModel(), UseCaseEditor.getUseCase(step));
+			return d.get();
+		}
+		else
+			return step.getSentence();
 	}
 
 	private boolean dirty = false;
@@ -845,9 +850,15 @@ public class UseCaseEditor extends EditorPart implements ITabbedPropertySheetPag
 			@Override
 			public void focusGained(FocusEvent e) {
 				deactivateClipboard();
+				if (getSelectedObject() instanceof Scenario) {
+					insertActorMenu.setEnabled(false);
+					insertStepMenu.setEnabled(false);
+				}
 			}
 			@Override
 			public void focusLost(FocusEvent e) {
+				insertActorMenu.setEnabled(true);
+				insertStepMenu.setEnabled(true);
 				activateClipboard();
 				Object selected = getSelectedObject();
 				String newText = sentenceDoc.getAnnotatedText();
