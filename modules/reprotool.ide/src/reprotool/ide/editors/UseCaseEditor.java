@@ -147,16 +147,38 @@ public class UseCaseEditor extends EditorPart implements ITabbedPropertySheetPag
 					//System.out.println("substr "+sb.substring(pos.offset, pos.offset+pos.length));
 					sb.replace(pos.offset, pos.offset+pos.length, STEP_ESCAPE_SEQ+a.getText()+STEP_ESCAPE_SEQ);
 					//System.out.println("replaced "+a.getText());
-				} else if (a.getText().equals(ANNOTATION_TYPE_ACTOR)) {
+				} else if (a.getType().equals(ANNOTATION_TYPE_ACTOR)) {
 					sb.replace(pos.offset, pos.offset+pos.length, ACTOR_ESCAPE_SEQ+a.getText()+ACTOR_ESCAPE_SEQ);
 				}
 			}
+			
+			sb = replaceImplicitReferences(sb);
 			return sb.toString();
 		}
+		/** Finds substrings like "#1b2" or "step 1b2" and replaces them with annotated references. */
+		private StringBuffer replaceImplicitReferences(StringBuffer sb) {
+			StringBuffer res = new StringBuffer();
+			Pattern stepRef = Pattern.compile("#((?:[1-9]+[a-z]?)+[1-9]?)|step ((?:[1-9]+[a-z]?)+[1-9]?)");
+			Matcher m = stepRef.matcher(sb);
+			while (m.find()) {
+				if (m.group(1) != null) {
+					UseCaseStep step = findStepByLabel(usecase.getMainScenario(), m.group(1));
+					if (step != null)
+						m.appendReplacement(res, STEP_ESCAPE_SEQ+step.getID()+STEP_ESCAPE_SEQ);
+				} else if (m.group(2) != null) {
+					UseCaseStep step = findStepByLabel(usecase.getMainScenario(), m.group(2));
+					if (step != null)
+						m.appendReplacement(res, "step "+STEP_ESCAPE_SEQ+step.getID()+STEP_ESCAPE_SEQ);
+				}
+			}
+			m.appendTail(res);
+			
+			return res;
+		}
 	};
-	// resolves references in sentence tags and creates annotations
+	/** Resolves references in sentence tags and creates annotations */
 	public static void parseSentence(Document doc, AnnotationModel model, UseCase uc) {
-		Pattern stepRef = Pattern.compile(STEP_ESCAPE_SEQ+"(_.+?)"+STEP_ESCAPE_SEQ+"|"+ACTOR_ESCAPE_SEQ+"(.+?)"+ACTOR_ESCAPE_SEQ);
+		Pattern stepRef = Pattern.compile(STEP_ESCAPE_SEQ+"(_[^\\s]+?)"+STEP_ESCAPE_SEQ+"|"+ACTOR_ESCAPE_SEQ+"(.+?)"+ACTOR_ESCAPE_SEQ);
 		Matcher m = stepRef.matcher(doc.get());
 		StringBuffer plain = new StringBuffer();
 		Map<Annotation, Position> annotations = new HashMap<Annotation, Position>();

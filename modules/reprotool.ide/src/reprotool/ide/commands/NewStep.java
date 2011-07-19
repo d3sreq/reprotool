@@ -36,8 +36,8 @@ public class NewStep extends AbstractHandler {
 			parent.getSteps().add(parent.getSteps().indexOf(selected)+1, newStep);
 		} else if (selected instanceof Scenario) {
 			Scenario scen = (Scenario)selected;
-			// add new step to the beginning
-			scen.getSteps().add(0, newStep);
+			// add new step to the end
+			scen.getSteps().add(newStep);
 		}
 		editor.setDirty();
 		editor.setSelection(newStep);
