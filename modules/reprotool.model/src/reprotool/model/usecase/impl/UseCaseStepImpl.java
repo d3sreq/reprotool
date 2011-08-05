@@ -22,6 +22,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 import reprotool.model.linguistic.SentenceNode;
+import reprotool.model.linguistic.SentencePart;
 import reprotool.model.swproj.Requirement;
 import reprotool.model.usecase.Scenario;
 import reprotool.model.usecase.UseCase;
@@ -41,6 +42,7 @@ import reprotool.model.usecase.UsecasePackage;
  *   <li>{@link reprotool.model.usecase.impl.UseCaseStepImpl#getSentence <em>Sentence</em>}</li>
  *   <li>{@link reprotool.model.usecase.impl.UseCaseStepImpl#getParsedSentence <em>Parsed Sentence</em>}</li>
  *   <li>{@link reprotool.model.usecase.impl.UseCaseStepImpl#getID <em>ID</em>}</li>
+ *   <li>{@link reprotool.model.usecase.impl.UseCaseStepImpl#getSentenceNodes <em>Sentence Nodes</em>}</li>
  * </ul>
  * </p>
  *
@@ -126,6 +128,16 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 	 * @ordered
 	 */
 	protected String id = ID_EDEFAULT;
+
+	/**
+	 * The cached value of the '{@link #getSentenceNodes() <em>Sentence Nodes</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getSentenceNodes()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<SentencePart> sentenceNodes;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -304,6 +316,18 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList<SentencePart> getSentenceNodes() {
+		if (sentenceNodes == null) {
+			sentenceNodes = new EObjectContainmentEList<SentencePart>(SentencePart.class, this, UsecasePackage.USE_CASE_STEP__SENTENCE_NODES);
+		}
+		return sentenceNodes;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -313,6 +337,8 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 				return ((InternalEList<?>)getVariation()).basicRemove(otherEnd, msgs);
 			case UsecasePackage.USE_CASE_STEP__PARSED_SENTENCE:
 				return basicSetParsedSentence(null, msgs);
+			case UsecasePackage.USE_CASE_STEP__SENTENCE_NODES:
+				return ((InternalEList<?>)getSentenceNodes()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -337,6 +363,8 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 				return getParsedSentence();
 			case UsecasePackage.USE_CASE_STEP__ID:
 				return getID();
+			case UsecasePackage.USE_CASE_STEP__SENTENCE_NODES:
+				return getSentenceNodes();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -371,6 +399,10 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 			case UsecasePackage.USE_CASE_STEP__ID:
 				setID((String)newValue);
 				return;
+			case UsecasePackage.USE_CASE_STEP__SENTENCE_NODES:
+				getSentenceNodes().clear();
+				getSentenceNodes().addAll((Collection<? extends SentencePart>)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -401,6 +433,9 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 			case UsecasePackage.USE_CASE_STEP__ID:
 				setID(ID_EDEFAULT);
 				return;
+			case UsecasePackage.USE_CASE_STEP__SENTENCE_NODES:
+				getSentenceNodes().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -425,6 +460,8 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 				return parsedSentence != null;
 			case UsecasePackage.USE_CASE_STEP__ID:
 				return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
+			case UsecasePackage.USE_CASE_STEP__SENTENCE_NODES:
+				return sentenceNodes != null && !sentenceNodes.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

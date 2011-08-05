@@ -257,6 +257,247 @@ public interface LinguisticPackage extends EPackage {
 	int PREPOSITIONAL_PHRASE_NODE_FEATURE_COUNT = INNER_PARSE_NODE_FEATURE_COUNT + 0;
 
 	/**
+	 * The meta object id for the '{@link reprotool.model.linguistic.impl.SentencePartImpl <em>Sentence Part</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see reprotool.model.linguistic.impl.SentencePartImpl
+	 * @see reprotool.model.linguistic.impl.LinguisticPackageImpl#getSentencePart()
+	 * @generated
+	 */
+	int SENTENCE_PART = 7;
+
+	/**
+	 * The feature id for the '<em><b>Content</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SENTENCE_PART__CONTENT = 0;
+
+	/**
+	 * The number of structural features of the '<em>Sentence Part</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SENTENCE_PART_FEATURE_COUNT = 1;
+
+	/**
+	 * The meta object id for the '{@link reprotool.model.linguistic.impl.TextImpl <em>Text</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see reprotool.model.linguistic.impl.TextImpl
+	 * @see reprotool.model.linguistic.impl.LinguisticPackageImpl#getText()
+	 * @generated
+	 */
+	int TEXT = 8;
+
+	/**
+	 * The feature id for the '<em><b>Content</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEXT__CONTENT = SENTENCE_PART__CONTENT;
+
+	/**
+	 * The number of structural features of the '<em>Text</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEXT_FEATURE_COUNT = SENTENCE_PART_FEATURE_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link reprotool.model.linguistic.impl.SubjectImpl <em>Subject</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see reprotool.model.linguistic.impl.SubjectImpl
+	 * @see reprotool.model.linguistic.impl.LinguisticPackageImpl#getSubject()
+	 * @generated
+	 */
+	int SUBJECT = 9;
+
+	/**
+	 * The feature id for the '<em><b>Content</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SUBJECT__CONTENT = SENTENCE_PART__CONTENT;
+
+	/**
+	 * The feature id for the '<em><b>Actor</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SUBJECT__ACTOR = SENTENCE_PART_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Subject</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SUBJECT_FEATURE_COUNT = SENTENCE_PART_FEATURE_COUNT + 1;
+
+	/**
+	 * The meta object id for the '{@link reprotool.model.linguistic.impl.GotoTargetImpl <em>Goto Target</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see reprotool.model.linguistic.impl.GotoTargetImpl
+	 * @see reprotool.model.linguistic.impl.LinguisticPackageImpl#getGotoTarget()
+	 * @generated
+	 */
+	int GOTO_TARGET = 10;
+
+	/**
+	 * The feature id for the '<em><b>Content</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GOTO_TARGET__CONTENT = SENTENCE_PART__CONTENT;
+
+	/**
+	 * The feature id for the '<em><b>Target</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GOTO_TARGET__TARGET = SENTENCE_PART_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Goto Target</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GOTO_TARGET_FEATURE_COUNT = SENTENCE_PART_FEATURE_COUNT + 1;
+
+	/**
+	 * The meta object id for the '{@link reprotool.model.linguistic.impl.SentenceObjectImpl <em>Sentence Object</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see reprotool.model.linguistic.impl.SentenceObjectImpl
+	 * @see reprotool.model.linguistic.impl.LinguisticPackageImpl#getSentenceObject()
+	 * @generated
+	 */
+	int SENTENCE_OBJECT = 11;
+
+	/**
+	 * The feature id for the '<em><b>Content</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SENTENCE_OBJECT__CONTENT = SENTENCE_PART__CONTENT;
+
+	/**
+	 * The feature id for the '<em><b>Object</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SENTENCE_OBJECT__OBJECT = SENTENCE_PART_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Sentence Object</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SENTENCE_OBJECT_FEATURE_COUNT = SENTENCE_PART_FEATURE_COUNT + 1;
+
+	/**
+	 * The meta object id for the '{@link reprotool.model.linguistic.impl.RepresentativeObjectImpl <em>Representative Object</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see reprotool.model.linguistic.impl.RepresentativeObjectImpl
+	 * @see reprotool.model.linguistic.impl.LinguisticPackageImpl#getRepresentativeObject()
+	 * @generated
+	 */
+	int REPRESENTATIVE_OBJECT = 12;
+
+	/**
+	 * The feature id for the '<em><b>Content</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REPRESENTATIVE_OBJECT__CONTENT = SENTENCE_OBJECT__CONTENT;
+
+	/**
+	 * The feature id for the '<em><b>Object</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REPRESENTATIVE_OBJECT__OBJECT = SENTENCE_OBJECT__OBJECT;
+
+	/**
+	 * The number of structural features of the '<em>Representative Object</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REPRESENTATIVE_OBJECT_FEATURE_COUNT = SENTENCE_OBJECT_FEATURE_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link reprotool.model.linguistic.impl.IndirectObjectImpl <em>Indirect Object</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see reprotool.model.linguistic.impl.IndirectObjectImpl
+	 * @see reprotool.model.linguistic.impl.LinguisticPackageImpl#getIndirectObject()
+	 * @generated
+	 */
+	int INDIRECT_OBJECT = 13;
+
+	/**
+	 * The feature id for the '<em><b>Content</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INDIRECT_OBJECT__CONTENT = SENTENCE_OBJECT__CONTENT;
+
+	/**
+	 * The feature id for the '<em><b>Object</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INDIRECT_OBJECT__OBJECT = SENTENCE_OBJECT__OBJECT;
+
+	/**
+	 * The number of structural features of the '<em>Indirect Object</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INDIRECT_OBJECT_FEATURE_COUNT = SENTENCE_OBJECT_FEATURE_COUNT + 0;
+
+	/**
 	 * The meta object id for the '{@link reprotool.model.linguistic.EWordType <em>EWord Type</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -264,7 +505,7 @@ public interface LinguisticPackage extends EPackage {
 	 * @see reprotool.model.linguistic.impl.LinguisticPackageImpl#getEWordType()
 	 * @generated
 	 */
-	int EWORD_TYPE = 7;
+	int EWORD_TYPE = 14;
 
 
 	/**
@@ -369,6 +610,120 @@ public interface LinguisticPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getInnerParseNode_ChildNodes();
+
+	/**
+	 * Returns the meta object for class '{@link reprotool.model.linguistic.SentencePart <em>Sentence Part</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Sentence Part</em>'.
+	 * @see reprotool.model.linguistic.SentencePart
+	 * @generated
+	 */
+	EClass getSentencePart();
+
+	/**
+	 * Returns the meta object for the attribute '{@link reprotool.model.linguistic.SentencePart#getContent <em>Content</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Content</em>'.
+	 * @see reprotool.model.linguistic.SentencePart#getContent()
+	 * @see #getSentencePart()
+	 * @generated
+	 */
+	EAttribute getSentencePart_Content();
+
+	/**
+	 * Returns the meta object for class '{@link reprotool.model.linguistic.Text <em>Text</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Text</em>'.
+	 * @see reprotool.model.linguistic.Text
+	 * @generated
+	 */
+	EClass getText();
+
+	/**
+	 * Returns the meta object for class '{@link reprotool.model.linguistic.Subject <em>Subject</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Subject</em>'.
+	 * @see reprotool.model.linguistic.Subject
+	 * @generated
+	 */
+	EClass getSubject();
+
+	/**
+	 * Returns the meta object for the reference '{@link reprotool.model.linguistic.Subject#getActor <em>Actor</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Actor</em>'.
+	 * @see reprotool.model.linguistic.Subject#getActor()
+	 * @see #getSubject()
+	 * @generated
+	 */
+	EReference getSubject_Actor();
+
+	/**
+	 * Returns the meta object for class '{@link reprotool.model.linguistic.GotoTarget <em>Goto Target</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Goto Target</em>'.
+	 * @see reprotool.model.linguistic.GotoTarget
+	 * @generated
+	 */
+	EClass getGotoTarget();
+
+	/**
+	 * Returns the meta object for the reference '{@link reprotool.model.linguistic.GotoTarget#getTarget <em>Target</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Target</em>'.
+	 * @see reprotool.model.linguistic.GotoTarget#getTarget()
+	 * @see #getGotoTarget()
+	 * @generated
+	 */
+	EReference getGotoTarget_Target();
+
+	/**
+	 * Returns the meta object for class '{@link reprotool.model.linguistic.SentenceObject <em>Sentence Object</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Sentence Object</em>'.
+	 * @see reprotool.model.linguistic.SentenceObject
+	 * @generated
+	 */
+	EClass getSentenceObject();
+
+	/**
+	 * Returns the meta object for the reference '{@link reprotool.model.linguistic.SentenceObject#getObject <em>Object</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Object</em>'.
+	 * @see reprotool.model.linguistic.SentenceObject#getObject()
+	 * @see #getSentenceObject()
+	 * @generated
+	 */
+	EReference getSentenceObject_Object();
+
+	/**
+	 * Returns the meta object for class '{@link reprotool.model.linguistic.RepresentativeObject <em>Representative Object</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Representative Object</em>'.
+	 * @see reprotool.model.linguistic.RepresentativeObject
+	 * @generated
+	 */
+	EClass getRepresentativeObject();
+
+	/**
+	 * Returns the meta object for class '{@link reprotool.model.linguistic.IndirectObject <em>Indirect Object</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Indirect Object</em>'.
+	 * @see reprotool.model.linguistic.IndirectObject
+	 * @generated
+	 */
+	EClass getIndirectObject();
 
 	/**
 	 * Returns the meta object for enum '{@link reprotool.model.linguistic.EWordType <em>EWord Type</em>}'.
@@ -495,6 +850,108 @@ public interface LinguisticPackage extends EPackage {
 		 * @generated
 		 */
 		EReference INNER_PARSE_NODE__CHILD_NODES = eINSTANCE.getInnerParseNode_ChildNodes();
+
+		/**
+		 * The meta object literal for the '{@link reprotool.model.linguistic.impl.SentencePartImpl <em>Sentence Part</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see reprotool.model.linguistic.impl.SentencePartImpl
+		 * @see reprotool.model.linguistic.impl.LinguisticPackageImpl#getSentencePart()
+		 * @generated
+		 */
+		EClass SENTENCE_PART = eINSTANCE.getSentencePart();
+
+		/**
+		 * The meta object literal for the '<em><b>Content</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SENTENCE_PART__CONTENT = eINSTANCE.getSentencePart_Content();
+
+		/**
+		 * The meta object literal for the '{@link reprotool.model.linguistic.impl.TextImpl <em>Text</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see reprotool.model.linguistic.impl.TextImpl
+		 * @see reprotool.model.linguistic.impl.LinguisticPackageImpl#getText()
+		 * @generated
+		 */
+		EClass TEXT = eINSTANCE.getText();
+
+		/**
+		 * The meta object literal for the '{@link reprotool.model.linguistic.impl.SubjectImpl <em>Subject</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see reprotool.model.linguistic.impl.SubjectImpl
+		 * @see reprotool.model.linguistic.impl.LinguisticPackageImpl#getSubject()
+		 * @generated
+		 */
+		EClass SUBJECT = eINSTANCE.getSubject();
+
+		/**
+		 * The meta object literal for the '<em><b>Actor</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SUBJECT__ACTOR = eINSTANCE.getSubject_Actor();
+
+		/**
+		 * The meta object literal for the '{@link reprotool.model.linguistic.impl.GotoTargetImpl <em>Goto Target</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see reprotool.model.linguistic.impl.GotoTargetImpl
+		 * @see reprotool.model.linguistic.impl.LinguisticPackageImpl#getGotoTarget()
+		 * @generated
+		 */
+		EClass GOTO_TARGET = eINSTANCE.getGotoTarget();
+
+		/**
+		 * The meta object literal for the '<em><b>Target</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference GOTO_TARGET__TARGET = eINSTANCE.getGotoTarget_Target();
+
+		/**
+		 * The meta object literal for the '{@link reprotool.model.linguistic.impl.SentenceObjectImpl <em>Sentence Object</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see reprotool.model.linguistic.impl.SentenceObjectImpl
+		 * @see reprotool.model.linguistic.impl.LinguisticPackageImpl#getSentenceObject()
+		 * @generated
+		 */
+		EClass SENTENCE_OBJECT = eINSTANCE.getSentenceObject();
+
+		/**
+		 * The meta object literal for the '<em><b>Object</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SENTENCE_OBJECT__OBJECT = eINSTANCE.getSentenceObject_Object();
+
+		/**
+		 * The meta object literal for the '{@link reprotool.model.linguistic.impl.RepresentativeObjectImpl <em>Representative Object</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see reprotool.model.linguistic.impl.RepresentativeObjectImpl
+		 * @see reprotool.model.linguistic.impl.LinguisticPackageImpl#getRepresentativeObject()
+		 * @generated
+		 */
+		EClass REPRESENTATIVE_OBJECT = eINSTANCE.getRepresentativeObject();
+
+		/**
+		 * The meta object literal for the '{@link reprotool.model.linguistic.impl.IndirectObjectImpl <em>Indirect Object</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see reprotool.model.linguistic.impl.IndirectObjectImpl
+		 * @see reprotool.model.linguistic.impl.LinguisticPackageImpl#getIndirectObject()
+		 * @generated
+		 */
+		EClass INDIRECT_OBJECT = eINSTANCE.getIndirectObject();
 
 		/**
 		 * The meta object literal for the '{@link reprotool.model.linguistic.EWordType <em>EWord Type</em>}' enum.

@@ -199,13 +199,22 @@ public interface UsecasePackage extends EPackage {
 	int USE_CASE_STEP__ID = SwprojPackage.REQ_COVER_FEATURE_COUNT + 4;
 
 	/**
+	 * The feature id for the '<em><b>Sentence Nodes</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int USE_CASE_STEP__SENTENCE_NODES = SwprojPackage.REQ_COVER_FEATURE_COUNT + 5;
+
+	/**
 	 * The number of structural features of the '<em>Use Case Step</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int USE_CASE_STEP_FEATURE_COUNT = SwprojPackage.REQ_COVER_FEATURE_COUNT + 5;
+	int USE_CASE_STEP_FEATURE_COUNT = SwprojPackage.REQ_COVER_FEATURE_COUNT + 6;
 
 	/**
 	 * The meta object id for the '{@link reprotool.model.usecase.impl.ScenarioImpl <em>Scenario</em>}' class.
@@ -478,6 +487,17 @@ public interface UsecasePackage extends EPackage {
 	EAttribute getUseCaseStep_ID();
 
 	/**
+	 * Returns the meta object for the containment reference list '{@link reprotool.model.usecase.UseCaseStep#getSentenceNodes <em>Sentence Nodes</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Sentence Nodes</em>'.
+	 * @see reprotool.model.usecase.UseCaseStep#getSentenceNodes()
+	 * @see #getUseCaseStep()
+	 * @generated
+	 */
+	EReference getUseCaseStep_SentenceNodes();
+
+	/**
 	 * Returns the meta object for class '{@link reprotool.model.usecase.Scenario <em>Scenario</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -693,6 +713,14 @@ public interface UsecasePackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute USE_CASE_STEP__ID = eINSTANCE.getUseCaseStep_ID();
+
+		/**
+		 * The meta object literal for the '<em><b>Sentence Nodes</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference USE_CASE_STEP__SENTENCE_NODES = eINSTANCE.getUseCaseStep_SentenceNodes();
 
 		/**
 		 * The meta object literal for the '{@link reprotool.model.usecase.impl.ScenarioImpl <em>Scenario</em>}' class.

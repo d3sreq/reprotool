@@ -51,6 +51,8 @@
           containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="ID" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
           iD="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="sentenceNodes" upperBound="-1"
+          eType="#//linguistic/SentencePart" containment="true"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="Scenario">
       <eOperations name="getInfo" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -135,6 +137,22 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="childNodes" upperBound="-1"
           eType="#//linguistic/ParseNode" containment="true"/>
     </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="SentencePart" abstract="true">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="Content" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Text" eSuperTypes="#//linguistic/SentencePart"/>
+    <eClassifiers xsi:type="ecore:EClass" name="Subject" eSuperTypes="#//linguistic/SentencePart">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="actor" eType="#//swproj/Actor"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="GotoTarget" eSuperTypes="#//linguistic/SentencePart">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#//usecase/UseCaseStep"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="SentenceObject" abstract="true" eSuperTypes="#//linguistic/SentencePart">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="object" eType="#//swproj/Actor"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="RepresentativeObject" eSuperTypes="#//linguistic/SentenceObject"/>
+    <eClassifiers xsi:type="ecore:EClass" name="IndirectObject" eSuperTypes="#//linguistic/SentenceObject"/>
   </eSubpackages>
   <eSubpackages name="ast" nsURI="http://d3s.mff.cuni.cz/reprotool/model/structure/ast"
       nsPrefix="ast">

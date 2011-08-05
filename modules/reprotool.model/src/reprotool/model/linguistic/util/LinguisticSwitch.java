@@ -139,6 +139,56 @@ public class LinguisticSwitch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case LinguisticPackage.SENTENCE_PART: {
+				SentencePart sentencePart = (SentencePart)theEObject;
+				T result = caseSentencePart(sentencePart);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case LinguisticPackage.TEXT: {
+				Text text = (Text)theEObject;
+				T result = caseText(text);
+				if (result == null) result = caseSentencePart(text);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case LinguisticPackage.SUBJECT: {
+				Subject subject = (Subject)theEObject;
+				T result = caseSubject(subject);
+				if (result == null) result = caseSentencePart(subject);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case LinguisticPackage.GOTO_TARGET: {
+				GotoTarget gotoTarget = (GotoTarget)theEObject;
+				T result = caseGotoTarget(gotoTarget);
+				if (result == null) result = caseSentencePart(gotoTarget);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case LinguisticPackage.SENTENCE_OBJECT: {
+				SentenceObject sentenceObject = (SentenceObject)theEObject;
+				T result = caseSentenceObject(sentenceObject);
+				if (result == null) result = caseSentencePart(sentenceObject);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case LinguisticPackage.REPRESENTATIVE_OBJECT: {
+				RepresentativeObject representativeObject = (RepresentativeObject)theEObject;
+				T result = caseRepresentativeObject(representativeObject);
+				if (result == null) result = caseSentenceObject(representativeObject);
+				if (result == null) result = caseSentencePart(representativeObject);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case LinguisticPackage.INDIRECT_OBJECT: {
+				IndirectObject indirectObject = (IndirectObject)theEObject;
+				T result = caseIndirectObject(indirectObject);
+				if (result == null) result = caseSentenceObject(indirectObject);
+				if (result == null) result = caseSentencePart(indirectObject);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			default: return defaultCase(theEObject);
 		}
 	}
@@ -245,6 +295,111 @@ public class LinguisticSwitch<T> {
 	 * @generated
 	 */
 	public T caseInnerParseNode(InnerParseNode object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Sentence Part</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Sentence Part</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseSentencePart(SentencePart object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Text</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Text</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseText(Text object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Subject</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Subject</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseSubject(Subject object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Goto Target</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Goto Target</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseGotoTarget(GotoTarget object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Sentence Object</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Sentence Object</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseSentenceObject(SentenceObject object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Representative Object</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Representative Object</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseRepresentativeObject(RepresentativeObject object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Indirect Object</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Indirect Object</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseIndirectObject(IndirectObject object) {
 		return null;
 	}
 

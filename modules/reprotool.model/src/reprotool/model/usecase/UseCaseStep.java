@@ -10,6 +10,7 @@ import org.eclipse.emf.common.util.EList;
 
 import reprotool.model.linguistic.SentenceNode;
 
+import reprotool.model.linguistic.SentencePart;
 import reprotool.model.swproj.ReqCover;
 
 /**
@@ -25,6 +26,7 @@ import reprotool.model.swproj.ReqCover;
  *   <li>{@link reprotool.model.usecase.UseCaseStep#getSentence <em>Sentence</em>}</li>
  *   <li>{@link reprotool.model.usecase.UseCaseStep#getParsedSentence <em>Parsed Sentence</em>}</li>
  *   <li>{@link reprotool.model.usecase.UseCaseStep#getID <em>ID</em>}</li>
+ *   <li>{@link reprotool.model.usecase.UseCaseStep#getSentenceNodes <em>Sentence Nodes</em>}</li>
  * </ul>
  * </p>
  *
@@ -154,5 +156,21 @@ public interface UseCaseStep extends ReqCover {
 	 * @generated
 	 */
 	void setID(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Sentence Nodes</b></em>' containment reference list.
+	 * The list contents are of type {@link reprotool.model.linguistic.SentencePart}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Sentence Nodes</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Sentence Nodes</em>' containment reference list.
+	 * @see reprotool.model.usecase.UsecasePackage#getUseCaseStep_SentenceNodes()
+	 * @model containment="true"
+	 * @generated
+	 */
+	EList<SentencePart> getSentenceNodes();
 
 } // UseCaseStep
