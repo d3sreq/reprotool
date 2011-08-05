@@ -42,6 +42,7 @@ import reprotool.model.linguistic.SentenceObject;
 import reprotool.model.linguistic.SentencePart;
 import reprotool.model.linguistic.Subject;
 import reprotool.model.linguistic.Text;
+import reprotool.model.linguistic.Verb;
 import reprotool.model.linguistic.VerbPhraseNode;
 import reprotool.model.linguistic.Word;
 
@@ -169,6 +170,13 @@ public class LinguisticPackageImpl extends EPackageImpl implements LinguisticPac
 	 * @generated
 	 */
 	private EClass indirectObjectEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass verbEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -458,6 +466,15 @@ public class LinguisticPackageImpl extends EPackageImpl implements LinguisticPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getVerb() {
+		return verbEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getEWordType() {
 		return eWordTypeEEnum;
 	}
@@ -525,6 +542,8 @@ public class LinguisticPackageImpl extends EPackageImpl implements LinguisticPac
 
 		indirectObjectEClass = createEClass(INDIRECT_OBJECT);
 
+		verbEClass = createEClass(VERB);
+
 		// Create enums
 		eWordTypeEEnum = createEEnum(EWORD_TYPE);
 	}
@@ -573,6 +592,7 @@ public class LinguisticPackageImpl extends EPackageImpl implements LinguisticPac
 		sentenceObjectEClass.getESuperTypes().add(this.getSentencePart());
 		representativeObjectEClass.getESuperTypes().add(this.getSentenceObject());
 		indirectObjectEClass.getESuperTypes().add(this.getSentenceObject());
+		verbEClass.getESuperTypes().add(this.getSentencePart());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(sentenceNodeEClass, SentenceNode.class, "SentenceNode", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -609,6 +629,8 @@ public class LinguisticPackageImpl extends EPackageImpl implements LinguisticPac
 		initEClass(representativeObjectEClass, RepresentativeObject.class, "RepresentativeObject", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(indirectObjectEClass, IndirectObject.class, "IndirectObject", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(verbEClass, Verb.class, "Verb", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		// Initialize enums and add enum literals
 		initEEnum(eWordTypeEEnum, EWordType.class, "EWordType");

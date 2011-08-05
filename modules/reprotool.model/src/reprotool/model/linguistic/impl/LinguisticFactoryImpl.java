@@ -71,6 +71,7 @@ public class LinguisticFactoryImpl extends EFactoryImpl implements LinguisticFac
 			case LinguisticPackage.GOTO_TARGET: return createGotoTarget();
 			case LinguisticPackage.REPRESENTATIVE_OBJECT: return createRepresentativeObject();
 			case LinguisticPackage.INDIRECT_OBJECT: return createIndirectObject();
+			case LinguisticPackage.VERB: return createVerb();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -204,6 +205,16 @@ public class LinguisticFactoryImpl extends EFactoryImpl implements LinguisticFac
 	public IndirectObject createIndirectObject() {
 		IndirectObjectImpl indirectObject = new IndirectObjectImpl();
 		return indirectObject;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Verb createVerb() {
+		VerbImpl verb = new VerbImpl();
+		return verb;
 	}
 
 	/**

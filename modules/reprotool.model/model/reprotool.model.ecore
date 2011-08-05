@@ -153,6 +153,7 @@
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="RepresentativeObject" eSuperTypes="#//linguistic/SentenceObject"/>
     <eClassifiers xsi:type="ecore:EClass" name="IndirectObject" eSuperTypes="#//linguistic/SentenceObject"/>
+    <eClassifiers xsi:type="ecore:EClass" name="Verb" eSuperTypes="#//linguistic/SentencePart"/>
   </eSubpackages>
   <eSubpackages name="ast" nsURI="http://d3s.mff.cuni.cz/reprotool/model/structure/ast"
       nsPrefix="ast">

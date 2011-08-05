@@ -128,6 +128,10 @@ public class LinguisticAdapterFactory extends AdapterFactoryImpl {
 				return createIndirectObjectAdapter();
 			}
 			@Override
+			public Adapter caseVerb(Verb object) {
+				return createVerbAdapter();
+			}
+			@Override
 			public Adapter defaultCase(EObject object) {
 				return createEObjectAdapter();
 			}
@@ -340,6 +344,20 @@ public class LinguisticAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createIndirectObjectAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link reprotool.model.linguistic.Verb <em>Verb</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see reprotool.model.linguistic.Verb
+	 * @generated
+	 */
+	public Adapter createVerbAdapter() {
 		return null;
 	}
 

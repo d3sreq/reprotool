@@ -498,6 +498,34 @@ public interface LinguisticPackage extends EPackage {
 	int INDIRECT_OBJECT_FEATURE_COUNT = SENTENCE_OBJECT_FEATURE_COUNT + 0;
 
 	/**
+	 * The meta object id for the '{@link reprotool.model.linguistic.impl.VerbImpl <em>Verb</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see reprotool.model.linguistic.impl.VerbImpl
+	 * @see reprotool.model.linguistic.impl.LinguisticPackageImpl#getVerb()
+	 * @generated
+	 */
+	int VERB = 14;
+
+	/**
+	 * The feature id for the '<em><b>Content</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VERB__CONTENT = SENTENCE_PART__CONTENT;
+
+	/**
+	 * The number of structural features of the '<em>Verb</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VERB_FEATURE_COUNT = SENTENCE_PART_FEATURE_COUNT + 0;
+
+	/**
 	 * The meta object id for the '{@link reprotool.model.linguistic.EWordType <em>EWord Type</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -505,7 +533,7 @@ public interface LinguisticPackage extends EPackage {
 	 * @see reprotool.model.linguistic.impl.LinguisticPackageImpl#getEWordType()
 	 * @generated
 	 */
-	int EWORD_TYPE = 14;
+	int EWORD_TYPE = 15;
 
 
 	/**
@@ -724,6 +752,16 @@ public interface LinguisticPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getIndirectObject();
+
+	/**
+	 * Returns the meta object for class '{@link reprotool.model.linguistic.Verb <em>Verb</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Verb</em>'.
+	 * @see reprotool.model.linguistic.Verb
+	 * @generated
+	 */
+	EClass getVerb();
 
 	/**
 	 * Returns the meta object for enum '{@link reprotool.model.linguistic.EWordType <em>EWord Type</em>}'.
@@ -952,6 +990,16 @@ public interface LinguisticPackage extends EPackage {
 		 * @generated
 		 */
 		EClass INDIRECT_OBJECT = eINSTANCE.getIndirectObject();
+
+		/**
+		 * The meta object literal for the '{@link reprotool.model.linguistic.impl.VerbImpl <em>Verb</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see reprotool.model.linguistic.impl.VerbImpl
+		 * @see reprotool.model.linguistic.impl.LinguisticPackageImpl#getVerb()
+		 * @generated
+		 */
+		EClass VERB = eINSTANCE.getVerb();
 
 		/**
 		 * The meta object literal for the '{@link reprotool.model.linguistic.EWordType <em>EWord Type</em>}' enum.

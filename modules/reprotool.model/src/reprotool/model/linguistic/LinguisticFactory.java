@@ -116,6 +116,15 @@ public interface LinguisticFactory extends EFactory {
 	IndirectObject createIndirectObject();
 
 	/**
+	 * Returns a new object of class '<em>Verb</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Verb</em>'.
+	 * @generated
+	 */
+	Verb createVerb();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
