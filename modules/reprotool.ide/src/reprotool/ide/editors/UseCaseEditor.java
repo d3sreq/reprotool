@@ -100,7 +100,7 @@ public class UseCaseEditor extends EditorPart implements ITabbedPropertySheetPag
 	
 	public final static String STEP_ESCAPE_SEQ = "##";
 	public final static String ACTOR_ESCAPE_SEQ = "%%";
-	private static TreeViewer treeViewer = null;
+	private TreeViewer treeViewer = null;
 	private Object selectedStep;
 	private SourceViewer sentenceText = null;
 
