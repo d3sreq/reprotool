@@ -2,15 +2,10 @@ package reprotool.ide.editors;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.util.URI;
@@ -21,17 +16,23 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
-import org.eclipse.jface.text.BadLocationException;
+import org.eclipse.jface.bindings.keys.KeyStroke;
+import org.eclipse.jface.bindings.keys.ParseException;
+import org.eclipse.jface.fieldassist.ContentProposalAdapter;
+import org.eclipse.jface.fieldassist.IContentProposalListener2;
+import org.eclipse.jface.fieldassist.IContentProposalProvider;
+import org.eclipse.jface.fieldassist.SimpleContentProposalProvider;
+import org.eclipse.jface.fieldassist.TextContentAdapter;
 import org.eclipse.jface.text.Document;
-import org.eclipse.jface.text.Position;
-import org.eclipse.jface.text.source.Annotation;
-import org.eclipse.jface.text.source.AnnotationModel;
 import org.eclipse.jface.text.source.SourceViewer;
 import org.eclipse.jface.text.source.SourceViewerConfiguration;
 import org.eclipse.jface.util.LocalSelectionTransfer;
+import org.eclipse.jface.viewers.CellEditor;
+import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.jface.viewers.TreePath;
 import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.jface.viewers.TreeViewer;
@@ -54,8 +55,6 @@ import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Tree;
@@ -98,132 +97,21 @@ public class UseCaseEditor extends EditorPart implements ITabbedPropertySheetPag
 
 	private ResourceSet resourceSet = null;
 	
-	private Menu insertStepMenu;
-	private Menu insertActorMenu;
-
 	public final static String STEP_ESCAPE_SEQ = "##";
 	public final static String ACTOR_ESCAPE_SEQ = "%%";
-	private TreeViewer treeViewer = null;
+	private static TreeViewer treeViewer = null;
 	private Object selectedStep;
 	private SourceViewer sentenceText = null;
-	private AnnotatedDocument sentenceDoc = null;
-	public class AnnotatedDocument {
-		private Document doc;
-		private AnnotationModel model;
-		public AnnotatedDocument(String raw) {
-			doc = new Document(raw);
-			model = new AnnotationModel();
-			model.connect(doc);
-			
-			sentenceText.setDocument(doc, model);
-			parseSentence(doc, model, usecase);
-		}
-		public String getPlainText() {
-			return doc.get();
-		}
-		public String getAnnotatedText() {
-			@SuppressWarnings("rawtypes")
-			Iterator i = model.getAnnotationIterator();
-			ArrayList<Annotation> anns = new ArrayList<Annotation>();
-			while (i.hasNext())
-				anns.add((Annotation)i.next());
-			// sort by descending position so we can safely replace from end to beginning
-			Collections.sort(anns, new Comparator<Annotation>() {
-				@Override
-				public int compare(Annotation a, Annotation b) {
-					if (model.getPosition(a).offset < model.getPosition(b).offset)
-						return 1;
-					else
-						return -1;
-				}
-			});
-			StringBuffer sb = new StringBuffer(doc.get());
-			for (Annotation a : anns) {
-				Position pos = model.getPosition(a);
-				if (pos.length == 0) { // deleted
-					model.removeAnnotation(a);
-					continue;
-				}
-				if (a.getType().equals(ANNOTATION_TYPE_STEP)) {
-					//System.out.println("substr "+sb.substring(pos.offset, pos.offset+pos.length));
-					sb.replace(pos.offset, pos.offset+pos.length, STEP_ESCAPE_SEQ+a.getText()+STEP_ESCAPE_SEQ);
-					//System.out.println("replaced "+a.getText());
-				} else if (a.getType().equals(ANNOTATION_TYPE_ACTOR)) {
-					sb.replace(pos.offset, pos.offset+pos.length, ACTOR_ESCAPE_SEQ+a.getText()+ACTOR_ESCAPE_SEQ);
-				}
-			}
-			
-			sb = replaceImplicitReferences(sb);
-			return sb.toString();
-		}
-		/** Finds substrings like "#1b2" or "step 1b2" and replaces them with annotated references. */
-		private StringBuffer replaceImplicitReferences(StringBuffer sb) {
-			StringBuffer res = new StringBuffer();
-			Pattern stepRef = Pattern.compile("#((?:[1-9]+[a-z]?)+[1-9]?)|step ((?:[1-9]+[a-z]?)+[1-9]?)");
-			Matcher m = stepRef.matcher(sb);
-			while (m.find()) {
-				if (m.group(1) != null) {
-					UseCaseStep step = findStepByLabel(usecase.getMainScenario(), m.group(1));
-					if (step != null)
-						m.appendReplacement(res, STEP_ESCAPE_SEQ+step.getID()+STEP_ESCAPE_SEQ);
-				} else if (m.group(2) != null) {
-					UseCaseStep step = findStepByLabel(usecase.getMainScenario(), m.group(2));
-					if (step != null)
-						m.appendReplacement(res, "step "+STEP_ESCAPE_SEQ+step.getID()+STEP_ESCAPE_SEQ);
-				}
-			}
-			m.appendTail(res);
-			
-			return res;
-		}
-	};
-	/** Resolves references in sentence tags and creates annotations */
-	public static void parseSentence(Document doc, AnnotationModel model, UseCase uc) {
-		Pattern stepRef = Pattern.compile(STEP_ESCAPE_SEQ+"(_[^\\s]+?)"+STEP_ESCAPE_SEQ+"|"+ACTOR_ESCAPE_SEQ+"(.+?)"+ACTOR_ESCAPE_SEQ);
-		Matcher m = stepRef.matcher(doc.get());
-		StringBuffer plain = new StringBuffer();
-		Map<Annotation, Position> annotations = new HashMap<Annotation, Position>();
-		while (m.find()) {
-			// find next step reference
-			if (m.group(1) != null) {
-				String id = m.group(1);
-				// find label of the referenced step
-				UseCaseStep ref = getStepByID(uc, id);
-				String label = "[invalid]";
-				if (ref != null)
-					label = ref.getLabel();
-				// replace the reference with the label
-				m.appendReplacement(plain, label);
-				// add an annotation for the label
-				Annotation a = new Annotation(ANNOTATION_TYPE_STEP, false, id);
-				annotations.put(a, new Position(plain.length()-label.length(), label.length()));
-			} else if (m.group(2) != null) {
-				String name = m.group(2);
-				m.appendReplacement(plain, name);
-				Annotation a = new Annotation(ANNOTATION_TYPE_ACTOR, false, name);
-				annotations.put(a, new Position(plain.length()-name.length(), name.length()));
-			}
-		}
-		m.appendTail(plain);
-		doc.set(plain.toString());
-		for (Annotation key : annotations.keySet())
-			model.addAnnotation(key, annotations.get(key));
-	}
-	
-	public static String getPlainSentence(UseCaseStep step) {
-		if (step.getSentence().contains(UseCaseEditor.ACTOR_ESCAPE_SEQ) || step.getSentence().contains(UseCaseEditor.STEP_ESCAPE_SEQ)) {
-			Document d = new Document(step.getSentence());
-			UseCaseEditor.parseSentence(d, new AnnotationModel(), UseCaseEditor.getUseCase(step));
-			return d.get();
-		}
-		else
-			return step.getSentence();
-	}
 
 	private boolean dirty = false;
 
 	private TabbedPropertySheetPage propertySheetPage;
 	private UseCaseContentOutlinePage outlinePage;
+	
+    private static final String LABEL_PROPERTY = "label";
+    private static final String SENTENCE_PROPERTY = "sentence";
+    private static final String TYPE_PROPERTY = "type";
+    private static final String PARSED_PROPERTY = "parsed";
 	
 	/**
 	 * Stores the object in the clipboard and implements cut/copy/paste actions
@@ -365,6 +253,124 @@ public class UseCaseEditor extends EditorPart implements ITabbedPropertySheetPag
 	public void saveUndoState() {
 		undoStack.snapshot();
 	}
+	
+	public static class TextCellEditorWithContentProposal extends TextCellEditor {
+
+		private ContentProposalAdapter contentProposalAdapter;
+		private boolean popupOpen = false; // true, iff popup is currently open
+
+		public TextCellEditorWithContentProposal(Composite parent, IContentProposalProvider contentProposalProvider,
+				KeyStroke keyStroke, char[] autoActivationCharacters) {
+			super(parent);
+
+			enableContentProposal(contentProposalProvider, keyStroke, autoActivationCharacters);
+		}
+
+		private void enableContentProposal(IContentProposalProvider contentProposalProvider, KeyStroke keyStroke,
+				char[] autoActivationCharacters) {
+			contentProposalAdapter = new ContentProposalAdapter(text, new TextContentAdapter(),
+					contentProposalProvider, keyStroke, autoActivationCharacters);
+
+			// Listen for popup open/close events to be able to handle focus events correctly
+			contentProposalAdapter.addContentProposalListener(new IContentProposalListener2() {
+
+				public void proposalPopupClosed(ContentProposalAdapter adapter) {
+					popupOpen = false;
+				}
+
+				public void proposalPopupOpened(ContentProposalAdapter adapter) {
+					popupOpen = true;
+				}
+			});
+		}
+
+		/**
+		 * Return the {@link ContentProposalAdapter} of this cell editor.
+		 * 
+		 * @return the {@link ContentProposalAdapter}
+		 */
+		public ContentProposalAdapter getContentProposalAdapter() {
+			return contentProposalAdapter;
+		}
+
+		protected void focusLost() {
+			if (!popupOpen) {
+				// Focus lost deactivates the cell editor.
+				// This must not happen if focus lost was caused by activating
+				// the completion proposal popup.
+				super.focusLost();
+			}
+		}
+
+		protected boolean dependsOnExternalFocusListener() {
+			// Always return false;
+			// Otherwise, the ColumnViewerEditor will install an additional focus listener
+			// that cancels cell editing on focus lost, even if focus gets lost due to
+			// activation of the completion proposal popup. See also bug 58777.
+			return false;
+		}
+	}
+
+	private class UcEditingSupport extends EditingSupport {
+		private TextCellEditorWithContentProposal cellEditor;
+
+		public UcEditingSupport(TreeViewer viewer) {
+			super(viewer);
+
+			IContentProposalProvider contentProposalProvider = new SimpleContentProposalProvider(new String[] { "prvni",
+					"druha", "treti" });
+			try {
+				cellEditor = new TextCellEditorWithContentProposal(viewer.getTree(), contentProposalProvider, KeyStroke.getInstance("Ctrl+Space"), null);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+		}
+
+		protected boolean canEdit(Object element) {
+			return true;
+		}
+
+		protected CellEditor getCellEditor(Object element) {
+			return cellEditor;
+		}
+
+		protected Object getValue(Object element) {
+			if (element instanceof UseCaseStep) {
+				UseCaseStep step = (UseCaseStep) element;
+				return step.getSentence();
+			} else if (element instanceof Scenario) {
+				Scenario scen = (Scenario) element;
+				if (scen.getDescription() == null)
+					return "";
+				else
+					return scen.getDescription();
+			}
+			return "";
+		}
+
+		protected void setValue(Object element, Object value) {
+			if (element instanceof UseCaseStep) {
+				UseCaseStep step = (UseCaseStep) element;
+				saveUndoState();
+				step.setSentence(value.toString());
+				//step.setParsedSentence(lingTools.parseSentence(step.getSentence()));
+				treeViewer.update(step, new String[] { SENTENCE_PROPERTY });
+				treeViewer.refresh();
+				setDirty();
+			} else if (element instanceof Scenario) {
+				Scenario scen = (Scenario)element;
+                if (scen.getDescription() == null)
+                        scen.setDescription("");
+                if (!scen.getDescription().equals(value.toString())) {
+                        saveUndoState();
+                        scen.setDescription(value.toString());
+                        treeViewer.update(scen, new String[] { SENTENCE_PROPERTY });
+						setDirty();
+                }
+			}
+		}
+
+	};
 
 	public static UseCaseEditor getActiveUseCaseEditor() {
 		IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
@@ -486,15 +492,12 @@ public class UseCaseEditor extends EditorPart implements ITabbedPropertySheetPag
 					return;
 				showSelectedStep();
 				
-				//if (getSelectedStep() != null)
-				//	System.out.println("step ID: "+getSelectedStep().getID());
-				
-				String raw;
+				Document doc = new Document();
 				if (selection instanceof UseCaseStep)
-					raw = getSelectedStep().getSentence();
+					doc.set(getSelectedStep().getSentence());
 				else
-					raw = ((Scenario) getSelectedObject()).getDescription();
-				sentenceDoc = new AnnotatedDocument(raw);
+					doc.set(((Scenario) getSelectedObject()).getDescription());
+				sentenceText.setDocument(doc);
 			}
 		});
 
@@ -502,9 +505,11 @@ public class UseCaseEditor extends EditorPart implements ITabbedPropertySheetPag
 		trclmnLabel.setWidth(100);
 		trclmnLabel.setText("Label");
 
-		TreeColumn trclmnStepText = new TreeColumn(tree, SWT.NONE);
+		TreeViewerColumn atrclmnStepText = new TreeViewerColumn(treeViewer, SWT.NONE);
+		TreeColumn trclmnStepText = atrclmnStepText.getColumn();
 		trclmnStepText.setWidth(300);
 		trclmnStepText.setText("Step text");
+		atrclmnStepText.setEditingSupport(new UcEditingSupport(treeViewer));
 
 		TreeViewerColumn treeViewerColumn = new TreeViewerColumn(treeViewer, SWT.NONE);
 		TreeColumn trclmnType = treeViewerColumn.getColumn();
@@ -563,7 +568,9 @@ public class UseCaseEditor extends EditorPart implements ITabbedPropertySheetPag
 		UseCaseStepTreeProvider provider = new UseCaseStepTreeProvider();
 		treeViewer.setContentProvider(provider);
 		treeViewer.setLabelProvider(provider);
-
+		
+		treeViewer.setColumnProperties(new String[] { LABEL_PROPERTY, SENTENCE_PROPERTY, TYPE_PROPERTY, PARSED_PROPERTY });
+		
 		TreeColumn treeColumn = new TreeColumn(tree, SWT.NONE);
 		treeColumn.setWidth(24);
 		treeColumn.setText("*");
@@ -799,93 +806,17 @@ public class UseCaseEditor extends EditorPart implements ITabbedPropertySheetPag
 	private void initializeSentenceEditor() {
 		StyledText styledText = sentenceText.getTextWidget();
 		
-		Menu menu = new Menu(styledText);
-		styledText.setMenu(menu);
-		
-		MenuItem mntmInsertStep = new MenuItem(menu, SWT.CASCADE);
-		mntmInsertStep.setText("Insert step reference");
-		
-		insertStepMenu = new Menu(mntmInsertStep);
-		mntmInsertStep.setMenu(insertStepMenu);
-		
-		MenuItem mntmInsertActor = new MenuItem(menu, SWT.CASCADE);
-		mntmInsertActor.setText("Insert actor reference");
-		
-		insertActorMenu = new Menu(mntmInsertActor);
-		mntmInsertActor.setMenu(insertActorMenu);
-		insertActorMenu.addListener(SWT.Show, new Listener() {
-			@Override
-			public void handleEvent(Event event) {
-				for (MenuItem i : insertStepMenu.getItems())
-					i.dispose();
-				List<Actor> actors = getProjectActors();
-				for (Actor a : actors) {
-					MenuItem m = new MenuItem(insertStepMenu, SWT.PUSH);
-					m.setText(a.getName());
-					m.addSelectionListener(new SelectionAdapter() {
-						@Override
-						public void widgetSelected(SelectionEvent e) {
-							MenuItem i = (MenuItem)e.widget;
-							int start = sentenceText.getTextWidget().getCaretOffset();
-							try {
-								sentenceDoc.doc.replace(start, 0, i.getText());
-							} catch (BadLocationException e1) {
-								// should never happen
-								e1.printStackTrace();
-							}
-							Annotation a = new Annotation(ANNOTATION_TYPE_ACTOR, false, i.getText());
-							sentenceDoc.model.addAnnotation(a, new Position(start, i.getText().length()));
-						}
-					});
-				}
-			}
-		});
-		
-		insertStepMenu.addListener(SWT.Show, new Listener() {
-			@Override
-			public void handleEvent(Event event) {
-				for (MenuItem i : insertStepMenu.getItems())
-					i.dispose();
-				List<UseCaseStep> steps = getSteps(usecase.getMainScenario());
-				for (UseCaseStep s : steps) {
-					MenuItem m = new MenuItem(insertStepMenu, SWT.PUSH);
-					m.setText(s.getLabel());
-					m.addSelectionListener(new SelectionAdapter() {
-						@Override
-						public void widgetSelected(SelectionEvent e) {
-							MenuItem i = (MenuItem)e.widget;
-							UseCaseStep step = findStepByLabel(usecase.getMainScenario(), i.getText());
-							int start = sentenceText.getTextWidget().getCaretOffset();
-							try {
-								sentenceDoc.doc.replace(start, 0, step.getLabel());
-							} catch (BadLocationException e1) {
-								// should never happen
-								e1.printStackTrace();
-							}
-							Annotation a = new Annotation(ANNOTATION_TYPE_STEP, false, step.getID());
-							sentenceDoc.model.addAnnotation(a, new Position(start, step.getLabel().length()));
-						}
-					});
-				}
-			}
-		});
 		styledText.addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusGained(FocusEvent e) {
 				deactivateClipboard();
 				selectedStep = getSelectedObject();
-				if (selectedStep instanceof Scenario) {
-					insertActorMenu.setEnabled(false);
-					insertStepMenu.setEnabled(false);
-				}
 			}
 			@Override
 			public void focusLost(FocusEvent e) {
 				Object selected = selectedStep;
-				insertActorMenu.setEnabled(true);
-				insertStepMenu.setEnabled(true);
 				activateClipboard();
-				String newText = sentenceDoc.getAnnotatedText();
+				String newText = sentenceText.getDocument().get();
 				if (selected instanceof UseCaseStep) {
 					UseCaseStep step = (UseCaseStep)selected;
 					if (step.getSentence() == null)

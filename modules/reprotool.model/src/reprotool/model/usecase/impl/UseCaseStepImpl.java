@@ -198,10 +198,18 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	public String getSentence() {
-		return sentence;
+		if (getSentenceNodes().isEmpty())
+			return sentence;
+		StringBuffer s = new StringBuffer();
+		for (SentencePart p : getSentenceNodes()) {
+			s.append(p.getContent());
+			s.append(' ');
+		}
+		s.deleteCharAt(s.length()-1);
+		return s.toString();
 	}
 
 	/**
