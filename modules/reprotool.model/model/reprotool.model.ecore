@@ -37,8 +37,6 @@
           eType="#//usecase/Scenario" containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="precedesUseCases" ordered="false"
           upperBound="-1" eType="#//usecase/UseCase"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="enclosingProject" eType="#//swproj/SoftwareProject"
-          eOpposite="#//swproj/SoftwareProject/useCases"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="UseCaseStep" eSuperTypes="#//swproj/ReqCover">
       <eOperations name="getLabel" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -79,10 +77,10 @@
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="Description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="requirements" upperBound="-1"
           eType="#//swproj/Requirement" containment="true"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="useCases" upperBound="-1"
-          eType="#//usecase/UseCase" eOpposite="#//usecase/UseCase/enclosingProject"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="srsDocuments" upperBound="-1"
           eType="#//doc/Document"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="useCases" upperBound="-1"
+          eType="#//usecase/UseCase" containment="true"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="Actor" eSuperTypes="#//traceability/TraceableEntity">
       <eStructuralFeatures xsi:type="ecore:EReference" name="childrenActors" upperBound="-1"

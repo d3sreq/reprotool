@@ -26,8 +26,8 @@ import reprotool.model.usecase.UseCase;
  *   <li>{@link reprotool.model.swproj.SoftwareProject#getName <em>Name</em>}</li>
  *   <li>{@link reprotool.model.swproj.SoftwareProject#getDescription <em>Description</em>}</li>
  *   <li>{@link reprotool.model.swproj.SoftwareProject#getRequirements <em>Requirements</em>}</li>
- *   <li>{@link reprotool.model.swproj.SoftwareProject#getUseCases <em>Use Cases</em>}</li>
  *   <li>{@link reprotool.model.swproj.SoftwareProject#getSrsDocuments <em>Srs Documents</em>}</li>
+ *   <li>{@link reprotool.model.swproj.SoftwareProject#getUseCases <em>Use Cases</em>}</li>
  * </ul>
  * </p>
  *
@@ -121,24 +121,6 @@ public interface SoftwareProject extends EObject {
 	EList<Requirement> getRequirements();
 
 	/**
-	 * Returns the value of the '<em><b>Use Cases</b></em>' reference list.
-	 * The list contents are of type {@link reprotool.model.usecase.UseCase}.
-	 * It is bidirectional and its opposite is '{@link reprotool.model.usecase.UseCase#getEnclosingProject <em>Enclosing Project</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Use Cases</em>' reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Use Cases</em>' reference list.
-	 * @see reprotool.model.swproj.SwprojPackage#getSoftwareProject_UseCases()
-	 * @see reprotool.model.usecase.UseCase#getEnclosingProject
-	 * @model opposite="enclosingProject"
-	 * @generated
-	 */
-	EList<UseCase> getUseCases();
-
-	/**
 	 * Returns the value of the '<em><b>Srs Documents</b></em>' reference list.
 	 * The list contents are of type {@link reprotool.model.doc.Document}.
 	 * <!-- begin-user-doc -->
@@ -153,5 +135,21 @@ public interface SoftwareProject extends EObject {
 	 * @generated
 	 */
 	EList<Document> getSrsDocuments();
+
+	/**
+	 * Returns the value of the '<em><b>Use Cases</b></em>' containment reference list.
+	 * The list contents are of type {@link reprotool.model.usecase.UseCase}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Use Cases</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Use Cases</em>' containment reference list.
+	 * @see reprotool.model.swproj.SwprojPackage#getSoftwareProject_UseCases()
+	 * @model containment="true"
+	 * @generated
+	 */
+	EList<UseCase> getUseCases();
 
 } // SoftwareProject

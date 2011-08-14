@@ -117,22 +117,13 @@ public interface UsecasePackage extends EPackage {
 	int USE_CASE__PRECEDES_USE_CASES = SwprojPackage.REQ_COVER_FEATURE_COUNT + 3;
 
 	/**
-	 * The feature id for the '<em><b>Enclosing Project</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int USE_CASE__ENCLOSING_PROJECT = SwprojPackage.REQ_COVER_FEATURE_COUNT + 4;
-
-	/**
 	 * The number of structural features of the '<em>Use Case</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int USE_CASE_FEATURE_COUNT = SwprojPackage.REQ_COVER_FEATURE_COUNT + 5;
+	int USE_CASE_FEATURE_COUNT = SwprojPackage.REQ_COVER_FEATURE_COUNT + 4;
 
 	/**
 	 * The meta object id for the '{@link reprotool.model.usecase.impl.UseCaseStepImpl <em>Use Case Step</em>}' class.
@@ -411,17 +402,6 @@ public interface UsecasePackage extends EPackage {
 	EReference getUseCase_PrecedesUseCases();
 
 	/**
-	 * Returns the meta object for the reference '{@link reprotool.model.usecase.UseCase#getEnclosingProject <em>Enclosing Project</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Enclosing Project</em>'.
-	 * @see reprotool.model.usecase.UseCase#getEnclosingProject()
-	 * @see #getUseCase()
-	 * @generated
-	 */
-	EReference getUseCase_EnclosingProject();
-
-	/**
 	 * Returns the meta object for class '{@link reprotool.model.usecase.UseCaseStep <em>Use Case Step</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -655,14 +635,6 @@ public interface UsecasePackage extends EPackage {
 		 * @generated
 		 */
 		EReference USE_CASE__PRECEDES_USE_CASES = eINSTANCE.getUseCase_PrecedesUseCases();
-
-		/**
-		 * The meta object literal for the '<em><b>Enclosing Project</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference USE_CASE__ENCLOSING_PROJECT = eINSTANCE.getUseCase_EnclosingProject();
 
 		/**
 		 * The meta object literal for the '{@link reprotool.model.usecase.impl.UseCaseStepImpl <em>Use Case Step</em>}' class.

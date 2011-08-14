@@ -45,8 +45,8 @@ import reprotool.model.usecase.UsecasePackage;
  *   <li>{@link reprotool.model.swproj.impl.SoftwareProjectImpl#getName <em>Name</em>}</li>
  *   <li>{@link reprotool.model.swproj.impl.SoftwareProjectImpl#getDescription <em>Description</em>}</li>
  *   <li>{@link reprotool.model.swproj.impl.SoftwareProjectImpl#getRequirements <em>Requirements</em>}</li>
- *   <li>{@link reprotool.model.swproj.impl.SoftwareProjectImpl#getUseCases <em>Use Cases</em>}</li>
  *   <li>{@link reprotool.model.swproj.impl.SoftwareProjectImpl#getSrsDocuments <em>Srs Documents</em>}</li>
+ *   <li>{@link reprotool.model.swproj.impl.SoftwareProjectImpl#getUseCases <em>Use Cases</em>}</li>
  * </ul>
  * </p>
  *
@@ -114,16 +114,6 @@ public class SoftwareProjectImpl extends EObjectImpl implements SoftwareProject 
 	protected EList<Requirement> requirements;
 
 	/**
-	 * The cached value of the '{@link #getUseCases() <em>Use Cases</em>}' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getUseCases()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<UseCase> useCases;
-
-	/**
 	 * The cached value of the '{@link #getSrsDocuments() <em>Srs Documents</em>}' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -132,6 +122,16 @@ public class SoftwareProjectImpl extends EObjectImpl implements SoftwareProject 
 	 * @ordered
 	 */
 	protected EList<Document> srsDocuments;
+
+	/**
+	 * The cached value of the '{@link #getUseCases() <em>Use Cases</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getUseCases()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<UseCase> useCases;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -223,18 +223,6 @@ public class SoftwareProjectImpl extends EObjectImpl implements SoftwareProject 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<UseCase> getUseCases() {
-		if (useCases == null) {
-			useCases = new EObjectWithInverseResolvingEList<UseCase>(UseCase.class, this, SwprojPackage.SOFTWARE_PROJECT__USE_CASES, UsecasePackage.USE_CASE__ENCLOSING_PROJECT);
-		}
-		return useCases;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EList<Document> getSrsDocuments() {
 		if (srsDocuments == null) {
 			srsDocuments = new EObjectResolvingEList<Document>(Document.class, this, SwprojPackage.SOFTWARE_PROJECT__SRS_DOCUMENTS);
@@ -247,14 +235,11 @@ public class SoftwareProjectImpl extends EObjectImpl implements SoftwareProject 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@SuppressWarnings("unchecked")
-	@Override
-	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case SwprojPackage.SOFTWARE_PROJECT__USE_CASES:
-				return ((InternalEList<InternalEObject>)(InternalEList<?>)getUseCases()).basicAdd(otherEnd, msgs);
+	public EList<UseCase> getUseCases() {
+		if (useCases == null) {
+			useCases = new EObjectContainmentEList<UseCase>(UseCase.class, this, SwprojPackage.SOFTWARE_PROJECT__USE_CASES);
 		}
-		return super.eInverseAdd(otherEnd, featureID, msgs);
+		return useCases;
 	}
 
 	/**
@@ -291,10 +276,10 @@ public class SoftwareProjectImpl extends EObjectImpl implements SoftwareProject 
 				return getDescription();
 			case SwprojPackage.SOFTWARE_PROJECT__REQUIREMENTS:
 				return getRequirements();
-			case SwprojPackage.SOFTWARE_PROJECT__USE_CASES:
-				return getUseCases();
 			case SwprojPackage.SOFTWARE_PROJECT__SRS_DOCUMENTS:
 				return getSrsDocuments();
+			case SwprojPackage.SOFTWARE_PROJECT__USE_CASES:
+				return getUseCases();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -322,13 +307,13 @@ public class SoftwareProjectImpl extends EObjectImpl implements SoftwareProject 
 				getRequirements().clear();
 				getRequirements().addAll((Collection<? extends Requirement>)newValue);
 				return;
-			case SwprojPackage.SOFTWARE_PROJECT__USE_CASES:
-				getUseCases().clear();
-				getUseCases().addAll((Collection<? extends UseCase>)newValue);
-				return;
 			case SwprojPackage.SOFTWARE_PROJECT__SRS_DOCUMENTS:
 				getSrsDocuments().clear();
 				getSrsDocuments().addAll((Collection<? extends Document>)newValue);
+				return;
+			case SwprojPackage.SOFTWARE_PROJECT__USE_CASES:
+				getUseCases().clear();
+				getUseCases().addAll((Collection<? extends UseCase>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -354,11 +339,11 @@ public class SoftwareProjectImpl extends EObjectImpl implements SoftwareProject 
 			case SwprojPackage.SOFTWARE_PROJECT__REQUIREMENTS:
 				getRequirements().clear();
 				return;
-			case SwprojPackage.SOFTWARE_PROJECT__USE_CASES:
-				getUseCases().clear();
-				return;
 			case SwprojPackage.SOFTWARE_PROJECT__SRS_DOCUMENTS:
 				getSrsDocuments().clear();
+				return;
+			case SwprojPackage.SOFTWARE_PROJECT__USE_CASES:
+				getUseCases().clear();
 				return;
 		}
 		super.eUnset(featureID);
@@ -380,10 +365,10 @@ public class SoftwareProjectImpl extends EObjectImpl implements SoftwareProject 
 				return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
 			case SwprojPackage.SOFTWARE_PROJECT__REQUIREMENTS:
 				return requirements != null && !requirements.isEmpty();
-			case SwprojPackage.SOFTWARE_PROJECT__USE_CASES:
-				return useCases != null && !useCases.isEmpty();
 			case SwprojPackage.SOFTWARE_PROJECT__SRS_DOCUMENTS:
 				return srsDocuments != null && !srsDocuments.isEmpty();
+			case SwprojPackage.SOFTWARE_PROJECT__USE_CASES:
+				return useCases != null && !useCases.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

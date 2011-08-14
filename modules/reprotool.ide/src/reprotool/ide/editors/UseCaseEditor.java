@@ -83,6 +83,7 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 import reprotool.ide.adapter.UseCaseContentOutlinePage;
 import reprotool.ide.commands.ClipboardHandler;
 import reprotool.model.swproj.Actor;
+import reprotool.model.swproj.SoftwareProject;
 import reprotool.model.usecase.Scenario;
 import reprotool.model.usecase.UseCase;
 import reprotool.model.usecase.UseCaseStep;
@@ -1048,9 +1049,14 @@ public class UseCaseEditor extends EditorPart implements ITabbedPropertySheetPag
 	}
 	
 	public List<Actor> getProjectActors() {
-		if (usecase.getEnclosingProject() != null)
-			return usecase.getEnclosingProject().getActors();
-		else
+		// TODO jvinarek - uncomment when double click on use case in outline view
+		// opens editor
+//		SoftwareProject project = (SoftwareProject)usecase.eContainer();
+//		return project.getActors();
+
+//		if (usecase.getEnclosingProject() != null)
+//			return usecase.getEnclosingProject().getActors();
+//		else
 			return new ArrayList<Actor>();
 	}
 	

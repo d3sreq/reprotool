@@ -232,7 +232,7 @@ public class SwprojPackageImpl extends EPackageImpl implements SwprojPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getSoftwareProject_UseCases() {
+	public EReference getSoftwareProject_SrsDocuments() {
 		return (EReference)softwareProjectEClass.getEStructuralFeatures().get(4);
 	}
 
@@ -241,7 +241,7 @@ public class SwprojPackageImpl extends EPackageImpl implements SwprojPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getSoftwareProject_SrsDocuments() {
+	public EReference getSoftwareProject_UseCases() {
 		return (EReference)softwareProjectEClass.getEStructuralFeatures().get(5);
 	}
 
@@ -377,8 +377,8 @@ public class SwprojPackageImpl extends EPackageImpl implements SwprojPackage {
 		createEAttribute(softwareProjectEClass, SOFTWARE_PROJECT__NAME);
 		createEAttribute(softwareProjectEClass, SOFTWARE_PROJECT__DESCRIPTION);
 		createEReference(softwareProjectEClass, SOFTWARE_PROJECT__REQUIREMENTS);
-		createEReference(softwareProjectEClass, SOFTWARE_PROJECT__USE_CASES);
 		createEReference(softwareProjectEClass, SOFTWARE_PROJECT__SRS_DOCUMENTS);
+		createEReference(softwareProjectEClass, SOFTWARE_PROJECT__USE_CASES);
 
 		actorEClass = createEClass(ACTOR);
 		createEReference(actorEClass, ACTOR__CHILDREN_ACTORS);
@@ -420,8 +420,8 @@ public class SwprojPackageImpl extends EPackageImpl implements SwprojPackage {
 		setNsURI(eNS_URI);
 
 		// Obtain other dependent packages
-		UsecasePackage theUsecasePackage = (UsecasePackage)EPackage.Registry.INSTANCE.getEPackage(UsecasePackage.eNS_URI);
 		DocPackage theDocPackage = (DocPackage)EPackage.Registry.INSTANCE.getEPackage(DocPackage.eNS_URI);
+		UsecasePackage theUsecasePackage = (UsecasePackage)EPackage.Registry.INSTANCE.getEPackage(UsecasePackage.eNS_URI);
 		TraceabilityPackage theTraceabilityPackage = (TraceabilityPackage)EPackage.Registry.INSTANCE.getEPackage(TraceabilityPackage.eNS_URI);
 
 		// Create type parameters
@@ -439,8 +439,8 @@ public class SwprojPackageImpl extends EPackageImpl implements SwprojPackage {
 		initEAttribute(getSoftwareProject_Name(), ecorePackage.getEString(), "Name", null, 0, 1, SoftwareProject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getSoftwareProject_Description(), ecorePackage.getEString(), "Description", null, 0, 1, SoftwareProject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getSoftwareProject_Requirements(), this.getRequirement(), null, "requirements", null, 0, -1, SoftwareProject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getSoftwareProject_UseCases(), theUsecasePackage.getUseCase(), theUsecasePackage.getUseCase_EnclosingProject(), "useCases", null, 0, -1, SoftwareProject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getSoftwareProject_SrsDocuments(), theDocPackage.getDocument(), null, "srsDocuments", null, 0, -1, SoftwareProject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getSoftwareProject_UseCases(), theUsecasePackage.getUseCase(), null, "useCases", null, 0, -1, SoftwareProject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(actorEClass, Actor.class, "Actor", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getActor_ChildrenActors(), this.getActor(), this.getActor_ParentActor(), "childrenActors", null, 0, -1, Actor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

@@ -108,22 +108,22 @@ public interface SwprojPackage extends EPackage {
 	int SOFTWARE_PROJECT__REQUIREMENTS = 3;
 
 	/**
-	 * The feature id for the '<em><b>Use Cases</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SOFTWARE_PROJECT__USE_CASES = 4;
-
-	/**
 	 * The feature id for the '<em><b>Srs Documents</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SOFTWARE_PROJECT__SRS_DOCUMENTS = 5;
+	int SOFTWARE_PROJECT__SRS_DOCUMENTS = 4;
+
+	/**
+	 * The feature id for the '<em><b>Use Cases</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SOFTWARE_PROJECT__USE_CASES = 5;
 
 	/**
 	 * The number of structural features of the '<em>Software Project</em>' class.
@@ -347,17 +347,6 @@ public interface SwprojPackage extends EPackage {
 	EReference getSoftwareProject_Requirements();
 
 	/**
-	 * Returns the meta object for the reference list '{@link reprotool.model.swproj.SoftwareProject#getUseCases <em>Use Cases</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Use Cases</em>'.
-	 * @see reprotool.model.swproj.SoftwareProject#getUseCases()
-	 * @see #getSoftwareProject()
-	 * @generated
-	 */
-	EReference getSoftwareProject_UseCases();
-
-	/**
 	 * Returns the meta object for the reference list '{@link reprotool.model.swproj.SoftwareProject#getSrsDocuments <em>Srs Documents</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -367,6 +356,17 @@ public interface SwprojPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getSoftwareProject_SrsDocuments();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link reprotool.model.swproj.SoftwareProject#getUseCases <em>Use Cases</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Use Cases</em>'.
+	 * @see reprotool.model.swproj.SoftwareProject#getUseCases()
+	 * @see #getSoftwareProject()
+	 * @generated
+	 */
+	EReference getSoftwareProject_UseCases();
 
 	/**
 	 * Returns the meta object for class '{@link reprotool.model.swproj.Actor <em>Actor</em>}'.
@@ -550,20 +550,20 @@ public interface SwprojPackage extends EPackage {
 		EReference SOFTWARE_PROJECT__REQUIREMENTS = eINSTANCE.getSoftwareProject_Requirements();
 
 		/**
-		 * The meta object literal for the '<em><b>Use Cases</b></em>' reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference SOFTWARE_PROJECT__USE_CASES = eINSTANCE.getSoftwareProject_UseCases();
-
-		/**
 		 * The meta object literal for the '<em><b>Srs Documents</b></em>' reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
 		EReference SOFTWARE_PROJECT__SRS_DOCUMENTS = eINSTANCE.getSoftwareProject_SrsDocuments();
+
+		/**
+		 * The meta object literal for the '<em><b>Use Cases</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SOFTWARE_PROJECT__USE_CASES = eINSTANCE.getSoftwareProject_UseCases();
 
 		/**
 		 * The meta object literal for the '{@link reprotool.model.swproj.impl.ActorImpl <em>Actor</em>}' class.

@@ -25,7 +25,6 @@ import reprotool.model.traceability.TraceableEntity;
  *   <li>{@link reprotool.model.usecase.UseCase#getName <em>Name</em>}</li>
  *   <li>{@link reprotool.model.usecase.UseCase#getMainScenario <em>Main Scenario</em>}</li>
  *   <li>{@link reprotool.model.usecase.UseCase#getPrecedesUseCases <em>Precedes Use Cases</em>}</li>
- *   <li>{@link reprotool.model.usecase.UseCase#getEnclosingProject <em>Enclosing Project</em>}</li>
  * </ul>
  * </p>
  *
@@ -127,33 +126,5 @@ public interface UseCase extends ReqCover, TraceableEntity {
 	 * @generated
 	 */
 	EList<UseCase> getPrecedesUseCases();
-
-	/**
-	 * Returns the value of the '<em><b>Enclosing Project</b></em>' reference.
-	 * It is bidirectional and its opposite is '{@link reprotool.model.swproj.SoftwareProject#getUseCases <em>Use Cases</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Enclosing Project</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Enclosing Project</em>' reference.
-	 * @see #setEnclosingProject(SoftwareProject)
-	 * @see reprotool.model.usecase.UsecasePackage#getUseCase_EnclosingProject()
-	 * @see reprotool.model.swproj.SoftwareProject#getUseCases
-	 * @model opposite="useCases"
-	 * @generated
-	 */
-	SoftwareProject getEnclosingProject();
-
-	/**
-	 * Sets the value of the '{@link reprotool.model.usecase.UseCase#getEnclosingProject <em>Enclosing Project</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Enclosing Project</em>' reference.
-	 * @see #getEnclosingProject()
-	 * @generated
-	 */
-	void setEnclosingProject(SoftwareProject value);
 
 } // UseCase
