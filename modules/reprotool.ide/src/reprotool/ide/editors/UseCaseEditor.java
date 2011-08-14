@@ -104,6 +104,7 @@ public class UseCaseEditor extends EditorPart implements ITabbedPropertySheetPag
 	public final static String STEP_ESCAPE_SEQ = "##";
 	public final static String ACTOR_ESCAPE_SEQ = "%%";
 	private TreeViewer treeViewer = null;
+	private Object selectedStep;
 	private SourceViewer sentenceText = null;
 	private AnnotatedDocument sentenceDoc = null;
 	public class AnnotatedDocument {
@@ -872,17 +873,18 @@ public class UseCaseEditor extends EditorPart implements ITabbedPropertySheetPag
 			@Override
 			public void focusGained(FocusEvent e) {
 				deactivateClipboard();
-				if (getSelectedObject() instanceof Scenario) {
+				selectedStep = getSelectedObject();
+				if (selectedStep instanceof Scenario) {
 					insertActorMenu.setEnabled(false);
 					insertStepMenu.setEnabled(false);
 				}
 			}
 			@Override
 			public void focusLost(FocusEvent e) {
+				Object selected = selectedStep;
 				insertActorMenu.setEnabled(true);
 				insertStepMenu.setEnabled(true);
 				activateClipboard();
-				Object selected = getSelectedObject();
 				String newText = sentenceDoc.getAnnotatedText();
 				if (selected instanceof UseCaseStep) {
 					UseCaseStep step = (UseCaseStep)selected;

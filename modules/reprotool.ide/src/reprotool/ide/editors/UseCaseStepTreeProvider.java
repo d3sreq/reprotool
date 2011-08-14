@@ -4,18 +4,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.jface.text.Document;
-import org.eclipse.jface.text.source.AnnotationModel;
 import org.eclipse.jface.viewers.ILabelProviderListener;
-import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;
-import org.eclipse.swt.graphics.Image;
+import org.eclipse.jface.viewers.StyledCellLabelProvider;
+import org.eclipse.jface.viewers.StyledString;
+import org.eclipse.jface.viewers.StyledString.Styler;
+import org.eclipse.jface.viewers.ViewerCell;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.TextStyle;
 
+import reprotool.model.linguistic.SentencePart;
+import reprotool.model.linguistic.Text;
 import reprotool.model.usecase.Scenario;
 import reprotool.model.usecase.UseCase;
 import reprotool.model.usecase.UseCaseStep;
 
-public class UseCaseStepTreeProvider implements ITreeContentProvider, ITableLabelProvider  {
+public class UseCaseStepTreeProvider extends StyledCellLabelProvider implements ITreeContentProvider {
 	
 	@Override
 	public void inputChanged(org.eclipse.jface.viewers.Viewer viewer,
@@ -75,11 +80,7 @@ public class UseCaseStepTreeProvider implements ITreeContentProvider, ITableLabe
 		}
 	}
 	
-	// ITableLabelProvider methods
-	
-	public Image getColumnImage(Object element, int columnIndex) {
-		return null;
-	}
+	// --
 	
 	/**
 	 * Used for the implementation of different row types (UseCaseStep and Scenario)
@@ -87,14 +88,21 @@ public class UseCaseStepTreeProvider implements ITreeContentProvider, ITableLabe
 	 */
 	private interface RowRenderer {
 		public void setElement(Object element);
-		public String getSentenceColumn();
-		public String getTypeColumn();
-		public String getParsedColumn();
-		public String getLabelColumn();
+		public StyledString getSentenceColumn();
+		public StyledString getTypeColumn();
+		public StyledString getParsedColumn();
+		public StyledString getLabelColumn();
 	}
 	
 	RowRenderer useCaseStepRenderer = new RowRenderer() {
 		private UseCaseStep step;
+		private Styler styler = new StyledString.Styler() {
+				@Override
+				public void applyStyles(TextStyle textStyle) {
+					textStyle.borderStyle = SWT.BORDER_SOLID;
+					textStyle.borderColor = new Color(null, 20, 200, 20);
+				}
+			};
 		
 		@Override
 		public void setElement(Object element) {
@@ -102,23 +110,46 @@ public class UseCaseStepTreeProvider implements ITreeContentProvider, ITableLabe
 		}
 		
 		@Override
-		public String getLabelColumn() {
-			return step.getLabel();
+		public StyledString getLabelColumn() {
+			return new StyledString(step.getLabel());
 		}
 		
 		@Override
-		public String getTypeColumn() {
-			return "step";
+		public StyledString getTypeColumn() {
+			return new StyledString("step");
 		}
 
 		@Override
-		public String getSentenceColumn() {
-			return UseCaseEditor.getPlainSentence(step);
+		public StyledString getSentenceColumn() {
+			if (step.getSentenceNodes().isEmpty()) {
+				StyledString res = new StyledString(UseCaseEditor.getPlainSentence(step));
+				// XXX just an example
+				res.setStyle(0, 3, styler);
+				return res;
+			}
+			StringBuffer s = new StringBuffer();
+			for (SentencePart p : step.getSentenceNodes()) {
+				s.append(p.getContent());
+				s.append(' ');
+			}
+			s.deleteCharAt(s.length()-1);
+			StyledString res = new StyledString(s.toString());
+			
+			int offset = 0;
+			for (SentencePart p : step.getSentenceNodes()) {
+				if (p instanceof Text) {
+					offset += p.getContent().length();
+					continue;
+				}
+				res.setStyle(offset, p.getContent().length(), styler);
+				offset += p.getContent().length();
+			}
+			return res;
 		}
 
 		@Override
-		public String getParsedColumn() {
-			return "x";
+		public StyledString getParsedColumn() {
+			return new StyledString("x");
 		}
 	};
 	
@@ -131,58 +162,61 @@ public class UseCaseStepTreeProvider implements ITreeContentProvider, ITableLabe
 		}
 		
 		@Override
-		public String getLabelColumn() {
-			return "*";
+		public StyledString getLabelColumn() {
+			return new StyledString("*");
 		}
 				
 		@Override
-		public String getTypeColumn() {
+		public StyledString getTypeColumn() {
 			UseCaseStep parentStep = (UseCaseStep) scen.eContainer();
 
 			if (parentStep.getExtension().contains(scen))
-				return "extension";
+				return new StyledString("extension");
 
 			if (parentStep.getVariation().contains(scen))
-				return "variation";
+				return new StyledString("variation");
 
-			return "unknown";
+			return new StyledString("unknown");
 		}
 
 		@Override
-		public String getSentenceColumn() {
+		public StyledString getSentenceColumn() {
 			if (scen.getDescription() == null || scen.getDescription().isEmpty())
 				return getTypeColumn();
 			else
-				return getTypeColumn()+": "+scen.getDescription();
+				return new StyledString(getTypeColumn().toString()+": "+scen.getDescription());
 		}
 
 		@Override
-		public String getParsedColumn() {
-			return "";
+		public StyledString getParsedColumn() {
+			return new StyledString();
 		}
 	};
 	
-	public String getColumnText(final Object element, int columnIndex) {
-		
+	public void update(ViewerCell cell) {
+		Object element = cell.getElement();
 		RowRenderer adapter = null;
-		
 		if(element instanceof UseCaseStep)
 			adapter = useCaseStepRenderer;
 		else if(element instanceof Scenario)
 			adapter = scenarioRenderer;
-			
-		if(adapter == null)
-			return "null";
-		
 		adapter.setElement(element);
 		
+		int columnIndex = cell.getColumnIndex();
+		StyledString text = null;
 		switch (columnIndex) {
-			case 0: return adapter.getLabelColumn();
-			case 1: return adapter.getSentenceColumn();
-			case 2: return adapter.getTypeColumn();
-			case 3: return adapter.getParsedColumn();
+			case 0: text = adapter.getLabelColumn(); break;
+			case 1: text = adapter.getSentenceColumn(); break;
+			case 2: text = adapter.getTypeColumn(); break;
+			case 3: text = adapter.getParsedColumn(); break;
 		}
 		
+		cell.setText(text.toString());
+		cell.setStyleRanges(text.getStyleRanges());
+		super.update(cell);
+	}
+
+	public String getColumnText(final Object element, int columnIndex) {
 		return null;
 	}
 
