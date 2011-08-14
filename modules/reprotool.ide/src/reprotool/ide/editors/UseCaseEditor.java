@@ -476,6 +476,7 @@ public class UseCaseEditor extends EditorPart implements ITabbedPropertySheetPag
 		initializeDragAndDrop();
 		
 		sentenceText = new SourceViewer(container, null, SWT.V_SCROLL);
+		sentenceText.setDocument(new Document());
 		
 		FormData fd_text = new FormData();
 		fd_text.bottom = new FormAttachment(100, -50);
@@ -816,6 +817,8 @@ public class UseCaseEditor extends EditorPart implements ITabbedPropertySheetPag
 			@Override
 			public void focusLost(FocusEvent e) {
 				Object selected = selectedStep;
+				if (selected == null)
+					return;
 				activateClipboard();
 				String newText = sentenceText.getDocument().get();
 				if (selected instanceof UseCaseStep) {

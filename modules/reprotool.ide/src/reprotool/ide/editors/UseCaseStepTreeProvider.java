@@ -124,7 +124,8 @@ public class UseCaseStepTreeProvider extends StyledCellLabelProvider implements 
 			StyledString res = new StyledString(step.getSentence());
 			if (step.getSentenceNodes().isEmpty()) {
 				// XXX just an example
-				res.setStyle(0, 3, styler);
+				if (res.getString().length() > 3)
+					res.setStyle(0, 3, styler);
 				return res;
 			}
 			
