@@ -58,7 +58,7 @@ public class LinguisticToolsView extends ViewPart {
 				textTagger.setText(Tagger.getMXPOST(textTokenizer.getText()).toString());
 				
 				// TODO use only jobs
-				Tagger.jobGetMXPOST(textTokenizer.getText());
+				//Tagger.jobGetMXPOST(textTokenizer.getText());
 				
 				WordNet.open();
 				

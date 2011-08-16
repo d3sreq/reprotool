@@ -15,6 +15,7 @@ import org.eclipse.ui.progress.IProgressConstants;
 import org.eclipse.ui.PlatformUI;
 
 import reprotool.ling.tools.Tagger;
+import reprotool.ling.tools.Tokenizer;
 
 public class LingJob extends Job {
 	 private String originalText;
@@ -31,6 +32,7 @@ public class LingJob extends Job {
 	 	super(name);
 	 	this.originalText = inputText;
 	 	this.resutlText = "";
+	 	
 	 	
 	 	// clickable result of the job
 	 	this.resultAction = new Action("Results") {
@@ -55,10 +57,17 @@ public class LingJob extends Job {
 
  		setProperty(IProgressConstants.KEEP_PROPERTY, Boolean.TRUE);
  		setProperty(IProgressConstants.ACTION_PROPERTY, resultAction);
+ 		String tokenizedText = "";
 		String innerText = "";
     	try{
-    		// calling tagger (whole work)
-    		innerText = Tagger.getMXPOST(originalText);
+    		
+    		// calling tokenizer 
+    		tokenizedText = Tokenizer.getTokens(originalText);
+    		// calling tagger 
+    		innerText = Tagger.getMXPOST(tokenizedText);
+    		
+    		
+    		
     	} catch (Exception e){
 			e.printStackTrace();  		    		
     	}
