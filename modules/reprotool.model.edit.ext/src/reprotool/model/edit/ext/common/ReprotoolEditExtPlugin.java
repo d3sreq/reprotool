@@ -4,7 +4,7 @@
  *
  * $Id$
  */
-package reprotool.model.swproj.provider;
+package reprotool.model.edit.ext.common;
 
 import org.eclipse.emf.common.EMFPlugin;
 
