@@ -63,7 +63,7 @@
     </nestedGenPackages>
     <nestedGenPackages prefix="Swproj" disposableProviderFactory="true" multipleEditorPages="false"
         ecorePackage="reprotool.model.ecore#//swproj">
-      <genClasses ecoreClass="reprotool.model.ecore#//swproj/SoftwareProject">
+      <genClasses provider="Stateful" ecoreClass="reprotool.model.ecore#//swproj/SoftwareProject">
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference reprotool.model.ecore#//swproj/SoftwareProject/actors"/>
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reprotool.model.ecore#//swproj/SoftwareProject/Name"/>
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reprotool.model.ecore#//swproj/SoftwareProject/Description"/>

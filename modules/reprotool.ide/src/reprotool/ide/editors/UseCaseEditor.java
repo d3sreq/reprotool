@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.emf.common.ui.URIEditorInput;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -918,19 +919,29 @@ public class UseCaseEditor extends EditorPart implements ITabbedPropertySheetPag
 	}
 
 	public void refresh() {
+
 		treeViewer.refresh();
 	}
 
 	@Override
 	public void doSave(IProgressMonitor monitor) {
-		Resource resource = resourceSet.getResource(URI.createURI(getInputFilePath()), true);
+		final Map<Object, Object> saveOptions = new HashMap<Object, Object>();
+		saveOptions.put(Resource.OPTION_SAVE_ONLY_IF_CHANGED, Resource.OPTION_SAVE_ONLY_IF_CHANGED_MEMORY_BUFFER);
 		try {
-			final Map<Object, Object> saveOptions = new HashMap<Object, Object>();
-			saveOptions.put(Resource.OPTION_SAVE_ONLY_IF_CHANGED, Resource.OPTION_SAVE_ONLY_IF_CHANGED_MEMORY_BUFFER);
-			resource.save(saveOptions);
+			usecase.eResource().save(saveOptions);
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		// TODO
+//		Resource resource = resourceSet.getResource(URI.createURI(getInputFilePath()), true);
+//		try {
+//			final Map<Object, Object> saveOptions = new HashMap<Object, Object>();
+//			saveOptions.put(Resource.OPTION_SAVE_ONLY_IF_CHANGED, Resource.OPTION_SAVE_ONLY_IF_CHANGED_MEMORY_BUFFER);
+//			resource.save(saveOptions);
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
 		setDirty(false);
 	}
 
@@ -943,16 +954,28 @@ public class UseCaseEditor extends EditorPart implements ITabbedPropertySheetPag
 		return ((FileEditorInput) getEditorInput()).getFile().getFullPath().toString();
 	}
 
-	private void loadUseCase() throws PartInitException {
-		Resource resource = resourceSet.getResource(URI.createURI(getInputFilePath()), true);
+	private void loadUseCase(IEditorInput input) throws PartInitException {
+		if (input instanceof FileEditorInput) {
+			// TODO - remove, added only for debugging
+			Resource resource = resourceSet.getResource(URI.createURI(getInputFilePath()), true);
 
-		if (resource.getContents().isEmpty() || !(resource.getContents().get(0) instanceof UseCase))
-			throw new PartInitException("File does not contain a use case");
+			if (resource.getContents().isEmpty() || !(resource.getContents().get(0) instanceof UseCase)) {
+				throw new PartInitException("File does not contain a use case");
+			}
 
-		usecase = (UseCase) resource.getContents().get(0);
-		
-		if (usecase.getMainScenario() == null)
-			usecase.setMainScenario(new UsecaseFactoryImpl().createScenario());
+			usecase = (UseCase) resource.getContents().get(0);
+			
+			if (usecase.getMainScenario() == null) {
+				usecase.setMainScenario(new UsecaseFactoryImpl().createScenario());
+			}
+		} else if (input instanceof URIEditorInput) {
+			URIEditorInput uriEditorInput = (URIEditorInput)input;
+			URI uri = uriEditorInput.getURI();
+			Resource resource = resourceSet.getResource(uri, true);
+			usecase = (UseCase)resource.getEObject(uri.fragment());			
+		} else {
+			throw new PartInitException("UseCaseEditor input must be FileEditorInput or URIEditorInput");
+		}
 	}
 
 	@Override
@@ -960,12 +983,9 @@ public class UseCaseEditor extends EditorPart implements ITabbedPropertySheetPag
 		// Initialize the editor part
 		setSite(site);
 		setInputWithNotify(input);
-
-		if (!(input instanceof FileEditorInput))
-			throw new PartInitException("UseCaseEditor input must be FileEditorInput");
-
-		resourceSet = new ResourceSetImpl();
-		loadUseCase();
+		
+		resourceSet = new ResourceSetImpl();		
+		loadUseCase(input);
 	}
 
 	/**
@@ -1054,13 +1074,13 @@ public class UseCaseEditor extends EditorPart implements ITabbedPropertySheetPag
 	public List<Actor> getProjectActors() {
 		// TODO jvinarek - uncomment when double click on use case in outline view
 		// opens editor
-//		SoftwareProject project = (SoftwareProject)usecase.eContainer();
-//		return project.getActors();
+		SoftwareProject project = (SoftwareProject)usecase.eContainer();
+		return project.getActors();
 
 //		if (usecase.getEnclosingProject() != null)
 //			return usecase.getEnclosingProject().getActors();
 //		else
-			return new ArrayList<Actor>();
+//			return new ArrayList<Actor>();
 	}
 	
 	public static UseCase getUseCase(UseCaseStep step) {

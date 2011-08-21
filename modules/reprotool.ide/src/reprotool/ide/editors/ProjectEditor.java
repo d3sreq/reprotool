@@ -25,11 +25,14 @@ import org.eclipse.emf.common.command.BasicCommandStack;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CommandStack;
 import org.eclipse.emf.common.command.CommandStackListener;
+import org.eclipse.emf.common.ui.URIEditorInput;
+import org.eclipse.emf.common.ui.URIEditorInputFactory;
 import org.eclipse.emf.common.ui.viewer.IViewerProvider;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
@@ -39,6 +42,8 @@ import org.eclipse.emf.edit.provider.resource.ResourceItemProviderAdapterFactory
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
+import org.eclipse.jface.viewers.DoubleClickEvent;
+import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.ISelectionProvider;
@@ -51,12 +56,15 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Tree;
+import org.eclipse.ui.IEditorDescriptor;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IPartListener;
+import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.dialogs.SaveAsDialog;
 import org.eclipse.ui.forms.widgets.Form;
@@ -72,8 +80,19 @@ import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.emf.edit.ui.util.EditUIUtil;
 
+import reprotool.model.swproj.SoftwareProject;
 import reprotool.model.swproj.provider.SwprojItemProviderAdapterFactory;
+import reprotool.model.swproj.provider.SwprojItemProviderAdapterFactoryExt;
+import reprotool.model.usecase.UseCase;
 
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+
+/**
+ * @author jvinarek
+ *
+ */
 public class ProjectEditor extends EditorPart implements IEditingDomainProvider, IViewerProvider, ISelectionProvider {
 	public static final String ID = "cz.cuni.mff.reprotool.ide.editors.ProjectEditor"; //$NON-NLS-1$
 
@@ -241,7 +260,7 @@ public class ProjectEditor extends EditorPart implements IEditingDomainProvider,
 	 * This accesses a cached version of the content outliner. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @generated
+	 * @generated NOT
 	 */
 	public IContentOutlinePage getContentOutlinePage() {
 		if (contentOutlinePage == null) {
@@ -258,7 +277,25 @@ public class ProjectEditor extends EditorPart implements IEditingDomainProvider,
 					//
 					contentOutlineViewer.setContentProvider(new AdapterFactoryContentProvider(adapterFactory));
 					contentOutlineViewer.setLabelProvider(new AdapterFactoryLabelProvider(adapterFactory));
-					contentOutlineViewer.setInput(editingDomain.getResourceSet());
+					contentOutlineViewer.setInput(editingDomain.getResourceSet().getResources().get(0));
+					
+					contentOutlineViewer.addDoubleClickListener(new IDoubleClickListener() {
+						
+						@Override
+						public void doubleClick(DoubleClickEvent event) {
+							ISelection selection = event.getSelection();
+							if (!selection.isEmpty() && selection instanceof StructuredSelection) {								
+								StructuredSelection structuredSelection = (StructuredSelection)selection;								
+								
+								Object first = structuredSelection.getFirstElement();								
+								if (first instanceof UseCase) {
+									UseCase useCase = (UseCase)first;
+									openUseCaseEditor(useCase);									
+								}
+							}
+						}
+					});
+					
 
 					// TODO
 					// // Make sure our popups work.
@@ -313,7 +350,7 @@ public class ProjectEditor extends EditorPart implements IEditingDomainProvider,
 	 * This deals with how we want selection in the outliner to affect the other
 	 * views. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @generated
+	 * @generated NOT
 	 */
 	public void handleContentOutlineSelection(ISelection selection) {
 		if (selectionViewer != null && !selection.isEmpty() && selection instanceof IStructuredSelection) {
@@ -332,6 +369,9 @@ public class ProjectEditor extends EditorPart implements IEditingDomainProvider,
 				// Set the selection to the widget.
 				//
 				selectionViewer.setSelection(new StructuredSelection(selectionList));
+				
+				// TODO - test
+				System.out.println(selectionList.get(0).toString());				
 			}
 		}
 	}
@@ -749,7 +789,8 @@ public class ProjectEditor extends EditorPart implements IEditingDomainProvider,
 		// LtsItemProviderAdapterFactory());
 		// adapterFactory.addAdapterFactory(new
 		// UsecaseItemProviderAdapterFactory());
-		adapterFactory.addAdapterFactory(new SwprojItemProviderAdapterFactory());
+		adapterFactory.addAdapterFactory(new SwprojItemProviderAdapterFactoryExt());
+		
 		// adapterFactory.addAdapterFactory(new
 		// TraceabilityItemProviderAdapterFactory());
 		// adapterFactory.addAdapterFactory(new
@@ -823,6 +864,21 @@ public class ProjectEditor extends EditorPart implements IEditingDomainProvider,
 		frmNewForm.setText("Reprotool project editor");
 
 		createModel();
+	}
+	
+	private void openUseCaseEditor(UseCase useCase) {
+		URI uri = EcoreUtil.getURI(useCase);
+		URIEditorInput input = new URIEditorInput(uri); 
+		
+		IWorkbenchPage page = getSite().getPage();
+		IEditorDescriptor desc = PlatformUI.getWorkbench().getEditorRegistry().findEditor("cz.cuni.mff.reprotool.ide.UseCaseEditor");
+		
+		try {
+			page.openEditor(input, desc.getId());
+		} catch (PartInitException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 	}
 	
 	/**

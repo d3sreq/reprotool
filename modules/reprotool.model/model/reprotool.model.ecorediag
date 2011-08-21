@@ -745,13 +745,13 @@
         <styles xmi:type="notation:FilteringStyle" xmi:id="_m_uepL83EeC5ful2Y73Zug"/>
       </children>
       <children xmi:type="notation:Node" xmi:id="_m_uepb83EeC5ful2Y73Zug" type="5002">
-        <styles xmi:type="notation:DrawerStyle" xmi:id="_m_uepr83EeC5ful2Y73Zug"/>
+        <styles xmi:type="notation:DrawerStyle" xmi:id="_m_uepr83EeC5ful2Y73Zug" collapsed="true"/>
         <styles xmi:type="notation:SortingStyle" xmi:id="_m_uep783EeC5ful2Y73Zug"/>
         <styles xmi:type="notation:FilteringStyle" xmi:id="_m_ueqL83EeC5ful2Y73Zug"/>
       </children>
       <styles xmi:type="notation:ShapeStyle" xmi:id="_m_lUsb83EeC5ful2Y73Zug" fontColor="4210752" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
       <element xmi:type="ecore:EClass" href="reprotool.model.ecore#//linguistic/SentencePart"/>
-      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_m_lUsr83EeC5ful2Y73Zug" x="957" y="503"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_m_lUsr83EeC5ful2Y73Zug" x="957" y="503" width="151"/>
     </children>
     <children xmi:type="notation:Node" xmi:id="_D5KHEL9DEeC5ful2Y73Zug" type="1001">
       <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_D5mzAL9DEeC5ful2Y73Zug" source="Shortcut">
@@ -759,7 +759,7 @@
       </eAnnotations>
       <children xmi:type="notation:Node" xmi:id="_D5T4EL9DEeC5ful2Y73Zug" type="4001"/>
       <children xmi:type="notation:Node" xmi:id="_D5T4Eb9DEeC5ful2Y73Zug" type="5001">
-        <styles xmi:type="notation:DrawerStyle" xmi:id="_D5T4Er9DEeC5ful2Y73Zug"/>
+        <styles xmi:type="notation:DrawerStyle" xmi:id="_D5T4Er9DEeC5ful2Y73Zug" collapsed="true"/>
         <styles xmi:type="notation:SortingStyle" xmi:id="_D5T4E79DEeC5ful2Y73Zug"/>
         <styles xmi:type="notation:FilteringStyle" xmi:id="_D5T4FL9DEeC5ful2Y73Zug"/>
       </children>
@@ -827,7 +827,7 @@
       </children>
       <styles xmi:type="notation:ShapeStyle" xmi:id="_ET_Pob9IEeC5ful2Y73Zug" fontColor="4210752" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
       <element xmi:type="ecore:EClass" href="reprotool.model.ecore#//linguistic/SentenceObject"/>
-      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_ET_Por9IEeC5ful2Y73Zug" x="995" y="655"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_ET_Por9IEeC5ful2Y73Zug" x="995" y="655" width="148"/>
     </children>
     <children xmi:type="notation:Node" xmi:id="_2jW74L9IEeC5ful2Y73Zug" type="1001">
       <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_2jp20L9IEeC5ful2Y73Zug" source="Shortcut">

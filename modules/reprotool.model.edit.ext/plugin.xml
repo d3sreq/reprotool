@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.emf.edit.itemProviderAdapterFactories">
+      <factory
+            class="reprotool.model.swproj.provider.SwprojItemProviderAdapterFactoryExt"
+            uri="http://d3s.mff.cuni.cz/reprotool/model/swproj"
+            supportedTypes=
+              "org.eclipse.emf.edit.provider.IEditingDomainItemProvider
+               org.eclipse.emf.edit.provider.IStructuredItemContentProvider
+               org.eclipse.emf.edit.provider.ITreeItemContentProvider
+               org.eclipse.emf.edit.provider.IItemLabelProvider
+               org.eclipse.emf.edit.provider.IItemPropertySource">
+      </factory>
+   </extension>
+
+</plugin>
