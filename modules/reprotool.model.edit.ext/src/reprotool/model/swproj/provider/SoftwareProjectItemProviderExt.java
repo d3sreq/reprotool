@@ -7,14 +7,19 @@ import java.util.List;
 import org.eclipse.emf.common.notify.AdapterFactory;
 
 import reprotool.model.swproj.SoftwareProject;
+import reprotool.model.usecase.provider.UseCasesItemProvider;
 
+/**
+ * @author jvinarek
+ * 
+ */
 public class SoftwareProjectItemProviderExt extends SoftwareProjectItemProvider {
+
+	protected List children = null;
 
 	public SoftwareProjectItemProviderExt(AdapterFactory adapterFactory) {
 		super(adapterFactory);
 	}
-
-	protected List children = null;
 
 	public Collection getChildren(Object object) {
 		if (children == null) {
@@ -28,12 +33,12 @@ public class SoftwareProjectItemProviderExt extends SoftwareProjectItemProvider 
 	}
 
 	public Object getActors() {
-		// TODO - use constant instead of "0"
+		// TODO - jvinarek - use constant instead of "0"
 		return children.get(0);
 	}
 
 	public Object getUseCases() {
-		// TODO - use constant instead of "0"
+		// TODO - jvinarek - use constant instead of "1"
 		return children.get(1);
 	}
 

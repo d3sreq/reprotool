@@ -4,10 +4,15 @@ import java.util.Collection;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 
+import reprotool.model.edit.ext.common.TransientSoftwareProjectItemProvider;
 import reprotool.model.swproj.SoftwareProject;
 import reprotool.model.swproj.SwprojFactory;
 import reprotool.model.swproj.SwprojPackage;
 
+/**
+ * @author jvinarek
+ *
+ */
 public class ActorsItemProvider extends TransientSoftwareProjectItemProvider {
 	public ActorsItemProvider(AdapterFactory adapterFactory, SoftwareProject softwareProject) {
 		super(adapterFactory, softwareProject);

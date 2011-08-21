@@ -11,7 +11,7 @@ import org.eclipse.emf.common.EMFPlugin;
 import org.eclipse.emf.common.util.ResourceLocator;
 
 /**
- * This is the central singleton for the Reprotool edit plugin.
+ * This is the central singleton for the Reprotool edit ext plugin.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated

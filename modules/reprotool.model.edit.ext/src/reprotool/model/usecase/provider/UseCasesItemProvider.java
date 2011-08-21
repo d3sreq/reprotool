@@ -1,13 +1,18 @@
-package reprotool.model.swproj.provider;
+package reprotool.model.usecase.provider;
 
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 
+import reprotool.model.edit.ext.common.TransientSoftwareProjectItemProvider;
 import reprotool.model.swproj.SoftwareProject;
 import reprotool.model.swproj.SwprojPackage;
 import reprotool.model.usecase.UsecaseFactory;
 
+/**
+ * @author jvinarek
+ *
+ */
 public class UseCasesItemProvider extends TransientSoftwareProjectItemProvider {
 	public UseCasesItemProvider(AdapterFactory adapterFactory, SoftwareProject softwareProject) {
 		super(adapterFactory, softwareProject);

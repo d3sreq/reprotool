@@ -1,4 +1,4 @@
-package reprotool.model.swproj.provider;
+package reprotool.model.edit.ext.common;
 
 import java.util.Collection;
 
@@ -12,6 +12,10 @@ import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 
 import reprotool.model.swproj.SoftwareProject;
 
+/**
+ * @author jvinarek
+ *
+ */
 public class TransientSoftwareProjectItemProvider extends ItemProviderAdapter
 		implements IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider, 
 		IItemLabelProvider, IItemPropertySource {
