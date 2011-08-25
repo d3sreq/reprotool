@@ -204,11 +204,8 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 		if (getSentenceNodes().isEmpty())
 			return sentence;
 		StringBuffer s = new StringBuffer();
-		for (SentencePart p : getSentenceNodes()) {
+		for (SentencePart p : getSentenceNodes())
 			s.append(p.getContent());
-			s.append(' ');
-		}
-		s.deleteCharAt(s.length()-1);
 		return s.toString();
 	}
 

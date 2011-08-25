@@ -122,21 +122,17 @@ public class UseCaseStepTreeProvider extends StyledCellLabelProvider implements 
 		@Override
 		public StyledString getSentenceColumn() {
 			StyledString res = new StyledString(step.getSentence());
-			if (step.getSentenceNodes().isEmpty()) {
-				// XXX just an example
-				if (res.getString().length() > 3)
-					res.setStyle(0, 3, styler);
+			if (step.getSentenceNodes().isEmpty())
 				return res;
-			}
 			
 			int offset = 0;
 			for (SentencePart p : step.getSentenceNodes()) {
 				if (p instanceof Text) {
-					offset += p.getContent().length()+1;
+					offset += p.getContent().length();
 					continue;
 				}
 				res.setStyle(offset, p.getContent().length(), styler);
-				offset += p.getContent().length()+1;
+				offset += p.getContent().length();
 			}
 			return res;
 		}

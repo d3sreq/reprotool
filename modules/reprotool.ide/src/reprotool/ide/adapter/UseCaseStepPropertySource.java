@@ -102,6 +102,20 @@ public class UseCaseStepPropertySource extends AbstractPropertySection {
 		data.right = new FormAttachment(actionCombo, -ITabbedPropertyConstants.HSPACE);
 		data.top = new FormAttachment(actionCombo, 0, SWT.CENTER);
 		actionLabel.setLayoutData(data);
+
+		Button parseButton = getWidgetFactory().createButton(composite, "Parse this step", SWT.NONE);
+		data = new FormData();
+		data.left = new FormAttachment(0);
+		data.right = new FormAttachment(100);
+		data.top = new FormAttachment(actionLabel, ITabbedPropertyConstants.VSPACE);
+		parseButton.setLayoutData(data);
+		
+		parseButton.addListener(SWT.Selection, new Listener() {
+			@Override
+			public void handleEvent(Event event) {
+				// start linguistic analysis here
+			}
+		});
 	}
 	
 	@Override
