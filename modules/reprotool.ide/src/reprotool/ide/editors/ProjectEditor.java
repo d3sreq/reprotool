@@ -271,13 +271,14 @@ public class ProjectEditor extends EditorPart implements IEditingDomainProvider,
 				public void createControl(Composite parent) {
 					super.createControl(parent);
 					contentOutlineViewer = getTreeViewer();
-					contentOutlineViewer.addSelectionChangedListener(this);
-
+					contentOutlineViewer.addSelectionChangedListener(this);					
+					
 					// Set up the tree viewer.
 					//
 					contentOutlineViewer.setContentProvider(new AdapterFactoryContentProvider(adapterFactory));
 					contentOutlineViewer.setLabelProvider(new AdapterFactoryLabelProvider(adapterFactory));
 					contentOutlineViewer.setInput(editingDomain.getResourceSet().getResources().get(0));
+					contentOutlineViewer.expandAll();
 					
 					contentOutlineViewer.addDoubleClickListener(new IDoubleClickListener() {
 						
@@ -341,6 +342,8 @@ public class ProjectEditor extends EditorPart implements IEditingDomainProvider,
 					handleContentOutlineSelection(event.getSelection());
 				}
 			});
+			
+			
 		}
 
 		return contentOutlinePage;
