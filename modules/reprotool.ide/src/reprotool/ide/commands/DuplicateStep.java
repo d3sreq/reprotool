@@ -29,10 +29,11 @@ public class DuplicateStep extends AbstractHandler {
 			parent.getSteps().add(parent.getSteps().indexOf(selected)+1, (UseCaseStep)clone);
 		} else if (selected instanceof Scenario) {
 			UseCaseStep parent = (UseCaseStep)selected.eContainer();
-			if (parent.getExtension().contains(selected))
-				parent.getExtension().add((Scenario)clone);
-			else
-				parent.getVariation().add((Scenario)clone);
+			// TODO - jvinarek - fix
+//			if (parent.getExtension().contains(selected))
+//				parent.getExtension().add((Scenario)clone);
+//			else
+//				parent.getVariation().add((Scenario)clone);
 		}
 		
 		editor.fixDuplicateIDs();

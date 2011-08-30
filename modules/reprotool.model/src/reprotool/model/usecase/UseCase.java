@@ -24,7 +24,6 @@ import reprotool.model.traceability.TraceableEntity;
  *   <li>{@link reprotool.model.usecase.UseCase#getPrimaryActor <em>Primary Actor</em>}</li>
  *   <li>{@link reprotool.model.usecase.UseCase#getName <em>Name</em>}</li>
  *   <li>{@link reprotool.model.usecase.UseCase#getMainScenario <em>Main Scenario</em>}</li>
- *   <li>{@link reprotool.model.usecase.UseCase#getPrecedesUseCases <em>Precedes Use Cases</em>}</li>
  * </ul>
  * </p>
  *
@@ -110,21 +109,5 @@ public interface UseCase extends ReqCover, TraceableEntity {
 	 * @generated
 	 */
 	void setMainScenario(Scenario value);
-
-	/**
-	 * Returns the value of the '<em><b>Precedes Use Cases</b></em>' reference list.
-	 * The list contents are of type {@link reprotool.model.usecase.UseCase}.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Precedes Use Cases</em>' reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Precedes Use Cases</em>' reference list.
-	 * @see reprotool.model.usecase.UsecasePackage#getUseCase_PrecedesUseCases()
-	 * @model ordered="false"
-	 * @generated
-	 */
-	EList<UseCase> getPrecedesUseCases();
 
 } // UseCase

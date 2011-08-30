@@ -100,6 +100,10 @@ public class UsecaseAdapterFactory extends AdapterFactoryImpl {
 				return createConditionAdapter();
 			}
 			@Override
+			public Adapter caseGuard(Guard object) {
+				return createGuardAdapter();
+			}
+			@Override
 			public Adapter caseReqCover(ReqCover object) {
 				return createReqCoverAdapter();
 			}
@@ -208,6 +212,20 @@ public class UsecaseAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createConditionAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link reprotool.model.usecase.Guard <em>Guard</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see reprotool.model.usecase.Guard
+	 * @generated
+	 */
+	public Adapter createGuardAdapter() {
 		return null;
 	}
 

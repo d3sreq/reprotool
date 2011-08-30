@@ -47,13 +47,14 @@ public class ScenarioPropertySource extends AbstractPropertySection {
 				boolean setVariation = typeCombo.getSelectionIndex() == 1;
 				editor.saveUndoState();
 				UseCaseStep parent = (UseCaseStep)scenario.eContainer();
-				if (setVariation) {
-					parent.getExtension().remove(scenario);
-					parent.getVariation().add(scenario);
-				} else {
-					parent.getVariation().remove(scenario);
-					parent.getExtension().add(0, scenario);
-				}
+				// TODO - jvinarek - fix
+//				if (setVariation) {
+//					parent.getExtension().remove(scenario);
+//					parent.getVariation().add(scenario);
+//				} else {
+//					parent.getVariation().remove(scenario);
+//					parent.getExtension().add(0, scenario);
+//				}
 				editor.setDirty();
 			}
 			@Override
@@ -79,6 +80,7 @@ public class ScenarioPropertySource extends AbstractPropertySection {
 	@Override
 	public void refresh() {
 		UseCaseStep parent = (UseCaseStep)scenario.eContainer();
-		typeCombo.select(parent.getExtension().contains(scenario) ? 0 : 1);
+		// TODO - jvinarek - fix
+//		typeCombo.select(parent.getExtension().contains(scenario) ? 0 : 1);
 	}
 }

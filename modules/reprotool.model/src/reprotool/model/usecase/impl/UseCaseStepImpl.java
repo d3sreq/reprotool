@@ -21,9 +21,10 @@ import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
 
-import reprotool.model.linguistic.SentenceNode;
-import reprotool.model.linguistic.SentencePart;
+import reprotool.model.linguistic.parsetree.SentenceNode;
+import reprotool.model.linguistic.sentenceparts.SentencePart;
 import reprotool.model.swproj.Requirement;
+import reprotool.model.usecase.Guard;
 import reprotool.model.usecase.Scenario;
 import reprotool.model.usecase.UseCase;
 import reprotool.model.usecase.UseCaseStep;
@@ -37,12 +38,11 @@ import reprotool.model.usecase.UsecasePackage;
  * The following features are implemented:
  * <ul>
  *   <li>{@link reprotool.model.usecase.impl.UseCaseStepImpl#getRelatedRequirements <em>Related Requirements</em>}</li>
- *   <li>{@link reprotool.model.usecase.impl.UseCaseStepImpl#getExtension <em>Extension</em>}</li>
- *   <li>{@link reprotool.model.usecase.impl.UseCaseStepImpl#getVariation <em>Variation</em>}</li>
- *   <li>{@link reprotool.model.usecase.impl.UseCaseStepImpl#getSentence <em>Sentence</em>}</li>
  *   <li>{@link reprotool.model.usecase.impl.UseCaseStepImpl#getParsedSentence <em>Parsed Sentence</em>}</li>
  *   <li>{@link reprotool.model.usecase.impl.UseCaseStepImpl#getID <em>ID</em>}</li>
  *   <li>{@link reprotool.model.usecase.impl.UseCaseStepImpl#getSentenceNodes <em>Sentence Nodes</em>}</li>
+ *   <li>{@link reprotool.model.usecase.impl.UseCaseStepImpl#getExtensions <em>Extensions</em>}</li>
+ *   <li>{@link reprotool.model.usecase.impl.UseCaseStepImpl#getVariations <em>Variations</em>}</li>
  * </ul>
  * </p>
  *
@@ -58,46 +58,6 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 	 * @ordered
 	 */
 	protected EList<Requirement> relatedRequirements;
-
-	/**
-	 * The cached value of the '{@link #getExtension() <em>Extension</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getExtension()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<Scenario> extension;
-
-	/**
-	 * The cached value of the '{@link #getVariation() <em>Variation</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getVariation()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<Scenario> variation;
-
-	/**
-	 * The default value of the '{@link #getSentence() <em>Sentence</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getSentence()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String SENTENCE_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getSentence() <em>Sentence</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getSentence()
-	 * @generated
-	 * @ordered
-	 */
-	protected String sentence = SENTENCE_EDEFAULT;
 
 	/**
 	 * The cached value of the '{@link #getParsedSentence() <em>Parsed Sentence</em>}' containment reference.
@@ -140,6 +100,26 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 	protected EList<SentencePart> sentenceNodes;
 
 	/**
+	 * The cached value of the '{@link #getExtensions() <em>Extensions</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getExtensions()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<Guard> extensions;
+
+	/**
+	 * The cached value of the '{@link #getVariations() <em>Variations</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getVariations()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<Guard> variations;
+
+	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated NOT
@@ -174,56 +154,6 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EList<Scenario> getExtension() {
-		if (extension == null) {
-			extension = new EObjectContainmentEList<Scenario>(Scenario.class, this, UsecasePackage.USE_CASE_STEP__EXTENSION);
-		}
-		return extension;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EList<Scenario> getVariation() {
-		if (variation == null) {
-			variation = new EObjectContainmentEList<Scenario>(Scenario.class, this, UsecasePackage.USE_CASE_STEP__VARIATION);
-		}
-		return variation;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated NOT
-	 */
-	public String getSentence() {
-		if (getSentenceNodes().isEmpty())
-			return sentence;
-		StringBuffer s = new StringBuffer();
-		for (SentencePart p : getSentenceNodes())
-			s.append(p.getContent());
-		return s.toString();
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setSentence(String newSentence) {
-		String oldSentence = sentence;
-		sentence = newSentence;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, UsecasePackage.USE_CASE_STEP__SENTENCE, oldSentence, sentence));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
 	public String getLabel() {
@@ -232,24 +162,32 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 	
 	/** @generated NOT */
 	private String getLabel(EObject item) {
-		if (item.eContainer() instanceof UseCase)
-			return "";
-		StringBuffer s = new StringBuffer(getLabel(item.eContainer()));
-		if (item instanceof Scenario) {
-			UseCaseStep parent = (UseCaseStep)item.eContainer();
-			int idx;
-			if (parent.getVariation().contains(item))
-				idx = parent.getVariation().indexOf(item);
-			else
-				idx = parent.getVariation().size() + parent.getExtension().indexOf(item);
-			s.append((char)('a'+idx));
-		} else if (item instanceof UseCaseStep) {
-			Scenario parent = (Scenario)item.eContainer();
-			int idx = parent.getSteps().indexOf(item);
-			if (idx != 0 || parent.eContainer() instanceof UseCase)
-				s.append(idx+1);
-		}
-		return s.toString();
+//		if (item.eContainer() instanceof UseCase) {
+//			return "";
+//		}
+//		
+//		StringBuffer s = new StringBuffer(getLabel(item.eContainer()));
+//		
+//		if (item instanceof Scenario) {
+//			UseCaseStep parent = (UseCaseStep)item.eContainer();
+//			int idx;
+//			if (parent.getvagetVariation().contains(item)) {
+//				idx = parent.getVariation().indexOf(item);
+//			}
+//			else {
+//				idx = parent.getVariation().size() + parent.getExtension().indexOf(item);
+//			}
+//			s.append((char)('a' + idx));
+//		} else if (item instanceof UseCaseStep) {
+//			Scenario parent = (Scenario)item.eContainer();
+//			int idx = parent.getSteps().indexOf(item);
+//			
+//			if (idx != 0 || parent.eContainer() instanceof UseCase) {
+//				s.append(idx + 1);
+//			}
+//		}
+//		return s.toString();
+		return "";
 	}
 
 	/**
@@ -333,17 +271,41 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList<Guard> getExtensions() {
+		if (extensions == null) {
+			extensions = new EObjectContainmentEList<Guard>(Guard.class, this, UsecasePackage.USE_CASE_STEP__EXTENSIONS);
+		}
+		return extensions;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<Guard> getVariations() {
+		if (variations == null) {
+			variations = new EObjectContainmentEList<Guard>(Guard.class, this, UsecasePackage.USE_CASE_STEP__VARIATIONS);
+		}
+		return variations;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case UsecasePackage.USE_CASE_STEP__EXTENSION:
-				return ((InternalEList<?>)getExtension()).basicRemove(otherEnd, msgs);
-			case UsecasePackage.USE_CASE_STEP__VARIATION:
-				return ((InternalEList<?>)getVariation()).basicRemove(otherEnd, msgs);
 			case UsecasePackage.USE_CASE_STEP__PARSED_SENTENCE:
 				return basicSetParsedSentence(null, msgs);
 			case UsecasePackage.USE_CASE_STEP__SENTENCE_NODES:
 				return ((InternalEList<?>)getSentenceNodes()).basicRemove(otherEnd, msgs);
+			case UsecasePackage.USE_CASE_STEP__EXTENSIONS:
+				return ((InternalEList<?>)getExtensions()).basicRemove(otherEnd, msgs);
+			case UsecasePackage.USE_CASE_STEP__VARIATIONS:
+				return ((InternalEList<?>)getVariations()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -358,18 +320,16 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 		switch (featureID) {
 			case UsecasePackage.USE_CASE_STEP__RELATED_REQUIREMENTS:
 				return getRelatedRequirements();
-			case UsecasePackage.USE_CASE_STEP__EXTENSION:
-				return getExtension();
-			case UsecasePackage.USE_CASE_STEP__VARIATION:
-				return getVariation();
-			case UsecasePackage.USE_CASE_STEP__SENTENCE:
-				return getSentence();
 			case UsecasePackage.USE_CASE_STEP__PARSED_SENTENCE:
 				return getParsedSentence();
 			case UsecasePackage.USE_CASE_STEP__ID:
 				return getID();
 			case UsecasePackage.USE_CASE_STEP__SENTENCE_NODES:
 				return getSentenceNodes();
+			case UsecasePackage.USE_CASE_STEP__EXTENSIONS:
+				return getExtensions();
+			case UsecasePackage.USE_CASE_STEP__VARIATIONS:
+				return getVariations();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -387,17 +347,6 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 				getRelatedRequirements().clear();
 				getRelatedRequirements().addAll((Collection<? extends Requirement>)newValue);
 				return;
-			case UsecasePackage.USE_CASE_STEP__EXTENSION:
-				getExtension().clear();
-				getExtension().addAll((Collection<? extends Scenario>)newValue);
-				return;
-			case UsecasePackage.USE_CASE_STEP__VARIATION:
-				getVariation().clear();
-				getVariation().addAll((Collection<? extends Scenario>)newValue);
-				return;
-			case UsecasePackage.USE_CASE_STEP__SENTENCE:
-				setSentence((String)newValue);
-				return;
 			case UsecasePackage.USE_CASE_STEP__PARSED_SENTENCE:
 				setParsedSentence((SentenceNode)newValue);
 				return;
@@ -407,6 +356,14 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 			case UsecasePackage.USE_CASE_STEP__SENTENCE_NODES:
 				getSentenceNodes().clear();
 				getSentenceNodes().addAll((Collection<? extends SentencePart>)newValue);
+				return;
+			case UsecasePackage.USE_CASE_STEP__EXTENSIONS:
+				getExtensions().clear();
+				getExtensions().addAll((Collection<? extends Guard>)newValue);
+				return;
+			case UsecasePackage.USE_CASE_STEP__VARIATIONS:
+				getVariations().clear();
+				getVariations().addAll((Collection<? extends Guard>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -423,15 +380,6 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 			case UsecasePackage.USE_CASE_STEP__RELATED_REQUIREMENTS:
 				getRelatedRequirements().clear();
 				return;
-			case UsecasePackage.USE_CASE_STEP__EXTENSION:
-				getExtension().clear();
-				return;
-			case UsecasePackage.USE_CASE_STEP__VARIATION:
-				getVariation().clear();
-				return;
-			case UsecasePackage.USE_CASE_STEP__SENTENCE:
-				setSentence(SENTENCE_EDEFAULT);
-				return;
 			case UsecasePackage.USE_CASE_STEP__PARSED_SENTENCE:
 				setParsedSentence((SentenceNode)null);
 				return;
@@ -440,6 +388,12 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 				return;
 			case UsecasePackage.USE_CASE_STEP__SENTENCE_NODES:
 				getSentenceNodes().clear();
+				return;
+			case UsecasePackage.USE_CASE_STEP__EXTENSIONS:
+				getExtensions().clear();
+				return;
+			case UsecasePackage.USE_CASE_STEP__VARIATIONS:
+				getVariations().clear();
 				return;
 		}
 		super.eUnset(featureID);
@@ -455,18 +409,16 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 		switch (featureID) {
 			case UsecasePackage.USE_CASE_STEP__RELATED_REQUIREMENTS:
 				return relatedRequirements != null && !relatedRequirements.isEmpty();
-			case UsecasePackage.USE_CASE_STEP__EXTENSION:
-				return extension != null && !extension.isEmpty();
-			case UsecasePackage.USE_CASE_STEP__VARIATION:
-				return variation != null && !variation.isEmpty();
-			case UsecasePackage.USE_CASE_STEP__SENTENCE:
-				return SENTENCE_EDEFAULT == null ? sentence != null : !SENTENCE_EDEFAULT.equals(sentence);
 			case UsecasePackage.USE_CASE_STEP__PARSED_SENTENCE:
 				return parsedSentence != null;
 			case UsecasePackage.USE_CASE_STEP__ID:
 				return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
 			case UsecasePackage.USE_CASE_STEP__SENTENCE_NODES:
 				return sentenceNodes != null && !sentenceNodes.isEmpty();
+			case UsecasePackage.USE_CASE_STEP__EXTENSIONS:
+				return extensions != null && !extensions.isEmpty();
+			case UsecasePackage.USE_CASE_STEP__VARIATIONS:
+				return variations != null && !variations.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}
@@ -481,9 +433,7 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (Sentence: ");
-		result.append(sentence);
-		result.append(", ID: ");
+		result.append(" (ID: ");
 		result.append(id);
 		result.append(')');
 		return result.toString();

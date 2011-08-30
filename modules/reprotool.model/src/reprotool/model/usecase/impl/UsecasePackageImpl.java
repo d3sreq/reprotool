@@ -29,6 +29,10 @@ import reprotool.model.linguistic.LinguisticPackage;
 
 import reprotool.model.linguistic.impl.LinguisticPackageImpl;
 
+import reprotool.model.linguistic.parsetree.ParsetreePackage;
+import reprotool.model.linguistic.parsetree.impl.ParsetreePackageImpl;
+import reprotool.model.linguistic.sentenceparts.SentencepartsPackage;
+import reprotool.model.linguistic.sentenceparts.impl.SentencepartsPackageImpl;
 import reprotool.model.lts.LtsPackage;
 
 import reprotool.model.lts.impl.LtsPackageImpl;
@@ -46,6 +50,7 @@ import reprotool.model.traceability.TraceabilityPackage;
 import reprotool.model.traceability.impl.TraceabilityPackageImpl;
 
 import reprotool.model.usecase.Condition;
+import reprotool.model.usecase.Guard;
 import reprotool.model.usecase.Postcondition;
 import reprotool.model.usecase.Precondition;
 import reprotool.model.usecase.Scenario;
@@ -104,6 +109,13 @@ public class UsecasePackageImpl extends EPackageImpl implements UsecasePackage {
 	private EClass conditionEClass = null;
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass guardEClass = null;
+
+	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
 	 * {@link org.eclipse.emf.ecore.EPackage.Registry EPackage.Registry} by the package
 	 * package URI value.
@@ -154,6 +166,8 @@ public class UsecasePackageImpl extends EPackageImpl implements UsecasePackage {
 		SwprojPackageImpl theSwprojPackage = (SwprojPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(SwprojPackage.eNS_URI) instanceof SwprojPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(SwprojPackage.eNS_URI) : SwprojPackage.eINSTANCE);
 		TraceabilityPackageImpl theTraceabilityPackage = (TraceabilityPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(TraceabilityPackage.eNS_URI) instanceof TraceabilityPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(TraceabilityPackage.eNS_URI) : TraceabilityPackage.eINSTANCE);
 		LinguisticPackageImpl theLinguisticPackage = (LinguisticPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(LinguisticPackage.eNS_URI) instanceof LinguisticPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(LinguisticPackage.eNS_URI) : LinguisticPackage.eINSTANCE);
+		ParsetreePackageImpl theParsetreePackage = (ParsetreePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ParsetreePackage.eNS_URI) instanceof ParsetreePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ParsetreePackage.eNS_URI) : ParsetreePackage.eINSTANCE);
+		SentencepartsPackageImpl theSentencepartsPackage = (SentencepartsPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(SentencepartsPackage.eNS_URI) instanceof SentencepartsPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(SentencepartsPackage.eNS_URI) : SentencepartsPackage.eINSTANCE);
 		AstPackageImpl theAstPackage = (AstPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(AstPackage.eNS_URI) instanceof AstPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(AstPackage.eNS_URI) : AstPackage.eINSTANCE);
 		CompPackageImpl theCompPackage = (CompPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(CompPackage.eNS_URI) instanceof CompPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(CompPackage.eNS_URI) : CompPackage.eINSTANCE);
 		DocPackageImpl theDocPackage = (DocPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(DocPackage.eNS_URI) instanceof DocPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(DocPackage.eNS_URI) : DocPackage.eINSTANCE);
@@ -165,6 +179,8 @@ public class UsecasePackageImpl extends EPackageImpl implements UsecasePackage {
 		theSwprojPackage.createPackageContents();
 		theTraceabilityPackage.createPackageContents();
 		theLinguisticPackage.createPackageContents();
+		theParsetreePackage.createPackageContents();
+		theSentencepartsPackage.createPackageContents();
 		theAstPackage.createPackageContents();
 		theCompPackage.createPackageContents();
 		theDocPackage.createPackageContents();
@@ -176,6 +192,8 @@ public class UsecasePackageImpl extends EPackageImpl implements UsecasePackage {
 		theSwprojPackage.initializePackageContents();
 		theTraceabilityPackage.initializePackageContents();
 		theLinguisticPackage.initializePackageContents();
+		theParsetreePackage.initializePackageContents();
+		theSentencepartsPackage.initializePackageContents();
 		theAstPackage.initializePackageContents();
 		theCompPackage.initializePackageContents();
 		theDocPackage.initializePackageContents();
@@ -231,15 +249,6 @@ public class UsecasePackageImpl extends EPackageImpl implements UsecasePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getUseCase_PrecedesUseCases() {
-		return (EReference)useCaseEClass.getEStructuralFeatures().get(3);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EClass getUseCaseStep() {
 		return useCaseStepEClass;
 	}
@@ -249,7 +258,7 @@ public class UsecasePackageImpl extends EPackageImpl implements UsecasePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getUseCaseStep_Extension() {
+	public EReference getUseCaseStep_ParsedSentence() {
 		return (EReference)useCaseStepEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -258,35 +267,8 @@ public class UsecasePackageImpl extends EPackageImpl implements UsecasePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getUseCaseStep_Variation() {
-		return (EReference)useCaseStepEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getUseCaseStep_Sentence() {
-		return (EAttribute)useCaseStepEClass.getEStructuralFeatures().get(2);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getUseCaseStep_ParsedSentence() {
-		return (EReference)useCaseStepEClass.getEStructuralFeatures().get(3);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EAttribute getUseCaseStep_ID() {
-		return (EAttribute)useCaseStepEClass.getEStructuralFeatures().get(4);
+		return (EAttribute)useCaseStepEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -295,7 +277,25 @@ public class UsecasePackageImpl extends EPackageImpl implements UsecasePackage {
 	 * @generated
 	 */
 	public EReference getUseCaseStep_SentenceNodes() {
-		return (EReference)useCaseStepEClass.getEStructuralFeatures().get(5);
+		return (EReference)useCaseStepEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getUseCaseStep_Extensions() {
+		return (EReference)useCaseStepEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getUseCaseStep_Variations() {
+		return (EReference)useCaseStepEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -384,6 +384,42 @@ public class UsecasePackageImpl extends EPackageImpl implements UsecasePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getGuard() {
+		return guardEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getGuard_ID() {
+		return (EAttribute)guardEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getGuard_Sentence() {
+		return (EAttribute)guardEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getGuard_Scenario() {
+		return (EReference)guardEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public UsecaseFactory getUsecaseFactory() {
 		return (UsecaseFactory)getEFactoryInstance();
 	}
@@ -411,15 +447,13 @@ public class UsecasePackageImpl extends EPackageImpl implements UsecasePackage {
 		createEReference(useCaseEClass, USE_CASE__PRIMARY_ACTOR);
 		createEAttribute(useCaseEClass, USE_CASE__NAME);
 		createEReference(useCaseEClass, USE_CASE__MAIN_SCENARIO);
-		createEReference(useCaseEClass, USE_CASE__PRECEDES_USE_CASES);
 
 		useCaseStepEClass = createEClass(USE_CASE_STEP);
-		createEReference(useCaseStepEClass, USE_CASE_STEP__EXTENSION);
-		createEReference(useCaseStepEClass, USE_CASE_STEP__VARIATION);
-		createEAttribute(useCaseStepEClass, USE_CASE_STEP__SENTENCE);
 		createEReference(useCaseStepEClass, USE_CASE_STEP__PARSED_SENTENCE);
 		createEAttribute(useCaseStepEClass, USE_CASE_STEP__ID);
 		createEReference(useCaseStepEClass, USE_CASE_STEP__SENTENCE_NODES);
+		createEReference(useCaseStepEClass, USE_CASE_STEP__EXTENSIONS);
+		createEReference(useCaseStepEClass, USE_CASE_STEP__VARIATIONS);
 
 		scenarioEClass = createEClass(SCENARIO);
 		createEReference(scenarioEClass, SCENARIO__STEPS);
@@ -433,6 +467,11 @@ public class UsecasePackageImpl extends EPackageImpl implements UsecasePackage {
 
 		conditionEClass = createEClass(CONDITION);
 		createEAttribute(conditionEClass, CONDITION__SENTENCE);
+
+		guardEClass = createEClass(GUARD);
+		createEAttribute(guardEClass, GUARD__ID);
+		createEAttribute(guardEClass, GUARD__SENTENCE);
+		createEReference(guardEClass, GUARD__SCENARIO);
 	}
 
 	/**
@@ -461,7 +500,8 @@ public class UsecasePackageImpl extends EPackageImpl implements UsecasePackage {
 		// Obtain other dependent packages
 		SwprojPackage theSwprojPackage = (SwprojPackage)EPackage.Registry.INSTANCE.getEPackage(SwprojPackage.eNS_URI);
 		TraceabilityPackage theTraceabilityPackage = (TraceabilityPackage)EPackage.Registry.INSTANCE.getEPackage(TraceabilityPackage.eNS_URI);
-		LinguisticPackage theLinguisticPackage = (LinguisticPackage)EPackage.Registry.INSTANCE.getEPackage(LinguisticPackage.eNS_URI);
+		ParsetreePackage theParsetreePackage = (ParsetreePackage)EPackage.Registry.INSTANCE.getEPackage(ParsetreePackage.eNS_URI);
+		SentencepartsPackage theSentencepartsPackage = (SentencepartsPackage)EPackage.Registry.INSTANCE.getEPackage(SentencepartsPackage.eNS_URI);
 
 		// Create type parameters
 
@@ -479,15 +519,13 @@ public class UsecasePackageImpl extends EPackageImpl implements UsecasePackage {
 		initEReference(getUseCase_PrimaryActor(), theSwprojPackage.getActor(), null, "primaryActor", null, 1, 1, UseCase.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getUseCase_Name(), ecorePackage.getEString(), "Name", null, 0, 1, UseCase.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getUseCase_MainScenario(), this.getScenario(), null, "mainScenario", null, 1, 1, UseCase.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getUseCase_PrecedesUseCases(), this.getUseCase(), null, "precedesUseCases", null, 0, -1, UseCase.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 
 		initEClass(useCaseStepEClass, UseCaseStep.class, "UseCaseStep", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getUseCaseStep_Extension(), this.getScenario(), null, "extension", null, 0, -1, UseCaseStep.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getUseCaseStep_Variation(), this.getScenario(), null, "variation", null, 0, -1, UseCaseStep.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getUseCaseStep_Sentence(), ecorePackage.getEString(), "Sentence", null, 0, 1, UseCaseStep.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getUseCaseStep_ParsedSentence(), theLinguisticPackage.getSentenceNode(), null, "parsedSentence", null, 0, 1, UseCaseStep.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getUseCaseStep_ParsedSentence(), theParsetreePackage.getSentenceNode(), null, "parsedSentence", null, 0, 1, UseCaseStep.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getUseCaseStep_ID(), ecorePackage.getEString(), "ID", null, 0, 1, UseCaseStep.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getUseCaseStep_SentenceNodes(), theLinguisticPackage.getSentencePart(), null, "sentenceNodes", null, 0, -1, UseCaseStep.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getUseCaseStep_SentenceNodes(), theSentencepartsPackage.getSentencePart(), null, "sentenceNodes", null, 0, -1, UseCaseStep.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getUseCaseStep_Extensions(), this.getGuard(), null, "extensions", null, 0, -1, UseCaseStep.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getUseCaseStep_Variations(), this.getGuard(), null, "variations", null, 0, -1, UseCaseStep.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		addEOperation(useCaseStepEClass, ecorePackage.getEString(), "getLabel", 0, 1, IS_UNIQUE, IS_ORDERED);
 
@@ -505,6 +543,11 @@ public class UsecasePackageImpl extends EPackageImpl implements UsecasePackage {
 
 		initEClass(conditionEClass, Condition.class, "Condition", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getCondition_Sentence(), ecorePackage.getEString(), "Sentence", null, 0, 1, Condition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(guardEClass, Guard.class, "Guard", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getGuard_ID(), ecorePackage.getEString(), "ID", null, 0, 1, Guard.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getGuard_Sentence(), ecorePackage.getEString(), "Sentence", null, 0, 1, Guard.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getGuard_Scenario(), this.getScenario(), null, "scenario", null, 1, 1, Guard.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);

@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 public class Sentence {
-	public List<Word> words = new ArrayList<Word>();
+	public List<WordLing> words = new ArrayList<WordLing>();
 
 	/**
 	 * Parse sentence string from PennTreeBank syntax
@@ -15,7 +15,7 @@ public class Sentence {
 	public Sentence(String originalSentence) {
     	if (!originalSentence.isEmpty()){
 	    	for (String word : originalSentence.split("\\s+")) {
-	    	    this.words.add(new Word(word));
+	    	    this.words.add(new WordLing(word));
 	    	}
     	}
 	}	
@@ -29,7 +29,7 @@ public class Sentence {
     public Boolean parse(String originalSentence) {
     	if (!originalSentence.isEmpty()){
 	    	for (String word : originalSentence.split(" ")) {
-	    	    words.add(new Word(word));
+	    	    words.add(new WordLing(word));
 	    	}
 	    	return true;
     	}
@@ -39,7 +39,7 @@ public class Sentence {
 
     public String toString(){
     	String sentence = "";
-    	for (Word word : words) {
+    	for (WordLing word : words) {
     		//JOptionPane.showMessageDialog(null, word.text,"Text Message",0);
     		sentence += word.text + " ";
     	}
@@ -59,8 +59,8 @@ public class Sentence {
     	int has_neg = 0;
     	       
     	// preprocessing
-        for (Iterator<Word> iword = negation.words.iterator(); iword.hasNext();) {
-        	Word word = iword.next();
+        for (Iterator<WordLing> iword = negation.words.iterator(); iword.hasNext();) {
+        	WordLing word = iword.next();
     		if(word.text.equals("n't")||word.text.equals("not")){        	
     			count_not++;
     		}
@@ -74,15 +74,15 @@ public class Sentence {
         }
         if((count_not + count_no) > 0){
         	// removing
-            for (Iterator<Word> iword = negation.words.iterator(); iword.hasNext();) {
-            	Word word = iword.next();
+            for (Iterator<WordLing> iword = negation.words.iterator(); iword.hasNext();) {
+            	WordLing word = iword.next();
         		if(word.text.equals("n't")||word.text.equals("not")||word.text.equals("no")){   
         			iword.remove();
         		}
             }       	
         } else {
         	// positive sentence -> creating negative
-        	Iterator<Word> iword = negation.words.iterator();
+        	Iterator<WordLing> iword = negation.words.iterator();
         	Boolean goon = true;
         	int i = 0;
         	for(i = 0; (goon && i<negation.words.size()); i++){
@@ -91,14 +91,14 @@ public class Sentence {
         		}       		
         	}       	
         	if(!goon){
-        		negation.words.add(i, new Word("not_RB"));
+        		negation.words.add(i, new WordLing("not_RB"));
         	} else {
         		// last - logic negation (antonyms)
 	        	if (has_neg > 0){
 		        	iword = negation.words.iterator();
 		        	goon = true;
 		        	while(iword.hasNext() && goon){
-		        		Word word = iword.next();
+		        		WordLing word = iword.next();
 		        		
 		        		if(!word.negation.isEmpty()){ 
 		        			word.negate();

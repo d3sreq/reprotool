@@ -127,8 +127,10 @@ public class UseCaseEditor extends EditorPart implements ITabbedPropertySheetPag
 				return;
 			EObject selected = (EObject)getSelectedObject();
 			clipboardItem = EcoreUtil.copy(selected);
-			if (selected instanceof Scenario)
-				isVariation = ((UseCaseStep)selected.eContainer()).getVariation().contains(selected);
+			
+			// TODO - jvinarek - fix
+//			if (selected instanceof Scenario)
+//				isVariation = ((UseCaseStep)selected.eContainer()).getVariation().contains(selected);
 			runCommand("org.eclipse.ui.edit.delete");
 		}
 		
@@ -136,8 +138,9 @@ public class UseCaseEditor extends EditorPart implements ITabbedPropertySheetPag
 			if (getSelectedObject() == null)
 				return;
 			EObject selected = (EObject)getSelectedObject();
-			if (selected instanceof Scenario)
-				isVariation = ((UseCaseStep)selected.eContainer()).getVariation().contains(selected);
+			// TODO - jvinarek - fix
+//			if (selected instanceof Scenario)
+//				isVariation = ((UseCaseStep)selected.eContainer()).getVariation().contains(selected);
 			clipboardItem = EcoreUtil.copy(selected);
 		}
 		
@@ -169,10 +172,11 @@ public class UseCaseEditor extends EditorPart implements ITabbedPropertySheetPag
 		}
 		
 		private void insertScenario(UseCaseStep step, Scenario scen) {
-			if (isVariation)
-				step.getVariation().add(scen);
-			else
-				step.getExtension().add(scen);
+			// TODO - jvinarek - fix
+//			if (isVariation)
+//				step.getVariation().add(scen);
+//			else
+//				step.getExtension().add(scen);
 		}
 	};
 	public Clipboard getClipboard() {
@@ -339,7 +343,9 @@ public class UseCaseEditor extends EditorPart implements ITabbedPropertySheetPag
 		protected Object getValue(Object element) {
 			if (element instanceof UseCaseStep) {
 				UseCaseStep step = (UseCaseStep) element;
-				return step.getSentence();
+				// TODO - jvinarek - fix
+//				return step.getSentence();
+				return "";
 			} else if (element instanceof Scenario) {
 				Scenario scen = (Scenario) element;
 				if (scen.getDescription() == null)
@@ -354,7 +360,8 @@ public class UseCaseEditor extends EditorPart implements ITabbedPropertySheetPag
 			if (element instanceof UseCaseStep) {
 				UseCaseStep step = (UseCaseStep) element;
 				saveUndoState();
-				step.setSentence(value.toString());
+				// TODO - jvinarek - fix
+//				step.setSentence(value.toString());
 				//step.setParsedSentence(lingTools.parseSentence(step.getSentence()));
 				treeViewer.update(step, new String[] { SENTENCE_PROPERTY });
 				treeViewer.refresh();
@@ -432,8 +439,9 @@ public class UseCaseEditor extends EditorPart implements ITabbedPropertySheetPag
 			checkEmptyScenario(scen);
 		} else if (item instanceof Scenario) {
 			UseCaseStep parent = (UseCaseStep)((EObject)item).eContainer();
-			parent.getExtension().remove(item);
-			parent.getVariation().remove(item);
+			// TODO - jvinarek - fix
+//			parent.getExtension().remove(item);
+//			parent.getVariation().remove(item);
 		}
 		sentenceText.setDocument(new Document());
 		refresh();
@@ -444,8 +452,9 @@ public class UseCaseEditor extends EditorPart implements ITabbedPropertySheetPag
 		if (scen.getSteps().isEmpty()) {
 			if (scen.eContainer() instanceof UseCaseStep) {
 				UseCaseStep parent = (UseCaseStep)scen.eContainer();
-				parent.getExtension().remove(scen);
-				parent.getVariation().remove(scen);
+				// TODO - jvinarek - fix
+//				parent.getExtension().remove(scen);
+//				parent.getVariation().remove(scen);
 			}
 		}
 	}
@@ -496,10 +505,13 @@ public class UseCaseEditor extends EditorPart implements ITabbedPropertySheetPag
 				showSelectedStep();
 				
 				Document doc = new Document();
-				if (selection instanceof UseCaseStep)
-					doc.set(getSelectedStep().getSentence());
-				else
+				if (selection instanceof UseCaseStep) {
+					// TODO - jvinarek - fix
+//					doc.set(getSelectedStep().getSentence());
+				}
+				else {
 					doc.set(((Scenario) getSelectedObject()).getDescription());
+				}
 				sentenceText.setDocument(doc);
 			}
 		});
@@ -724,13 +736,14 @@ public class UseCaseEditor extends EditorPart implements ITabbedPropertySheetPag
 						saveUndoState();
 						Scenario scen = (Scenario)src;
 						UseCaseStep parent = (UseCaseStep)scen.eContainer();
-						if (parent.getVariation().contains(scen)) {
-							((UseCaseStep)target).getVariation().add(scen);
-							parent.getVariation().remove(scen);
-						} else {
-							((UseCaseStep)target).getExtension().add(scen);
-							parent.getExtension().remove(scen);
-						}
+						// TODO - jvinarek - fix
+//						if (parent.getVariation().contains(scen)) {
+//							((UseCaseStep)target).getVariation().add(scen);
+//							parent.getVariation().remove(scen);
+//						} else {
+//							((UseCaseStep)target).getExtension().add(scen);
+//							parent.getExtension().remove(scen);
+//						}
 						setDirty();
 					} else if (src instanceof UseCaseStep && target instanceof Scenario) {
 						if (isTransitiveParent(src, target))
@@ -824,13 +837,14 @@ public class UseCaseEditor extends EditorPart implements ITabbedPropertySheetPag
 				String newText = sentenceText.getDocument().get();
 				if (selected instanceof UseCaseStep) {
 					UseCaseStep step = (UseCaseStep)selected;
-					if (step.getSentence() == null)
-						step.setSentence("");
-					if (! step.getSentence().equals(newText)) {
-						saveUndoState();
-						step.setSentence(newText);
-						setDirty();
-					}
+					// TODO - jvinarek - fix
+//					if (step.getSentence() == null)
+//						step.setSentence("");
+//					if (! step.getSentence().equals(newText)) {
+//						saveUndoState();
+//						step.setSentence(newText);
+//						setDirty();
+//					}
 				} else if (selected instanceof Scenario) {
 					Scenario scen = (Scenario)selected;
 					if (scen.getDescription() == null)
@@ -868,10 +882,11 @@ public class UseCaseEditor extends EditorPart implements ITabbedPropertySheetPag
 		ArrayList<UseCaseStep> res = new ArrayList<UseCaseStep>();
 		for (UseCaseStep step : scen.getSteps()) {
 			res.add(step);
-			for (Scenario s : step.getVariation())
-				res.addAll(getSteps(s));
-			for (Scenario s : step.getExtension())
-				res.addAll(getSteps(s));
+			// TODO - jvinarek - fix
+//			for (Scenario s : step.getVariation())
+//				res.addAll(getSteps(s));
+//			for (Scenario s : step.getExtension())
+//				res.addAll(getSteps(s));
 		}
 		return res;
 	}
@@ -881,14 +896,19 @@ public class UseCaseEditor extends EditorPart implements ITabbedPropertySheetPag
 			if (step.getLabel().equals(label))
 				return step;
 			UseCaseStep found = null;
-			for (Scenario s : step.getVariation())
-				found = findStepByLabel(s, label);
-			if (found != null)
+			// TODO - jvinarek - fix
+//			for (Scenario s : step.getVariation()) {
+//				found = findStepByLabel(s, label);
+//			}
+//			if (found != null) {
+//				return found;
+//			}
+//			for (Scenario s : step.getExtension()) {
+//				found = findStepByLabel(s, label);
+//			}
+			if (found != null) {
 				return found;
-			for (Scenario s : step.getExtension())
-				found = findStepByLabel(s, label);
-			if (found != null)
-				return found;
+			}
 		}
 		return null;
 	}
@@ -1060,8 +1080,11 @@ public class UseCaseEditor extends EditorPart implements ITabbedPropertySheetPag
 			if (step.getID().equals(id))
 				return step;
 			ArrayList<Scenario> children = new ArrayList<Scenario>();
-			children.addAll(step.getExtension());
-			children.addAll(step.getVariation());
+			
+			// TODO - jvinarek - fix
+//			children.addAll(step.getExtension());
+//			children.addAll(step.getVariation());
+			
 			for (Scenario s : children) {
 				UseCaseStep res = searchForID(s, id);
 				if (res != null)

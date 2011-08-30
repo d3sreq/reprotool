@@ -24,12 +24,14 @@ public class AddScenario extends AbstractHandler {
 		UsecaseFactory ucFactory = new UsecaseFactoryImpl();
 		Scenario scen = ucFactory.createScenario();
 		UseCaseStep newStep = ucFactory.createUseCaseStep();
-		newStep.setSentence("New step");
+		// TODO - jvinarek - fix 
+//		newStep.setSentence("New step");
 		scen.getSteps().add(newStep);
-		if (event.getCommand().getId().equals("commands.addExtension"))
-			step.getExtension().add(scen);
-		else if (event.getCommand().getId().equals("commands.addVariation"))
-			step.getVariation().add(scen);
+		// TODO - jvinarek - fix
+//		if (event.getCommand().getId().equals("commands.addExtension"))
+//			step.getExtension().add(scen);
+//		else if (event.getCommand().getId().equals("commands.addVariation"))
+//			step.getVariation().add(scen);
 		editor.setDirty();
 		editor.setSelection(newStep);
 		return null;

@@ -8,9 +8,8 @@ package reprotool.model.usecase;
 
 import org.eclipse.emf.common.util.EList;
 
-import reprotool.model.linguistic.SentenceNode;
-
-import reprotool.model.linguistic.SentencePart;
+import reprotool.model.linguistic.parsetree.SentenceNode;
+import reprotool.model.linguistic.sentenceparts.SentencePart;
 import reprotool.model.swproj.ReqCover;
 
 /**
@@ -21,12 +20,11 @@ import reprotool.model.swproj.ReqCover;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link reprotool.model.usecase.UseCaseStep#getExtension <em>Extension</em>}</li>
- *   <li>{@link reprotool.model.usecase.UseCaseStep#getVariation <em>Variation</em>}</li>
- *   <li>{@link reprotool.model.usecase.UseCaseStep#getSentence <em>Sentence</em>}</li>
  *   <li>{@link reprotool.model.usecase.UseCaseStep#getParsedSentence <em>Parsed Sentence</em>}</li>
  *   <li>{@link reprotool.model.usecase.UseCaseStep#getID <em>ID</em>}</li>
  *   <li>{@link reprotool.model.usecase.UseCaseStep#getSentenceNodes <em>Sentence Nodes</em>}</li>
+ *   <li>{@link reprotool.model.usecase.UseCaseStep#getExtensions <em>Extensions</em>}</li>
+ *   <li>{@link reprotool.model.usecase.UseCaseStep#getVariations <em>Variations</em>}</li>
  * </ul>
  * </p>
  *
@@ -35,64 +33,6 @@ import reprotool.model.swproj.ReqCover;
  * @generated
  */
 public interface UseCaseStep extends ReqCover {
-	/**
-	 * Returns the value of the '<em><b>Extension</b></em>' containment reference list.
-	 * The list contents are of type {@link reprotool.model.usecase.Scenario}.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Extension</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Extension</em>' containment reference list.
-	 * @see reprotool.model.usecase.UsecasePackage#getUseCaseStep_Extension()
-	 * @model containment="true"
-	 * @generated
-	 */
-	EList<Scenario> getExtension();
-
-	/**
-	 * Returns the value of the '<em><b>Variation</b></em>' containment reference list.
-	 * The list contents are of type {@link reprotool.model.usecase.Scenario}.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Variation</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Variation</em>' containment reference list.
-	 * @see reprotool.model.usecase.UsecasePackage#getUseCaseStep_Variation()
-	 * @model containment="true"
-	 * @generated
-	 */
-	EList<Scenario> getVariation();
-
-	/**
-	 * Returns the value of the '<em><b>Sentence</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Sentence</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Sentence</em>' attribute.
-	 * @see #setSentence(String)
-	 * @see reprotool.model.usecase.UsecasePackage#getUseCaseStep_Sentence()
-	 * @model
-	 * @generated
-	 */
-	String getSentence();
-
-	/**
-	 * Sets the value of the '{@link reprotool.model.usecase.UseCaseStep#getSentence <em>Sentence</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Sentence</em>' attribute.
-	 * @see #getSentence()
-	 * @generated
-	 */
-	void setSentence(String value);
-
 	/**
 	 * <!-- begin-user-doc -->
 	 * <p>
@@ -159,7 +99,7 @@ public interface UseCaseStep extends ReqCover {
 
 	/**
 	 * Returns the value of the '<em><b>Sentence Nodes</b></em>' containment reference list.
-	 * The list contents are of type {@link reprotool.model.linguistic.SentencePart}.
+	 * The list contents are of type {@link reprotool.model.linguistic.sentenceparts.SentencePart}.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Sentence Nodes</em>' containment reference list isn't clear,
@@ -172,5 +112,37 @@ public interface UseCaseStep extends ReqCover {
 	 * @generated
 	 */
 	EList<SentencePart> getSentenceNodes();
+
+	/**
+	 * Returns the value of the '<em><b>Extensions</b></em>' containment reference list.
+	 * The list contents are of type {@link reprotool.model.usecase.Guard}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Extensions</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Extensions</em>' containment reference list.
+	 * @see reprotool.model.usecase.UsecasePackage#getUseCaseStep_Extensions()
+	 * @model containment="true"
+	 * @generated
+	 */
+	EList<Guard> getExtensions();
+
+	/**
+	 * Returns the value of the '<em><b>Variations</b></em>' containment reference list.
+	 * The list contents are of type {@link reprotool.model.usecase.Guard}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Variations</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Variations</em>' containment reference list.
+	 * @see reprotool.model.usecase.UsecasePackage#getUseCaseStep_Variations()
+	 * @model containment="true"
+	 * @generated
+	 */
+	EList<Guard> getVariations();
 
 } // UseCaseStep

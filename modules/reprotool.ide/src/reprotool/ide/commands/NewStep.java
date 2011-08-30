@@ -24,7 +24,8 @@ public class NewStep extends AbstractHandler {
 		UseCase uc = editor.getEditedUseCase();
 		UsecaseFactory ucFactory = new UsecaseFactoryImpl();
 		UseCaseStep newStep = ucFactory.createUseCaseStep();
-		newStep.setSentence("New step");
+		// TODO - jvinarek - fix
+//		newStep.setSentence("New step");
 		
 		Object selected = editor.getSelectedObject();
 		if (selected == null) {

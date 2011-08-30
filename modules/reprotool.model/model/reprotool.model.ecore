@@ -35,22 +35,19 @@
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="Name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="mainScenario" lowerBound="1"
           eType="#//usecase/Scenario" containment="true"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="precedesUseCases" ordered="false"
-          upperBound="-1" eType="#//usecase/UseCase"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="UseCaseStep" eSuperTypes="#//swproj/ReqCover">
       <eOperations name="getLabel" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="extension" upperBound="-1"
-          eType="#//usecase/Scenario" containment="true"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="variation" upperBound="-1"
-          eType="#//usecase/Scenario" containment="true"/>
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="Sentence" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="parsedSentence" eType="#//linguistic/SentenceNode"
+      <eStructuralFeatures xsi:type="ecore:EReference" name="parsedSentence" eType="#//linguistic/parsetree/SentenceNode"
           containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="ID" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
           iD="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="sentenceNodes" upperBound="-1"
-          eType="#//linguistic/SentencePart" containment="true"/>
+          eType="#//linguistic/sentenceparts/SentencePart" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="extensions" upperBound="-1"
+          eType="#//usecase/Guard" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="variations" upperBound="-1"
+          eType="#//usecase/Guard" containment="true"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="Scenario">
       <eOperations name="getInfo" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -66,6 +63,12 @@
     <eClassifiers xsi:type="ecore:EClass" name="Postcondition" eSuperTypes="#//usecase/Condition"/>
     <eClassifiers xsi:type="ecore:EClass" name="Condition" abstract="true" interface="true">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="Sentence" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Guard">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="ID" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="Sentence" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="scenario" lowerBound="1"
+          eType="#//usecase/Scenario" containment="true"/>
     </eClassifiers>
   </eSubpackages>
   <eSubpackages name="swproj" nsURI="http://d3s.mff.cuni.cz/reprotool/model/swproj"
@@ -112,11 +115,6 @@
   </eSubpackages>
   <eSubpackages name="linguistic" nsURI="http://d3s.mff.cuni.cz/reprotool/model/linguistic"
       nsPrefix="linguistic">
-    <eClassifiers xsi:type="ecore:EClass" name="SentenceNode" eSuperTypes="#//linguistic/InnerParseNode"/>
-    <eClassifiers xsi:type="ecore:EClass" name="Word" eSuperTypes="#//linguistic/ParseNode">
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="wordStr" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="wordType" eType="#//linguistic/EWordType"/>
-    </eClassifiers>
     <eClassifiers xsi:type="ecore:EEnum" name="EWordType">
       <eLiterals name="NotImportant"/>
       <eLiterals name="Subject" value="1"/>
@@ -126,32 +124,47 @@
       <eLiterals name="GotoTarget" value="5"/>
       <eLiterals name="ConditionLabel" value="6"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="ParseNode" abstract="true" interface="true"/>
-    <eClassifiers xsi:type="ecore:EClass" name="NounPhraseNode" eSuperTypes="#//linguistic/InnerParseNode"/>
-    <eClassifiers xsi:type="ecore:EClass" name="VerbPhraseNode" eSuperTypes="#//linguistic/InnerParseNode"/>
-    <eClassifiers xsi:type="ecore:EClass" name="PrepositionalPhraseNode" eSuperTypes="#//linguistic/InnerParseNode"/>
-    <eClassifiers xsi:type="ecore:EClass" name="InnerParseNode" abstract="true" interface="true"
-        eSuperTypes="#//linguistic/ParseNode">
-      <eStructuralFeatures xsi:type="ecore:EReference" name="childNodes" upperBound="-1"
-          eType="#//linguistic/ParseNode" containment="true"/>
-    </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="SentencePart" abstract="true">
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="Content" lowerBound="1"
-          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="Text" eSuperTypes="#//linguistic/SentencePart"/>
-    <eClassifiers xsi:type="ecore:EClass" name="Subject" eSuperTypes="#//linguistic/SentencePart">
-      <eStructuralFeatures xsi:type="ecore:EReference" name="actor" eType="#//swproj/Actor"/>
-    </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="GotoTarget" eSuperTypes="#//linguistic/SentencePart">
-      <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#//usecase/UseCaseStep"/>
-    </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="SentenceObject" abstract="true" eSuperTypes="#//linguistic/SentencePart">
-      <eStructuralFeatures xsi:type="ecore:EReference" name="object" eType="#//swproj/Actor"/>
-    </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="RepresentativeObject" eSuperTypes="#//linguistic/SentenceObject"/>
-    <eClassifiers xsi:type="ecore:EClass" name="IndirectObject" eSuperTypes="#//linguistic/SentenceObject"/>
-    <eClassifiers xsi:type="ecore:EClass" name="Verb" eSuperTypes="#//linguistic/SentencePart"/>
+    <eSubpackages name="parsetree" nsURI="http://d3s.mff.cuni.cz/reprotool/model/linguistic/parsetree"
+        nsPrefix="parsetree">
+      <eClassifiers xsi:type="ecore:EClass" name="SentenceNode" eSuperTypes="#//linguistic/parsetree/InnerParseNode"/>
+      <eClassifiers xsi:type="ecore:EClass" name="Word" eSuperTypes="#//linguistic/parsetree/ParseNode">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="wordStr" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="wordType" eType="#//linguistic/EWordType"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="ParseNode" abstract="true" interface="true"/>
+      <eClassifiers xsi:type="ecore:EClass" name="NounPhraseNode" eSuperTypes="#//linguistic/parsetree/InnerParseNode"/>
+      <eClassifiers xsi:type="ecore:EClass" name="VerbPhraseNode" eSuperTypes="#//linguistic/parsetree/InnerParseNode"/>
+      <eClassifiers xsi:type="ecore:EClass" name="PrepositionalPhraseNode" eSuperTypes="#//linguistic/parsetree/InnerParseNode"/>
+      <eClassifiers xsi:type="ecore:EClass" name="InnerParseNode" abstract="true"
+          interface="true" eSuperTypes="#//linguistic/parsetree/ParseNode">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="childNodes" upperBound="-1"
+            eType="#//linguistic/parsetree/ParseNode" containment="true"/>
+      </eClassifiers>
+    </eSubpackages>
+    <eSubpackages name="sentenceparts" nsURI="http://d3s.mff.cuni.cz/reprotool/model/linguistic/sentenceparts"
+        nsPrefix="sentenceparts">
+      <eClassifiers xsi:type="ecore:EClass" name="SentencePart" abstract="true">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="Content" lowerBound="1"
+            eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="Text" eSuperTypes="#//linguistic/sentenceparts/SentencePart"/>
+      <eClassifiers xsi:type="ecore:EClass" name="Subject" eSuperTypes="#//linguistic/sentenceparts/SentencePart">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="actor" eType="#//swproj/Actor"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="GotoTarget" eSuperTypes="#//linguistic/sentenceparts/SentencePart">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#//usecase/UseCaseStep"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="SentenceObject" abstract="true"
+          eSuperTypes="#//linguistic/sentenceparts/SentencePart">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="object" eType="#//swproj/Actor"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="Verb" eSuperTypes="#//linguistic/sentenceparts/SentencePart"/>
+      <eClassifiers xsi:type="ecore:EClass" name="RepresentativeObject" eSuperTypes="#//linguistic/sentenceparts/SentenceObject"/>
+      <eClassifiers xsi:type="ecore:EClass" name="IndirectObject" eSuperTypes="#//linguistic/sentenceparts/SentenceObject"/>
+      <eClassifiers xsi:type="ecore:EClass" name="UseCaseInclude" eSuperTypes="#//linguistic/sentenceparts/SentencePart">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#//usecase/UseCase"/>
+      </eClassifiers>
+    </eSubpackages>
   </eSubpackages>
   <eSubpackages name="ast" nsURI="http://d3s.mff.cuni.cz/reprotool/model/structure/ast"
       nsPrefix="ast">

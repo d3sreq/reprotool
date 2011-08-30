@@ -3,9 +3,10 @@ package reprotool.ide.parsetree;
 import java.util.ArrayList;
 import java.util.List;
 
-import reprotool.model.linguistic.InnerParseNode;
-import reprotool.model.linguistic.ParseNode;
-import reprotool.model.linguistic.SentenceNode;
+import reprotool.model.linguistic.parsetree.InnerParseNode;
+import reprotool.model.linguistic.parsetree.ParseNode;
+import reprotool.model.linguistic.parsetree.SentenceNode;
+
 
 public class NodeModelContentProvider {
 	private SentenceNode sentence;

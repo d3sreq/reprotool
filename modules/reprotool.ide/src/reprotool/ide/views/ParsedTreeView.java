@@ -36,10 +36,10 @@ import reprotool.ide.parsetree.NodeContentProvider;
 import reprotool.ide.parsetree.NodeLabelProvider;
 import reprotool.ide.parsetree.NodeModelContentProvider;
 import reprotool.model.linguistic.EWordType;
-import reprotool.model.linguistic.InnerParseNode;
-import reprotool.model.linguistic.ParseNode;
-import reprotool.model.linguistic.SentenceNode;
-import reprotool.model.linguistic.Word;
+import reprotool.model.linguistic.parsetree.InnerParseNode;
+import reprotool.model.linguistic.parsetree.ParseNode;
+import reprotool.model.linguistic.parsetree.SentenceNode;
+import reprotool.model.linguistic.parsetree.Word;
 
 
 public class ParsedTreeView extends ViewPart {

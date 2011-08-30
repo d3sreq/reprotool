@@ -41,7 +41,6 @@ import reprotool.model.usecase.UsecasePackage;
  *   <li>{@link reprotool.model.usecase.impl.UseCaseImpl#getPrimaryActor <em>Primary Actor</em>}</li>
  *   <li>{@link reprotool.model.usecase.impl.UseCaseImpl#getName <em>Name</em>}</li>
  *   <li>{@link reprotool.model.usecase.impl.UseCaseImpl#getMainScenario <em>Main Scenario</em>}</li>
- *   <li>{@link reprotool.model.usecase.impl.UseCaseImpl#getPrecedesUseCases <em>Precedes Use Cases</em>}</li>
  * </ul>
  * </p>
  *
@@ -97,16 +96,6 @@ public class UseCaseImpl extends EObjectImpl implements UseCase {
 	 * @ordered
 	 */
 	protected Scenario mainScenario;
-
-	/**
-	 * The cached value of the '{@link #getPrecedesUseCases() <em>Precedes Use Cases</em>}' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getPrecedesUseCases()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<UseCase> precedesUseCases;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -246,18 +235,6 @@ public class UseCaseImpl extends EObjectImpl implements UseCase {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<UseCase> getPrecedesUseCases() {
-		if (precedesUseCases == null) {
-			precedesUseCases = new EObjectResolvingEList<UseCase>(UseCase.class, this, UsecasePackage.USE_CASE__PRECEDES_USE_CASES);
-		}
-		return precedesUseCases;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -284,8 +261,6 @@ public class UseCaseImpl extends EObjectImpl implements UseCase {
 				return getName();
 			case UsecasePackage.USE_CASE__MAIN_SCENARIO:
 				return getMainScenario();
-			case UsecasePackage.USE_CASE__PRECEDES_USE_CASES:
-				return getPrecedesUseCases();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -312,10 +287,6 @@ public class UseCaseImpl extends EObjectImpl implements UseCase {
 			case UsecasePackage.USE_CASE__MAIN_SCENARIO:
 				setMainScenario((Scenario)newValue);
 				return;
-			case UsecasePackage.USE_CASE__PRECEDES_USE_CASES:
-				getPrecedesUseCases().clear();
-				getPrecedesUseCases().addAll((Collection<? extends UseCase>)newValue);
-				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -340,9 +311,6 @@ public class UseCaseImpl extends EObjectImpl implements UseCase {
 			case UsecasePackage.USE_CASE__MAIN_SCENARIO:
 				setMainScenario((Scenario)null);
 				return;
-			case UsecasePackage.USE_CASE__PRECEDES_USE_CASES:
-				getPrecedesUseCases().clear();
-				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -363,8 +331,6 @@ public class UseCaseImpl extends EObjectImpl implements UseCase {
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 			case UsecasePackage.USE_CASE__MAIN_SCENARIO:
 				return mainScenario != null;
-			case UsecasePackage.USE_CASE__PRECEDES_USE_CASES:
-				return precedesUseCases != null && !precedesUseCases.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

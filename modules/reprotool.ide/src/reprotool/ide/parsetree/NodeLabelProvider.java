@@ -15,11 +15,11 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.zest.core.viewers.EntityConnectionData;
 
 import reprotool.model.linguistic.EWordType;
-import reprotool.model.linguistic.NounPhraseNode;
-import reprotool.model.linguistic.PrepositionalPhraseNode;
-import reprotool.model.linguistic.SentenceNode;
-import reprotool.model.linguistic.VerbPhraseNode;
-import reprotool.model.linguistic.Word;
+import reprotool.model.linguistic.parsetree.NounPhraseNode;
+import reprotool.model.linguistic.parsetree.PrepositionalPhraseNode;
+import reprotool.model.linguistic.parsetree.SentenceNode;
+import reprotool.model.linguistic.parsetree.VerbPhraseNode;
+import reprotool.model.linguistic.parsetree.Word;
 
 public class NodeLabelProvider extends LabelProvider {
     

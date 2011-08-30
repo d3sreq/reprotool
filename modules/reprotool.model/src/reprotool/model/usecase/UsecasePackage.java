@@ -108,22 +108,13 @@ public interface UsecasePackage extends EPackage {
 	int USE_CASE__MAIN_SCENARIO = SwprojPackage.REQ_COVER_FEATURE_COUNT + 2;
 
 	/**
-	 * The feature id for the '<em><b>Precedes Use Cases</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int USE_CASE__PRECEDES_USE_CASES = SwprojPackage.REQ_COVER_FEATURE_COUNT + 3;
-
-	/**
 	 * The number of structural features of the '<em>Use Case</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int USE_CASE_FEATURE_COUNT = SwprojPackage.REQ_COVER_FEATURE_COUNT + 4;
+	int USE_CASE_FEATURE_COUNT = SwprojPackage.REQ_COVER_FEATURE_COUNT + 3;
 
 	/**
 	 * The meta object id for the '{@link reprotool.model.usecase.impl.UseCaseStepImpl <em>Use Case Step</em>}' class.
@@ -145,40 +136,13 @@ public interface UsecasePackage extends EPackage {
 	int USE_CASE_STEP__RELATED_REQUIREMENTS = SwprojPackage.REQ_COVER__RELATED_REQUIREMENTS;
 
 	/**
-	 * The feature id for the '<em><b>Extension</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int USE_CASE_STEP__EXTENSION = SwprojPackage.REQ_COVER_FEATURE_COUNT + 0;
-
-	/**
-	 * The feature id for the '<em><b>Variation</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int USE_CASE_STEP__VARIATION = SwprojPackage.REQ_COVER_FEATURE_COUNT + 1;
-
-	/**
-	 * The feature id for the '<em><b>Sentence</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int USE_CASE_STEP__SENTENCE = SwprojPackage.REQ_COVER_FEATURE_COUNT + 2;
-
-	/**
 	 * The feature id for the '<em><b>Parsed Sentence</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int USE_CASE_STEP__PARSED_SENTENCE = SwprojPackage.REQ_COVER_FEATURE_COUNT + 3;
+	int USE_CASE_STEP__PARSED_SENTENCE = SwprojPackage.REQ_COVER_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>ID</b></em>' attribute.
@@ -187,7 +151,7 @@ public interface UsecasePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int USE_CASE_STEP__ID = SwprojPackage.REQ_COVER_FEATURE_COUNT + 4;
+	int USE_CASE_STEP__ID = SwprojPackage.REQ_COVER_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Sentence Nodes</b></em>' containment reference list.
@@ -196,7 +160,25 @@ public interface UsecasePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int USE_CASE_STEP__SENTENCE_NODES = SwprojPackage.REQ_COVER_FEATURE_COUNT + 5;
+	int USE_CASE_STEP__SENTENCE_NODES = SwprojPackage.REQ_COVER_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>Extensions</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int USE_CASE_STEP__EXTENSIONS = SwprojPackage.REQ_COVER_FEATURE_COUNT + 3;
+
+	/**
+	 * The feature id for the '<em><b>Variations</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int USE_CASE_STEP__VARIATIONS = SwprojPackage.REQ_COVER_FEATURE_COUNT + 4;
 
 	/**
 	 * The number of structural features of the '<em>Use Case Step</em>' class.
@@ -205,7 +187,7 @@ public interface UsecasePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int USE_CASE_STEP_FEATURE_COUNT = SwprojPackage.REQ_COVER_FEATURE_COUNT + 6;
+	int USE_CASE_STEP_FEATURE_COUNT = SwprojPackage.REQ_COVER_FEATURE_COUNT + 5;
 
 	/**
 	 * The meta object id for the '{@link reprotool.model.usecase.impl.ScenarioImpl <em>Scenario</em>}' class.
@@ -348,6 +330,53 @@ public interface UsecasePackage extends EPackage {
 
 
 	/**
+	 * The meta object id for the '{@link reprotool.model.usecase.impl.GuardImpl <em>Guard</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see reprotool.model.usecase.impl.GuardImpl
+	 * @see reprotool.model.usecase.impl.UsecasePackageImpl#getGuard()
+	 * @generated
+	 */
+	int GUARD = 6;
+
+	/**
+	 * The feature id for the '<em><b>ID</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GUARD__ID = 0;
+
+	/**
+	 * The feature id for the '<em><b>Sentence</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GUARD__SENTENCE = 1;
+
+	/**
+	 * The feature id for the '<em><b>Scenario</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GUARD__SCENARIO = 2;
+
+	/**
+	 * The number of structural features of the '<em>Guard</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GUARD_FEATURE_COUNT = 3;
+
+
+	/**
 	 * Returns the meta object for class '{@link reprotool.model.usecase.UseCase <em>Use Case</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -391,17 +420,6 @@ public interface UsecasePackage extends EPackage {
 	EReference getUseCase_MainScenario();
 
 	/**
-	 * Returns the meta object for the reference list '{@link reprotool.model.usecase.UseCase#getPrecedesUseCases <em>Precedes Use Cases</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Precedes Use Cases</em>'.
-	 * @see reprotool.model.usecase.UseCase#getPrecedesUseCases()
-	 * @see #getUseCase()
-	 * @generated
-	 */
-	EReference getUseCase_PrecedesUseCases();
-
-	/**
 	 * Returns the meta object for class '{@link reprotool.model.usecase.UseCaseStep <em>Use Case Step</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -410,39 +428,6 @@ public interface UsecasePackage extends EPackage {
 	 * @generated
 	 */
 	EClass getUseCaseStep();
-
-	/**
-	 * Returns the meta object for the containment reference list '{@link reprotool.model.usecase.UseCaseStep#getExtension <em>Extension</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Extension</em>'.
-	 * @see reprotool.model.usecase.UseCaseStep#getExtension()
-	 * @see #getUseCaseStep()
-	 * @generated
-	 */
-	EReference getUseCaseStep_Extension();
-
-	/**
-	 * Returns the meta object for the containment reference list '{@link reprotool.model.usecase.UseCaseStep#getVariation <em>Variation</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Variation</em>'.
-	 * @see reprotool.model.usecase.UseCaseStep#getVariation()
-	 * @see #getUseCaseStep()
-	 * @generated
-	 */
-	EReference getUseCaseStep_Variation();
-
-	/**
-	 * Returns the meta object for the attribute '{@link reprotool.model.usecase.UseCaseStep#getSentence <em>Sentence</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Sentence</em>'.
-	 * @see reprotool.model.usecase.UseCaseStep#getSentence()
-	 * @see #getUseCaseStep()
-	 * @generated
-	 */
-	EAttribute getUseCaseStep_Sentence();
 
 	/**
 	 * Returns the meta object for the containment reference '{@link reprotool.model.usecase.UseCaseStep#getParsedSentence <em>Parsed Sentence</em>}'.
@@ -476,6 +461,28 @@ public interface UsecasePackage extends EPackage {
 	 * @generated
 	 */
 	EReference getUseCaseStep_SentenceNodes();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link reprotool.model.usecase.UseCaseStep#getExtensions <em>Extensions</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Extensions</em>'.
+	 * @see reprotool.model.usecase.UseCaseStep#getExtensions()
+	 * @see #getUseCaseStep()
+	 * @generated
+	 */
+	EReference getUseCaseStep_Extensions();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link reprotool.model.usecase.UseCaseStep#getVariations <em>Variations</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Variations</em>'.
+	 * @see reprotool.model.usecase.UseCaseStep#getVariations()
+	 * @see #getUseCaseStep()
+	 * @generated
+	 */
+	EReference getUseCaseStep_Variations();
 
 	/**
 	 * Returns the meta object for class '{@link reprotool.model.usecase.Scenario <em>Scenario</em>}'.
@@ -573,6 +580,49 @@ public interface UsecasePackage extends EPackage {
 	EAttribute getCondition_Sentence();
 
 	/**
+	 * Returns the meta object for class '{@link reprotool.model.usecase.Guard <em>Guard</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Guard</em>'.
+	 * @see reprotool.model.usecase.Guard
+	 * @generated
+	 */
+	EClass getGuard();
+
+	/**
+	 * Returns the meta object for the attribute '{@link reprotool.model.usecase.Guard#getID <em>ID</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>ID</em>'.
+	 * @see reprotool.model.usecase.Guard#getID()
+	 * @see #getGuard()
+	 * @generated
+	 */
+	EAttribute getGuard_ID();
+
+	/**
+	 * Returns the meta object for the attribute '{@link reprotool.model.usecase.Guard#getSentence <em>Sentence</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Sentence</em>'.
+	 * @see reprotool.model.usecase.Guard#getSentence()
+	 * @see #getGuard()
+	 * @generated
+	 */
+	EAttribute getGuard_Sentence();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link reprotool.model.usecase.Guard#getScenario <em>Scenario</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Scenario</em>'.
+	 * @see reprotool.model.usecase.Guard#getScenario()
+	 * @see #getGuard()
+	 * @generated
+	 */
+	EReference getGuard_Scenario();
+
+	/**
 	 * Returns the factory that creates the instances of the model.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -629,14 +679,6 @@ public interface UsecasePackage extends EPackage {
 		EReference USE_CASE__MAIN_SCENARIO = eINSTANCE.getUseCase_MainScenario();
 
 		/**
-		 * The meta object literal for the '<em><b>Precedes Use Cases</b></em>' reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference USE_CASE__PRECEDES_USE_CASES = eINSTANCE.getUseCase_PrecedesUseCases();
-
-		/**
 		 * The meta object literal for the '{@link reprotool.model.usecase.impl.UseCaseStepImpl <em>Use Case Step</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -645,30 +687,6 @@ public interface UsecasePackage extends EPackage {
 		 * @generated
 		 */
 		EClass USE_CASE_STEP = eINSTANCE.getUseCaseStep();
-
-		/**
-		 * The meta object literal for the '<em><b>Extension</b></em>' containment reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference USE_CASE_STEP__EXTENSION = eINSTANCE.getUseCaseStep_Extension();
-
-		/**
-		 * The meta object literal for the '<em><b>Variation</b></em>' containment reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference USE_CASE_STEP__VARIATION = eINSTANCE.getUseCaseStep_Variation();
-
-		/**
-		 * The meta object literal for the '<em><b>Sentence</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute USE_CASE_STEP__SENTENCE = eINSTANCE.getUseCaseStep_Sentence();
 
 		/**
 		 * The meta object literal for the '<em><b>Parsed Sentence</b></em>' containment reference feature.
@@ -693,6 +711,22 @@ public interface UsecasePackage extends EPackage {
 		 * @generated
 		 */
 		EReference USE_CASE_STEP__SENTENCE_NODES = eINSTANCE.getUseCaseStep_SentenceNodes();
+
+		/**
+		 * The meta object literal for the '<em><b>Extensions</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference USE_CASE_STEP__EXTENSIONS = eINSTANCE.getUseCaseStep_Extensions();
+
+		/**
+		 * The meta object literal for the '<em><b>Variations</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference USE_CASE_STEP__VARIATIONS = eINSTANCE.getUseCaseStep_Variations();
 
 		/**
 		 * The meta object literal for the '{@link reprotool.model.usecase.impl.ScenarioImpl <em>Scenario</em>}' class.
@@ -773,6 +807,40 @@ public interface UsecasePackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute CONDITION__SENTENCE = eINSTANCE.getCondition_Sentence();
+
+		/**
+		 * The meta object literal for the '{@link reprotool.model.usecase.impl.GuardImpl <em>Guard</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see reprotool.model.usecase.impl.GuardImpl
+		 * @see reprotool.model.usecase.impl.UsecasePackageImpl#getGuard()
+		 * @generated
+		 */
+		EClass GUARD = eINSTANCE.getGuard();
+
+		/**
+		 * The meta object literal for the '<em><b>ID</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute GUARD__ID = eINSTANCE.getGuard_ID();
+
+		/**
+		 * The meta object literal for the '<em><b>Sentence</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute GUARD__SENTENCE = eINSTANCE.getGuard_Sentence();
+
+		/**
+		 * The meta object literal for the '<em><b>Scenario</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference GUARD__SCENARIO = eINSTANCE.getGuard_Scenario();
 
 	}
 

@@ -1,6 +1,7 @@
 package reprotool.ling;
 
-import reprotool.model.linguistic.SentenceNode;
+import reprotool.model.linguistic.parsetree.SentenceNode;
+
 
 
 public interface ILingTools {

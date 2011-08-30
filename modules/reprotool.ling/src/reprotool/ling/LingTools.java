@@ -1,19 +1,18 @@
 package reprotool.ling;
 
 import reprotool.model.linguistic.EWordType;
-import reprotool.model.linguistic.LinguisticFactory;
-import reprotool.model.linguistic.NounPhraseNode;
-import reprotool.model.linguistic.SentenceNode;
-import reprotool.model.linguistic.VerbPhraseNode;
-import reprotool.model.linguistic.Word;
-import reprotool.model.linguistic.impl.LinguisticFactoryImpl;
+import reprotool.model.linguistic.parsetree.NounPhraseNode;
+import reprotool.model.linguistic.parsetree.ParsetreeFactory;
+import reprotool.model.linguistic.parsetree.SentenceNode;
+import reprotool.model.linguistic.parsetree.VerbPhraseNode;
+import reprotool.model.linguistic.parsetree.Word;
 
 public class LingTools implements ILingTools {
 
 	@Override
 	public SentenceNode parseSentence(String sentence) {
 		String[] words = sentence.split(" ");
-		LinguisticFactory factory = LinguisticFactoryImpl.init();
+		ParsetreeFactory factory = ParsetreeFactory.eINSTANCE;		
 		
 		SentenceNode rootNode = factory.createSentenceNode();
 		

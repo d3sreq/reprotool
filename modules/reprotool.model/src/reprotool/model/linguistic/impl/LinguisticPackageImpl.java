@@ -6,11 +6,8 @@
  */
 package reprotool.model.linguistic.impl;
 
-import org.eclipse.emf.ecore.EAttribute;
-import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.EReference;
 
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
@@ -26,25 +23,17 @@ import reprotool.model.doc.DocPackage;
 
 import reprotool.model.doc.impl.DocPackageImpl;
 
-import reprotool.model.linguistic.DirectObject;
 import reprotool.model.linguistic.EWordType;
-import reprotool.model.linguistic.GotoTarget;
-import reprotool.model.linguistic.IndirectObject;
-import reprotool.model.linguistic.InnerParseNode;
 import reprotool.model.linguistic.LinguisticFactory;
 import reprotool.model.linguistic.LinguisticPackage;
-import reprotool.model.linguistic.NounPhraseNode;
-import reprotool.model.linguistic.ParseNode;
-import reprotool.model.linguistic.PrepositionalPhraseNode;
-import reprotool.model.linguistic.RepresentativeObject;
-import reprotool.model.linguistic.SentenceNode;
-import reprotool.model.linguistic.SentenceObject;
-import reprotool.model.linguistic.SentencePart;
-import reprotool.model.linguistic.Subject;
-import reprotool.model.linguistic.Text;
-import reprotool.model.linguistic.Verb;
-import reprotool.model.linguistic.VerbPhraseNode;
-import reprotool.model.linguistic.Word;
+
+import reprotool.model.linguistic.parsetree.ParsetreePackage;
+
+import reprotool.model.linguistic.parsetree.impl.ParsetreePackageImpl;
+
+import reprotool.model.linguistic.sentenceparts.SentencepartsPackage;
+
+import reprotool.model.linguistic.sentenceparts.impl.SentencepartsPackageImpl;
 
 import reprotool.model.lts.LtsPackage;
 
@@ -73,111 +62,6 @@ import reprotool.model.usecase.impl.UsecasePackageImpl;
  * @generated
  */
 public class LinguisticPackageImpl extends EPackageImpl implements LinguisticPackage {
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass sentenceNodeEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass wordEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass parseNodeEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass nounPhraseNodeEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass verbPhraseNodeEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass prepositionalPhraseNodeEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass innerParseNodeEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass sentencePartEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass textEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass subjectEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass gotoTargetEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass sentenceObjectEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass representativeObjectEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass indirectObjectEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass verbEClass = null;
-
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -236,6 +120,8 @@ public class LinguisticPackageImpl extends EPackageImpl implements LinguisticPac
 		UsecasePackageImpl theUsecasePackage = (UsecasePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(UsecasePackage.eNS_URI) instanceof UsecasePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(UsecasePackage.eNS_URI) : UsecasePackage.eINSTANCE);
 		SwprojPackageImpl theSwprojPackage = (SwprojPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(SwprojPackage.eNS_URI) instanceof SwprojPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(SwprojPackage.eNS_URI) : SwprojPackage.eINSTANCE);
 		TraceabilityPackageImpl theTraceabilityPackage = (TraceabilityPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(TraceabilityPackage.eNS_URI) instanceof TraceabilityPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(TraceabilityPackage.eNS_URI) : TraceabilityPackage.eINSTANCE);
+		ParsetreePackageImpl theParsetreePackage = (ParsetreePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ParsetreePackage.eNS_URI) instanceof ParsetreePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ParsetreePackage.eNS_URI) : ParsetreePackage.eINSTANCE);
+		SentencepartsPackageImpl theSentencepartsPackage = (SentencepartsPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(SentencepartsPackage.eNS_URI) instanceof SentencepartsPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(SentencepartsPackage.eNS_URI) : SentencepartsPackage.eINSTANCE);
 		AstPackageImpl theAstPackage = (AstPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(AstPackage.eNS_URI) instanceof AstPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(AstPackage.eNS_URI) : AstPackage.eINSTANCE);
 		CompPackageImpl theCompPackage = (CompPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(CompPackage.eNS_URI) instanceof CompPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(CompPackage.eNS_URI) : CompPackage.eINSTANCE);
 		DocPackageImpl theDocPackage = (DocPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(DocPackage.eNS_URI) instanceof DocPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(DocPackage.eNS_URI) : DocPackage.eINSTANCE);
@@ -247,6 +133,8 @@ public class LinguisticPackageImpl extends EPackageImpl implements LinguisticPac
 		theUsecasePackage.createPackageContents();
 		theSwprojPackage.createPackageContents();
 		theTraceabilityPackage.createPackageContents();
+		theParsetreePackage.createPackageContents();
+		theSentencepartsPackage.createPackageContents();
 		theAstPackage.createPackageContents();
 		theCompPackage.createPackageContents();
 		theDocPackage.createPackageContents();
@@ -258,6 +146,8 @@ public class LinguisticPackageImpl extends EPackageImpl implements LinguisticPac
 		theUsecasePackage.initializePackageContents();
 		theSwprojPackage.initializePackageContents();
 		theTraceabilityPackage.initializePackageContents();
+		theParsetreePackage.initializePackageContents();
+		theSentencepartsPackage.initializePackageContents();
 		theAstPackage.initializePackageContents();
 		theCompPackage.initializePackageContents();
 		theDocPackage.initializePackageContents();
@@ -270,204 +160,6 @@ public class LinguisticPackageImpl extends EPackageImpl implements LinguisticPac
 		// Update the registry and return the package
 		EPackage.Registry.INSTANCE.put(LinguisticPackage.eNS_URI, theLinguisticPackage);
 		return theLinguisticPackage;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EClass getSentenceNode() {
-		return sentenceNodeEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EClass getWord() {
-		return wordEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getWord_WordStr() {
-		return (EAttribute)wordEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getWord_WordType() {
-		return (EAttribute)wordEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EClass getParseNode() {
-		return parseNodeEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EClass getNounPhraseNode() {
-		return nounPhraseNodeEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EClass getVerbPhraseNode() {
-		return verbPhraseNodeEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EClass getPrepositionalPhraseNode() {
-		return prepositionalPhraseNodeEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EClass getInnerParseNode() {
-		return innerParseNodeEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getInnerParseNode_ChildNodes() {
-		return (EReference)innerParseNodeEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EClass getSentencePart() {
-		return sentencePartEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getSentencePart_Content() {
-		return (EAttribute)sentencePartEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EClass getText() {
-		return textEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EClass getSubject() {
-		return subjectEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getSubject_Actor() {
-		return (EReference)subjectEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EClass getGotoTarget() {
-		return gotoTargetEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getGotoTarget_Target() {
-		return (EReference)gotoTargetEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EClass getSentenceObject() {
-		return sentenceObjectEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getSentenceObject_Object() {
-		return (EReference)sentenceObjectEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EClass getRepresentativeObject() {
-		return representativeObjectEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EClass getIndirectObject() {
-		return indirectObjectEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EClass getVerb() {
-		return verbEClass;
 	}
 
 	/**
@@ -506,44 +198,6 @@ public class LinguisticPackageImpl extends EPackageImpl implements LinguisticPac
 		if (isCreated) return;
 		isCreated = true;
 
-		// Create classes and their features
-		sentenceNodeEClass = createEClass(SENTENCE_NODE);
-
-		wordEClass = createEClass(WORD);
-		createEAttribute(wordEClass, WORD__WORD_STR);
-		createEAttribute(wordEClass, WORD__WORD_TYPE);
-
-		parseNodeEClass = createEClass(PARSE_NODE);
-
-		nounPhraseNodeEClass = createEClass(NOUN_PHRASE_NODE);
-
-		verbPhraseNodeEClass = createEClass(VERB_PHRASE_NODE);
-
-		prepositionalPhraseNodeEClass = createEClass(PREPOSITIONAL_PHRASE_NODE);
-
-		innerParseNodeEClass = createEClass(INNER_PARSE_NODE);
-		createEReference(innerParseNodeEClass, INNER_PARSE_NODE__CHILD_NODES);
-
-		sentencePartEClass = createEClass(SENTENCE_PART);
-		createEAttribute(sentencePartEClass, SENTENCE_PART__CONTENT);
-
-		textEClass = createEClass(TEXT);
-
-		subjectEClass = createEClass(SUBJECT);
-		createEReference(subjectEClass, SUBJECT__ACTOR);
-
-		gotoTargetEClass = createEClass(GOTO_TARGET);
-		createEReference(gotoTargetEClass, GOTO_TARGET__TARGET);
-
-		sentenceObjectEClass = createEClass(SENTENCE_OBJECT);
-		createEReference(sentenceObjectEClass, SENTENCE_OBJECT__OBJECT);
-
-		representativeObjectEClass = createEClass(REPRESENTATIVE_OBJECT);
-
-		indirectObjectEClass = createEClass(INDIRECT_OBJECT);
-
-		verbEClass = createEClass(VERB);
-
 		// Create enums
 		eWordTypeEEnum = createEEnum(EWORD_TYPE);
 	}
@@ -572,65 +226,12 @@ public class LinguisticPackageImpl extends EPackageImpl implements LinguisticPac
 		setNsURI(eNS_URI);
 
 		// Obtain other dependent packages
-		SwprojPackage theSwprojPackage = (SwprojPackage)EPackage.Registry.INSTANCE.getEPackage(SwprojPackage.eNS_URI);
-		UsecasePackage theUsecasePackage = (UsecasePackage)EPackage.Registry.INSTANCE.getEPackage(UsecasePackage.eNS_URI);
+		ParsetreePackage theParsetreePackage = (ParsetreePackage)EPackage.Registry.INSTANCE.getEPackage(ParsetreePackage.eNS_URI);
+		SentencepartsPackage theSentencepartsPackage = (SentencepartsPackage)EPackage.Registry.INSTANCE.getEPackage(SentencepartsPackage.eNS_URI);
 
-		// Create type parameters
-
-		// Set bounds for type parameters
-
-		// Add supertypes to classes
-		sentenceNodeEClass.getESuperTypes().add(this.getInnerParseNode());
-		wordEClass.getESuperTypes().add(this.getParseNode());
-		nounPhraseNodeEClass.getESuperTypes().add(this.getInnerParseNode());
-		verbPhraseNodeEClass.getESuperTypes().add(this.getInnerParseNode());
-		prepositionalPhraseNodeEClass.getESuperTypes().add(this.getInnerParseNode());
-		innerParseNodeEClass.getESuperTypes().add(this.getParseNode());
-		textEClass.getESuperTypes().add(this.getSentencePart());
-		subjectEClass.getESuperTypes().add(this.getSentencePart());
-		gotoTargetEClass.getESuperTypes().add(this.getSentencePart());
-		sentenceObjectEClass.getESuperTypes().add(this.getSentencePart());
-		representativeObjectEClass.getESuperTypes().add(this.getSentenceObject());
-		indirectObjectEClass.getESuperTypes().add(this.getSentenceObject());
-		verbEClass.getESuperTypes().add(this.getSentencePart());
-
-		// Initialize classes and features; add operations and parameters
-		initEClass(sentenceNodeEClass, SentenceNode.class, "SentenceNode", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-
-		initEClass(wordEClass, Word.class, "Word", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getWord_WordStr(), ecorePackage.getEString(), "wordStr", null, 0, 1, Word.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getWord_WordType(), this.getEWordType(), "wordType", null, 0, 1, Word.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(parseNodeEClass, ParseNode.class, "ParseNode", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-
-		initEClass(nounPhraseNodeEClass, NounPhraseNode.class, "NounPhraseNode", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-
-		initEClass(verbPhraseNodeEClass, VerbPhraseNode.class, "VerbPhraseNode", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-
-		initEClass(prepositionalPhraseNodeEClass, PrepositionalPhraseNode.class, "PrepositionalPhraseNode", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-
-		initEClass(innerParseNodeEClass, InnerParseNode.class, "InnerParseNode", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getInnerParseNode_ChildNodes(), this.getParseNode(), null, "childNodes", null, 0, -1, InnerParseNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(sentencePartEClass, SentencePart.class, "SentencePart", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getSentencePart_Content(), ecorePackage.getEString(), "Content", null, 1, 1, SentencePart.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(textEClass, Text.class, "Text", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-
-		initEClass(subjectEClass, Subject.class, "Subject", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getSubject_Actor(), theSwprojPackage.getActor(), null, "actor", null, 0, 1, Subject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(gotoTargetEClass, GotoTarget.class, "GotoTarget", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getGotoTarget_Target(), theUsecasePackage.getUseCaseStep(), null, "target", null, 0, 1, GotoTarget.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(sentenceObjectEClass, SentenceObject.class, "SentenceObject", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getSentenceObject_Object(), theSwprojPackage.getActor(), null, "object", null, 0, 1, SentenceObject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(representativeObjectEClass, RepresentativeObject.class, "RepresentativeObject", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-
-		initEClass(indirectObjectEClass, IndirectObject.class, "IndirectObject", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-
-		initEClass(verbEClass, Verb.class, "Verb", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		// Add subpackages
+		getESubpackages().add(theParsetreePackage);
+		getESubpackages().add(theSentencepartsPackage);
 
 		// Initialize enums and add enum literals
 		initEEnum(eWordTypeEEnum, EWordType.class, "EWordType");

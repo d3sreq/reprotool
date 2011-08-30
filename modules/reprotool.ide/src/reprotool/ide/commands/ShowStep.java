@@ -35,7 +35,9 @@ public class ShowStep extends AbstractHandler
 		if (treeView != null && editor != null && editor.getSelectedStep() != null) {
 			UseCaseStep ucstep = editor.getSelectedStep();
 			if (ucstep.getParsedSentence() == null) {
-				ucstep.setParsedSentence(lingTools.parseSentence(ucstep.getSentence()));
+//				ucstep.setParsedSentence(lingTools.parseSentence(ucstep.getSentence()));
+				// TODO - jvinarek - fix
+				ucstep.setParsedSentence(lingTools.parseSentence(""));
 			}
 			treeView.showTree(editor.getSelectedStep().getParsedSentence());
 		}

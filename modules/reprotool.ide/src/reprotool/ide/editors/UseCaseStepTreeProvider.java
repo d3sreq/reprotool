@@ -14,8 +14,8 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.TextStyle;
 
-import reprotool.model.linguistic.SentencePart;
-import reprotool.model.linguistic.Text;
+import reprotool.model.linguistic.sentenceparts.SentencePart;
+import reprotool.model.linguistic.sentenceparts.Text;
 import reprotool.model.usecase.Scenario;
 import reprotool.model.usecase.UseCase;
 import reprotool.model.usecase.UseCaseStep;
@@ -48,8 +48,9 @@ public class UseCaseStepTreeProvider extends StyledCellLabelProvider implements 
 			UseCaseStep parentStep = (UseCaseStep) parentElement; 
 
 			List<Scenario> children = new ArrayList<Scenario>();
-			children.addAll(parentStep.getVariation());
-			children.addAll(parentStep.getExtension());
+			// TODO - jvinarek - fix
+//			children.addAll(parentStep.getVariation());
+//			children.addAll(parentStep.getExtension());
 
 			return children.toArray();
 			
@@ -71,7 +72,7 @@ public class UseCaseStepTreeProvider extends StyledCellLabelProvider implements 
 		//return getChildren(element).length > 0;
 		if(element instanceof UseCaseStep) {
 			UseCaseStep step = (UseCaseStep)element;
-			return ! (step.getExtension().isEmpty() && step.getVariation().isEmpty());
+			return ! (step.getExtensions().isEmpty() && step.getVariations().isEmpty());
 		} else if (element instanceof Scenario) {
 			return ! ((Scenario) element).getSteps().isEmpty();
 		} else {
@@ -121,7 +122,9 @@ public class UseCaseStepTreeProvider extends StyledCellLabelProvider implements 
 
 		@Override
 		public StyledString getSentenceColumn() {
-			StyledString res = new StyledString(step.getSentence());
+			// TODO - jvinarek - fix
+//			StyledString res = new StyledString(step.getSentence());
+			StyledString res = new StyledString("");
 			if (step.getSentenceNodes().isEmpty())
 				return res;
 			
@@ -160,11 +163,12 @@ public class UseCaseStepTreeProvider extends StyledCellLabelProvider implements 
 		public StyledString getTypeColumn() {
 			UseCaseStep parentStep = (UseCaseStep) scen.eContainer();
 
-			if (parentStep.getExtension().contains(scen))
-				return new StyledString("extension");
-
-			if (parentStep.getVariation().contains(scen))
-				return new StyledString("variation");
+			// TODO - jvinarek - fix
+//			if (parentStep.getExtension().contains(scen))
+//				return new StyledString("extension");
+//
+//			if (parentStep.getVariation().contains(scen))
+//				return new StyledString("variation");
 
 			return new StyledString("unknown");
 		}
