@@ -14,7 +14,7 @@ import org.eclipse.swt.graphics.PaletteData;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.zest.core.viewers.EntityConnectionData;
 
-import reprotool.model.linguistic.EWordType;
+import reprotool.model.linguistic.parsetree.EWordType;
 import reprotool.model.linguistic.parsetree.NounPhraseNode;
 import reprotool.model.linguistic.parsetree.PrepositionalPhraseNode;
 import reprotool.model.linguistic.parsetree.SentenceNode;

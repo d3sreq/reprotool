@@ -8,6 +8,7 @@ package reprotool.model.linguistic.parsetree;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
@@ -257,6 +258,17 @@ public interface ParsetreePackage extends EPackage {
 
 
 	/**
+	 * The meta object id for the '{@link reprotool.model.linguistic.parsetree.EWordType <em>EWord Type</em>}' enum.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see reprotool.model.linguistic.parsetree.EWordType
+	 * @see reprotool.model.linguistic.parsetree.impl.ParsetreePackageImpl#getEWordType()
+	 * @generated
+	 */
+	int EWORD_TYPE = 7;
+
+
+	/**
 	 * Returns the meta object for class '{@link reprotool.model.linguistic.parsetree.SentenceNode <em>Sentence Node</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -358,6 +370,16 @@ public interface ParsetreePackage extends EPackage {
 	 * @generated
 	 */
 	EReference getInnerParseNode_ChildNodes();
+
+	/**
+	 * Returns the meta object for enum '{@link reprotool.model.linguistic.parsetree.EWordType <em>EWord Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for enum '<em>EWord Type</em>'.
+	 * @see reprotool.model.linguistic.parsetree.EWordType
+	 * @generated
+	 */
+	EEnum getEWordType();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -474,6 +496,16 @@ public interface ParsetreePackage extends EPackage {
 		 * @generated
 		 */
 		EReference INNER_PARSE_NODE__CHILD_NODES = eINSTANCE.getInnerParseNode_ChildNodes();
+
+		/**
+		 * The meta object literal for the '{@link reprotool.model.linguistic.parsetree.EWordType <em>EWord Type</em>}' enum.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see reprotool.model.linguistic.parsetree.EWordType
+		 * @see reprotool.model.linguistic.parsetree.impl.ParsetreePackageImpl#getEWordType()
+		 * @generated
+		 */
+		EEnum EWORD_TYPE = eINSTANCE.getEWordType();
 
 	}
 

@@ -14,8 +14,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.TextStyle;
 
-import reprotool.model.linguistic.sentenceparts.SentencePart;
-import reprotool.model.linguistic.sentenceparts.Text;
+import reprotool.model.linguistic.actionpart.Text;
 import reprotool.model.usecase.Scenario;
 import reprotool.model.usecase.UseCase;
 import reprotool.model.usecase.UseCaseStep;
@@ -129,8 +128,8 @@ public class UseCaseStepTreeProvider extends StyledCellLabelProvider implements 
 				return res;
 			
 			int offset = 0;
-			for (SentencePart p : step.getSentenceNodes()) {
-				if (p instanceof Text) {
+			for (Text p : step.getSentenceNodes()) {
+				if (p.getActionPart() == null) {
 					offset += p.getContent().length();
 					continue;
 				}

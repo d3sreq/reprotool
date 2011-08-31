@@ -25,14 +25,18 @@ import reprotool.model.doc.DocPackage;
 
 import reprotool.model.doc.impl.DocPackageImpl;
 
-import reprotool.model.linguistic.LinguisticPackage;
+import reprotool.model.linguistic.action.ActionPackage;
 
-import reprotool.model.linguistic.impl.LinguisticPackageImpl;
+import reprotool.model.linguistic.action.impl.ActionPackageImpl;
+
+import reprotool.model.linguistic.actionpart.ActionpartPackage;
+
+import reprotool.model.linguistic.actionpart.impl.ActionpartPackageImpl;
 
 import reprotool.model.linguistic.parsetree.ParsetreePackage;
+
 import reprotool.model.linguistic.parsetree.impl.ParsetreePackageImpl;
-import reprotool.model.linguistic.sentenceparts.SentencepartsPackage;
-import reprotool.model.linguistic.sentenceparts.impl.SentencepartsPackageImpl;
+
 import reprotool.model.lts.LtsPackage;
 
 import reprotool.model.lts.impl.LtsPackageImpl;
@@ -214,9 +218,9 @@ public class ProcasesPackageImpl extends EPackageImpl implements ProcasesPackage
 		UsecasePackageImpl theUsecasePackage = (UsecasePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(UsecasePackage.eNS_URI) instanceof UsecasePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(UsecasePackage.eNS_URI) : UsecasePackage.eINSTANCE);
 		SwprojPackageImpl theSwprojPackage = (SwprojPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(SwprojPackage.eNS_URI) instanceof SwprojPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(SwprojPackage.eNS_URI) : SwprojPackage.eINSTANCE);
 		TraceabilityPackageImpl theTraceabilityPackage = (TraceabilityPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(TraceabilityPackage.eNS_URI) instanceof TraceabilityPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(TraceabilityPackage.eNS_URI) : TraceabilityPackage.eINSTANCE);
-		LinguisticPackageImpl theLinguisticPackage = (LinguisticPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(LinguisticPackage.eNS_URI) instanceof LinguisticPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(LinguisticPackage.eNS_URI) : LinguisticPackage.eINSTANCE);
 		ParsetreePackageImpl theParsetreePackage = (ParsetreePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ParsetreePackage.eNS_URI) instanceof ParsetreePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ParsetreePackage.eNS_URI) : ParsetreePackage.eINSTANCE);
-		SentencepartsPackageImpl theSentencepartsPackage = (SentencepartsPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(SentencepartsPackage.eNS_URI) instanceof SentencepartsPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(SentencepartsPackage.eNS_URI) : SentencepartsPackage.eINSTANCE);
+		ActionpartPackageImpl theActionpartPackage = (ActionpartPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ActionpartPackage.eNS_URI) instanceof ActionpartPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ActionpartPackage.eNS_URI) : ActionpartPackage.eINSTANCE);
+		ActionPackageImpl theActionPackage = (ActionPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ActionPackage.eNS_URI) instanceof ActionPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ActionPackage.eNS_URI) : ActionPackage.eINSTANCE);
 		AstPackageImpl theAstPackage = (AstPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(AstPackage.eNS_URI) instanceof AstPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(AstPackage.eNS_URI) : AstPackage.eINSTANCE);
 		CompPackageImpl theCompPackage = (CompPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(CompPackage.eNS_URI) instanceof CompPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(CompPackage.eNS_URI) : CompPackage.eINSTANCE);
 		DocPackageImpl theDocPackage = (DocPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(DocPackage.eNS_URI) instanceof DocPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(DocPackage.eNS_URI) : DocPackage.eINSTANCE);
@@ -227,9 +231,9 @@ public class ProcasesPackageImpl extends EPackageImpl implements ProcasesPackage
 		theUsecasePackage.createPackageContents();
 		theSwprojPackage.createPackageContents();
 		theTraceabilityPackage.createPackageContents();
-		theLinguisticPackage.createPackageContents();
 		theParsetreePackage.createPackageContents();
-		theSentencepartsPackage.createPackageContents();
+		theActionpartPackage.createPackageContents();
+		theActionPackage.createPackageContents();
 		theAstPackage.createPackageContents();
 		theCompPackage.createPackageContents();
 		theDocPackage.createPackageContents();
@@ -240,9 +244,9 @@ public class ProcasesPackageImpl extends EPackageImpl implements ProcasesPackage
 		theUsecasePackage.initializePackageContents();
 		theSwprojPackage.initializePackageContents();
 		theTraceabilityPackage.initializePackageContents();
-		theLinguisticPackage.initializePackageContents();
 		theParsetreePackage.initializePackageContents();
-		theSentencepartsPackage.initializePackageContents();
+		theActionpartPackage.initializePackageContents();
+		theActionPackage.initializePackageContents();
 		theAstPackage.initializePackageContents();
 		theCompPackage.initializePackageContents();
 		theDocPackage.initializePackageContents();

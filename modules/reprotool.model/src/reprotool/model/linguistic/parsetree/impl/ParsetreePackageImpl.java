@@ -8,6 +8,7 @@ package reprotool.model.linguistic.parsetree.impl;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
@@ -25,10 +26,15 @@ import reprotool.model.doc.DocPackage;
 
 import reprotool.model.doc.impl.DocPackageImpl;
 
-import reprotool.model.linguistic.LinguisticPackage;
+import reprotool.model.linguistic.action.ActionPackage;
 
-import reprotool.model.linguistic.impl.LinguisticPackageImpl;
+import reprotool.model.linguistic.action.impl.ActionPackageImpl;
 
+import reprotool.model.linguistic.actionpart.ActionpartPackage;
+
+import reprotool.model.linguistic.actionpart.impl.ActionpartPackageImpl;
+
+import reprotool.model.linguistic.parsetree.EWordType;
 import reprotool.model.linguistic.parsetree.InnerParseNode;
 import reprotool.model.linguistic.parsetree.NounPhraseNode;
 import reprotool.model.linguistic.parsetree.ParseNode;
@@ -38,10 +44,6 @@ import reprotool.model.linguistic.parsetree.PrepositionalPhraseNode;
 import reprotool.model.linguistic.parsetree.SentenceNode;
 import reprotool.model.linguistic.parsetree.VerbPhraseNode;
 import reprotool.model.linguistic.parsetree.Word;
-
-import reprotool.model.linguistic.sentenceparts.SentencepartsPackage;
-
-import reprotool.model.linguistic.sentenceparts.impl.SentencepartsPackageImpl;
 
 import reprotool.model.lts.LtsPackage;
 
@@ -120,6 +122,13 @@ public class ParsetreePackageImpl extends EPackageImpl implements ParsetreePacka
 	private EClass innerParseNodeEClass = null;
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EEnum eWordTypeEEnum = null;
+
+	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
 	 * {@link org.eclipse.emf.ecore.EPackage.Registry EPackage.Registry} by the package
 	 * package URI value.
@@ -170,8 +179,8 @@ public class ParsetreePackageImpl extends EPackageImpl implements ParsetreePacka
 		UsecasePackageImpl theUsecasePackage = (UsecasePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(UsecasePackage.eNS_URI) instanceof UsecasePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(UsecasePackage.eNS_URI) : UsecasePackage.eINSTANCE);
 		SwprojPackageImpl theSwprojPackage = (SwprojPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(SwprojPackage.eNS_URI) instanceof SwprojPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(SwprojPackage.eNS_URI) : SwprojPackage.eINSTANCE);
 		TraceabilityPackageImpl theTraceabilityPackage = (TraceabilityPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(TraceabilityPackage.eNS_URI) instanceof TraceabilityPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(TraceabilityPackage.eNS_URI) : TraceabilityPackage.eINSTANCE);
-		LinguisticPackageImpl theLinguisticPackage = (LinguisticPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(LinguisticPackage.eNS_URI) instanceof LinguisticPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(LinguisticPackage.eNS_URI) : LinguisticPackage.eINSTANCE);
-		SentencepartsPackageImpl theSentencepartsPackage = (SentencepartsPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(SentencepartsPackage.eNS_URI) instanceof SentencepartsPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(SentencepartsPackage.eNS_URI) : SentencepartsPackage.eINSTANCE);
+		ActionpartPackageImpl theActionpartPackage = (ActionpartPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ActionpartPackage.eNS_URI) instanceof ActionpartPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ActionpartPackage.eNS_URI) : ActionpartPackage.eINSTANCE);
+		ActionPackageImpl theActionPackage = (ActionPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ActionPackage.eNS_URI) instanceof ActionPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ActionPackage.eNS_URI) : ActionPackage.eINSTANCE);
 		AstPackageImpl theAstPackage = (AstPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(AstPackage.eNS_URI) instanceof AstPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(AstPackage.eNS_URI) : AstPackage.eINSTANCE);
 		CompPackageImpl theCompPackage = (CompPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(CompPackage.eNS_URI) instanceof CompPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(CompPackage.eNS_URI) : CompPackage.eINSTANCE);
 		DocPackageImpl theDocPackage = (DocPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(DocPackage.eNS_URI) instanceof DocPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(DocPackage.eNS_URI) : DocPackage.eINSTANCE);
@@ -183,8 +192,8 @@ public class ParsetreePackageImpl extends EPackageImpl implements ParsetreePacka
 		theUsecasePackage.createPackageContents();
 		theSwprojPackage.createPackageContents();
 		theTraceabilityPackage.createPackageContents();
-		theLinguisticPackage.createPackageContents();
-		theSentencepartsPackage.createPackageContents();
+		theActionpartPackage.createPackageContents();
+		theActionPackage.createPackageContents();
 		theAstPackage.createPackageContents();
 		theCompPackage.createPackageContents();
 		theDocPackage.createPackageContents();
@@ -196,8 +205,8 @@ public class ParsetreePackageImpl extends EPackageImpl implements ParsetreePacka
 		theUsecasePackage.initializePackageContents();
 		theSwprojPackage.initializePackageContents();
 		theTraceabilityPackage.initializePackageContents();
-		theLinguisticPackage.initializePackageContents();
-		theSentencepartsPackage.initializePackageContents();
+		theActionpartPackage.initializePackageContents();
+		theActionPackage.initializePackageContents();
 		theAstPackage.initializePackageContents();
 		theCompPackage.initializePackageContents();
 		theDocPackage.initializePackageContents();
@@ -307,6 +316,15 @@ public class ParsetreePackageImpl extends EPackageImpl implements ParsetreePacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EEnum getEWordType() {
+		return eWordTypeEEnum;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public ParsetreeFactory getParsetreeFactory() {
 		return (ParsetreeFactory)getEFactoryInstance();
 	}
@@ -346,6 +364,9 @@ public class ParsetreePackageImpl extends EPackageImpl implements ParsetreePacka
 
 		innerParseNodeEClass = createEClass(INNER_PARSE_NODE);
 		createEReference(innerParseNodeEClass, INNER_PARSE_NODE__CHILD_NODES);
+
+		// Create enums
+		eWordTypeEEnum = createEEnum(EWORD_TYPE);
 	}
 
 	/**
@@ -371,9 +392,6 @@ public class ParsetreePackageImpl extends EPackageImpl implements ParsetreePacka
 		setNsPrefix(eNS_PREFIX);
 		setNsURI(eNS_URI);
 
-		// Obtain other dependent packages
-		LinguisticPackage theLinguisticPackage = (LinguisticPackage)EPackage.Registry.INSTANCE.getEPackage(LinguisticPackage.eNS_URI);
-
 		// Create type parameters
 
 		// Set bounds for type parameters
@@ -391,7 +409,7 @@ public class ParsetreePackageImpl extends EPackageImpl implements ParsetreePacka
 
 		initEClass(wordEClass, Word.class, "Word", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getWord_WordStr(), ecorePackage.getEString(), "wordStr", null, 0, 1, Word.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getWord_WordType(), theLinguisticPackage.getEWordType(), "wordType", null, 0, 1, Word.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getWord_WordType(), this.getEWordType(), "wordType", null, 0, 1, Word.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(parseNodeEClass, ParseNode.class, "ParseNode", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
@@ -403,6 +421,19 @@ public class ParsetreePackageImpl extends EPackageImpl implements ParsetreePacka
 
 		initEClass(innerParseNodeEClass, InnerParseNode.class, "InnerParseNode", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getInnerParseNode_ChildNodes(), this.getParseNode(), null, "childNodes", null, 0, -1, InnerParseNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		// Initialize enums and add enum literals
+		initEEnum(eWordTypeEEnum, EWordType.class, "EWordType");
+		addEEnumLiteral(eWordTypeEEnum, EWordType.NOT_IMPORTANT);
+		addEEnumLiteral(eWordTypeEEnum, EWordType.SUBJECT);
+		addEEnumLiteral(eWordTypeEEnum, EWordType.INDIRECT_OBJECT);
+		addEEnumLiteral(eWordTypeEEnum, EWordType.VERB);
+		addEEnumLiteral(eWordTypeEEnum, EWordType.REPRESENTATIVE_OBJECT);
+		addEEnumLiteral(eWordTypeEEnum, EWordType.GOTO_TARGET);
+		addEEnumLiteral(eWordTypeEEnum, EWordType.CONDITION_LABEL);
+
+		// Create resource
+		createResource(eNS_URI);
 	}
 
 } //ParsetreePackageImpl

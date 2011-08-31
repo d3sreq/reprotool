@@ -6,7 +6,6 @@
  */
 package reprotool.model.linguistic.parsetree;
 
-import reprotool.model.linguistic.EWordType;
 
 /**
  * <!-- begin-user-doc -->
@@ -54,7 +53,7 @@ public interface Word extends ParseNode {
 
 	/**
 	 * Returns the value of the '<em><b>Word Type</b></em>' attribute.
-	 * The literals are from the enumeration {@link reprotool.model.linguistic.EWordType}.
+	 * The literals are from the enumeration {@link reprotool.model.linguistic.parsetree.EWordType}.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Word Type</em>' attribute isn't clear,
@@ -62,7 +61,7 @@ public interface Word extends ParseNode {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Word Type</em>' attribute.
-	 * @see reprotool.model.linguistic.EWordType
+	 * @see reprotool.model.linguistic.parsetree.EWordType
 	 * @see #setWordType(EWordType)
 	 * @see reprotool.model.linguistic.parsetree.ParsetreePackage#getWord_WordType()
 	 * @model
@@ -75,7 +74,7 @@ public interface Word extends ParseNode {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Word Type</em>' attribute.
-	 * @see reprotool.model.linguistic.EWordType
+	 * @see reprotool.model.linguistic.parsetree.EWordType
 	 * @see #getWordType()
 	 * @generated
 	 */

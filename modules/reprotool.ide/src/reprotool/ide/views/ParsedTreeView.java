@@ -35,7 +35,7 @@ import org.eclipse.zest.layouts.algorithms.TreeLayoutAlgorithm;
 import reprotool.ide.parsetree.NodeContentProvider;
 import reprotool.ide.parsetree.NodeLabelProvider;
 import reprotool.ide.parsetree.NodeModelContentProvider;
-import reprotool.model.linguistic.EWordType;
+import reprotool.model.linguistic.parsetree.EWordType;
 import reprotool.model.linguistic.parsetree.InnerParseNode;
 import reprotool.model.linguistic.parsetree.ParseNode;
 import reprotool.model.linguistic.parsetree.SentenceNode;

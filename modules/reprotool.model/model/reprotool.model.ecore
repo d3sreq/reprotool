@@ -43,11 +43,13 @@
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="ID" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
           iD="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="sentenceNodes" upperBound="-1"
-          eType="#//linguistic/sentenceparts/SentencePart" containment="true"/>
+          eType="#//linguistic/actionpart/Text" containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="extensions" upperBound="-1"
           eType="#//usecase/Guard" containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="variations" upperBound="-1"
           eType="#//usecase/Guard" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="action" lowerBound="1"
+          eType="#//linguistic/action/Action" containment="true"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="Scenario">
       <eOperations name="getInfo" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -115,21 +117,12 @@
   </eSubpackages>
   <eSubpackages name="linguistic" nsURI="http://d3s.mff.cuni.cz/reprotool/model/linguistic"
       nsPrefix="linguistic">
-    <eClassifiers xsi:type="ecore:EEnum" name="EWordType">
-      <eLiterals name="NotImportant"/>
-      <eLiterals name="Subject" value="1"/>
-      <eLiterals name="IndirectObject" value="2"/>
-      <eLiterals name="Verb" value="3" literal="Verb"/>
-      <eLiterals name="RepresentativeObject" value="4"/>
-      <eLiterals name="GotoTarget" value="5"/>
-      <eLiterals name="ConditionLabel" value="6"/>
-    </eClassifiers>
     <eSubpackages name="parsetree" nsURI="http://d3s.mff.cuni.cz/reprotool/model/linguistic/parsetree"
         nsPrefix="parsetree">
       <eClassifiers xsi:type="ecore:EClass" name="SentenceNode" eSuperTypes="#//linguistic/parsetree/InnerParseNode"/>
       <eClassifiers xsi:type="ecore:EClass" name="Word" eSuperTypes="#//linguistic/parsetree/ParseNode">
         <eStructuralFeatures xsi:type="ecore:EAttribute" name="wordStr" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-        <eStructuralFeatures xsi:type="ecore:EAttribute" name="wordType" eType="#//linguistic/EWordType"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="wordType" eType="#//linguistic/parsetree/EWordType"/>
       </eClassifiers>
       <eClassifiers xsi:type="ecore:EClass" name="ParseNode" abstract="true" interface="true"/>
       <eClassifiers xsi:type="ecore:EClass" name="NounPhraseNode" eSuperTypes="#//linguistic/parsetree/InnerParseNode"/>
@@ -140,30 +133,81 @@
         <eStructuralFeatures xsi:type="ecore:EReference" name="childNodes" upperBound="-1"
             eType="#//linguistic/parsetree/ParseNode" containment="true"/>
       </eClassifiers>
+      <eClassifiers xsi:type="ecore:EEnum" name="EWordType">
+        <eLiterals name="NotImportant"/>
+        <eLiterals name="Subject" value="1"/>
+        <eLiterals name="IndirectObject" value="2"/>
+        <eLiterals name="Verb" value="3" literal="Verb"/>
+        <eLiterals name="RepresentativeObject" value="4"/>
+        <eLiterals name="GotoTarget" value="5"/>
+        <eLiterals name="ConditionLabel" value="6"/>
+      </eClassifiers>
     </eSubpackages>
-    <eSubpackages name="sentenceparts" nsURI="http://d3s.mff.cuni.cz/reprotool/model/linguistic/sentenceparts"
-        nsPrefix="sentenceparts">
-      <eClassifiers xsi:type="ecore:EClass" name="SentencePart" abstract="true">
+    <eSubpackages name="actionpart" nsURI="http://d3s.mff.cuni.cz/reprotool/model/linguistic/actionpart"
+        nsPrefix="actionpart">
+      <eClassifiers xsi:type="ecore:EClass" name="Text">
         <eStructuralFeatures xsi:type="ecore:EAttribute" name="Content" lowerBound="1"
             eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="actionPart" eType="#//linguistic/actionpart/ActionPart"/>
       </eClassifiers>
-      <eClassifiers xsi:type="ecore:EClass" name="Text" eSuperTypes="#//linguistic/sentenceparts/SentencePart"/>
-      <eClassifiers xsi:type="ecore:EClass" name="Subject" eSuperTypes="#//linguistic/sentenceparts/SentencePart">
+      <eClassifiers xsi:type="ecore:EClass" name="Subject" eSuperTypes="#//linguistic/actionpart/ActionPart">
         <eStructuralFeatures xsi:type="ecore:EReference" name="actor" eType="#//swproj/Actor"/>
       </eClassifiers>
-      <eClassifiers xsi:type="ecore:EClass" name="GotoTarget" eSuperTypes="#//linguistic/sentenceparts/SentencePart">
+      <eClassifiers xsi:type="ecore:EClass" name="GotoTarget" eSuperTypes="#//linguistic/actionpart/ActionPart">
         <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#//usecase/UseCaseStep"/>
       </eClassifiers>
       <eClassifiers xsi:type="ecore:EClass" name="SentenceObject" abstract="true"
-          eSuperTypes="#//linguistic/sentenceparts/SentencePart">
+          eSuperTypes="#//linguistic/actionpart/ActionPart">
         <eStructuralFeatures xsi:type="ecore:EReference" name="object" eType="#//swproj/Actor"/>
       </eClassifiers>
-      <eClassifiers xsi:type="ecore:EClass" name="Verb" eSuperTypes="#//linguistic/sentenceparts/SentencePart"/>
-      <eClassifiers xsi:type="ecore:EClass" name="RepresentativeObject" eSuperTypes="#//linguistic/sentenceparts/SentenceObject"/>
-      <eClassifiers xsi:type="ecore:EClass" name="IndirectObject" eSuperTypes="#//linguistic/sentenceparts/SentenceObject"/>
-      <eClassifiers xsi:type="ecore:EClass" name="UseCaseInclude" eSuperTypes="#//linguistic/sentenceparts/SentencePart">
+      <eClassifiers xsi:type="ecore:EClass" name="Verb" eSuperTypes="#//linguistic/actionpart/ActionPart"/>
+      <eClassifiers xsi:type="ecore:EClass" name="RepresentativeObject" eSuperTypes="#//linguistic/actionpart/SentenceObject"/>
+      <eClassifiers xsi:type="ecore:EClass" name="IndirectObject" eSuperTypes="#//linguistic/actionpart/SentenceObject"/>
+      <eClassifiers xsi:type="ecore:EClass" name="UseCaseIncludePart" eSuperTypes="#//linguistic/actionpart/ActionPart">
         <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#//usecase/UseCase"/>
       </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="ActionPart" abstract="true">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="text" eType="#//linguistic/actionpart/Text"/>
+      </eClassifiers>
+    </eSubpackages>
+    <eSubpackages name="action" nsURI="http://d3s.mff.cuni.cz/reprotool/model/linguistic/action"
+        nsPrefix="action">
+      <eClassifiers xsi:type="ecore:EClass" name="Send" eSuperTypes="#//linguistic/action/Action">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="verb" lowerBound="1"
+            eType="#//linguistic/actionpart/Verb" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="subject" lowerBound="1"
+            eType="#//linguistic/actionpart/Subject" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="representativeObject"
+            lowerBound="1" eType="#//linguistic/actionpart/RepresentativeObject" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="indirectObject" lowerBound="1"
+            eType="#//linguistic/actionpart/IndirectObject" containment="true"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="Action" abstract="true"/>
+      <eClassifiers xsi:type="ecore:EClass" name="Receive" eSuperTypes="#//linguistic/action/Action">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="verb" lowerBound="1"
+            eType="#//linguistic/actionpart/Verb" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="subject" lowerBound="1"
+            eType="#//linguistic/actionpart/Subject" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="representativeObject"
+            lowerBound="1" eType="#//linguistic/actionpart/RepresentativeObject" containment="true"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="Internal" eSuperTypes="#//linguistic/action/Action">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="verb" lowerBound="1"
+            eType="#//linguistic/actionpart/Verb" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="representativeObjects"
+            lowerBound="1" eType="#//linguistic/actionpart/RepresentativeObject" containment="true"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="Goto" eSuperTypes="#//linguistic/action/Action">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="gotoTarget" lowerBound="1"
+            eType="#//linguistic/actionpart/GotoTarget" containment="true"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="Unknown" eSuperTypes="#//linguistic/action/Action"/>
+      <eClassifiers xsi:type="ecore:EClass" name="UseCaseInclude" eSuperTypes="#//linguistic/action/Action">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="include" lowerBound="1"
+            eType="#//linguistic/actionpart/UseCaseIncludePart" containment="true"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="TerminateUseCase" eSuperTypes="#//linguistic/action/Action"/>
+      <eClassifiers xsi:type="ecore:EClass" name="TerminateBranch" eSuperTypes="#//linguistic/action/Action"/>
     </eSubpackages>
   </eSubpackages>
   <eSubpackages name="ast" nsURI="http://d3s.mff.cuni.cz/reprotool/model/structure/ast"

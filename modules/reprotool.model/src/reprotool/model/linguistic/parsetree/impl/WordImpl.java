@@ -13,8 +13,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
-import reprotool.model.linguistic.EWordType;
-
+import reprotool.model.linguistic.parsetree.EWordType;
 import reprotool.model.linguistic.parsetree.ParsetreePackage;
 import reprotool.model.linguistic.parsetree.Word;
 

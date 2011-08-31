@@ -8,8 +8,9 @@ package reprotool.model.usecase;
 
 import org.eclipse.emf.common.util.EList;
 
+import reprotool.model.linguistic.action.Action;
+import reprotool.model.linguistic.actionpart.Text;
 import reprotool.model.linguistic.parsetree.SentenceNode;
-import reprotool.model.linguistic.sentenceparts.SentencePart;
 import reprotool.model.swproj.ReqCover;
 
 /**
@@ -25,6 +26,7 @@ import reprotool.model.swproj.ReqCover;
  *   <li>{@link reprotool.model.usecase.UseCaseStep#getSentenceNodes <em>Sentence Nodes</em>}</li>
  *   <li>{@link reprotool.model.usecase.UseCaseStep#getExtensions <em>Extensions</em>}</li>
  *   <li>{@link reprotool.model.usecase.UseCaseStep#getVariations <em>Variations</em>}</li>
+ *   <li>{@link reprotool.model.usecase.UseCaseStep#getAction <em>Action</em>}</li>
  * </ul>
  * </p>
  *
@@ -99,7 +101,7 @@ public interface UseCaseStep extends ReqCover {
 
 	/**
 	 * Returns the value of the '<em><b>Sentence Nodes</b></em>' containment reference list.
-	 * The list contents are of type {@link reprotool.model.linguistic.sentenceparts.SentencePart}.
+	 * The list contents are of type {@link reprotool.model.linguistic.actionpart.Text}.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Sentence Nodes</em>' containment reference list isn't clear,
@@ -111,7 +113,7 @@ public interface UseCaseStep extends ReqCover {
 	 * @model containment="true"
 	 * @generated
 	 */
-	EList<SentencePart> getSentenceNodes();
+	EList<Text> getSentenceNodes();
 
 	/**
 	 * Returns the value of the '<em><b>Extensions</b></em>' containment reference list.
@@ -144,5 +146,31 @@ public interface UseCaseStep extends ReqCover {
 	 * @generated
 	 */
 	EList<Guard> getVariations();
+
+	/**
+	 * Returns the value of the '<em><b>Action</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Action</em>' containment reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Action</em>' containment reference.
+	 * @see #setAction(Action)
+	 * @see reprotool.model.usecase.UsecasePackage#getUseCaseStep_Action()
+	 * @model containment="true" required="true"
+	 * @generated
+	 */
+	Action getAction();
+
+	/**
+	 * Sets the value of the '{@link reprotool.model.usecase.UseCaseStep#getAction <em>Action</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Action</em>' containment reference.
+	 * @see #getAction()
+	 * @generated
+	 */
+	void setAction(Action value);
 
 } // UseCaseStep

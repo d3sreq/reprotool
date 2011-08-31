@@ -7,6 +7,7 @@
 package reprotool.model.linguistic.parsetree.impl;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 
@@ -75,6 +76,36 @@ public class ParsetreeFactoryImpl extends EFactoryImpl implements ParsetreeFacto
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
+	public Object createFromString(EDataType eDataType, String initialValue) {
+		switch (eDataType.getClassifierID()) {
+			case ParsetreePackage.EWORD_TYPE:
+				return createEWordTypeFromString(eDataType, initialValue);
+			default:
+				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
+		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String convertToString(EDataType eDataType, Object instanceValue) {
+		switch (eDataType.getClassifierID()) {
+			case ParsetreePackage.EWORD_TYPE:
+				return convertEWordTypeToString(eDataType, instanceValue);
+			default:
+				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
+		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public SentenceNode createSentenceNode() {
 		SentenceNodeImpl sentenceNode = new SentenceNodeImpl();
 		return sentenceNode;
@@ -118,6 +149,26 @@ public class ParsetreeFactoryImpl extends EFactoryImpl implements ParsetreeFacto
 	public PrepositionalPhraseNode createPrepositionalPhraseNode() {
 		PrepositionalPhraseNodeImpl prepositionalPhraseNode = new PrepositionalPhraseNodeImpl();
 		return prepositionalPhraseNode;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EWordType createEWordTypeFromString(EDataType eDataType, String initialValue) {
+		EWordType result = EWordType.get(initialValue);
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertEWordTypeToString(EDataType eDataType, Object instanceValue) {
+		return instanceValue == null ? null : instanceValue.toString();
 	}
 
 	/**

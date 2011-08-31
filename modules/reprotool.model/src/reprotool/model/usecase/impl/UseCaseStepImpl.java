@@ -21,8 +21,9 @@ import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
 
+import reprotool.model.linguistic.action.Action;
+import reprotool.model.linguistic.actionpart.Text;
 import reprotool.model.linguistic.parsetree.SentenceNode;
-import reprotool.model.linguistic.sentenceparts.SentencePart;
 import reprotool.model.swproj.Requirement;
 import reprotool.model.usecase.Guard;
 import reprotool.model.usecase.Scenario;
@@ -43,6 +44,7 @@ import reprotool.model.usecase.UsecasePackage;
  *   <li>{@link reprotool.model.usecase.impl.UseCaseStepImpl#getSentenceNodes <em>Sentence Nodes</em>}</li>
  *   <li>{@link reprotool.model.usecase.impl.UseCaseStepImpl#getExtensions <em>Extensions</em>}</li>
  *   <li>{@link reprotool.model.usecase.impl.UseCaseStepImpl#getVariations <em>Variations</em>}</li>
+ *   <li>{@link reprotool.model.usecase.impl.UseCaseStepImpl#getAction <em>Action</em>}</li>
  * </ul>
  * </p>
  *
@@ -97,7 +99,7 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<SentencePart> sentenceNodes;
+	protected EList<Text> sentenceNodes;
 
 	/**
 	 * The cached value of the '{@link #getExtensions() <em>Extensions</em>}' containment reference list.
@@ -118,6 +120,16 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 	 * @ordered
 	 */
 	protected EList<Guard> variations;
+
+	/**
+	 * The cached value of the '{@link #getAction() <em>Action</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getAction()
+	 * @generated
+	 * @ordered
+	 */
+	protected Action action;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -259,9 +271,9 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<SentencePart> getSentenceNodes() {
+	public EList<Text> getSentenceNodes() {
 		if (sentenceNodes == null) {
-			sentenceNodes = new EObjectContainmentEList<SentencePart>(SentencePart.class, this, UsecasePackage.USE_CASE_STEP__SENTENCE_NODES);
+			sentenceNodes = new EObjectContainmentEList<Text>(Text.class, this, UsecasePackage.USE_CASE_STEP__SENTENCE_NODES);
 		}
 		return sentenceNodes;
 	}
@@ -295,6 +307,49 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public Action getAction() {
+		return action;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetAction(Action newAction, NotificationChain msgs) {
+		Action oldAction = action;
+		action = newAction;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, UsecasePackage.USE_CASE_STEP__ACTION, oldAction, newAction);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setAction(Action newAction) {
+		if (newAction != action) {
+			NotificationChain msgs = null;
+			if (action != null)
+				msgs = ((InternalEObject)action).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - UsecasePackage.USE_CASE_STEP__ACTION, null, msgs);
+			if (newAction != null)
+				msgs = ((InternalEObject)newAction).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - UsecasePackage.USE_CASE_STEP__ACTION, null, msgs);
+			msgs = basicSetAction(newAction, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, UsecasePackage.USE_CASE_STEP__ACTION, newAction, newAction));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -306,6 +361,8 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 				return ((InternalEList<?>)getExtensions()).basicRemove(otherEnd, msgs);
 			case UsecasePackage.USE_CASE_STEP__VARIATIONS:
 				return ((InternalEList<?>)getVariations()).basicRemove(otherEnd, msgs);
+			case UsecasePackage.USE_CASE_STEP__ACTION:
+				return basicSetAction(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -330,6 +387,8 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 				return getExtensions();
 			case UsecasePackage.USE_CASE_STEP__VARIATIONS:
 				return getVariations();
+			case UsecasePackage.USE_CASE_STEP__ACTION:
+				return getAction();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -355,7 +414,7 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 				return;
 			case UsecasePackage.USE_CASE_STEP__SENTENCE_NODES:
 				getSentenceNodes().clear();
-				getSentenceNodes().addAll((Collection<? extends SentencePart>)newValue);
+				getSentenceNodes().addAll((Collection<? extends Text>)newValue);
 				return;
 			case UsecasePackage.USE_CASE_STEP__EXTENSIONS:
 				getExtensions().clear();
@@ -364,6 +423,9 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 			case UsecasePackage.USE_CASE_STEP__VARIATIONS:
 				getVariations().clear();
 				getVariations().addAll((Collection<? extends Guard>)newValue);
+				return;
+			case UsecasePackage.USE_CASE_STEP__ACTION:
+				setAction((Action)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -395,6 +457,9 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 			case UsecasePackage.USE_CASE_STEP__VARIATIONS:
 				getVariations().clear();
 				return;
+			case UsecasePackage.USE_CASE_STEP__ACTION:
+				setAction((Action)null);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -419,6 +484,8 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 				return extensions != null && !extensions.isEmpty();
 			case UsecasePackage.USE_CASE_STEP__VARIATIONS:
 				return variations != null && !variations.isEmpty();
+			case UsecasePackage.USE_CASE_STEP__ACTION:
+				return action != null;
 		}
 		return super.eIsSet(featureID);
 	}
