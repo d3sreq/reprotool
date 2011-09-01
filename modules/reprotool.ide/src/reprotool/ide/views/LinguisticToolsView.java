@@ -23,10 +23,14 @@ import org.eclipse.ui.progress.IProgressConstants;
 import org.eclipse.wb.swt.layout.grouplayout.GroupLayout;
 import org.eclipse.wb.swt.layout.grouplayout.LayoutStyle;
 
+import reprotool.ling.LingJob;
 import reprotool.ling.Sentence;
 import reprotool.ling.tools.Tagger;
 import reprotool.ling.tools.Tokenizer;
 import reprotool.ling.wordnet.WordNet;
+import reprotool.model.usecase.UseCase;
+import reprotool.model.usecase.UseCaseStep;
+import reprotool.model.usecase.impl.UseCaseStepImpl;
 
 public class LinguisticToolsView extends ViewPart {
 
@@ -59,6 +63,19 @@ public class LinguisticToolsView extends ViewPart {
 				
 				// TODO use only jobs
 				//Tagger.jobGetMXPOST(textTokenizer.getText());
+				
+				// external objects
+		    	String text = "";
+				
+		    	UseCaseStep ucs = null;
+		    	
+		    	//ucs.setSentence("parsed sentence");
+		    		    	
+		    	LingJob job = new LingJob("From editor", textTokenizer.getText(), ucs);
+		    	 
+		    	job.schedule();		    	
+		    	text = job.returnText();		
+				
 				
 				WordNet.open();
 				
