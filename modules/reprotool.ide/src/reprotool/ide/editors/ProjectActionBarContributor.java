@@ -10,17 +10,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import org.eclipse.emf.common.ui.viewer.IViewerProvider;
-
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
-
 import org.eclipse.emf.edit.ui.action.ControlAction;
 import org.eclipse.emf.edit.ui.action.CreateChildAction;
 import org.eclipse.emf.edit.ui.action.CreateSiblingAction;
 import org.eclipse.emf.edit.ui.action.EditingDomainActionBarContributor;
 import org.eclipse.emf.edit.ui.action.LoadResourceAction;
 import org.eclipse.emf.edit.ui.action.ValidateAction;
-
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.IAction;
@@ -32,16 +29,16 @@ import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.action.SubContributionItem;
-
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.Viewer;
-
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PartInitException;
+
+import reprotool.model.lts.presentation.ReprotoolEditorPlugin;
 
 /**
  * This is the action bar contributor for the Swproj model editor.
@@ -68,25 +65,24 @@ public class ProjectActionBarContributor
 	 */
 	protected ISelectionProvider selectionProvider;
 
-	// TODO
 	/**
 	 * This action opens the Properties view.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-//	protected IAction showPropertiesViewAction =
-//		new Action(ReprotoolEditorPlugin.INSTANCE.getString("_UI_ShowPropertiesView_menu_item")) {
-//			@Override
-//			public void run() {
-//				try {
-//					getPage().showView("org.eclipse.ui.views.PropertySheet");
-//				}
-//				catch (PartInitException exception) {
-//					ReprotoolEditorPlugin.INSTANCE.log(exception);
-//				}
-//			}
-//		};
+	protected IAction showPropertiesViewAction =
+		new Action(ReprotoolEditorPlugin.INSTANCE.getString("_UI_ShowPropertiesView_menu_item")) {
+			@Override
+			public void run() {
+				try {
+					getPage().showView("org.eclipse.ui.views.PropertySheet");
+				}
+				catch (PartInitException exception) {
+					ReprotoolEditorPlugin.INSTANCE.log(exception);
+				}
+			}
+		};
 
 	/**
 	 * This action refreshes the viewer of the current editor if the editor
@@ -96,9 +92,7 @@ public class ProjectActionBarContributor
 	 * @generated
 	 */
 	protected IAction refreshViewerAction =
-		// TODO
-		//new Action(ReprotoolEditorPlugin.INSTANCE.getString("_UI_RefreshViewer_menu_item")) {
-		new Action("MY_TEST") {
+		new Action(ReprotoolEditorPlugin.INSTANCE.getString("_UI_RefreshViewer_menu_item")) {
 			@Override
 			public boolean isEnabled() {
 				return activeEditorPart instanceof IViewerProvider;
@@ -185,34 +179,34 @@ public class ProjectActionBarContributor
 	public void contributeToMenu(IMenuManager menuManager) {
 		super.contributeToMenu(menuManager);
 
-		// TODO
-//		IMenuManager submenuManager = new MenuManager(ReprotoolEditorPlugin.INSTANCE.getString("_UI_SwprojEditor_menu"), "reprotool.model.swprojMenuID");
-//		menuManager.insertAfter("additions", submenuManager);
-//		submenuManager.add(new Separator("settings"));
-//		submenuManager.add(new Separator("actions"));
-//		submenuManager.add(new Separator("additions"));
-//		submenuManager.add(new Separator("additions-end"));
-//
-//		// Prepare for CreateChild item addition or removal.
-//		//
-//		createChildMenuManager = new MenuManager(ReprotoolEditorPlugin.INSTANCE.getString("_UI_CreateChild_menu_item"));
-//		submenuManager.insertBefore("additions", createChildMenuManager);
-//
-//		// Prepare for CreateSibling item addition or removal.
-//		//
-//		createSiblingMenuManager = new MenuManager(ReprotoolEditorPlugin.INSTANCE.getString("_UI_CreateSibling_menu_item"));
-//		submenuManager.insertBefore("additions", createSiblingMenuManager);
-//
-//		// Force an update because Eclipse hides empty menus now.
-//		//
-//		submenuManager.addMenuListener
-//			(new IMenuListener() {
-//				 public void menuAboutToShow(IMenuManager menuManager) {
-//					 menuManager.updateAll(true);
-//				 }
-//			 });
-//
-//		addGlobalActions(submenuManager);
+		IMenuManager submenuManager = new MenuManager(ReprotoolEditorPlugin.INSTANCE.getString("_UI_SwprojEditor_menu"), "reprotool.model.swprojMenuID");
+		menuManager.insertAfter("additions", submenuManager);
+		submenuManager.add(new Separator("settings"));
+		submenuManager.add(new Separator("actions"));
+		submenuManager.add(new Separator("additions"));
+		submenuManager.add(new Separator("additions-end"));
+
+		// Prepare for CreateChild item addition or removal.
+		//
+		createChildMenuManager = new MenuManager(ReprotoolEditorPlugin.INSTANCE.getString("_UI_CreateChild_menu_item"));
+		submenuManager.insertBefore("additions", createChildMenuManager);
+
+		// Prepare for CreateSibling item addition or removal.
+		//
+		createSiblingMenuManager = new MenuManager(ReprotoolEditorPlugin.INSTANCE.getString("_UI_CreateSibling_menu_item"));
+		submenuManager.insertBefore("additions", createSiblingMenuManager);
+
+		// Force an update because Eclipse hides empty menus now.
+		//
+		submenuManager.addMenuListener
+			(new IMenuListener() {
+				 public void menuAboutToShow(IMenuManager menuManager) {
+					 menuManager.updateAll(true);
+				 }
+			 });
+
+		// TODO - jvinarek - add this ?
+		addGlobalActions(submenuManager);
 	}
 
 	/**
@@ -389,17 +383,15 @@ public class ProjectActionBarContributor
 	@Override
 	public void menuAboutToShow(IMenuManager menuManager) {
 		super.menuAboutToShow(menuManager);
-		
-		// TODO
-//		MenuManager submenuManager = null;
-//
-//		submenuManager = new MenuManager(ReprotoolEditorPlugin.INSTANCE.getString("_UI_CreateChild_menu_item"));
-//		populateManager(submenuManager, createChildActions, null);
-//		menuManager.insertBefore("edit", submenuManager);
-//
-//		submenuManager = new MenuManager(ReprotoolEditorPlugin.INSTANCE.getString("_UI_CreateSibling_menu_item"));
-//		populateManager(submenuManager, createSiblingActions, null);
-//		menuManager.insertBefore("edit", submenuManager);
+		MenuManager submenuManager = null;
+
+		submenuManager = new MenuManager(ReprotoolEditorPlugin.INSTANCE.getString("_UI_CreateChild_menu_item"));
+		populateManager(submenuManager, createChildActions, null);
+		menuManager.insertBefore("edit", submenuManager);
+
+		submenuManager = new MenuManager(ReprotoolEditorPlugin.INSTANCE.getString("_UI_CreateSibling_menu_item"));
+		populateManager(submenuManager, createSiblingActions, null);
+		menuManager.insertBefore("edit", submenuManager);
 	}
 
 	/**
@@ -411,9 +403,7 @@ public class ProjectActionBarContributor
 	@Override
 	protected void addGlobalActions(IMenuManager menuManager) {
 		menuManager.insertAfter("additions-end", new Separator("ui-actions"));
-		
-		// TODO
-		//menuManager.insertAfter("ui-actions", showPropertiesViewAction);
+		menuManager.insertAfter("ui-actions", showPropertiesViewAction);
 
 		refreshViewerAction.setEnabled(refreshViewerAction.isEnabled());		
 		menuManager.insertAfter("ui-actions", refreshViewerAction);
