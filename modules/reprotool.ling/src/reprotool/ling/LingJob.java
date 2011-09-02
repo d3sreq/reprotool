@@ -83,7 +83,7 @@ public class LingJob extends Job {
 			
 			Sentence sentence = new Sentence(innerText);
 
-        	Iterator<Word> iword = sentence.words.iterator();
+        	Iterator<WordLing> iword = sentence.words.iterator();
         	Boolean goon = true;
         	int i = 0;
         	for(i = 0; (goon && i<sentence.words.size()); i++){

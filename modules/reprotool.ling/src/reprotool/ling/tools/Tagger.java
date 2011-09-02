@@ -53,7 +53,7 @@ public class Tagger {
     public static String jobGetMXPOST(String originalText) {	
     	String text = "";
 		
-    	LingJob job = new LingJob("MX POS tagger", originalText);
+    	LingJob job = new LingJob("MX POS tagger", originalText, null);
     	 
     	job.schedule();
     	
