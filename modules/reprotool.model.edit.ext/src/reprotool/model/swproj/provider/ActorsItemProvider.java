@@ -23,6 +23,7 @@ public class ActorsItemProvider extends TransientSoftwareProjectItemProvider {
 		super(adapterFactory, softwareProject);
 	}
 
+	@Override
 	public Collection getChildrenFeatures(Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
@@ -33,7 +34,7 @@ public class ActorsItemProvider extends TransientSoftwareProjectItemProvider {
 
 	@Override
 	public String getText(Object object) {
-		// TODO
+		// TODO - jvinarek - move to properties file
 		return "Actors";
 	}
 

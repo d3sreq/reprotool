@@ -101,6 +101,7 @@ import reprotool.model.swproj.provider.ActorItemProviderExt;
 import reprotool.model.swproj.provider.SwprojItemProviderAdapterFactory;
 import reprotool.model.swproj.provider.SwprojItemProviderAdapterFactoryExt;
 import reprotool.model.usecase.UseCase;
+import reprotool.model.usecase.provider.UsecaseItemProviderAdapterFactoryExt;
 
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.dnd.DND;
@@ -942,6 +943,7 @@ public class ProjectEditor extends EditorPart implements IEditingDomainProvider,
 
 		// TODO - jvinarek - add more item provider factories ?
 		adapterFactory.addAdapterFactory(new SwprojItemProviderAdapterFactoryExt());
+		adapterFactory.addAdapterFactory(new UsecaseItemProviderAdapterFactoryExt());
 
 		adapterFactory.addAdapterFactory(new ReflectiveItemProviderAdapterFactory());
 

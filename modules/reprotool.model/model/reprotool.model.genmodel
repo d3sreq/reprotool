@@ -36,16 +36,14 @@
             ecoreFeature="ecore:EReference reprotool.model.ecore#//usecase/UseCase/primaryActor"/>
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reprotool.model.ecore#//usecase/UseCase/Name"/>
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference reprotool.model.ecore#//usecase/UseCase/mainScenario"/>
-        <genFeatures notify="false" createChild="false" propertySortChoices="true"
-            ecoreFeature="ecore:EReference reprotool.model.ecore#//usecase/UseCase/precedesUseCases"/>
       </genClasses>
       <genClasses ecoreClass="reprotool.model.ecore#//usecase/UseCaseStep">
-        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference reprotool.model.ecore#//usecase/UseCaseStep/extension"/>
-        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference reprotool.model.ecore#//usecase/UseCaseStep/variation"/>
-        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reprotool.model.ecore#//usecase/UseCaseStep/Sentence"/>
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference reprotool.model.ecore#//usecase/UseCaseStep/parsedSentence"/>
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reprotool.model.ecore#//usecase/UseCaseStep/ID"/>
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference reprotool.model.ecore#//usecase/UseCaseStep/sentenceNodes"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference reprotool.model.ecore#//usecase/UseCaseStep/extensions"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference reprotool.model.ecore#//usecase/UseCaseStep/variations"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference reprotool.model.ecore#//usecase/UseCaseStep/action"/>
         <genOperations ecoreOperation="reprotool.model.ecore#//usecase/UseCaseStep/getLabel"/>
       </genClasses>
       <genClasses ecoreClass="reprotool.model.ecore#//usecase/Scenario">
@@ -60,9 +58,13 @@
       <genClasses image="false" ecoreClass="reprotool.model.ecore#//usecase/Condition">
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reprotool.model.ecore#//usecase/Condition/Sentence"/>
       </genClasses>
+      <genClasses ecoreClass="reprotool.model.ecore#//usecase/Guard">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reprotool.model.ecore#//usecase/Guard/ID"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reprotool.model.ecore#//usecase/Guard/Sentence"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference reprotool.model.ecore#//usecase/Guard/scenario"/>
+      </genClasses>
     </nestedGenPackages>
-    <nestedGenPackages prefix="Swproj" disposableProviderFactory="true" multipleEditorPages="false"
-        ecorePackage="reprotool.model.ecore#//swproj">
+    <nestedGenPackages prefix="Swproj" disposableProviderFactory="true" ecorePackage="reprotool.model.ecore#//swproj">
       <genClasses provider="Stateful" ecoreClass="reprotool.model.ecore#//swproj/SoftwareProject">
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference reprotool.model.ecore#//swproj/SoftwareProject/actors"/>
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reprotool.model.ecore#//swproj/SoftwareProject/Name"/>
@@ -100,46 +102,86 @@
       </genClasses>
     </nestedGenPackages>
     <nestedGenPackages prefix="Linguistic" disposableProviderFactory="true" ecorePackage="reprotool.model.ecore#//linguistic">
-      <genEnums typeSafeEnumCompatible="false" ecoreEnum="reprotool.model.ecore#//linguistic/EWordType">
-        <genEnumLiterals ecoreEnumLiteral="reprotool.model.ecore#//linguistic/EWordType/NotImportant"/>
-        <genEnumLiterals ecoreEnumLiteral="reprotool.model.ecore#//linguistic/EWordType/Subject"/>
-        <genEnumLiterals ecoreEnumLiteral="reprotool.model.ecore#//linguistic/EWordType/IndirectObject"/>
-        <genEnumLiterals ecoreEnumLiteral="reprotool.model.ecore#//linguistic/EWordType/Verb"/>
-        <genEnumLiterals ecoreEnumLiteral="reprotool.model.ecore#//linguistic/EWordType/RepresentativeObject"/>
-        <genEnumLiterals ecoreEnumLiteral="reprotool.model.ecore#//linguistic/EWordType/GotoTarget"/>
-        <genEnumLiterals ecoreEnumLiteral="reprotool.model.ecore#//linguistic/EWordType/ConditionLabel"/>
-      </genEnums>
-      <genClasses ecoreClass="reprotool.model.ecore#//linguistic/SentenceNode"/>
-      <genClasses ecoreClass="reprotool.model.ecore#//linguistic/Word">
-        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reprotool.model.ecore#//linguistic/Word/wordStr"/>
-        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reprotool.model.ecore#//linguistic/Word/wordType"/>
-      </genClasses>
-      <genClasses image="false" ecoreClass="reprotool.model.ecore#//linguistic/ParseNode"/>
-      <genClasses ecoreClass="reprotool.model.ecore#//linguistic/NounPhraseNode"/>
-      <genClasses ecoreClass="reprotool.model.ecore#//linguistic/VerbPhraseNode"/>
-      <genClasses ecoreClass="reprotool.model.ecore#//linguistic/PrepositionalPhraseNode"/>
-      <genClasses image="false" ecoreClass="reprotool.model.ecore#//linguistic/InnerParseNode">
-        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference reprotool.model.ecore#//linguistic/InnerParseNode/childNodes"/>
-      </genClasses>
-      <genClasses image="false" ecoreClass="reprotool.model.ecore#//linguistic/SentencePart">
-        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reprotool.model.ecore#//linguistic/SentencePart/Content"/>
-      </genClasses>
-      <genClasses ecoreClass="reprotool.model.ecore#//linguistic/Text"/>
-      <genClasses ecoreClass="reprotool.model.ecore#//linguistic/Subject">
-        <genFeatures notify="false" createChild="false" propertySortChoices="true"
-            ecoreFeature="ecore:EReference reprotool.model.ecore#//linguistic/Subject/actor"/>
-      </genClasses>
-      <genClasses ecoreClass="reprotool.model.ecore#//linguistic/GotoTarget">
-        <genFeatures notify="false" createChild="false" propertySortChoices="true"
-            ecoreFeature="ecore:EReference reprotool.model.ecore#//linguistic/GotoTarget/target"/>
-      </genClasses>
-      <genClasses image="false" ecoreClass="reprotool.model.ecore#//linguistic/SentenceObject">
-        <genFeatures notify="false" createChild="false" propertySortChoices="true"
-            ecoreFeature="ecore:EReference reprotool.model.ecore#//linguistic/SentenceObject/object"/>
-      </genClasses>
-      <genClasses ecoreClass="reprotool.model.ecore#//linguistic/RepresentativeObject"/>
-      <genClasses ecoreClass="reprotool.model.ecore#//linguistic/IndirectObject"/>
-      <genClasses ecoreClass="reprotool.model.ecore#//linguistic/Verb"/>
+      <nestedGenPackages prefix="Parsetree" disposableProviderFactory="true" ecorePackage="reprotool.model.ecore#//linguistic/parsetree">
+        <genEnums typeSafeEnumCompatible="false" ecoreEnum="reprotool.model.ecore#//linguistic/parsetree/EWordType">
+          <genEnumLiterals ecoreEnumLiteral="reprotool.model.ecore#//linguistic/parsetree/EWordType/NotImportant"/>
+          <genEnumLiterals ecoreEnumLiteral="reprotool.model.ecore#//linguistic/parsetree/EWordType/Subject"/>
+          <genEnumLiterals ecoreEnumLiteral="reprotool.model.ecore#//linguistic/parsetree/EWordType/IndirectObject"/>
+          <genEnumLiterals ecoreEnumLiteral="reprotool.model.ecore#//linguistic/parsetree/EWordType/Verb"/>
+          <genEnumLiterals ecoreEnumLiteral="reprotool.model.ecore#//linguistic/parsetree/EWordType/RepresentativeObject"/>
+          <genEnumLiterals ecoreEnumLiteral="reprotool.model.ecore#//linguistic/parsetree/EWordType/GotoTarget"/>
+          <genEnumLiterals ecoreEnumLiteral="reprotool.model.ecore#//linguistic/parsetree/EWordType/ConditionLabel"/>
+        </genEnums>
+        <genClasses ecoreClass="reprotool.model.ecore#//linguistic/parsetree/SentenceNode"/>
+        <genClasses ecoreClass="reprotool.model.ecore#//linguistic/parsetree/Word">
+          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reprotool.model.ecore#//linguistic/parsetree/Word/wordStr"/>
+          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reprotool.model.ecore#//linguistic/parsetree/Word/wordType"/>
+        </genClasses>
+        <genClasses image="false" ecoreClass="reprotool.model.ecore#//linguistic/parsetree/ParseNode"/>
+        <genClasses ecoreClass="reprotool.model.ecore#//linguistic/parsetree/NounPhraseNode"/>
+        <genClasses ecoreClass="reprotool.model.ecore#//linguistic/parsetree/VerbPhraseNode"/>
+        <genClasses ecoreClass="reprotool.model.ecore#//linguistic/parsetree/PrepositionalPhraseNode"/>
+        <genClasses image="false" ecoreClass="reprotool.model.ecore#//linguistic/parsetree/InnerParseNode">
+          <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference reprotool.model.ecore#//linguistic/parsetree/InnerParseNode/childNodes"/>
+        </genClasses>
+      </nestedGenPackages>
+      <nestedGenPackages prefix="Actionpart" disposableProviderFactory="true" ecorePackage="reprotool.model.ecore#//linguistic/actionpart">
+        <genClasses ecoreClass="reprotool.model.ecore#//linguistic/actionpart/Text">
+          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reprotool.model.ecore#//linguistic/actionpart/Text/Content"/>
+          <genFeatures notify="false" createChild="false" propertySortChoices="true"
+              ecoreFeature="ecore:EReference reprotool.model.ecore#//linguistic/actionpart/Text/actionPart"/>
+        </genClasses>
+        <genClasses ecoreClass="reprotool.model.ecore#//linguistic/actionpart/Subject">
+          <genFeatures notify="false" createChild="false" propertySortChoices="true"
+              ecoreFeature="ecore:EReference reprotool.model.ecore#//linguistic/actionpart/Subject/actor"/>
+        </genClasses>
+        <genClasses ecoreClass="reprotool.model.ecore#//linguistic/actionpart/GotoTarget">
+          <genFeatures notify="false" createChild="false" propertySortChoices="true"
+              ecoreFeature="ecore:EReference reprotool.model.ecore#//linguistic/actionpart/GotoTarget/target"/>
+        </genClasses>
+        <genClasses image="false" ecoreClass="reprotool.model.ecore#//linguistic/actionpart/SentenceObject">
+          <genFeatures notify="false" createChild="false" propertySortChoices="true"
+              ecoreFeature="ecore:EReference reprotool.model.ecore#//linguistic/actionpart/SentenceObject/object"/>
+        </genClasses>
+        <genClasses ecoreClass="reprotool.model.ecore#//linguistic/actionpart/Verb"/>
+        <genClasses ecoreClass="reprotool.model.ecore#//linguistic/actionpart/RepresentativeObject"/>
+        <genClasses ecoreClass="reprotool.model.ecore#//linguistic/actionpart/IndirectObject"/>
+        <genClasses ecoreClass="reprotool.model.ecore#//linguistic/actionpart/UseCaseIncludePart">
+          <genFeatures notify="false" createChild="false" propertySortChoices="true"
+              ecoreFeature="ecore:EReference reprotool.model.ecore#//linguistic/actionpart/UseCaseIncludePart/target"/>
+        </genClasses>
+        <genClasses image="false" ecoreClass="reprotool.model.ecore#//linguistic/actionpart/ActionPart">
+          <genFeatures notify="false" createChild="false" propertySortChoices="true"
+              ecoreFeature="ecore:EReference reprotool.model.ecore#//linguistic/actionpart/ActionPart/text"/>
+        </genClasses>
+      </nestedGenPackages>
+      <nestedGenPackages prefix="Action" disposableProviderFactory="true" ecorePackage="reprotool.model.ecore#//linguistic/action">
+        <genClasses ecoreClass="reprotool.model.ecore#//linguistic/action/Send">
+          <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference reprotool.model.ecore#//linguistic/action/Send/verb"/>
+          <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference reprotool.model.ecore#//linguistic/action/Send/subject"/>
+          <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference reprotool.model.ecore#//linguistic/action/Send/representativeObject"/>
+          <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference reprotool.model.ecore#//linguistic/action/Send/indirectObject"/>
+        </genClasses>
+        <genClasses image="false" ecoreClass="reprotool.model.ecore#//linguistic/action/Action"/>
+        <genClasses ecoreClass="reprotool.model.ecore#//linguistic/action/Receive">
+          <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference reprotool.model.ecore#//linguistic/action/Receive/verb"/>
+          <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference reprotool.model.ecore#//linguistic/action/Receive/subject"/>
+          <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference reprotool.model.ecore#//linguistic/action/Receive/representativeObject"/>
+        </genClasses>
+        <genClasses ecoreClass="reprotool.model.ecore#//linguistic/action/Internal">
+          <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference reprotool.model.ecore#//linguistic/action/Internal/verb"/>
+          <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference reprotool.model.ecore#//linguistic/action/Internal/representativeObjects"/>
+        </genClasses>
+        <genClasses ecoreClass="reprotool.model.ecore#//linguistic/action/Goto">
+          <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference reprotool.model.ecore#//linguistic/action/Goto/gotoTarget"/>
+        </genClasses>
+        <genClasses ecoreClass="reprotool.model.ecore#//linguistic/action/Unknown"/>
+        <genClasses ecoreClass="reprotool.model.ecore#//linguistic/action/UseCaseInclude">
+          <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference reprotool.model.ecore#//linguistic/action/UseCaseInclude/include"/>
+        </genClasses>
+        <genClasses ecoreClass="reprotool.model.ecore#//linguistic/action/TerminateUseCase"/>
+        <genClasses ecoreClass="reprotool.model.ecore#//linguistic/action/TerminateBranch"/>
+      </nestedGenPackages>
     </nestedGenPackages>
     <nestedGenPackages prefix="Ast" disposableProviderFactory="true" ecorePackage="reprotool.model.ecore#//ast">
       <genEnums typeSafeEnumCompatible="false" ecoreEnum="reprotool.model.ecore#//ast/MethodVisibility">

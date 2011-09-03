@@ -10,4 +10,5 @@ Require-Bundle: org.eclipse.ui,
  reprotool.model.edit;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Export-Package: reprotool.model.swproj.provider
+Export-Package: reprotool.model.swproj.provider,
+ reprotool.model.usecase.provider

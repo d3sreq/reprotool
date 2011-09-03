@@ -8,7 +8,7 @@ import org.eclipse.emf.common.command.CommandWrapper;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.command.CommandParameter;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
@@ -55,28 +55,27 @@ public class TransientSoftwareProjectItemProvider extends ItemProviderAdapter im
 	}
 
 	@Override
-	public Command createCommand(final Object object, final EditingDomain domain,
-			Class<? extends Command> commandClass, CommandParameter commandParameter) {
+	public Command createCommand(final Object object, final EditingDomain domain, Class<? extends Command> commandClass, CommandParameter commandParameter) {
 		commandParameter.setOwner(target);
 		return super.createCommand(target, domain, commandClass, commandParameter);
 	}
 
 	@Override
-	protected Command createRemoveCommand(EditingDomain domain, EObject owner, EReference feature,
+	protected Command createRemoveCommand(EditingDomain domain, EObject owner, EStructuralFeature feature,
 			Collection<?> collection) {
 		return createWrappedCommand(super.createRemoveCommand(domain, owner, feature, collection), owner);
 	}
 
 	@Override
-	protected Command createAddCommand(EditingDomain domain, EObject owner, EReference feature, Collection collection,
+	protected Command createAddCommand(EditingDomain domain, EObject owner, EStructuralFeature feature, Collection<?> collection,
 			int index) {
 		return createWrappedCommand(super.createAddCommand(domain, owner, feature, collection, index), owner);
 	}
 
 	protected Command createWrappedCommand(Command command, final EObject owner) {
 		return new CommandWrapper(command) {
-			public Collection getAffectedObjects() {
-				Collection affected = super.getAffectedObjects();
+			public Collection<?> getAffectedObjects() {
+				Collection<?> affected = super.getAffectedObjects();
 				if (affected.contains(owner)) {
 					affected = Collections.singleton(TransientSoftwareProjectItemProvider.this);
 				}
