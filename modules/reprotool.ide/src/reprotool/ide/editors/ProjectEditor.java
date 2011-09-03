@@ -27,8 +27,6 @@ import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CommandStack;
 import org.eclipse.emf.common.command.CommandStackListener;
 import org.eclipse.emf.common.ui.URIEditorInput;
-import org.eclipse.emf.common.ui.URIEditorInputFactory;
-import org.eclipse.emf.common.ui.editor.ProblemEditorPart;
 import org.eclipse.emf.common.ui.viewer.IViewerProvider;
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
@@ -42,9 +40,18 @@ import org.eclipse.emf.edit.domain.IEditingDomainProvider;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.provider.ReflectiveItemProviderAdapterFactory;
 import org.eclipse.emf.edit.provider.resource.ResourceItemProviderAdapterFactory;
+import org.eclipse.emf.edit.ui.action.EditingDomainActionBarContributor;
+import org.eclipse.emf.edit.ui.dnd.EditingDomainViewerDropAdapter;
+import org.eclipse.emf.edit.ui.dnd.LocalTransfer;
+import org.eclipse.emf.edit.ui.dnd.ViewerDragAdapter;
+import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
+import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
+import org.eclipse.emf.edit.ui.provider.UnwrappingSelectionProvider;
+import org.eclipse.emf.edit.ui.util.EditUIUtil;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IStatusLineManager;
+import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -60,17 +67,16 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.jface.action.IToolBarManager;
-import org.eclipse.swt.SWT;
+import org.eclipse.swt.dnd.DND;
+import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Menu;
-import org.eclipse.swt.widgets.Tree;
+import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IEditorDescriptor;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorSite;
-import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IPartListener;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
@@ -85,29 +91,13 @@ import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.views.contentoutline.ContentOutline;
 import org.eclipse.ui.views.contentoutline.ContentOutlinePage;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
-import org.eclipse.emf.edit.ui.action.EditingDomainActionBarContributor;
-import org.eclipse.emf.edit.ui.celleditor.AdapterFactoryTreeEditor;
-import org.eclipse.emf.edit.ui.dnd.EditingDomainViewerDropAdapter;
-import org.eclipse.emf.edit.ui.dnd.LocalTransfer;
-import org.eclipse.emf.edit.ui.dnd.ViewerDragAdapter;
-import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
-import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
-import org.eclipse.emf.edit.ui.provider.UnwrappingSelectionProvider;
-import org.eclipse.emf.edit.ui.util.EditUIUtil;
 
 import reprotool.model.lts.presentation.ReprotoolEditorPlugin;
-import reprotool.model.swproj.SoftwareProject;
-import reprotool.model.swproj.provider.ActorItemProviderExt;
 import reprotool.model.swproj.provider.SwprojItemProviderAdapterFactory;
 import reprotool.model.swproj.provider.SwprojItemProviderAdapterFactoryExt;
 import reprotool.model.usecase.UseCase;
+import reprotool.model.usecase.provider.UsecaseItemProviderAdapterFactory;
 import reprotool.model.usecase.provider.UsecaseItemProviderAdapterFactoryExt;
-
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.dnd.DND;
-import org.eclipse.swt.dnd.Transfer;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
 
 /**
  * @author jvinarek
@@ -942,8 +932,9 @@ public class ProjectEditor extends EditorPart implements IEditingDomainProvider,
 		adapterFactory.addAdapterFactory(new ResourceItemProviderAdapterFactory());
 
 		// TODO - jvinarek - add more item provider factories ?
-		adapterFactory.addAdapterFactory(new SwprojItemProviderAdapterFactoryExt());
-		adapterFactory.addAdapterFactory(new UsecaseItemProviderAdapterFactoryExt());
+		SwprojItemProviderAdapterFactoryExt swprojItemProviderAdapterFactoryExt = new SwprojItemProviderAdapterFactoryExt();  
+		adapterFactory.addAdapterFactory(swprojItemProviderAdapterFactoryExt);
+		adapterFactory.addAdapterFactory(new UsecaseItemProviderAdapterFactoryExt(swprojItemProviderAdapterFactoryExt));
 
 		adapterFactory.addAdapterFactory(new ReflectiveItemProviderAdapterFactory());
 
