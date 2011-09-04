@@ -7,8 +7,10 @@ import reprotool.model.swproj.provider.SoftwareProjectItemProviderExt;
 import reprotool.model.usecase.provider.UseCaseItemProvider;
 
 /**
+ * Extension of generated UseCaseItemProvider class.
+ * 
  * @author jvinarek
- *
+ * 
  */
 public class UseCaseItemProviderExt extends UseCaseItemProvider {
 
@@ -16,12 +18,17 @@ public class UseCaseItemProviderExt extends UseCaseItemProvider {
 		super(adapterFactory);
 	}
 
+	/**
+	 * Returns parent node.
+	 * 
+	 * @return Non-model "Use cases" node
+	 */
 	@Override
 	public Object getParent(Object object) {
 		Object softwareProject = super.getParent(object);
 		SoftwareProjectItemProviderExt softwareProjectItemProviderExt = (SoftwareProjectItemProviderExt) adapterFactory
 				.adapt(softwareProject, IEditingDomainItemProvider.class);
-		
+
 		return softwareProjectItemProviderExt != null ? softwareProjectItemProviderExt.getUseCases() : null;
 	}
 

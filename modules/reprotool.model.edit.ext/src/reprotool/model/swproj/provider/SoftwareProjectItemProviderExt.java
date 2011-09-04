@@ -23,6 +23,7 @@ import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 
+import reprotool.model.edit.ext.common.ReprotoolEditExtPlugin;
 import reprotool.model.lts.provider.ReprotoolEditPlugin;
 import reprotool.model.swproj.SoftwareProject;
 import reprotool.model.swproj.SwprojFactory;
@@ -38,16 +39,17 @@ public class SoftwareProjectItemProviderExt extends SoftwareProjectItemProvider 
 	private static final int ACTORS_INDEX = 0;
 	private static final int USE_CASES_INDEX = 1;
 
-	protected List children = null;
+	protected List<ItemProviderAdapter> children = null;
 
 	public SoftwareProjectItemProviderExt(AdapterFactory adapterFactory) {
 		super(adapterFactory);
 	}
 
+	@Override
 	public Collection<?> getChildren(Object object) {
 		if (children == null) {
 			SoftwareProject softwareProject = (SoftwareProject) object;
-			children = new ArrayList();
+			children = new ArrayList<ItemProviderAdapter>();
 			children.add(new ActorsItemProvider(adapterFactory, softwareProject));
 			children.add(new UseCasesItemProvider(adapterFactory, softwareProject));			
 		}
@@ -60,6 +62,18 @@ public class SoftwareProjectItemProviderExt extends SoftwareProjectItemProvider 
 
 	public Object getUseCases() {
 		return children.get(USE_CASES_INDEX);
+	}
+
+	/**
+	 * Disposes the non-modeled children.
+	 */
+	@Override
+	public void dispose() {
+		super.dispose();
+		if (children != null) {
+			((IDisposable) children.get(ACTORS_INDEX)).dispose();
+			((IDisposable) children.get(USE_CASES_INDEX)).dispose();
+		}
 	}
 
 	@Override
@@ -94,17 +108,11 @@ public class SoftwareProjectItemProviderExt extends SoftwareProjectItemProvider 
 	}
 
 	/**
-	 * Disposes the non-modeled children.
+	 * Common base class for non-model nodes.
+	 * 
+	 * @author jvinarek
+	 *
 	 */
-	@Override
-	public void dispose() {
-		super.dispose();
-		if (children != null) {
-			((IDisposable) children.get(ACTORS_INDEX)).dispose();
-			((IDisposable) children.get(USE_CASES_INDEX)).dispose();
-		}
-	}
-
 	public class TransientSoftwareProjectItemProvider extends ItemProviderAdapter implements
 			IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider, IItemLabelProvider,
 			IItemPropertySource {
@@ -156,6 +164,7 @@ public class SoftwareProjectItemProviderExt extends SoftwareProjectItemProvider 
 
 		protected Command createWrappedCommand(Command command, final EObject owner) {
 			return new CommandWrapper(command) {
+				@Override
 				public Collection<?> getAffectedObjects() {
 					Collection<?> affected = super.getAffectedObjects();
 					if (affected.contains(owner)) {
@@ -168,13 +177,19 @@ public class SoftwareProjectItemProviderExt extends SoftwareProjectItemProvider 
 
 	}
 
+	/**
+	 * Non-model "Actors" node.
+	 * 
+	 * @author jvinarek
+	 *
+	 */
 	public class ActorsItemProvider extends TransientSoftwareProjectItemProvider {
 		public ActorsItemProvider(AdapterFactory adapterFactory, SoftwareProject softwareProject) {
 			super(adapterFactory, softwareProject);
 		}
 
 		@Override
-		public Collection getChildrenFeatures(Object object) {
+		public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
 			if (childrenFeatures == null) {
 				super.getChildrenFeatures(object);
 				childrenFeatures.add(SwprojPackage.Literals.SOFTWARE_PROJECT__ACTORS);
@@ -184,8 +199,7 @@ public class SoftwareProjectItemProviderExt extends SoftwareProjectItemProvider 
 
 		@Override
 		public String getText(Object object) {
-			// TODO - jvinarek - move to properties file
-			return "Actors";
+			return ReprotoolEditExtPlugin.INSTANCE.getString("SoftwareProjectItemProviderExt_Actors"); //$NON-NLS-1$
 		}
 
 		@Override
@@ -206,13 +220,19 @@ public class SoftwareProjectItemProviderExt extends SoftwareProjectItemProvider 
 		}
 	}
 
+	/**
+	 * Non-model "Use cases" node.
+	 * 
+	 * @author jvinarek
+	 *
+	 */
 	public class UseCasesItemProvider extends TransientSoftwareProjectItemProvider {
 		public UseCasesItemProvider(AdapterFactory adapterFactory, SoftwareProject softwareProject) {
 			super(adapterFactory, softwareProject);
 		}
 
 		@Override
-		public Collection getChildrenFeatures(Object object) {
+		public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
 			if (childrenFeatures == null) {
 				super.getChildrenFeatures(object);
 				childrenFeatures.add(SwprojPackage.Literals.SOFTWARE_PROJECT__USE_CASES);
@@ -222,8 +242,7 @@ public class SoftwareProjectItemProviderExt extends SoftwareProjectItemProvider 
 
 		@Override
 		public String getText(Object object) {
-			// TODO
-			return "Use cases";
+			return ReprotoolEditExtPlugin.INSTANCE.getString("SoftwareProjectItemProviderExt_UseCases"); //$NON-NLS-1$
 		}
 
 		@Override
