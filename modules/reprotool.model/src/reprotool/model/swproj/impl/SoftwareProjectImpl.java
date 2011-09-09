@@ -32,6 +32,7 @@ import reprotool.model.swproj.SoftwareProject;
 import reprotool.model.swproj.SwprojPackage;
 
 import reprotool.model.usecase.UseCase;
+import reprotool.model.usecase.annotate.AnnotationSet;
 import reprotool.model.usecase.UsecasePackage;
 
 /**
@@ -47,6 +48,7 @@ import reprotool.model.usecase.UsecasePackage;
  *   <li>{@link reprotool.model.swproj.impl.SoftwareProjectImpl#getRequirements <em>Requirements</em>}</li>
  *   <li>{@link reprotool.model.swproj.impl.SoftwareProjectImpl#getSrsDocuments <em>Srs Documents</em>}</li>
  *   <li>{@link reprotool.model.swproj.impl.SoftwareProjectImpl#getUseCases <em>Use Cases</em>}</li>
+ *   <li>{@link reprotool.model.swproj.impl.SoftwareProjectImpl#getAnnotationSets <em>Annotation Sets</em>}</li>
  * </ul>
  * </p>
  *
@@ -132,6 +134,16 @@ public class SoftwareProjectImpl extends EObjectImpl implements SoftwareProject 
 	 * @ordered
 	 */
 	protected EList<UseCase> useCases;
+
+	/**
+	 * The cached value of the '{@link #getAnnotationSets() <em>Annotation Sets</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getAnnotationSets()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<AnnotationSet> annotationSets;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -247,6 +259,18 @@ public class SoftwareProjectImpl extends EObjectImpl implements SoftwareProject 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList<AnnotationSet> getAnnotationSets() {
+		if (annotationSets == null) {
+			annotationSets = new EObjectContainmentEList<AnnotationSet>(AnnotationSet.class, this, SwprojPackage.SOFTWARE_PROJECT__ANNOTATION_SETS);
+		}
+		return annotationSets;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -256,6 +280,8 @@ public class SoftwareProjectImpl extends EObjectImpl implements SoftwareProject 
 				return ((InternalEList<?>)getRequirements()).basicRemove(otherEnd, msgs);
 			case SwprojPackage.SOFTWARE_PROJECT__USE_CASES:
 				return ((InternalEList<?>)getUseCases()).basicRemove(otherEnd, msgs);
+			case SwprojPackage.SOFTWARE_PROJECT__ANNOTATION_SETS:
+				return ((InternalEList<?>)getAnnotationSets()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -280,6 +306,8 @@ public class SoftwareProjectImpl extends EObjectImpl implements SoftwareProject 
 				return getSrsDocuments();
 			case SwprojPackage.SOFTWARE_PROJECT__USE_CASES:
 				return getUseCases();
+			case SwprojPackage.SOFTWARE_PROJECT__ANNOTATION_SETS:
+				return getAnnotationSets();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -315,6 +343,10 @@ public class SoftwareProjectImpl extends EObjectImpl implements SoftwareProject 
 				getUseCases().clear();
 				getUseCases().addAll((Collection<? extends UseCase>)newValue);
 				return;
+			case SwprojPackage.SOFTWARE_PROJECT__ANNOTATION_SETS:
+				getAnnotationSets().clear();
+				getAnnotationSets().addAll((Collection<? extends AnnotationSet>)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -345,6 +377,9 @@ public class SoftwareProjectImpl extends EObjectImpl implements SoftwareProject 
 			case SwprojPackage.SOFTWARE_PROJECT__USE_CASES:
 				getUseCases().clear();
 				return;
+			case SwprojPackage.SOFTWARE_PROJECT__ANNOTATION_SETS:
+				getAnnotationSets().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -369,6 +404,8 @@ public class SoftwareProjectImpl extends EObjectImpl implements SoftwareProject 
 				return srsDocuments != null && !srsDocuments.isEmpty();
 			case SwprojPackage.SOFTWARE_PROJECT__USE_CASES:
 				return useCases != null && !useCases.isEmpty();
+			case SwprojPackage.SOFTWARE_PROJECT__ANNOTATION_SETS:
+				return annotationSets != null && !annotationSets.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

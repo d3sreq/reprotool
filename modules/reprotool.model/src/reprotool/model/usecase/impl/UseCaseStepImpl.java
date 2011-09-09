@@ -30,6 +30,7 @@ import reprotool.model.usecase.Scenario;
 import reprotool.model.usecase.UseCase;
 import reprotool.model.usecase.UseCaseStep;
 import reprotool.model.usecase.UsecasePackage;
+import reprotool.model.usecase.annotate.StepAnnotation;
 
 /**
  * <!-- begin-user-doc -->
@@ -45,6 +46,7 @@ import reprotool.model.usecase.UsecasePackage;
  *   <li>{@link reprotool.model.usecase.impl.UseCaseStepImpl#getExtensions <em>Extensions</em>}</li>
  *   <li>{@link reprotool.model.usecase.impl.UseCaseStepImpl#getVariations <em>Variations</em>}</li>
  *   <li>{@link reprotool.model.usecase.impl.UseCaseStepImpl#getAction <em>Action</em>}</li>
+ *   <li>{@link reprotool.model.usecase.impl.UseCaseStepImpl#getAnnotations <em>Annotations</em>}</li>
  * </ul>
  * </p>
  *
@@ -130,6 +132,16 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 	 * @ordered
 	 */
 	protected Action action;
+
+	/**
+	 * The cached value of the '{@link #getAnnotations() <em>Annotations</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getAnnotations()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<StepAnnotation> annotations;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -350,6 +362,18 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList<StepAnnotation> getAnnotations() {
+		if (annotations == null) {
+			annotations = new EObjectContainmentEList<StepAnnotation>(StepAnnotation.class, this, UsecasePackage.USE_CASE_STEP__ANNOTATIONS);
+		}
+		return annotations;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -363,6 +387,8 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 				return ((InternalEList<?>)getVariations()).basicRemove(otherEnd, msgs);
 			case UsecasePackage.USE_CASE_STEP__ACTION:
 				return basicSetAction(null, msgs);
+			case UsecasePackage.USE_CASE_STEP__ANNOTATIONS:
+				return ((InternalEList<?>)getAnnotations()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -389,6 +415,8 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 				return getVariations();
 			case UsecasePackage.USE_CASE_STEP__ACTION:
 				return getAction();
+			case UsecasePackage.USE_CASE_STEP__ANNOTATIONS:
+				return getAnnotations();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -427,6 +455,10 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 			case UsecasePackage.USE_CASE_STEP__ACTION:
 				setAction((Action)newValue);
 				return;
+			case UsecasePackage.USE_CASE_STEP__ANNOTATIONS:
+				getAnnotations().clear();
+				getAnnotations().addAll((Collection<? extends StepAnnotation>)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -460,6 +492,9 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 			case UsecasePackage.USE_CASE_STEP__ACTION:
 				setAction((Action)null);
 				return;
+			case UsecasePackage.USE_CASE_STEP__ANNOTATIONS:
+				getAnnotations().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -486,6 +521,8 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 				return variations != null && !variations.isEmpty();
 			case UsecasePackage.USE_CASE_STEP__ACTION:
 				return action != null;
+			case UsecasePackage.USE_CASE_STEP__ANNOTATIONS:
+				return annotations != null && !annotations.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

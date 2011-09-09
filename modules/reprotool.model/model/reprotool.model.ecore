@@ -50,6 +50,8 @@
           eType="#//usecase/Guard" containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="action" lowerBound="1"
           eType="#//linguistic/action/Action" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="annotations" upperBound="-1"
+          eType="#//usecase/annotate/StepAnnotation" containment="true"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="Scenario">
       <eOperations name="getInfo" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -72,6 +74,34 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="scenario" lowerBound="1"
           eType="#//usecase/Scenario" containment="true"/>
     </eClassifiers>
+    <eSubpackages name="annotate" nsURI="http://d3s.mff.cuni.cz/reprotool/model/usecase/annotate"
+        nsPrefix="annotate">
+      <eClassifiers xsi:type="ecore:EClass" name="StepAnnotation">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1"
+            eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="annotationType" lowerBound="1"
+            eType="#//usecase/annotate/StepAnnotationType"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="StepAnnotationType" abstract="true"
+          interface="true">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="LTLAnnotation" eSuperTypes="#//usecase/annotate/StepAnnotationType"/>
+      <eClassifiers xsi:type="ecore:EClass" name="SpecialAnnotation" abstract="true"
+          interface="true" eSuperTypes="#//usecase/annotate/StepAnnotationType"/>
+      <eClassifiers xsi:type="ecore:EClass" name="AnnotationSet" abstract="true" interface="true"/>
+      <eClassifiers xsi:type="ecore:EClass" name="LTLAnnotationSet" eSuperTypes="#//usecase/annotate/AnnotationSet">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="contains" lowerBound="1"
+            upperBound="-1" eType="#//usecase/annotate/LTLAnnotation" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="ltl" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="SpecialAnnotationSet" eSuperTypes="#//usecase/annotate/AnnotationSet">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="contains" lowerBound="1"
+            upperBound="-1" eType="#//usecase/annotate/SpecialAnnotation" containment="true"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="TraceAnnotation" eSuperTypes="#//usecase/annotate/StepAnnotationType #//usecase/annotate/AnnotationSet #//usecase/annotate/SpecialAnnotation"/>
+      <eClassifiers xsi:type="ecore:EClass" name="OnAnnotation" eSuperTypes="#//usecase/annotate/StepAnnotationType #//usecase/annotate/AnnotationSet #//usecase/annotate/SpecialAnnotation"/>
+    </eSubpackages>
   </eSubpackages>
   <eSubpackages name="swproj" nsURI="http://d3s.mff.cuni.cz/reprotool/model/swproj"
       nsPrefix="swproj">
@@ -86,6 +116,12 @@
           eType="#//doc/Document"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="useCases" upperBound="-1"
           eType="#//usecase/UseCase" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="annotationSets" upperBound="-1"
+          eType="#//usecase/annotate/AnnotationSet" containment="true">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="documentation" value="A project "/>
+        </eAnnotations>
+      </eStructuralFeatures>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="Actor" eSuperTypes="#//traceability/TraceableEntity">
       <eStructuralFeatures xsi:type="ecore:EReference" name="childrenActors" upperBound="-1"

@@ -58,6 +58,8 @@ import reprotool.model.traceability.impl.TraceabilityPackageImpl;
 
 import reprotool.model.usecase.UsecasePackage;
 
+import reprotool.model.usecase.annotate.AnnotatePackage;
+import reprotool.model.usecase.annotate.impl.AnnotatePackageImpl;
 import reprotool.model.usecase.impl.UsecasePackageImpl;
 
 /**
@@ -143,6 +145,7 @@ public class LtsPackageImpl extends EPackageImpl implements LtsPackage {
 
 		// Obtain or create and register interdependencies
 		UsecasePackageImpl theUsecasePackage = (UsecasePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(UsecasePackage.eNS_URI) instanceof UsecasePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(UsecasePackage.eNS_URI) : UsecasePackage.eINSTANCE);
+		AnnotatePackageImpl theAnnotatePackage = (AnnotatePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(AnnotatePackage.eNS_URI) instanceof AnnotatePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(AnnotatePackage.eNS_URI) : AnnotatePackage.eINSTANCE);
 		SwprojPackageImpl theSwprojPackage = (SwprojPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(SwprojPackage.eNS_URI) instanceof SwprojPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(SwprojPackage.eNS_URI) : SwprojPackage.eINSTANCE);
 		TraceabilityPackageImpl theTraceabilityPackage = (TraceabilityPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(TraceabilityPackage.eNS_URI) instanceof TraceabilityPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(TraceabilityPackage.eNS_URI) : TraceabilityPackage.eINSTANCE);
 		ParsetreePackageImpl theParsetreePackage = (ParsetreePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ParsetreePackage.eNS_URI) instanceof ParsetreePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ParsetreePackage.eNS_URI) : ParsetreePackage.eINSTANCE);
@@ -156,6 +159,7 @@ public class LtsPackageImpl extends EPackageImpl implements LtsPackage {
 		// Create package meta-data objects
 		theLtsPackage.createPackageContents();
 		theUsecasePackage.createPackageContents();
+		theAnnotatePackage.createPackageContents();
 		theSwprojPackage.createPackageContents();
 		theTraceabilityPackage.createPackageContents();
 		theParsetreePackage.createPackageContents();
@@ -169,6 +173,7 @@ public class LtsPackageImpl extends EPackageImpl implements LtsPackage {
 		// Initialize created meta-data
 		theLtsPackage.initializePackageContents();
 		theUsecasePackage.initializePackageContents();
+		theAnnotatePackage.initializePackageContents();
 		theSwprojPackage.initializePackageContents();
 		theTraceabilityPackage.initializePackageContents();
 		theParsetreePackage.initializePackageContents();

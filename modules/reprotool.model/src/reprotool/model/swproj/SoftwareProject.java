@@ -13,6 +13,7 @@ import org.eclipse.emf.ecore.EObject;
 import reprotool.model.doc.Document;
 
 import reprotool.model.usecase.UseCase;
+import reprotool.model.usecase.annotate.AnnotationSet;
 
 /**
  * <!-- begin-user-doc -->
@@ -28,6 +29,7 @@ import reprotool.model.usecase.UseCase;
  *   <li>{@link reprotool.model.swproj.SoftwareProject#getRequirements <em>Requirements</em>}</li>
  *   <li>{@link reprotool.model.swproj.SoftwareProject#getSrsDocuments <em>Srs Documents</em>}</li>
  *   <li>{@link reprotool.model.swproj.SoftwareProject#getUseCases <em>Use Cases</em>}</li>
+ *   <li>{@link reprotool.model.swproj.SoftwareProject#getAnnotationSets <em>Annotation Sets</em>}</li>
  * </ul>
  * </p>
  *
@@ -151,5 +153,20 @@ public interface SoftwareProject extends EObject {
 	 * @generated
 	 */
 	EList<UseCase> getUseCases();
+
+	/**
+	 * Returns the value of the '<em><b>Annotation Sets</b></em>' containment reference list.
+	 * The list contents are of type {@link reprotool.model.usecase.annotate.AnnotationSet}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * A project 
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Annotation Sets</em>' containment reference list.
+	 * @see reprotool.model.swproj.SwprojPackage#getSoftwareProject_AnnotationSets()
+	 * @model containment="true"
+	 * @generated
+	 */
+	EList<AnnotationSet> getAnnotationSets();
 
 } // SoftwareProject

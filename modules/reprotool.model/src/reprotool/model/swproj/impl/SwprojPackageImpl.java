@@ -59,6 +59,8 @@ import reprotool.model.traceability.impl.TraceabilityPackageImpl;
 
 import reprotool.model.usecase.UsecasePackage;
 
+import reprotool.model.usecase.annotate.AnnotatePackage;
+import reprotool.model.usecase.annotate.impl.AnnotatePackageImpl;
 import reprotool.model.usecase.impl.UsecasePackageImpl;
 
 /**
@@ -152,6 +154,7 @@ public class SwprojPackageImpl extends EPackageImpl implements SwprojPackage {
 		// Obtain or create and register interdependencies
 		LtsPackageImpl theLtsPackage = (LtsPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(LtsPackage.eNS_URI) instanceof LtsPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(LtsPackage.eNS_URI) : LtsPackage.eINSTANCE);
 		UsecasePackageImpl theUsecasePackage = (UsecasePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(UsecasePackage.eNS_URI) instanceof UsecasePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(UsecasePackage.eNS_URI) : UsecasePackage.eINSTANCE);
+		AnnotatePackageImpl theAnnotatePackage = (AnnotatePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(AnnotatePackage.eNS_URI) instanceof AnnotatePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(AnnotatePackage.eNS_URI) : AnnotatePackage.eINSTANCE);
 		TraceabilityPackageImpl theTraceabilityPackage = (TraceabilityPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(TraceabilityPackage.eNS_URI) instanceof TraceabilityPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(TraceabilityPackage.eNS_URI) : TraceabilityPackage.eINSTANCE);
 		ParsetreePackageImpl theParsetreePackage = (ParsetreePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ParsetreePackage.eNS_URI) instanceof ParsetreePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ParsetreePackage.eNS_URI) : ParsetreePackage.eINSTANCE);
 		ActionpartPackageImpl theActionpartPackage = (ActionpartPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ActionpartPackage.eNS_URI) instanceof ActionpartPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ActionpartPackage.eNS_URI) : ActionpartPackage.eINSTANCE);
@@ -165,6 +168,7 @@ public class SwprojPackageImpl extends EPackageImpl implements SwprojPackage {
 		theSwprojPackage.createPackageContents();
 		theLtsPackage.createPackageContents();
 		theUsecasePackage.createPackageContents();
+		theAnnotatePackage.createPackageContents();
 		theTraceabilityPackage.createPackageContents();
 		theParsetreePackage.createPackageContents();
 		theActionpartPackage.createPackageContents();
@@ -178,6 +182,7 @@ public class SwprojPackageImpl extends EPackageImpl implements SwprojPackage {
 		theSwprojPackage.initializePackageContents();
 		theLtsPackage.initializePackageContents();
 		theUsecasePackage.initializePackageContents();
+		theAnnotatePackage.initializePackageContents();
 		theTraceabilityPackage.initializePackageContents();
 		theParsetreePackage.initializePackageContents();
 		theActionpartPackage.initializePackageContents();
@@ -257,6 +262,15 @@ public class SwprojPackageImpl extends EPackageImpl implements SwprojPackage {
 	 */
 	public EReference getSoftwareProject_UseCases() {
 		return (EReference)softwareProjectEClass.getEStructuralFeatures().get(5);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getSoftwareProject_AnnotationSets() {
+		return (EReference)softwareProjectEClass.getEStructuralFeatures().get(6);
 	}
 
 	/**
@@ -393,6 +407,7 @@ public class SwprojPackageImpl extends EPackageImpl implements SwprojPackage {
 		createEReference(softwareProjectEClass, SOFTWARE_PROJECT__REQUIREMENTS);
 		createEReference(softwareProjectEClass, SOFTWARE_PROJECT__SRS_DOCUMENTS);
 		createEReference(softwareProjectEClass, SOFTWARE_PROJECT__USE_CASES);
+		createEReference(softwareProjectEClass, SOFTWARE_PROJECT__ANNOTATION_SETS);
 
 		actorEClass = createEClass(ACTOR);
 		createEReference(actorEClass, ACTOR__CHILDREN_ACTORS);
@@ -436,6 +451,7 @@ public class SwprojPackageImpl extends EPackageImpl implements SwprojPackage {
 		// Obtain other dependent packages
 		DocPackage theDocPackage = (DocPackage)EPackage.Registry.INSTANCE.getEPackage(DocPackage.eNS_URI);
 		UsecasePackage theUsecasePackage = (UsecasePackage)EPackage.Registry.INSTANCE.getEPackage(UsecasePackage.eNS_URI);
+		AnnotatePackage theAnnotatePackage = (AnnotatePackage)EPackage.Registry.INSTANCE.getEPackage(AnnotatePackage.eNS_URI);
 		TraceabilityPackage theTraceabilityPackage = (TraceabilityPackage)EPackage.Registry.INSTANCE.getEPackage(TraceabilityPackage.eNS_URI);
 
 		// Create type parameters
@@ -455,6 +471,7 @@ public class SwprojPackageImpl extends EPackageImpl implements SwprojPackage {
 		initEReference(getSoftwareProject_Requirements(), this.getRequirement(), null, "requirements", null, 0, -1, SoftwareProject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getSoftwareProject_SrsDocuments(), theDocPackage.getDocument(), null, "srsDocuments", null, 0, -1, SoftwareProject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getSoftwareProject_UseCases(), theUsecasePackage.getUseCase(), null, "useCases", null, 0, -1, SoftwareProject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getSoftwareProject_AnnotationSets(), theAnnotatePackage.getAnnotationSet(), null, "annotationSets", null, 0, -1, SoftwareProject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(actorEClass, Actor.class, "Actor", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getActor_ChildrenActors(), this.getActor(), this.getActor_ParentActor(), "childrenActors", null, 0, -1, Actor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

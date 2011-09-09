@@ -12,6 +12,7 @@ import reprotool.model.linguistic.action.Action;
 import reprotool.model.linguistic.actionpart.Text;
 import reprotool.model.linguistic.parsetree.SentenceNode;
 import reprotool.model.swproj.ReqCover;
+import reprotool.model.usecase.annotate.StepAnnotation;
 
 /**
  * <!-- begin-user-doc -->
@@ -27,6 +28,7 @@ import reprotool.model.swproj.ReqCover;
  *   <li>{@link reprotool.model.usecase.UseCaseStep#getExtensions <em>Extensions</em>}</li>
  *   <li>{@link reprotool.model.usecase.UseCaseStep#getVariations <em>Variations</em>}</li>
  *   <li>{@link reprotool.model.usecase.UseCaseStep#getAction <em>Action</em>}</li>
+ *   <li>{@link reprotool.model.usecase.UseCaseStep#getAnnotations <em>Annotations</em>}</li>
  * </ul>
  * </p>
  *
@@ -172,5 +174,21 @@ public interface UseCaseStep extends ReqCover {
 	 * @generated
 	 */
 	void setAction(Action value);
+
+	/**
+	 * Returns the value of the '<em><b>Annotations</b></em>' containment reference list.
+	 * The list contents are of type {@link reprotool.model.usecase.annotate.StepAnnotation}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Annotations</em>' reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Annotations</em>' containment reference list.
+	 * @see reprotool.model.usecase.UsecasePackage#getUseCaseStep_Annotations()
+	 * @model containment="true"
+	 * @generated
+	 */
+	EList<StepAnnotation> getAnnotations();
 
 } // UseCaseStep

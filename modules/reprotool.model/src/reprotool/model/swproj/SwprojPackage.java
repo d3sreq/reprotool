@@ -126,13 +126,22 @@ public interface SwprojPackage extends EPackage {
 	int SOFTWARE_PROJECT__USE_CASES = 5;
 
 	/**
+	 * The feature id for the '<em><b>Annotation Sets</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SOFTWARE_PROJECT__ANNOTATION_SETS = 6;
+
+	/**
 	 * The number of structural features of the '<em>Software Project</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SOFTWARE_PROJECT_FEATURE_COUNT = 6;
+	int SOFTWARE_PROJECT_FEATURE_COUNT = 7;
 
 	/**
 	 * The meta object id for the '{@link reprotool.model.swproj.impl.ActorImpl <em>Actor</em>}' class.
@@ -369,6 +378,17 @@ public interface SwprojPackage extends EPackage {
 	EReference getSoftwareProject_UseCases();
 
 	/**
+	 * Returns the meta object for the containment reference list '{@link reprotool.model.swproj.SoftwareProject#getAnnotationSets <em>Annotation Sets</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Annotation Sets</em>'.
+	 * @see reprotool.model.swproj.SoftwareProject#getAnnotationSets()
+	 * @see #getSoftwareProject()
+	 * @generated
+	 */
+	EReference getSoftwareProject_AnnotationSets();
+
+	/**
 	 * Returns the meta object for class '{@link reprotool.model.swproj.Actor <em>Actor</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -564,6 +584,14 @@ public interface SwprojPackage extends EPackage {
 		 * @generated
 		 */
 		EReference SOFTWARE_PROJECT__USE_CASES = eINSTANCE.getSoftwareProject_UseCases();
+
+		/**
+		 * The meta object literal for the '<em><b>Annotation Sets</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SOFTWARE_PROJECT__ANNOTATION_SETS = eINSTANCE.getSoftwareProject_AnnotationSets();
 
 		/**
 		 * The meta object literal for the '{@link reprotool.model.swproj.impl.ActorImpl <em>Actor</em>}' class.
