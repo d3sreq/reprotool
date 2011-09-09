@@ -1,5 +1,9 @@
 package reprotool.ling;
 
+
+
+import reprotool.ling.tools.Tagger;
+import reprotool.ling.tools.Tokenizer;
 import reprotool.model.linguistic.parsetree.EWordType;
 import reprotool.model.linguistic.parsetree.NounPhraseNode;
 import reprotool.model.linguistic.parsetree.ParsetreeFactory;
@@ -64,4 +68,16 @@ public class LingTools implements ILingTools {
 		return rootNode;
 	}
 
+	public static String parseLingSentence(String originalSentence) {
+		
+ 		String tokenizedSentence = "";
+		String taggedSentence = "";
+		
+		// calling tokenizer 
+		tokenizedSentence = Tokenizer.getTokens(originalSentence);
+		// calling tagger 
+		taggedSentence = Tagger.getMXPOST(tokenizedSentence);
+		
+		return taggedSentence;
+	}	
 }
