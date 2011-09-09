@@ -61,6 +61,14 @@
             id="cz.cuni.mff.reprotool.ide.editors.ProjectEditor"
             name="My Project Editor">
       </editor>
+      <editor
+            class="reprotool.ide.editors.UsecaseEMFEditor"
+            contributorClass="reprotool.ide.editors.UsecaseEMFActionBarContributor"
+            default="false"
+            extensions="usecase"
+            id="reprotool.ide.editor1"
+            name="EMF Use case editor">
+      </editor>
    </extension>
    <extension
          point="org.eclipse.ui.commands">

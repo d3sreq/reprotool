@@ -201,6 +201,11 @@ public class SoftwareProjectItemProviderExt extends SoftwareProjectItemProvider 
 		public String getText(Object object) {
 			return ReprotoolEditExtPlugin.INSTANCE.getString("SoftwareProjectItemProviderExt_Actors"); //$NON-NLS-1$
 		}
+		
+		@Override
+		public Object getImage(Object object) {
+			return ReprotoolEditExtPlugin.INSTANCE.getImage("full/obj16/Actors");
+		}
 
 		@Override
 		protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
@@ -243,6 +248,11 @@ public class SoftwareProjectItemProviderExt extends SoftwareProjectItemProvider 
 		@Override
 		public String getText(Object object) {
 			return ReprotoolEditExtPlugin.INSTANCE.getString("SoftwareProjectItemProviderExt_UseCases"); //$NON-NLS-1$
+		}
+		
+		@Override
+		public Object getImage(Object object) {
+			return ReprotoolEditExtPlugin.INSTANCE.getImage("full/obj16/UseCases");
 		}
 
 		@Override
