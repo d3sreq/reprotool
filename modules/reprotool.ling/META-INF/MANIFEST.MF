@@ -13,9 +13,10 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: reprotool.ling,
  reprotool.ling.tools,
  reprotool.ling.wordnet
-Bundle-ClassPath: lib/edu.mit.jwi_2.1.5_jdk.jar,
- .,
- lib/mxpost.jar
+Bundle-ClassPath: .,
+ lib/edu.mit.jwi_2.1.5_jdk.jar,
+ lib/mxpost.jar,
+ lib/dbparser.jar
 Import-Package: org.eclipse.jface.action,
  org.eclipse.swt.widgets,
  org.eclipse.ui,

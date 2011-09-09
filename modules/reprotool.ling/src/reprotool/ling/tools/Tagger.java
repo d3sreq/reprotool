@@ -43,8 +43,34 @@ public class Tagger {
 			text = baos.toString("UTF-8");
 		} catch (UnsupportedEncodingException e){}
 		
-		return text;
+		return text.trim();
 	}	
+    
+    
+	/**
+	 * Converts MXPOS format to WSJ Penn Treebank lisp style
+	 * @param word_POS word_POS ...
+	 * @return String ((word (POS)) (word (POS)) ...) 
+	 */	
+    public static String mxposToLisp(String mxposStyle) {
+    	String[] parts;
+    	String lispStyle = "";
+		
+    	lispStyle = "(";
+    	for (String word : mxposStyle.split(" ")) {
+    		parts = word.split("_");
+    		if (parts.length == 2) {
+    			lispStyle += "(" + parts[0] + " (" + parts[1] + ")) "; 
+    		} else {
+    			lispStyle += "(" + word + " (" + word + ")) "; 
+    		}
+    	}
+    	lispStyle += ")";
+    	
+		return lispStyle.trim();
+	}  
+    
+    
     
 	/**
 	 * Returns tokens from given text
