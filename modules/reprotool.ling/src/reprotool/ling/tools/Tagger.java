@@ -2,18 +2,10 @@ package reprotool.ling.tools;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
-import java.net.URL;
-
-
-import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Platform;
-
-
-import reprotool.ling.Activator;
 import reprotool.ling.LingJob;
 
 public class Tagger {
@@ -30,23 +22,8 @@ public class Tagger {
 		try{
 			path = Platform.getPreferencesService().getString("reprotool.ide", "mxpostModel", "/tagger.project", null);
 		} catch (NullPointerException e){
-			// URL to the root ("/") of the plugin-path
-			/*
-			URL pluginURL = Activator.getContext().getBundle().getEntry("/");
-			// resolving URL
-	        try {
-	        	pluginURL = FileLocator.toFileURL(pluginURL);
-	        }
-	        catch(IOException ex) {
-	            ex.printStackTrace();
-	        }
-	        String rootPath = pluginURL.getPath();
-
-			rootPath = new java.io.File(rootPath).getParentFile().getParent();
-			*/
-			//"D:\Projects\ReProTool\SVN\trunk/tools/MXPost_tagger/tagger.project";	
-			String rootPath = "D:/Projects/ReProTool/SVN/trunk";
-			path = rootPath + "/tools/MXPost_tagger/tagger.project";
+			String rootPath = new java.io.File(Tagger.class.getResource("/").getPath()).getParentFile().getParent();
+			path = rootPath + "/../tools/MXPost_tagger/tagger.project";
 		}
 		
 		try{
