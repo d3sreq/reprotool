@@ -385,13 +385,22 @@ public interface UsecasePackage extends EPackage {
 	int GUARD__SCENARIO = 2;
 
 	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GUARD__ANNOTATIONS = 3;
+
+	/**
 	 * The number of structural features of the '<em>Guard</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int GUARD_FEATURE_COUNT = 3;
+	int GUARD_FEATURE_COUNT = 4;
 
 
 	/**
@@ -663,6 +672,17 @@ public interface UsecasePackage extends EPackage {
 	EReference getGuard_Scenario();
 
 	/**
+	 * Returns the meta object for the containment reference list '{@link reprotool.model.usecase.Guard#getAnnotations <em>Annotations</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Annotations</em>'.
+	 * @see reprotool.model.usecase.Guard#getAnnotations()
+	 * @see #getGuard()
+	 * @generated
+	 */
+	EReference getGuard_Annotations();
+
+	/**
 	 * Returns the factory that creates the instances of the model.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -897,6 +917,14 @@ public interface UsecasePackage extends EPackage {
 		 * @generated
 		 */
 		EReference GUARD__SCENARIO = eINSTANCE.getGuard_Scenario();
+
+		/**
+		 * The meta object literal for the '<em><b>Annotations</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference GUARD__ANNOTATIONS = eINSTANCE.getGuard_Annotations();
 
 	}
 

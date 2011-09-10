@@ -6,18 +6,23 @@
  */
 package reprotool.model.usecase.impl;
 
+import java.util.Collection;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
+import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.InternalEList;
 import reprotool.model.usecase.Guard;
 import reprotool.model.usecase.Scenario;
 import reprotool.model.usecase.UsecasePackage;
+import reprotool.model.usecase.annotate.StepAnnotation;
 
 /**
  * <!-- begin-user-doc -->
@@ -29,6 +34,7 @@ import reprotool.model.usecase.UsecasePackage;
  *   <li>{@link reprotool.model.usecase.impl.GuardImpl#getID <em>ID</em>}</li>
  *   <li>{@link reprotool.model.usecase.impl.GuardImpl#getSentence <em>Sentence</em>}</li>
  *   <li>{@link reprotool.model.usecase.impl.GuardImpl#getScenario <em>Scenario</em>}</li>
+ *   <li>{@link reprotool.model.usecase.impl.GuardImpl#getAnnotations <em>Annotations</em>}</li>
  * </ul>
  * </p>
  *
@@ -84,6 +90,16 @@ public class GuardImpl extends EObjectImpl implements Guard {
 	 * @ordered
 	 */
 	protected Scenario scenario;
+
+	/**
+	 * The cached value of the '{@link #getAnnotations() <em>Annotations</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getAnnotations()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<StepAnnotation> annotations;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -194,11 +210,25 @@ public class GuardImpl extends EObjectImpl implements Guard {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList<StepAnnotation> getAnnotations() {
+		if (annotations == null) {
+			annotations = new EObjectContainmentEList<StepAnnotation>(StepAnnotation.class, this, UsecasePackage.GUARD__ANNOTATIONS);
+		}
+		return annotations;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case UsecasePackage.GUARD__SCENARIO:
 				return basicSetScenario(null, msgs);
+			case UsecasePackage.GUARD__ANNOTATIONS:
+				return ((InternalEList<?>)getAnnotations()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -217,6 +247,8 @@ public class GuardImpl extends EObjectImpl implements Guard {
 				return getSentence();
 			case UsecasePackage.GUARD__SCENARIO:
 				return getScenario();
+			case UsecasePackage.GUARD__ANNOTATIONS:
+				return getAnnotations();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -226,6 +258,7 @@ public class GuardImpl extends EObjectImpl implements Guard {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
@@ -237,6 +270,10 @@ public class GuardImpl extends EObjectImpl implements Guard {
 				return;
 			case UsecasePackage.GUARD__SCENARIO:
 				setScenario((Scenario)newValue);
+				return;
+			case UsecasePackage.GUARD__ANNOTATIONS:
+				getAnnotations().clear();
+				getAnnotations().addAll((Collection<? extends StepAnnotation>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -259,6 +296,9 @@ public class GuardImpl extends EObjectImpl implements Guard {
 			case UsecasePackage.GUARD__SCENARIO:
 				setScenario((Scenario)null);
 				return;
+			case UsecasePackage.GUARD__ANNOTATIONS:
+				getAnnotations().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -277,6 +317,8 @@ public class GuardImpl extends EObjectImpl implements Guard {
 				return SENTENCE_EDEFAULT == null ? sentence != null : !SENTENCE_EDEFAULT.equals(sentence);
 			case UsecasePackage.GUARD__SCENARIO:
 				return scenario != null;
+			case UsecasePackage.GUARD__ANNOTATIONS:
+				return annotations != null && !annotations.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

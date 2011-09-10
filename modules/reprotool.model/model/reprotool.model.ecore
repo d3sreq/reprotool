@@ -73,6 +73,8 @@
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="Sentence" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="scenario" lowerBound="1"
           eType="#//usecase/Scenario" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="annotations" upperBound="-1"
+          eType="#//usecase/annotate/StepAnnotation" containment="true"/>
     </eClassifiers>
     <eSubpackages name="annotate" nsURI="http://d3s.mff.cuni.cz/reprotool/model/usecase/annotate"
         nsPrefix="annotate">

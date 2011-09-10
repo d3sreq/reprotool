@@ -6,7 +6,9 @@
  */
 package reprotool.model.usecase;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
+import reprotool.model.usecase.annotate.StepAnnotation;
 
 /**
  * <!-- begin-user-doc -->
@@ -19,6 +21,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link reprotool.model.usecase.Guard#getID <em>ID</em>}</li>
  *   <li>{@link reprotool.model.usecase.Guard#getSentence <em>Sentence</em>}</li>
  *   <li>{@link reprotool.model.usecase.Guard#getScenario <em>Scenario</em>}</li>
+ *   <li>{@link reprotool.model.usecase.Guard#getAnnotations <em>Annotations</em>}</li>
  * </ul>
  * </p>
  *
@@ -104,5 +107,21 @@ public interface Guard extends EObject {
 	 * @generated
 	 */
 	void setScenario(Scenario value);
+
+	/**
+	 * Returns the value of the '<em><b>Annotations</b></em>' containment reference list.
+	 * The list contents are of type {@link reprotool.model.usecase.annotate.StepAnnotation}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Annotations</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Annotations</em>' containment reference list.
+	 * @see reprotool.model.usecase.UsecasePackage#getGuard_Annotations()
+	 * @model containment="true"
+	 * @generated
+	 */
+	EList<StepAnnotation> getAnnotations();
 
 } // Guard

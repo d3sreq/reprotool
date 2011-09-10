@@ -447,6 +447,15 @@ public class UsecasePackageImpl extends EPackageImpl implements UsecasePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getGuard_Annotations() {
+		return (EReference)guardEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public UsecaseFactory getUsecaseFactory() {
 		return (UsecaseFactory)getEFactoryInstance();
 	}
@@ -501,6 +510,7 @@ public class UsecasePackageImpl extends EPackageImpl implements UsecasePackage {
 		createEAttribute(guardEClass, GUARD__ID);
 		createEAttribute(guardEClass, GUARD__SENTENCE);
 		createEReference(guardEClass, GUARD__SCENARIO);
+		createEReference(guardEClass, GUARD__ANNOTATIONS);
 	}
 
 	/**
@@ -584,6 +594,7 @@ public class UsecasePackageImpl extends EPackageImpl implements UsecasePackage {
 		initEAttribute(getGuard_ID(), ecorePackage.getEString(), "ID", null, 0, 1, Guard.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getGuard_Sentence(), ecorePackage.getEString(), "Sentence", null, 0, 1, Guard.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getGuard_Scenario(), this.getScenario(), null, "scenario", null, 1, 1, Guard.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getGuard_Annotations(), theAnnotatePackage.getStepAnnotation(), null, "annotations", null, 0, -1, Guard.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);
