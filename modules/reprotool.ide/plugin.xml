@@ -33,6 +33,12 @@
             id="reprotool.ide.views.OutlineContents"
             name="Outline View">
       </view>
+      <view
+            category="cz.cuni.mff.reprotool.ide.category_reprotool"
+            class="reprotool.ide.views.sentenceanalysis.SentenceAnalysisView"
+            id="reprotool.ide.views.sentenceanalysis.SentenceAnalysisView"
+            name="Sentence analysis">
+      </view>
    </extension>
    <extension
          point="org.eclipse.ui.perspectives">
