@@ -276,17 +276,8 @@ public class UsecasePackageImpl extends EPackageImpl implements UsecasePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getUseCaseStep_ID() {
-		return (EAttribute)useCaseStepEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EReference getUseCaseStep_SentenceNodes() {
-		return (EReference)useCaseStepEClass.getEStructuralFeatures().get(2);
+		return (EReference)useCaseStepEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -295,7 +286,7 @@ public class UsecasePackageImpl extends EPackageImpl implements UsecasePackage {
 	 * @generated
 	 */
 	public EReference getUseCaseStep_Extensions() {
-		return (EReference)useCaseStepEClass.getEStructuralFeatures().get(3);
+		return (EReference)useCaseStepEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -304,7 +295,7 @@ public class UsecasePackageImpl extends EPackageImpl implements UsecasePackage {
 	 * @generated
 	 */
 	public EReference getUseCaseStep_Variations() {
-		return (EReference)useCaseStepEClass.getEStructuralFeatures().get(4);
+		return (EReference)useCaseStepEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -313,7 +304,7 @@ public class UsecasePackageImpl extends EPackageImpl implements UsecasePackage {
 	 * @generated
 	 */
 	public EReference getUseCaseStep_Action() {
-		return (EReference)useCaseStepEClass.getEStructuralFeatures().get(5);
+		return (EReference)useCaseStepEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -322,7 +313,7 @@ public class UsecasePackageImpl extends EPackageImpl implements UsecasePackage {
 	 * @generated
 	 */
 	public EReference getUseCaseStep_Annotations() {
-		return (EReference)useCaseStepEClass.getEStructuralFeatures().get(6);
+		return (EReference)useCaseStepEClass.getEStructuralFeatures().get(5);
 	}
 
 	/**
@@ -420,7 +411,7 @@ public class UsecasePackageImpl extends EPackageImpl implements UsecasePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getGuard_ID() {
+	public EAttribute getGuard_Sentence() {
 		return (EAttribute)guardEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -429,17 +420,8 @@ public class UsecasePackageImpl extends EPackageImpl implements UsecasePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getGuard_Sentence() {
-		return (EAttribute)guardEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EReference getGuard_Scenario() {
-		return (EReference)guardEClass.getEStructuralFeatures().get(2);
+		return (EReference)guardEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -448,7 +430,7 @@ public class UsecasePackageImpl extends EPackageImpl implements UsecasePackage {
 	 * @generated
 	 */
 	public EReference getGuard_Annotations() {
-		return (EReference)guardEClass.getEStructuralFeatures().get(3);
+		return (EReference)guardEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -486,7 +468,6 @@ public class UsecasePackageImpl extends EPackageImpl implements UsecasePackage {
 
 		useCaseStepEClass = createEClass(USE_CASE_STEP);
 		createEReference(useCaseStepEClass, USE_CASE_STEP__PARSED_SENTENCE);
-		createEAttribute(useCaseStepEClass, USE_CASE_STEP__ID);
 		createEReference(useCaseStepEClass, USE_CASE_STEP__SENTENCE_NODES);
 		createEReference(useCaseStepEClass, USE_CASE_STEP__EXTENSIONS);
 		createEReference(useCaseStepEClass, USE_CASE_STEP__VARIATIONS);
@@ -507,7 +488,6 @@ public class UsecasePackageImpl extends EPackageImpl implements UsecasePackage {
 		createEAttribute(conditionEClass, CONDITION__SENTENCE);
 
 		guardEClass = createEClass(GUARD);
-		createEAttribute(guardEClass, GUARD__ID);
 		createEAttribute(guardEClass, GUARD__SENTENCE);
 		createEReference(guardEClass, GUARD__SCENARIO);
 		createEReference(guardEClass, GUARD__ANNOTATIONS);
@@ -566,7 +546,6 @@ public class UsecasePackageImpl extends EPackageImpl implements UsecasePackage {
 
 		initEClass(useCaseStepEClass, UseCaseStep.class, "UseCaseStep", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getUseCaseStep_ParsedSentence(), theParsetreePackage.getSentenceNode(), null, "parsedSentence", null, 0, 1, UseCaseStep.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getUseCaseStep_ID(), ecorePackage.getEString(), "ID", null, 0, 1, UseCaseStep.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getUseCaseStep_SentenceNodes(), theActionpartPackage.getText(), null, "sentenceNodes", null, 0, -1, UseCaseStep.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getUseCaseStep_Extensions(), this.getGuard(), null, "extensions", null, 0, -1, UseCaseStep.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getUseCaseStep_Variations(), this.getGuard(), null, "variations", null, 0, -1, UseCaseStep.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -591,10 +570,11 @@ public class UsecasePackageImpl extends EPackageImpl implements UsecasePackage {
 		initEAttribute(getCondition_Sentence(), ecorePackage.getEString(), "Sentence", null, 0, 1, Condition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(guardEClass, Guard.class, "Guard", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getGuard_ID(), ecorePackage.getEString(), "ID", null, 0, 1, Guard.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getGuard_Sentence(), ecorePackage.getEString(), "Sentence", null, 0, 1, Guard.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getGuard_Scenario(), this.getScenario(), null, "scenario", null, 1, 1, Guard.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getGuard_Annotations(), theAnnotatePackage.getStepAnnotation(), null, "annotations", null, 0, -1, Guard.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		addEOperation(guardEClass, ecorePackage.getEString(), "getLabel", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);

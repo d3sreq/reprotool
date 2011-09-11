@@ -145,22 +145,13 @@ public interface UsecasePackage extends EPackage {
 	int USE_CASE_STEP__PARSED_SENTENCE = SwprojPackage.REQ_COVER_FEATURE_COUNT + 0;
 
 	/**
-	 * The feature id for the '<em><b>ID</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int USE_CASE_STEP__ID = SwprojPackage.REQ_COVER_FEATURE_COUNT + 1;
-
-	/**
 	 * The feature id for the '<em><b>Sentence Nodes</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int USE_CASE_STEP__SENTENCE_NODES = SwprojPackage.REQ_COVER_FEATURE_COUNT + 2;
+	int USE_CASE_STEP__SENTENCE_NODES = SwprojPackage.REQ_COVER_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Extensions</b></em>' containment reference list.
@@ -169,7 +160,7 @@ public interface UsecasePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int USE_CASE_STEP__EXTENSIONS = SwprojPackage.REQ_COVER_FEATURE_COUNT + 3;
+	int USE_CASE_STEP__EXTENSIONS = SwprojPackage.REQ_COVER_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Variations</b></em>' containment reference list.
@@ -178,7 +169,7 @@ public interface UsecasePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int USE_CASE_STEP__VARIATIONS = SwprojPackage.REQ_COVER_FEATURE_COUNT + 4;
+	int USE_CASE_STEP__VARIATIONS = SwprojPackage.REQ_COVER_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>Action</b></em>' containment reference.
@@ -187,7 +178,7 @@ public interface UsecasePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int USE_CASE_STEP__ACTION = SwprojPackage.REQ_COVER_FEATURE_COUNT + 5;
+	int USE_CASE_STEP__ACTION = SwprojPackage.REQ_COVER_FEATURE_COUNT + 4;
 
 	/**
 	 * The feature id for the '<em><b>Annotations</b></em>' containment reference list.
@@ -196,7 +187,7 @@ public interface UsecasePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int USE_CASE_STEP__ANNOTATIONS = SwprojPackage.REQ_COVER_FEATURE_COUNT + 6;
+	int USE_CASE_STEP__ANNOTATIONS = SwprojPackage.REQ_COVER_FEATURE_COUNT + 5;
 
 	/**
 	 * The number of structural features of the '<em>Use Case Step</em>' class.
@@ -205,7 +196,7 @@ public interface UsecasePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int USE_CASE_STEP_FEATURE_COUNT = SwprojPackage.REQ_COVER_FEATURE_COUNT + 7;
+	int USE_CASE_STEP_FEATURE_COUNT = SwprojPackage.REQ_COVER_FEATURE_COUNT + 6;
 
 	/**
 	 * The meta object id for the '{@link reprotool.model.usecase.impl.ScenarioImpl <em>Scenario</em>}' class.
@@ -358,22 +349,13 @@ public interface UsecasePackage extends EPackage {
 	int GUARD = 6;
 
 	/**
-	 * The feature id for the '<em><b>ID</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int GUARD__ID = 0;
-
-	/**
 	 * The feature id for the '<em><b>Sentence</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int GUARD__SENTENCE = 1;
+	int GUARD__SENTENCE = 0;
 
 	/**
 	 * The feature id for the '<em><b>Scenario</b></em>' containment reference.
@@ -382,7 +364,7 @@ public interface UsecasePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int GUARD__SCENARIO = 2;
+	int GUARD__SCENARIO = 1;
 
 	/**
 	 * The feature id for the '<em><b>Annotations</b></em>' containment reference list.
@@ -391,7 +373,7 @@ public interface UsecasePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int GUARD__ANNOTATIONS = 3;
+	int GUARD__ANNOTATIONS = 2;
 
 	/**
 	 * The number of structural features of the '<em>Guard</em>' class.
@@ -400,7 +382,7 @@ public interface UsecasePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int GUARD_FEATURE_COUNT = 4;
+	int GUARD_FEATURE_COUNT = 3;
 
 
 	/**
@@ -466,17 +448,6 @@ public interface UsecasePackage extends EPackage {
 	 * @generated
 	 */
 	EReference getUseCaseStep_ParsedSentence();
-
-	/**
-	 * Returns the meta object for the attribute '{@link reprotool.model.usecase.UseCaseStep#getID <em>ID</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>ID</em>'.
-	 * @see reprotool.model.usecase.UseCaseStep#getID()
-	 * @see #getUseCaseStep()
-	 * @generated
-	 */
-	EAttribute getUseCaseStep_ID();
 
 	/**
 	 * Returns the meta object for the containment reference list '{@link reprotool.model.usecase.UseCaseStep#getSentenceNodes <em>Sentence Nodes</em>}'.
@@ -639,17 +610,6 @@ public interface UsecasePackage extends EPackage {
 	EClass getGuard();
 
 	/**
-	 * Returns the meta object for the attribute '{@link reprotool.model.usecase.Guard#getID <em>ID</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>ID</em>'.
-	 * @see reprotool.model.usecase.Guard#getID()
-	 * @see #getGuard()
-	 * @generated
-	 */
-	EAttribute getGuard_ID();
-
-	/**
 	 * Returns the meta object for the attribute '{@link reprotool.model.usecase.Guard#getSentence <em>Sentence</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -755,14 +715,6 @@ public interface UsecasePackage extends EPackage {
 		 * @generated
 		 */
 		EReference USE_CASE_STEP__PARSED_SENTENCE = eINSTANCE.getUseCaseStep_ParsedSentence();
-
-		/**
-		 * The meta object literal for the '<em><b>ID</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute USE_CASE_STEP__ID = eINSTANCE.getUseCaseStep_ID();
 
 		/**
 		 * The meta object literal for the '<em><b>Sentence Nodes</b></em>' containment reference list feature.
@@ -893,14 +845,6 @@ public interface UsecasePackage extends EPackage {
 		 * @generated
 		 */
 		EClass GUARD = eINSTANCE.getGuard();
-
-		/**
-		 * The meta object literal for the '<em><b>ID</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute GUARD__ID = eINSTANCE.getGuard_ID();
 
 		/**
 		 * The meta object literal for the '<em><b>Sentence</b></em>' attribute feature.

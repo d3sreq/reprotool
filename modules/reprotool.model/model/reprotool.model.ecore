@@ -40,8 +40,6 @@
       <eOperations name="getLabel" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="parsedSentence" eType="#//linguistic/parsetree/SentenceNode"
           containment="true"/>
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="ID" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
-          iD="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="sentenceNodes" upperBound="-1"
           eType="#//linguistic/actionpart/Text" containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="extensions" upperBound="-1"
@@ -69,7 +67,7 @@
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="Sentence" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="Guard">
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="ID" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eOperations name="getLabel" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="Sentence" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="scenario" lowerBound="1"
           eType="#//usecase/Scenario" containment="true"/>

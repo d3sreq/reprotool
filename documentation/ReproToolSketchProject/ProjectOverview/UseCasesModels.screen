@@ -8,13 +8,13 @@
   <widgets xsi:type="model:Table" x="543" y="280" width="362" height="135" text="use case,model                  &#xA;Clerk submits an offer, default&#xA;System validates the description, default&#xA;Clerk adjusts/enters ..." measuredWidth="362" measuredHeight="135" selection="" rowHeight="22" horizontalLines="true">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Combo" x="776" y="304" width="129" text="default" measuredWidth="129" measuredHeight="21">
+  <widgets xsi:type="model:Combo" x="774" y="301" width="131" text="default" measuredWidth="131" measuredHeight="21">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Combo" x="776" y="324" width="129" text="default" measuredWidth="129" measuredHeight="21">
+  <widgets xsi:type="model:Combo" x="774" y="323" width="131" text="default" measuredWidth="131" measuredHeight="21">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Combo" x="776" y="344" width="129" text="model1" measuredWidth="129" measuredHeight="21">
+  <widgets xsi:type="model:Combo" x="774" y="345" width="131" text="model1" measuredWidth="131" measuredHeight="21">
     <font/>
   </widgets>
   <widgets xsi:type="model:Group" x="533" y="440" width="382" height="170" text="Models:" measuredWidth="382" measuredHeight="170"/>

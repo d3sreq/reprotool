@@ -23,7 +23,6 @@ import reprotool.model.usecase.annotate.StepAnnotation;
  * The following features are supported:
  * <ul>
  *   <li>{@link reprotool.model.usecase.UseCaseStep#getParsedSentence <em>Parsed Sentence</em>}</li>
- *   <li>{@link reprotool.model.usecase.UseCaseStep#getID <em>ID</em>}</li>
  *   <li>{@link reprotool.model.usecase.UseCaseStep#getSentenceNodes <em>Sentence Nodes</em>}</li>
  *   <li>{@link reprotool.model.usecase.UseCaseStep#getExtensions <em>Extensions</em>}</li>
  *   <li>{@link reprotool.model.usecase.UseCaseStep#getVariations <em>Variations</em>}</li>
@@ -74,32 +73,6 @@ public interface UseCaseStep extends ReqCover {
 	 * @generated
 	 */
 	void setParsedSentence(SentenceNode value);
-
-	/**
-	 * Returns the value of the '<em><b>ID</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>ID</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>ID</em>' attribute.
-	 * @see #setID(String)
-	 * @see reprotool.model.usecase.UsecasePackage#getUseCaseStep_ID()
-	 * @model id="true"
-	 * @generated
-	 */
-	String getID();
-
-	/**
-	 * Sets the value of the '{@link reprotool.model.usecase.UseCaseStep#getID <em>ID</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>ID</em>' attribute.
-	 * @see #getID()
-	 * @generated
-	 */
-	void setID(String value);
 
 	/**
 	 * Returns the value of the '<em><b>Sentence Nodes</b></em>' containment reference list.

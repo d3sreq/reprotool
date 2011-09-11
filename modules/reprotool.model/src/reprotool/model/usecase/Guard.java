@@ -18,7 +18,6 @@ import reprotool.model.usecase.annotate.StepAnnotation;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link reprotool.model.usecase.Guard#getID <em>ID</em>}</li>
  *   <li>{@link reprotool.model.usecase.Guard#getSentence <em>Sentence</em>}</li>
  *   <li>{@link reprotool.model.usecase.Guard#getScenario <em>Scenario</em>}</li>
  *   <li>{@link reprotool.model.usecase.Guard#getAnnotations <em>Annotations</em>}</li>
@@ -30,32 +29,6 @@ import reprotool.model.usecase.annotate.StepAnnotation;
  * @generated
  */
 public interface Guard extends EObject {
-	/**
-	 * Returns the value of the '<em><b>ID</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>ID</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>ID</em>' attribute.
-	 * @see #setID(String)
-	 * @see reprotool.model.usecase.UsecasePackage#getGuard_ID()
-	 * @model
-	 * @generated
-	 */
-	String getID();
-
-	/**
-	 * Sets the value of the '{@link reprotool.model.usecase.Guard#getID <em>ID</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>ID</em>' attribute.
-	 * @see #getID()
-	 * @generated
-	 */
-	void setID(String value);
-
 	/**
 	 * Returns the value of the '<em><b>Sentence</b></em>' attribute.
 	 * <!-- begin-user-doc -->
@@ -123,5 +96,13 @@ public interface Guard extends EObject {
 	 * @generated
 	 */
 	EList<StepAnnotation> getAnnotations();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model kind="operation"
+	 * @generated
+	 */
+	String getLabel();
 
 } // Guard

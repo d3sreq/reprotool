@@ -31,7 +31,6 @@ import reprotool.model.usecase.annotate.StepAnnotation;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link reprotool.model.usecase.impl.GuardImpl#getID <em>ID</em>}</li>
  *   <li>{@link reprotool.model.usecase.impl.GuardImpl#getSentence <em>Sentence</em>}</li>
  *   <li>{@link reprotool.model.usecase.impl.GuardImpl#getScenario <em>Scenario</em>}</li>
  *   <li>{@link reprotool.model.usecase.impl.GuardImpl#getAnnotations <em>Annotations</em>}</li>
@@ -41,26 +40,6 @@ import reprotool.model.usecase.annotate.StepAnnotation;
  * @generated
  */
 public class GuardImpl extends EObjectImpl implements Guard {
-	/**
-	 * The default value of the '{@link #getID() <em>ID</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getID()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String ID_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getID() <em>ID</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getID()
-	 * @generated
-	 * @ordered
-	 */
-	protected String id = ID_EDEFAULT;
-
 	/**
 	 * The default value of the '{@link #getSentence() <em>Sentence</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -118,27 +97,6 @@ public class GuardImpl extends EObjectImpl implements Guard {
 	@Override
 	protected EClass eStaticClass() {
 		return UsecasePackage.Literals.GUARD;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String getID() {
-		return id;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setID(String newID) {
-		String oldID = id;
-		id = newID;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, UsecasePackage.GUARD__ID, oldID, id));
 	}
 
 	/**
@@ -222,6 +180,17 @@ public class GuardImpl extends EObjectImpl implements Guard {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public String getLabel() {
+		// TODO: implement this method
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -241,8 +210,6 @@ public class GuardImpl extends EObjectImpl implements Guard {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case UsecasePackage.GUARD__ID:
-				return getID();
 			case UsecasePackage.GUARD__SENTENCE:
 				return getSentence();
 			case UsecasePackage.GUARD__SCENARIO:
@@ -262,9 +229,6 @@ public class GuardImpl extends EObjectImpl implements Guard {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case UsecasePackage.GUARD__ID:
-				setID((String)newValue);
-				return;
 			case UsecasePackage.GUARD__SENTENCE:
 				setSentence((String)newValue);
 				return;
@@ -287,9 +251,6 @@ public class GuardImpl extends EObjectImpl implements Guard {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case UsecasePackage.GUARD__ID:
-				setID(ID_EDEFAULT);
-				return;
 			case UsecasePackage.GUARD__SENTENCE:
 				setSentence(SENTENCE_EDEFAULT);
 				return;
@@ -311,8 +272,6 @@ public class GuardImpl extends EObjectImpl implements Guard {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case UsecasePackage.GUARD__ID:
-				return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
 			case UsecasePackage.GUARD__SENTENCE:
 				return SENTENCE_EDEFAULT == null ? sentence != null : !SENTENCE_EDEFAULT.equals(sentence);
 			case UsecasePackage.GUARD__SCENARIO:
@@ -333,9 +292,7 @@ public class GuardImpl extends EObjectImpl implements Guard {
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (ID: ");
-		result.append(id);
-		result.append(", Sentence: ");
+		result.append(" (Sentence: ");
 		result.append(sentence);
 		result.append(')');
 		return result.toString();

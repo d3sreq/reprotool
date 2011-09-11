@@ -166,7 +166,7 @@ public class UseCaseEditor extends EditorPart implements ITabbedPropertySheetPag
 				}
 			}
 			
-			fixDuplicateIDs();
+//			fixDuplicateIDs();
 			clipboardItem = EcoreUtil.copy(clipboardItem);
 			setDirty();
 		}
@@ -184,15 +184,15 @@ public class UseCaseEditor extends EditorPart implements ITabbedPropertySheetPag
 	}
 	private IHandlerActivation[] clipboardHandlers;
 
-	public void fixDuplicateIDs() {
-		ArrayList<String> ids = new ArrayList<String>();
-		List<UseCaseStep> steps = getSteps(usecase.getMainScenario());
-		for (UseCaseStep s : steps) {
-			if (ids.contains(s.getID()))
-				s.setID(EcoreUtil.generateUUID());
-			ids.add(s.getID());
-		}
-	}
+//	public void fixDuplicateIDs() {
+//		ArrayList<String> ids = new ArrayList<String>();
+//		List<UseCaseStep> steps = getSteps(usecase.getMainScenario());
+//		for (UseCaseStep s : steps) {
+//			if (ids.contains(s.getID()))
+//				s.setID(EcoreUtil.generateUUID());
+//			ids.add(s.getID());
+//		}
+//	}
 
 	// global actions for toolbar contribution
 	private IAction undoAction;
@@ -1077,8 +1077,8 @@ public class UseCaseEditor extends EditorPart implements ITabbedPropertySheetPag
 	}
 	private static UseCaseStep searchForID(Scenario root, String id) {
 		for (UseCaseStep step : root.getSteps()) {
-			if (step.getID().equals(id))
-				return step;
+//			if (step.getID().equals(id))
+//				return step;
 			ArrayList<Scenario> children = new ArrayList<Scenario>();
 			
 			// TODO - jvinarek - fix

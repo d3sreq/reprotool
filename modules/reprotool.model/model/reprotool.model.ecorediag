@@ -20,10 +20,6 @@
     <children xmi:type="notation:Node" xmi:id="_JClH4NLfEeC2DsylnBoSvA" type="1001">
       <children xmi:type="notation:Node" xmi:id="_JClH49LfEeC2DsylnBoSvA" type="4001"/>
       <children xmi:type="notation:Node" xmi:id="_JClH5NLfEeC2DsylnBoSvA" type="5001">
-        <children xmi:type="notation:Node" xmi:id="_JClH7tLfEeC2DsylnBoSvA" type="2001">
-          <element xmi:type="ecore:EAttribute" href="reprotool.model.ecore#//usecase/UseCaseStep/ID"/>
-          <layoutConstraint xmi:type="notation:Location" xmi:id="_JClH79LfEeC2DsylnBoSvA"/>
-        </children>
         <styles xmi:type="notation:DrawerStyle" xmi:id="_JClH5dLfEeC2DsylnBoSvA"/>
         <styles xmi:type="notation:SortingStyle" xmi:id="_JClH5tLfEeC2DsylnBoSvA"/>
         <styles xmi:type="notation:FilteringStyle" xmi:id="_JClH59LfEeC2DsylnBoSvA"/>
@@ -56,10 +52,6 @@
     <children xmi:type="notation:Node" xmi:id="_gGGG0NLfEeC2DsylnBoSvA" type="1001">
       <children xmi:type="notation:Node" xmi:id="_gGPQwNLfEeC2DsylnBoSvA" type="4001"/>
       <children xmi:type="notation:Node" xmi:id="_gGPQwdLfEeC2DsylnBoSvA" type="5001">
-        <children xmi:type="notation:Node" xmi:id="_ieJRYNLhEeC2DsylnBoSvA" type="2001">
-          <element xmi:type="ecore:EAttribute" href="reprotool.model.ecore#//usecase/Guard/ID"/>
-          <layoutConstraint xmi:type="notation:Location" xmi:id="_ieJRYdLhEeC2DsylnBoSvA"/>
-        </children>
         <children xmi:type="notation:Node" xmi:id="_hpfMMNLfEeC2DsylnBoSvA" type="2001">
           <element xmi:type="ecore:EAttribute" href="reprotool.model.ecore#//usecase/Guard/Sentence"/>
           <layoutConstraint xmi:type="notation:Location" xmi:id="_hpfMMdLfEeC2DsylnBoSvA"/>
@@ -69,6 +61,10 @@
         <styles xmi:type="notation:FilteringStyle" xmi:id="_gGPQxNLfEeC2DsylnBoSvA"/>
       </children>
       <children xmi:type="notation:Node" xmi:id="_gGPQxdLfEeC2DsylnBoSvA" type="5002">
+        <children xmi:type="notation:Node" xmi:id="_8GsK8Nx7EeCTorOcgEUJ_A" type="2002">
+          <element xmi:type="ecore:EOperation" href="reprotool.model.ecore#//usecase/Guard/getLabel"/>
+          <layoutConstraint xmi:type="notation:Location" xmi:id="_8GsK8dx7EeCTorOcgEUJ_A"/>
+        </children>
         <styles xmi:type="notation:DrawerStyle" xmi:id="_gGPQxtLfEeC2DsylnBoSvA"/>
         <styles xmi:type="notation:SortingStyle" xmi:id="_gGPQx9LfEeC2DsylnBoSvA"/>
         <styles xmi:type="notation:FilteringStyle" xmi:id="_gGPQyNLfEeC2DsylnBoSvA"/>
