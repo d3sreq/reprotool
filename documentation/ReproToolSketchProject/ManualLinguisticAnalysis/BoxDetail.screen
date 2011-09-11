@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model:Screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:model="http://wireframesketcher.com/1.0/model.ecore">
+  <widgets xsi:type="model:WidgetGroup" x="96" y="40" measuredWidth="199" measuredHeight="104">
+    <widgets xsi:type="model:WidgetGroup" x="52" measuredWidth="147" measuredHeight="104">
+      <widgets xsi:type="model:Panel" width="147" height="104" measuredWidth="147" measuredHeight="104"/>
+      <widgets xsi:type="model:Label" x="10" y="9" text="Subject:" measuredWidth="45" measuredHeight="21">
+        <font/>
+      </widgets>
+      <widgets xsi:type="model:Combo" x="89" y="29" text="Clerk" measuredWidth="48" measuredHeight="21">
+        <font/>
+      </widgets>
+      <widgets xsi:type="model:TextField" x="10" y="29" width="80" text="Clerk" measuredWidth="80" measuredHeight="21">
+        <font/>
+      </widgets>
+    </widgets>
+    <widgets xsi:type="model:Note" y="48" text="Text is&#xD;&#xA;not modifiable trough &#xD;&#xA;&quot;Sentence analysis&quot; view" measuredWidth="129" measuredHeight="49">
+      <font/>
+    </widgets>
+  </widgets>
+  <hRuler/>
+  <vRuler>
+    <guides position="287"/>
+  </vRuler>
+  <font/>
+</model:Screen>

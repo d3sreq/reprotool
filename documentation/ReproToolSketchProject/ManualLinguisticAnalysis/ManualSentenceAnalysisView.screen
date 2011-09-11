@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model:Screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:model="http://wireframesketcher.com/1.0/model.ecore">
+  <widgets xsi:type="model:WidgetGroup" x="128" y="184" measuredWidth="897" measuredHeight="233">
+    <widgets xsi:type="model:TabbedPane" width="879" height="127" text="Sentence analysis" measuredWidth="879" measuredHeight="127" selection="0">
+      <items x="10" y="0" width="106" height="23" text="Sentence analysis"/>
+      <font/>
+    </widgets>
+    <widgets xsi:type="model:WidgetGroup" x="389" y="23" measuredWidth="248" measuredHeight="104">
+      <widgets xsi:type="model:Panel" width="248" height="104" measuredWidth="248" measuredHeight="104"/>
+      <widgets xsi:type="model:Label" x="10" y="10" text="Direct object:" measuredWidth="70" measuredHeight="21">
+        <font/>
+      </widgets>
+      <widgets xsi:type="model:Table" x="10" y="29" width="224" height="22" text="offer    ,offer ,{delete}&#xA;" measuredWidth="224" measuredHeight="22" horizontalLines="true" header="false">
+        <font/>
+      </widgets>
+      <widgets xsi:type="model:Combo" x="103" y="29" width="130" text="offer" measuredWidth="130" measuredHeight="21">
+        <font/>
+      </widgets>
+    </widgets>
+    <widgets xsi:type="model:WidgetGroup" x="635" y="23" measuredWidth="262" measuredHeight="104">
+      <widgets xsi:type="model:Panel" width="262" height="104" measuredWidth="262" measuredHeight="104"/>
+      <widgets xsi:type="model:Label" x="10" y="10" text="Indirect object:" measuredWidth="79" measuredHeight="21">
+        <font/>
+      </widgets>
+      <widgets xsi:type="model:Table" x="10" y="29" width="242" height="22" text="accounting system,accounting system,{delete}&#xA;" measuredWidth="242" measuredHeight="22" horizontalLines="true" header="false">
+        <font/>
+      </widgets>
+      <widgets xsi:type="model:Combo" x="115" y="29" width="136" text="accounting system" measuredWidth="136" measuredHeight="21">
+        <font/>
+      </widgets>
+    </widgets>
+    <widgets xsi:type="model:WidgetGroup" x="131" y="23" measuredWidth="147" measuredHeight="104">
+      <widgets xsi:type="model:Panel" width="147" height="104" measuredWidth="147" measuredHeight="104"/>
+      <widgets xsi:type="model:Label" x="10" y="9" text="Subject:" measuredWidth="45" measuredHeight="21">
+        <font/>
+      </widgets>
+      <widgets xsi:type="model:Combo" x="89" y="29" text="Clerk" measuredWidth="48" measuredHeight="21">
+        <font/>
+      </widgets>
+      <widgets xsi:type="model:TextField" x="10" y="29" width="80" text="Clerk" measuredWidth="80" measuredHeight="21">
+        <font/>
+      </widgets>
+    </widgets>
+    <widgets xsi:type="model:WidgetGroup" y="23" measuredWidth="133" measuredHeight="210">
+      <widgets xsi:type="model:Panel" width="133" height="104" measuredWidth="133" measuredHeight="104"/>
+      <widgets xsi:type="model:WidgetGroup" x="24" y="9" measuredWidth="72" measuredHeight="201">
+        <widgets xsi:type="model:Label" text="Action Type:" measuredWidth="66" measuredHeight="21">
+          <font/>
+        </widgets>
+        <widgets xsi:type="model:Combo" y="20" text="Send&#xD;&#xA;Send&#xD;&#xA;Receive&#xD;&#xA;Internal&#xD;&#xA;Goto&#xD;&#xA;Include&#xD;&#xA;Term. UC&#xD;&#xA;Term. branch&#xD;&#xA;Unknown" measuredWidth="72" measuredHeight="181">
+          <font/>
+        </widgets>
+      </widgets>
+    </widgets>
+    <widgets xsi:type="model:WidgetGroup" x="276" y="23" measuredWidth="115" measuredHeight="104">
+      <widgets xsi:type="model:Panel" width="115" height="104" measuredWidth="115" measuredHeight="104"/>
+      <widgets xsi:type="model:TextField" x="11" y="29" width="71" text="submits" measuredWidth="71" measuredHeight="21">
+        <font/>
+      </widgets>
+      <widgets xsi:type="model:Label" x="12" y="10" text="Verb:" measuredWidth="31" measuredHeight="21">
+        <font/>
+      </widgets>
+    </widgets>
+  </widgets>
+  <hRuler/>
+  <vRuler>
+    <guides position="287"/>
+  </vRuler>
+  <font/>
+</model:Screen>
