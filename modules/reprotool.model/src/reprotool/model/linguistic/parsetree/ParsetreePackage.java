@@ -99,13 +99,22 @@ public interface ParsetreePackage extends EPackage {
 	int INNER_PARSE_NODE__CHILD_NODES = PARSE_NODE_FEATURE_COUNT + 0;
 
 	/**
+	 * The feature id for the '<em><b>Parent Node</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INNER_PARSE_NODE__PARENT_NODE = PARSE_NODE_FEATURE_COUNT + 1;
+
+	/**
 	 * The number of structural features of the '<em>Inner Parse Node</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int INNER_PARSE_NODE_FEATURE_COUNT = PARSE_NODE_FEATURE_COUNT + 1;
+	int INNER_PARSE_NODE_FEATURE_COUNT = PARSE_NODE_FEATURE_COUNT + 2;
 
 	/**
 	 * The meta object id for the '{@link reprotool.model.linguistic.parsetree.impl.SentenceNodeImpl <em>Sentence Node</em>}' class.
@@ -125,6 +134,15 @@ public interface ParsetreePackage extends EPackage {
 	 * @ordered
 	 */
 	int SENTENCE_NODE__CHILD_NODES = INNER_PARSE_NODE__CHILD_NODES;
+
+	/**
+	 * The feature id for the '<em><b>Parent Node</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SENTENCE_NODE__PARENT_NODE = INNER_PARSE_NODE__PARENT_NODE;
 
 	/**
 	 * The number of structural features of the '<em>Sentence Node</em>' class.
@@ -164,13 +182,22 @@ public interface ParsetreePackage extends EPackage {
 	int WORD__WORD_TYPE = PARSE_NODE_FEATURE_COUNT + 1;
 
 	/**
+	 * The feature id for the '<em><b>Word POS</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int WORD__WORD_POS = PARSE_NODE_FEATURE_COUNT + 2;
+
+	/**
 	 * The number of structural features of the '<em>Word</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int WORD_FEATURE_COUNT = PARSE_NODE_FEATURE_COUNT + 2;
+	int WORD_FEATURE_COUNT = PARSE_NODE_FEATURE_COUNT + 3;
 
 	/**
 	 * The meta object id for the '{@link reprotool.model.linguistic.parsetree.impl.NounPhraseNodeImpl <em>Noun Phrase Node</em>}' class.
@@ -190,6 +217,15 @@ public interface ParsetreePackage extends EPackage {
 	 * @ordered
 	 */
 	int NOUN_PHRASE_NODE__CHILD_NODES = INNER_PARSE_NODE__CHILD_NODES;
+
+	/**
+	 * The feature id for the '<em><b>Parent Node</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NOUN_PHRASE_NODE__PARENT_NODE = INNER_PARSE_NODE__PARENT_NODE;
 
 	/**
 	 * The number of structural features of the '<em>Noun Phrase Node</em>' class.
@@ -220,6 +256,15 @@ public interface ParsetreePackage extends EPackage {
 	int VERB_PHRASE_NODE__CHILD_NODES = INNER_PARSE_NODE__CHILD_NODES;
 
 	/**
+	 * The feature id for the '<em><b>Parent Node</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VERB_PHRASE_NODE__PARENT_NODE = INNER_PARSE_NODE__PARENT_NODE;
+
+	/**
 	 * The number of structural features of the '<em>Verb Phrase Node</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -246,6 +291,15 @@ public interface ParsetreePackage extends EPackage {
 	 * @ordered
 	 */
 	int PREPOSITIONAL_PHRASE_NODE__CHILD_NODES = INNER_PARSE_NODE__CHILD_NODES;
+
+	/**
+	 * The feature id for the '<em><b>Parent Node</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PREPOSITIONAL_PHRASE_NODE__PARENT_NODE = INNER_PARSE_NODE__PARENT_NODE;
 
 	/**
 	 * The number of structural features of the '<em>Prepositional Phrase Node</em>' class.
@@ -311,6 +365,17 @@ public interface ParsetreePackage extends EPackage {
 	EAttribute getWord_WordType();
 
 	/**
+	 * Returns the meta object for the attribute '{@link reprotool.model.linguistic.parsetree.Word#getWordPOS <em>Word POS</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Word POS</em>'.
+	 * @see reprotool.model.linguistic.parsetree.Word#getWordPOS()
+	 * @see #getWord()
+	 * @generated
+	 */
+	EAttribute getWord_WordPOS();
+
+	/**
 	 * Returns the meta object for class '{@link reprotool.model.linguistic.parsetree.ParseNode <em>Parse Node</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -370,6 +435,17 @@ public interface ParsetreePackage extends EPackage {
 	 * @generated
 	 */
 	EReference getInnerParseNode_ChildNodes();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link reprotool.model.linguistic.parsetree.InnerParseNode#getParentNode <em>Parent Node</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Parent Node</em>'.
+	 * @see reprotool.model.linguistic.parsetree.InnerParseNode#getParentNode()
+	 * @see #getInnerParseNode()
+	 * @generated
+	 */
+	EReference getInnerParseNode_ParentNode();
 
 	/**
 	 * Returns the meta object for enum '{@link reprotool.model.linguistic.parsetree.EWordType <em>EWord Type</em>}'.
@@ -440,6 +516,14 @@ public interface ParsetreePackage extends EPackage {
 		EAttribute WORD__WORD_TYPE = eINSTANCE.getWord_WordType();
 
 		/**
+		 * The meta object literal for the '<em><b>Word POS</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute WORD__WORD_POS = eINSTANCE.getWord_WordPOS();
+
+		/**
 		 * The meta object literal for the '{@link reprotool.model.linguistic.parsetree.ParseNode <em>Parse Node</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -496,6 +580,14 @@ public interface ParsetreePackage extends EPackage {
 		 * @generated
 		 */
 		EReference INNER_PARSE_NODE__CHILD_NODES = eINSTANCE.getInnerParseNode_ChildNodes();
+
+		/**
+		 * The meta object literal for the '<em><b>Parent Node</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference INNER_PARSE_NODE__PARENT_NODE = eINSTANCE.getInnerParseNode_ParentNode();
 
 		/**
 		 * The meta object literal for the '{@link reprotool.model.linguistic.parsetree.EWordType <em>EWord Type</em>}' enum.

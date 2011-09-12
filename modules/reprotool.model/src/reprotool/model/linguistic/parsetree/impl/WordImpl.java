@@ -26,6 +26,7 @@ import reprotool.model.linguistic.parsetree.Word;
  * <ul>
  *   <li>{@link reprotool.model.linguistic.parsetree.impl.WordImpl#getWordStr <em>Word Str</em>}</li>
  *   <li>{@link reprotool.model.linguistic.parsetree.impl.WordImpl#getWordType <em>Word Type</em>}</li>
+ *   <li>{@link reprotool.model.linguistic.parsetree.impl.WordImpl#getWordPOS <em>Word POS</em>}</li>
  * </ul>
  * </p>
  *
@@ -71,6 +72,26 @@ public class WordImpl extends EObjectImpl implements Word {
 	 * @ordered
 	 */
 	protected EWordType wordType = WORD_TYPE_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getWordPOS() <em>Word POS</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getWordPOS()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String WORD_POS_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getWordPOS() <em>Word POS</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getWordPOS()
+	 * @generated
+	 * @ordered
+	 */
+	protected String wordPOS = WORD_POS_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -138,6 +159,27 @@ public class WordImpl extends EObjectImpl implements Word {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public String getWordPOS() {
+		return wordPOS;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setWordPOS(String newWordPOS) {
+		String oldWordPOS = wordPOS;
+		wordPOS = newWordPOS;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ParsetreePackage.WORD__WORD_POS, oldWordPOS, wordPOS));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
@@ -145,6 +187,8 @@ public class WordImpl extends EObjectImpl implements Word {
 				return getWordStr();
 			case ParsetreePackage.WORD__WORD_TYPE:
 				return getWordType();
+			case ParsetreePackage.WORD__WORD_POS:
+				return getWordPOS();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -162,6 +206,9 @@ public class WordImpl extends EObjectImpl implements Word {
 				return;
 			case ParsetreePackage.WORD__WORD_TYPE:
 				setWordType((EWordType)newValue);
+				return;
+			case ParsetreePackage.WORD__WORD_POS:
+				setWordPOS((String)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -181,6 +228,9 @@ public class WordImpl extends EObjectImpl implements Word {
 			case ParsetreePackage.WORD__WORD_TYPE:
 				setWordType(WORD_TYPE_EDEFAULT);
 				return;
+			case ParsetreePackage.WORD__WORD_POS:
+				setWordPOS(WORD_POS_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -197,6 +247,8 @@ public class WordImpl extends EObjectImpl implements Word {
 				return WORD_STR_EDEFAULT == null ? wordStr != null : !WORD_STR_EDEFAULT.equals(wordStr);
 			case ParsetreePackage.WORD__WORD_TYPE:
 				return wordType != WORD_TYPE_EDEFAULT;
+			case ParsetreePackage.WORD__WORD_POS:
+				return WORD_POS_EDEFAULT == null ? wordPOS != null : !WORD_POS_EDEFAULT.equals(wordPOS);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -215,6 +267,8 @@ public class WordImpl extends EObjectImpl implements Word {
 		result.append(wordStr);
 		result.append(", wordType: ");
 		result.append(wordType);
+		result.append(", wordPOS: ");
+		result.append(wordPOS);
 		result.append(')');
 		return result.toString();
 	}

@@ -127,6 +127,15 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	protected UseCaseStepImpl() {
+		super();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	protected EClass eStaticClass() {
 		return UsecasePackage.Literals.USE_CASE_STEP;

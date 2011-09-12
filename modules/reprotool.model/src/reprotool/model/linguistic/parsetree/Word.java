@@ -17,6 +17,7 @@ package reprotool.model.linguistic.parsetree;
  * <ul>
  *   <li>{@link reprotool.model.linguistic.parsetree.Word#getWordStr <em>Word Str</em>}</li>
  *   <li>{@link reprotool.model.linguistic.parsetree.Word#getWordType <em>Word Type</em>}</li>
+ *   <li>{@link reprotool.model.linguistic.parsetree.Word#getWordPOS <em>Word POS</em>}</li>
  * </ul>
  * </p>
  *
@@ -79,5 +80,31 @@ public interface Word extends ParseNode {
 	 * @generated
 	 */
 	void setWordType(EWordType value);
+
+	/**
+	 * Returns the value of the '<em><b>Word POS</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Word POS</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Word POS</em>' attribute.
+	 * @see #setWordPOS(String)
+	 * @see reprotool.model.linguistic.parsetree.ParsetreePackage#getWord_WordPOS()
+	 * @model
+	 * @generated
+	 */
+	String getWordPOS();
+
+	/**
+	 * Sets the value of the '{@link reprotool.model.linguistic.parsetree.Word#getWordPOS <em>Word POS</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Word POS</em>' attribute.
+	 * @see #getWordPOS()
+	 * @generated
+	 */
+	void setWordPOS(String value);
 
 } // Word

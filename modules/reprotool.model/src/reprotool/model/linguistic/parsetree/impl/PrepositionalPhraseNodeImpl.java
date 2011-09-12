@@ -8,6 +8,7 @@ package reprotool.model.linguistic.parsetree.impl;
 
 import java.util.Collection;
 
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
 import org.eclipse.emf.common.util.EList;
@@ -15,11 +16,13 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
+import reprotool.model.linguistic.parsetree.InnerParseNode;
 import reprotool.model.linguistic.parsetree.ParseNode;
 import reprotool.model.linguistic.parsetree.ParsetreePackage;
 import reprotool.model.linguistic.parsetree.PrepositionalPhraseNode;
@@ -32,6 +35,7 @@ import reprotool.model.linguistic.parsetree.PrepositionalPhraseNode;
  * The following features are implemented:
  * <ul>
  *   <li>{@link reprotool.model.linguistic.parsetree.impl.PrepositionalPhraseNodeImpl#getChildNodes <em>Child Nodes</em>}</li>
+ *   <li>{@link reprotool.model.linguistic.parsetree.impl.PrepositionalPhraseNodeImpl#getParentNode <em>Parent Node</em>}</li>
  * </ul>
  * </p>
  *
@@ -47,6 +51,16 @@ public class PrepositionalPhraseNodeImpl extends EObjectImpl implements Preposit
 	 * @ordered
 	 */
 	protected EList<ParseNode> childNodes;
+
+	/**
+	 * The cached value of the '{@link #getParentNode() <em>Parent Node</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getParentNode()
+	 * @generated
+	 * @ordered
+	 */
+	protected InnerParseNode parentNode;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -84,11 +98,56 @@ public class PrepositionalPhraseNodeImpl extends EObjectImpl implements Preposit
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public InnerParseNode getParentNode() {
+		return parentNode;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetParentNode(InnerParseNode newParentNode, NotificationChain msgs) {
+		InnerParseNode oldParentNode = parentNode;
+		parentNode = newParentNode;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ParsetreePackage.PREPOSITIONAL_PHRASE_NODE__PARENT_NODE, oldParentNode, newParentNode);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setParentNode(InnerParseNode newParentNode) {
+		if (newParentNode != parentNode) {
+			NotificationChain msgs = null;
+			if (parentNode != null)
+				msgs = ((InternalEObject)parentNode).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ParsetreePackage.PREPOSITIONAL_PHRASE_NODE__PARENT_NODE, null, msgs);
+			if (newParentNode != null)
+				msgs = ((InternalEObject)newParentNode).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ParsetreePackage.PREPOSITIONAL_PHRASE_NODE__PARENT_NODE, null, msgs);
+			msgs = basicSetParentNode(newParentNode, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ParsetreePackage.PREPOSITIONAL_PHRASE_NODE__PARENT_NODE, newParentNode, newParentNode));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case ParsetreePackage.PREPOSITIONAL_PHRASE_NODE__CHILD_NODES:
 				return ((InternalEList<?>)getChildNodes()).basicRemove(otherEnd, msgs);
+			case ParsetreePackage.PREPOSITIONAL_PHRASE_NODE__PARENT_NODE:
+				return basicSetParentNode(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -103,6 +162,8 @@ public class PrepositionalPhraseNodeImpl extends EObjectImpl implements Preposit
 		switch (featureID) {
 			case ParsetreePackage.PREPOSITIONAL_PHRASE_NODE__CHILD_NODES:
 				return getChildNodes();
+			case ParsetreePackage.PREPOSITIONAL_PHRASE_NODE__PARENT_NODE:
+				return getParentNode();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -120,6 +181,9 @@ public class PrepositionalPhraseNodeImpl extends EObjectImpl implements Preposit
 				getChildNodes().clear();
 				getChildNodes().addAll((Collection<? extends ParseNode>)newValue);
 				return;
+			case ParsetreePackage.PREPOSITIONAL_PHRASE_NODE__PARENT_NODE:
+				setParentNode((InnerParseNode)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -135,6 +199,9 @@ public class PrepositionalPhraseNodeImpl extends EObjectImpl implements Preposit
 			case ParsetreePackage.PREPOSITIONAL_PHRASE_NODE__CHILD_NODES:
 				getChildNodes().clear();
 				return;
+			case ParsetreePackage.PREPOSITIONAL_PHRASE_NODE__PARENT_NODE:
+				setParentNode((InnerParseNode)null);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -149,6 +216,8 @@ public class PrepositionalPhraseNodeImpl extends EObjectImpl implements Preposit
 		switch (featureID) {
 			case ParsetreePackage.PREPOSITIONAL_PHRASE_NODE__CHILD_NODES:
 				return childNodes != null && !childNodes.isEmpty();
+			case ParsetreePackage.PREPOSITIONAL_PHRASE_NODE__PARENT_NODE:
+				return parentNode != null;
 		}
 		return super.eIsSet(featureID);
 	}

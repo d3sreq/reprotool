@@ -17,6 +17,7 @@ import org.eclipse.emf.common.util.EList;
  * The following features are supported:
  * <ul>
  *   <li>{@link reprotool.model.linguistic.parsetree.InnerParseNode#getChildNodes <em>Child Nodes</em>}</li>
+ *   <li>{@link reprotool.model.linguistic.parsetree.InnerParseNode#getParentNode <em>Parent Node</em>}</li>
  * </ul>
  * </p>
  *
@@ -40,5 +41,31 @@ public interface InnerParseNode extends ParseNode {
 	 * @generated
 	 */
 	EList<ParseNode> getChildNodes();
+
+	/**
+	 * Returns the value of the '<em><b>Parent Node</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Parent Node</em>' containment reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Parent Node</em>' containment reference.
+	 * @see #setParentNode(InnerParseNode)
+	 * @see reprotool.model.linguistic.parsetree.ParsetreePackage#getInnerParseNode_ParentNode()
+	 * @model containment="true"
+	 * @generated
+	 */
+	InnerParseNode getParentNode();
+
+	/**
+	 * Sets the value of the '{@link reprotool.model.linguistic.parsetree.InnerParseNode#getParentNode <em>Parent Node</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Parent Node</em>' containment reference.
+	 * @see #getParentNode()
+	 * @generated
+	 */
+	void setParentNode(InnerParseNode value);
 
 } // InnerParseNode

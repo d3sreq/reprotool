@@ -267,6 +267,15 @@ public class ParsetreePackageImpl extends EPackageImpl implements ParsetreePacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getWord_WordPOS() {
+		return (EAttribute)wordEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getParseNode() {
 		return parseNodeEClass;
 	}
@@ -321,6 +330,15 @@ public class ParsetreePackageImpl extends EPackageImpl implements ParsetreePacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getInnerParseNode_ParentNode() {
+		return (EReference)innerParseNodeEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getEWordType() {
 		return eWordTypeEEnum;
 	}
@@ -358,6 +376,7 @@ public class ParsetreePackageImpl extends EPackageImpl implements ParsetreePacka
 		wordEClass = createEClass(WORD);
 		createEAttribute(wordEClass, WORD__WORD_STR);
 		createEAttribute(wordEClass, WORD__WORD_TYPE);
+		createEAttribute(wordEClass, WORD__WORD_POS);
 
 		parseNodeEClass = createEClass(PARSE_NODE);
 
@@ -369,6 +388,7 @@ public class ParsetreePackageImpl extends EPackageImpl implements ParsetreePacka
 
 		innerParseNodeEClass = createEClass(INNER_PARSE_NODE);
 		createEReference(innerParseNodeEClass, INNER_PARSE_NODE__CHILD_NODES);
+		createEReference(innerParseNodeEClass, INNER_PARSE_NODE__PARENT_NODE);
 
 		// Create enums
 		eWordTypeEEnum = createEEnum(EWORD_TYPE);
@@ -415,6 +435,7 @@ public class ParsetreePackageImpl extends EPackageImpl implements ParsetreePacka
 		initEClass(wordEClass, Word.class, "Word", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getWord_WordStr(), ecorePackage.getEString(), "wordStr", null, 0, 1, Word.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getWord_WordType(), this.getEWordType(), "wordType", null, 0, 1, Word.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getWord_WordPOS(), ecorePackage.getEString(), "wordPOS", null, 0, 1, Word.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(parseNodeEClass, ParseNode.class, "ParseNode", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
@@ -426,6 +447,7 @@ public class ParsetreePackageImpl extends EPackageImpl implements ParsetreePacka
 
 		initEClass(innerParseNodeEClass, InnerParseNode.class, "InnerParseNode", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getInnerParseNode_ChildNodes(), this.getParseNode(), null, "childNodes", null, 0, -1, InnerParseNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getInnerParseNode_ParentNode(), this.getInnerParseNode(), null, "parentNode", null, 0, 1, InnerParseNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(eWordTypeEEnum, EWordType.class, "EWordType");

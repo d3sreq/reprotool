@@ -159,6 +159,7 @@
       <eClassifiers xsi:type="ecore:EClass" name="Word" eSuperTypes="#//linguistic/parsetree/ParseNode">
         <eStructuralFeatures xsi:type="ecore:EAttribute" name="wordStr" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
         <eStructuralFeatures xsi:type="ecore:EAttribute" name="wordType" eType="#//linguistic/parsetree/EWordType"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="wordPOS" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       </eClassifiers>
       <eClassifiers xsi:type="ecore:EClass" name="ParseNode" abstract="true" interface="true"/>
       <eClassifiers xsi:type="ecore:EClass" name="NounPhraseNode" eSuperTypes="#//linguistic/parsetree/InnerParseNode"/>
@@ -168,6 +169,8 @@
           interface="true" eSuperTypes="#//linguistic/parsetree/ParseNode">
         <eStructuralFeatures xsi:type="ecore:EReference" name="childNodes" upperBound="-1"
             eType="#//linguistic/parsetree/ParseNode" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="parentNode" eType="#//linguistic/parsetree/InnerParseNode"
+            containment="true"/>
       </eClassifiers>
       <eClassifiers xsi:type="ecore:EEnum" name="EWordType">
         <eLiterals name="NotImportant"/>
