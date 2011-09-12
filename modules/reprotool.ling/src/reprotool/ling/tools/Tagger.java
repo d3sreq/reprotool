@@ -35,6 +35,7 @@ public class Tagger {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		PrintStream ps = new PrintStream(baos);
 		System.setOut(ps);
+		//System.setErr(ps);
 		
 		// run external tool MXPOST
 		tagger.TestTagger.main(new String[] {path});

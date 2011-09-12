@@ -20,7 +20,6 @@ import org.eclipse.ui.PlatformUI;
 
 import reprotool.ling.tools.Tagger;
 import reprotool.ling.tools.Tokenizer;
-import reprotool.ling.wordnet.WordNet;
 
 public class LingJob extends Job {
 	 private String originalText;

@@ -1,12 +1,10 @@
 package reprotool.ide.preferences;
 
-import java.util.ArrayList;
 
-import org.eclipse.core.runtime.IExtension;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.ComboFieldEditor;
 import org.eclipse.jface.preference.DirectoryFieldEditor;
+import org.eclipse.jface.preference.FileFieldEditor;
 import org.eclipse.jface.preference.FieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.StringFieldEditor;
@@ -32,6 +30,7 @@ public class LingToolsPreferencePage
 	private StringFieldEditor fieldDict; 
 	private BooleanFieldEditor externalWordnet; 
 	private Group wordnetGroup;
+	private Group parserGroup;
 	
 	public LingToolsPreferencePage() {
 		super(GRID);
@@ -63,9 +62,9 @@ public class LingToolsPreferencePage
 		wordnetLayoutData.horizontalSpan = 3;
 		wordnetGroup.setLayoutData(wordnetLayoutData);
 			
-		IExtension[] allfield = Platform.getExtensionRegistry().getExtensions("reprotool.ide");
+		//IExtension[] allfield = Platform.getExtensionRegistry().getExtensions("reprotool.ide");
 
-		ArrayList<String[]> test = new ArrayList<String[]>();
+		//ArrayList<String[]> test = new ArrayList<String[]>();
 		//List<String[]> test = new ArrayList<String[]>();
         //test.add(new String[] {"foo","foo"});
         
@@ -94,6 +93,23 @@ public class LingToolsPreferencePage
 		fieldDict.setEnabled(false, wordnetGroup);
 		
 		addField(fieldDict);
+		
+		// parser properties
+		parserGroup = new Group(getFieldEditorParent(),SWT.NONE); 
+		parserGroup.setText("Dan Bikel's parser settings");
+		GridLayout parserLayout = new GridLayout();		
+		parserLayout.verticalSpacing = 10;		
+		parserGroup.setLayout(wordnetLayout);
+		
+		GridData parserLayoutData = new GridData(GridData.FILL_HORIZONTAL);
+		parserLayoutData.horizontalSpan = 2;
+		parserGroup.setLayoutData(wordnetLayoutData);
+		
+		addField(new FileFieldEditor(PreferenceConstants.PARSER_MODEL, 
+				"&Parser model:", parserGroup));
+		addField(new FileFieldEditor(PreferenceConstants.PARSER_SETTINGS, 
+				"&Parser settings file:", parserGroup));
+		
 	}
 
 	

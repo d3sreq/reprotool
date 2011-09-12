@@ -32,8 +32,12 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 		store.setDefault(PreferenceConstants.EXTERNAL_WORDNET, false);
         
 		store.setDefault(PreferenceConstants.MODEL_LOC, rootPath);
-		store.setDefault(PreferenceConstants.MXPOST_MODEL, rootPath + "/tools/MXPost_tagger/tagger.project");
-		store.setDefault(PreferenceConstants.WORDNET_DICT, rootPath + "/tools/WordNet-3.0/dict");
+		store.setDefault(PreferenceConstants.MXPOST_MODEL, rootPath + "\\tools\\MXPost_tagger\\tagger.project");
+		store.setDefault(PreferenceConstants.WORDNET_DICT, rootPath + "\\tools\\WordNet-3.0\\dict");
+
+		// parser settings
+		store.setDefault(PreferenceConstants.PARSER_MODEL, rootPath + "\\tools\\parser\\wsj-02-21.obj.gz");
+		store.setDefault(PreferenceConstants.PARSER_SETTINGS, rootPath + "\\tools\\parser\\collins.properties");
 	}
 	
 	/**

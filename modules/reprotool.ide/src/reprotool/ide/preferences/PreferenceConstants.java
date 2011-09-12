@@ -20,4 +20,6 @@ public class PreferenceConstants {
 	public static final String MXPOST_MODEL = "mxpostModel";
 	public static final String WORDNET_DICT = "wordnetDictionary";	
 
+	public static final String PARSER_MODEL = "parserModel";
+	public static final String PARSER_SETTINGS = "parserSettings";	
 }
