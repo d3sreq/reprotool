@@ -11,12 +11,15 @@ import reprotool.model.usecase.UseCaseStep;
 
 public class Analyser {
 
-	/**
+
+    /**
 	 * Analyse tree nodes - relationships
-	 *
-	 * @return UseCaseStep analysed_tree 
-	 */	
-	
+	 * connect tree to ucs
+     * 
+     * @param ucs UseCaseStep
+     * @param parsedTree Tree
+     * @return UseCaseStep analysed_tree
+     */
     public static UseCaseStep analyseTree(UseCaseStep ucs,SentenceNode parsedTree) {
     	
 		//ParsetreeFactory factory = ParsetreeFactory.eINSTANCE;

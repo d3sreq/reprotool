@@ -2,14 +2,18 @@ package reprotool.ling;
 
 
 
+import reprotool.ling.tools.Parser;
 import reprotool.ling.tools.Tagger;
 import reprotool.ling.tools.Tokenizer;
+import reprotool.ling.analyser.*;
 import reprotool.model.linguistic.parsetree.EWordType;
 import reprotool.model.linguistic.parsetree.NounPhraseNode;
 import reprotool.model.linguistic.parsetree.ParsetreeFactory;
 import reprotool.model.linguistic.parsetree.SentenceNode;
 import reprotool.model.linguistic.parsetree.VerbPhraseNode;
 import reprotool.model.linguistic.parsetree.Word;
+import reprotool.model.usecase.UseCaseStep;
+import reprotool.model.usecase.UsecaseFactory;
 
 public class LingTools implements ILingTools {
 
@@ -68,16 +72,58 @@ public class LingTools implements ILingTools {
 		return rootNode;
 	}
 
+	/**
+	 * Ling tools pipeline
+	 * 
+	 * @param originalSentence
+	 * @return parserSentence
+	 */
 	public static String parseLingSentence(String originalSentence) {
 		
  		String tokenizedSentence = "";
 		String taggedSentence = "";
+		String parserSentence = "";
 		
 		// calling tokenizer 
 		tokenizedSentence = Tokenizer.getTokens(originalSentence);
 		// calling tagger 
 		taggedSentence = Tagger.getMXPOST(tokenizedSentence);
+		// calling parser 
+		parserSentence = Parser.getString(taggedSentence);
 		
-		return taggedSentence;
+		return parserSentence;
+	}	
+	
+	/**
+	 * Ling tools pipeline with analyzer
+	 * 
+	 * @param originalSentence
+	 * @return SentenceNode Tree
+	 */
+	public static SentenceNode parseLingSentenceTree(String originalSentence) {
+		
+ 		String tokenizedSentence = "";
+		String taggedSentence = "";
+		String parserSentence = "";
+
+		ParsetreeFactory factory = ParsetreeFactory.eINSTANCE;
+		SentenceNode rootNode = factory.createSentenceNode();
+		UsecaseFactory ucfactory = UsecaseFactory.eINSTANCE;		
+		UseCaseStep ucs = ucfactory.createUseCaseStep();
+		
+		// ling tools
+		// calling tokenizer 
+		tokenizedSentence = Tokenizer.getTokens(originalSentence);
+		// calling tagger 
+		taggedSentence = Tagger.getMXPOST(tokenizedSentence);
+		// calling parser 
+		parserSentence = Parser.getString(taggedSentence);
+		// creating tree
+		rootNode = Parser.getTree(parserSentence);
+		
+		// analyser
+		ucs = Analyser.analyseTree(ucs, rootNode);
+		
+		return rootNode;
 	}	
 }

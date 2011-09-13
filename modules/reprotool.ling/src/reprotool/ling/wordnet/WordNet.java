@@ -17,7 +17,7 @@ import edu.mit.jwi.item.Pointer;
 
 public class WordNet {
 	
-	private static IDictionary dict = null;
+	public static IDictionary dict = null;
 
 	/**
 	 * Returns antonyms for given word
@@ -52,6 +52,7 @@ public class WordNet {
 		IWord word = dict.getWord(wordID);
 
 		for (IWordID antonym : word.getRelatedWords(Pointer.ANTONYM)) {
+			// no other way
 			antonyms.add(dict.getWord(antonym).getLemma());
 		} 
 		dict.close();
@@ -99,8 +100,18 @@ public class WordNet {
 	 * @return Boolean 
 	 */
     public static Boolean open() {	
-
 		String path = Platform.getPreferencesService().getString("reprotool.ide", "wordnetDictionary", "/dict", null);
+		return open(path);			
+	}        
+
+	/**
+	 * Open if dictionary exists
+	 *
+	 * @return Boolean 
+	 */
+    public static Boolean open(String path) {	
+
+		//String path = Platform.getPreferencesService().getString("reprotool.ide", "wordnetDictionary", "/dict", null);
    	
 		// check URL
     	URL url = null;
@@ -118,8 +129,8 @@ public class WordNet {
     	catch(Exception e){ return false; }		
 
 		return true;			
-	}        
-
+	}  
+    
 	/**
 	 * Close if dictionary exists
 	 *
@@ -155,7 +166,7 @@ public class WordNet {
 		if(idxWord != null){
 			IWordID wordID = idxWord.getWordIDs().get(0);
 			IWord word = dict.getWord(wordID);
-	
+
 			for (IWordID antonym : word.getRelatedWords(Pointer.ANTONYM)) {
 				antonyms.add(dict.getWord(antonym).getLemma());
 			} 

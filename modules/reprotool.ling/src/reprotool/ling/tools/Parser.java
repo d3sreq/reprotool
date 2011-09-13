@@ -32,6 +32,7 @@ public class Parser {
 	 * Parse trees of each sentence
 	 *
 	 * @return String parsed_tree 
+	 * @author ofiala
 	 */	
 	
 	/*
@@ -54,6 +55,12 @@ public class Parser {
 		}	
 	}
 	
+    /**
+     * Parse sentence into tree in string format
+     * 
+     * @param originalText Sentence from linguistics tagger
+     * @return Parsed sentence
+     */
     public static String getString(String originalText) {	
     	String settingsFile = "";
     	Sexp result = null;
@@ -136,9 +143,9 @@ public class Parser {
 	/**
 	 * Parse trees of each sentence
 	 *
+	 * @param parsedText Result of this.getString method
 	 * @return SentenceNode parsed_tree 
 	 */	
-	
     public static SentenceNode getTree(String parsedText) {	
     	// root node    	
 		ParsetreeFactory factory = ParsetreeFactory.eINSTANCE;

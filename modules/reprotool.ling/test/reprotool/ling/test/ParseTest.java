@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import reprotool.ling.LingTools;
 import reprotool.ling.tools.Parser;
 import reprotool.ling.tools.Tagger;
 import reprotool.ling.tools.Tokenizer;
@@ -107,7 +106,7 @@ public class ParseTest {
 	public final void testTaggerLisp2() {
 		String sentence = "User uses top view in a client .";
 		String lisp = "";
-		lisp = Tagger.mxposToLisp(LingTools.parseLingSentence(sentence));
+		lisp = Tagger.mxposToLisp(Tagger.getMXPOST(sentence));
 		
 		assertEquals("((User (NNP)) (uses (VBZ)) (top (JJ)) (view (NN)) (in (IN)) (a (DT)) (client (NN)) (. (.)) )", lisp);
 	}	
