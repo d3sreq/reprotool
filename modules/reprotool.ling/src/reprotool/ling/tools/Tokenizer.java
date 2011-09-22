@@ -2,8 +2,18 @@ package reprotool.ling.tools;
 
 import java.util.regex.Pattern;
 
-public class Tokenizer {
+import reprotool.ling.Tool;
 
+/**
+ * @author ofiala
+ *
+ */
+public class Tokenizer extends Tool{
+
+	
+	public String run(String text) {
+		return getTokens(text);
+	}
 	
 	/**
 	 * Returns tokens from given text

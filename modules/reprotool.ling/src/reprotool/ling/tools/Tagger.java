@@ -7,8 +7,19 @@ import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 import org.eclipse.core.runtime.Platform;
 import reprotool.ling.LingJob;
+import reprotool.ling.Tool;
 
-public class Tagger {
+/**
+ * @author ofiala
+ *
+ */
+public class Tagger extends Tool{
+	
+	
+	public String run(String text) {
+		return getMXPOST(text);
+	}
+	
 	/**
 	 * Returns tokens from given text
 	 *

@@ -7,6 +7,7 @@ import java.util.regex.Pattern;
 
 import org.eclipse.core.runtime.Platform;
 
+import reprotool.ling.Tool;
 import reprotool.model.linguistic.parsetree.InnerParseNode;
 import reprotool.model.linguistic.parsetree.NounPhraseNode;
 import reprotool.model.linguistic.parsetree.ParsetreeFactory;
@@ -27,12 +28,15 @@ import danbikel.parser.Settings;
  * D:\Projects\ReProTool\dbparser>java -Xms800m -Xmx800m -cp dbparser.jar -Dparser.settingsFile=collins.properties danbikel.parser.Trainer -it -l wsj-02-21.observed.gz -od wsj-02-21.obj.gz
  */
 
-public class Parser {
+/**
+ * @author ofiala
+ *
+ */
+public class Parser extends Tool {
 	/**
 	 * Parse trees of each sentence
 	 *
 	 * @return String parsed_tree 
-	 * @author ofiala
 	 */	
 	
 	/*
@@ -53,6 +57,11 @@ public class Parser {
 			}
 			return Node.X;
 		}	
+	}
+	
+	
+	public String run(String text) {
+		return getString(text);
 	}
 	
     /**

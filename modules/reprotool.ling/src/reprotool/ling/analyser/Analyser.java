@@ -9,6 +9,10 @@ import reprotool.model.linguistic.parsetree.SentenceNode;
 import reprotool.model.linguistic.parsetree.Word;
 import reprotool.model.usecase.UseCaseStep;
 
+/**
+ * @author ofiala
+ *
+ */
 public class Analyser {
 
 
@@ -50,6 +54,7 @@ public class Analyser {
     	
     	// action type
     	ActionFactory afactory = ActionFactory.eINSTANCE;
+    	// goto example
     	Action action = afactory.createGoto();
     	ucs.setAction(action);
     	
