@@ -8,10 +8,17 @@ import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
+import org.eclipse.jface.viewers.ComboViewer;
 
+/**
+ * Composite for action type selection.
+ * 
+ * @author jvinarek
+ *
+ */
 public class ActionTypeBox extends Composite {
-	private Combo cmbActionType;
 	private Group grpActionType;
+	private ComboViewer comboViewer;
 
 	/**
 	 * Create the composite.
@@ -26,12 +33,13 @@ public class ActionTypeBox extends Composite {
 		grpActionType.setText("Action type");
 		grpActionType.setLayout(new FormLayout());
 		
-		cmbActionType = new Combo(grpActionType, SWT.READ_ONLY);
-		FormData fd_cmbActionType = new FormData();
-		fd_cmbActionType.top = new FormAttachment(0, 10);
-		fd_cmbActionType.left = new FormAttachment(0, 7);
-		fd_cmbActionType.right = new FormAttachment(100, -7);
-		cmbActionType.setLayoutData(fd_cmbActionType);
+		comboViewer = new ComboViewer(grpActionType, SWT.READ_ONLY);
+		Combo combo = comboViewer.getCombo();
+		FormData fd_combo = new FormData();
+		fd_combo.top = new FormAttachment(0, 10);
+		fd_combo.left = new FormAttachment(0, 10);
+		fd_combo.right = new FormAttachment(100, -7);
+		combo.setLayoutData(fd_combo);
 
 	}
 
@@ -39,10 +47,10 @@ public class ActionTypeBox extends Composite {
 	protected void checkSubclass() {
 		// Disable the check that prevents subclassing of SWT components
 	}
-	public Combo getCmbActionType() {
-		return cmbActionType;
-	}
 	public Group getGrpActionType() {
 		return grpActionType;
+	}
+	public ComboViewer getComboViewer() {
+		return comboViewer;
 	}
 }

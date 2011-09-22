@@ -93,10 +93,8 @@ import org.eclipse.ui.views.contentoutline.ContentOutlinePage;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 
 import reprotool.model.lts.presentation.ReprotoolEditorPlugin;
-import reprotool.model.swproj.provider.SwprojItemProviderAdapterFactory;
 import reprotool.model.swproj.provider.SwprojItemProviderAdapterFactoryExt;
 import reprotool.model.usecase.UseCase;
-import reprotool.model.usecase.provider.UsecaseItemProviderAdapterFactory;
 import reprotool.model.usecase.provider.UsecaseItemProviderAdapterFactoryExt;
 
 /**

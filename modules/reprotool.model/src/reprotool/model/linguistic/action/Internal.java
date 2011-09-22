@@ -18,7 +18,7 @@ import reprotool.model.linguistic.actionpart.Verb;
  * The following features are supported:
  * <ul>
  *   <li>{@link reprotool.model.linguistic.action.Internal#getVerb <em>Verb</em>}</li>
- *   <li>{@link reprotool.model.linguistic.action.Internal#getRepresentativeObjects <em>Representative Objects</em>}</li>
+ *   <li>{@link reprotool.model.linguistic.action.Internal#getRepresentativeObject <em>Representative Object</em>}</li>
  * </ul>
  * </p>
  *
@@ -54,29 +54,29 @@ public interface Internal extends Action {
 	void setVerb(Verb value);
 
 	/**
-	 * Returns the value of the '<em><b>Representative Objects</b></em>' containment reference.
+	 * Returns the value of the '<em><b>Representative Object</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Representative Objects</em>' containment reference isn't clear,
+	 * If the meaning of the '<em>Representative Object</em>' containment reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Representative Objects</em>' containment reference.
-	 * @see #setRepresentativeObjects(RepresentativeObject)
-	 * @see reprotool.model.linguistic.action.ActionPackage#getInternal_RepresentativeObjects()
+	 * @return the value of the '<em>Representative Object</em>' containment reference.
+	 * @see #setRepresentativeObject(RepresentativeObject)
+	 * @see reprotool.model.linguistic.action.ActionPackage#getInternal_RepresentativeObject()
 	 * @model containment="true" required="true"
 	 * @generated
 	 */
-	RepresentativeObject getRepresentativeObjects();
+	RepresentativeObject getRepresentativeObject();
 
 	/**
-	 * Sets the value of the '{@link reprotool.model.linguistic.action.Internal#getRepresentativeObjects <em>Representative Objects</em>}' containment reference.
+	 * Sets the value of the '{@link reprotool.model.linguistic.action.Internal#getRepresentativeObject <em>Representative Object</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Representative Objects</em>' containment reference.
-	 * @see #getRepresentativeObjects()
+	 * @param value the new value of the '<em>Representative Object</em>' containment reference.
+	 * @see #getRepresentativeObject()
 	 * @generated
 	 */
-	void setRepresentativeObjects(RepresentativeObject value);
+	void setRepresentativeObject(RepresentativeObject value);
 
 } // Internal

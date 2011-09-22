@@ -9,11 +9,19 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.jface.viewers.ComboViewer;
 
+/**
+ * Composite showing text and combobox selection.
+ * 
+ * @author jvinarek
+ *
+ */
 public class TextWithComboBox extends Composite {
-	private Combo cmbMarkedText;
 	private Label lblMarkedText;
 	private Group grpActionPart;
+	private Combo combo;
+	private ComboViewer comboViewer;
 
 	/**
 	 * Create the composite.
@@ -35,12 +43,13 @@ public class TextWithComboBox extends Composite {
 		lblMarkedText.setLayoutData(fd_lblMarkedText);
 		lblMarkedText.setText("Marked text");
 		
-		cmbMarkedText = new Combo(grpActionPart, SWT.READ_ONLY);
-		FormData fd_cmbMarkedText = new FormData();
-		fd_cmbMarkedText.top = new FormAttachment(lblMarkedText, -3, SWT.TOP);
-		fd_cmbMarkedText.left = new FormAttachment(lblMarkedText, 6);
-		fd_cmbMarkedText.right = new FormAttachment(100, -7);
-		cmbMarkedText.setLayoutData(fd_cmbMarkedText);
+		comboViewer = new ComboViewer(grpActionPart, SWT.READ_ONLY);
+		combo = comboViewer.getCombo();
+		FormData fd_combo = new FormData();
+		fd_combo.top = new FormAttachment(lblMarkedText, -3, SWT.TOP);
+		fd_combo.left = new FormAttachment(lblMarkedText, 6);
+		fd_combo.right = new FormAttachment(100, -13);
+		combo.setLayoutData(fd_combo);
 
 	}
 
@@ -48,13 +57,13 @@ public class TextWithComboBox extends Composite {
 	protected void checkSubclass() {
 		// Disable the check that prevents subclassing of SWT components
 	}
-	public Combo getCmbMarkedText() {
-		return cmbMarkedText;
-	}
 	public Label getLblMarkedText() {
 		return lblMarkedText;
 	}
 	public Group getGrpActionPart() {
 		return grpActionPart;
+	}
+	public ComboViewer getComboViewer() {
+		return comboViewer;
 	}
 }

@@ -198,13 +198,13 @@ public interface ActionPackage extends EPackage {
 	int INTERNAL__VERB = ACTION_FEATURE_COUNT + 0;
 
 	/**
-	 * The feature id for the '<em><b>Representative Objects</b></em>' containment reference.
+	 * The feature id for the '<em><b>Representative Object</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int INTERNAL__REPRESENTATIVE_OBJECTS = ACTION_FEATURE_COUNT + 1;
+	int INTERNAL__REPRESENTATIVE_OBJECT = ACTION_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of structural features of the '<em>Internal</em>' class.
@@ -458,15 +458,15 @@ public interface ActionPackage extends EPackage {
 	EReference getInternal_Verb();
 
 	/**
-	 * Returns the meta object for the containment reference '{@link reprotool.model.linguistic.action.Internal#getRepresentativeObjects <em>Representative Objects</em>}'.
+	 * Returns the meta object for the containment reference '{@link reprotool.model.linguistic.action.Internal#getRepresentativeObject <em>Representative Object</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Representative Objects</em>'.
-	 * @see reprotool.model.linguistic.action.Internal#getRepresentativeObjects()
+	 * @return the meta object for the containment reference '<em>Representative Object</em>'.
+	 * @see reprotool.model.linguistic.action.Internal#getRepresentativeObject()
 	 * @see #getInternal()
 	 * @generated
 	 */
-	EReference getInternal_RepresentativeObjects();
+	EReference getInternal_RepresentativeObject();
 
 	/**
 	 * Returns the meta object for class '{@link reprotool.model.linguistic.action.Goto <em>Goto</em>}'.
@@ -667,12 +667,12 @@ public interface ActionPackage extends EPackage {
 		EReference INTERNAL__VERB = eINSTANCE.getInternal_Verb();
 
 		/**
-		 * The meta object literal for the '<em><b>Representative Objects</b></em>' containment reference feature.
+		 * The meta object literal for the '<em><b>Representative Object</b></em>' containment reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference INTERNAL__REPRESENTATIVE_OBJECTS = eINSTANCE.getInternal_RepresentativeObjects();
+		EReference INTERNAL__REPRESENTATIVE_OBJECT = eINSTANCE.getInternal_RepresentativeObject();
 
 		/**
 		 * The meta object literal for the '{@link reprotool.model.linguistic.action.impl.GotoImpl <em>Goto</em>}' class.

@@ -345,7 +345,7 @@ public class ActionPackageImpl extends EPackageImpl implements ActionPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getInternal_RepresentativeObjects() {
+	public EReference getInternal_RepresentativeObject() {
 		return (EReference)internalEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -455,7 +455,7 @@ public class ActionPackageImpl extends EPackageImpl implements ActionPackage {
 
 		internalEClass = createEClass(INTERNAL);
 		createEReference(internalEClass, INTERNAL__VERB);
-		createEReference(internalEClass, INTERNAL__REPRESENTATIVE_OBJECTS);
+		createEReference(internalEClass, INTERNAL__REPRESENTATIVE_OBJECT);
 
 		gotoEClass = createEClass(GOTO);
 		createEReference(gotoEClass, GOTO__GOTO_TARGET);
@@ -526,7 +526,7 @@ public class ActionPackageImpl extends EPackageImpl implements ActionPackage {
 
 		initEClass(internalEClass, Internal.class, "Internal", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getInternal_Verb(), theActionpartPackage.getVerb(), null, "verb", null, 1, 1, Internal.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getInternal_RepresentativeObjects(), theActionpartPackage.getRepresentativeObject(), null, "representativeObjects", null, 1, 1, Internal.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getInternal_RepresentativeObject(), theActionpartPackage.getRepresentativeObject(), null, "representativeObject", null, 1, 1, Internal.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(gotoEClass, Goto.class, "Goto", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getGoto_GotoTarget(), theActionpartPackage.getGotoTarget(), null, "gotoTarget", null, 1, 1, Goto.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

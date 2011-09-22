@@ -233,7 +233,7 @@
       <eClassifiers xsi:type="ecore:EClass" name="Internal" eSuperTypes="#//linguistic/action/Action">
         <eStructuralFeatures xsi:type="ecore:EReference" name="verb" lowerBound="1"
             eType="#//linguistic/actionpart/Verb" containment="true"/>
-        <eStructuralFeatures xsi:type="ecore:EReference" name="representativeObjects"
+        <eStructuralFeatures xsi:type="ecore:EReference" name="representativeObject"
             lowerBound="1" eType="#//linguistic/actionpart/RepresentativeObject" containment="true"/>
       </eClassifiers>
       <eClassifiers xsi:type="ecore:EClass" name="Goto" eSuperTypes="#//linguistic/action/Action">

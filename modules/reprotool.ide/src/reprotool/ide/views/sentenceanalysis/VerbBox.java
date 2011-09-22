@@ -9,6 +9,12 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 
+/**
+ * Composite showing verb action part.
+ * 
+ * @author jvinarek
+ *
+ */
 public class VerbBox extends Composite {
 	private Label lblMarkedText;
 

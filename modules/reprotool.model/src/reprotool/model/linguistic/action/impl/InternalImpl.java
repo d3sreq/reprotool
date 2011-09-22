@@ -28,7 +28,7 @@ import reprotool.model.linguistic.actionpart.Verb;
  * The following features are implemented:
  * <ul>
  *   <li>{@link reprotool.model.linguistic.action.impl.InternalImpl#getVerb <em>Verb</em>}</li>
- *   <li>{@link reprotool.model.linguistic.action.impl.InternalImpl#getRepresentativeObjects <em>Representative Objects</em>}</li>
+ *   <li>{@link reprotool.model.linguistic.action.impl.InternalImpl#getRepresentativeObject <em>Representative Object</em>}</li>
  * </ul>
  * </p>
  *
@@ -46,14 +46,14 @@ public class InternalImpl extends ActionImpl implements Internal {
 	protected Verb verb;
 
 	/**
-	 * The cached value of the '{@link #getRepresentativeObjects() <em>Representative Objects</em>}' containment reference.
+	 * The cached value of the '{@link #getRepresentativeObject() <em>Representative Object</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getRepresentativeObjects()
+	 * @see #getRepresentativeObject()
 	 * @generated
 	 * @ordered
 	 */
-	protected RepresentativeObject representativeObjects;
+	protected RepresentativeObject representativeObject;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -122,8 +122,8 @@ public class InternalImpl extends ActionImpl implements Internal {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public RepresentativeObject getRepresentativeObjects() {
-		return representativeObjects;
+	public RepresentativeObject getRepresentativeObject() {
+		return representativeObject;
 	}
 
 	/**
@@ -131,11 +131,11 @@ public class InternalImpl extends ActionImpl implements Internal {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetRepresentativeObjects(RepresentativeObject newRepresentativeObjects, NotificationChain msgs) {
-		RepresentativeObject oldRepresentativeObjects = representativeObjects;
-		representativeObjects = newRepresentativeObjects;
+	public NotificationChain basicSetRepresentativeObject(RepresentativeObject newRepresentativeObject, NotificationChain msgs) {
+		RepresentativeObject oldRepresentativeObject = representativeObject;
+		representativeObject = newRepresentativeObject;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ActionPackage.INTERNAL__REPRESENTATIVE_OBJECTS, oldRepresentativeObjects, newRepresentativeObjects);
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ActionPackage.INTERNAL__REPRESENTATIVE_OBJECT, oldRepresentativeObject, newRepresentativeObject);
 			if (msgs == null) msgs = notification; else msgs.add(notification);
 		}
 		return msgs;
@@ -146,18 +146,18 @@ public class InternalImpl extends ActionImpl implements Internal {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setRepresentativeObjects(RepresentativeObject newRepresentativeObjects) {
-		if (newRepresentativeObjects != representativeObjects) {
+	public void setRepresentativeObject(RepresentativeObject newRepresentativeObject) {
+		if (newRepresentativeObject != representativeObject) {
 			NotificationChain msgs = null;
-			if (representativeObjects != null)
-				msgs = ((InternalEObject)representativeObjects).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ActionPackage.INTERNAL__REPRESENTATIVE_OBJECTS, null, msgs);
-			if (newRepresentativeObjects != null)
-				msgs = ((InternalEObject)newRepresentativeObjects).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ActionPackage.INTERNAL__REPRESENTATIVE_OBJECTS, null, msgs);
-			msgs = basicSetRepresentativeObjects(newRepresentativeObjects, msgs);
+			if (representativeObject != null)
+				msgs = ((InternalEObject)representativeObject).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ActionPackage.INTERNAL__REPRESENTATIVE_OBJECT, null, msgs);
+			if (newRepresentativeObject != null)
+				msgs = ((InternalEObject)newRepresentativeObject).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ActionPackage.INTERNAL__REPRESENTATIVE_OBJECT, null, msgs);
+			msgs = basicSetRepresentativeObject(newRepresentativeObject, msgs);
 			if (msgs != null) msgs.dispatch();
 		}
 		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ActionPackage.INTERNAL__REPRESENTATIVE_OBJECTS, newRepresentativeObjects, newRepresentativeObjects));
+			eNotify(new ENotificationImpl(this, Notification.SET, ActionPackage.INTERNAL__REPRESENTATIVE_OBJECT, newRepresentativeObject, newRepresentativeObject));
 	}
 
 	/**
@@ -170,8 +170,8 @@ public class InternalImpl extends ActionImpl implements Internal {
 		switch (featureID) {
 			case ActionPackage.INTERNAL__VERB:
 				return basicSetVerb(null, msgs);
-			case ActionPackage.INTERNAL__REPRESENTATIVE_OBJECTS:
-				return basicSetRepresentativeObjects(null, msgs);
+			case ActionPackage.INTERNAL__REPRESENTATIVE_OBJECT:
+				return basicSetRepresentativeObject(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -186,8 +186,8 @@ public class InternalImpl extends ActionImpl implements Internal {
 		switch (featureID) {
 			case ActionPackage.INTERNAL__VERB:
 				return getVerb();
-			case ActionPackage.INTERNAL__REPRESENTATIVE_OBJECTS:
-				return getRepresentativeObjects();
+			case ActionPackage.INTERNAL__REPRESENTATIVE_OBJECT:
+				return getRepresentativeObject();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -203,8 +203,8 @@ public class InternalImpl extends ActionImpl implements Internal {
 			case ActionPackage.INTERNAL__VERB:
 				setVerb((Verb)newValue);
 				return;
-			case ActionPackage.INTERNAL__REPRESENTATIVE_OBJECTS:
-				setRepresentativeObjects((RepresentativeObject)newValue);
+			case ActionPackage.INTERNAL__REPRESENTATIVE_OBJECT:
+				setRepresentativeObject((RepresentativeObject)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -221,8 +221,8 @@ public class InternalImpl extends ActionImpl implements Internal {
 			case ActionPackage.INTERNAL__VERB:
 				setVerb((Verb)null);
 				return;
-			case ActionPackage.INTERNAL__REPRESENTATIVE_OBJECTS:
-				setRepresentativeObjects((RepresentativeObject)null);
+			case ActionPackage.INTERNAL__REPRESENTATIVE_OBJECT:
+				setRepresentativeObject((RepresentativeObject)null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -238,8 +238,8 @@ public class InternalImpl extends ActionImpl implements Internal {
 		switch (featureID) {
 			case ActionPackage.INTERNAL__VERB:
 				return verb != null;
-			case ActionPackage.INTERNAL__REPRESENTATIVE_OBJECTS:
-				return representativeObjects != null;
+			case ActionPackage.INTERNAL__REPRESENTATIVE_OBJECT:
+				return representativeObject != null;
 		}
 		return super.eIsSet(featureID);
 	}

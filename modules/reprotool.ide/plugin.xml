@@ -72,8 +72,8 @@
             contributorClass="reprotool.ide.editors.UsecaseEMFActionBarContributor"
             default="false"
             extensions="usecase"
-            id="reprotool.ide.editor1"
-            name="EMF Use case editor">
+            id="cz.cuni.mff.reprotool.ide.UseCaseEmfEditor"
+            name="Use case EMF Editor">
       </editor>
    </extension>
    <extension
