@@ -1,12 +1,13 @@
 package reprotool.ide.views.sentenceanalysis;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
-
 import org.eclipse.core.databinding.DataBindingContext;
+import org.eclipse.core.databinding.UpdateValueStrategy;
+import org.eclipse.core.databinding.beans.PojoObservables;
 import org.eclipse.core.databinding.conversion.Converter;
+import org.eclipse.core.databinding.observable.value.IObservableValue;
+import org.eclipse.core.databinding.observable.value.WritableValue;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.jface.databinding.viewers.ViewersObservables;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.ISelection;
@@ -35,13 +36,6 @@ import reprotool.model.linguistic.actionpart.ActionPart;
 import reprotool.model.linguistic.actionpart.Text;
 import reprotool.model.procases.InternalAction;
 import reprotool.model.usecase.UseCaseStep;
-import org.eclipse.core.databinding.observable.value.IObservableValue;
-import org.eclipse.jface.databinding.swt.SWTObservables;
-import org.eclipse.core.databinding.beans.PojoObservables;
-import org.eclipse.core.databinding.UpdateValueStrategy;
-import org.eclipse.core.databinding.beans.BeansObservables;
-import org.eclipse.jface.databinding.viewers.ViewersObservables;
-import org.eclipse.jface.viewers.LabelProvider;
 
 /**
  * Enables user to set details of the use case step (action).
@@ -50,29 +44,12 @@ import org.eclipse.jface.viewers.LabelProvider;
  * 
  */
 public class SentenceAnalysisView extends ViewPart implements ISelectionListener {
-	private DataBindingContext m_bindingContext;
-
+	
 	public static final String ID = "reprotool.ide.views.sentenceanalysis.SentenceAnalysisView"; //$NON-NLS-1$
 
+	private DataBindingContext m_bindingContext;
 	private BoxContainer boxContainer;
-
-	private SelectedUseCaseStepWrapper wrapper = new SelectedUseCaseStepWrapper();
-
-	private ISelectionListener listener = new ISelectionListener() {
-		public void selectionChanged(IWorkbenchPart part, ISelection selection) {
-			if (!(selection instanceof IStructuredSelection)) {
-				return;
-			}
-
-			IStructuredSelection structuredSelection = (IStructuredSelection) selection;
-
-			Object object = structuredSelection.getFirstElement();
-			if (object instanceof UseCaseStep) {
-				wrapper.setUseCaseStep((UseCaseStep) object);
-//				boxContainer.getActionTypeBox().getComboViewer().setSelection(new StructuredSelection(EComboActionType.INTERNAL));
-			}
-		}
-	};
+	private WritableValue value = new WritableValue();
 
 	public SentenceAnalysisView() {
 		// TODO - test
@@ -111,17 +88,9 @@ public class SentenceAnalysisView extends ViewPart implements ISelectionListener
 		initializeToolBar();
 		initializeMenu();
 
-		getSite().getPage().addSelectionListener(listener);
-
-		// getSite().getPage().addSelectionListener(this);
-		// TODO
-		// selection =
-		// ViewersObservables.observeSingleSelection(getSite().getSelectionProvider());
+		getSite().getPage().addSelectionListener(this);
+		
 		m_bindingContext = initDataBindings();
-
-		// TODO
-		// ArrayContentProvider arrayContentProvider = new
-		// ArrayContentProvider();
 
 		ComboViewer comboViewer = getBoxContainer().getActionTypeBox().getComboViewer();
 		comboViewer.setContentProvider(ArrayContentProvider.getInstance());
@@ -156,7 +125,7 @@ public class SentenceAnalysisView extends ViewPart implements ISelectionListener
 	}
 
 	public void dispose() {
-		getSite().getPage().removeSelectionListener(listener);
+		getSite().getPage().removeSelectionListener(this);
 	}
 
 	@Override
@@ -166,20 +135,19 @@ public class SentenceAnalysisView extends ViewPart implements ISelectionListener
 
 	@Override
 	public void selectionChanged(IWorkbenchPart part, ISelection selection) {
-		if (selection.isEmpty() || !(selection instanceof IStructuredSelection)) {
+		if (!(selection instanceof IStructuredSelection)) {
 			return;
 		}
 
 		IStructuredSelection structuredSelection = (IStructuredSelection) selection;
+
 		Object object = structuredSelection.getFirstElement();
-
-		// TODO - jvinarek - make view empty ?
-		if (!(object instanceof UseCaseStep)) {
-			return;
+		if (object instanceof UseCaseStep) {
+			boxContainer.setVisible(true);
+			value.setValue(object);
+		} else {
+			boxContainer.setVisible(false);
 		}
-
-		// TODO - jvinarek - test
-		// useCaseStep = (UseCaseStep)object;
 	}
 
 	public BoxContainer getBoxContainer() {
@@ -190,7 +158,11 @@ public class SentenceAnalysisView extends ViewPart implements ISelectionListener
 		// TODO - jvinarek - allow null action ?
 		if (actionType != null) {
 			Action newAction = actionType.createAction();
-			// this.useCaseStep.setAction(newAction);
+//			UseCaseStep useCaseStep = wrapper.getUseCaseStep();
+//			if (useCaseStep != null) {
+//				useCaseStep.setAction(newAction);
+//			}
+			//this.useCaseStep.setAction(newAction);
 		}
 	}
 
@@ -403,10 +375,10 @@ public class SentenceAnalysisView extends ViewPart implements ISelectionListener
 		}
 	}
 
-	public static class NullConverter extends Converter {
+	public static class ActionToComboConverter extends Converter {
 
-		public NullConverter() {
-			super(UseCaseStep.class, EComboActionType.class);
+		public ActionToComboConverter() {
+			super(Action.class, EComboActionType.class);
 		}
 
 		@Override
@@ -414,49 +386,38 @@ public class SentenceAnalysisView extends ViewPart implements ISelectionListener
 			if (fromObject == null) {
 				return null;
 			}
-			UseCaseStep step = (UseCaseStep) fromObject;
-			if (step.getAction() == null) {
-				return null;
-			}
-
-			return EComboActionType.createEnum(step.getAction());
+			Action action = (Action) fromObject;			
+			return EComboActionType.createEnum(action);
 		}
 
 	}
+	
+	public static class ComboToActionConverter extends Converter {
 
-	public static class SelectedUseCaseStepWrapper implements PropertyChangeListener {
-
-		private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
-		private UseCaseStep useCaseStep;
-
-		public UseCaseStep getUseCaseStep() {
-			return useCaseStep;
-		}
-
-		public void setUseCaseStep(UseCaseStep useCaseStep) {
-			propertyChangeSupport.firePropertyChange("useCaseStep", this.useCaseStep, this.useCaseStep = useCaseStep);
+		public ComboToActionConverter() {
+			super(EComboActionType.class, Action.class);
 		}
 
 		@Override
-		public void propertyChange(PropertyChangeEvent arg0) {
+		public Object convert(Object fromObject) {
+			if (fromObject == null) {
+				return null;
+			}
+			EComboActionType comboActionType = (EComboActionType)fromObject;
+			return comboActionType.createAction();
 		}
 
-		public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener) {
-			propertyChangeSupport.addPropertyChangeListener(propertyName, listener);
-		}
-
-		public void removePropertyChangeListener(PropertyChangeListener listener) {
-			propertyChangeSupport.removePropertyChangeListener(listener);
-		}
 	}
 	protected DataBindingContext initDataBindings() {
 		DataBindingContext bindingContext = new DataBindingContext();
 		//
 		IObservableValue comboViewerObserveSingleSelection = ViewersObservables.observeSingleSelection(boxContainer.getActionTypeBox().getComboViewer());
-		IObservableValue wrapperUseCaseStepObserveValue = BeansObservables.observeValue(wrapper, "useCaseStep");
+		IObservableValue valueActionObserveDetailValue = PojoObservables.observeDetailValue(value, "action", Action.class);
 		UpdateValueStrategy strategy = new UpdateValueStrategy();
-		strategy.setConverter(new NullConverter());
-		bindingContext.bindValue(comboViewerObserveSingleSelection, wrapperUseCaseStepObserveValue, null, strategy);
+		strategy.setConverter(new ComboToActionConverter());
+		UpdateValueStrategy strategy_1 = new UpdateValueStrategy();
+		strategy_1.setConverter(new ActionToComboConverter());
+		bindingContext.bindValue(comboViewerObserveSingleSelection, valueActionObserveDetailValue, strategy, strategy_1);
 		//
 		return bindingContext;
 	}
