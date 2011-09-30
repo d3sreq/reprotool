@@ -1,5 +1,6 @@
 package reprotool.ide.preferences;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
@@ -32,12 +33,16 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 		store.setDefault(PreferenceConstants.EXTERNAL_WORDNET, false);
         
 		store.setDefault(PreferenceConstants.MODEL_LOC, rootPath);
-		store.setDefault(PreferenceConstants.MXPOST_MODEL, rootPath + "\\tools\\MXPost_tagger\\tagger.project");
-		store.setDefault(PreferenceConstants.WORDNET_DICT, rootPath + "\\tools\\WordNet-3.0\\dict");
+		store.setDefault(PreferenceConstants.MXPOST_MODEL, rootPath + File.separator + 
+				"tools" + File.separator + "MXPost_tagger" + File.separator + "tagger.project");
+		store.setDefault(PreferenceConstants.WORDNET_DICT, rootPath + File.separator +
+				"tools" + File.separator + "WordNet-3.0" + File.separator + "dict");
 
 		// parser settings
-		store.setDefault(PreferenceConstants.PARSER_MODEL, rootPath + "\\tools\\parser\\wsj-02-21.obj.gz");
-		store.setDefault(PreferenceConstants.PARSER_SETTINGS, rootPath + "\\tools\\parser\\collins.properties");
+		store.setDefault(PreferenceConstants.PARSER_MODEL, rootPath + File.separator +
+				"tools" + File.separator + "parser" + File.separator + "wsj-02-21.obj.gz");
+		store.setDefault(PreferenceConstants.PARSER_SETTINGS, rootPath + File.separator +
+				"tools" + File.separator + "parser" + File.separator + "collins.properties");
 	}
 	
 	/**
