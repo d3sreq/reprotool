@@ -1,18 +1,31 @@
 package reprotool.ide.views.sentenceanalysis;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.UpdateValueStrategy;
+import org.eclipse.core.databinding.beans.BeanProperties;
+import org.eclipse.core.databinding.beans.PojoProperties;
 import org.eclipse.core.databinding.conversion.Converter;
+import org.eclipse.core.databinding.observable.list.IObservableList;
+import org.eclipse.core.databinding.observable.list.WritableList;
 import org.eclipse.core.databinding.observable.value.ComputedValue;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.databinding.observable.value.WritableValue;
 import org.eclipse.emf.databinding.FeaturePath;
 import org.eclipse.emf.databinding.IEMFValueProperty;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
+import org.eclipse.emf.databinding.edit.IEMFEditListProperty;
 import org.eclipse.emf.databinding.edit.IEMFEditValueProperty;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.jface.databinding.swt.SWTObservables;
+import org.eclipse.jface.databinding.swt.WidgetProperties;
+import org.eclipse.jface.databinding.viewers.ViewerSupport;
 import org.eclipse.jface.databinding.viewers.ViewersObservables;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ComboViewer;
@@ -40,9 +53,20 @@ import reprotool.model.linguistic.action.TerminateUseCase;
 import reprotool.model.linguistic.action.Unknown;
 import reprotool.model.linguistic.action.UseCaseInclude;
 import reprotool.model.linguistic.actionpart.ActionpartPackage;
+import reprotool.model.swproj.Actor;
+import reprotool.model.swproj.SoftwareProject;
+import reprotool.model.swproj.SwprojFactory;
+import reprotool.model.swproj.SwprojPackage;
+import reprotool.model.usecase.Guard;
+import reprotool.model.usecase.Scenario;
+import reprotool.model.usecase.UseCase;
 import reprotool.model.usecase.UseCaseStep;
 import reprotool.model.usecase.UsecasePackage;
 
+/**
+ * @author jvinarek
+ *
+ */
 public class SentenceAnalysisSheetPage extends Page implements ISentenceAnalysisSheetPage {
 
 	private BoxContainer boxContainer;
@@ -62,6 +86,8 @@ public class SentenceAnalysisSheetPage extends Page implements ISentenceAnalysis
 	}
 
 	protected DataBindingContext initDataBindings(AdapterFactoryEditingDomain editingDomain) {
+		bindActionTypeCombo();
+		
 		DataBindingContext bindingContext = new DataBindingContext();
 		//
 		// binds value to action box combo
@@ -99,8 +125,80 @@ public class SentenceAnalysisSheetPage extends Page implements ISentenceAnalysis
 		bindMarkedText(bindingContext, boxContainer.getGotoUseCaseStepBox().getLblMarkedText(), new EReference[] {ActionPackage.Literals.GOTO__GOTO_TARGET});
 		bindMarkedText(bindingContext, boxContainer.getIncludeUseCaseBox().getLblMarkedText(), new EReference[] {ActionPackage.Literals.USE_CASE_INCLUDE__INCLUDE});
 		
+		// bind actors to the combo boxes - create combo boxes content
+		bindActorsContentToCombo(bindingContext, boxContainer.getSubjectBox().getComboViewer());
+		bindActorsContentToCombo(bindingContext, boxContainer.getDirectObjectBox().getComboViewer());
+		bindActorsContentToCombo(bindingContext, boxContainer.getIndirectObjectBox().getComboViewer());
+		
 		return bindingContext;
 	}
+	
+	private void bindActorsContentToCombo(DataBindingContext bindingContext, ComboViewer comboViewer) {
+		IObservableList comboList = WidgetProperties.items().observe(comboViewer.getCombo());
+		
+		IEMFEditListProperty emfProperty = EMFEditProperties.list(editingDomain, 
+				FeaturePath.fromList(
+						UsecasePackage.Literals.USE_CASE_STEP__SOFTWARE_PROJECT, 
+						SwprojPackage.Literals.SOFTWARE_PROJECT__ACTORS						 
+				)).values(SwprojPackage.Literals.ACTOR__NAME);
+		IObservableList emfList = emfProperty.observeDetail(writableValue);
+		bindingContext.bindList(comboList, emfList);
+	}
+
+	private void bindActionTypeCombo() {
+		ComboViewer comboViewer = boxContainer.getActionTypeBox().getComboViewer();
+		List<EComboActionType> list = new ArrayList<EComboActionType>(Arrays.asList(EComboActionType.values()));
+		WritableList input = new WritableList(list, EComboActionType.class);
+		ViewerSupport.bind(comboViewer, input, PojoProperties.value("name"));
+	}
+
+//	private List<Actor> getActorList() {
+//		Object value = writableValue.getValue();
+//		
+//		if (value == null) {
+//			return new ArrayList<Actor>();
+//		}
+//		
+//		UseCaseStep useCaseStep = (UseCaseStep)value;
+//		
+//		Scenario scenario;
+//		while (true) {
+//			scenario = (Scenario)useCaseStep.eContainer();
+//			if (scenario == null) {
+//				return new ArrayList<Actor>();
+//			}
+//			
+//			EObject container = scenario.eContainer();
+//			if (container == null) {
+//				return new ArrayList<Actor>();
+//			}
+//			
+//			if (container instanceof UseCase) {
+//				break;
+//			} else { // container instanceof Guard
+//				Guard guard = (Guard)container;
+//				useCaseStep = (UseCaseStep)guard.eContainer();
+//			}
+//		}
+//		
+//		UseCase useCase = (UseCase)useCaseStep.eContainer();
+//		if (useCase == null) {
+//			return new ArrayList<Actor>();
+//		}
+//		
+//		SoftwareProject softwareProject = (SoftwareProject)useCase.eContainer();
+//		if (softwareProject == null) {
+//			return new ArrayList<Actor>();
+//		}
+//		
+//		return softwareProject.getActors();
+//		
+////		Actor actor1 = SwprojFactory.eINSTANCE.createActor();
+////		actor1.setName("John");
+////		List<Actor> list = new ArrayList<Actor>();
+////		list.add(actor1);
+////		return list;
+//	}
 	
 	private void bindMarkedText(DataBindingContext bindingContext, Label lblMarkedText, EReference[] eReferences) {
 		IObservableValue widgetObservableValue = SWTObservables.observeText(lblMarkedText);
@@ -159,23 +257,6 @@ public class SentenceAnalysisSheetPage extends Page implements ISentenceAnalysis
 		if (editingDomain != null) {
 			m_bindingContext = initDataBindings(editingDomain);
 		}
-		
-		// TODO Auto-generated constructor stub
-		ComboViewer comboViewer = boxContainer.getActionTypeBox().getComboViewer();
-		comboViewer.setContentProvider(ArrayContentProvider.getInstance());
-		comboViewer.setLabelProvider(new LabelProvider() {
-			@Override
-			public String getText(Object element) {
-				// TODO jvinarek - allow null in combobox ?
-				if (element == null) {
-					return "";
-				}
-
-				EComboActionType actionType = (EComboActionType) element;
-				return actionType.getName();
-			}
-		});
-		comboViewer.setInput(EComboActionType.values());
 	}
 	
 	@Override
@@ -321,7 +402,7 @@ public class SentenceAnalysisSheetPage extends Page implements ISentenceAnalysis
 			}
 
 			@Override
-			String getName() {
+			public String getName() {
 				return "Send";
 			}
 		},
@@ -332,7 +413,7 @@ public class SentenceAnalysisSheetPage extends Page implements ISentenceAnalysis
 			}
 
 			@Override
-			String getName() {
+			public String getName() {
 				return "Receive";
 			}
 		},
@@ -343,7 +424,7 @@ public class SentenceAnalysisSheetPage extends Page implements ISentenceAnalysis
 			}
 
 			@Override
-			String getName() {
+			public String getName() {
 				return "Internal";
 			}
 		},
@@ -354,7 +435,7 @@ public class SentenceAnalysisSheetPage extends Page implements ISentenceAnalysis
 			}
 
 			@Override
-			String getName() {
+			public String getName() {
 				return "Goto";
 			}
 		},
@@ -365,7 +446,7 @@ public class SentenceAnalysisSheetPage extends Page implements ISentenceAnalysis
 			}
 
 			@Override
-			String getName() {
+			public String getName() {
 				return "Use case include";
 			}
 		},
@@ -376,7 +457,7 @@ public class SentenceAnalysisSheetPage extends Page implements ISentenceAnalysis
 			}
 
 			@Override
-			String getName() {
+			public String getName() {
 				return "Terminate use case";
 			}
 		},
@@ -387,7 +468,7 @@ public class SentenceAnalysisSheetPage extends Page implements ISentenceAnalysis
 			}
 
 			@Override
-			String getName() {
+			public String getName() {
 				return "Terminate branch";
 			}
 		},
@@ -398,7 +479,7 @@ public class SentenceAnalysisSheetPage extends Page implements ISentenceAnalysis
 			}
 
 			@Override
-			String getName() {
+			public String getName() {
 				return "Unknown";
 			}
 		};
@@ -426,7 +507,7 @@ public class SentenceAnalysisSheetPage extends Page implements ISentenceAnalysis
 
 		abstract Action createAction();
 
-		abstract String getName();
+		public abstract String getName();
 	}
 
 }

@@ -50,6 +50,8 @@
           eType="#//linguistic/action/Action" containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="annotations" upperBound="-1"
           eType="#//usecase/annotate/StepAnnotation" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="softwareProject" eType="#//swproj/SoftwareProject"
+          changeable="false" volatile="true" transient="true" unsettable="true" derived="true"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="Scenario">
       <eOperations name="getInfo" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>

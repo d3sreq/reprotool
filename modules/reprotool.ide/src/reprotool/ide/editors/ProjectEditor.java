@@ -1029,7 +1029,7 @@ public class ProjectEditor extends EditorPart implements IEditingDomainProvider,
 
 		IWorkbenchPage page = getSite().getPage();
 		IEditorDescriptor desc = PlatformUI.getWorkbench().getEditorRegistry()
-				.findEditor("cz.cuni.mff.reprotool.ide.UseCaseEditor");
+				.findEditor("cz.cuni.mff.reprotool.ide.UseCaseEmfEditor");
 
 		try {
 			page.openEditor(input, desc.getId());

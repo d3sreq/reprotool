@@ -6,6 +6,7 @@
  */
 package reprotool.model.usecase.impl;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -24,7 +25,9 @@ import org.eclipse.emf.ecore.util.InternalEList;
 import reprotool.model.linguistic.action.Action;
 import reprotool.model.linguistic.actionpart.Text;
 import reprotool.model.linguistic.parsetree.SentenceNode;
+import reprotool.model.swproj.Actor;
 import reprotool.model.swproj.Requirement;
+import reprotool.model.swproj.SoftwareProject;
 import reprotool.model.usecase.Guard;
 import reprotool.model.usecase.Scenario;
 import reprotool.model.usecase.UseCase;
@@ -46,6 +49,7 @@ import reprotool.model.usecase.annotate.StepAnnotation;
  *   <li>{@link reprotool.model.usecase.impl.UseCaseStepImpl#getVariations <em>Variations</em>}</li>
  *   <li>{@link reprotool.model.usecase.impl.UseCaseStepImpl#getAction <em>Action</em>}</li>
  *   <li>{@link reprotool.model.usecase.impl.UseCaseStepImpl#getAnnotations <em>Annotations</em>}</li>
+ *   <li>{@link reprotool.model.usecase.impl.UseCaseStepImpl#getSoftwareProject <em>Software Project</em>}</li>
  * </ul>
  * </p>
  *
@@ -331,6 +335,63 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public SoftwareProject getSoftwareProject() {
+		SoftwareProject softwareProject = basicGetSoftwareProject();
+		return softwareProject != null && softwareProject.eIsProxy() ? (SoftwareProject)eResolveProxy((InternalEObject)softwareProject) : softwareProject;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public SoftwareProject basicGetSoftwareProject() {
+		UseCaseStep useCaseStep = this;
+		while (true) {
+			Scenario scenario = (Scenario)useCaseStep.eContainer();
+			if (scenario == null) {
+				return null;
+			}
+			
+			EObject container = scenario.eContainer();
+			if (container == null) {
+				return null;
+			}
+			
+			if (container instanceof UseCase) {
+				break;
+			} else { // container instanceof Guard
+				Guard guard = (Guard)container;
+				useCaseStep = (UseCaseStep)guard.eContainer();
+			}
+		}
+		
+		Scenario scenario = (Scenario)useCaseStep.eContainer();
+		UseCase useCase = (UseCase)scenario.eContainer();
+		if (useCase == null) {
+			return null;
+		}
+		
+		SoftwareProject softwareProject = (SoftwareProject)useCase.eContainer();
+		return softwareProject;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isSetSoftwareProject() {
+		// TODO: implement this method to return whether the 'Software Project' reference is set
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -372,6 +433,9 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 				return getAction();
 			case UsecasePackage.USE_CASE_STEP__ANNOTATIONS:
 				return getAnnotations();
+			case UsecasePackage.USE_CASE_STEP__SOFTWARE_PROJECT:
+				if (resolve) return getSoftwareProject();
+				return basicGetSoftwareProject();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -470,6 +534,8 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 				return action != null;
 			case UsecasePackage.USE_CASE_STEP__ANNOTATIONS:
 				return annotations != null && !annotations.isEmpty();
+			case UsecasePackage.USE_CASE_STEP__SOFTWARE_PROJECT:
+				return isSetSoftwareProject();
 		}
 		return super.eIsSet(featureID);
 	}

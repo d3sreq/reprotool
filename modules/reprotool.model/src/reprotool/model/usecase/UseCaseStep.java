@@ -12,6 +12,7 @@ import reprotool.model.linguistic.action.Action;
 import reprotool.model.linguistic.actionpart.Text;
 import reprotool.model.linguistic.parsetree.SentenceNode;
 import reprotool.model.swproj.ReqCover;
+import reprotool.model.swproj.SoftwareProject;
 import reprotool.model.usecase.annotate.StepAnnotation;
 
 /**
@@ -28,6 +29,7 @@ import reprotool.model.usecase.annotate.StepAnnotation;
  *   <li>{@link reprotool.model.usecase.UseCaseStep#getVariations <em>Variations</em>}</li>
  *   <li>{@link reprotool.model.usecase.UseCaseStep#getAction <em>Action</em>}</li>
  *   <li>{@link reprotool.model.usecase.UseCaseStep#getAnnotations <em>Annotations</em>}</li>
+ *   <li>{@link reprotool.model.usecase.UseCaseStep#getSoftwareProject <em>Software Project</em>}</li>
  * </ul>
  * </p>
  *
@@ -163,5 +165,31 @@ public interface UseCaseStep extends ReqCover {
 	 * @generated
 	 */
 	EList<StepAnnotation> getAnnotations();
+
+	/**
+	 * Returns the value of the '<em><b>Software Project</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Software Project</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Software Project</em>' reference.
+	 * @see #isSetSoftwareProject()
+	 * @see reprotool.model.usecase.UsecasePackage#getUseCaseStep_SoftwareProject()
+	 * @model unsettable="true" transient="true" changeable="false" volatile="true" derived="true"
+	 * @generated
+	 */
+	SoftwareProject getSoftwareProject();
+
+	/**
+	 * Returns whether the value of the '{@link reprotool.model.usecase.UseCaseStep#getSoftwareProject <em>Software Project</em>}' reference is set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return whether the value of the '<em>Software Project</em>' reference is set.
+	 * @see #getSoftwareProject()
+	 * @generated
+	 */
+	boolean isSetSoftwareProject();
 
 } // UseCaseStep
