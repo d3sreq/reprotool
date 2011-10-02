@@ -35,8 +35,8 @@
       </view>
       <view
             category="cz.cuni.mff.reprotool.ide.category_reprotool"
-            class="reprotool.ide.views.sentenceanalysis.SentenceAnalysisView"
-            id="reprotool.ide.views.sentenceanalysis.SentenceAnalysisView"
+            class="reprotool.ide.views.sentenceanalysis.SentenceAnalysisSheet"
+            id="reprotool.ide.views.sentenceanalysis.SentenceAnalysisSheet"
             name="Sentence analysis">
       </view>
    </extension>

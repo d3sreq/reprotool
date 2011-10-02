@@ -112,6 +112,8 @@ import org.eclipse.ui.views.properties.IPropertySheetPage;
 import org.eclipse.ui.views.properties.PropertySheet;
 import org.eclipse.ui.views.properties.PropertySheetPage;
 
+import reprotool.ide.views.sentenceanalysis.ISentenceAnalysisSheetPage;
+import reprotool.ide.views.sentenceanalysis.SentenceAnalysisSheetPage;
 import reprotool.model.linguistic.action.provider.ActionItemProviderAdapterFactory;
 import reprotool.model.linguistic.actionpart.provider.ActionpartItemProviderAdapterFactory;
 import reprotool.model.lts.presentation.ReprotoolEditorPlugin;
@@ -1015,6 +1017,9 @@ public class UsecaseEMFEditor
 		else if (key.equals(IPropertySheetPage.class)) {
 			return getPropertySheetPage();
 		}
+		else if (key.equals(ISentenceAnalysisSheetPage.class)) {
+			return getSentenceAnalysisSheetPage();
+		}
 		else if (key.equals(IGotoMarker.class)) {
 			return this;
 		}
@@ -1113,6 +1118,22 @@ public class UsecaseEMFEditor
 		}
 
 		return propertySheetPage;
+	}
+	
+	
+	/**
+	 * @generated NOT
+	 */
+	private ISentenceAnalysisSheetPage sentenceAnalysisSheetPage;
+	
+	/**
+	 * @generated NOT
+	 */
+	public ISentenceAnalysisSheetPage getSentenceAnalysisSheetPage() {
+		if (sentenceAnalysisSheetPage == null) {
+			sentenceAnalysisSheetPage = new SentenceAnalysisSheetPage(editingDomain);
+		}
+		return sentenceAnalysisSheetPage;
 	}
 
 	/**

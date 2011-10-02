@@ -16,7 +16,8 @@ Require-Bundle: org.eclipse.core.runtime,
  reprotool.model.editor;bundle-version="1.0.0",
  reprotool.model.edit.ext;bundle-version="1.0.0",
  org.eclipse.core.databinding.property,
- com.ibm.icu
+ com.ibm.icu,
+ org.eclipse.emf.databinding.edit;bundle-version="1.2.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Import-Package: org.eclipse.jface.text,
