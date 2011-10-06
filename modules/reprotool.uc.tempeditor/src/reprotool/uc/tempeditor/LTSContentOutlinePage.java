@@ -1,9 +1,12 @@
 package reprotool.uc.tempeditor;
 
-import java.util.Comparator;
+import java.util.HashMap;
 
 import org.eclipse.draw2d.SWTEventDispatcher;
 import org.eclipse.draw2d.SWTGraphics;
+import org.eclipse.emf.common.notify.AdapterFactory;
+import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
+import org.eclipse.jface.viewers.ContentViewer;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.swt.events.MouseAdapter;
@@ -26,22 +29,69 @@ import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 import org.eclipse.ui.part.Page;
 
 import org.eclipse.zest.core.viewers.GraphViewer;
+import org.eclipse.zest.core.widgets.CGraphNode;
 import org.eclipse.zest.core.widgets.Graph;
+import org.eclipse.zest.core.widgets.GraphConnection;
+import org.eclipse.zest.core.widgets.GraphNode;
 import org.eclipse.zest.core.widgets.ZestStyles;
 import org.eclipse.zest.layouts.LayoutAlgorithm;
 import org.eclipse.zest.layouts.LayoutStyles;
 import org.eclipse.swt.SWT;
 
+import reprotool.model.lts.State;
 import reprotool.model.lts.StateMachine;
+import reprotool.model.lts.Transition;
+import reprotool.model.usecase.Scenario;
+import reprotool.model.usecase.UseCaseStep;
+
 
 public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 	
 	private GraphViewer viewer;
+	private Composite graphParent;
+	private FigureProvider figureProvider;
+	private Scenario mainScenario;
 	private StateMachine machine;
+	private HashMap<UseCaseStep, State> ucStep2State = null;
 	
-	protected LTSContentOutlinePage(StateMachine machine) {
+	private LTSContentViewer contentViewer;
+	private AdapterFactory adapterFactory;
+	
+	LTSContentOutlinePage(Scenario s, AdapterFactory aFactory) {
 		super();
-		this.machine = machine;
+		mainScenario = s;
+		adapterFactory = aFactory;
+		figureProvider = new FigureProvider();
+		regenerateLTS();
+	}
+	
+	private void regenerateLTS() {
+		LTSGenerator generator = new LTSGenerator(mainScenario);
+		machine = generator.getLabelTransitionSystem();
+		figureProvider.setMachine(machine);
+		ucStep2State = generator.getUCStep2StateMap();
+	}
+	
+	private void emfModelChanged() {
+		// Remove the old graph.
+		while (viewer.getGraphControl().getNodes().size() > 0) {
+			GraphNode node = (GraphNode) viewer.getGraphControl().getNodes().get(0);
+			if (node != null && !node.isDisposed()) {
+				node.dispose();
+			}
+		}
+		while (viewer.getGraphControl().getConnections().size() > 0) {
+			GraphConnection connection = (GraphConnection) viewer.getGraphControl().getConnections().get(0);
+			if (connection != null && !connection.isDisposed()) {
+				connection.dispose();
+			}
+		}
+		ucStep2State.clear();
+		
+		regenerateLTS();
+		
+		// Create a new graph.
+		createLtsGraph(graphParent, machine);
 	}
 	
 	/**
@@ -53,7 +103,6 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 	private void createLtsGraph(final Composite graphParent, StateMachine machine) {
 		
 		// Create a new graph
-		viewer = new GraphViewer(graphParent, SWT.NONE);
 		viewer.setConnectionStyle(ZestStyles.CONNECTIONS_DIRECTED);
 		viewer.getGraphControl().getLightweightSystem().setEventDispatcher(
 				new SWTEventDispatcher() {
@@ -64,21 +113,27 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 				}
 		);
 		
+		HashMap<State, GraphNode> state2Node = new HashMap<State, GraphNode>();
 		
-		viewer.setContentProvider(new NodeContentProvider());
-		viewer.setLabelProvider( new NodeLabelProvider(machine) );
+		for (State s: machine.getAllStates()) {
+			GraphNode node = new CGraphNode(viewer.getGraphControl(), SWT.NONE,
+				figureProvider.getFigure(s));
+			node.setData(s);
+			state2Node.put(s, node);
+		}
+		
+		for (Transition t: machine.getAllTransitions()) {
+			new GraphConnection(viewer.getGraphControl(), ZestStyles.CONNECTIONS_DIRECTED,
+					state2Node.get(t.getSource()), state2Node.get(t.getTarget()));
+		}
 
 		// layout algorithm
-		LayoutAlgorithm la = new GXTreeLayoutAlgorithm(LayoutStyles.NO_LAYOUT_NODE_RESIZING);
-		la.setComparator(new Comparator<Object>() {
-			
-			@Override
-			public int compare (Object node1, Object node2) {
-				return 0;
-			}
-			
-		});
-		viewer.setLayoutAlgorithm(la, false);
+		LayoutAlgorithm ltsLayout = new LTSLayoutAlgorithm(LayoutStyles.NO_LAYOUT_NODE_RESIZING,
+				mainScenario, ucStep2State, machine.getInitialState());
+		viewer.setLayoutAlgorithm(ltsLayout, false);
+		
+		viewer.getGraphControl().setNodeStyle(ZestStyles.NODES_NO_ANIMATION);
+		viewer.applyLayout();
 
 		// popup menu
 		final Menu menu = new Menu(graphParent);
@@ -121,67 +176,78 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 		});
 	}
 	
-	private void showGraph(StateMachine machine) {
-		viewer.setInput(machine);
-		viewer.getGraphControl().setNodeStyle(ZestStyles.NODES_NO_ANIMATION);
-		viewer.applyLayout();
-	}
-	
-	
 	@Override
 	public void createControl(Composite parent) {
+		graphParent = parent;
+		viewer = new GraphViewer(graphParent, SWT.NONE);
 		createLtsGraph(parent, machine);
-		showGraph(machine);
+		contentViewer = new LTSContentViewer(parent);
+		contentViewer.setContentProvider(new AdapterFactoryContentProvider(adapterFactory));
+		contentViewer.setInput(null);
 	}
 
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public Control getControl() {
-		// TODO Auto-generated method stub
 		return viewer.getControl();
-		//return graph.getGraph();
 	}
 
 	@Override
 	public void setActionBars(IActionBars actionBars) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void setFocus() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void addSelectionChangedListener(ISelectionChangedListener listener) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public ISelection getSelection() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public void removeSelectionChangedListener(
 			ISelectionChangedListener listener) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void setSelection(ISelection selection) {
-		// TODO Auto-generated method stub
+	}
+	
+	class LTSContentViewer extends ContentViewer {
+		private Control control;
+		
+		public LTSContentViewer(Control c) {
+			control = c;
+		}
 
+		@Override
+		public Control getControl() {
+			return control;
+		}
+
+		@Override
+		public ISelection getSelection() {
+			return null;
+		}
+
+		@Override
+		public void refresh() {
+			emfModelChanged();
+		}
+
+		@Override
+		public void setSelection(ISelection selection, boolean reveal) {
+			// Do nothing
+		}
+		
 	}
 
 }

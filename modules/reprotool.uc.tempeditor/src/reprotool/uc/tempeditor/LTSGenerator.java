@@ -1,5 +1,7 @@
 package reprotool.uc.tempeditor;
 
+import java.util.HashMap;
+
 import reprotool.model.lts.LtsFactory;
 import reprotool.model.lts.State;
 import reprotool.model.lts.StateMachine;
@@ -11,9 +13,18 @@ public class LTSGenerator {
 	private Scenario scenario;
 	private StateMachine machine;
 	private State initialState;
-	private State abortState;
+	//private State abortState;
+	
+	/*
+	 * Maps a use-case step to a state to which it leads in the LTS model.
+	 */
+	private HashMap<UseCaseStep, State> ucStep2State = new HashMap<UseCaseStep, State>();
 	
 	private void processScenario(Scenario s, State init) {
+		if (s == null) {
+			return;
+		}
+		
 		State srcState = init;
 		
 		for(UseCaseStep ucStep: s.getSteps()) {
@@ -21,7 +32,7 @@ public class LTSGenerator {
 			// Variations are attached to the source state.
 			if (!ucStep.getVariations().isEmpty()) {
 				for (int i = 0; i < ucStep.getVariations().size(); i++) {
-					Scenario sc = ucStep.getVariations().get(i).getScenario();
+					Scenario sc = ucStep.getVariations().get(i);
 					processScenario(sc, srcState);
 				}
 			} 
@@ -29,6 +40,8 @@ public class LTSGenerator {
 			Transition t = LtsFactory.eINSTANCE.createActionTransition();
 			t.setSource(srcState);
 			State tgtState = LtsFactory.eINSTANCE.createState();
+			ucStep2State.put(ucStep, tgtState);
+			
 			machine.getAllStates().add(tgtState);
 			t.setTarget(tgtState);
 			machine.getAllTransitions().add(t);
@@ -36,14 +49,14 @@ public class LTSGenerator {
 			// Extensions are attached to the target state
 			if (!ucStep.getExtensions().isEmpty()) {
 				for (int i = 0; i < ucStep.getExtensions().size(); i++) {
-					Scenario sc = ucStep.getExtensions().get(i).getScenario();
+					Scenario sc = ucStep.getExtensions().get(i);
 					processScenario(sc, tgtState);
 				}
 			} 
 			
 			// iterate.
 			srcState = tgtState;
-		}
+		}		
 	}
 	
 	public LTSGenerator(Scenario s) {
@@ -51,17 +64,21 @@ public class LTSGenerator {
 		machine = LtsFactory.eINSTANCE.createStateMachine();
 		
 		initialState = LtsFactory.eINSTANCE.createState();
-		abortState = LtsFactory.eINSTANCE.createState();
+		//abortState = LtsFactory.eINSTANCE.createState();
 		machine.getAllStates().add(initialState);
-		machine.getAllStates().add(abortState);
+		//machine.getAllStates().add(abortState);
 		machine.setInitialState(initialState);
-		machine.setAbortState(abortState);
+		//machine.setAbortState(abortState);
 		
 		processScenario(scenario, initialState);
 	}
 	
 	public StateMachine getLabelTransitionSystem() {
 		return machine;
+	}
+	
+	public HashMap<UseCaseStep, State> getUCStep2StateMap() {
+		return ucStep2State;
 	}
 
 }

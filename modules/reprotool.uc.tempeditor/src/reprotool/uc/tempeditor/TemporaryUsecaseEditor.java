@@ -6,12 +6,12 @@ import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 
-import reprotool.model.lts.StateMachine;
 import reprotool.model.usecase.Scenario;
 import reprotool.model.usecase.UseCase;
 import reprotool.model.usecase.presentation.UsecaseEditor;
 
 public class TemporaryUsecaseEditor extends UsecaseEditor {
+	
 	
 	@Override
 	public IContentOutlinePage getContentOutlinePage() {
@@ -20,10 +20,7 @@ public class TemporaryUsecaseEditor extends UsecaseEditor {
 			Object obj = resource.getContents().get(0);
 			UseCase uc = (UseCase) obj;
 			Scenario s = uc.getMainScenario();
-			
-			LTSGenerator generator = new LTSGenerator(s);
-			StateMachine machine = generator.getLabelTransitionSystem();
-			contentOutlinePage = new LTSContentOutlinePage(machine);
+			contentOutlinePage = new LTSContentOutlinePage(s, getAdapterFactory());
 			
 			// Listen to selection so that we can handle it is a special way.
 			//
@@ -39,6 +36,7 @@ public class TemporaryUsecaseEditor extends UsecaseEditor {
 		
 		return contentOutlinePage;
 	}
+	
 	
 	
 	@Override
