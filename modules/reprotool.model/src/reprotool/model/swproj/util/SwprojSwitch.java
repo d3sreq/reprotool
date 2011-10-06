@@ -99,6 +99,7 @@ public class SwprojSwitch<T> {
 				Actor actor = (Actor)theEObject;
 				T result = caseActor(actor);
 				if (result == null) result = caseTraceableEntity(actor);
+				if (result == null) result = caseDomainElement(actor);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -120,6 +121,19 @@ public class SwprojSwitch<T> {
 			case SwprojPackage.REQ_COVER: {
 				ReqCover reqCover = (ReqCover)theEObject;
 				T result = caseReqCover(reqCover);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case SwprojPackage.DOMAIN_ELEMENT: {
+				DomainElement domainElement = (DomainElement)theEObject;
+				T result = caseDomainElement(domainElement);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case SwprojPackage.CONCEPTUAL_OBJECT: {
+				ConceptualObject conceptualObject = (ConceptualObject)theEObject;
+				T result = caseConceptualObject(conceptualObject);
+				if (result == null) result = caseDomainElement(conceptualObject);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -199,6 +213,36 @@ public class SwprojSwitch<T> {
 	 * @generated
 	 */
 	public T caseReqCover(ReqCover object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Domain Element</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Domain Element</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseDomainElement(DomainElement object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Conceptual Object</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Conceptual Object</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseConceptualObject(ConceptualObject object) {
 		return null;
 	}
 

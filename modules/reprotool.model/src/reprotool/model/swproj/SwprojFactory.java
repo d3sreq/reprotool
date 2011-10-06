@@ -62,6 +62,15 @@ public interface SwprojFactory extends EFactory {
 	NFRequirement createNFRequirement();
 
 	/**
+	 * Returns a new object of class '<em>Conceptual Object</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Conceptual Object</em>'.
+	 * @generated
+	 */
+	ConceptualObject createConceptualObject();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

@@ -80,8 +80,8 @@ public class AnnotateAdapterFactory extends AdapterFactoryImpl {
 				return createStepAnnotationTypeAdapter();
 			}
 			@Override
-			public Adapter caseLTLAnnotation(LTLAnnotation object) {
-				return createLTLAnnotationAdapter();
+			public Adapter caseTemporalAnnotation(TemporalAnnotation object) {
+				return createTemporalAnnotationAdapter();
 			}
 			@Override
 			public Adapter caseSpecialAnnotation(SpecialAnnotation object) {
@@ -106,6 +106,10 @@ public class AnnotateAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter caseOnAnnotation(OnAnnotation object) {
 				return createOnAnnotationAdapter();
+			}
+			@Override
+			public Adapter caseCTLAnnotationSet(CTLAnnotationSet object) {
+				return createCTLAnnotationSetAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -156,16 +160,16 @@ public class AnnotateAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link reprotool.model.usecase.annotate.LTLAnnotation <em>LTL Annotation</em>}'.
+	 * Creates a new adapter for an object of class '{@link reprotool.model.usecase.annotate.TemporalAnnotation <em>Temporal Annotation</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see reprotool.model.usecase.annotate.LTLAnnotation
+	 * @see reprotool.model.usecase.annotate.TemporalAnnotation
 	 * @generated
 	 */
-	public Adapter createLTLAnnotationAdapter() {
+	public Adapter createTemporalAnnotationAdapter() {
 		return null;
 	}
 
@@ -250,6 +254,20 @@ public class AnnotateAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createOnAnnotationAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link reprotool.model.usecase.annotate.CTLAnnotationSet <em>CTL Annotation Set</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see reprotool.model.usecase.annotate.CTLAnnotationSet
+	 * @generated
+	 */
+	public Adapter createCTLAnnotationSetAdapter() {
 		return null;
 	}
 

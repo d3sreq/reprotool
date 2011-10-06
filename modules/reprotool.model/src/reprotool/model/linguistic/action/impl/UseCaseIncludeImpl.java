@@ -18,6 +18,10 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
 import reprotool.model.linguistic.action.ActionPackage;
 import reprotool.model.linguistic.action.UseCaseInclude;
 
+import reprotool.model.linguistic.actionpart.ActionPart;
+import reprotool.model.linguistic.actionpart.ActionpartPackage;
+import reprotool.model.linguistic.actionpart.Text;
+import reprotool.model.usecase.UseCase;
 import reprotool.model.linguistic.actionpart.UseCaseIncludePart;
 
 /**
@@ -27,23 +31,32 @@ import reprotool.model.linguistic.actionpart.UseCaseIncludePart;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link reprotool.model.linguistic.action.impl.UseCaseIncludeImpl#getInclude <em>Include</em>}</li>
+ *   <li>{@link reprotool.model.linguistic.action.impl.UseCaseIncludeImpl#getText <em>Text</em>}</li>
+ *   <li>{@link reprotool.model.linguistic.action.impl.UseCaseIncludeImpl#getIncludeTarget <em>Include Target</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class UseCaseIncludeImpl extends ActionImpl implements UseCaseInclude {
+public class UseCaseIncludeImpl extends EObjectImpl implements UseCaseInclude {
 	/**
-	 * The cached value of the '{@link #getInclude() <em>Include</em>}' containment reference.
+	 * The cached value of the '{@link #getText() <em>Text</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getInclude()
+	 * @see #getText()
 	 * @generated
 	 * @ordered
 	 */
-	protected UseCaseIncludePart include;
-
+	protected Text text;
+	/**
+	 * The cached value of the '{@link #getIncludeTarget() <em>Include Target</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getIncludeTarget()
+	 * @generated
+	 * @ordered
+	 */
+	protected UseCase includeTarget;
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -68,8 +81,16 @@ public class UseCaseIncludeImpl extends ActionImpl implements UseCaseInclude {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public UseCaseIncludePart getInclude() {
-		return include;
+	public Text getText() {
+		if (text != null && text.eIsProxy()) {
+			InternalEObject oldText = (InternalEObject)text;
+			text = (Text)eResolveProxy(oldText);
+			if (text != oldText) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, ActionPackage.USE_CASE_INCLUDE__TEXT, oldText, text));
+			}
+		}
+		return text;
 	}
 
 	/**
@@ -77,11 +98,41 @@ public class UseCaseIncludeImpl extends ActionImpl implements UseCaseInclude {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetInclude(UseCaseIncludePart newInclude, NotificationChain msgs) {
-		UseCaseIncludePart oldInclude = include;
-		include = newInclude;
+	public Text basicGetText() {
+		return text;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setText(Text newText) {
+		Text oldText = text;
+		text = newText;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ActionPackage.USE_CASE_INCLUDE__TEXT, oldText, text));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public UseCase getIncludeTarget() {
+		return includeTarget;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetIncludeTarget(UseCase newIncludeTarget, NotificationChain msgs) {
+		UseCase oldIncludeTarget = includeTarget;
+		includeTarget = newIncludeTarget;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ActionPackage.USE_CASE_INCLUDE__INCLUDE, oldInclude, newInclude);
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ActionPackage.USE_CASE_INCLUDE__INCLUDE_TARGET, oldIncludeTarget, newIncludeTarget);
 			if (msgs == null) msgs = notification; else msgs.add(notification);
 		}
 		return msgs;
@@ -92,18 +143,18 @@ public class UseCaseIncludeImpl extends ActionImpl implements UseCaseInclude {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setInclude(UseCaseIncludePart newInclude) {
-		if (newInclude != include) {
+	public void setIncludeTarget(UseCase newIncludeTarget) {
+		if (newIncludeTarget != includeTarget) {
 			NotificationChain msgs = null;
-			if (include != null)
-				msgs = ((InternalEObject)include).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ActionPackage.USE_CASE_INCLUDE__INCLUDE, null, msgs);
-			if (newInclude != null)
-				msgs = ((InternalEObject)newInclude).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ActionPackage.USE_CASE_INCLUDE__INCLUDE, null, msgs);
-			msgs = basicSetInclude(newInclude, msgs);
+			if (includeTarget != null)
+				msgs = ((InternalEObject)includeTarget).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ActionPackage.USE_CASE_INCLUDE__INCLUDE_TARGET, null, msgs);
+			if (newIncludeTarget != null)
+				msgs = ((InternalEObject)newIncludeTarget).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ActionPackage.USE_CASE_INCLUDE__INCLUDE_TARGET, null, msgs);
+			msgs = basicSetIncludeTarget(newIncludeTarget, msgs);
 			if (msgs != null) msgs.dispatch();
 		}
 		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ActionPackage.USE_CASE_INCLUDE__INCLUDE, newInclude, newInclude));
+			eNotify(new ENotificationImpl(this, Notification.SET, ActionPackage.USE_CASE_INCLUDE__INCLUDE_TARGET, newIncludeTarget, newIncludeTarget));
 	}
 
 	/**
@@ -114,8 +165,8 @@ public class UseCaseIncludeImpl extends ActionImpl implements UseCaseInclude {
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case ActionPackage.USE_CASE_INCLUDE__INCLUDE:
-				return basicSetInclude(null, msgs);
+			case ActionPackage.USE_CASE_INCLUDE__INCLUDE_TARGET:
+				return basicSetIncludeTarget(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -128,8 +179,11 @@ public class UseCaseIncludeImpl extends ActionImpl implements UseCaseInclude {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case ActionPackage.USE_CASE_INCLUDE__INCLUDE:
-				return getInclude();
+			case ActionPackage.USE_CASE_INCLUDE__TEXT:
+				if (resolve) return getText();
+				return basicGetText();
+			case ActionPackage.USE_CASE_INCLUDE__INCLUDE_TARGET:
+				return getIncludeTarget();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -142,8 +196,11 @@ public class UseCaseIncludeImpl extends ActionImpl implements UseCaseInclude {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case ActionPackage.USE_CASE_INCLUDE__INCLUDE:
-				setInclude((UseCaseIncludePart)newValue);
+			case ActionPackage.USE_CASE_INCLUDE__TEXT:
+				setText((Text)newValue);
+				return;
+			case ActionPackage.USE_CASE_INCLUDE__INCLUDE_TARGET:
+				setIncludeTarget((UseCase)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -157,8 +214,11 @@ public class UseCaseIncludeImpl extends ActionImpl implements UseCaseInclude {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case ActionPackage.USE_CASE_INCLUDE__INCLUDE:
-				setInclude((UseCaseIncludePart)null);
+			case ActionPackage.USE_CASE_INCLUDE__TEXT:
+				setText((Text)null);
+				return;
+			case ActionPackage.USE_CASE_INCLUDE__INCLUDE_TARGET:
+				setIncludeTarget((UseCase)null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -172,10 +232,44 @@ public class UseCaseIncludeImpl extends ActionImpl implements UseCaseInclude {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case ActionPackage.USE_CASE_INCLUDE__INCLUDE:
-				return include != null;
+			case ActionPackage.USE_CASE_INCLUDE__TEXT:
+				return text != null;
+			case ActionPackage.USE_CASE_INCLUDE__INCLUDE_TARGET:
+				return includeTarget != null;
 		}
 		return super.eIsSet(featureID);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
+		if (baseClass == ActionPart.class) {
+			switch (derivedFeatureID) {
+				case ActionPackage.USE_CASE_INCLUDE__TEXT: return ActionpartPackage.ACTION_PART__TEXT;
+				default: return -1;
+			}
+		}
+		return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
+		if (baseClass == ActionPart.class) {
+			switch (baseFeatureID) {
+				case ActionpartPackage.ACTION_PART__TEXT: return ActionPackage.USE_CASE_INCLUDE__TEXT;
+				default: return -1;
+			}
+		}
+		return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);
 	}
 
 } //UseCaseIncludeImpl

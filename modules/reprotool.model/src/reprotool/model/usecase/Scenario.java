@@ -21,7 +21,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link reprotool.model.usecase.Scenario#getSteps <em>Steps</em>}</li>
  *   <li>{@link reprotool.model.usecase.Scenario#getPreconditions <em>Preconditions</em>}</li>
  *   <li>{@link reprotool.model.usecase.Scenario#getPostconditions <em>Postconditions</em>}</li>
- *   <li>{@link reprotool.model.usecase.Scenario#getDescription <em>Description</em>}</li>
+ *   <li>{@link reprotool.model.usecase.Scenario#getComment <em>Comment</em>}</li>
  * </ul>
  * </p>
  *
@@ -48,7 +48,7 @@ public interface Scenario extends EObject {
 
 	/**
 	 * Returns the value of the '<em><b>Preconditions</b></em>' containment reference list.
-	 * The list contents are of type {@link reprotool.model.usecase.Precondition}.
+	 * The list contents are of type {@link reprotool.model.usecase.Condition}.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Preconditions</em>' containment reference list isn't clear,
@@ -60,11 +60,11 @@ public interface Scenario extends EObject {
 	 * @model containment="true"
 	 * @generated
 	 */
-	EList<Precondition> getPreconditions();
+	EList<Condition> getPreconditions();
 
 	/**
 	 * Returns the value of the '<em><b>Postconditions</b></em>' containment reference list.
-	 * The list contents are of type {@link reprotool.model.usecase.Postcondition}.
+	 * The list contents are of type {@link reprotool.model.usecase.Condition}.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Postconditions</em>' containment reference list isn't clear,
@@ -76,40 +76,32 @@ public interface Scenario extends EObject {
 	 * @model containment="true"
 	 * @generated
 	 */
-	EList<Postcondition> getPostconditions();
+	EList<Condition> getPostconditions();
 
 	/**
-	 * Returns the value of the '<em><b>Description</b></em>' attribute.
+	 * Returns the value of the '<em><b>Comment</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Description</em>' attribute isn't clear,
+	 * If the meaning of the '<em>Comment</em>' attribute isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Description</em>' attribute.
-	 * @see #setDescription(String)
-	 * @see reprotool.model.usecase.UsecasePackage#getScenario_Description()
+	 * @return the value of the '<em>Comment</em>' attribute.
+	 * @see #setComment(String)
+	 * @see reprotool.model.usecase.UsecasePackage#getScenario_Comment()
 	 * @model
 	 * @generated
 	 */
-	String getDescription();
+	String getComment();
 
 	/**
-	 * Sets the value of the '{@link reprotool.model.usecase.Scenario#getDescription <em>Description</em>}' attribute.
+	 * Sets the value of the '{@link reprotool.model.usecase.Scenario#getComment <em>Comment</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Description</em>' attribute.
-	 * @see #getDescription()
+	 * @param value the new value of the '<em>Comment</em>' attribute.
+	 * @see #getComment()
 	 * @generated
 	 */
-	void setDescription(String value);
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @model kind="operation"
-	 * @generated
-	 */
-	String getInfo();
+	void setComment(String value);
 
 } // Scenario

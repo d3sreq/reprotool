@@ -61,12 +61,8 @@ public class ActionpartFactoryImpl extends EFactoryImpl implements ActionpartFac
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
 			case ActionpartPackage.TEXT: return createText();
-			case ActionpartPackage.SUBJECT: return createSubject();
-			case ActionpartPackage.GOTO_TARGET: return createGotoTarget();
-			case ActionpartPackage.VERB: return createVerb();
-			case ActionpartPackage.REPRESENTATIVE_OBJECT: return createRepresentativeObject();
-			case ActionpartPackage.INDIRECT_OBJECT: return createIndirectObject();
-			case ActionpartPackage.USE_CASE_INCLUDE_PART: return createUseCaseIncludePart();
+			case ActionpartPackage.SENTENCE_ACTOR: return createSentenceActor();
+			case ActionpartPackage.SENTENCE_ACTION_PARAM: return createSentenceActionParam();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -87,9 +83,9 @@ public class ActionpartFactoryImpl extends EFactoryImpl implements ActionpartFac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Subject createSubject() {
-		SubjectImpl subject = new SubjectImpl();
-		return subject;
+	public SentenceActor createSentenceActor() {
+		SentenceActorImpl sentenceActor = new SentenceActorImpl();
+		return sentenceActor;
 	}
 
 	/**
@@ -97,49 +93,9 @@ public class ActionpartFactoryImpl extends EFactoryImpl implements ActionpartFac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public GotoTarget createGotoTarget() {
-		GotoTargetImpl gotoTarget = new GotoTargetImpl();
-		return gotoTarget;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Verb createVerb() {
-		VerbImpl verb = new VerbImpl();
-		return verb;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public RepresentativeObject createRepresentativeObject() {
-		RepresentativeObjectImpl representativeObject = new RepresentativeObjectImpl();
-		return representativeObject;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public IndirectObject createIndirectObject() {
-		IndirectObjectImpl indirectObject = new IndirectObjectImpl();
-		return indirectObject;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public UseCaseIncludePart createUseCaseIncludePart() {
-		UseCaseIncludePartImpl useCaseIncludePart = new UseCaseIncludePartImpl();
-		return useCaseIncludePart;
+	public SentenceActionParam createSentenceActionParam() {
+		SentenceActionParamImpl sentenceActionParam = new SentenceActionParamImpl();
+		return sentenceActionParam;
 	}
 
 	/**

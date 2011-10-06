@@ -18,6 +18,8 @@ import org.eclipse.emf.ecore.EObject;
  * <ul>
  *   <li>{@link reprotool.model.linguistic.actionpart.Text#getContent <em>Content</em>}</li>
  *   <li>{@link reprotool.model.linguistic.actionpart.Text#getActionPart <em>Action Part</em>}</li>
+ *   <li>{@link reprotool.model.linguistic.actionpart.Text#getLemmaForm <em>Lemma Form</em>}</li>
+ *   <li>{@link reprotool.model.linguistic.actionpart.Text#getPosTag <em>Pos Tag</em>}</li>
  * </ul>
  * </p>
  *
@@ -77,5 +79,57 @@ public interface Text extends EObject {
 	 * @generated
 	 */
 	void setActionPart(ActionPart value);
+
+	/**
+	 * Returns the value of the '<em><b>Lemma Form</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Lemma Form</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Lemma Form</em>' attribute.
+	 * @see #setLemmaForm(String)
+	 * @see reprotool.model.linguistic.actionpart.ActionpartPackage#getText_LemmaForm()
+	 * @model
+	 * @generated
+	 */
+	String getLemmaForm();
+
+	/**
+	 * Sets the value of the '{@link reprotool.model.linguistic.actionpart.Text#getLemmaForm <em>Lemma Form</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Lemma Form</em>' attribute.
+	 * @see #getLemmaForm()
+	 * @generated
+	 */
+	void setLemmaForm(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Pos Tag</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Pos Tag</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Pos Tag</em>' attribute.
+	 * @see #setPosTag(String)
+	 * @see reprotool.model.linguistic.actionpart.ActionpartPackage#getText_PosTag()
+	 * @model
+	 * @generated
+	 */
+	String getPosTag();
+
+	/**
+	 * Sets the value of the '{@link reprotool.model.linguistic.actionpart.Text#getPosTag <em>Pos Tag</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Pos Tag</em>' attribute.
+	 * @see #getPosTag()
+	 * @generated
+	 */
+	void setPosTag(String value);
 
 } // Text

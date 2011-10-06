@@ -35,58 +35,22 @@ public interface ActionpartFactory extends EFactory {
 	Text createText();
 
 	/**
-	 * Returns a new object of class '<em>Subject</em>'.
+	 * Returns a new object of class '<em>Sentence Actor</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Subject</em>'.
+	 * @return a new object of class '<em>Sentence Actor</em>'.
 	 * @generated
 	 */
-	Subject createSubject();
+	SentenceActor createSentenceActor();
 
 	/**
-	 * Returns a new object of class '<em>Goto Target</em>'.
+	 * Returns a new object of class '<em>Sentence Action Param</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Goto Target</em>'.
+	 * @return a new object of class '<em>Sentence Action Param</em>'.
 	 * @generated
 	 */
-	GotoTarget createGotoTarget();
-
-	/**
-	 * Returns a new object of class '<em>Verb</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Verb</em>'.
-	 * @generated
-	 */
-	Verb createVerb();
-
-	/**
-	 * Returns a new object of class '<em>Representative Object</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Representative Object</em>'.
-	 * @generated
-	 */
-	RepresentativeObject createRepresentativeObject();
-
-	/**
-	 * Returns a new object of class '<em>Indirect Object</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Indirect Object</em>'.
-	 * @generated
-	 */
-	IndirectObject createIndirectObject();
-
-	/**
-	 * Returns a new object of class '<em>Use Case Include Part</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Use Case Include Part</em>'.
-	 * @generated
-	 */
-	UseCaseIncludePart createUseCaseIncludePart();
+	SentenceActionParam createSentenceActionParam();
 
 	/**
 	 * Returns the package supported by this factory.

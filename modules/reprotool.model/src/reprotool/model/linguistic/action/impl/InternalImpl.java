@@ -6,17 +6,24 @@
  */
 package reprotool.model.linguistic.action.impl;
 
+import java.util.Collection;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
+import org.eclipse.emf.ecore.impl.EObjectImpl;
+import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.InternalEList;
 import reprotool.model.linguistic.action.ActionPackage;
 import reprotool.model.linguistic.action.Internal;
 
+import reprotool.model.linguistic.actionpart.SentenceActionParam;
+import reprotool.model.linguistic.actionpart.Text;
 import reprotool.model.linguistic.actionpart.RepresentativeObject;
 import reprotool.model.linguistic.actionpart.Verb;
 
@@ -27,33 +34,33 @@ import reprotool.model.linguistic.actionpart.Verb;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link reprotool.model.linguistic.action.impl.InternalImpl#getVerb <em>Verb</em>}</li>
- *   <li>{@link reprotool.model.linguistic.action.impl.InternalImpl#getRepresentativeObject <em>Representative Object</em>}</li>
+ *   <li>{@link reprotool.model.linguistic.action.impl.InternalImpl#getActionParam <em>Action Param</em>}</li>
+ *   <li>{@link reprotool.model.linguistic.action.impl.InternalImpl#getActionName <em>Action Name</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class InternalImpl extends ActionImpl implements Internal {
+public class InternalImpl extends EObjectImpl implements Internal {
 	/**
-	 * The cached value of the '{@link #getVerb() <em>Verb</em>}' containment reference.
+	 * The cached value of the '{@link #getActionParam() <em>Action Param</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getVerb()
+	 * @see #getActionParam()
 	 * @generated
 	 * @ordered
 	 */
-	protected Verb verb;
+	protected EList<SentenceActionParam> actionParam;
 
 	/**
-	 * The cached value of the '{@link #getRepresentativeObject() <em>Representative Object</em>}' containment reference.
+	 * The cached value of the '{@link #getActionName() <em>Action Name</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getRepresentativeObject()
+	 * @see #getActionName()
 	 * @generated
 	 * @ordered
 	 */
-	protected RepresentativeObject representativeObject;
+	protected Text actionName;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -79,23 +86,11 @@ public class InternalImpl extends ActionImpl implements Internal {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Verb getVerb() {
-		return verb;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public NotificationChain basicSetVerb(Verb newVerb, NotificationChain msgs) {
-		Verb oldVerb = verb;
-		verb = newVerb;
-		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ActionPackage.INTERNAL__VERB, oldVerb, newVerb);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
+	public EList<SentenceActionParam> getActionParam() {
+		if (actionParam == null) {
+			actionParam = new EObjectContainmentEList<SentenceActionParam>(SentenceActionParam.class, this, ActionPackage.INTERNAL__ACTION_PARAM);
 		}
-		return msgs;
+		return actionParam;
 	}
 
 	/**
@@ -103,18 +98,16 @@ public class InternalImpl extends ActionImpl implements Internal {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setVerb(Verb newVerb) {
-		if (newVerb != verb) {
-			NotificationChain msgs = null;
-			if (verb != null)
-				msgs = ((InternalEObject)verb).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ActionPackage.INTERNAL__VERB, null, msgs);
-			if (newVerb != null)
-				msgs = ((InternalEObject)newVerb).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ActionPackage.INTERNAL__VERB, null, msgs);
-			msgs = basicSetVerb(newVerb, msgs);
-			if (msgs != null) msgs.dispatch();
+	public Text getActionName() {
+		if (actionName != null && actionName.eIsProxy()) {
+			InternalEObject oldActionName = (InternalEObject)actionName;
+			actionName = (Text)eResolveProxy(oldActionName);
+			if (actionName != oldActionName) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, ActionPackage.INTERNAL__ACTION_NAME, oldActionName, actionName));
+			}
 		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ActionPackage.INTERNAL__VERB, newVerb, newVerb));
+		return actionName;
 	}
 
 	/**
@@ -122,8 +115,8 @@ public class InternalImpl extends ActionImpl implements Internal {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public RepresentativeObject getRepresentativeObject() {
-		return representativeObject;
+	public Text basicGetActionName() {
+		return actionName;
 	}
 
 	/**
@@ -131,33 +124,11 @@ public class InternalImpl extends ActionImpl implements Internal {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetRepresentativeObject(RepresentativeObject newRepresentativeObject, NotificationChain msgs) {
-		RepresentativeObject oldRepresentativeObject = representativeObject;
-		representativeObject = newRepresentativeObject;
-		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ActionPackage.INTERNAL__REPRESENTATIVE_OBJECT, oldRepresentativeObject, newRepresentativeObject);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
-		}
-		return msgs;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setRepresentativeObject(RepresentativeObject newRepresentativeObject) {
-		if (newRepresentativeObject != representativeObject) {
-			NotificationChain msgs = null;
-			if (representativeObject != null)
-				msgs = ((InternalEObject)representativeObject).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ActionPackage.INTERNAL__REPRESENTATIVE_OBJECT, null, msgs);
-			if (newRepresentativeObject != null)
-				msgs = ((InternalEObject)newRepresentativeObject).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ActionPackage.INTERNAL__REPRESENTATIVE_OBJECT, null, msgs);
-			msgs = basicSetRepresentativeObject(newRepresentativeObject, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ActionPackage.INTERNAL__REPRESENTATIVE_OBJECT, newRepresentativeObject, newRepresentativeObject));
+	public void setActionName(Text newActionName) {
+		Text oldActionName = actionName;
+		actionName = newActionName;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ActionPackage.INTERNAL__ACTION_NAME, oldActionName, actionName));
 	}
 
 	/**
@@ -168,10 +139,8 @@ public class InternalImpl extends ActionImpl implements Internal {
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case ActionPackage.INTERNAL__VERB:
-				return basicSetVerb(null, msgs);
-			case ActionPackage.INTERNAL__REPRESENTATIVE_OBJECT:
-				return basicSetRepresentativeObject(null, msgs);
+			case ActionPackage.INTERNAL__ACTION_PARAM:
+				return ((InternalEList<?>)getActionParam()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -184,10 +153,11 @@ public class InternalImpl extends ActionImpl implements Internal {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case ActionPackage.INTERNAL__VERB:
-				return getVerb();
-			case ActionPackage.INTERNAL__REPRESENTATIVE_OBJECT:
-				return getRepresentativeObject();
+			case ActionPackage.INTERNAL__ACTION_PARAM:
+				return getActionParam();
+			case ActionPackage.INTERNAL__ACTION_NAME:
+				if (resolve) return getActionName();
+				return basicGetActionName();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -197,14 +167,16 @@ public class InternalImpl extends ActionImpl implements Internal {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case ActionPackage.INTERNAL__VERB:
-				setVerb((Verb)newValue);
+			case ActionPackage.INTERNAL__ACTION_PARAM:
+				getActionParam().clear();
+				getActionParam().addAll((Collection<? extends SentenceActionParam>)newValue);
 				return;
-			case ActionPackage.INTERNAL__REPRESENTATIVE_OBJECT:
-				setRepresentativeObject((RepresentativeObject)newValue);
+			case ActionPackage.INTERNAL__ACTION_NAME:
+				setActionName((Text)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -218,11 +190,11 @@ public class InternalImpl extends ActionImpl implements Internal {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case ActionPackage.INTERNAL__VERB:
-				setVerb((Verb)null);
+			case ActionPackage.INTERNAL__ACTION_PARAM:
+				getActionParam().clear();
 				return;
-			case ActionPackage.INTERNAL__REPRESENTATIVE_OBJECT:
-				setRepresentativeObject((RepresentativeObject)null);
+			case ActionPackage.INTERNAL__ACTION_NAME:
+				setActionName((Text)null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -236,10 +208,10 @@ public class InternalImpl extends ActionImpl implements Internal {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case ActionPackage.INTERNAL__VERB:
-				return verb != null;
-			case ActionPackage.INTERNAL__REPRESENTATIVE_OBJECT:
-				return representativeObject != null;
+			case ActionPackage.INTERNAL__ACTION_PARAM:
+				return actionParam != null && !actionParam.isEmpty();
+			case ActionPackage.INTERNAL__ACTION_NAME:
+				return actionName != null;
 		}
 		return super.eIsSet(featureID);
 	}

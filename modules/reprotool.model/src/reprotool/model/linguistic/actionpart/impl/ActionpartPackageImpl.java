@@ -32,6 +32,8 @@ import reprotool.model.linguistic.action.impl.ActionPackageImpl;
 import reprotool.model.linguistic.actionpart.ActionPart;
 import reprotool.model.linguistic.actionpart.ActionpartFactory;
 import reprotool.model.linguistic.actionpart.ActionpartPackage;
+import reprotool.model.linguistic.actionpart.SentenceActionParam;
+import reprotool.model.linguistic.actionpart.SentenceActor;
 import reprotool.model.linguistic.actionpart.GotoTarget;
 import reprotool.model.linguistic.actionpart.IndirectObject;
 import reprotool.model.linguistic.actionpart.RepresentativeObject;
@@ -86,49 +88,14 @@ public class ActionpartPackageImpl extends EPackageImpl implements ActionpartPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass subjectEClass = null;
+	private EClass sentenceActorEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass gotoTargetEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass sentenceObjectEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass verbEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass representativeObjectEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass indirectObjectEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass useCaseIncludePartEClass = null;
+	private EClass sentenceActionParamEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -189,12 +156,10 @@ public class ActionpartPackageImpl extends EPackageImpl implements ActionpartPac
 		AnnotatePackageImpl theAnnotatePackage = (AnnotatePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(AnnotatePackage.eNS_URI) instanceof AnnotatePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(AnnotatePackage.eNS_URI) : AnnotatePackage.eINSTANCE);
 		SwprojPackageImpl theSwprojPackage = (SwprojPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(SwprojPackage.eNS_URI) instanceof SwprojPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(SwprojPackage.eNS_URI) : SwprojPackage.eINSTANCE);
 		TraceabilityPackageImpl theTraceabilityPackage = (TraceabilityPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(TraceabilityPackage.eNS_URI) instanceof TraceabilityPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(TraceabilityPackage.eNS_URI) : TraceabilityPackage.eINSTANCE);
-		ParsetreePackageImpl theParsetreePackage = (ParsetreePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ParsetreePackage.eNS_URI) instanceof ParsetreePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ParsetreePackage.eNS_URI) : ParsetreePackage.eINSTANCE);
 		ActionPackageImpl theActionPackage = (ActionPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ActionPackage.eNS_URI) instanceof ActionPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ActionPackage.eNS_URI) : ActionPackage.eINSTANCE);
 		AstPackageImpl theAstPackage = (AstPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(AstPackage.eNS_URI) instanceof AstPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(AstPackage.eNS_URI) : AstPackage.eINSTANCE);
 		CompPackageImpl theCompPackage = (CompPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(CompPackage.eNS_URI) instanceof CompPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(CompPackage.eNS_URI) : CompPackage.eINSTANCE);
 		DocPackageImpl theDocPackage = (DocPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(DocPackage.eNS_URI) instanceof DocPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(DocPackage.eNS_URI) : DocPackage.eINSTANCE);
-		ProcasesPackageImpl theProcasesPackage = (ProcasesPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ProcasesPackage.eNS_URI) instanceof ProcasesPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ProcasesPackage.eNS_URI) : ProcasesPackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theActionpartPackage.createPackageContents();
@@ -203,12 +168,10 @@ public class ActionpartPackageImpl extends EPackageImpl implements ActionpartPac
 		theAnnotatePackage.createPackageContents();
 		theSwprojPackage.createPackageContents();
 		theTraceabilityPackage.createPackageContents();
-		theParsetreePackage.createPackageContents();
 		theActionPackage.createPackageContents();
 		theAstPackage.createPackageContents();
 		theCompPackage.createPackageContents();
 		theDocPackage.createPackageContents();
-		theProcasesPackage.createPackageContents();
 
 		// Initialize created meta-data
 		theActionpartPackage.initializePackageContents();
@@ -217,12 +180,10 @@ public class ActionpartPackageImpl extends EPackageImpl implements ActionpartPac
 		theAnnotatePackage.initializePackageContents();
 		theSwprojPackage.initializePackageContents();
 		theTraceabilityPackage.initializePackageContents();
-		theParsetreePackage.initializePackageContents();
 		theActionPackage.initializePackageContents();
 		theAstPackage.initializePackageContents();
 		theCompPackage.initializePackageContents();
 		theDocPackage.initializePackageContents();
-		theProcasesPackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
 		theActionpartPackage.freeze();
@@ -265,8 +226,8 @@ public class ActionpartPackageImpl extends EPackageImpl implements ActionpartPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getSubject() {
-		return subjectEClass;
+	public EAttribute getText_LemmaForm() {
+		return (EAttribute)textEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -274,8 +235,8 @@ public class ActionpartPackageImpl extends EPackageImpl implements ActionpartPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getSubject_Actor() {
-		return (EReference)subjectEClass.getEStructuralFeatures().get(0);
+	public EAttribute getText_PosTag() {
+		return (EAttribute)textEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -283,8 +244,8 @@ public class ActionpartPackageImpl extends EPackageImpl implements ActionpartPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getGotoTarget() {
-		return gotoTargetEClass;
+	public EClass getSentenceActor() {
+		return sentenceActorEClass;
 	}
 
 	/**
@@ -292,8 +253,8 @@ public class ActionpartPackageImpl extends EPackageImpl implements ActionpartPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getGotoTarget_Target() {
-		return (EReference)gotoTargetEClass.getEStructuralFeatures().get(0);
+	public EReference getSentenceActor_Actor() {
+		return (EReference)sentenceActorEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -301,8 +262,8 @@ public class ActionpartPackageImpl extends EPackageImpl implements ActionpartPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getSentenceObject() {
-		return sentenceObjectEClass;
+	public EClass getSentenceActionParam() {
+		return sentenceActionParamEClass;
 	}
 
 	/**
@@ -310,53 +271,8 @@ public class ActionpartPackageImpl extends EPackageImpl implements ActionpartPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getSentenceObject_Object() {
-		return (EReference)sentenceObjectEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EClass getVerb() {
-		return verbEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EClass getRepresentativeObject() {
-		return representativeObjectEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EClass getIndirectObject() {
-		return indirectObjectEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EClass getUseCaseIncludePart() {
-		return useCaseIncludePartEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getUseCaseIncludePart_Target() {
-		return (EReference)useCaseIncludePartEClass.getEStructuralFeatures().get(0);
+	public EReference getSentenceActionParam_ConceptualObject() {
+		return (EReference)sentenceActionParamEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -408,24 +324,14 @@ public class ActionpartPackageImpl extends EPackageImpl implements ActionpartPac
 		textEClass = createEClass(TEXT);
 		createEAttribute(textEClass, TEXT__CONTENT);
 		createEReference(textEClass, TEXT__ACTION_PART);
+		createEAttribute(textEClass, TEXT__LEMMA_FORM);
+		createEAttribute(textEClass, TEXT__POS_TAG);
 
-		subjectEClass = createEClass(SUBJECT);
-		createEReference(subjectEClass, SUBJECT__ACTOR);
+		sentenceActorEClass = createEClass(SENTENCE_ACTOR);
+		createEReference(sentenceActorEClass, SENTENCE_ACTOR__ACTOR);
 
-		gotoTargetEClass = createEClass(GOTO_TARGET);
-		createEReference(gotoTargetEClass, GOTO_TARGET__TARGET);
-
-		sentenceObjectEClass = createEClass(SENTENCE_OBJECT);
-		createEReference(sentenceObjectEClass, SENTENCE_OBJECT__OBJECT);
-
-		verbEClass = createEClass(VERB);
-
-		representativeObjectEClass = createEClass(REPRESENTATIVE_OBJECT);
-
-		indirectObjectEClass = createEClass(INDIRECT_OBJECT);
-
-		useCaseIncludePartEClass = createEClass(USE_CASE_INCLUDE_PART);
-		createEReference(useCaseIncludePartEClass, USE_CASE_INCLUDE_PART__TARGET);
+		sentenceActionParamEClass = createEClass(SENTENCE_ACTION_PARAM);
+		createEReference(sentenceActionParamEClass, SENTENCE_ACTION_PARAM__CONCEPTUAL_OBJECT);
 
 		actionPartEClass = createEClass(ACTION_PART);
 		createEReference(actionPartEClass, ACTION_PART__TEXT);
@@ -456,45 +362,29 @@ public class ActionpartPackageImpl extends EPackageImpl implements ActionpartPac
 
 		// Obtain other dependent packages
 		SwprojPackage theSwprojPackage = (SwprojPackage)EPackage.Registry.INSTANCE.getEPackage(SwprojPackage.eNS_URI);
-		UsecasePackage theUsecasePackage = (UsecasePackage)EPackage.Registry.INSTANCE.getEPackage(UsecasePackage.eNS_URI);
 
 		// Create type parameters
 
 		// Set bounds for type parameters
 
 		// Add supertypes to classes
-		subjectEClass.getESuperTypes().add(this.getActionPart());
-		gotoTargetEClass.getESuperTypes().add(this.getActionPart());
-		sentenceObjectEClass.getESuperTypes().add(this.getActionPart());
-		verbEClass.getESuperTypes().add(this.getActionPart());
-		representativeObjectEClass.getESuperTypes().add(this.getSentenceObject());
-		indirectObjectEClass.getESuperTypes().add(this.getSentenceObject());
-		useCaseIncludePartEClass.getESuperTypes().add(this.getActionPart());
+		sentenceActorEClass.getESuperTypes().add(this.getActionPart());
+		sentenceActionParamEClass.getESuperTypes().add(this.getActionPart());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(textEClass, Text.class, "Text", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getText_Content(), ecorePackage.getEString(), "Content", null, 1, 1, Text.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getText_Content(), ecorePackage.getEString(), "content", null, 1, 1, Text.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getText_ActionPart(), this.getActionPart(), null, "actionPart", null, 0, 1, Text.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getText_LemmaForm(), ecorePackage.getEString(), "lemmaForm", null, 0, 1, Text.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getText_PosTag(), ecorePackage.getEString(), "posTag", null, 0, 1, Text.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(subjectEClass, Subject.class, "Subject", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getSubject_Actor(), theSwprojPackage.getActor(), null, "actor", null, 0, 1, Subject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(sentenceActorEClass, SentenceActor.class, "SentenceActor", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getSentenceActor_Actor(), theSwprojPackage.getActor(), null, "actor", null, 1, 1, SentenceActor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(gotoTargetEClass, GotoTarget.class, "GotoTarget", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getGotoTarget_Target(), theUsecasePackage.getUseCaseStep(), null, "target", null, 0, 1, GotoTarget.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(sentenceActionParamEClass, SentenceActionParam.class, "SentenceActionParam", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getSentenceActionParam_ConceptualObject(), theSwprojPackage.getConceptualObject(), null, "conceptualObject", null, 1, 1, SentenceActionParam.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(sentenceObjectEClass, SentenceObject.class, "SentenceObject", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getSentenceObject_Object(), theSwprojPackage.getActor(), null, "object", null, 0, 1, SentenceObject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(verbEClass, Verb.class, "Verb", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-
-		initEClass(representativeObjectEClass, RepresentativeObject.class, "RepresentativeObject", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-
-		initEClass(indirectObjectEClass, IndirectObject.class, "IndirectObject", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-
-		initEClass(useCaseIncludePartEClass, UseCaseIncludePart.class, "UseCaseIncludePart", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getUseCaseIncludePart_Target(), theUsecasePackage.getUseCase(), null, "target", null, 0, 1, UseCaseIncludePart.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(actionPartEClass, ActionPart.class, "ActionPart", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEClass(actionPartEClass, ActionPart.class, "ActionPart", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getActionPart_Text(), this.getText(), null, "text", null, 0, 1, ActionPart.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create resource

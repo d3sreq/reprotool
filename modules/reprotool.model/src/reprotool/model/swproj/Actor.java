@@ -20,8 +20,6 @@ import reprotool.model.traceability.TraceableEntity;
  * <ul>
  *   <li>{@link reprotool.model.swproj.Actor#getChildrenActors <em>Children Actors</em>}</li>
  *   <li>{@link reprotool.model.swproj.Actor#getParentActor <em>Parent Actor</em>}</li>
- *   <li>{@link reprotool.model.swproj.Actor#getName <em>Name</em>}</li>
- *   <li>{@link reprotool.model.swproj.Actor#getDescription <em>Description</em>}</li>
  * </ul>
  * </p>
  *
@@ -29,7 +27,7 @@ import reprotool.model.traceability.TraceableEntity;
  * @model
  * @generated
  */
-public interface Actor extends TraceableEntity {
+public interface Actor extends TraceableEntity, DomainElement {
 	/**
 	 * Returns the value of the '<em><b>Children Actors</b></em>' reference list.
 	 * The list contents are of type {@link reprotool.model.swproj.Actor}.
@@ -75,57 +73,5 @@ public interface Actor extends TraceableEntity {
 	 * @generated
 	 */
 	void setParentActor(Actor value);
-
-	/**
-	 * Returns the value of the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Name</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Name</em>' attribute.
-	 * @see #setName(String)
-	 * @see reprotool.model.swproj.SwprojPackage#getActor_Name()
-	 * @model
-	 * @generated
-	 */
-	String getName();
-
-	/**
-	 * Sets the value of the '{@link reprotool.model.swproj.Actor#getName <em>Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Name</em>' attribute.
-	 * @see #getName()
-	 * @generated
-	 */
-	void setName(String value);
-
-	/**
-	 * Returns the value of the '<em><b>Description</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Description</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Description</em>' attribute.
-	 * @see #setDescription(String)
-	 * @see reprotool.model.swproj.SwprojPackage#getActor_Description()
-	 * @model
-	 * @generated
-	 */
-	String getDescription();
-
-	/**
-	 * Sets the value of the '{@link reprotool.model.swproj.Actor#getDescription <em>Description</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Description</em>' attribute.
-	 * @see #getDescription()
-	 * @generated
-	 */
-	void setDescription(String value);
 
 } // Actor

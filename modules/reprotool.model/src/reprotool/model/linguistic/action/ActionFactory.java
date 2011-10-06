@@ -26,22 +26,13 @@ public interface ActionFactory extends EFactory {
 	ActionFactory eINSTANCE = reprotool.model.linguistic.action.impl.ActionFactoryImpl.init();
 
 	/**
-	 * Returns a new object of class '<em>Send</em>'.
+	 * Returns a new object of class '<em>From System</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Send</em>'.
+	 * @return a new object of class '<em>From System</em>'.
 	 * @generated
 	 */
-	Send createSend();
-
-	/**
-	 * Returns a new object of class '<em>Receive</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Receive</em>'.
-	 * @generated
-	 */
-	Receive createReceive();
+	FromSystem createFromSystem();
 
 	/**
 	 * Returns a new object of class '<em>Internal</em>'.
@@ -80,22 +71,22 @@ public interface ActionFactory extends EFactory {
 	UseCaseInclude createUseCaseInclude();
 
 	/**
-	 * Returns a new object of class '<em>Terminate Use Case</em>'.
+	 * Returns a new object of class '<em>Abort Use Case</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Terminate Use Case</em>'.
+	 * @return a new object of class '<em>Abort Use Case</em>'.
 	 * @generated
 	 */
-	TerminateUseCase createTerminateUseCase();
+	AbortUseCase createAbortUseCase();
 
 	/**
-	 * Returns a new object of class '<em>Terminate Branch</em>'.
+	 * Returns a new object of class '<em>To System</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Terminate Branch</em>'.
+	 * @return a new object of class '<em>To System</em>'.
 	 * @generated
 	 */
-	TerminateBranch createTerminateBranch();
+	ToSystem createToSystem();
 
 	/**
 	 * Returns the package supported by this factory.

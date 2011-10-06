@@ -24,11 +24,15 @@ import reprotool.model.doc.DocPackage;
 
 import reprotool.model.doc.impl.DocPackageImpl;
 
+import reprotool.model.linguistic.action.AbortUseCase;
 import reprotool.model.linguistic.action.Action;
 import reprotool.model.linguistic.action.ActionFactory;
 import reprotool.model.linguistic.action.ActionPackage;
+import reprotool.model.linguistic.action.Communication;
+import reprotool.model.linguistic.action.FromSystem;
 import reprotool.model.linguistic.action.Goto;
 import reprotool.model.linguistic.action.Internal;
+import reprotool.model.linguistic.action.ToSystem;
 import reprotool.model.linguistic.action.Receive;
 import reprotool.model.linguistic.action.Send;
 import reprotool.model.linguistic.action.TerminateBranch;
@@ -78,13 +82,6 @@ public class ActionPackageImpl extends EPackageImpl implements ActionPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass sendEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	private EClass actionEClass = null;
 
 	/**
@@ -92,7 +89,7 @@ public class ActionPackageImpl extends EPackageImpl implements ActionPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass receiveEClass = null;
+	private EClass fromSystemEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -127,14 +124,21 @@ public class ActionPackageImpl extends EPackageImpl implements ActionPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass terminateUseCaseEClass = null;
+	private EClass abortUseCaseEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass terminateBranchEClass = null;
+	private EClass toSystemEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass communicationEClass = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -188,12 +192,10 @@ public class ActionPackageImpl extends EPackageImpl implements ActionPackage {
 		AnnotatePackageImpl theAnnotatePackage = (AnnotatePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(AnnotatePackage.eNS_URI) instanceof AnnotatePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(AnnotatePackage.eNS_URI) : AnnotatePackage.eINSTANCE);
 		SwprojPackageImpl theSwprojPackage = (SwprojPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(SwprojPackage.eNS_URI) instanceof SwprojPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(SwprojPackage.eNS_URI) : SwprojPackage.eINSTANCE);
 		TraceabilityPackageImpl theTraceabilityPackage = (TraceabilityPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(TraceabilityPackage.eNS_URI) instanceof TraceabilityPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(TraceabilityPackage.eNS_URI) : TraceabilityPackage.eINSTANCE);
-		ParsetreePackageImpl theParsetreePackage = (ParsetreePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ParsetreePackage.eNS_URI) instanceof ParsetreePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ParsetreePackage.eNS_URI) : ParsetreePackage.eINSTANCE);
 		ActionpartPackageImpl theActionpartPackage = (ActionpartPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ActionpartPackage.eNS_URI) instanceof ActionpartPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ActionpartPackage.eNS_URI) : ActionpartPackage.eINSTANCE);
 		AstPackageImpl theAstPackage = (AstPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(AstPackage.eNS_URI) instanceof AstPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(AstPackage.eNS_URI) : AstPackage.eINSTANCE);
 		CompPackageImpl theCompPackage = (CompPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(CompPackage.eNS_URI) instanceof CompPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(CompPackage.eNS_URI) : CompPackage.eINSTANCE);
 		DocPackageImpl theDocPackage = (DocPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(DocPackage.eNS_URI) instanceof DocPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(DocPackage.eNS_URI) : DocPackage.eINSTANCE);
-		ProcasesPackageImpl theProcasesPackage = (ProcasesPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ProcasesPackage.eNS_URI) instanceof ProcasesPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ProcasesPackage.eNS_URI) : ProcasesPackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theActionPackage.createPackageContents();
@@ -202,12 +204,10 @@ public class ActionPackageImpl extends EPackageImpl implements ActionPackage {
 		theAnnotatePackage.createPackageContents();
 		theSwprojPackage.createPackageContents();
 		theTraceabilityPackage.createPackageContents();
-		theParsetreePackage.createPackageContents();
 		theActionpartPackage.createPackageContents();
 		theAstPackage.createPackageContents();
 		theCompPackage.createPackageContents();
 		theDocPackage.createPackageContents();
-		theProcasesPackage.createPackageContents();
 
 		// Initialize created meta-data
 		theActionPackage.initializePackageContents();
@@ -216,12 +216,10 @@ public class ActionPackageImpl extends EPackageImpl implements ActionPackage {
 		theAnnotatePackage.initializePackageContents();
 		theSwprojPackage.initializePackageContents();
 		theTraceabilityPackage.initializePackageContents();
-		theParsetreePackage.initializePackageContents();
 		theActionpartPackage.initializePackageContents();
 		theAstPackage.initializePackageContents();
 		theCompPackage.initializePackageContents();
 		theDocPackage.initializePackageContents();
-		theProcasesPackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
 		theActionPackage.freeze();
@@ -230,51 +228,6 @@ public class ActionPackageImpl extends EPackageImpl implements ActionPackage {
 		// Update the registry and return the package
 		EPackage.Registry.INSTANCE.put(ActionPackage.eNS_URI, theActionPackage);
 		return theActionPackage;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EClass getSend() {
-		return sendEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getSend_Verb() {
-		return (EReference)sendEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getSend_Subject() {
-		return (EReference)sendEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getSend_RepresentativeObject() {
-		return (EReference)sendEClass.getEStructuralFeatures().get(2);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getSend_IndirectObject() {
-		return (EReference)sendEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -291,8 +244,8 @@ public class ActionPackageImpl extends EPackageImpl implements ActionPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getReceive() {
-		return receiveEClass;
+	public EClass getFromSystem() {
+		return fromSystemEClass;
 	}
 
 	/**
@@ -300,26 +253,8 @@ public class ActionPackageImpl extends EPackageImpl implements ActionPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getReceive_Verb() {
-		return (EReference)receiveEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getReceive_Subject() {
-		return (EReference)receiveEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getReceive_RepresentativeObject() {
-		return (EReference)receiveEClass.getEStructuralFeatures().get(2);
+	public EReference getFromSystem_Receiver() {
+		return (EReference)fromSystemEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -329,24 +264,6 @@ public class ActionPackageImpl extends EPackageImpl implements ActionPackage {
 	 */
 	public EClass getInternal() {
 		return internalEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getInternal_Verb() {
-		return (EReference)internalEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getInternal_RepresentativeObject() {
-		return (EReference)internalEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -390,7 +307,7 @@ public class ActionPackageImpl extends EPackageImpl implements ActionPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getUseCaseInclude_Include() {
+	public EReference getUseCaseInclude_IncludeTarget() {
 		return (EReference)useCaseIncludeEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -399,8 +316,8 @@ public class ActionPackageImpl extends EPackageImpl implements ActionPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getTerminateUseCase() {
-		return terminateUseCaseEClass;
+	public EClass getAbortUseCase() {
+		return abortUseCaseEClass;
 	}
 
 	/**
@@ -408,8 +325,44 @@ public class ActionPackageImpl extends EPackageImpl implements ActionPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getTerminateBranch() {
-		return terminateBranchEClass;
+	public EClass getToSystem() {
+		return toSystemEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getToSystem_Sender() {
+		return (EReference)toSystemEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getCommunication() {
+		return communicationEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getCommunication_ActionParam() {
+		return (EReference)communicationEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getCommunication_ActionName() {
+		return (EReference)communicationEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -440,22 +393,12 @@ public class ActionPackageImpl extends EPackageImpl implements ActionPackage {
 		isCreated = true;
 
 		// Create classes and their features
-		sendEClass = createEClass(SEND);
-		createEReference(sendEClass, SEND__VERB);
-		createEReference(sendEClass, SEND__SUBJECT);
-		createEReference(sendEClass, SEND__REPRESENTATIVE_OBJECT);
-		createEReference(sendEClass, SEND__INDIRECT_OBJECT);
-
 		actionEClass = createEClass(ACTION);
 
-		receiveEClass = createEClass(RECEIVE);
-		createEReference(receiveEClass, RECEIVE__VERB);
-		createEReference(receiveEClass, RECEIVE__SUBJECT);
-		createEReference(receiveEClass, RECEIVE__REPRESENTATIVE_OBJECT);
+		fromSystemEClass = createEClass(FROM_SYSTEM);
+		createEReference(fromSystemEClass, FROM_SYSTEM__RECEIVER);
 
 		internalEClass = createEClass(INTERNAL);
-		createEReference(internalEClass, INTERNAL__VERB);
-		createEReference(internalEClass, INTERNAL__REPRESENTATIVE_OBJECT);
 
 		gotoEClass = createEClass(GOTO);
 		createEReference(gotoEClass, GOTO__GOTO_TARGET);
@@ -463,11 +406,16 @@ public class ActionPackageImpl extends EPackageImpl implements ActionPackage {
 		unknownEClass = createEClass(UNKNOWN);
 
 		useCaseIncludeEClass = createEClass(USE_CASE_INCLUDE);
-		createEReference(useCaseIncludeEClass, USE_CASE_INCLUDE__INCLUDE);
+		createEReference(useCaseIncludeEClass, USE_CASE_INCLUDE__INCLUDE_TARGET);
 
-		terminateUseCaseEClass = createEClass(TERMINATE_USE_CASE);
+		abortUseCaseEClass = createEClass(ABORT_USE_CASE);
 
-		terminateBranchEClass = createEClass(TERMINATE_BRANCH);
+		toSystemEClass = createEClass(TO_SYSTEM);
+		createEReference(toSystemEClass, TO_SYSTEM__SENDER);
+
+		communicationEClass = createEClass(COMMUNICATION);
+		createEReference(communicationEClass, COMMUNICATION__ACTION_PARAM);
+		createEReference(communicationEClass, COMMUNICATION__ACTION_NAME);
 	}
 
 	/**
@@ -495,50 +443,48 @@ public class ActionPackageImpl extends EPackageImpl implements ActionPackage {
 
 		// Obtain other dependent packages
 		ActionpartPackage theActionpartPackage = (ActionpartPackage)EPackage.Registry.INSTANCE.getEPackage(ActionpartPackage.eNS_URI);
+		UsecasePackage theUsecasePackage = (UsecasePackage)EPackage.Registry.INSTANCE.getEPackage(UsecasePackage.eNS_URI);
 
 		// Create type parameters
 
 		// Set bounds for type parameters
 
 		// Add supertypes to classes
-		sendEClass.getESuperTypes().add(this.getAction());
-		receiveEClass.getESuperTypes().add(this.getAction());
-		internalEClass.getESuperTypes().add(this.getAction());
+		fromSystemEClass.getESuperTypes().add(this.getCommunication());
+		internalEClass.getESuperTypes().add(this.getCommunication());
 		gotoEClass.getESuperTypes().add(this.getAction());
+		gotoEClass.getESuperTypes().add(theActionpartPackage.getActionPart());
 		unknownEClass.getESuperTypes().add(this.getAction());
 		useCaseIncludeEClass.getESuperTypes().add(this.getAction());
-		terminateUseCaseEClass.getESuperTypes().add(this.getAction());
-		terminateBranchEClass.getESuperTypes().add(this.getAction());
+		useCaseIncludeEClass.getESuperTypes().add(theActionpartPackage.getActionPart());
+		abortUseCaseEClass.getESuperTypes().add(this.getAction());
+		toSystemEClass.getESuperTypes().add(this.getCommunication());
+		communicationEClass.getESuperTypes().add(this.getAction());
 
 		// Initialize classes and features; add operations and parameters
-		initEClass(sendEClass, Send.class, "Send", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getSend_Verb(), theActionpartPackage.getVerb(), null, "verb", null, 1, 1, Send.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getSend_Subject(), theActionpartPackage.getSubject(), null, "subject", null, 1, 1, Send.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getSend_RepresentativeObject(), theActionpartPackage.getRepresentativeObject(), null, "representativeObject", null, 1, 1, Send.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getSend_IndirectObject(), theActionpartPackage.getIndirectObject(), null, "indirectObject", null, 1, 1, Send.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(actionEClass, Action.class, "Action", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
-		initEClass(actionEClass, Action.class, "Action", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-
-		initEClass(receiveEClass, Receive.class, "Receive", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getReceive_Verb(), theActionpartPackage.getVerb(), null, "verb", null, 1, 1, Receive.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getReceive_Subject(), theActionpartPackage.getSubject(), null, "subject", null, 1, 1, Receive.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getReceive_RepresentativeObject(), theActionpartPackage.getRepresentativeObject(), null, "representativeObject", null, 1, 1, Receive.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(fromSystemEClass, FromSystem.class, "FromSystem", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getFromSystem_Receiver(), theActionpartPackage.getSentenceActor(), null, "receiver", null, 1, 1, FromSystem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(internalEClass, Internal.class, "Internal", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getInternal_Verb(), theActionpartPackage.getVerb(), null, "verb", null, 1, 1, Internal.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getInternal_RepresentativeObject(), theActionpartPackage.getRepresentativeObject(), null, "representativeObject", null, 1, 1, Internal.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(gotoEClass, Goto.class, "Goto", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getGoto_GotoTarget(), theActionpartPackage.getGotoTarget(), null, "gotoTarget", null, 1, 1, Goto.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getGoto_GotoTarget(), theUsecasePackage.getUseCaseStep(), null, "gotoTarget", null, 1, 1, Goto.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(unknownEClass, Unknown.class, "Unknown", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(useCaseIncludeEClass, UseCaseInclude.class, "UseCaseInclude", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getUseCaseInclude_Include(), theActionpartPackage.getUseCaseIncludePart(), null, "include", null, 1, 1, UseCaseInclude.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getUseCaseInclude_IncludeTarget(), theUsecasePackage.getUseCase(), null, "includeTarget", null, 1, 1, UseCaseInclude.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(terminateUseCaseEClass, TerminateUseCase.class, "TerminateUseCase", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEClass(abortUseCaseEClass, AbortUseCase.class, "AbortUseCase", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
-		initEClass(terminateBranchEClass, TerminateBranch.class, "TerminateBranch", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEClass(toSystemEClass, ToSystem.class, "ToSystem", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getToSystem_Sender(), theActionpartPackage.getSentenceActor(), null, "sender", null, 1, 1, ToSystem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(communicationEClass, Communication.class, "Communication", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getCommunication_ActionParam(), theActionpartPackage.getSentenceActionParam(), null, "actionParam", null, 0, -1, Communication.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getCommunication_ActionName(), theActionpartPackage.getText(), null, "actionName", null, 1, 1, Communication.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);

@@ -58,6 +58,7 @@ import reprotool.model.usecase.UsecasePackage;
 import reprotool.model.usecase.annotate.AnnotateFactory;
 import reprotool.model.usecase.annotate.AnnotatePackage;
 import reprotool.model.usecase.annotate.AnnotationSet;
+import reprotool.model.usecase.annotate.CTLAnnotationSet;
 import reprotool.model.usecase.annotate.LTLAnnotation;
 import reprotool.model.usecase.annotate.LTLAnnotationSet;
 import reprotool.model.usecase.annotate.OnAnnotation;
@@ -65,6 +66,7 @@ import reprotool.model.usecase.annotate.SpecialAnnotation;
 import reprotool.model.usecase.annotate.SpecialAnnotationSet;
 import reprotool.model.usecase.annotate.StepAnnotation;
 import reprotool.model.usecase.annotate.StepAnnotationType;
+import reprotool.model.usecase.annotate.TemporalAnnotation;
 import reprotool.model.usecase.annotate.TraceAnnotation;
 
 import reprotool.model.usecase.impl.UsecasePackageImpl;
@@ -95,7 +97,7 @@ public class AnnotatePackageImpl extends EPackageImpl implements AnnotatePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass ltlAnnotationEClass = null;
+	private EClass temporalAnnotationEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -138,6 +140,13 @@ public class AnnotatePackageImpl extends EPackageImpl implements AnnotatePackage
 	 * @generated
 	 */
 	private EClass onAnnotationEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass ctlAnnotationSetEClass = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -190,13 +199,11 @@ public class AnnotatePackageImpl extends EPackageImpl implements AnnotatePackage
 		UsecasePackageImpl theUsecasePackage = (UsecasePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(UsecasePackage.eNS_URI) instanceof UsecasePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(UsecasePackage.eNS_URI) : UsecasePackage.eINSTANCE);
 		SwprojPackageImpl theSwprojPackage = (SwprojPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(SwprojPackage.eNS_URI) instanceof SwprojPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(SwprojPackage.eNS_URI) : SwprojPackage.eINSTANCE);
 		TraceabilityPackageImpl theTraceabilityPackage = (TraceabilityPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(TraceabilityPackage.eNS_URI) instanceof TraceabilityPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(TraceabilityPackage.eNS_URI) : TraceabilityPackage.eINSTANCE);
-		ParsetreePackageImpl theParsetreePackage = (ParsetreePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ParsetreePackage.eNS_URI) instanceof ParsetreePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ParsetreePackage.eNS_URI) : ParsetreePackage.eINSTANCE);
 		ActionpartPackageImpl theActionpartPackage = (ActionpartPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ActionpartPackage.eNS_URI) instanceof ActionpartPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ActionpartPackage.eNS_URI) : ActionpartPackage.eINSTANCE);
 		ActionPackageImpl theActionPackage = (ActionPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ActionPackage.eNS_URI) instanceof ActionPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ActionPackage.eNS_URI) : ActionPackage.eINSTANCE);
 		AstPackageImpl theAstPackage = (AstPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(AstPackage.eNS_URI) instanceof AstPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(AstPackage.eNS_URI) : AstPackage.eINSTANCE);
 		CompPackageImpl theCompPackage = (CompPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(CompPackage.eNS_URI) instanceof CompPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(CompPackage.eNS_URI) : CompPackage.eINSTANCE);
 		DocPackageImpl theDocPackage = (DocPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(DocPackage.eNS_URI) instanceof DocPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(DocPackage.eNS_URI) : DocPackage.eINSTANCE);
-		ProcasesPackageImpl theProcasesPackage = (ProcasesPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ProcasesPackage.eNS_URI) instanceof ProcasesPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ProcasesPackage.eNS_URI) : ProcasesPackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theAnnotatePackage.createPackageContents();
@@ -204,13 +211,11 @@ public class AnnotatePackageImpl extends EPackageImpl implements AnnotatePackage
 		theUsecasePackage.createPackageContents();
 		theSwprojPackage.createPackageContents();
 		theTraceabilityPackage.createPackageContents();
-		theParsetreePackage.createPackageContents();
 		theActionpartPackage.createPackageContents();
 		theActionPackage.createPackageContents();
 		theAstPackage.createPackageContents();
 		theCompPackage.createPackageContents();
 		theDocPackage.createPackageContents();
-		theProcasesPackage.createPackageContents();
 
 		// Initialize created meta-data
 		theAnnotatePackage.initializePackageContents();
@@ -218,13 +223,11 @@ public class AnnotatePackageImpl extends EPackageImpl implements AnnotatePackage
 		theUsecasePackage.initializePackageContents();
 		theSwprojPackage.initializePackageContents();
 		theTraceabilityPackage.initializePackageContents();
-		theParsetreePackage.initializePackageContents();
 		theActionpartPackage.initializePackageContents();
 		theActionPackage.initializePackageContents();
 		theAstPackage.initializePackageContents();
 		theCompPackage.initializePackageContents();
 		theDocPackage.initializePackageContents();
-		theProcasesPackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
 		theAnnotatePackage.freeze();
@@ -285,8 +288,8 @@ public class AnnotatePackageImpl extends EPackageImpl implements AnnotatePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getLTLAnnotation() {
-		return ltlAnnotationEClass;
+	public EClass getTemporalAnnotation() {
+		return temporalAnnotationEClass;
 	}
 
 	/**
@@ -330,7 +333,7 @@ public class AnnotatePackageImpl extends EPackageImpl implements AnnotatePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getLTLAnnotationSet_Ltl() {
+	public EAttribute getLTLAnnotationSet_LtlFormula() {
 		return (EAttribute)ltlAnnotationSetEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -375,6 +378,33 @@ public class AnnotatePackageImpl extends EPackageImpl implements AnnotatePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getCTLAnnotationSet() {
+		return ctlAnnotationSetEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getCTLAnnotationSet_CtlFormula() {
+		return (EAttribute)ctlAnnotationSetEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getCTLAnnotationSet_Contains() {
+		return (EReference)ctlAnnotationSetEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public AnnotateFactory getAnnotateFactory() {
 		return (AnnotateFactory)getEFactoryInstance();
 	}
@@ -405,7 +435,7 @@ public class AnnotatePackageImpl extends EPackageImpl implements AnnotatePackage
 		stepAnnotationTypeEClass = createEClass(STEP_ANNOTATION_TYPE);
 		createEAttribute(stepAnnotationTypeEClass, STEP_ANNOTATION_TYPE__NAME);
 
-		ltlAnnotationEClass = createEClass(LTL_ANNOTATION);
+		temporalAnnotationEClass = createEClass(TEMPORAL_ANNOTATION);
 
 		specialAnnotationEClass = createEClass(SPECIAL_ANNOTATION);
 
@@ -413,7 +443,7 @@ public class AnnotatePackageImpl extends EPackageImpl implements AnnotatePackage
 
 		ltlAnnotationSetEClass = createEClass(LTL_ANNOTATION_SET);
 		createEReference(ltlAnnotationSetEClass, LTL_ANNOTATION_SET__CONTAINS);
-		createEAttribute(ltlAnnotationSetEClass, LTL_ANNOTATION_SET__LTL);
+		createEAttribute(ltlAnnotationSetEClass, LTL_ANNOTATION_SET__LTL_FORMULA);
 
 		specialAnnotationSetEClass = createEClass(SPECIAL_ANNOTATION_SET);
 		createEReference(specialAnnotationSetEClass, SPECIAL_ANNOTATION_SET__CONTAINS);
@@ -421,6 +451,10 @@ public class AnnotatePackageImpl extends EPackageImpl implements AnnotatePackage
 		traceAnnotationEClass = createEClass(TRACE_ANNOTATION);
 
 		onAnnotationEClass = createEClass(ON_ANNOTATION);
+
+		ctlAnnotationSetEClass = createEClass(CTL_ANNOTATION_SET);
+		createEAttribute(ctlAnnotationSetEClass, CTL_ANNOTATION_SET__CTL_FORMULA);
+		createEReference(ctlAnnotationSetEClass, CTL_ANNOTATION_SET__CONTAINS);
 	}
 
 	/**
@@ -451,7 +485,7 @@ public class AnnotatePackageImpl extends EPackageImpl implements AnnotatePackage
 		// Set bounds for type parameters
 
 		// Add supertypes to classes
-		ltlAnnotationEClass.getESuperTypes().add(this.getStepAnnotationType());
+		temporalAnnotationEClass.getESuperTypes().add(this.getStepAnnotationType());
 		specialAnnotationEClass.getESuperTypes().add(this.getStepAnnotationType());
 		ltlAnnotationSetEClass.getESuperTypes().add(this.getAnnotationSet());
 		specialAnnotationSetEClass.getESuperTypes().add(this.getAnnotationSet());
@@ -461,6 +495,7 @@ public class AnnotatePackageImpl extends EPackageImpl implements AnnotatePackage
 		onAnnotationEClass.getESuperTypes().add(this.getStepAnnotationType());
 		onAnnotationEClass.getESuperTypes().add(this.getAnnotationSet());
 		onAnnotationEClass.getESuperTypes().add(this.getSpecialAnnotation());
+		ctlAnnotationSetEClass.getESuperTypes().add(this.getAnnotationSet());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(stepAnnotationEClass, StepAnnotation.class, "StepAnnotation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -470,15 +505,15 @@ public class AnnotatePackageImpl extends EPackageImpl implements AnnotatePackage
 		initEClass(stepAnnotationTypeEClass, StepAnnotationType.class, "StepAnnotationType", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getStepAnnotationType_Name(), ecorePackage.getEString(), "name", null, 0, 1, StepAnnotationType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(ltlAnnotationEClass, LTLAnnotation.class, "LTLAnnotation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEClass(temporalAnnotationEClass, TemporalAnnotation.class, "TemporalAnnotation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(specialAnnotationEClass, SpecialAnnotation.class, "SpecialAnnotation", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(annotationSetEClass, AnnotationSet.class, "AnnotationSet", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(ltlAnnotationSetEClass, LTLAnnotationSet.class, "LTLAnnotationSet", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getLTLAnnotationSet_Contains(), this.getLTLAnnotation(), null, "contains", null, 1, -1, LTLAnnotationSet.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getLTLAnnotationSet_Ltl(), ecorePackage.getEString(), "ltl", null, 0, 1, LTLAnnotationSet.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getLTLAnnotationSet_Contains(), this.getTemporalAnnotation(), null, "contains", null, 1, -1, LTLAnnotationSet.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getLTLAnnotationSet_LtlFormula(), ecorePackage.getEString(), "ltlFormula", null, 0, 1, LTLAnnotationSet.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(specialAnnotationSetEClass, SpecialAnnotationSet.class, "SpecialAnnotationSet", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getSpecialAnnotationSet_Contains(), this.getSpecialAnnotation(), null, "contains", null, 1, -1, SpecialAnnotationSet.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -486,6 +521,10 @@ public class AnnotatePackageImpl extends EPackageImpl implements AnnotatePackage
 		initEClass(traceAnnotationEClass, TraceAnnotation.class, "TraceAnnotation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(onAnnotationEClass, OnAnnotation.class, "OnAnnotation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(ctlAnnotationSetEClass, CTLAnnotationSet.class, "CTLAnnotationSet", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getCTLAnnotationSet_CtlFormula(), ecorePackage.getEString(), "ctlFormula", null, 0, 1, CTLAnnotationSet.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getCTLAnnotationSet_Contains(), this.getTemporalAnnotation(), null, "contains", null, 1, -1, CTLAnnotationSet.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 	}
 
 } //AnnotatePackageImpl

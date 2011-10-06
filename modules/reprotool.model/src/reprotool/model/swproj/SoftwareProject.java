@@ -30,6 +30,7 @@ import reprotool.model.usecase.annotate.AnnotationSet;
  *   <li>{@link reprotool.model.swproj.SoftwareProject#getSrsDocuments <em>Srs Documents</em>}</li>
  *   <li>{@link reprotool.model.swproj.SoftwareProject#getUseCases <em>Use Cases</em>}</li>
  *   <li>{@link reprotool.model.swproj.SoftwareProject#getAnnotationSets <em>Annotation Sets</em>}</li>
+ *   <li>{@link reprotool.model.swproj.SoftwareProject#getConceptualObjects <em>Conceptual Objects</em>}</li>
  * </ul>
  * </p>
  *
@@ -168,5 +169,21 @@ public interface SoftwareProject extends EObject {
 	 * @generated
 	 */
 	EList<AnnotationSet> getAnnotationSets();
+
+	/**
+	 * Returns the value of the '<em><b>Conceptual Objects</b></em>' containment reference list.
+	 * The list contents are of type {@link reprotool.model.swproj.ConceptualObject}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Conceptual Objects</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Conceptual Objects</em>' containment reference list.
+	 * @see reprotool.model.swproj.SwprojPackage#getSoftwareProject_ConceptualObjects()
+	 * @model containment="true"
+	 * @generated
+	 */
+	EList<ConceptualObject> getConceptualObjects();
 
 } // SoftwareProject

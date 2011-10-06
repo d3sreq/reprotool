@@ -6,6 +6,8 @@
  */
 package reprotool.model.linguistic.action;
 
+import reprotool.model.linguistic.actionpart.ActionPart;
+import reprotool.model.usecase.UseCaseStep;
 import reprotool.model.linguistic.actionpart.GotoTarget;
 
 /**
@@ -24,7 +26,7 @@ import reprotool.model.linguistic.actionpart.GotoTarget;
  * @model
  * @generated
  */
-public interface Goto extends Action {
+public interface Goto extends Action, ActionPart {
 	/**
 	 * Returns the value of the '<em><b>Goto Target</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
@@ -34,12 +36,12 @@ public interface Goto extends Action {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Goto Target</em>' containment reference.
-	 * @see #setGotoTarget(GotoTarget)
+	 * @see #setGotoTarget(UseCaseStep)
 	 * @see reprotool.model.linguistic.action.ActionPackage#getGoto_GotoTarget()
 	 * @model containment="true" required="true"
 	 * @generated
 	 */
-	GotoTarget getGotoTarget();
+	UseCaseStep getGotoTarget();
 
 	/**
 	 * Sets the value of the '{@link reprotool.model.linguistic.action.Goto#getGotoTarget <em>Goto Target</em>}' containment reference.
@@ -49,6 +51,6 @@ public interface Goto extends Action {
 	 * @see #getGotoTarget()
 	 * @generated
 	 */
-	void setGotoTarget(GotoTarget value);
+	void setGotoTarget(UseCaseStep value);
 
 } // Goto

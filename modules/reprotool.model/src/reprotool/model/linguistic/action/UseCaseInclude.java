@@ -6,6 +6,8 @@
  */
 package reprotool.model.linguistic.action;
 
+import reprotool.model.linguistic.actionpart.ActionPart;
+import reprotool.model.usecase.UseCase;
 import org.eclipse.emf.ecore.EObject;
 
 import reprotool.model.linguistic.actionpart.UseCaseIncludePart;
@@ -18,7 +20,7 @@ import reprotool.model.linguistic.actionpart.UseCaseIncludePart;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link reprotool.model.linguistic.action.UseCaseInclude#getInclude <em>Include</em>}</li>
+ *   <li>{@link reprotool.model.linguistic.action.UseCaseInclude#getIncludeTarget <em>Include Target</em>}</li>
  * </ul>
  * </p>
  *
@@ -26,31 +28,31 @@ import reprotool.model.linguistic.actionpart.UseCaseIncludePart;
  * @model
  * @generated
  */
-public interface UseCaseInclude extends Action {
+public interface UseCaseInclude extends Action, ActionPart {
 	/**
-	 * Returns the value of the '<em><b>Include</b></em>' containment reference.
+	 * Returns the value of the '<em><b>Include Target</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Include</em>' containment reference isn't clear,
+	 * If the meaning of the '<em>Include Target</em>' containment reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Include</em>' containment reference.
-	 * @see #setInclude(UseCaseIncludePart)
-	 * @see reprotool.model.linguistic.action.ActionPackage#getUseCaseInclude_Include()
+	 * @return the value of the '<em>Include Target</em>' containment reference.
+	 * @see #setIncludeTarget(UseCase)
+	 * @see reprotool.model.linguistic.action.ActionPackage#getUseCaseInclude_IncludeTarget()
 	 * @model containment="true" required="true"
 	 * @generated
 	 */
-	UseCaseIncludePart getInclude();
+	UseCase getIncludeTarget();
 
 	/**
-	 * Sets the value of the '{@link reprotool.model.linguistic.action.UseCaseInclude#getInclude <em>Include</em>}' containment reference.
+	 * Sets the value of the '{@link reprotool.model.linguistic.action.UseCaseInclude#getIncludeTarget <em>Include Target</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Include</em>' containment reference.
-	 * @see #getInclude()
+	 * @param value the new value of the '<em>Include Target</em>' containment reference.
+	 * @see #getIncludeTarget()
 	 * @generated
 	 */
-	void setInclude(UseCaseIncludePart value);
+	void setIncludeTarget(UseCase value);
 
 } // UseCaseInclude

@@ -43,12 +43,11 @@ import reprotool.model.usecase.annotate.StepAnnotation;
  * The following features are implemented:
  * <ul>
  *   <li>{@link reprotool.model.usecase.impl.UseCaseStepImpl#getRelatedRequirements <em>Related Requirements</em>}</li>
- *   <li>{@link reprotool.model.usecase.impl.UseCaseStepImpl#getParsedSentence <em>Parsed Sentence</em>}</li>
- *   <li>{@link reprotool.model.usecase.impl.UseCaseStepImpl#getSentenceNodes <em>Sentence Nodes</em>}</li>
+ *   <li>{@link reprotool.model.usecase.impl.UseCaseStepImpl#getTextNodes <em>Text Nodes</em>}</li>
+ *   <li>{@link reprotool.model.usecase.impl.UseCaseStepImpl#getAnnotations <em>Annotations</em>}</li>
  *   <li>{@link reprotool.model.usecase.impl.UseCaseStepImpl#getExtensions <em>Extensions</em>}</li>
  *   <li>{@link reprotool.model.usecase.impl.UseCaseStepImpl#getVariations <em>Variations</em>}</li>
  *   <li>{@link reprotool.model.usecase.impl.UseCaseStepImpl#getAction <em>Action</em>}</li>
- *   <li>{@link reprotool.model.usecase.impl.UseCaseStepImpl#getAnnotations <em>Annotations</em>}</li>
  *   <li>{@link reprotool.model.usecase.impl.UseCaseStepImpl#getSoftwareProject <em>Software Project</em>}</li>
  * </ul>
  * </p>
@@ -67,54 +66,14 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 	protected EList<Requirement> relatedRequirements;
 
 	/**
-	 * The cached value of the '{@link #getParsedSentence() <em>Parsed Sentence</em>}' containment reference.
+	 * The cached value of the '{@link #getTextNodes() <em>Text Nodes</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getParsedSentence()
+	 * @see #getTextNodes()
 	 * @generated
 	 * @ordered
 	 */
-	protected SentenceNode parsedSentence;
-
-	/**
-	 * The cached value of the '{@link #getSentenceNodes() <em>Sentence Nodes</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getSentenceNodes()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<Text> sentenceNodes;
-
-	/**
-	 * The cached value of the '{@link #getExtensions() <em>Extensions</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getExtensions()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<Guard> extensions;
-
-	/**
-	 * The cached value of the '{@link #getVariations() <em>Variations</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getVariations()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<Guard> variations;
-
-	/**
-	 * The cached value of the '{@link #getAction() <em>Action</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getAction()
-	 * @generated
-	 * @ordered
-	 */
-	protected Action action;
+	protected EList<Text> textNodes;
 
 	/**
 	 * The cached value of the '{@link #getAnnotations() <em>Annotations</em>}' containment reference list.
@@ -125,6 +84,36 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 	 * @ordered
 	 */
 	protected EList<StepAnnotation> annotations;
+
+	/**
+	 * The cached value of the '{@link #getExtensions() <em>Extensions</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getExtensions()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<Scenario> extensions;
+
+	/**
+	 * The cached value of the '{@link #getVariations() <em>Variations</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getVariations()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<Scenario> variations;
+
+	/**
+	 * The cached value of the '{@link #getAction() <em>Action</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getAction()
+	 * @generated
+	 * @ordered
+	 */
+	protected Action action;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -155,6 +144,18 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 			relatedRequirements = new EObjectResolvingEList<Requirement>(Requirement.class, this, UsecasePackage.USE_CASE_STEP__RELATED_REQUIREMENTS);
 		}
 		return relatedRequirements;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<Text> getTextNodes() {
+		if (textNodes == null) {
+			textNodes = new EObjectContainmentEList<Text>(Text.class, this, UsecasePackage.USE_CASE_STEP__TEXT_NODES);
+		}
+		return textNodes;
 	}
 
 	/**
@@ -201,64 +202,9 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public SentenceNode getParsedSentence() {
-		return parsedSentence;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public NotificationChain basicSetParsedSentence(SentenceNode newParsedSentence, NotificationChain msgs) {
-		SentenceNode oldParsedSentence = parsedSentence;
-		parsedSentence = newParsedSentence;
-		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, UsecasePackage.USE_CASE_STEP__PARSED_SENTENCE, oldParsedSentence, newParsedSentence);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
-		}
-		return msgs;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setParsedSentence(SentenceNode newParsedSentence) {
-		if (newParsedSentence != parsedSentence) {
-			NotificationChain msgs = null;
-			if (parsedSentence != null)
-				msgs = ((InternalEObject)parsedSentence).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - UsecasePackage.USE_CASE_STEP__PARSED_SENTENCE, null, msgs);
-			if (newParsedSentence != null)
-				msgs = ((InternalEObject)newParsedSentence).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - UsecasePackage.USE_CASE_STEP__PARSED_SENTENCE, null, msgs);
-			msgs = basicSetParsedSentence(newParsedSentence, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, UsecasePackage.USE_CASE_STEP__PARSED_SENTENCE, newParsedSentence, newParsedSentence));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EList<Text> getSentenceNodes() {
-		if (sentenceNodes == null) {
-			sentenceNodes = new EObjectContainmentEList<Text>(Text.class, this, UsecasePackage.USE_CASE_STEP__SENTENCE_NODES);
-		}
-		return sentenceNodes;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EList<Guard> getExtensions() {
+	public EList<Scenario> getExtensions() {
 		if (extensions == null) {
-			extensions = new EObjectContainmentEList<Guard>(Guard.class, this, UsecasePackage.USE_CASE_STEP__EXTENSIONS);
+			extensions = new EObjectContainmentEList<Scenario>(Scenario.class, this, UsecasePackage.USE_CASE_STEP__EXTENSIONS);
 		}
 		return extensions;
 	}
@@ -268,9 +214,9 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<Guard> getVariations() {
+	public EList<Scenario> getVariations() {
 		if (variations == null) {
-			variations = new EObjectContainmentEList<Guard>(Guard.class, this, UsecasePackage.USE_CASE_STEP__VARIATIONS);
+			variations = new EObjectContainmentEList<Scenario>(Scenario.class, this, UsecasePackage.USE_CASE_STEP__VARIATIONS);
 		}
 		return variations;
 	}
@@ -395,18 +341,16 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case UsecasePackage.USE_CASE_STEP__PARSED_SENTENCE:
-				return basicSetParsedSentence(null, msgs);
-			case UsecasePackage.USE_CASE_STEP__SENTENCE_NODES:
-				return ((InternalEList<?>)getSentenceNodes()).basicRemove(otherEnd, msgs);
+			case UsecasePackage.USE_CASE_STEP__TEXT_NODES:
+				return ((InternalEList<?>)getTextNodes()).basicRemove(otherEnd, msgs);
+			case UsecasePackage.USE_CASE_STEP__ANNOTATIONS:
+				return ((InternalEList<?>)getAnnotations()).basicRemove(otherEnd, msgs);
 			case UsecasePackage.USE_CASE_STEP__EXTENSIONS:
 				return ((InternalEList<?>)getExtensions()).basicRemove(otherEnd, msgs);
 			case UsecasePackage.USE_CASE_STEP__VARIATIONS:
 				return ((InternalEList<?>)getVariations()).basicRemove(otherEnd, msgs);
 			case UsecasePackage.USE_CASE_STEP__ACTION:
 				return basicSetAction(null, msgs);
-			case UsecasePackage.USE_CASE_STEP__ANNOTATIONS:
-				return ((InternalEList<?>)getAnnotations()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -421,18 +365,16 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 		switch (featureID) {
 			case UsecasePackage.USE_CASE_STEP__RELATED_REQUIREMENTS:
 				return getRelatedRequirements();
-			case UsecasePackage.USE_CASE_STEP__PARSED_SENTENCE:
-				return getParsedSentence();
-			case UsecasePackage.USE_CASE_STEP__SENTENCE_NODES:
-				return getSentenceNodes();
+			case UsecasePackage.USE_CASE_STEP__TEXT_NODES:
+				return getTextNodes();
+			case UsecasePackage.USE_CASE_STEP__ANNOTATIONS:
+				return getAnnotations();
 			case UsecasePackage.USE_CASE_STEP__EXTENSIONS:
 				return getExtensions();
 			case UsecasePackage.USE_CASE_STEP__VARIATIONS:
 				return getVariations();
 			case UsecasePackage.USE_CASE_STEP__ACTION:
 				return getAction();
-			case UsecasePackage.USE_CASE_STEP__ANNOTATIONS:
-				return getAnnotations();
 			case UsecasePackage.USE_CASE_STEP__SOFTWARE_PROJECT:
 				if (resolve) return getSoftwareProject();
 				return basicGetSoftwareProject();
@@ -453,27 +395,24 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 				getRelatedRequirements().clear();
 				getRelatedRequirements().addAll((Collection<? extends Requirement>)newValue);
 				return;
-			case UsecasePackage.USE_CASE_STEP__PARSED_SENTENCE:
-				setParsedSentence((SentenceNode)newValue);
-				return;
-			case UsecasePackage.USE_CASE_STEP__SENTENCE_NODES:
-				getSentenceNodes().clear();
-				getSentenceNodes().addAll((Collection<? extends Text>)newValue);
-				return;
-			case UsecasePackage.USE_CASE_STEP__EXTENSIONS:
-				getExtensions().clear();
-				getExtensions().addAll((Collection<? extends Guard>)newValue);
-				return;
-			case UsecasePackage.USE_CASE_STEP__VARIATIONS:
-				getVariations().clear();
-				getVariations().addAll((Collection<? extends Guard>)newValue);
-				return;
-			case UsecasePackage.USE_CASE_STEP__ACTION:
-				setAction((Action)newValue);
+			case UsecasePackage.USE_CASE_STEP__TEXT_NODES:
+				getTextNodes().clear();
+				getTextNodes().addAll((Collection<? extends Text>)newValue);
 				return;
 			case UsecasePackage.USE_CASE_STEP__ANNOTATIONS:
 				getAnnotations().clear();
 				getAnnotations().addAll((Collection<? extends StepAnnotation>)newValue);
+				return;
+			case UsecasePackage.USE_CASE_STEP__EXTENSIONS:
+				getExtensions().clear();
+				getExtensions().addAll((Collection<? extends Scenario>)newValue);
+				return;
+			case UsecasePackage.USE_CASE_STEP__VARIATIONS:
+				getVariations().clear();
+				getVariations().addAll((Collection<? extends Scenario>)newValue);
+				return;
+			case UsecasePackage.USE_CASE_STEP__ACTION:
+				setAction((Action)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -490,11 +429,11 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 			case UsecasePackage.USE_CASE_STEP__RELATED_REQUIREMENTS:
 				getRelatedRequirements().clear();
 				return;
-			case UsecasePackage.USE_CASE_STEP__PARSED_SENTENCE:
-				setParsedSentence((SentenceNode)null);
+			case UsecasePackage.USE_CASE_STEP__TEXT_NODES:
+				getTextNodes().clear();
 				return;
-			case UsecasePackage.USE_CASE_STEP__SENTENCE_NODES:
-				getSentenceNodes().clear();
+			case UsecasePackage.USE_CASE_STEP__ANNOTATIONS:
+				getAnnotations().clear();
 				return;
 			case UsecasePackage.USE_CASE_STEP__EXTENSIONS:
 				getExtensions().clear();
@@ -504,9 +443,6 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 				return;
 			case UsecasePackage.USE_CASE_STEP__ACTION:
 				setAction((Action)null);
-				return;
-			case UsecasePackage.USE_CASE_STEP__ANNOTATIONS:
-				getAnnotations().clear();
 				return;
 		}
 		super.eUnset(featureID);
@@ -522,18 +458,16 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 		switch (featureID) {
 			case UsecasePackage.USE_CASE_STEP__RELATED_REQUIREMENTS:
 				return relatedRequirements != null && !relatedRequirements.isEmpty();
-			case UsecasePackage.USE_CASE_STEP__PARSED_SENTENCE:
-				return parsedSentence != null;
-			case UsecasePackage.USE_CASE_STEP__SENTENCE_NODES:
-				return sentenceNodes != null && !sentenceNodes.isEmpty();
+			case UsecasePackage.USE_CASE_STEP__TEXT_NODES:
+				return textNodes != null && !textNodes.isEmpty();
+			case UsecasePackage.USE_CASE_STEP__ANNOTATIONS:
+				return annotations != null && !annotations.isEmpty();
 			case UsecasePackage.USE_CASE_STEP__EXTENSIONS:
 				return extensions != null && !extensions.isEmpty();
 			case UsecasePackage.USE_CASE_STEP__VARIATIONS:
 				return variations != null && !variations.isEmpty();
 			case UsecasePackage.USE_CASE_STEP__ACTION:
 				return action != null;
-			case UsecasePackage.USE_CASE_STEP__ANNOTATIONS:
-				return annotations != null && !annotations.isEmpty();
 			case UsecasePackage.USE_CASE_STEP__SOFTWARE_PROJECT:
 				return isSetSoftwareProject();
 		}

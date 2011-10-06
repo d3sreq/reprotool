@@ -27,6 +27,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
 import reprotool.model.doc.Document;
 
 import reprotool.model.swproj.Actor;
+import reprotool.model.swproj.ConceptualObject;
 import reprotool.model.swproj.Requirement;
 import reprotool.model.swproj.SoftwareProject;
 import reprotool.model.swproj.SwprojPackage;
@@ -49,6 +50,7 @@ import reprotool.model.usecase.UsecasePackage;
  *   <li>{@link reprotool.model.swproj.impl.SoftwareProjectImpl#getSrsDocuments <em>Srs Documents</em>}</li>
  *   <li>{@link reprotool.model.swproj.impl.SoftwareProjectImpl#getUseCases <em>Use Cases</em>}</li>
  *   <li>{@link reprotool.model.swproj.impl.SoftwareProjectImpl#getAnnotationSets <em>Annotation Sets</em>}</li>
+ *   <li>{@link reprotool.model.swproj.impl.SoftwareProjectImpl#getConceptualObjects <em>Conceptual Objects</em>}</li>
  * </ul>
  * </p>
  *
@@ -144,6 +146,16 @@ public class SoftwareProjectImpl extends EObjectImpl implements SoftwareProject 
 	 * @ordered
 	 */
 	protected EList<AnnotationSet> annotationSets;
+
+	/**
+	 * The cached value of the '{@link #getConceptualObjects() <em>Conceptual Objects</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getConceptualObjects()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<ConceptualObject> conceptualObjects;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -271,6 +283,18 @@ public class SoftwareProjectImpl extends EObjectImpl implements SoftwareProject 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList<ConceptualObject> getConceptualObjects() {
+		if (conceptualObjects == null) {
+			conceptualObjects = new EObjectContainmentEList<ConceptualObject>(ConceptualObject.class, this, SwprojPackage.SOFTWARE_PROJECT__CONCEPTUAL_OBJECTS);
+		}
+		return conceptualObjects;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -282,6 +306,8 @@ public class SoftwareProjectImpl extends EObjectImpl implements SoftwareProject 
 				return ((InternalEList<?>)getUseCases()).basicRemove(otherEnd, msgs);
 			case SwprojPackage.SOFTWARE_PROJECT__ANNOTATION_SETS:
 				return ((InternalEList<?>)getAnnotationSets()).basicRemove(otherEnd, msgs);
+			case SwprojPackage.SOFTWARE_PROJECT__CONCEPTUAL_OBJECTS:
+				return ((InternalEList<?>)getConceptualObjects()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -308,6 +334,8 @@ public class SoftwareProjectImpl extends EObjectImpl implements SoftwareProject 
 				return getUseCases();
 			case SwprojPackage.SOFTWARE_PROJECT__ANNOTATION_SETS:
 				return getAnnotationSets();
+			case SwprojPackage.SOFTWARE_PROJECT__CONCEPTUAL_OBJECTS:
+				return getConceptualObjects();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -347,6 +375,10 @@ public class SoftwareProjectImpl extends EObjectImpl implements SoftwareProject 
 				getAnnotationSets().clear();
 				getAnnotationSets().addAll((Collection<? extends AnnotationSet>)newValue);
 				return;
+			case SwprojPackage.SOFTWARE_PROJECT__CONCEPTUAL_OBJECTS:
+				getConceptualObjects().clear();
+				getConceptualObjects().addAll((Collection<? extends ConceptualObject>)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -380,6 +412,9 @@ public class SoftwareProjectImpl extends EObjectImpl implements SoftwareProject 
 			case SwprojPackage.SOFTWARE_PROJECT__ANNOTATION_SETS:
 				getAnnotationSets().clear();
 				return;
+			case SwprojPackage.SOFTWARE_PROJECT__CONCEPTUAL_OBJECTS:
+				getConceptualObjects().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -406,6 +441,8 @@ public class SoftwareProjectImpl extends EObjectImpl implements SoftwareProject 
 				return useCases != null && !useCases.isEmpty();
 			case SwprojPackage.SOFTWARE_PROJECT__ANNOTATION_SETS:
 				return annotationSets != null && !annotationSets.isEmpty();
+			case SwprojPackage.SOFTWARE_PROJECT__CONCEPTUAL_OBJECTS:
+				return conceptualObjects != null && !conceptualObjects.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}
@@ -420,9 +457,9 @@ public class SoftwareProjectImpl extends EObjectImpl implements SoftwareProject 
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (Name: ");
+		result.append(" (name: ");
 		result.append(name);
-		result.append(", Description: ");
+		result.append(", description: ");
 		result.append(description);
 		result.append(')');
 		return result.toString();

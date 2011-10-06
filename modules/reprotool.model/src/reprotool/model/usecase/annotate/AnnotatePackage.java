@@ -125,14 +125,14 @@ public interface AnnotatePackage extends EPackage {
 	int STEP_ANNOTATION_TYPE_FEATURE_COUNT = 1;
 
 	/**
-	 * The meta object id for the '{@link reprotool.model.usecase.annotate.impl.LTLAnnotationImpl <em>LTL Annotation</em>}' class.
+	 * The meta object id for the '{@link reprotool.model.usecase.annotate.impl.TemporalAnnotationImpl <em>Temporal Annotation</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see reprotool.model.usecase.annotate.impl.LTLAnnotationImpl
-	 * @see reprotool.model.usecase.annotate.impl.AnnotatePackageImpl#getLTLAnnotation()
+	 * @see reprotool.model.usecase.annotate.impl.TemporalAnnotationImpl
+	 * @see reprotool.model.usecase.annotate.impl.AnnotatePackageImpl#getTemporalAnnotation()
 	 * @generated
 	 */
-	int LTL_ANNOTATION = 2;
+	int TEMPORAL_ANNOTATION = 2;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -141,16 +141,16 @@ public interface AnnotatePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int LTL_ANNOTATION__NAME = STEP_ANNOTATION_TYPE__NAME;
+	int TEMPORAL_ANNOTATION__NAME = STEP_ANNOTATION_TYPE__NAME;
 
 	/**
-	 * The number of structural features of the '<em>LTL Annotation</em>' class.
+	 * The number of structural features of the '<em>Temporal Annotation</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int LTL_ANNOTATION_FEATURE_COUNT = STEP_ANNOTATION_TYPE_FEATURE_COUNT + 0;
+	int TEMPORAL_ANNOTATION_FEATURE_COUNT = STEP_ANNOTATION_TYPE_FEATURE_COUNT + 0;
 
 	/**
 	 * The meta object id for the '{@link reprotool.model.usecase.annotate.SpecialAnnotation <em>Special Annotation</em>}' class.
@@ -219,13 +219,13 @@ public interface AnnotatePackage extends EPackage {
 	int LTL_ANNOTATION_SET__CONTAINS = ANNOTATION_SET_FEATURE_COUNT + 0;
 
 	/**
-	 * The feature id for the '<em><b>Ltl</b></em>' attribute.
+	 * The feature id for the '<em><b>Ltl Formula</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int LTL_ANNOTATION_SET__LTL = ANNOTATION_SET_FEATURE_COUNT + 1;
+	int LTL_ANNOTATION_SET__LTL_FORMULA = ANNOTATION_SET_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of structural features of the '<em>LTL Annotation Set</em>' class.
@@ -321,6 +321,43 @@ public interface AnnotatePackage extends EPackage {
 	int ON_ANNOTATION_FEATURE_COUNT = STEP_ANNOTATION_TYPE_FEATURE_COUNT + 0;
 
 	/**
+	 * The meta object id for the '{@link reprotool.model.usecase.annotate.impl.CTLAnnotationSetImpl <em>CTL Annotation Set</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see reprotool.model.usecase.annotate.impl.CTLAnnotationSetImpl
+	 * @see reprotool.model.usecase.annotate.impl.AnnotatePackageImpl#getCTLAnnotationSet()
+	 * @generated
+	 */
+	int CTL_ANNOTATION_SET = 9;
+
+	/**
+	 * The feature id for the '<em><b>Ctl Formula</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CTL_ANNOTATION_SET__CTL_FORMULA = ANNOTATION_SET_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Contains</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CTL_ANNOTATION_SET__CONTAINS = ANNOTATION_SET_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of structural features of the '<em>CTL Annotation Set</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CTL_ANNOTATION_SET_FEATURE_COUNT = ANNOTATION_SET_FEATURE_COUNT + 2;
+
+	/**
 	 * Returns the meta object for class '{@link reprotool.model.usecase.annotate.StepAnnotation <em>Step Annotation</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -374,14 +411,14 @@ public interface AnnotatePackage extends EPackage {
 	EAttribute getStepAnnotationType_Name();
 
 	/**
-	 * Returns the meta object for class '{@link reprotool.model.usecase.annotate.LTLAnnotation <em>LTL Annotation</em>}'.
+	 * Returns the meta object for class '{@link reprotool.model.usecase.annotate.TemporalAnnotation <em>Temporal Annotation</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>LTL Annotation</em>'.
-	 * @see reprotool.model.usecase.annotate.LTLAnnotation
+	 * @return the meta object for class '<em>Temporal Annotation</em>'.
+	 * @see reprotool.model.usecase.annotate.TemporalAnnotation
 	 * @generated
 	 */
-	EClass getLTLAnnotation();
+	EClass getTemporalAnnotation();
 
 	/**
 	 * Returns the meta object for class '{@link reprotool.model.usecase.annotate.SpecialAnnotation <em>Special Annotation</em>}'.
@@ -425,15 +462,15 @@ public interface AnnotatePackage extends EPackage {
 	EReference getLTLAnnotationSet_Contains();
 
 	/**
-	 * Returns the meta object for the attribute '{@link reprotool.model.usecase.annotate.LTLAnnotationSet#getLtl <em>Ltl</em>}'.
+	 * Returns the meta object for the attribute '{@link reprotool.model.usecase.annotate.LTLAnnotationSet#getLtlFormula <em>Ltl Formula</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Ltl</em>'.
-	 * @see reprotool.model.usecase.annotate.LTLAnnotationSet#getLtl()
+	 * @return the meta object for the attribute '<em>Ltl Formula</em>'.
+	 * @see reprotool.model.usecase.annotate.LTLAnnotationSet#getLtlFormula()
 	 * @see #getLTLAnnotationSet()
 	 * @generated
 	 */
-	EAttribute getLTLAnnotationSet_Ltl();
+	EAttribute getLTLAnnotationSet_LtlFormula();
 
 	/**
 	 * Returns the meta object for class '{@link reprotool.model.usecase.annotate.SpecialAnnotationSet <em>Special Annotation Set</em>}'.
@@ -475,6 +512,38 @@ public interface AnnotatePackage extends EPackage {
 	 * @generated
 	 */
 	EClass getOnAnnotation();
+
+	/**
+	 * Returns the meta object for class '{@link reprotool.model.usecase.annotate.CTLAnnotationSet <em>CTL Annotation Set</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>CTL Annotation Set</em>'.
+	 * @see reprotool.model.usecase.annotate.CTLAnnotationSet
+	 * @generated
+	 */
+	EClass getCTLAnnotationSet();
+
+	/**
+	 * Returns the meta object for the attribute '{@link reprotool.model.usecase.annotate.CTLAnnotationSet#getCtlFormula <em>Ctl Formula</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Ctl Formula</em>'.
+	 * @see reprotool.model.usecase.annotate.CTLAnnotationSet#getCtlFormula()
+	 * @see #getCTLAnnotationSet()
+	 * @generated
+	 */
+	EAttribute getCTLAnnotationSet_CtlFormula();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link reprotool.model.usecase.annotate.CTLAnnotationSet#getContains <em>Contains</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Contains</em>'.
+	 * @see reprotool.model.usecase.annotate.CTLAnnotationSet#getContains()
+	 * @see #getCTLAnnotationSet()
+	 * @generated
+	 */
+	EReference getCTLAnnotationSet_Contains();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -543,14 +612,14 @@ public interface AnnotatePackage extends EPackage {
 		EAttribute STEP_ANNOTATION_TYPE__NAME = eINSTANCE.getStepAnnotationType_Name();
 
 		/**
-		 * The meta object literal for the '{@link reprotool.model.usecase.annotate.impl.LTLAnnotationImpl <em>LTL Annotation</em>}' class.
+		 * The meta object literal for the '{@link reprotool.model.usecase.annotate.impl.TemporalAnnotationImpl <em>Temporal Annotation</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see reprotool.model.usecase.annotate.impl.LTLAnnotationImpl
-		 * @see reprotool.model.usecase.annotate.impl.AnnotatePackageImpl#getLTLAnnotation()
+		 * @see reprotool.model.usecase.annotate.impl.TemporalAnnotationImpl
+		 * @see reprotool.model.usecase.annotate.impl.AnnotatePackageImpl#getTemporalAnnotation()
 		 * @generated
 		 */
-		EClass LTL_ANNOTATION = eINSTANCE.getLTLAnnotation();
+		EClass TEMPORAL_ANNOTATION = eINSTANCE.getTemporalAnnotation();
 
 		/**
 		 * The meta object literal for the '{@link reprotool.model.usecase.annotate.SpecialAnnotation <em>Special Annotation</em>}' class.
@@ -591,12 +660,12 @@ public interface AnnotatePackage extends EPackage {
 		EReference LTL_ANNOTATION_SET__CONTAINS = eINSTANCE.getLTLAnnotationSet_Contains();
 
 		/**
-		 * The meta object literal for the '<em><b>Ltl</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Ltl Formula</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute LTL_ANNOTATION_SET__LTL = eINSTANCE.getLTLAnnotationSet_Ltl();
+		EAttribute LTL_ANNOTATION_SET__LTL_FORMULA = eINSTANCE.getLTLAnnotationSet_LtlFormula();
 
 		/**
 		 * The meta object literal for the '{@link reprotool.model.usecase.annotate.impl.SpecialAnnotationSetImpl <em>Special Annotation Set</em>}' class.
@@ -635,6 +704,32 @@ public interface AnnotatePackage extends EPackage {
 		 * @generated
 		 */
 		EClass ON_ANNOTATION = eINSTANCE.getOnAnnotation();
+
+		/**
+		 * The meta object literal for the '{@link reprotool.model.usecase.annotate.impl.CTLAnnotationSetImpl <em>CTL Annotation Set</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see reprotool.model.usecase.annotate.impl.CTLAnnotationSetImpl
+		 * @see reprotool.model.usecase.annotate.impl.AnnotatePackageImpl#getCTLAnnotationSet()
+		 * @generated
+		 */
+		EClass CTL_ANNOTATION_SET = eINSTANCE.getCTLAnnotationSet();
+
+		/**
+		 * The meta object literal for the '<em><b>Ctl Formula</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CTL_ANNOTATION_SET__CTL_FORMULA = eINSTANCE.getCTLAnnotationSet_CtlFormula();
+
+		/**
+		 * The meta object literal for the '<em><b>Contains</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference CTL_ANNOTATION_SET__CONTAINS = eINSTANCE.getCTLAnnotationSet_Contains();
 
 	}
 

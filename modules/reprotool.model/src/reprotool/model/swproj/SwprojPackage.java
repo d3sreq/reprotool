@@ -135,13 +135,22 @@ public interface SwprojPackage extends EPackage {
 	int SOFTWARE_PROJECT__ANNOTATION_SETS = 6;
 
 	/**
+	 * The feature id for the '<em><b>Conceptual Objects</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SOFTWARE_PROJECT__CONCEPTUAL_OBJECTS = 7;
+
+	/**
 	 * The number of structural features of the '<em>Software Project</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SOFTWARE_PROJECT_FEATURE_COUNT = 7;
+	int SOFTWARE_PROJECT_FEATURE_COUNT = 8;
 
 	/**
 	 * The meta object id for the '{@link reprotool.model.swproj.impl.ActorImpl <em>Actor</em>}' class.
@@ -154,31 +163,13 @@ public interface SwprojPackage extends EPackage {
 	int ACTOR = 1;
 
 	/**
-	 * The feature id for the '<em><b>Children Actors</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ACTOR__CHILDREN_ACTORS = TraceabilityPackage.TRACEABLE_ENTITY_FEATURE_COUNT + 0;
-
-	/**
-	 * The feature id for the '<em><b>Parent Actor</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ACTOR__PARENT_ACTOR = TraceabilityPackage.TRACEABLE_ENTITY_FEATURE_COUNT + 1;
-
-	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ACTOR__NAME = TraceabilityPackage.TRACEABLE_ENTITY_FEATURE_COUNT + 2;
+	int ACTOR__NAME = TraceabilityPackage.TRACEABLE_ENTITY_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Description</b></em>' attribute.
@@ -187,7 +178,25 @@ public interface SwprojPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ACTOR__DESCRIPTION = TraceabilityPackage.TRACEABLE_ENTITY_FEATURE_COUNT + 3;
+	int ACTOR__DESCRIPTION = TraceabilityPackage.TRACEABLE_ENTITY_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Children Actors</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ACTOR__CHILDREN_ACTORS = TraceabilityPackage.TRACEABLE_ENTITY_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>Parent Actor</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ACTOR__PARENT_ACTOR = TraceabilityPackage.TRACEABLE_ENTITY_FEATURE_COUNT + 3;
 
 	/**
 	 * The number of structural features of the '<em>Actor</em>' class.
@@ -302,6 +311,81 @@ public interface SwprojPackage extends EPackage {
 
 
 	/**
+	 * The meta object id for the '{@link reprotool.model.swproj.DomainElement <em>Domain Element</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see reprotool.model.swproj.DomainElement
+	 * @see reprotool.model.swproj.impl.SwprojPackageImpl#getDomainElement()
+	 * @generated
+	 */
+	int DOMAIN_ELEMENT = 5;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DOMAIN_ELEMENT__NAME = 0;
+
+	/**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DOMAIN_ELEMENT__DESCRIPTION = 1;
+
+	/**
+	 * The number of structural features of the '<em>Domain Element</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DOMAIN_ELEMENT_FEATURE_COUNT = 2;
+
+	/**
+	 * The meta object id for the '{@link reprotool.model.swproj.impl.ConceptualObjectImpl <em>Conceptual Object</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see reprotool.model.swproj.impl.ConceptualObjectImpl
+	 * @see reprotool.model.swproj.impl.SwprojPackageImpl#getConceptualObject()
+	 * @generated
+	 */
+	int CONCEPTUAL_OBJECT = 6;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONCEPTUAL_OBJECT__NAME = DOMAIN_ELEMENT__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONCEPTUAL_OBJECT__DESCRIPTION = DOMAIN_ELEMENT__DESCRIPTION;
+
+	/**
+	 * The number of structural features of the '<em>Conceptual Object</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONCEPTUAL_OBJECT_FEATURE_COUNT = DOMAIN_ELEMENT_FEATURE_COUNT + 0;
+
+
+	/**
 	 * Returns the meta object for class '{@link reprotool.model.swproj.SoftwareProject <em>Software Project</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -389,6 +473,17 @@ public interface SwprojPackage extends EPackage {
 	EReference getSoftwareProject_AnnotationSets();
 
 	/**
+	 * Returns the meta object for the containment reference list '{@link reprotool.model.swproj.SoftwareProject#getConceptualObjects <em>Conceptual Objects</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Conceptual Objects</em>'.
+	 * @see reprotool.model.swproj.SoftwareProject#getConceptualObjects()
+	 * @see #getSoftwareProject()
+	 * @generated
+	 */
+	EReference getSoftwareProject_ConceptualObjects();
+
+	/**
 	 * Returns the meta object for class '{@link reprotool.model.swproj.Actor <em>Actor</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -419,28 +514,6 @@ public interface SwprojPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getActor_ParentActor();
-
-	/**
-	 * Returns the meta object for the attribute '{@link reprotool.model.swproj.Actor#getName <em>Name</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Name</em>'.
-	 * @see reprotool.model.swproj.Actor#getName()
-	 * @see #getActor()
-	 * @generated
-	 */
-	EAttribute getActor_Name();
-
-	/**
-	 * Returns the meta object for the attribute '{@link reprotool.model.swproj.Actor#getDescription <em>Description</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Description</em>'.
-	 * @see reprotool.model.swproj.Actor#getDescription()
-	 * @see #getActor()
-	 * @generated
-	 */
-	EAttribute getActor_Description();
 
 	/**
 	 * Returns the meta object for class '{@link reprotool.model.swproj.Requirement <em>Requirement</em>}'.
@@ -504,6 +577,48 @@ public interface SwprojPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getReqCover_RelatedRequirements();
+
+	/**
+	 * Returns the meta object for class '{@link reprotool.model.swproj.DomainElement <em>Domain Element</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Domain Element</em>'.
+	 * @see reprotool.model.swproj.DomainElement
+	 * @generated
+	 */
+	EClass getDomainElement();
+
+	/**
+	 * Returns the meta object for the attribute '{@link reprotool.model.swproj.DomainElement#getName <em>Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Name</em>'.
+	 * @see reprotool.model.swproj.DomainElement#getName()
+	 * @see #getDomainElement()
+	 * @generated
+	 */
+	EAttribute getDomainElement_Name();
+
+	/**
+	 * Returns the meta object for the attribute '{@link reprotool.model.swproj.DomainElement#getDescription <em>Description</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Description</em>'.
+	 * @see reprotool.model.swproj.DomainElement#getDescription()
+	 * @see #getDomainElement()
+	 * @generated
+	 */
+	EAttribute getDomainElement_Description();
+
+	/**
+	 * Returns the meta object for class '{@link reprotool.model.swproj.ConceptualObject <em>Conceptual Object</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Conceptual Object</em>'.
+	 * @see reprotool.model.swproj.ConceptualObject
+	 * @generated
+	 */
+	EClass getConceptualObject();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -594,6 +709,14 @@ public interface SwprojPackage extends EPackage {
 		EReference SOFTWARE_PROJECT__ANNOTATION_SETS = eINSTANCE.getSoftwareProject_AnnotationSets();
 
 		/**
+		 * The meta object literal for the '<em><b>Conceptual Objects</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SOFTWARE_PROJECT__CONCEPTUAL_OBJECTS = eINSTANCE.getSoftwareProject_ConceptualObjects();
+
+		/**
 		 * The meta object literal for the '{@link reprotool.model.swproj.impl.ActorImpl <em>Actor</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -618,22 +741,6 @@ public interface SwprojPackage extends EPackage {
 		 * @generated
 		 */
 		EReference ACTOR__PARENT_ACTOR = eINSTANCE.getActor_ParentActor();
-
-		/**
-		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute ACTOR__NAME = eINSTANCE.getActor_Name();
-
-		/**
-		 * The meta object literal for the '<em><b>Description</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute ACTOR__DESCRIPTION = eINSTANCE.getActor_Description();
 
 		/**
 		 * The meta object literal for the '{@link reprotool.model.swproj.impl.RequirementImpl <em>Requirement</em>}' class.
@@ -688,6 +795,42 @@ public interface SwprojPackage extends EPackage {
 		 * @generated
 		 */
 		EReference REQ_COVER__RELATED_REQUIREMENTS = eINSTANCE.getReqCover_RelatedRequirements();
+
+		/**
+		 * The meta object literal for the '{@link reprotool.model.swproj.DomainElement <em>Domain Element</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see reprotool.model.swproj.DomainElement
+		 * @see reprotool.model.swproj.impl.SwprojPackageImpl#getDomainElement()
+		 * @generated
+		 */
+		EClass DOMAIN_ELEMENT = eINSTANCE.getDomainElement();
+
+		/**
+		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute DOMAIN_ELEMENT__NAME = eINSTANCE.getDomainElement_Name();
+
+		/**
+		 * The meta object literal for the '<em><b>Description</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute DOMAIN_ELEMENT__DESCRIPTION = eINSTANCE.getDomainElement_Description();
+
+		/**
+		 * The meta object literal for the '{@link reprotool.model.swproj.impl.ConceptualObjectImpl <em>Conceptual Object</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see reprotool.model.swproj.impl.ConceptualObjectImpl
+		 * @see reprotool.model.swproj.impl.SwprojPackageImpl#getConceptualObject()
+		 * @generated
+		 */
+		EClass CONCEPTUAL_OBJECT = eINSTANCE.getConceptualObject();
 
 	}
 

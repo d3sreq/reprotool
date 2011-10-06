@@ -60,14 +60,13 @@ public class ActionFactoryImpl extends EFactoryImpl implements ActionFactory {
 	@Override
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
-			case ActionPackage.SEND: return createSend();
-			case ActionPackage.RECEIVE: return createReceive();
+			case ActionPackage.FROM_SYSTEM: return createFromSystem();
 			case ActionPackage.INTERNAL: return createInternal();
 			case ActionPackage.GOTO: return createGoto();
 			case ActionPackage.UNKNOWN: return createUnknown();
 			case ActionPackage.USE_CASE_INCLUDE: return createUseCaseInclude();
-			case ActionPackage.TERMINATE_USE_CASE: return createTerminateUseCase();
-			case ActionPackage.TERMINATE_BRANCH: return createTerminateBranch();
+			case ActionPackage.ABORT_USE_CASE: return createAbortUseCase();
+			case ActionPackage.TO_SYSTEM: return createToSystem();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -78,19 +77,9 @@ public class ActionFactoryImpl extends EFactoryImpl implements ActionFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Send createSend() {
-		SendImpl send = new SendImpl();
-		return send;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Receive createReceive() {
-		ReceiveImpl receive = new ReceiveImpl();
-		return receive;
+	public FromSystem createFromSystem() {
+		FromSystemImpl fromSystem = new FromSystemImpl();
+		return fromSystem;
 	}
 
 	/**
@@ -138,9 +127,9 @@ public class ActionFactoryImpl extends EFactoryImpl implements ActionFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public TerminateUseCase createTerminateUseCase() {
-		TerminateUseCaseImpl terminateUseCase = new TerminateUseCaseImpl();
-		return terminateUseCase;
+	public AbortUseCase createAbortUseCase() {
+		AbortUseCaseImpl abortUseCase = new AbortUseCaseImpl();
+		return abortUseCase;
 	}
 
 	/**
@@ -148,9 +137,9 @@ public class ActionFactoryImpl extends EFactoryImpl implements ActionFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public TerminateBranch createTerminateBranch() {
-		TerminateBranchImpl terminateBranch = new TerminateBranchImpl();
-		return terminateBranch;
+	public ToSystem createToSystem() {
+		ToSystemImpl toSystem = new ToSystemImpl();
+		return toSystem;
 	}
 
 	/**

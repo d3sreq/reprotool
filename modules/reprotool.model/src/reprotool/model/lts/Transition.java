@@ -9,6 +9,7 @@ package reprotool.model.lts;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 
+import reprotool.model.usecase.ParseableElement;
 import reprotool.model.usecase.UseCaseStep;
 
 /**
@@ -40,12 +41,12 @@ public interface Transition extends EObject {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Sentence</em>' reference.
-	 * @see #setSentence(UseCaseStep)
+	 * @see #setSentence(ParseableElement)
 	 * @see reprotool.model.lts.LtsPackage#getTransition_Sentence()
 	 * @model
 	 * @generated
 	 */
-	UseCaseStep getSentence();
+	ParseableElement getSentence();
 
 	/**
 	 * Sets the value of the '{@link reprotool.model.lts.Transition#getSentence <em>Sentence</em>}' reference.
@@ -55,7 +56,7 @@ public interface Transition extends EObject {
 	 * @see #getSentence()
 	 * @generated
 	 */
-	void setSentence(UseCaseStep value);
+	void setSentence(ParseableElement value);
 
 	/**
 	 * Returns the value of the '<em><b>Source</b></em>' reference.

@@ -23,8 +23,8 @@ import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 import reprotool.model.usecase.annotate.AnnotatePackage;
-import reprotool.model.usecase.annotate.LTLAnnotation;
 import reprotool.model.usecase.annotate.LTLAnnotationSet;
+import reprotool.model.usecase.annotate.TemporalAnnotation;
 
 /**
  * <!-- begin-user-doc -->
@@ -34,7 +34,7 @@ import reprotool.model.usecase.annotate.LTLAnnotationSet;
  * The following features are implemented:
  * <ul>
  *   <li>{@link reprotool.model.usecase.annotate.impl.LTLAnnotationSetImpl#getContains <em>Contains</em>}</li>
- *   <li>{@link reprotool.model.usecase.annotate.impl.LTLAnnotationSetImpl#getLtl <em>Ltl</em>}</li>
+ *   <li>{@link reprotool.model.usecase.annotate.impl.LTLAnnotationSetImpl#getLtlFormula <em>Ltl Formula</em>}</li>
  * </ul>
  * </p>
  *
@@ -49,27 +49,27 @@ public class LTLAnnotationSetImpl extends EObjectImpl implements LTLAnnotationSe
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<LTLAnnotation> contains;
+	protected EList<TemporalAnnotation> contains;
 
 	/**
-	 * The default value of the '{@link #getLtl() <em>Ltl</em>}' attribute.
+	 * The default value of the '{@link #getLtlFormula() <em>Ltl Formula</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getLtl()
+	 * @see #getLtlFormula()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final String LTL_EDEFAULT = null;
+	protected static final String LTL_FORMULA_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getLtl() <em>Ltl</em>}' attribute.
+	 * The cached value of the '{@link #getLtlFormula() <em>Ltl Formula</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getLtl()
+	 * @see #getLtlFormula()
 	 * @generated
 	 * @ordered
 	 */
-	protected String ltl = LTL_EDEFAULT;
+	protected String ltlFormula = LTL_FORMULA_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -95,9 +95,9 @@ public class LTLAnnotationSetImpl extends EObjectImpl implements LTLAnnotationSe
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<LTLAnnotation> getContains() {
+	public EList<TemporalAnnotation> getContains() {
 		if (contains == null) {
-			contains = new EObjectContainmentEList<LTLAnnotation>(LTLAnnotation.class, this, AnnotatePackage.LTL_ANNOTATION_SET__CONTAINS);
+			contains = new EObjectContainmentEList<TemporalAnnotation>(TemporalAnnotation.class, this, AnnotatePackage.LTL_ANNOTATION_SET__CONTAINS);
 		}
 		return contains;
 	}
@@ -107,8 +107,8 @@ public class LTLAnnotationSetImpl extends EObjectImpl implements LTLAnnotationSe
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getLtl() {
-		return ltl;
+	public String getLtlFormula() {
+		return ltlFormula;
 	}
 
 	/**
@@ -116,11 +116,11 @@ public class LTLAnnotationSetImpl extends EObjectImpl implements LTLAnnotationSe
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setLtl(String newLtl) {
-		String oldLtl = ltl;
-		ltl = newLtl;
+	public void setLtlFormula(String newLtlFormula) {
+		String oldLtlFormula = ltlFormula;
+		ltlFormula = newLtlFormula;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, AnnotatePackage.LTL_ANNOTATION_SET__LTL, oldLtl, ltl));
+			eNotify(new ENotificationImpl(this, Notification.SET, AnnotatePackage.LTL_ANNOTATION_SET__LTL_FORMULA, oldLtlFormula, ltlFormula));
 	}
 
 	/**
@@ -147,8 +147,8 @@ public class LTLAnnotationSetImpl extends EObjectImpl implements LTLAnnotationSe
 		switch (featureID) {
 			case AnnotatePackage.LTL_ANNOTATION_SET__CONTAINS:
 				return getContains();
-			case AnnotatePackage.LTL_ANNOTATION_SET__LTL:
-				return getLtl();
+			case AnnotatePackage.LTL_ANNOTATION_SET__LTL_FORMULA:
+				return getLtlFormula();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -164,10 +164,10 @@ public class LTLAnnotationSetImpl extends EObjectImpl implements LTLAnnotationSe
 		switch (featureID) {
 			case AnnotatePackage.LTL_ANNOTATION_SET__CONTAINS:
 				getContains().clear();
-				getContains().addAll((Collection<? extends LTLAnnotation>)newValue);
+				getContains().addAll((Collection<? extends TemporalAnnotation>)newValue);
 				return;
-			case AnnotatePackage.LTL_ANNOTATION_SET__LTL:
-				setLtl((String)newValue);
+			case AnnotatePackage.LTL_ANNOTATION_SET__LTL_FORMULA:
+				setLtlFormula((String)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -184,8 +184,8 @@ public class LTLAnnotationSetImpl extends EObjectImpl implements LTLAnnotationSe
 			case AnnotatePackage.LTL_ANNOTATION_SET__CONTAINS:
 				getContains().clear();
 				return;
-			case AnnotatePackage.LTL_ANNOTATION_SET__LTL:
-				setLtl(LTL_EDEFAULT);
+			case AnnotatePackage.LTL_ANNOTATION_SET__LTL_FORMULA:
+				setLtlFormula(LTL_FORMULA_EDEFAULT);
 				return;
 		}
 		super.eUnset(featureID);
@@ -201,8 +201,8 @@ public class LTLAnnotationSetImpl extends EObjectImpl implements LTLAnnotationSe
 		switch (featureID) {
 			case AnnotatePackage.LTL_ANNOTATION_SET__CONTAINS:
 				return contains != null && !contains.isEmpty();
-			case AnnotatePackage.LTL_ANNOTATION_SET__LTL:
-				return LTL_EDEFAULT == null ? ltl != null : !LTL_EDEFAULT.equals(ltl);
+			case AnnotatePackage.LTL_ANNOTATION_SET__LTL_FORMULA:
+				return LTL_FORMULA_EDEFAULT == null ? ltlFormula != null : !LTL_FORMULA_EDEFAULT.equals(ltlFormula);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -217,8 +217,8 @@ public class LTLAnnotationSetImpl extends EObjectImpl implements LTLAnnotationSe
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (ltl: ");
-		result.append(ltl);
+		result.append(" (ltlFormula: ");
+		result.append(ltlFormula);
 		result.append(')');
 		return result.toString();
 	}

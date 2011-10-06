@@ -61,11 +61,12 @@ public class AnnotateFactoryImpl extends EFactoryImpl implements AnnotateFactory
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
 			case AnnotatePackage.STEP_ANNOTATION: return createStepAnnotation();
-			case AnnotatePackage.LTL_ANNOTATION: return createLTLAnnotation();
+			case AnnotatePackage.TEMPORAL_ANNOTATION: return createTemporalAnnotation();
 			case AnnotatePackage.LTL_ANNOTATION_SET: return createLTLAnnotationSet();
 			case AnnotatePackage.SPECIAL_ANNOTATION_SET: return createSpecialAnnotationSet();
 			case AnnotatePackage.TRACE_ANNOTATION: return createTraceAnnotation();
 			case AnnotatePackage.ON_ANNOTATION: return createOnAnnotation();
+			case AnnotatePackage.CTL_ANNOTATION_SET: return createCTLAnnotationSet();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -86,9 +87,9 @@ public class AnnotateFactoryImpl extends EFactoryImpl implements AnnotateFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public LTLAnnotation createLTLAnnotation() {
-		LTLAnnotationImpl ltlAnnotation = new LTLAnnotationImpl();
-		return ltlAnnotation;
+	public TemporalAnnotation createTemporalAnnotation() {
+		TemporalAnnotationImpl temporalAnnotation = new TemporalAnnotationImpl();
+		return temporalAnnotation;
 	}
 
 	/**
@@ -129,6 +130,16 @@ public class AnnotateFactoryImpl extends EFactoryImpl implements AnnotateFactory
 	public OnAnnotation createOnAnnotation() {
 		OnAnnotationImpl onAnnotation = new OnAnnotationImpl();
 		return onAnnotation;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public CTLAnnotationSet createCTLAnnotationSet() {
+		CTLAnnotationSetImpl ctlAnnotationSet = new CTLAnnotationSetImpl();
+		return ctlAnnotationSet;
 	}
 
 	/**

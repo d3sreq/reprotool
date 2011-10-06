@@ -8,6 +8,7 @@ package reprotool.model.linguistic.action.impl;
 
 import org.eclipse.emf.ecore.EClass;
 
+import org.eclipse.emf.ecore.impl.EObjectImpl;
 import reprotool.model.linguistic.action.ActionPackage;
 import reprotool.model.linguistic.action.Unknown;
 
@@ -20,7 +21,7 @@ import reprotool.model.linguistic.action.Unknown;
  *
  * @generated
  */
-public class UnknownImpl extends ActionImpl implements Unknown {
+public class UnknownImpl extends EObjectImpl implements Unknown {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

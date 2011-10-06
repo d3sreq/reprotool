@@ -88,23 +88,41 @@ public interface ActionpartPackage extends EPackage {
 	int TEXT__ACTION_PART = 1;
 
 	/**
+	 * The feature id for the '<em><b>Lemma Form</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEXT__LEMMA_FORM = 2;
+
+	/**
+	 * The feature id for the '<em><b>Pos Tag</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEXT__POS_TAG = 3;
+
+	/**
 	 * The number of structural features of the '<em>Text</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TEXT_FEATURE_COUNT = 2;
+	int TEXT_FEATURE_COUNT = 4;
 
 	/**
-	 * The meta object id for the '{@link reprotool.model.linguistic.actionpart.impl.ActionPartImpl <em>Action Part</em>}' class.
+	 * The meta object id for the '{@link reprotool.model.linguistic.actionpart.ActionPart <em>Action Part</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see reprotool.model.linguistic.actionpart.impl.ActionPartImpl
+	 * @see reprotool.model.linguistic.actionpart.ActionPart
 	 * @see reprotool.model.linguistic.actionpart.impl.ActionpartPackageImpl#getActionPart()
 	 * @generated
 	 */
-	int ACTION_PART = 8;
+	int ACTION_PART = 3;
 
 	/**
 	 * The feature id for the '<em><b>Text</b></em>' reference.
@@ -125,14 +143,14 @@ public interface ActionpartPackage extends EPackage {
 	int ACTION_PART_FEATURE_COUNT = 1;
 
 	/**
-	 * The meta object id for the '{@link reprotool.model.linguistic.actionpart.impl.SubjectImpl <em>Subject</em>}' class.
+	 * The meta object id for the '{@link reprotool.model.linguistic.actionpart.impl.SentenceActorImpl <em>Sentence Actor</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see reprotool.model.linguistic.actionpart.impl.SubjectImpl
-	 * @see reprotool.model.linguistic.actionpart.impl.ActionpartPackageImpl#getSubject()
+	 * @see reprotool.model.linguistic.actionpart.impl.SentenceActorImpl
+	 * @see reprotool.model.linguistic.actionpart.impl.ActionpartPackageImpl#getSentenceActor()
 	 * @generated
 	 */
-	int SUBJECT = 1;
+	int SENTENCE_ACTOR = 1;
 
 	/**
 	 * The feature id for the '<em><b>Text</b></em>' reference.
@@ -141,7 +159,7 @@ public interface ActionpartPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SUBJECT__TEXT = ACTION_PART__TEXT;
+	int SENTENCE_ACTOR__TEXT = ACTION_PART__TEXT;
 
 	/**
 	 * The feature id for the '<em><b>Actor</b></em>' reference.
@@ -150,26 +168,26 @@ public interface ActionpartPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SUBJECT__ACTOR = ACTION_PART_FEATURE_COUNT + 0;
+	int SENTENCE_ACTOR__ACTOR = ACTION_PART_FEATURE_COUNT + 0;
 
 	/**
-	 * The number of structural features of the '<em>Subject</em>' class.
+	 * The number of structural features of the '<em>Sentence Actor</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SUBJECT_FEATURE_COUNT = ACTION_PART_FEATURE_COUNT + 1;
+	int SENTENCE_ACTOR_FEATURE_COUNT = ACTION_PART_FEATURE_COUNT + 1;
 
 	/**
-	 * The meta object id for the '{@link reprotool.model.linguistic.actionpart.impl.GotoTargetImpl <em>Goto Target</em>}' class.
+	 * The meta object id for the '{@link reprotool.model.linguistic.actionpart.impl.SentenceActionParamImpl <em>Sentence Action Param</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see reprotool.model.linguistic.actionpart.impl.GotoTargetImpl
-	 * @see reprotool.model.linguistic.actionpart.impl.ActionpartPackageImpl#getGotoTarget()
+	 * @see reprotool.model.linguistic.actionpart.impl.SentenceActionParamImpl
+	 * @see reprotool.model.linguistic.actionpart.impl.ActionpartPackageImpl#getSentenceActionParam()
 	 * @generated
 	 */
-	int GOTO_TARGET = 2;
+	int SENTENCE_ACTION_PARAM = 2;
 
 	/**
 	 * The feature id for the '<em><b>Text</b></em>' reference.
@@ -178,202 +196,25 @@ public interface ActionpartPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int GOTO_TARGET__TEXT = ACTION_PART__TEXT;
+	int SENTENCE_ACTION_PARAM__TEXT = ACTION_PART__TEXT;
 
 	/**
-	 * The feature id for the '<em><b>Target</b></em>' reference.
+	 * The feature id for the '<em><b>Conceptual Object</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int GOTO_TARGET__TARGET = ACTION_PART_FEATURE_COUNT + 0;
+	int SENTENCE_ACTION_PARAM__CONCEPTUAL_OBJECT = ACTION_PART_FEATURE_COUNT + 0;
 
 	/**
-	 * The number of structural features of the '<em>Goto Target</em>' class.
+	 * The number of structural features of the '<em>Sentence Action Param</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int GOTO_TARGET_FEATURE_COUNT = ACTION_PART_FEATURE_COUNT + 1;
-
-	/**
-	 * The meta object id for the '{@link reprotool.model.linguistic.actionpart.impl.SentenceObjectImpl <em>Sentence Object</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see reprotool.model.linguistic.actionpart.impl.SentenceObjectImpl
-	 * @see reprotool.model.linguistic.actionpart.impl.ActionpartPackageImpl#getSentenceObject()
-	 * @generated
-	 */
-	int SENTENCE_OBJECT = 3;
-
-	/**
-	 * The feature id for the '<em><b>Text</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SENTENCE_OBJECT__TEXT = ACTION_PART__TEXT;
-
-	/**
-	 * The feature id for the '<em><b>Object</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SENTENCE_OBJECT__OBJECT = ACTION_PART_FEATURE_COUNT + 0;
-
-	/**
-	 * The number of structural features of the '<em>Sentence Object</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SENTENCE_OBJECT_FEATURE_COUNT = ACTION_PART_FEATURE_COUNT + 1;
-
-	/**
-	 * The meta object id for the '{@link reprotool.model.linguistic.actionpart.impl.VerbImpl <em>Verb</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see reprotool.model.linguistic.actionpart.impl.VerbImpl
-	 * @see reprotool.model.linguistic.actionpart.impl.ActionpartPackageImpl#getVerb()
-	 * @generated
-	 */
-	int VERB = 4;
-
-	/**
-	 * The feature id for the '<em><b>Text</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int VERB__TEXT = ACTION_PART__TEXT;
-
-	/**
-	 * The number of structural features of the '<em>Verb</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int VERB_FEATURE_COUNT = ACTION_PART_FEATURE_COUNT + 0;
-
-	/**
-	 * The meta object id for the '{@link reprotool.model.linguistic.actionpart.impl.RepresentativeObjectImpl <em>Representative Object</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see reprotool.model.linguistic.actionpart.impl.RepresentativeObjectImpl
-	 * @see reprotool.model.linguistic.actionpart.impl.ActionpartPackageImpl#getRepresentativeObject()
-	 * @generated
-	 */
-	int REPRESENTATIVE_OBJECT = 5;
-
-	/**
-	 * The feature id for the '<em><b>Text</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int REPRESENTATIVE_OBJECT__TEXT = SENTENCE_OBJECT__TEXT;
-
-	/**
-	 * The feature id for the '<em><b>Object</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int REPRESENTATIVE_OBJECT__OBJECT = SENTENCE_OBJECT__OBJECT;
-
-	/**
-	 * The number of structural features of the '<em>Representative Object</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int REPRESENTATIVE_OBJECT_FEATURE_COUNT = SENTENCE_OBJECT_FEATURE_COUNT + 0;
-
-	/**
-	 * The meta object id for the '{@link reprotool.model.linguistic.actionpart.impl.IndirectObjectImpl <em>Indirect Object</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see reprotool.model.linguistic.actionpart.impl.IndirectObjectImpl
-	 * @see reprotool.model.linguistic.actionpart.impl.ActionpartPackageImpl#getIndirectObject()
-	 * @generated
-	 */
-	int INDIRECT_OBJECT = 6;
-
-	/**
-	 * The feature id for the '<em><b>Text</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int INDIRECT_OBJECT__TEXT = SENTENCE_OBJECT__TEXT;
-
-	/**
-	 * The feature id for the '<em><b>Object</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int INDIRECT_OBJECT__OBJECT = SENTENCE_OBJECT__OBJECT;
-
-	/**
-	 * The number of structural features of the '<em>Indirect Object</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int INDIRECT_OBJECT_FEATURE_COUNT = SENTENCE_OBJECT_FEATURE_COUNT + 0;
-
-	/**
-	 * The meta object id for the '{@link reprotool.model.linguistic.actionpart.impl.UseCaseIncludePartImpl <em>Use Case Include Part</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see reprotool.model.linguistic.actionpart.impl.UseCaseIncludePartImpl
-	 * @see reprotool.model.linguistic.actionpart.impl.ActionpartPackageImpl#getUseCaseIncludePart()
-	 * @generated
-	 */
-	int USE_CASE_INCLUDE_PART = 7;
-
-	/**
-	 * The feature id for the '<em><b>Text</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int USE_CASE_INCLUDE_PART__TEXT = ACTION_PART__TEXT;
-
-	/**
-	 * The feature id for the '<em><b>Target</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int USE_CASE_INCLUDE_PART__TARGET = ACTION_PART_FEATURE_COUNT + 0;
-
-	/**
-	 * The number of structural features of the '<em>Use Case Include Part</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int USE_CASE_INCLUDE_PART_FEATURE_COUNT = ACTION_PART_FEATURE_COUNT + 1;
-
+	int SENTENCE_ACTION_PARAM_FEATURE_COUNT = ACTION_PART_FEATURE_COUNT + 1;
 
 	/**
 	 * Returns the meta object for class '{@link reprotool.model.linguistic.actionpart.Text <em>Text</em>}'.
@@ -408,118 +249,68 @@ public interface ActionpartPackage extends EPackage {
 	EReference getText_ActionPart();
 
 	/**
-	 * Returns the meta object for class '{@link reprotool.model.linguistic.actionpart.Subject <em>Subject</em>}'.
+	 * Returns the meta object for the attribute '{@link reprotool.model.linguistic.actionpart.Text#getLemmaForm <em>Lemma Form</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Subject</em>'.
-	 * @see reprotool.model.linguistic.actionpart.Subject
+	 * @return the meta object for the attribute '<em>Lemma Form</em>'.
+	 * @see reprotool.model.linguistic.actionpart.Text#getLemmaForm()
+	 * @see #getText()
 	 * @generated
 	 */
-	EClass getSubject();
+	EAttribute getText_LemmaForm();
 
 	/**
-	 * Returns the meta object for the reference '{@link reprotool.model.linguistic.actionpart.Subject#getActor <em>Actor</em>}'.
+	 * Returns the meta object for the attribute '{@link reprotool.model.linguistic.actionpart.Text#getPosTag <em>Pos Tag</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Pos Tag</em>'.
+	 * @see reprotool.model.linguistic.actionpart.Text#getPosTag()
+	 * @see #getText()
+	 * @generated
+	 */
+	EAttribute getText_PosTag();
+
+	/**
+	 * Returns the meta object for class '{@link reprotool.model.linguistic.actionpart.SentenceActor <em>Sentence Actor</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Sentence Actor</em>'.
+	 * @see reprotool.model.linguistic.actionpart.SentenceActor
+	 * @generated
+	 */
+	EClass getSentenceActor();
+
+	/**
+	 * Returns the meta object for the reference '{@link reprotool.model.linguistic.actionpart.SentenceActor#getActor <em>Actor</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the reference '<em>Actor</em>'.
-	 * @see reprotool.model.linguistic.actionpart.Subject#getActor()
-	 * @see #getSubject()
+	 * @see reprotool.model.linguistic.actionpart.SentenceActor#getActor()
+	 * @see #getSentenceActor()
 	 * @generated
 	 */
-	EReference getSubject_Actor();
+	EReference getSentenceActor_Actor();
 
 	/**
-	 * Returns the meta object for class '{@link reprotool.model.linguistic.actionpart.GotoTarget <em>Goto Target</em>}'.
+	 * Returns the meta object for class '{@link reprotool.model.linguistic.actionpart.SentenceActionParam <em>Sentence Action Param</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Goto Target</em>'.
-	 * @see reprotool.model.linguistic.actionpart.GotoTarget
+	 * @return the meta object for class '<em>Sentence Action Param</em>'.
+	 * @see reprotool.model.linguistic.actionpart.SentenceActionParam
 	 * @generated
 	 */
-	EClass getGotoTarget();
+	EClass getSentenceActionParam();
 
 	/**
-	 * Returns the meta object for the reference '{@link reprotool.model.linguistic.actionpart.GotoTarget#getTarget <em>Target</em>}'.
+	 * Returns the meta object for the reference '{@link reprotool.model.linguistic.actionpart.SentenceActionParam#getConceptualObject <em>Conceptual Object</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Target</em>'.
-	 * @see reprotool.model.linguistic.actionpart.GotoTarget#getTarget()
-	 * @see #getGotoTarget()
+	 * @return the meta object for the reference '<em>Conceptual Object</em>'.
+	 * @see reprotool.model.linguistic.actionpart.SentenceActionParam#getConceptualObject()
+	 * @see #getSentenceActionParam()
 	 * @generated
 	 */
-	EReference getGotoTarget_Target();
-
-	/**
-	 * Returns the meta object for class '{@link reprotool.model.linguistic.actionpart.SentenceObject <em>Sentence Object</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Sentence Object</em>'.
-	 * @see reprotool.model.linguistic.actionpart.SentenceObject
-	 * @generated
-	 */
-	EClass getSentenceObject();
-
-	/**
-	 * Returns the meta object for the reference '{@link reprotool.model.linguistic.actionpart.SentenceObject#getObject <em>Object</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Object</em>'.
-	 * @see reprotool.model.linguistic.actionpart.SentenceObject#getObject()
-	 * @see #getSentenceObject()
-	 * @generated
-	 */
-	EReference getSentenceObject_Object();
-
-	/**
-	 * Returns the meta object for class '{@link reprotool.model.linguistic.actionpart.Verb <em>Verb</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Verb</em>'.
-	 * @see reprotool.model.linguistic.actionpart.Verb
-	 * @generated
-	 */
-	EClass getVerb();
-
-	/**
-	 * Returns the meta object for class '{@link reprotool.model.linguistic.actionpart.RepresentativeObject <em>Representative Object</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Representative Object</em>'.
-	 * @see reprotool.model.linguistic.actionpart.RepresentativeObject
-	 * @generated
-	 */
-	EClass getRepresentativeObject();
-
-	/**
-	 * Returns the meta object for class '{@link reprotool.model.linguistic.actionpart.IndirectObject <em>Indirect Object</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Indirect Object</em>'.
-	 * @see reprotool.model.linguistic.actionpart.IndirectObject
-	 * @generated
-	 */
-	EClass getIndirectObject();
-
-	/**
-	 * Returns the meta object for class '{@link reprotool.model.linguistic.actionpart.UseCaseIncludePart <em>Use Case Include Part</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Use Case Include Part</em>'.
-	 * @see reprotool.model.linguistic.actionpart.UseCaseIncludePart
-	 * @generated
-	 */
-	EClass getUseCaseIncludePart();
-
-	/**
-	 * Returns the meta object for the reference '{@link reprotool.model.linguistic.actionpart.UseCaseIncludePart#getTarget <em>Target</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Target</em>'.
-	 * @see reprotool.model.linguistic.actionpart.UseCaseIncludePart#getTarget()
-	 * @see #getUseCaseIncludePart()
-	 * @generated
-	 */
-	EReference getUseCaseIncludePart_Target();
+	EReference getSentenceActionParam_ConceptualObject();
 
 	/**
 	 * Returns the meta object for class '{@link reprotool.model.linguistic.actionpart.ActionPart <em>Action Part</em>}'.
@@ -591,14 +382,30 @@ public interface ActionpartPackage extends EPackage {
 		EReference TEXT__ACTION_PART = eINSTANCE.getText_ActionPart();
 
 		/**
-		 * The meta object literal for the '{@link reprotool.model.linguistic.actionpart.impl.SubjectImpl <em>Subject</em>}' class.
+		 * The meta object literal for the '<em><b>Lemma Form</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see reprotool.model.linguistic.actionpart.impl.SubjectImpl
-		 * @see reprotool.model.linguistic.actionpart.impl.ActionpartPackageImpl#getSubject()
 		 * @generated
 		 */
-		EClass SUBJECT = eINSTANCE.getSubject();
+		EAttribute TEXT__LEMMA_FORM = eINSTANCE.getText_LemmaForm();
+
+		/**
+		 * The meta object literal for the '<em><b>Pos Tag</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute TEXT__POS_TAG = eINSTANCE.getText_PosTag();
+
+		/**
+		 * The meta object literal for the '{@link reprotool.model.linguistic.actionpart.impl.SentenceActorImpl <em>Sentence Actor</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see reprotool.model.linguistic.actionpart.impl.SentenceActorImpl
+		 * @see reprotool.model.linguistic.actionpart.impl.ActionpartPackageImpl#getSentenceActor()
+		 * @generated
+		 */
+		EClass SENTENCE_ACTOR = eINSTANCE.getSentenceActor();
 
 		/**
 		 * The meta object literal for the '<em><b>Actor</b></em>' reference feature.
@@ -606,97 +413,31 @@ public interface ActionpartPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference SUBJECT__ACTOR = eINSTANCE.getSubject_Actor();
+		EReference SENTENCE_ACTOR__ACTOR = eINSTANCE.getSentenceActor_Actor();
 
 		/**
-		 * The meta object literal for the '{@link reprotool.model.linguistic.actionpart.impl.GotoTargetImpl <em>Goto Target</em>}' class.
+		 * The meta object literal for the '{@link reprotool.model.linguistic.actionpart.impl.SentenceActionParamImpl <em>Sentence Action Param</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see reprotool.model.linguistic.actionpart.impl.GotoTargetImpl
-		 * @see reprotool.model.linguistic.actionpart.impl.ActionpartPackageImpl#getGotoTarget()
+		 * @see reprotool.model.linguistic.actionpart.impl.SentenceActionParamImpl
+		 * @see reprotool.model.linguistic.actionpart.impl.ActionpartPackageImpl#getSentenceActionParam()
 		 * @generated
 		 */
-		EClass GOTO_TARGET = eINSTANCE.getGotoTarget();
+		EClass SENTENCE_ACTION_PARAM = eINSTANCE.getSentenceActionParam();
 
 		/**
-		 * The meta object literal for the '<em><b>Target</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference GOTO_TARGET__TARGET = eINSTANCE.getGotoTarget_Target();
-
-		/**
-		 * The meta object literal for the '{@link reprotool.model.linguistic.actionpart.impl.SentenceObjectImpl <em>Sentence Object</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see reprotool.model.linguistic.actionpart.impl.SentenceObjectImpl
-		 * @see reprotool.model.linguistic.actionpart.impl.ActionpartPackageImpl#getSentenceObject()
-		 * @generated
-		 */
-		EClass SENTENCE_OBJECT = eINSTANCE.getSentenceObject();
-
-		/**
-		 * The meta object literal for the '<em><b>Object</b></em>' reference feature.
+		 * The meta object literal for the '<em><b>Conceptual Object</b></em>' reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference SENTENCE_OBJECT__OBJECT = eINSTANCE.getSentenceObject_Object();
+		EReference SENTENCE_ACTION_PARAM__CONCEPTUAL_OBJECT = eINSTANCE.getSentenceActionParam_ConceptualObject();
 
 		/**
-		 * The meta object literal for the '{@link reprotool.model.linguistic.actionpart.impl.VerbImpl <em>Verb</em>}' class.
+		 * The meta object literal for the '{@link reprotool.model.linguistic.actionpart.ActionPart <em>Action Part</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see reprotool.model.linguistic.actionpart.impl.VerbImpl
-		 * @see reprotool.model.linguistic.actionpart.impl.ActionpartPackageImpl#getVerb()
-		 * @generated
-		 */
-		EClass VERB = eINSTANCE.getVerb();
-
-		/**
-		 * The meta object literal for the '{@link reprotool.model.linguistic.actionpart.impl.RepresentativeObjectImpl <em>Representative Object</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see reprotool.model.linguistic.actionpart.impl.RepresentativeObjectImpl
-		 * @see reprotool.model.linguistic.actionpart.impl.ActionpartPackageImpl#getRepresentativeObject()
-		 * @generated
-		 */
-		EClass REPRESENTATIVE_OBJECT = eINSTANCE.getRepresentativeObject();
-
-		/**
-		 * The meta object literal for the '{@link reprotool.model.linguistic.actionpart.impl.IndirectObjectImpl <em>Indirect Object</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see reprotool.model.linguistic.actionpart.impl.IndirectObjectImpl
-		 * @see reprotool.model.linguistic.actionpart.impl.ActionpartPackageImpl#getIndirectObject()
-		 * @generated
-		 */
-		EClass INDIRECT_OBJECT = eINSTANCE.getIndirectObject();
-
-		/**
-		 * The meta object literal for the '{@link reprotool.model.linguistic.actionpart.impl.UseCaseIncludePartImpl <em>Use Case Include Part</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see reprotool.model.linguistic.actionpart.impl.UseCaseIncludePartImpl
-		 * @see reprotool.model.linguistic.actionpart.impl.ActionpartPackageImpl#getUseCaseIncludePart()
-		 * @generated
-		 */
-		EClass USE_CASE_INCLUDE_PART = eINSTANCE.getUseCaseIncludePart();
-
-		/**
-		 * The meta object literal for the '<em><b>Target</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference USE_CASE_INCLUDE_PART__TARGET = eINSTANCE.getUseCaseIncludePart_Target();
-
-		/**
-		 * The meta object literal for the '{@link reprotool.model.linguistic.actionpart.impl.ActionPartImpl <em>Action Part</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see reprotool.model.linguistic.actionpart.impl.ActionPartImpl
+		 * @see reprotool.model.linguistic.actionpart.ActionPart
 		 * @see reprotool.model.linguistic.actionpart.impl.ActionpartPackageImpl#getActionPart()
 		 * @generated
 		 */

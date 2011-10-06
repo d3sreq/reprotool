@@ -35,13 +35,13 @@ public interface AnnotateFactory extends EFactory {
 	StepAnnotation createStepAnnotation();
 
 	/**
-	 * Returns a new object of class '<em>LTL Annotation</em>'.
+	 * Returns a new object of class '<em>Temporal Annotation</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>LTL Annotation</em>'.
+	 * @return a new object of class '<em>Temporal Annotation</em>'.
 	 * @generated
 	 */
-	LTLAnnotation createLTLAnnotation();
+	TemporalAnnotation createTemporalAnnotation();
 
 	/**
 	 * Returns a new object of class '<em>LTL Annotation Set</em>'.
@@ -78,6 +78,15 @@ public interface AnnotateFactory extends EFactory {
 	 * @generated
 	 */
 	OnAnnotation createOnAnnotation();
+
+	/**
+	 * Returns a new object of class '<em>CTL Annotation Set</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>CTL Annotation Set</em>'.
+	 * @generated
+	 */
+	CTLAnnotationSet createCTLAnnotationSet();
 
 	/**
 	 * Returns the package supported by this factory.

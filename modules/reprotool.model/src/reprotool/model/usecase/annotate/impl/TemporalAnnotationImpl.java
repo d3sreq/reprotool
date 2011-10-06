@@ -14,22 +14,22 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
 import reprotool.model.usecase.annotate.AnnotatePackage;
-import reprotool.model.usecase.annotate.SpecialAnnotation;
+import reprotool.model.usecase.annotate.TemporalAnnotation;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Special Annotation</b></em>'.
+ * An implementation of the model object '<em><b>Temporal Annotation</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link reprotool.model.usecase.annotate.impl.SpecialAnnotationImpl#getName <em>Name</em>}</li>
+ *   <li>{@link reprotool.model.usecase.annotate.impl.TemporalAnnotationImpl#getName <em>Name</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class SpecialAnnotationImpl extends EObjectImpl implements SpecialAnnotation {
+public class TemporalAnnotationImpl extends EObjectImpl implements TemporalAnnotation {
 	/**
 	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -55,7 +55,7 @@ public class SpecialAnnotationImpl extends EObjectImpl implements SpecialAnnotat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected SpecialAnnotationImpl() {
+	protected TemporalAnnotationImpl() {
 		super();
 	}
 
@@ -66,7 +66,7 @@ public class SpecialAnnotationImpl extends EObjectImpl implements SpecialAnnotat
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return AnnotatePackage.Literals.SPECIAL_ANNOTATION;
+		return AnnotatePackage.Literals.TEMPORAL_ANNOTATION;
 	}
 
 	/**
@@ -87,7 +87,7 @@ public class SpecialAnnotationImpl extends EObjectImpl implements SpecialAnnotat
 		String oldName = name;
 		name = newName;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, AnnotatePackage.SPECIAL_ANNOTATION__NAME, oldName, name));
+			eNotify(new ENotificationImpl(this, Notification.SET, AnnotatePackage.TEMPORAL_ANNOTATION__NAME, oldName, name));
 	}
 
 	/**
@@ -98,7 +98,7 @@ public class SpecialAnnotationImpl extends EObjectImpl implements SpecialAnnotat
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case AnnotatePackage.SPECIAL_ANNOTATION__NAME:
+			case AnnotatePackage.TEMPORAL_ANNOTATION__NAME:
 				return getName();
 		}
 		return super.eGet(featureID, resolve, coreType);
@@ -112,7 +112,7 @@ public class SpecialAnnotationImpl extends EObjectImpl implements SpecialAnnotat
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case AnnotatePackage.SPECIAL_ANNOTATION__NAME:
+			case AnnotatePackage.TEMPORAL_ANNOTATION__NAME:
 				setName((String)newValue);
 				return;
 		}
@@ -127,7 +127,7 @@ public class SpecialAnnotationImpl extends EObjectImpl implements SpecialAnnotat
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case AnnotatePackage.SPECIAL_ANNOTATION__NAME:
+			case AnnotatePackage.TEMPORAL_ANNOTATION__NAME:
 				setName(NAME_EDEFAULT);
 				return;
 		}
@@ -142,7 +142,7 @@ public class SpecialAnnotationImpl extends EObjectImpl implements SpecialAnnotat
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case AnnotatePackage.SPECIAL_ANNOTATION__NAME:
+			case AnnotatePackage.TEMPORAL_ANNOTATION__NAME:
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 		}
 		return super.eIsSet(featureID);
@@ -164,4 +164,4 @@ public class SpecialAnnotationImpl extends EObjectImpl implements SpecialAnnotat
 		return result.toString();
 	}
 
-} //SpecialAnnotationImpl
+} //TemporalAnnotationImpl

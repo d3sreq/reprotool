@@ -94,6 +94,14 @@ public class SwprojAdapterFactory extends AdapterFactoryImpl {
 				return createReqCoverAdapter();
 			}
 			@Override
+			public Adapter caseDomainElement(DomainElement object) {
+				return createDomainElementAdapter();
+			}
+			@Override
+			public Adapter caseConceptualObject(ConceptualObject object) {
+				return createConceptualObjectAdapter();
+			}
+			@Override
 			public Adapter caseTraceableEntity(TraceableEntity object) {
 				return createTraceableEntityAdapter();
 			}
@@ -184,6 +192,34 @@ public class SwprojAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createReqCoverAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link reprotool.model.swproj.DomainElement <em>Domain Element</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see reprotool.model.swproj.DomainElement
+	 * @generated
+	 */
+	public Adapter createDomainElementAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link reprotool.model.swproj.ConceptualObject <em>Conceptual Object</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see reprotool.model.swproj.ConceptualObject
+	 * @generated
+	 */
+	public Adapter createConceptualObjectAdapter() {
 		return null;
 	}
 

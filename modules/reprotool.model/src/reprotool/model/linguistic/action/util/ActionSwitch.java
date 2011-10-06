@@ -12,6 +12,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 
 import reprotool.model.linguistic.action.*;
+import reprotool.model.linguistic.actionpart.ActionPart;
 
 /**
  * <!-- begin-user-doc -->
@@ -87,29 +88,24 @@ public class ActionSwitch<T> {
 	 */
 	protected T doSwitch(int classifierID, EObject theEObject) {
 		switch (classifierID) {
-			case ActionPackage.SEND: {
-				Send send = (Send)theEObject;
-				T result = caseSend(send);
-				if (result == null) result = caseAction(send);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
 			case ActionPackage.ACTION: {
 				Action action = (Action)theEObject;
 				T result = caseAction(action);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case ActionPackage.RECEIVE: {
-				Receive receive = (Receive)theEObject;
-				T result = caseReceive(receive);
-				if (result == null) result = caseAction(receive);
+			case ActionPackage.FROM_SYSTEM: {
+				FromSystem fromSystem = (FromSystem)theEObject;
+				T result = caseFromSystem(fromSystem);
+				if (result == null) result = caseCommunication(fromSystem);
+				if (result == null) result = caseAction(fromSystem);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case ActionPackage.INTERNAL: {
 				Internal internal = (Internal)theEObject;
 				T result = caseInternal(internal);
+				if (result == null) result = caseCommunication(internal);
 				if (result == null) result = caseAction(internal);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -118,6 +114,7 @@ public class ActionSwitch<T> {
 				Goto goto_ = (Goto)theEObject;
 				T result = caseGoto(goto_);
 				if (result == null) result = caseAction(goto_);
+				if (result == null) result = caseActionPart(goto_);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -132,40 +129,34 @@ public class ActionSwitch<T> {
 				UseCaseInclude useCaseInclude = (UseCaseInclude)theEObject;
 				T result = caseUseCaseInclude(useCaseInclude);
 				if (result == null) result = caseAction(useCaseInclude);
+				if (result == null) result = caseActionPart(useCaseInclude);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case ActionPackage.TERMINATE_USE_CASE: {
-				TerminateUseCase terminateUseCase = (TerminateUseCase)theEObject;
-				T result = caseTerminateUseCase(terminateUseCase);
-				if (result == null) result = caseAction(terminateUseCase);
+			case ActionPackage.ABORT_USE_CASE: {
+				AbortUseCase abortUseCase = (AbortUseCase)theEObject;
+				T result = caseAbortUseCase(abortUseCase);
+				if (result == null) result = caseAction(abortUseCase);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case ActionPackage.TERMINATE_BRANCH: {
-				TerminateBranch terminateBranch = (TerminateBranch)theEObject;
-				T result = caseTerminateBranch(terminateBranch);
-				if (result == null) result = caseAction(terminateBranch);
+			case ActionPackage.TO_SYSTEM: {
+				ToSystem toSystem = (ToSystem)theEObject;
+				T result = caseToSystem(toSystem);
+				if (result == null) result = caseCommunication(toSystem);
+				if (result == null) result = caseAction(toSystem);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ActionPackage.COMMUNICATION: {
+				Communication communication = (Communication)theEObject;
+				T result = caseCommunication(communication);
+				if (result == null) result = caseAction(communication);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			default: return defaultCase(theEObject);
 		}
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Send</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Send</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseSend(Send object) {
-		return null;
 	}
 
 	/**
@@ -184,17 +175,17 @@ public class ActionSwitch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Receive</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>From System</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Receive</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>From System</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseReceive(Receive object) {
+	public T caseFromSystem(FromSystem object) {
 		return null;
 	}
 
@@ -259,32 +250,62 @@ public class ActionSwitch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Terminate Use Case</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Abort Use Case</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Terminate Use Case</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Abort Use Case</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseTerminateUseCase(TerminateUseCase object) {
+	public T caseAbortUseCase(AbortUseCase object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Terminate Branch</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>To System</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Terminate Branch</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>To System</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseTerminateBranch(TerminateBranch object) {
+	public T caseToSystem(ToSystem object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Communication</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Communication</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseCommunication(Communication object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Action Part</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Action Part</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseActionPart(ActionPart object) {
 		return null;
 	}
 

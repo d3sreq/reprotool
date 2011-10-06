@@ -21,6 +21,7 @@ import reprotool.model.lts.ActionTransition;
 import reprotool.model.lts.LtsPackage;
 import reprotool.model.lts.State;
 
+import reprotool.model.usecase.ParseableElement;
 import reprotool.model.usecase.UseCaseStep;
 
 /**
@@ -48,7 +49,7 @@ public class ActionTransitionImpl extends EObjectImpl implements ActionTransitio
 	 * @generated
 	 * @ordered
 	 */
-	protected UseCaseStep sentence;
+	protected ParseableElement sentence;
 
 	/**
 	 * The cached value of the '{@link #getSource() <em>Source</em>}' reference.
@@ -104,10 +105,10 @@ public class ActionTransitionImpl extends EObjectImpl implements ActionTransitio
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public UseCaseStep getSentence() {
+	public ParseableElement getSentence() {
 		if (sentence != null && sentence.eIsProxy()) {
 			InternalEObject oldSentence = (InternalEObject)sentence;
-			sentence = (UseCaseStep)eResolveProxy(oldSentence);
+			sentence = (ParseableElement)eResolveProxy(oldSentence);
 			if (sentence != oldSentence) {
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE, LtsPackage.ACTION_TRANSITION__SENTENCE, oldSentence, sentence));
@@ -121,7 +122,7 @@ public class ActionTransitionImpl extends EObjectImpl implements ActionTransitio
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public UseCaseStep basicGetSentence() {
+	public ParseableElement basicGetSentence() {
 		return sentence;
 	}
 
@@ -130,8 +131,8 @@ public class ActionTransitionImpl extends EObjectImpl implements ActionTransitio
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setSentence(UseCaseStep newSentence) {
-		UseCaseStep oldSentence = sentence;
+	public void setSentence(ParseableElement newSentence) {
+		ParseableElement oldSentence = sentence;
 		sentence = newSentence;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, LtsPackage.ACTION_TRANSITION__SENTENCE, oldSentence, sentence));
@@ -258,7 +259,7 @@ public class ActionTransitionImpl extends EObjectImpl implements ActionTransitio
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case LtsPackage.ACTION_TRANSITION__SENTENCE:
-				setSentence((UseCaseStep)newValue);
+				setSentence((ParseableElement)newValue);
 				return;
 			case LtsPackage.ACTION_TRANSITION__SOURCE:
 				setSource((State)newValue);
@@ -283,7 +284,7 @@ public class ActionTransitionImpl extends EObjectImpl implements ActionTransitio
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case LtsPackage.ACTION_TRANSITION__SENTENCE:
-				setSentence((UseCaseStep)null);
+				setSentence((ParseableElement)null);
 				return;
 			case LtsPackage.ACTION_TRANSITION__SOURCE:
 				setSource((State)null);

@@ -53,31 +53,13 @@ public interface UsecaseFactory extends EFactory {
 	Scenario createScenario();
 
 	/**
-	 * Returns a new object of class '<em>Precondition</em>'.
+	 * Returns a new object of class '<em>Condition</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Precondition</em>'.
+	 * @return a new object of class '<em>Condition</em>'.
 	 * @generated
 	 */
-	Precondition createPrecondition();
-
-	/**
-	 * Returns a new object of class '<em>Postcondition</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Postcondition</em>'.
-	 * @generated
-	 */
-	Postcondition createPostcondition();
-
-	/**
-	 * Returns a new object of class '<em>Guard</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Guard</em>'.
-	 * @generated
-	 */
-	Guard createGuard();
+	Condition createCondition();
 
 	/**
 	 * Returns the package supported by this factory.

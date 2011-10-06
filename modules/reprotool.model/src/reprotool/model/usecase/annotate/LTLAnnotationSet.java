@@ -18,7 +18,7 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * <ul>
  *   <li>{@link reprotool.model.usecase.annotate.LTLAnnotationSet#getContains <em>Contains</em>}</li>
- *   <li>{@link reprotool.model.usecase.annotate.LTLAnnotationSet#getLtl <em>Ltl</em>}</li>
+ *   <li>{@link reprotool.model.usecase.annotate.LTLAnnotationSet#getLtlFormula <em>Ltl Formula</em>}</li>
  * </ul>
  * </p>
  *
@@ -29,7 +29,7 @@ import org.eclipse.emf.ecore.EObject;
 public interface LTLAnnotationSet extends AnnotationSet {
 	/**
 	 * Returns the value of the '<em><b>Contains</b></em>' containment reference list.
-	 * The list contents are of type {@link reprotool.model.usecase.annotate.LTLAnnotation}.
+	 * The list contents are of type {@link reprotool.model.usecase.annotate.TemporalAnnotation}.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Contains</em>' containment reference list isn't clear,
@@ -41,32 +41,32 @@ public interface LTLAnnotationSet extends AnnotationSet {
 	 * @model containment="true" required="true"
 	 * @generated
 	 */
-	EList<LTLAnnotation> getContains();
+	EList<TemporalAnnotation> getContains();
 
 	/**
-	 * Returns the value of the '<em><b>Ltl</b></em>' attribute.
+	 * Returns the value of the '<em><b>Ltl Formula</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Ltl</em>' attribute isn't clear,
+	 * If the meaning of the '<em>Ltl Formula</em>' attribute isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Ltl</em>' attribute.
-	 * @see #setLtl(String)
-	 * @see reprotool.model.usecase.annotate.AnnotatePackage#getLTLAnnotationSet_Ltl()
+	 * @return the value of the '<em>Ltl Formula</em>' attribute.
+	 * @see #setLtlFormula(String)
+	 * @see reprotool.model.usecase.annotate.AnnotatePackage#getLTLAnnotationSet_LtlFormula()
 	 * @model
 	 * @generated
 	 */
-	String getLtl();
+	String getLtlFormula();
 
 	/**
-	 * Sets the value of the '{@link reprotool.model.usecase.annotate.LTLAnnotationSet#getLtl <em>Ltl</em>}' attribute.
+	 * Sets the value of the '{@link reprotool.model.usecase.annotate.LTLAnnotationSet#getLtlFormula <em>Ltl Formula</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Ltl</em>' attribute.
-	 * @see #getLtl()
+	 * @param value the new value of the '<em>Ltl Formula</em>' attribute.
+	 * @see #getLtlFormula()
 	 * @generated
 	 */
-	void setLtl(String value);
+	void setLtlFormula(String value);
 
 } // LTLAnnotationSet

@@ -23,6 +23,7 @@ import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 import reprotool.model.swproj.Actor;
+import reprotool.model.swproj.DomainElement;
 import reprotool.model.swproj.SwprojPackage;
 
 /**
@@ -32,36 +33,16 @@ import reprotool.model.swproj.SwprojPackage;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link reprotool.model.swproj.impl.ActorImpl#getChildrenActors <em>Children Actors</em>}</li>
- *   <li>{@link reprotool.model.swproj.impl.ActorImpl#getParentActor <em>Parent Actor</em>}</li>
  *   <li>{@link reprotool.model.swproj.impl.ActorImpl#getName <em>Name</em>}</li>
  *   <li>{@link reprotool.model.swproj.impl.ActorImpl#getDescription <em>Description</em>}</li>
+ *   <li>{@link reprotool.model.swproj.impl.ActorImpl#getChildrenActors <em>Children Actors</em>}</li>
+ *   <li>{@link reprotool.model.swproj.impl.ActorImpl#getParentActor <em>Parent Actor</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
 public class ActorImpl extends EObjectImpl implements Actor {
-	/**
-	 * The cached value of the '{@link #getChildrenActors() <em>Children Actors</em>}' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getChildrenActors()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<Actor> childrenActors;
-
-	/**
-	 * The cached value of the '{@link #getParentActor() <em>Parent Actor</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getParentActor()
-	 * @generated
-	 * @ordered
-	 */
-	protected Actor parentActor;
-
 	/**
 	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -101,6 +82,26 @@ public class ActorImpl extends EObjectImpl implements Actor {
 	 * @ordered
 	 */
 	protected String description = DESCRIPTION_EDEFAULT;
+
+	/**
+	 * The cached value of the '{@link #getChildrenActors() <em>Children Actors</em>}' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getChildrenActors()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<Actor> childrenActors;
+
+	/**
+	 * The cached value of the '{@link #getParentActor() <em>Parent Actor</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getParentActor()
+	 * @generated
+	 * @ordered
+	 */
+	protected Actor parentActor;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -278,15 +279,15 @@ public class ActorImpl extends EObjectImpl implements Actor {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
+			case SwprojPackage.ACTOR__NAME:
+				return getName();
+			case SwprojPackage.ACTOR__DESCRIPTION:
+				return getDescription();
 			case SwprojPackage.ACTOR__CHILDREN_ACTORS:
 				return getChildrenActors();
 			case SwprojPackage.ACTOR__PARENT_ACTOR:
 				if (resolve) return getParentActor();
 				return basicGetParentActor();
-			case SwprojPackage.ACTOR__NAME:
-				return getName();
-			case SwprojPackage.ACTOR__DESCRIPTION:
-				return getDescription();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -300,18 +301,18 @@ public class ActorImpl extends EObjectImpl implements Actor {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
+			case SwprojPackage.ACTOR__NAME:
+				setName((String)newValue);
+				return;
+			case SwprojPackage.ACTOR__DESCRIPTION:
+				setDescription((String)newValue);
+				return;
 			case SwprojPackage.ACTOR__CHILDREN_ACTORS:
 				getChildrenActors().clear();
 				getChildrenActors().addAll((Collection<? extends Actor>)newValue);
 				return;
 			case SwprojPackage.ACTOR__PARENT_ACTOR:
 				setParentActor((Actor)newValue);
-				return;
-			case SwprojPackage.ACTOR__NAME:
-				setName((String)newValue);
-				return;
-			case SwprojPackage.ACTOR__DESCRIPTION:
-				setDescription((String)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -325,17 +326,17 @@ public class ActorImpl extends EObjectImpl implements Actor {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case SwprojPackage.ACTOR__CHILDREN_ACTORS:
-				getChildrenActors().clear();
-				return;
-			case SwprojPackage.ACTOR__PARENT_ACTOR:
-				setParentActor((Actor)null);
-				return;
 			case SwprojPackage.ACTOR__NAME:
 				setName(NAME_EDEFAULT);
 				return;
 			case SwprojPackage.ACTOR__DESCRIPTION:
 				setDescription(DESCRIPTION_EDEFAULT);
+				return;
+			case SwprojPackage.ACTOR__CHILDREN_ACTORS:
+				getChildrenActors().clear();
+				return;
+			case SwprojPackage.ACTOR__PARENT_ACTOR:
+				setParentActor((Actor)null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -349,16 +350,50 @@ public class ActorImpl extends EObjectImpl implements Actor {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case SwprojPackage.ACTOR__CHILDREN_ACTORS:
-				return childrenActors != null && !childrenActors.isEmpty();
-			case SwprojPackage.ACTOR__PARENT_ACTOR:
-				return parentActor != null;
 			case SwprojPackage.ACTOR__NAME:
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 			case SwprojPackage.ACTOR__DESCRIPTION:
 				return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
+			case SwprojPackage.ACTOR__CHILDREN_ACTORS:
+				return childrenActors != null && !childrenActors.isEmpty();
+			case SwprojPackage.ACTOR__PARENT_ACTOR:
+				return parentActor != null;
 		}
 		return super.eIsSet(featureID);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
+		if (baseClass == DomainElement.class) {
+			switch (derivedFeatureID) {
+				case SwprojPackage.ACTOR__NAME: return SwprojPackage.DOMAIN_ELEMENT__NAME;
+				case SwprojPackage.ACTOR__DESCRIPTION: return SwprojPackage.DOMAIN_ELEMENT__DESCRIPTION;
+				default: return -1;
+			}
+		}
+		return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
+		if (baseClass == DomainElement.class) {
+			switch (baseFeatureID) {
+				case SwprojPackage.DOMAIN_ELEMENT__NAME: return SwprojPackage.ACTOR__NAME;
+				case SwprojPackage.DOMAIN_ELEMENT__DESCRIPTION: return SwprojPackage.ACTOR__DESCRIPTION;
+				default: return -1;
+			}
+		}
+		return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);
 	}
 
 	/**
@@ -371,9 +406,9 @@ public class ActorImpl extends EObjectImpl implements Actor {
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (Name: ");
+		result.append(" (name: ");
 		result.append(name);
-		result.append(", Description: ");
+		result.append(", description: ");
 		result.append(description);
 		result.append(')');
 		return result.toString();

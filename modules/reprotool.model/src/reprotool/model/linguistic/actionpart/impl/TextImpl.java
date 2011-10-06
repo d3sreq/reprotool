@@ -27,6 +27,8 @@ import reprotool.model.linguistic.actionpart.Text;
  * <ul>
  *   <li>{@link reprotool.model.linguistic.actionpart.impl.TextImpl#getContent <em>Content</em>}</li>
  *   <li>{@link reprotool.model.linguistic.actionpart.impl.TextImpl#getActionPart <em>Action Part</em>}</li>
+ *   <li>{@link reprotool.model.linguistic.actionpart.impl.TextImpl#getLemmaForm <em>Lemma Form</em>}</li>
+ *   <li>{@link reprotool.model.linguistic.actionpart.impl.TextImpl#getPosTag <em>Pos Tag</em>}</li>
  * </ul>
  * </p>
  *
@@ -62,6 +64,46 @@ public class TextImpl extends EObjectImpl implements Text {
 	 * @ordered
 	 */
 	protected ActionPart actionPart;
+
+	/**
+	 * The default value of the '{@link #getLemmaForm() <em>Lemma Form</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getLemmaForm()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String LEMMA_FORM_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getLemmaForm() <em>Lemma Form</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getLemmaForm()
+	 * @generated
+	 * @ordered
+	 */
+	protected String lemmaForm = LEMMA_FORM_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getPosTag() <em>Pos Tag</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getPosTag()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String POS_TAG_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getPosTag() <em>Pos Tag</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getPosTag()
+	 * @generated
+	 * @ordered
+	 */
+	protected String posTag = POS_TAG_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -146,6 +188,48 @@ public class TextImpl extends EObjectImpl implements Text {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public String getLemmaForm() {
+		return lemmaForm;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setLemmaForm(String newLemmaForm) {
+		String oldLemmaForm = lemmaForm;
+		lemmaForm = newLemmaForm;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ActionpartPackage.TEXT__LEMMA_FORM, oldLemmaForm, lemmaForm));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getPosTag() {
+		return posTag;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setPosTag(String newPosTag) {
+		String oldPosTag = posTag;
+		posTag = newPosTag;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ActionpartPackage.TEXT__POS_TAG, oldPosTag, posTag));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
@@ -154,6 +238,10 @@ public class TextImpl extends EObjectImpl implements Text {
 			case ActionpartPackage.TEXT__ACTION_PART:
 				if (resolve) return getActionPart();
 				return basicGetActionPart();
+			case ActionpartPackage.TEXT__LEMMA_FORM:
+				return getLemmaForm();
+			case ActionpartPackage.TEXT__POS_TAG:
+				return getPosTag();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -171,6 +259,12 @@ public class TextImpl extends EObjectImpl implements Text {
 				return;
 			case ActionpartPackage.TEXT__ACTION_PART:
 				setActionPart((ActionPart)newValue);
+				return;
+			case ActionpartPackage.TEXT__LEMMA_FORM:
+				setLemmaForm((String)newValue);
+				return;
+			case ActionpartPackage.TEXT__POS_TAG:
+				setPosTag((String)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -190,6 +284,12 @@ public class TextImpl extends EObjectImpl implements Text {
 			case ActionpartPackage.TEXT__ACTION_PART:
 				setActionPart((ActionPart)null);
 				return;
+			case ActionpartPackage.TEXT__LEMMA_FORM:
+				setLemmaForm(LEMMA_FORM_EDEFAULT);
+				return;
+			case ActionpartPackage.TEXT__POS_TAG:
+				setPosTag(POS_TAG_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -206,6 +306,10 @@ public class TextImpl extends EObjectImpl implements Text {
 				return CONTENT_EDEFAULT == null ? content != null : !CONTENT_EDEFAULT.equals(content);
 			case ActionpartPackage.TEXT__ACTION_PART:
 				return actionPart != null;
+			case ActionpartPackage.TEXT__LEMMA_FORM:
+				return LEMMA_FORM_EDEFAULT == null ? lemmaForm != null : !LEMMA_FORM_EDEFAULT.equals(lemmaForm);
+			case ActionpartPackage.TEXT__POS_TAG:
+				return POS_TAG_EDEFAULT == null ? posTag != null : !POS_TAG_EDEFAULT.equals(posTag);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -220,8 +324,12 @@ public class TextImpl extends EObjectImpl implements Text {
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (Content: ");
+		result.append(" (content: ");
 		result.append(content);
+		result.append(", lemmaForm: ");
+		result.append(lemmaForm);
+		result.append(", posTag: ");
+		result.append(posTag);
 		result.append(')');
 		return result.toString();
 	}

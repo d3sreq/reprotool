@@ -21,7 +21,7 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  *
  * @see reprotool.model.linguistic.actionpart.ActionpartPackage#getActionPart()
- * @model abstract="true"
+ * @model interface="true" abstract="true"
  * @generated
  */
 public interface ActionPart extends EObject {

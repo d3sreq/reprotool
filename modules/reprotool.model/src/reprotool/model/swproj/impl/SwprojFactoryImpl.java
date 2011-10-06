@@ -64,6 +64,7 @@ public class SwprojFactoryImpl extends EFactoryImpl implements SwprojFactory {
 			case SwprojPackage.ACTOR: return createActor();
 			case SwprojPackage.REQUIREMENT: return createRequirement();
 			case SwprojPackage.NF_REQUIREMENT: return createNFRequirement();
+			case SwprojPackage.CONCEPTUAL_OBJECT: return createConceptualObject();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -107,6 +108,16 @@ public class SwprojFactoryImpl extends EFactoryImpl implements SwprojFactory {
 	public NFRequirement createNFRequirement() {
 		NFRequirementImpl nfRequirement = new NFRequirementImpl();
 		return nfRequirement;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ConceptualObject createConceptualObject() {
+		ConceptualObjectImpl conceptualObject = new ConceptualObjectImpl();
+		return conceptualObject;
 	}
 
 	/**

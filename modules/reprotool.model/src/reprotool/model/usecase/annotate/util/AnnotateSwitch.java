@@ -99,10 +99,10 @@ public class AnnotateSwitch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case AnnotatePackage.LTL_ANNOTATION: {
-				LTLAnnotation ltlAnnotation = (LTLAnnotation)theEObject;
-				T result = caseLTLAnnotation(ltlAnnotation);
-				if (result == null) result = caseStepAnnotationType(ltlAnnotation);
+			case AnnotatePackage.TEMPORAL_ANNOTATION: {
+				TemporalAnnotation temporalAnnotation = (TemporalAnnotation)theEObject;
+				T result = caseTemporalAnnotation(temporalAnnotation);
+				if (result == null) result = caseStepAnnotationType(temporalAnnotation);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -151,6 +151,13 @@ public class AnnotateSwitch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case AnnotatePackage.CTL_ANNOTATION_SET: {
+				CTLAnnotationSet ctlAnnotationSet = (CTLAnnotationSet)theEObject;
+				T result = caseCTLAnnotationSet(ctlAnnotationSet);
+				if (result == null) result = caseAnnotationSet(ctlAnnotationSet);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			default: return defaultCase(theEObject);
 		}
 	}
@@ -186,17 +193,17 @@ public class AnnotateSwitch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>LTL Annotation</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Temporal Annotation</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>LTL Annotation</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Temporal Annotation</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseLTLAnnotation(LTLAnnotation object) {
+	public T caseTemporalAnnotation(TemporalAnnotation object) {
 		return null;
 	}
 
@@ -287,6 +294,21 @@ public class AnnotateSwitch<T> {
 	 * @generated
 	 */
 	public T caseOnAnnotation(OnAnnotation object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>CTL Annotation Set</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>CTL Annotation Set</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseCTLAnnotationSet(CTLAnnotationSet object) {
 		return null;
 	}
 

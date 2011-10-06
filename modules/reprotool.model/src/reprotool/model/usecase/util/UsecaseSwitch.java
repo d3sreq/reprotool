@@ -99,10 +99,10 @@ public class UsecaseSwitch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case UsecasePackage.USE_CASE_STEP: {
-				UseCaseStep useCaseStep = (UseCaseStep)theEObject;
-				T result = caseUseCaseStep(useCaseStep);
-				if (result == null) result = caseReqCover(useCaseStep);
+			case UsecasePackage.PARSEABLE_ELEMENT: {
+				ParseableElement parseableElement = (ParseableElement)theEObject;
+				T result = caseParseableElement(parseableElement);
+				if (result == null) result = caseReqCover(parseableElement);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -112,29 +112,19 @@ public class UsecaseSwitch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case UsecasePackage.PRECONDITION: {
-				Precondition precondition = (Precondition)theEObject;
-				T result = casePrecondition(precondition);
-				if (result == null) result = caseCondition(precondition);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case UsecasePackage.POSTCONDITION: {
-				Postcondition postcondition = (Postcondition)theEObject;
-				T result = casePostcondition(postcondition);
-				if (result == null) result = caseCondition(postcondition);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
 			case UsecasePackage.CONDITION: {
 				Condition condition = (Condition)theEObject;
 				T result = caseCondition(condition);
+				if (result == null) result = caseParseableElement(condition);
+				if (result == null) result = caseReqCover(condition);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case UsecasePackage.GUARD: {
-				Guard guard = (Guard)theEObject;
-				T result = caseGuard(guard);
+			case UsecasePackage.USE_CASE_STEP: {
+				UseCaseStep useCaseStep = (UseCaseStep)theEObject;
+				T result = caseUseCaseStep(useCaseStep);
+				if (result == null) result = caseParseableElement(useCaseStep);
+				if (result == null) result = caseReqCover(useCaseStep);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -154,6 +144,21 @@ public class UsecaseSwitch<T> {
 	 * @generated
 	 */
 	public T caseUseCase(UseCase object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Parseable Element</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Parseable Element</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseParseableElement(ParseableElement object) {
 		return null;
 	}
 
@@ -188,36 +193,6 @@ public class UsecaseSwitch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Precondition</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Precondition</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T casePrecondition(Precondition object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Postcondition</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Postcondition</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T casePostcondition(Postcondition object) {
-		return null;
-	}
-
-	/**
 	 * Returns the result of interpreting the object as an instance of '<em>Condition</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
@@ -229,21 +204,6 @@ public class UsecaseSwitch<T> {
 	 * @generated
 	 */
 	public T caseCondition(Condition object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Guard</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Guard</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseGuard(Guard object) {
 		return null;
 	}
 

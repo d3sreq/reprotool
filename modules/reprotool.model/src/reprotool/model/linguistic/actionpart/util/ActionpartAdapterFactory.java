@@ -76,32 +76,12 @@ public class ActionpartAdapterFactory extends AdapterFactoryImpl {
 				return createTextAdapter();
 			}
 			@Override
-			public Adapter caseSubject(Subject object) {
-				return createSubjectAdapter();
+			public Adapter caseSentenceActor(SentenceActor object) {
+				return createSentenceActorAdapter();
 			}
 			@Override
-			public Adapter caseGotoTarget(GotoTarget object) {
-				return createGotoTargetAdapter();
-			}
-			@Override
-			public Adapter caseSentenceObject(SentenceObject object) {
-				return createSentenceObjectAdapter();
-			}
-			@Override
-			public Adapter caseVerb(Verb object) {
-				return createVerbAdapter();
-			}
-			@Override
-			public Adapter caseRepresentativeObject(RepresentativeObject object) {
-				return createRepresentativeObjectAdapter();
-			}
-			@Override
-			public Adapter caseIndirectObject(IndirectObject object) {
-				return createIndirectObjectAdapter();
-			}
-			@Override
-			public Adapter caseUseCaseIncludePart(UseCaseIncludePart object) {
-				return createUseCaseIncludePartAdapter();
+			public Adapter caseSentenceActionParam(SentenceActionParam object) {
+				return createSentenceActionParamAdapter();
 			}
 			@Override
 			public Adapter caseActionPart(ActionPart object) {
@@ -142,100 +122,30 @@ public class ActionpartAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link reprotool.model.linguistic.actionpart.Subject <em>Subject</em>}'.
+	 * Creates a new adapter for an object of class '{@link reprotool.model.linguistic.actionpart.SentenceActor <em>Sentence Actor</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see reprotool.model.linguistic.actionpart.Subject
+	 * @see reprotool.model.linguistic.actionpart.SentenceActor
 	 * @generated
 	 */
-	public Adapter createSubjectAdapter() {
+	public Adapter createSentenceActorAdapter() {
 		return null;
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link reprotool.model.linguistic.actionpart.GotoTarget <em>Goto Target</em>}'.
+	 * Creates a new adapter for an object of class '{@link reprotool.model.linguistic.actionpart.SentenceActionParam <em>Sentence Action Param</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see reprotool.model.linguistic.actionpart.GotoTarget
+	 * @see reprotool.model.linguistic.actionpart.SentenceActionParam
 	 * @generated
 	 */
-	public Adapter createGotoTargetAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link reprotool.model.linguistic.actionpart.SentenceObject <em>Sentence Object</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see reprotool.model.linguistic.actionpart.SentenceObject
-	 * @generated
-	 */
-	public Adapter createSentenceObjectAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link reprotool.model.linguistic.actionpart.Verb <em>Verb</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see reprotool.model.linguistic.actionpart.Verb
-	 * @generated
-	 */
-	public Adapter createVerbAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link reprotool.model.linguistic.actionpart.RepresentativeObject <em>Representative Object</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see reprotool.model.linguistic.actionpart.RepresentativeObject
-	 * @generated
-	 */
-	public Adapter createRepresentativeObjectAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link reprotool.model.linguistic.actionpart.IndirectObject <em>Indirect Object</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see reprotool.model.linguistic.actionpart.IndirectObject
-	 * @generated
-	 */
-	public Adapter createIndirectObjectAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link reprotool.model.linguistic.actionpart.UseCaseIncludePart <em>Use Case Include Part</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see reprotool.model.linguistic.actionpart.UseCaseIncludePart
-	 * @generated
-	 */
-	public Adapter createUseCaseIncludePartAdapter() {
+	public Adapter createSentenceActionParamAdapter() {
 		return null;
 	}
 

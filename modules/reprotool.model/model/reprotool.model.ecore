@@ -32,7 +32,7 @@
     <eClassifiers xsi:type="ecore:EClass" name="UseCase" eSuperTypes="#//swproj/ReqCover #//traceability/TraceableEntity">
       <eStructuralFeatures xsi:type="ecore:EReference" name="primaryActor" lowerBound="1"
           eType="#//swproj/Actor"/>
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="Name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="mainScenario" lowerBound="1"
           eType="#//usecase/Scenario" containment="true"/>
     </eClassifiers>
@@ -103,8 +103,8 @@
     <eClassifiers xsi:type="ecore:EClass" name="SoftwareProject">
       <eStructuralFeatures xsi:type="ecore:EReference" name="actors" upperBound="-1"
           eType="#//swproj/Actor" containment="true"/>
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="Name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="Description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="requirements" upperBound="-1"
           eType="#//swproj/Requirement" containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="srsDocuments" upperBound="-1"
@@ -136,8 +136,8 @@
           upperBound="-1" eType="#//swproj/Requirement"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="DomainElement" abstract="true" interface="true">
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="Name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="Description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="ConceptualObject" eSuperTypes="#//swproj/DomainElement"/>
   </eSubpackages>

@@ -14,6 +14,7 @@ import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
 
 import reprotool.model.linguistic.action.*;
+import reprotool.model.linguistic.actionpart.ActionPart;
 
 /**
  * <!-- begin-user-doc -->
@@ -72,16 +73,12 @@ public class ActionAdapterFactory extends AdapterFactoryImpl {
 	protected ActionSwitch<Adapter> modelSwitch =
 		new ActionSwitch<Adapter>() {
 			@Override
-			public Adapter caseSend(Send object) {
-				return createSendAdapter();
-			}
-			@Override
 			public Adapter caseAction(Action object) {
 				return createActionAdapter();
 			}
 			@Override
-			public Adapter caseReceive(Receive object) {
-				return createReceiveAdapter();
+			public Adapter caseFromSystem(FromSystem object) {
+				return createFromSystemAdapter();
 			}
 			@Override
 			public Adapter caseInternal(Internal object) {
@@ -100,12 +97,20 @@ public class ActionAdapterFactory extends AdapterFactoryImpl {
 				return createUseCaseIncludeAdapter();
 			}
 			@Override
-			public Adapter caseTerminateUseCase(TerminateUseCase object) {
-				return createTerminateUseCaseAdapter();
+			public Adapter caseAbortUseCase(AbortUseCase object) {
+				return createAbortUseCaseAdapter();
 			}
 			@Override
-			public Adapter caseTerminateBranch(TerminateBranch object) {
-				return createTerminateBranchAdapter();
+			public Adapter caseToSystem(ToSystem object) {
+				return createToSystemAdapter();
+			}
+			@Override
+			public Adapter caseCommunication(Communication object) {
+				return createCommunicationAdapter();
+			}
+			@Override
+			public Adapter caseActionPart(ActionPart object) {
+				return createActionPartAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -128,20 +133,6 @@ public class ActionAdapterFactory extends AdapterFactoryImpl {
 
 
 	/**
-	 * Creates a new adapter for an object of class '{@link reprotool.model.linguistic.action.Send <em>Send</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see reprotool.model.linguistic.action.Send
-	 * @generated
-	 */
-	public Adapter createSendAdapter() {
-		return null;
-	}
-
-	/**
 	 * Creates a new adapter for an object of class '{@link reprotool.model.linguistic.action.Action <em>Action</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
@@ -156,16 +147,16 @@ public class ActionAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link reprotool.model.linguistic.action.Receive <em>Receive</em>}'.
+	 * Creates a new adapter for an object of class '{@link reprotool.model.linguistic.action.FromSystem <em>From System</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see reprotool.model.linguistic.action.Receive
+	 * @see reprotool.model.linguistic.action.FromSystem
 	 * @generated
 	 */
-	public Adapter createReceiveAdapter() {
+	public Adapter createFromSystemAdapter() {
 		return null;
 	}
 
@@ -226,30 +217,58 @@ public class ActionAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link reprotool.model.linguistic.action.TerminateUseCase <em>Terminate Use Case</em>}'.
+	 * Creates a new adapter for an object of class '{@link reprotool.model.linguistic.action.AbortUseCase <em>Abort Use Case</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see reprotool.model.linguistic.action.TerminateUseCase
+	 * @see reprotool.model.linguistic.action.AbortUseCase
 	 * @generated
 	 */
-	public Adapter createTerminateUseCaseAdapter() {
+	public Adapter createAbortUseCaseAdapter() {
 		return null;
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link reprotool.model.linguistic.action.TerminateBranch <em>Terminate Branch</em>}'.
+	 * Creates a new adapter for an object of class '{@link reprotool.model.linguistic.action.ToSystem <em>To System</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see reprotool.model.linguistic.action.TerminateBranch
+	 * @see reprotool.model.linguistic.action.ToSystem
 	 * @generated
 	 */
-	public Adapter createTerminateBranchAdapter() {
+	public Adapter createToSystemAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link reprotool.model.linguistic.action.Communication <em>Communication</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see reprotool.model.linguistic.action.Communication
+	 * @generated
+	 */
+	public Adapter createCommunicationAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link reprotool.model.linguistic.actionpart.ActionPart <em>Action Part</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see reprotool.model.linguistic.actionpart.ActionPart
+	 * @generated
+	 */
+	public Adapter createActionPartAdapter() {
 		return null;
 	}
 
