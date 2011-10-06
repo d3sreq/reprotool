@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.actionSets">
+      <actionSet
+            id="reprotool.fm.nusmv.actionSet"
+            label="Sample Action Set"
+            visible="true">
+         <action
+               class="reprotool.fm.nusmv.actions.NuSMVTest"
+               icon="icons/sample.gif"
+               id="reprotool.fm.nusmv.actions.NuSMVTest"
+               label="&amp;Test NuSMV"
+               menubarPath="project/additions"
+               tooltip="Test NuSMV">
+         </action>
+      </actionSet>
+   </extension>
+
+</plugin>

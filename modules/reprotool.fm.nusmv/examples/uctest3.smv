@@ -1,0 +1,95 @@
+MODULE main
+	VAR x : UC_1(self, TRUE);
+	
+	-- ===========================
+	-- #create:item
+	-- ===========================
+	VAR create_item : boolean;
+	INIT create_item in FALSE;
+	ASSIGN next(create_item) := FALSE
+		| x.y.s in {s3};
+	
+	-- ===========================
+	-- #use:item
+	-- ===========================
+	VAR use_item : boolean;
+	INIT use_item in FALSE;
+	ASSIGN next(use_item) := FALSE
+		| x.s in {s4};
+
+	-- ===========================
+	-- #open:x
+	-- ===========================
+	VAR open_x : boolean;
+	INIT open_x in FALSE;
+	ASSIGN next(open_x) := FALSE
+		| x.s in {s1};
+
+	-- ===========================
+	-- #close:x
+	-- ===========================
+	VAR close_x : boolean;
+	INIT close_x in FALSE;
+	ASSIGN next(close_x) := FALSE
+		| x.s in {s3};
+
+	-- ===========================
+	-- #trace:a
+	-- ===========================
+	VAR tr_a : boolean;
+	INIT tr_a in FALSE;
+	ASSIGN next(tr_a) := case
+		x.y.s=s32 : TRUE;
+		TRUE : tr_a;
+	esac;
+
+-- ================================================
+--	0+>1(open:x)->2(incl:UC_2)->3(close:x)->{
+--		4(use:item),
+--		41(on:a)->42
+--	}->F
+-- ================================================
+MODULE UC_1(top, run)
+	VAR yrun : boolean;
+	INIT yrun in FALSE;
+	
+	VAR y : UC_2(top,yrun);
+	VAR s : {s0,s1,s2,s3,s41,s42,s4,sFin};
+	INIT s in s0;
+	
+	ASSIGN next(yrun) := (s=s2); -- starting included UC
+	
+	ASSIGN next(s) := case
+		s=s0 & !run : s0; -- waiting
+		s=s0 & run : s1;  -- started
+		s=s1 : s2;
+		s=s2 & y.s!=sFin : s2; -- waiting for included UC
+		s=s2 & y.s=sFin : s3;  -- continue after included UC finished
+		s=s3 & !top.tr_a : s4;
+		s=s3 &  top.tr_a : s41; -- guard #on:a
+		s=s41 : s42;
+		s=s42 : sFin;
+		s=s4 : sFin;
+		s=sFin : sFin;
+	esac;
+	
+-- ================================================
+--	0+>1->2->{
+--		3(create:item),
+--		31->32(trace:a)
+--	}->F
+-- ================================================
+MODULE UC_2(top, run)
+	VAR s : {s0,s1,s2,s31,s32,s3,sFin};
+	INIT s in s0;
+	
+	ASSIGN next(s) := case
+		s=s0 & !run : s0;
+		s=s0 & run : s1;
+		s=s1 : s2;
+		s=s2 : {s3,s31};
+		s=s31 : s32;
+		s=s32 : sFin;
+		s=s3 : sFin;
+		s=sFin : sFin;
+	esac;

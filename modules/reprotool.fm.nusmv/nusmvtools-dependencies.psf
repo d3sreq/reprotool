@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<psf version="2.0">
+<provider id="org.tigris.subversion.subclipse.core.svnnature">
+<project reference="0.9.3,http://svn.codespot.com/a/eclipselabs.org/nusmv-tools/trunk/nusmv4j/com.ochafik.lang.jnaeratorruntime,com.ochafik.lang.jnaeratorruntime"/>
+<project reference="0.9.3,http://svn.codespot.com/a/eclipselabs.org/nusmv-tools/trunk/nusmv4j/com.sun.jna,com.sun.jna"/>
+<project reference="0.9.3,http://svn.codespot.com/a/eclipselabs.org/nusmv-tools/trunk/counterexample/org.eclipselabs.nusmvtools.counterexample,org.eclipselabs.nusmvtools.counterexample"/>
+<project reference="0.9.3,http://svn.codespot.com/a/eclipselabs.org/nusmv-tools/trunk/nusmv4j/org.eclipselabs.nusmvtools.nusmv4j,org.eclipselabs.nusmvtools.nusmv4j"/>
+<project reference="0.9.3,http://svn.codespot.com/a/eclipselabs.org/nusmv-tools/trunk/nusmv4j/org.eclipselabs.nusmvtools.nusmv4j.tests,org.eclipselabs.nusmvtools.nusmv4j.tests"/>
+</provider>
+</psf>

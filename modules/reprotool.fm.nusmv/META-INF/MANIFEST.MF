@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Nusmv Interface
+Bundle-SymbolicName: reprotool.fm.nusmv; singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: reprotool.fm.nusmv.Activator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipselabs.nusmvtools.nusmv4j;bundle-version="4.0.1",
+ org.eclipse.emf.ecore;bundle-version="2.6.1",
+ org.eclipselabs.nusmvtools.counterexample;bundle-version="0.0.2",
+ reprotool.model;bundle-version="1.0.0",
+ org.eclipse.ui.console;bundle-version="3.5.0"
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
