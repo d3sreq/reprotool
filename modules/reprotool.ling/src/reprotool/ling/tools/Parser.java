@@ -8,14 +8,6 @@ import java.util.regex.Pattern;
 import org.eclipse.core.runtime.Platform;
 
 import reprotool.ling.Tool;
-import reprotool.model.linguistic.parsetree.InnerParseNode;
-import reprotool.model.linguistic.parsetree.NounPhraseNode;
-import reprotool.model.linguistic.parsetree.ParsetreeFactory;
-import reprotool.model.linguistic.parsetree.PrepositionalPhraseNode;
-import reprotool.model.linguistic.parsetree.SentenceNode;
-import reprotool.model.linguistic.parsetree.VerbPhraseNode;
-import reprotool.model.linguistic.parsetree.Word;
-
 import danbikel.lisp.Sexp;
 import danbikel.parser.Settings;
 

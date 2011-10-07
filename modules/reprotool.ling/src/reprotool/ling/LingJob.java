@@ -11,12 +11,9 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.MessageDialog;
-
 import org.eclipse.swt.widgets.Display;
-
-import org.eclipse.ui.progress.IProgressConstants;
-
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.progress.IProgressConstants;
 
 import reprotool.ling.tools.Tagger;
 import reprotool.ling.tools.Tokenizer;

@@ -3,12 +3,12 @@ package reprotool.ling.antocorpus;
 import java.util.Iterator;
 import java.util.List;
 
+import reprotool.ling.wordnet.WordNet;
 import edu.mit.jwi.item.IIndexWord;
 import edu.mit.jwi.item.IWord;
 import edu.mit.jwi.item.IWordID;
 import edu.mit.jwi.item.POS;
 import edu.mit.jwi.item.Pointer;
-import reprotool.ling.wordnet.WordNet;
 
 public class ExportWordNet {
 	

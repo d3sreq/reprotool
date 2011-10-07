@@ -1,13 +1,9 @@
 package reprotool.ling.analyser;
 
 import reprotool.ling.Sentence;
+import reprotool.ling.impl.LingFactoryImpl;
 import reprotool.model.linguistic.action.Action;
 import reprotool.model.linguistic.action.ActionFactory;
-import reprotool.model.linguistic.parsetree.EWordType;
-import reprotool.model.linguistic.parsetree.InnerParseNode;
-import reprotool.model.linguistic.parsetree.ParseNode;
-import reprotool.model.linguistic.parsetree.SentenceNode;
-import reprotool.model.linguistic.parsetree.Word;
 import reprotool.model.usecase.UseCaseStep;
 
 /**
@@ -37,7 +33,8 @@ public class Analyser {
 		SentenceNode curNode = parsedTree;
 		Boolean definedAction = false;
 
-		Sentence sentence = new Sentence(text);
+		Sentence sentence = LingFactoryImpl.eINSTANCE.createSentence()
+		sentence.parseString(text);
 		
 		// tree analyse
 		boolean subject = true;
@@ -93,10 +90,10 @@ public class Analyser {
 
 		// ABORT and TERMINATION
 		if (!definedAction){
-			if (sentence.words.size() > 0) {
-				for (int i = 0; i < sentence.words.size(); i++) {
+			if (sentence.getWords().size() > 0) {
+				for (int i = 0; i < sentence.getWords().size(); i++) {
 					for (int t = 0; t < terminateVerbs.length; t++) {
-						if (sentence.words.get(i).text.equalsIgnoreCase(terminateVerbs[t])) {
+						if (sentence.getWords().get(i).getWordStr().equalsIgnoreCase(terminateVerbs[t])) {
 							// ABORT vs TERMINATION
 							Action action = afactory.createAbortUseCase();
 							ucs.setAction(action);
@@ -105,7 +102,7 @@ public class Analyser {
 						}
 					}
 					for (int a = 0; a < abortVerbs.length; a++) {
-						if (sentence.words.get(i).text.equalsIgnoreCase(abortVerbs[a])) {
+						if (sentence.getWords().get(i).getWordStr().equalsIgnoreCase(abortVerbs[a])) {
 							Action action = afactory.createAbortUseCase();
 							ucs.setAction(action);
 							definedAction = true;

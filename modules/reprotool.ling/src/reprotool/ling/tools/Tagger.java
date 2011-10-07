@@ -5,7 +5,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
+
 import org.eclipse.core.runtime.Platform;
+
 import reprotool.ling.LingJob;
 import reprotool.ling.Tool;
 
