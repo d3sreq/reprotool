@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="ASCII"?>
+<swproj:SoftwareProject xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:action="http://d3s.mff.cuni.cz/reprotool/model/linguistic/action" xmlns:swproj="http://d3s.mff.cuni.cz/reprotool/model/swproj" xsi:schemaLocation="http://d3s.mff.cuni.cz/reprotool/model/linguistic/action reprotool.model.ecore#//linguistic/action http://d3s.mff.cuni.cz/reprotool/model/swproj reprotool.model.ecore#//swproj" name="File manager">
+  <actors name="User"/>
+  <actors name="GUI"/>
+  <actors name="System"/>
+  <actors name="Content Display Component"/>
+  <useCases primaryActor="//@actors.0" name="Listing of directory">
+    <mainScenario>
+      <steps>
+        <textNodes content="User selects a directory from an available list and confirms  his selection" lemmaForm="User select directory from available list and confirm selection" posTag=""/>
+        <extensions>
+          <steps>
+            <textNodes content="System selects user's root directory"/>
+            <action xsi:type="action:Internal" actionName="//@useCases.0/@mainScenario/@steps.0/@extensions.0/@steps.0/@textNodes.0"/>
+          </steps>
+          <steps>
+            <textNodes content="Execution continues from point 2 with root directory" lemmaForm="Execution continue from point 2 with root directory"/>
+            <action xsi:type="action:Goto" text="//@useCases.0/@mainScenario/@steps.0/@extensions.0/@steps.1/@textNodes.0" gotoTarget="//@useCases.0/@mainScenario/@steps.1"/>
+          </steps>
+          <preconditions>
+            <textNodes content="There is no available list of directories (there is unvalid default directory in the configuration)"/>
+          </preconditions>
+        </extensions>
+        <action xsi:type="action:ToSystem" actionName="//@useCases.0/@mainScenario/@steps.0/@textNodes.0">
+          <sender actor="//@actors.0"/>
+        </action>
+      </steps>
+      <steps>
+        <textNodes content="System obtains representation of directory" lemmaForm="System obtain representation of directory"/>
+        <extensions>
+          <steps>
+            <textNodes content="Warning for user is displayed"/>
+            <action xsi:type="action:FromSystem" actionName="//@useCases.0/@mainScenario/@steps.1/@extensions.0/@steps.0/@textNodes.0">
+              <actionParam conceptualObject="//@conceptualObjects.1"/>
+              <receiver actor="//@actors.0"/>
+            </action>
+          </steps>
+          <steps>
+            <textNodes content="System tries to update list of files in current directory"/>
+            <extensions>
+              <steps>
+                <textNodes content="System continues from point 1a1"/>
+                <action xsi:type="action:Goto" gotoTarget="//@useCases.0/@mainScenario/@steps.0/@extensions.0/@steps.1"/>
+              </steps>
+              <preconditions>
+                <textNodes content="Current directory is not available"/>
+              </preconditions>
+            </extensions>
+            <action xsi:type="action:Internal" actionName="//@useCases.0/@mainScenario/@steps.1/@extensions.0/@steps.1/@textNodes.0"/>
+          </steps>
+          <steps>
+            <textNodes content="Continue from point 2 with current directory"/>
+            <action xsi:type="action:Goto" gotoTarget="//@useCases.0/@mainScenario/@steps.1"/>
+          </steps>
+          <preconditions>
+            <textNodes content="Selected directory is not available at the moment"/>
+          </preconditions>
+        </extensions>
+        <action xsi:type="action:Internal" actionName="//@useCases.0/@mainScenario/@steps.1/@textNodes.0"/>
+      </steps>
+      <steps>
+        <textNodes content="Systems notifies the GUI that directory representation is available" lemmaForm="Systems notify GUI that directory representation is available"/>
+        <action xsi:type="action:FromSystem">
+          <receiver actor="//@actors.1"/>
+        </action>
+      </steps>
+      <steps>
+        <textNodes content="GUI updates window with new content of directory" lemmaForm="GUI update window with new content of directory"/>
+        <action xsi:type="action:FromSystem">
+          <actionParam conceptualObject="//@conceptualObjects.0"/>
+          <receiver actor="//@actors.1"/>
+        </action>
+      </steps>
+    </mainScenario>
+  </useCases>
+  <useCases primaryActor="//@actors.0" name="Display file content">
+    <mainScenario>
+      <steps>
+        <textNodes content="User selects a file from list to display it's content"/>
+        <action xsi:type="action:ToSystem" actionName="//@useCases.1/@mainScenario/@steps.0/@textNodes.0">
+          <actionParam conceptualObject="//@conceptualObjects.2"/>
+          <sender actor="//@actors.0"/>
+        </action>
+      </steps>
+      <steps>
+        <textNodes content="System recognize the type of file according to file extension"/>
+        <action xsi:type="action:Internal" actionName="//@useCases.1/@mainScenario/@steps.1/@textNodes.0"/>
+      </steps>
+      <steps>
+        <textNodes content="Suitable component is called to display content" lemmaForm=""/>
+        <variations>
+          <steps>
+            <textNodes content="Component to display binary content is called"/>
+            <action xsi:type="action:FromSystem" actionName="//@useCases.1/@mainScenario/@steps.2/@variations.0/@steps.0/@textNodes.0">
+              <receiver actor="//@actors.3"/>
+            </action>
+          </steps>
+          <preconditions>
+            <textNodes content="Unknown file extension"/>
+          </preconditions>
+        </variations>
+        <action xsi:type="action:FromSystem" actionName="//@useCases.1/@mainScenario/@steps.2/@textNodes.0">
+          <receiver actor="//@actors.3"/>
+        </action>
+      </steps>
+      <steps>
+        <textNodes content="Called component obtains representation of the file to display"/>
+        <extensions>
+          <steps>
+            <textNodes content="A warning message is displayed to user"/>
+            <action xsi:type="action:FromSystem" actionName="//@useCases.1/@mainScenario/@steps.3/@extensions.0/@steps.0/@textNodes.0">
+              <actionParam conceptualObject="//@conceptualObjects.1"/>
+              <receiver actor="//@actors.0"/>
+            </action>
+          </steps>
+          <steps>
+            <textNodes content="Scenario aborted"/>
+            <action xsi:type="action:AbortUseCase"/>
+          </steps>
+          <preconditions>
+            <textNodes content="File is not available"/>
+          </preconditions>
+        </extensions>
+        <extensions>
+          <steps>
+            <textNodes content="A warning message is displayed to user"/>
+            <action xsi:type="action:FromSystem" actionName="//@useCases.1/@mainScenario/@steps.3/@extensions.1/@steps.0/@textNodes.0">
+              <actionParam conceptualObject="//@conceptualObjects.1"/>
+              <receiver actor="//@actors.0"/>
+            </action>
+          </steps>
+          <steps>
+            <textNodes content="Execution continues from point 3 variation false - binary content is displayed"/>
+            <action xsi:type="action:Goto" gotoTarget="//@useCases.1/@mainScenario/@steps.2/@variations.0/@steps.0"/>
+          </steps>
+          <preconditions>
+            <textNodes content="File content doesn't match to it's file extension"/>
+          </preconditions>
+        </extensions>
+        <action xsi:type="action:FromSystem" actionName="//@useCases.1/@mainScenario/@steps.3/@textNodes.0">
+          <actionParam conceptualObject="//@conceptualObjects.3"/>
+          <receiver actor="//@actors.3"/>
+        </action>
+      </steps>
+      <steps>
+        <textNodes content="A new window with file content is created and displayed"/>
+        <action xsi:type="action:Internal" actionName="//@useCases.1/@mainScenario/@steps.4/@textNodes.0"/>
+      </steps>
+    </mainScenario>
+  </useCases>
+  <useCases primaryActor="//@actors.0" name="Compress file">
+    <mainScenario>
+      <steps>
+        <textNodes content="User select a file, directory or a group of both to compress"/>
+      </steps>
+      <steps>
+        <textNodes content="System prompts user to get a new name and path for the compressed file"/>
+      </steps>
+      <steps>
+        <textNodes content="User enters the name for the compressed file"/>
+        <extensions>
+          <steps>
+            <textNodes content="Warning message is displayed to user"/>
+            <action xsi:type="action:FromSystem" actionName="//@useCases.2/@mainScenario/@steps.2/@extensions.0/@steps.0/@textNodes.0">
+              <actionParam conceptualObject="//@conceptualObjects.1"/>
+              <receiver actor="//@actors.0"/>
+            </action>
+          </steps>
+          <steps>
+            <textNodes content="System continues from point 2"/>
+            <action xsi:type="action:Goto" gotoTarget="//@useCases.2/@mainScenario/@steps.1"/>
+          </steps>
+          <preconditions>
+            <textNodes content="User provides invalid name for new file (file already exists or name contains unallowed characters)"/>
+          </preconditions>
+        </extensions>
+        <extensions>
+          <steps>
+            <textNodes content="Scenario aborted"/>
+            <action xsi:type="action:AbortUseCase"/>
+          </steps>
+          <preconditions>
+            <textNodes content="User cancels compression"/>
+          </preconditions>
+        </extensions>
+      </steps>
+      <steps>
+        <textNodes content="System prompts user to get a compression method"/>
+        <extensions>
+          <steps>
+            <textNodes content="Scenario aborted"/>
+            <action xsi:type="action:AbortUseCase"/>
+          </steps>
+          <preconditions>
+            <textNodes content="User cancels compression"/>
+          </preconditions>
+        </extensions>
+        <action xsi:type="action:FromSystem" actionName="//@useCases.2/@mainScenario/@steps.3/@textNodes.0">
+          <actionParam conceptualObject="//@conceptualObjects.4"/>
+          <receiver actor="//@actors.0"/>
+        </action>
+      </steps>
+      <steps>
+        <textNodes content="User selects the compression method"/>
+      </steps>
+      <steps>
+        <textNodes content="System calls an appropriate component providing selected compression method"/>
+      </steps>
+      <steps>
+        <textNodes content="Compression component creates an empty output file"/>
+        <extensions>
+          <steps>
+            <textNodes content="Warning message is displayed to user"/>
+            <action xsi:type="action:FromSystem">
+              <actionParam conceptualObject="//@conceptualObjects.1"/>
+              <receiver actor="//@actors.0"/>
+            </action>
+          </steps>
+          <steps>
+            <textNodes content="Scenario aborted"/>
+            <action xsi:type="action:AbortUseCase"/>
+          </steps>
+          <preconditions>
+            <textNodes content="Output file cannot be created"/>
+          </preconditions>
+        </extensions>
+      </steps>
+      <steps>
+        <textNodes content="Compression component runs compression in separate thread"/>
+        <extensions>
+          <preconditions>
+            <textNodes content="One or more input file is not available at the moment of compression"/>
+          </preconditions>
+        </extensions>
+        <extensions>
+          <steps>
+            <textNodes content="Warning message is displayed to user"/>
+            <action xsi:type="action:FromSystem">
+              <actionParam conceptualObject="//@conceptualObjects.1"/>
+              <receiver actor="//@actors.0"/>
+            </action>
+          </steps>
+          <steps>
+            <textNodes content="Output file is closed and deleted"/>
+            <action xsi:type="action:Internal"/>
+          </steps>
+          <steps>
+            <textNodes content="Scenario aborted"/>
+            <action xsi:type="action:AbortUseCase"/>
+          </steps>
+          <preconditions>
+            <textNodes content="Cannot write to output file (not enough space on disc)"/>
+          </preconditions>
+        </extensions>
+      </steps>
+      <steps>
+        <textNodes content="Compression component display progress bar in separate window"/>
+      </steps>
+      <steps>
+        <textNodes content="Output file is closed"/>
+        <extensions>
+          <steps>
+            <textNodes content="Warning message is displayed to user"/>
+            <action xsi:type="action:FromSystem">
+              <actionParam conceptualObject="//@conceptualObjects.1"/>
+              <receiver actor="//@actors.0"/>
+            </action>
+          </steps>
+          <steps>
+            <textNodes content="Scenario is aborted"/>
+            <action xsi:type="action:AbortUseCase"/>
+          </steps>
+          <preconditions>
+            <textNodes content="Output file cannot be closed"/>
+          </preconditions>
+        </extensions>
+      </steps>
+      <steps>
+        <textNodes content="Compression component notifies system after finishing compression"/>
+      </steps>
+      <steps>
+        <textNodes content="Include Use Case: &quot;Listing of directory&quot;"/>
+        <variations>
+          <steps>
+            <textNodes content="Nothing happens"/>
+          </steps>
+          <preconditions>
+            <textNodes content="Output file is in different directory as displayed"/>
+          </preconditions>
+        </variations>
+      </steps>
+    </mainScenario>
+  </useCases>
+  <conceptualObjects name="Content of directory"/>
+  <conceptualObjects name="Warning message"/>
+  <conceptualObjects name="File name"/>
+  <conceptualObjects name="File content"/>
+  <conceptualObjects name="Compression method"/>
+</swproj:SoftwareProject>

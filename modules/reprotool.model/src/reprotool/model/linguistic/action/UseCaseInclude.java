@@ -30,26 +30,26 @@ import reprotool.model.linguistic.actionpart.UseCaseIncludePart;
  */
 public interface UseCaseInclude extends Action, ActionPart {
 	/**
-	 * Returns the value of the '<em><b>Include Target</b></em>' containment reference.
+	 * Returns the value of the '<em><b>Include Target</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Include Target</em>' containment reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Include Target</em>' containment reference.
+	 * @return the value of the '<em>Include Target</em>' reference.
 	 * @see #setIncludeTarget(UseCase)
 	 * @see reprotool.model.linguistic.action.ActionPackage#getUseCaseInclude_IncludeTarget()
-	 * @model containment="true" required="true"
+	 * @model required="true"
 	 * @generated
 	 */
 	UseCase getIncludeTarget();
 
 	/**
-	 * Sets the value of the '{@link reprotool.model.linguistic.action.UseCaseInclude#getIncludeTarget <em>Include Target</em>}' containment reference.
+	 * Sets the value of the '{@link reprotool.model.linguistic.action.UseCaseInclude#getIncludeTarget <em>Include Target</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Include Target</em>' containment reference.
+	 * @param value the new value of the '<em>Include Target</em>' reference.
 	 * @see #getIncludeTarget()
 	 * @generated
 	 */

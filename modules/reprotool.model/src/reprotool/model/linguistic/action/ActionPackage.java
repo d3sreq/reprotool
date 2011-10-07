@@ -217,7 +217,7 @@ public interface ActionPackage extends EPackage {
 	int GOTO__TEXT = ACTION_FEATURE_COUNT + 0;
 
 	/**
-	 * The feature id for the '<em><b>Goto Target</b></em>' containment reference.
+	 * The feature id for the '<em><b>Goto Target</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -273,7 +273,7 @@ public interface ActionPackage extends EPackage {
 	int USE_CASE_INCLUDE__TEXT = ACTION_FEATURE_COUNT + 0;
 
 	/**
-	 * The feature id for the '<em><b>Include Target</b></em>' containment reference.
+	 * The feature id for the '<em><b>Include Target</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -407,10 +407,10 @@ public interface ActionPackage extends EPackage {
 	EClass getGoto();
 
 	/**
-	 * Returns the meta object for the containment reference '{@link reprotool.model.linguistic.action.Goto#getGotoTarget <em>Goto Target</em>}'.
+	 * Returns the meta object for the reference '{@link reprotool.model.linguistic.action.Goto#getGotoTarget <em>Goto Target</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Goto Target</em>'.
+	 * @return the meta object for the reference '<em>Goto Target</em>'.
 	 * @see reprotool.model.linguistic.action.Goto#getGotoTarget()
 	 * @see #getGoto()
 	 * @generated
@@ -438,10 +438,10 @@ public interface ActionPackage extends EPackage {
 	EClass getUseCaseInclude();
 
 	/**
-	 * Returns the meta object for the containment reference '{@link reprotool.model.linguistic.action.UseCaseInclude#getIncludeTarget <em>Include Target</em>}'.
+	 * Returns the meta object for the reference '{@link reprotool.model.linguistic.action.UseCaseInclude#getIncludeTarget <em>Include Target</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Include Target</em>'.
+	 * @return the meta object for the reference '<em>Include Target</em>'.
 	 * @see reprotool.model.linguistic.action.UseCaseInclude#getIncludeTarget()
 	 * @see #getUseCaseInclude()
 	 * @generated
@@ -582,7 +582,7 @@ public interface ActionPackage extends EPackage {
 		EClass GOTO = eINSTANCE.getGoto();
 
 		/**
-		 * The meta object literal for the '<em><b>Goto Target</b></em>' containment reference feature.
+		 * The meta object literal for the '<em><b>Goto Target</b></em>' reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
@@ -610,7 +610,7 @@ public interface ActionPackage extends EPackage {
 		EClass USE_CASE_INCLUDE = eINSTANCE.getUseCaseInclude();
 
 		/**
-		 * The meta object literal for the '<em><b>Include Target</b></em>' containment reference feature.
+		 * The meta object literal for the '<em><b>Include Target</b></em>' reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated

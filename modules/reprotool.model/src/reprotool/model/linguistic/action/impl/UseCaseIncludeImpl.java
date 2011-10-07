@@ -49,7 +49,7 @@ public class UseCaseIncludeImpl extends EObjectImpl implements UseCaseInclude {
 	 */
 	protected Text text;
 	/**
-	 * The cached value of the '{@link #getIncludeTarget() <em>Include Target</em>}' containment reference.
+	 * The cached value of the '{@link #getIncludeTarget() <em>Include Target</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getIncludeTarget()
@@ -120,6 +120,14 @@ public class UseCaseIncludeImpl extends EObjectImpl implements UseCaseInclude {
 	 * @generated
 	 */
 	public UseCase getIncludeTarget() {
+		if (includeTarget != null && includeTarget.eIsProxy()) {
+			InternalEObject oldIncludeTarget = (InternalEObject)includeTarget;
+			includeTarget = (UseCase)eResolveProxy(oldIncludeTarget);
+			if (includeTarget != oldIncludeTarget) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, ActionPackage.USE_CASE_INCLUDE__INCLUDE_TARGET, oldIncludeTarget, includeTarget));
+			}
+		}
 		return includeTarget;
 	}
 
@@ -128,14 +136,8 @@ public class UseCaseIncludeImpl extends EObjectImpl implements UseCaseInclude {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetIncludeTarget(UseCase newIncludeTarget, NotificationChain msgs) {
-		UseCase oldIncludeTarget = includeTarget;
-		includeTarget = newIncludeTarget;
-		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ActionPackage.USE_CASE_INCLUDE__INCLUDE_TARGET, oldIncludeTarget, newIncludeTarget);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
-		}
-		return msgs;
+	public UseCase basicGetIncludeTarget() {
+		return includeTarget;
 	}
 
 	/**
@@ -144,31 +146,10 @@ public class UseCaseIncludeImpl extends EObjectImpl implements UseCaseInclude {
 	 * @generated
 	 */
 	public void setIncludeTarget(UseCase newIncludeTarget) {
-		if (newIncludeTarget != includeTarget) {
-			NotificationChain msgs = null;
-			if (includeTarget != null)
-				msgs = ((InternalEObject)includeTarget).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ActionPackage.USE_CASE_INCLUDE__INCLUDE_TARGET, null, msgs);
-			if (newIncludeTarget != null)
-				msgs = ((InternalEObject)newIncludeTarget).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ActionPackage.USE_CASE_INCLUDE__INCLUDE_TARGET, null, msgs);
-			msgs = basicSetIncludeTarget(newIncludeTarget, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ActionPackage.USE_CASE_INCLUDE__INCLUDE_TARGET, newIncludeTarget, newIncludeTarget));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case ActionPackage.USE_CASE_INCLUDE__INCLUDE_TARGET:
-				return basicSetIncludeTarget(null, msgs);
-		}
-		return super.eInverseRemove(otherEnd, featureID, msgs);
+		UseCase oldIncludeTarget = includeTarget;
+		includeTarget = newIncludeTarget;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ActionPackage.USE_CASE_INCLUDE__INCLUDE_TARGET, oldIncludeTarget, includeTarget));
 	}
 
 	/**
@@ -183,7 +164,8 @@ public class UseCaseIncludeImpl extends EObjectImpl implements UseCaseInclude {
 				if (resolve) return getText();
 				return basicGetText();
 			case ActionPackage.USE_CASE_INCLUDE__INCLUDE_TARGET:
-				return getIncludeTarget();
+				if (resolve) return getIncludeTarget();
+				return basicGetIncludeTarget();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}

@@ -49,7 +49,7 @@ public class GotoImpl extends EObjectImpl implements Goto {
 	 */
 	protected Text text;
 	/**
-	 * The cached value of the '{@link #getGotoTarget() <em>Goto Target</em>}' containment reference.
+	 * The cached value of the '{@link #getGotoTarget() <em>Goto Target</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getGotoTarget()
@@ -121,6 +121,14 @@ public class GotoImpl extends EObjectImpl implements Goto {
 	 * @generated
 	 */
 	public UseCaseStep getGotoTarget() {
+		if (gotoTarget != null && gotoTarget.eIsProxy()) {
+			InternalEObject oldGotoTarget = (InternalEObject)gotoTarget;
+			gotoTarget = (UseCaseStep)eResolveProxy(oldGotoTarget);
+			if (gotoTarget != oldGotoTarget) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, ActionPackage.GOTO__GOTO_TARGET, oldGotoTarget, gotoTarget));
+			}
+		}
 		return gotoTarget;
 	}
 
@@ -129,14 +137,8 @@ public class GotoImpl extends EObjectImpl implements Goto {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetGotoTarget(UseCaseStep newGotoTarget, NotificationChain msgs) {
-		UseCaseStep oldGotoTarget = gotoTarget;
-		gotoTarget = newGotoTarget;
-		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ActionPackage.GOTO__GOTO_TARGET, oldGotoTarget, newGotoTarget);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
-		}
-		return msgs;
+	public UseCaseStep basicGetGotoTarget() {
+		return gotoTarget;
 	}
 
 	/**
@@ -145,31 +147,10 @@ public class GotoImpl extends EObjectImpl implements Goto {
 	 * @generated
 	 */
 	public void setGotoTarget(UseCaseStep newGotoTarget) {
-		if (newGotoTarget != gotoTarget) {
-			NotificationChain msgs = null;
-			if (gotoTarget != null)
-				msgs = ((InternalEObject)gotoTarget).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ActionPackage.GOTO__GOTO_TARGET, null, msgs);
-			if (newGotoTarget != null)
-				msgs = ((InternalEObject)newGotoTarget).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ActionPackage.GOTO__GOTO_TARGET, null, msgs);
-			msgs = basicSetGotoTarget(newGotoTarget, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ActionPackage.GOTO__GOTO_TARGET, newGotoTarget, newGotoTarget));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case ActionPackage.GOTO__GOTO_TARGET:
-				return basicSetGotoTarget(null, msgs);
-		}
-		return super.eInverseRemove(otherEnd, featureID, msgs);
+		UseCaseStep oldGotoTarget = gotoTarget;
+		gotoTarget = newGotoTarget;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ActionPackage.GOTO__GOTO_TARGET, oldGotoTarget, gotoTarget));
 	}
 
 	/**
@@ -184,7 +165,8 @@ public class GotoImpl extends EObjectImpl implements Goto {
 				if (resolve) return getText();
 				return basicGetText();
 			case ActionPackage.GOTO__GOTO_TARGET:
-				return getGotoTarget();
+				if (resolve) return getGotoTarget();
+				return basicGetGotoTarget();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}

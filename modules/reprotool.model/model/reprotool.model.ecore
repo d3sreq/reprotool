@@ -184,12 +184,12 @@
       <eClassifiers xsi:type="ecore:EClass" name="Internal" eSuperTypes="#//linguistic/action/Communication"/>
       <eClassifiers xsi:type="ecore:EClass" name="Goto" eSuperTypes="#//linguistic/action/Action #//linguistic/actionpart/ActionPart">
         <eStructuralFeatures xsi:type="ecore:EReference" name="gotoTarget" lowerBound="1"
-            eType="#//usecase/UseCaseStep" containment="true"/>
+            eType="#//usecase/UseCaseStep"/>
       </eClassifiers>
       <eClassifiers xsi:type="ecore:EClass" name="Unknown" eSuperTypes="#//linguistic/action/Action"/>
       <eClassifiers xsi:type="ecore:EClass" name="UseCaseInclude" eSuperTypes="#//linguistic/action/Action #//linguistic/actionpart/ActionPart">
         <eStructuralFeatures xsi:type="ecore:EReference" name="includeTarget" lowerBound="1"
-            eType="#//usecase/UseCase" containment="true"/>
+            eType="#//usecase/UseCase"/>
       </eClassifiers>
       <eClassifiers xsi:type="ecore:EClass" name="AbortUseCase" eSuperTypes="#//linguistic/action/Action"/>
       <eClassifiers xsi:type="ecore:EClass" name="ToSystem" eSuperTypes="#//linguistic/action/Communication">
