@@ -100,7 +100,7 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 		
 		// TODO: saving LTS to file
 		ResourceSet rs = new ResourceSetImpl();
-		URI fileURI = URI.createPlatformResourceURI("Test6/testik.lts", true);
+		URI fileURI = URI.createPlatformResourceURI("repro1/testik.lts", true);
 		Resource resource = rs.createResource(fileURI);
 		resource.getContents().add(machine);
 

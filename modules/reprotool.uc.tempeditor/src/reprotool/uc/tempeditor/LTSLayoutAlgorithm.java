@@ -8,15 +8,15 @@ import org.eclipse.zest.layouts.algorithms.AbstractLayoutAlgorithm;
 import org.eclipse.zest.layouts.dataStructures.InternalNode;
 import org.eclipse.zest.layouts.dataStructures.InternalRelationship;
 
+import reprotool.model.linguistic.action.Goto;
 import reprotool.model.lts.State;
-import reprotool.model.usecase.Guard;
 import reprotool.model.usecase.Scenario;
 import reprotool.model.usecase.UseCaseStep;
 
 
 public class LTSLayoutAlgorithm extends AbstractLayoutAlgorithm {
 	private double verSpacing = 30;
-	private double horSpacing = 40;
+	private double horSpacing = 80;
 	
 	private Point rootPos = new Point();
 
@@ -69,9 +69,25 @@ public class LTSLayoutAlgorithm extends AbstractLayoutAlgorithm {
 		return nextCol;
 	}
 	
+	/*
+	 * Goto steps do not use their own graph nodes - they should
+	 * not be counted to the scenario graphics size.
+	 */
+	private int countEffectiveSize(Scenario s) {
+		if (s.getSteps().isEmpty()) {
+			return 0;
+		}
+		UseCaseStep lastStep = s.getSteps().get(s.getSteps().size() - 1);
+		if (lastStep.getAction() instanceof Goto) {
+			return s.getSteps().size() - 1;
+		}
+		
+		return s.getSteps().size();
+	}
+	
 	private void layoutScenario(Scenario s, double x0, double y0, SpanDirection span) {
 		double x = x0;
-		double y = y0 + (s.getSteps().size() - 1) * verticalLineSize;
+		double y = y0 + (countEffectiveSize(s) - 1) * verticalLineSize;
 		double extensionStep = 0;
 		double variationStep = 0;
 		
@@ -88,12 +104,18 @@ public class LTSLayoutAlgorithm extends AbstractLayoutAlgorithm {
 		int c = -1;
 		for (int i = s.getSteps().size() - 1; i >= 0; --i) {
 			UseCaseStep step = s.getSteps().get(i);
+			
+			if (step.getAction() instanceof Goto) {
+				continue;
+			}
+			
 			InternalNode node = findMappedNode(step);
 			node.setLocation(x, y);
-			
+						
 			if (!step.getExtensions().isEmpty()) {
 				double yy = y + verticalLineSize;
 				for (Scenario scenario: step.getExtensions()) {
+					
 					int k = findFreeColumn(c, scenario.getSteps().size(), extensionSpan);
 					double xx = rootPos.getX() + (extensionStep * k);
 					occupiedCols.put(k, c);

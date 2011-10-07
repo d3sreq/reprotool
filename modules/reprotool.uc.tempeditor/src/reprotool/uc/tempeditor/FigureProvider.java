@@ -41,6 +41,30 @@ public class FigureProvider {
 		return fig;
 	}
 	
+	private ImageFigure drawAbortStateFigure() {
+		PaletteData pData = new PaletteData(255, 255, 255);
+		ImageData sourceData = new ImageData(STATE_NODE_DIAMETER, STATE_NODE_DIAMETER, 8, pData);
+
+		Image image = new Image(Display.getDefault(), sourceData);
+		GC gc = new GC(image);
+		gc.setAdvanced(true);
+		gc.setAntialias(SWT.ON);
+		
+		gc.setBackground(new Color(Display.getDefault(), 255, 255, 255));
+		gc.fillRectangle(0, 0, image.getBounds().width, image.getBounds().height);
+
+		gc.setBackground(new Color(Display.getDefault(), 255, 0, 0));
+		gc.fillOval(0, 0, image.getBounds().width, image.getBounds().height);
+
+		gc.dispose();
+		
+		ImageFigure fig = new ImageFigure();
+		fig.setImage(image);
+		fig.setSize(image.getBounds().width, image.getBounds().height);
+		
+		return fig;
+	}
+	
 	private IFigure drawNormalStateFigure() {
 		PaletteData pData = new PaletteData(255, 255, 255);
 		ImageData sourceData = new ImageData(STATE_NODE_DIAMETER, STATE_NODE_DIAMETER, 8, pData);
@@ -69,6 +93,8 @@ public class FigureProvider {
 	public IFigure getFigure(State s) {
 		if (s == machine.getInitialState()) {
 			return drawInitialStateFigure();
+		} else if (s == machine.getAbortState()) {
+			return drawAbortStateFigure();
 		} else {
 			return drawNormalStateFigure();
 		}
