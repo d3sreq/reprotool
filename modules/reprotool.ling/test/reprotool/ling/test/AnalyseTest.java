@@ -17,6 +17,8 @@ public class AnalyseTest {
 	@Test
 	public final void testAnalyseTree() {
 		
+		String sentence = "Administrator send message.";
+		
 		UsecaseFactory ucfactory = UsecaseFactory.eINSTANCE;		
 		UseCaseStep ucs1 = ucfactory.createUseCaseStep();
 		UseCaseStep ucs2 = ucfactory.createUseCaseStep();
@@ -34,7 +36,7 @@ public class AnalyseTest {
 		
 		ucs1.setParsedSentence(rootNode);
 		
-		ucs2 = Analyser.analyseTree(ucs1, rootNode);
+		ucs2 = Analyser.analyseTree(ucs1, rootNode, sentence);
 		
 		assertEquals(ucs1, ucs2);
 	}
