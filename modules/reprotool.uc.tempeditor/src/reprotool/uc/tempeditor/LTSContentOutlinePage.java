@@ -1,10 +1,15 @@
 package reprotool.uc.tempeditor;
 
+import java.io.IOException;
 import java.util.HashMap;
 
 import org.eclipse.draw2d.SWTEventDispatcher;
 import org.eclipse.draw2d.SWTGraphics;
 import org.eclipse.emf.common.notify.AdapterFactory;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
 import org.eclipse.jface.viewers.ContentViewer;
 import org.eclipse.jface.viewers.ISelection;
@@ -92,6 +97,20 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 		
 		// Create a new graph.
 		createLtsGraph(graphParent, machine);
+		
+		// TODO: saving LTS to file
+		ResourceSet rs = new ResourceSetImpl();
+		URI fileURI = URI.createPlatformResourceURI("Test6/testik.lts", true);
+		Resource resource = rs.createResource(fileURI);
+		resource.getContents().add(machine);
+
+		try {
+			resource.save(null);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 	
 	/**
