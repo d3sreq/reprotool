@@ -6,8 +6,6 @@
  */
 package reprotool.model.linguistic.action;
 
-import reprotool.model.linguistic.actionpart.RepresentativeObject;
-import reprotool.model.linguistic.actionpart.Verb;
 
 /**
  * <!-- begin-user-doc -->
@@ -20,5 +18,4 @@ import reprotool.model.linguistic.actionpart.Verb;
  * @generated
  */
 public interface Internal extends Communication {
-
 } // Internal

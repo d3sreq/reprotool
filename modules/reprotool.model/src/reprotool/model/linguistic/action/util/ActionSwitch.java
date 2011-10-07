@@ -12,6 +12,16 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 
 import reprotool.model.linguistic.action.*;
+import reprotool.model.linguistic.action.AbortUseCase;
+import reprotool.model.linguistic.action.Action;
+import reprotool.model.linguistic.action.ActionPackage;
+import reprotool.model.linguistic.action.Communication;
+import reprotool.model.linguistic.action.FromSystem;
+import reprotool.model.linguistic.action.Goto;
+import reprotool.model.linguistic.action.Internal;
+import reprotool.model.linguistic.action.ToSystem;
+import reprotool.model.linguistic.action.Unknown;
+import reprotool.model.linguistic.action.UseCaseInclude;
 import reprotool.model.linguistic.actionpart.ActionPart;
 
 /**

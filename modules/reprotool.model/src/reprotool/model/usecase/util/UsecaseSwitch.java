@@ -12,10 +12,14 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 
 import reprotool.model.swproj.ReqCover;
-
 import reprotool.model.traceability.TraceableEntity;
-
 import reprotool.model.usecase.*;
+import reprotool.model.usecase.Condition;
+import reprotool.model.usecase.ParseableElement;
+import reprotool.model.usecase.Scenario;
+import reprotool.model.usecase.UseCase;
+import reprotool.model.usecase.UseCaseStep;
+import reprotool.model.usecase.UsecasePackage;
 
 /**
  * <!-- begin-user-doc -->

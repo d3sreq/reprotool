@@ -9,11 +9,7 @@ package reprotool.model.usecase;
 import org.eclipse.emf.common.util.EList;
 
 import reprotool.model.linguistic.action.Action;
-import reprotool.model.linguistic.actionpart.Text;
-import reprotool.model.linguistic.parsetree.SentenceNode;
-import reprotool.model.swproj.ReqCover;
 import reprotool.model.swproj.SoftwareProject;
-import reprotool.model.usecase.annotate.StepAnnotation;
 
 /**
  * <!-- begin-user-doc -->

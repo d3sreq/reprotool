@@ -7,8 +7,8 @@
 package reprotool.model.linguistic.action.impl;
 
 import org.eclipse.emf.ecore.EClass;
-
 import org.eclipse.emf.ecore.impl.EObjectImpl;
+
 import reprotool.model.linguistic.action.ActionPackage;
 import reprotool.model.linguistic.action.Unknown;
 

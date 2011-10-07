@@ -10,61 +10,29 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 import reprotool.model.ast.AstPackage;
-
 import reprotool.model.ast.impl.AstPackageImpl;
-
 import reprotool.model.comp.CompPackage;
-
 import reprotool.model.comp.impl.CompPackageImpl;
-
 import reprotool.model.doc.DocPackage;
-
 import reprotool.model.doc.impl.DocPackageImpl;
-
 import reprotool.model.linguistic.action.ActionPackage;
-
 import reprotool.model.linguistic.action.impl.ActionPackageImpl;
-
 import reprotool.model.linguistic.actionpart.ActionPart;
 import reprotool.model.linguistic.actionpart.ActionpartFactory;
 import reprotool.model.linguistic.actionpart.ActionpartPackage;
 import reprotool.model.linguistic.actionpart.SentenceActionParam;
 import reprotool.model.linguistic.actionpart.SentenceActor;
-import reprotool.model.linguistic.actionpart.GotoTarget;
-import reprotool.model.linguistic.actionpart.IndirectObject;
-import reprotool.model.linguistic.actionpart.RepresentativeObject;
-import reprotool.model.linguistic.actionpart.SentenceObject;
-import reprotool.model.linguistic.actionpart.Subject;
 import reprotool.model.linguistic.actionpart.Text;
-import reprotool.model.linguistic.actionpart.UseCaseIncludePart;
-import reprotool.model.linguistic.actionpart.Verb;
-
-import reprotool.model.linguistic.parsetree.ParsetreePackage;
-
-import reprotool.model.linguistic.parsetree.impl.ParsetreePackageImpl;
-
 import reprotool.model.lts.LtsPackage;
-
 import reprotool.model.lts.impl.LtsPackageImpl;
-
-import reprotool.model.procases.ProcasesPackage;
-
-import reprotool.model.procases.impl.ProcasesPackageImpl;
-
 import reprotool.model.swproj.SwprojPackage;
-
 import reprotool.model.swproj.impl.SwprojPackageImpl;
-
 import reprotool.model.traceability.TraceabilityPackage;
-
 import reprotool.model.traceability.impl.TraceabilityPackageImpl;
-
 import reprotool.model.usecase.UsecasePackage;
-
 import reprotool.model.usecase.annotate.AnnotatePackage;
 import reprotool.model.usecase.annotate.impl.AnnotatePackageImpl;
 import reprotool.model.usecase.impl.UsecasePackageImpl;

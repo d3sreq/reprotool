@@ -8,13 +8,14 @@ package reprotool.model.doc.util;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
-
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
-
 import org.eclipse.emf.ecore.EObject;
 
 import reprotool.model.doc.*;
-
+import reprotool.model.doc.DocPackage;
+import reprotool.model.doc.Document;
+import reprotool.model.doc.Paragraph;
+import reprotool.model.doc.Section;
 import reprotool.model.traceability.TraceableEntity;
 
 /**

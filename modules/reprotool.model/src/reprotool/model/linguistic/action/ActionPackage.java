@@ -355,6 +355,7 @@ public interface ActionPackage extends EPackage {
 	 */
 	int TO_SYSTEM_FEATURE_COUNT = COMMUNICATION_FEATURE_COUNT + 1;
 
+
 	/**
 	 * Returns the meta object for class '{@link reprotool.model.linguistic.action.Action <em>Action</em>}'.
 	 * <!-- begin-user-doc -->

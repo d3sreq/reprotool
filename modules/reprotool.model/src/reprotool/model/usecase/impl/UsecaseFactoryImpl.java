@@ -9,12 +9,16 @@ package reprotool.model.usecase.impl;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
 import reprotool.model.usecase.*;
+import reprotool.model.usecase.Condition;
+import reprotool.model.usecase.Scenario;
+import reprotool.model.usecase.UseCase;
+import reprotool.model.usecase.UseCaseStep;
+import reprotool.model.usecase.UsecaseFactory;
+import reprotool.model.usecase.UsecasePackage;
 
 /**
  * <!-- begin-user-doc -->

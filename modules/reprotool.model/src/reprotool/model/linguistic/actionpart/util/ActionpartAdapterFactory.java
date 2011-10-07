@@ -8,12 +8,15 @@ package reprotool.model.linguistic.actionpart.util;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
-
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
-
 import org.eclipse.emf.ecore.EObject;
 
 import reprotool.model.linguistic.actionpart.*;
+import reprotool.model.linguistic.actionpart.ActionPart;
+import reprotool.model.linguistic.actionpart.ActionpartPackage;
+import reprotool.model.linguistic.actionpart.SentenceActionParam;
+import reprotool.model.linguistic.actionpart.SentenceActor;
+import reprotool.model.linguistic.actionpart.Text;
 
 /**
  * <!-- begin-user-doc -->

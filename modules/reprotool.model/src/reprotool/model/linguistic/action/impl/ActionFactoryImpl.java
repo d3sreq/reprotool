@@ -9,12 +9,19 @@ package reprotool.model.linguistic.action.impl;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
 import reprotool.model.linguistic.action.*;
+import reprotool.model.linguistic.action.AbortUseCase;
+import reprotool.model.linguistic.action.ActionFactory;
+import reprotool.model.linguistic.action.ActionPackage;
+import reprotool.model.linguistic.action.FromSystem;
+import reprotool.model.linguistic.action.Goto;
+import reprotool.model.linguistic.action.Internal;
+import reprotool.model.linguistic.action.ToSystem;
+import reprotool.model.linguistic.action.Unknown;
+import reprotool.model.linguistic.action.UseCaseInclude;
 
 /**
  * <!-- begin-user-doc -->

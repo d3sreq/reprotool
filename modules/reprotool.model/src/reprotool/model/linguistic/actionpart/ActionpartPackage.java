@@ -216,6 +216,7 @@ public interface ActionpartPackage extends EPackage {
 	 */
 	int SENTENCE_ACTION_PARAM_FEATURE_COUNT = ACTION_PART_FEATURE_COUNT + 1;
 
+
 	/**
 	 * Returns the meta object for class '{@link reprotool.model.linguistic.actionpart.Text <em>Text</em>}'.
 	 * <!-- begin-user-doc -->

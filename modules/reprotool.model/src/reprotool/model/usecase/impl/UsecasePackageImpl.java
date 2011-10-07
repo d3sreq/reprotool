@@ -10,54 +10,26 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 import reprotool.model.ast.AstPackage;
-
 import reprotool.model.ast.impl.AstPackageImpl;
-
 import reprotool.model.comp.CompPackage;
-
 import reprotool.model.comp.impl.CompPackageImpl;
-
 import reprotool.model.doc.DocPackage;
-
 import reprotool.model.doc.impl.DocPackageImpl;
-
 import reprotool.model.linguistic.action.ActionPackage;
-
 import reprotool.model.linguistic.action.impl.ActionPackageImpl;
-
 import reprotool.model.linguistic.actionpart.ActionpartPackage;
-
 import reprotool.model.linguistic.actionpart.impl.ActionpartPackageImpl;
-
-import reprotool.model.linguistic.parsetree.ParsetreePackage;
-
-import reprotool.model.linguistic.parsetree.impl.ParsetreePackageImpl;
-
 import reprotool.model.lts.LtsPackage;
-
 import reprotool.model.lts.impl.LtsPackageImpl;
-
-import reprotool.model.procases.ProcasesPackage;
-
-import reprotool.model.procases.impl.ProcasesPackageImpl;
-
 import reprotool.model.swproj.SwprojPackage;
-
 import reprotool.model.swproj.impl.SwprojPackageImpl;
-
 import reprotool.model.traceability.TraceabilityPackage;
-
 import reprotool.model.traceability.impl.TraceabilityPackageImpl;
-
 import reprotool.model.usecase.Condition;
 import reprotool.model.usecase.ParseableElement;
-import reprotool.model.usecase.Guard;
-import reprotool.model.usecase.Postcondition;
-import reprotool.model.usecase.Precondition;
 import reprotool.model.usecase.Scenario;
 import reprotool.model.usecase.UseCase;
 import reprotool.model.usecase.UseCaseStep;

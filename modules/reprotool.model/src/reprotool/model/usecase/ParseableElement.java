@@ -9,9 +9,7 @@ package reprotool.model.usecase;
 import org.eclipse.emf.common.util.EList;
 
 import reprotool.model.linguistic.actionpart.Text;
-
 import reprotool.model.swproj.ReqCover;
-
 import reprotool.model.usecase.annotate.StepAnnotation;
 
 /**

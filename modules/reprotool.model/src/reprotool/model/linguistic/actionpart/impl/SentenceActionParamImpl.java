@@ -7,17 +7,14 @@
 package reprotool.model.linguistic.actionpart.impl;
 
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
 import reprotool.model.linguistic.actionpart.ActionpartPackage;
 import reprotool.model.linguistic.actionpart.SentenceActionParam;
 import reprotool.model.linguistic.actionpart.Text;
-
 import reprotool.model.swproj.ConceptualObject;
 
 /**

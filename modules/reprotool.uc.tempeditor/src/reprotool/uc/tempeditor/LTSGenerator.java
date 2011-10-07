@@ -2,6 +2,10 @@ package reprotool.uc.tempeditor;
 
 import java.util.HashMap;
 
+import org.eclipse.ui.views.navigator.GotoActionGroup;
+
+import reprotool.model.linguistic.action.AbortUseCase;
+import reprotool.model.linguistic.action.Goto;
 import reprotool.model.lts.LtsFactory;
 import reprotool.model.lts.State;
 import reprotool.model.lts.StateMachine;
@@ -35,7 +39,17 @@ public class LTSGenerator {
 					Scenario sc = ucStep.getVariations().get(i);
 					processScenario(sc, srcState);
 				}
-			} 
+			}
+			
+			if( ucStep.getAction() instanceof AbortUseCase) {
+				System.out.println("found abort use-case action");
+			}
+			
+			if( ucStep.getAction() instanceof Goto ) {
+				Goto gotoAction = (Goto) ucStep.getAction();
+				System.out.println("found abort use-case action : " + gotoAction.getGotoTarget());
+			}
+			
 			
 			Transition t = LtsFactory.eINSTANCE.createActionTransition();
 			t.setSource(srcState);

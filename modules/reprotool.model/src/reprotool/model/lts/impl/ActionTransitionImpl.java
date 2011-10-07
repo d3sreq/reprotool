@@ -7,22 +7,19 @@
 package reprotool.model.lts.impl;
 
 import java.util.Collection;
-import org.eclipse.emf.common.notify.Notification;
 
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
-
 import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
+
 import reprotool.model.lts.ActionTransition;
 import reprotool.model.lts.LtsPackage;
 import reprotool.model.lts.State;
-
 import reprotool.model.usecase.ParseableElement;
-import reprotool.model.usecase.UseCaseStep;
 
 /**
  * <!-- begin-user-doc -->

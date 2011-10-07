@@ -6,7 +6,6 @@
  */
 package reprotool.model.usecase.annotate;
 
-import org.eclipse.emf.common.util.EList;
 
 /**
  * <!-- begin-user-doc -->

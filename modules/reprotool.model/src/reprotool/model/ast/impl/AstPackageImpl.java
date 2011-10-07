@@ -6,12 +6,13 @@
  */
 package reprotool.model.ast.impl;
 
+import static reprotool.model.ast.AstPackage.CLASS;
+
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 import reprotool.model.ast.AstFactory;
@@ -19,45 +20,21 @@ import reprotool.model.ast.AstPackage;
 import reprotool.model.ast.CodeElement;
 import reprotool.model.ast.Method;
 import reprotool.model.ast.MethodVisibility;
-
 import reprotool.model.comp.CompPackage;
-
 import reprotool.model.comp.impl.CompPackageImpl;
-
 import reprotool.model.doc.DocPackage;
-
 import reprotool.model.doc.impl.DocPackageImpl;
-
 import reprotool.model.linguistic.action.ActionPackage;
-
 import reprotool.model.linguistic.action.impl.ActionPackageImpl;
-
 import reprotool.model.linguistic.actionpart.ActionpartPackage;
-
 import reprotool.model.linguistic.actionpart.impl.ActionpartPackageImpl;
-
-import reprotool.model.linguistic.parsetree.ParsetreePackage;
-
-import reprotool.model.linguistic.parsetree.impl.ParsetreePackageImpl;
-
 import reprotool.model.lts.LtsPackage;
-
 import reprotool.model.lts.impl.LtsPackageImpl;
-
-import reprotool.model.procases.ProcasesPackage;
-
-import reprotool.model.procases.impl.ProcasesPackageImpl;
-
 import reprotool.model.swproj.SwprojPackage;
-
 import reprotool.model.swproj.impl.SwprojPackageImpl;
-
 import reprotool.model.traceability.TraceabilityPackage;
-
 import reprotool.model.traceability.impl.TraceabilityPackageImpl;
-
 import reprotool.model.usecase.UsecasePackage;
-
 import reprotool.model.usecase.annotate.AnnotatePackage;
 import reprotool.model.usecase.annotate.impl.AnnotatePackageImpl;
 import reprotool.model.usecase.impl.UsecasePackageImpl;

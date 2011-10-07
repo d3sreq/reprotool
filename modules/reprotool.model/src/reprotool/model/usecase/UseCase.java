@@ -6,11 +6,8 @@
  */
 package reprotool.model.usecase;
 
-import org.eclipse.emf.common.util.EList;
 import reprotool.model.swproj.Actor;
 import reprotool.model.swproj.ReqCover;
-
-import reprotool.model.swproj.SoftwareProject;
 import reprotool.model.traceability.TraceableEntity;
 
 /**

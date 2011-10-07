@@ -12,6 +12,17 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 
 import reprotool.model.usecase.annotate.*;
+import reprotool.model.usecase.annotate.AnnotatePackage;
+import reprotool.model.usecase.annotate.AnnotationSet;
+import reprotool.model.usecase.annotate.CTLAnnotationSet;
+import reprotool.model.usecase.annotate.LTLAnnotationSet;
+import reprotool.model.usecase.annotate.OnAnnotation;
+import reprotool.model.usecase.annotate.SpecialAnnotation;
+import reprotool.model.usecase.annotate.SpecialAnnotationSet;
+import reprotool.model.usecase.annotate.StepAnnotation;
+import reprotool.model.usecase.annotate.StepAnnotationType;
+import reprotool.model.usecase.annotate.TemporalAnnotation;
+import reprotool.model.usecase.annotate.TraceAnnotation;
 
 /**
  * <!-- begin-user-doc -->

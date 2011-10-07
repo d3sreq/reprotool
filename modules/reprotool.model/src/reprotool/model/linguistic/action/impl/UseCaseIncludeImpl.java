@@ -7,22 +7,17 @@
 package reprotool.model.linguistic.action.impl;
 
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
 import reprotool.model.linguistic.action.ActionPackage;
 import reprotool.model.linguistic.action.UseCaseInclude;
-
 import reprotool.model.linguistic.actionpart.ActionPart;
 import reprotool.model.linguistic.actionpart.ActionpartPackage;
 import reprotool.model.linguistic.actionpart.Text;
 import reprotool.model.usecase.UseCase;
-import reprotool.model.linguistic.actionpart.UseCaseIncludePart;
 
 /**
  * <!-- begin-user-doc -->
@@ -48,6 +43,7 @@ public class UseCaseIncludeImpl extends EObjectImpl implements UseCaseInclude {
 	 * @ordered
 	 */
 	protected Text text;
+
 	/**
 	 * The cached value of the '{@link #getIncludeTarget() <em>Include Target</em>}' reference.
 	 * <!-- begin-user-doc -->
@@ -57,6 +53,7 @@ public class UseCaseIncludeImpl extends EObjectImpl implements UseCaseInclude {
 	 * @ordered
 	 */
 	protected UseCase includeTarget;
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

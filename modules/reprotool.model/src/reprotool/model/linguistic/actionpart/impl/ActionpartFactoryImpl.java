@@ -9,12 +9,15 @@ package reprotool.model.linguistic.actionpart.impl;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
 import reprotool.model.linguistic.actionpart.*;
+import reprotool.model.linguistic.actionpart.ActionpartFactory;
+import reprotool.model.linguistic.actionpart.ActionpartPackage;
+import reprotool.model.linguistic.actionpart.SentenceActionParam;
+import reprotool.model.linguistic.actionpart.SentenceActor;
+import reprotool.model.linguistic.actionpart.Text;
 
 /**
  * <!-- begin-user-doc -->

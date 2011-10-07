@@ -8,9 +8,6 @@ package reprotool.model.linguistic.action;
 
 import reprotool.model.linguistic.actionpart.ActionPart;
 import reprotool.model.usecase.UseCase;
-import org.eclipse.emf.ecore.EObject;
-
-import reprotool.model.linguistic.actionpart.UseCaseIncludePart;
 
 /**
  * <!-- begin-user-doc -->
@@ -33,7 +30,7 @@ public interface UseCaseInclude extends Action, ActionPart {
 	 * Returns the value of the '<em><b>Include Target</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Include Target</em>' containment reference isn't clear,
+	 * If the meaning of the '<em>Include Target</em>' reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->

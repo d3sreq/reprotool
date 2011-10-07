@@ -8,12 +8,14 @@ package reprotool.model.comp.util;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
-
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
-
 import org.eclipse.emf.ecore.EObject;
 
 import reprotool.model.comp.*;
+import reprotool.model.comp.CompInterface;
+import reprotool.model.comp.CompInterfaceType;
+import reprotool.model.comp.CompPackage;
+import reprotool.model.comp.Component;
 
 /**
  * <!-- begin-user-doc -->

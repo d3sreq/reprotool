@@ -6,7 +6,6 @@
  */
 package reprotool.model.usecase.impl;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -19,13 +18,10 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 import reprotool.model.linguistic.action.Action;
 import reprotool.model.linguistic.actionpart.Text;
-import reprotool.model.linguistic.parsetree.SentenceNode;
-import reprotool.model.swproj.Actor;
 import reprotool.model.swproj.Requirement;
 import reprotool.model.swproj.SoftwareProject;
 import reprotool.model.usecase.Guard;
@@ -325,12 +321,10 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	public boolean isSetSoftwareProject() {
-		// TODO: implement this method to return whether the 'Software Project' reference is set
-		// Ensure that you remove @generated or mark it @generated NOT
-		throw new UnsupportedOperationException();
+		return false;
 	}
 
 	/**

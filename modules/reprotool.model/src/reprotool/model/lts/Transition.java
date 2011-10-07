@@ -10,7 +10,6 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 
 import reprotool.model.usecase.ParseableElement;
-import reprotool.model.usecase.UseCaseStep;
 
 /**
  * <!-- begin-user-doc -->
