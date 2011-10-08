@@ -1,4 +1,4 @@
-package reprotool.ide.editors;
+package reprotool.ide.editors.usecase;
 
 import org.eclipse.jface.text.TextViewer;
 import org.eclipse.jface.viewers.TreeViewer;

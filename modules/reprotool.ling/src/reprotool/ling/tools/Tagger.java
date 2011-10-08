@@ -8,7 +8,6 @@ import java.io.UnsupportedEncodingException;
 
 import org.eclipse.core.runtime.Platform;
 
-import reprotool.ling.LingJob;
 import reprotool.ling.Tool;
 
 /**
@@ -83,24 +82,5 @@ public class Tagger extends Tool{
     	
 		return lispStyle.trim();
 	}  
-    
-    
-    
-	/**
-	 * Returns tokens from given text
-	 *
-	 * @return String part-of-speech_tagged_text 
-	 */	
-    public static String jobGetMXPOST(String originalText) {	
-    	String text = "";
-		
-    	LingJob job = new LingJob("MX POS tagger", originalText, null);
-    	 
-    	job.schedule();
-    	
-    	text = job.returnText();
-		
-		return text;
-	}    
         
 }

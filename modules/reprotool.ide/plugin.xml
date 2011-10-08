@@ -60,16 +60,16 @@
             name="Use case">
       </editor>
       <editor
-            class="reprotool.ide.editors.ProjectEditor"
-            contributorClass="reprotool.ide.editors.ProjectActionBarContributor"
+            class="reprotool.ide.editors.project.ProjectEditor"
+            contributorClass="reprotool.ide.editors.project.ProjectActionBarContributor"
             default="false"
             extensions="swproj"
             id="cz.cuni.mff.reprotool.ide.editors.ProjectEditor"
             name="My Project Editor">
       </editor>
       <editor
-            class="reprotool.ide.editors.UsecaseEMFEditor"
-            contributorClass="reprotool.ide.editors.UsecaseEMFActionBarContributor"
+            class="reprotool.ide.editors.usecase.UsecaseEMFEditor"
+            contributorClass="reprotool.ide.editors.usecase.UsecaseEMFActionBarContributor"
             default="false"
             extensions="usecase"
             id="cz.cuni.mff.reprotool.ide.UseCaseEmfEditor"
@@ -214,18 +214,6 @@
    </extension>
    <extension
          point="org.eclipse.ui.navigator.viewer">
-      <viewerContentBinding
-            viewerId="org.eclipse.ui.navigator.ProjectExplorer">
-         <includes>
-            <contentExtension
-                  isRoot="false"
-                  pattern="reprotool.ide.navigator.actorsContent">
-            </contentExtension>
-            <contentExtension
-                  pattern="org.eclipse.ui.navigator.resources.filters.*">
-            </contentExtension>
-         </includes>
-      </viewerContentBinding>
    </extension>
    <extension
          id="reprotool.ide.natures.ReprotoolProjectNature"

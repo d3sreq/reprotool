@@ -46,10 +46,6 @@ import reprotool.model.linguistic.action.ActionFactory;
 import reprotool.model.linguistic.action.ActionPackage;
 import reprotool.model.linguistic.action.Goto;
 import reprotool.model.linguistic.action.Internal;
-import reprotool.model.linguistic.action.Receive;
-import reprotool.model.linguistic.action.Send;
-import reprotool.model.linguistic.action.TerminateBranch;
-import reprotool.model.linguistic.action.TerminateUseCase;
 import reprotool.model.linguistic.action.Unknown;
 import reprotool.model.linguistic.action.UseCaseInclude;
 import reprotool.model.linguistic.actionpart.ActionpartPackage;
@@ -118,12 +114,13 @@ public class SentenceAnalysisSheetPage extends Page implements ISentenceAnalysis
 		bindBoxVisibility(bindingContext, emfValue, boxContainer.getIncludeUseCaseBox(), "include");
 		
 		// bind marked text
-		bindMarkedText(bindingContext, boxContainer.getSubjectBox().getLblMarkedText(), new EReference[] {ActionPackage.Literals.SEND__SUBJECT, ActionPackage.Literals.RECEIVE__SUBJECT});
-		bindMarkedText(bindingContext, boxContainer.getVerbBox().getLblMarkedText(), new EReference[] {ActionPackage.Literals.SEND__VERB, ActionPackage.Literals.RECEIVE__VERB, ActionPackage.Literals.INTERNAL__VERB});
-		bindMarkedText(bindingContext, boxContainer.getDirectObjectBox().getLblMarkedText(), new EReference[] {ActionPackage.Literals.SEND__REPRESENTATIVE_OBJECT, ActionPackage.Literals.RECEIVE__REPRESENTATIVE_OBJECT, ActionPackage.Literals.INTERNAL__REPRESENTATIVE_OBJECT});
-		bindMarkedText(bindingContext, boxContainer.getIndirectObjectBox().getLblMarkedText(), new EReference[] {ActionPackage.Literals.SEND__INDIRECT_OBJECT});
-		bindMarkedText(bindingContext, boxContainer.getGotoUseCaseStepBox().getLblMarkedText(), new EReference[] {ActionPackage.Literals.GOTO__GOTO_TARGET});
-		bindMarkedText(bindingContext, boxContainer.getIncludeUseCaseBox().getLblMarkedText(), new EReference[] {ActionPackage.Literals.USE_CASE_INCLUDE__INCLUDE});
+		// FIXME jvinarek
+//		bindMarkedText(bindingContext, boxContainer.getSubjectBox().getLblMarkedText(), new EReference[] {ActionPackage.Literals.SEND__SUBJECT, ActionPackage.Literals.RECEIVE__SUBJECT});
+//		bindMarkedText(bindingContext, boxContainer.getVerbBox().getLblMarkedText(), new EReference[] {ActionPackage.Literals.SEND__VERB, ActionPackage.Literals.RECEIVE__VERB, ActionPackage.Literals.INTERNAL__VERB});
+//		bindMarkedText(bindingContext, boxContainer.getDirectObjectBox().getLblMarkedText(), new EReference[] {ActionPackage.Literals.SEND__REPRESENTATIVE_OBJECT, ActionPackage.Literals.RECEIVE__REPRESENTATIVE_OBJECT, ActionPackage.Literals.INTERNAL__REPRESENTATIVE_OBJECT});
+//		bindMarkedText(bindingContext, boxContainer.getIndirectObjectBox().getLblMarkedText(), new EReference[] {ActionPackage.Literals.SEND__INDIRECT_OBJECT});
+//		bindMarkedText(bindingContext, boxContainer.getGotoUseCaseStepBox().getLblMarkedText(), new EReference[] {ActionPackage.Literals.GOTO__GOTO_TARGET});
+//		bindMarkedText(bindingContext, boxContainer.getIncludeUseCaseBox().getLblMarkedText(), new EReference[] {ActionPackage.Literals.USE_CASE_INCLUDE__INCLUDE});
 		
 		// bind actors to the combo boxes - create combo boxes content
 		bindActorsContentToCombo(bindingContext, boxContainer.getSubjectBox().getComboViewer());
@@ -136,13 +133,14 @@ public class SentenceAnalysisSheetPage extends Page implements ISentenceAnalysis
 	private void bindActorsContentToCombo(DataBindingContext bindingContext, ComboViewer comboViewer) {
 		IObservableList comboList = WidgetProperties.items().observe(comboViewer.getCombo());
 		
-		IEMFEditListProperty emfProperty = EMFEditProperties.list(editingDomain, 
-				FeaturePath.fromList(
-						UsecasePackage.Literals.USE_CASE_STEP__SOFTWARE_PROJECT, 
-						SwprojPackage.Literals.SOFTWARE_PROJECT__ACTORS						 
-				)).values(SwprojPackage.Literals.ACTOR__NAME);
-		IObservableList emfList = emfProperty.observeDetail(writableValue);
-		bindingContext.bindList(comboList, emfList);
+		// FIXME jvinarek
+//		IEMFEditListProperty emfProperty = EMFEditProperties.list(editingDomain, 
+//				FeaturePath.fromList(
+//						UsecasePackage.Literals.USE_CASE_STEP__SOFTWARE_PROJECT, 
+//						SwprojPackage.Literals.SOFTWARE_PROJECT__ACTORS						 
+//				)).values(SwprojPackage.Literals.ACTOR__NAME);
+//		IObservableList emfList = emfProperty.observeDetail(writableValue);
+//		bindingContext.bindList(comboList, emfList);
 	}
 
 	private void bindActionTypeCombo() {
@@ -398,7 +396,9 @@ public class SentenceAnalysisSheetPage extends Page implements ISentenceAnalysis
 		SEND {
 			@Override
 			Action createAction() {
-				return ActionFactory.eINSTANCE.createSend();
+				// FIXME jvinarek
+				return null;
+				//return ActionFactory.eINSTANCE.createSend();
 			}
 
 			@Override
@@ -409,7 +409,9 @@ public class SentenceAnalysisSheetPage extends Page implements ISentenceAnalysis
 		RECEIVE {
 			@Override
 			Action createAction() {
-				return ActionFactory.eINSTANCE.createReceive();
+				// FIXME jvinarek
+				return null;
+//				return ActionFactory.eINSTANCE.createReceive();
 			}
 
 			@Override
@@ -453,7 +455,9 @@ public class SentenceAnalysisSheetPage extends Page implements ISentenceAnalysis
 		TERMINATE_USE_CASE {
 			@Override
 			Action createAction() {
-				return ActionFactory.eINSTANCE.createTerminateUseCase();
+				// FIXME jvinarek
+				return null;
+//				return ActionFactory.eINSTANCE.createTerminateUseCase();
 			}
 
 			@Override
@@ -464,7 +468,9 @@ public class SentenceAnalysisSheetPage extends Page implements ISentenceAnalysis
 		TERMINATE_BRANCH {
 			@Override
 			Action createAction() {
-				return ActionFactory.eINSTANCE.createTerminateBranch();
+				// FIXME jvinarek
+				return null;
+//				return ActionFactory.eINSTANCE.createTerminateBranch();
 			}
 
 			@Override
@@ -485,23 +491,24 @@ public class SentenceAnalysisSheetPage extends Page implements ISentenceAnalysis
 		};
 
 		static EComboActionType createEnum(Action action) {
-			if (action instanceof Send) {
-				return SEND;
-			} else if (action instanceof Receive) {
-				return RECEIVE;
-			} else if (action instanceof Internal) {
-				return INTERNAL;
-			} else if (action instanceof Goto) {
-				return GOTO;
-			} else if (action instanceof UseCaseInclude) {
-				return USE_CASE_INCLUDE;
-			} else if (action instanceof TerminateUseCase) {
-				return TERMINATE_USE_CASE;
-			} else if (action instanceof TerminateBranch) {
-				return TERMINATE_BRANCH;
-			} else if (action instanceof Unknown) {
-				return UNKNOWN;
-			}
+			// FIXME jvinarek
+//			if (action instanceof Send) {
+//				return SEND;
+//			} else if (action instanceof Receive) {
+//				return RECEIVE;
+//			} else if (action instanceof Internal) {
+//				return INTERNAL;
+//			} else if (action instanceof Goto) {
+//				return GOTO;
+//			} else if (action instanceof UseCaseInclude) {
+//				return USE_CASE_INCLUDE;
+//			} else if (action instanceof TerminateUseCase) {
+//				return TERMINATE_USE_CASE;
+//			} else if (action instanceof TerminateBranch) {
+//				return TERMINATE_BRANCH;
+//			} else if (action instanceof Unknown) {
+//				return UNKNOWN;
+//			}
 			return null;
 		}
 

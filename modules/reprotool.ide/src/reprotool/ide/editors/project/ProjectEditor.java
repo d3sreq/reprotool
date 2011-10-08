@@ -1,4 +1,4 @@
-package reprotool.ide.editors;
+package reprotool.ide.editors.project;
 
 import java.io.IOException;
 import java.io.InputStream;

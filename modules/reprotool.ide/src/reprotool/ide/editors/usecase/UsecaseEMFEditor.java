@@ -4,7 +4,7 @@
  *
  * $Id$
  */
-package reprotool.ide.editors;
+package reprotool.ide.editors.usecase;
 
 
 import java.io.IOException;

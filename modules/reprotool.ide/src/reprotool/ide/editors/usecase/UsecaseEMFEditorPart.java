@@ -1,4 +1,4 @@
-package reprotool.ide.editors;
+package reprotool.ide.editors.usecase;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.command.BasicCommandStack;

@@ -1,338 +1,338 @@
-package reprotool.ide.views;
-
-import java.util.Comparator;
-import java.util.List;
-
-import org.eclipse.draw2d.IFigure;
-import org.eclipse.draw2d.Label;
-import org.eclipse.draw2d.SWTEventDispatcher;
-import org.eclipse.jface.viewers.LabelProvider;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.MouseAdapter;
-import org.eclipse.swt.events.MouseEvent;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.Menu;
-import org.eclipse.swt.widgets.MenuItem;
-import org.eclipse.ui.part.ViewPart;
-import org.eclipse.zest.core.viewers.GraphViewer;
-import org.eclipse.zest.core.widgets.Graph;
-import org.eclipse.zest.core.widgets.GraphConnection;
-import org.eclipse.zest.core.widgets.GraphNode;
-import org.eclipse.zest.core.widgets.ZestStyles;
-import org.eclipse.zest.layouts.LayoutAlgorithm;
-import org.eclipse.zest.layouts.LayoutStyles;
-import org.eclipse.zest.layouts.algorithms.CompositeLayoutAlgorithm;
-import org.eclipse.zest.layouts.algorithms.HorizontalShift;
-import org.eclipse.zest.layouts.algorithms.TreeLayoutAlgorithm;
-
-import reprotool.ide.parsetree.NodeContentProvider;
-import reprotool.ide.parsetree.NodeLabelProvider;
-import reprotool.ide.parsetree.NodeModelContentProvider;
-import reprotool.model.linguistic.parsetree.EWordType;
-import reprotool.model.linguistic.parsetree.InnerParseNode;
-import reprotool.model.linguistic.parsetree.ParseNode;
-import reprotool.model.linguistic.parsetree.SentenceNode;
-import reprotool.model.linguistic.parsetree.Word;
-
-
-public class ParsedTreeView extends ViewPart {
-	public static final String ID = "cz.cuni.mff.reprotool.ide.view_parsed_tree";
-
-	private GraphViewer viewer;
-	private NodeModelContentProvider sentenceModel = new NodeModelContentProvider();
-	
-	public ParsedTreeView() {
-		// TODO Auto-generated constructor stub
-	}
-	
-	private void mapGraphNodes2EMF(SentenceNode modelRootNode) {
-		GraphNode root = getFirstGraphNode( viewer.getGraphControl().getNodes() );
-		while (root.getTargetConnections().size() != 0) {
-			root =  ((GraphConnection) root.getTargetConnections().get(0)).getSource();
-		}
-		
-		createGraph2EMFMapping(root, modelRootNode);
-	}
-	
-	private Menu createMenu(Composite parent) {
-		Menu menu = new Menu(parent);
-		
-		MenuItem notImpItem = new MenuItem(menu, SWT.PUSH);
-		notImpItem.setText("Not important");
-		
-		notImpItem.addSelectionListener(new SelectionAdapter() {
-
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				GraphNode node = getFirstGraphNode(viewer);
-				Word word = (Word) node.getData();
-				word.setWordType(EWordType.NOT_IMPORTANT);
-				node.setImage(((LabelProvider) viewer.getLabelProvider()).getImage(word));
-			}
-			
-		});
-		
-		
-		MenuItem subjectItem = new MenuItem(menu, SWT.PUSH);
-		subjectItem.setText("Subject");
-		
-		subjectItem.addSelectionListener(new SelectionAdapter() {
-
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				GraphNode node = getFirstGraphNode( viewer );
-				Word word = (Word) node.getData();
-				word.setWordType(EWordType.SUBJECT);
-				node.setImage(((LabelProvider) viewer.getLabelProvider()).getImage(word));
-			}
-			
-		});
-		
-		
-		MenuItem indirectObjItem = new MenuItem(menu, SWT.PUSH);
-		indirectObjItem.setText("Indirect o.");
-		
-		indirectObjItem.addSelectionListener(new SelectionAdapter() {
-
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				GraphNode node = getFirstGraphNode( viewer );
-				Word word = (Word) node.getData();
-				word.setWordType(EWordType.INDIRECT_OBJECT);
-				node.setImage(((LabelProvider) viewer.getLabelProvider()).getImage(word));
-			}
-			
-		});
-		
-		
-		MenuItem verbItem = new MenuItem(menu, SWT.PUSH);
-		verbItem.setText("verb");
-		
-		verbItem.addSelectionListener(new SelectionAdapter() {
-
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				GraphNode node = getFirstGraphNode( viewer );
-				Word word = (Word) node.getData();
-				word.setWordType(EWordType.VERB);
-				node.setImage(((LabelProvider) viewer.getLabelProvider()).getImage(word));
-			}
-			
-		});
-		
-		
-		MenuItem repObjItem = new MenuItem(menu, SWT.PUSH);
-		repObjItem.setText("Representative o.");
-		
-		repObjItem.addSelectionListener(new SelectionAdapter() {
-
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				GraphNode node = getFirstGraphNode( viewer );
-				Word word = (Word) node.getData();
-				word.setWordType(EWordType.REPRESENTATIVE_OBJECT);
-				node.setImage(((LabelProvider) viewer.getLabelProvider()).getImage(word));
-			}
-		});
-		
-		MenuItem gotoItem = new MenuItem(menu, SWT.PUSH);
-		gotoItem.setText("Goto target");
-		
-		gotoItem.addSelectionListener(new SelectionAdapter() {
-
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				GraphNode node = getFirstGraphNode( viewer );
-				Word word = (Word) node.getData();
-				word.setWordType(EWordType.GOTO_TARGET);
-				node.setImage(((LabelProvider) viewer.getLabelProvider()).getImage(word));
-			}
-		});
-		
-		
-		MenuItem condItem = new MenuItem(menu, SWT.PUSH);
-		condItem.setText("Condition label");
-		
-		condItem.addSelectionListener(new SelectionAdapter() {
-
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				GraphNode node = getFirstGraphNode( viewer );
-				Word word = (Word) node.getData();
-				word.setWordType(EWordType.CONDITION_LABEL);
-				node.setImage(((LabelProvider) viewer.getLabelProvider()).getImage(word));
-			}
-		});
-		
-		return menu;
-	}
-	
-	/**
-	 * Helper method.
-	 * @param viewer2
-	 * @return first graph node from viewer's selection
-	 */
-	protected static GraphNode getFirstGraphNode(GraphViewer viewer2) {
-		return getFirstGraphNode( viewer2.getGraphControl().getSelection() );
-	}
-
-	/**
-	 * Helper method.
-	 * @param nodes
-	 * @return first graph node from a list
-	 */
-	protected static GraphNode getFirstGraphNode(List<?> nodes) {
-		if(nodes.size() == 0)
-			return null;
-		
-		Object firstNode = nodes.get(0);
-		if(firstNode instanceof GraphNode)
-			return (GraphNode) firstNode;
-		
-		return null;
-	}
-
-
-	private void initGraphNode(GraphNode gNode, ParseNode mNode) {
-		gNode.setData(mNode);
-		gNode.setBackgroundColor(new Color(Display.getDefault(), 255, 255, 255));
-		gNode.setHighlightColor(new Color(Display.getDefault(), 255, 255, 255));
-		
-		if (mNode instanceof Word) {
-			Word word = (Word) mNode;
-			IFigure toolTip = new Label();
-			((Label) toolTip).setText(word.getWordStr());
-			gNode.setTooltip(toolTip);
-		}
-	}
-	
-	private void createGraph2EMFMapping(GraphNode gNode, ParseNode mNode) {
-		initGraphNode(gNode, mNode);
-		
-		if (!(mNode instanceof InnerParseNode)) {
-			return;
-		}
-		
-		InnerParseNode innerNode = (InnerParseNode) mNode;
-		for (int i = 0; i < gNode.getSourceConnections().size(); i++) {
-			GraphConnection con = (GraphConnection) gNode.getSourceConnections().get(i);
-			GraphNode gChild = con.getDestination();
-			ParseNode mChild = innerNode.getChildNodes().get(i);
-			
-			createGraph2EMFMapping(gChild, mChild);
-		}
-	}
-	
-	public void showTree(SentenceNode treeRoot) {
-		sentenceModel.setRootNode(treeRoot);
-		viewer.setInput(sentenceModel.getNodes());
-		viewer.getGraphControl().setNodeStyle(ZestStyles.NODES_NO_ANIMATION);
-		mapGraphNodes2EMF(sentenceModel.getRootNode());
-		viewer.applyLayout();
-	}
-
-	@Override
-	public void createPartControl(Composite parent) {
-		
-		parent.addListener(SWT.Resize, new Listener() {
-			public void handleEvent(Event e) {
-				viewer.applyLayout();
-			}
-		});
-		
-		parent.setLayout(new FillLayout());
-        
-		viewer = new GraphViewer(parent, SWT.BORDER);
-		
-		viewer.getGraphControl().getLightweightSystem().setEventDispatcher(
-				new SWTEventDispatcher() {
-					@Override
-					public void dispatchMouseMoved(org.eclipse.swt.events.MouseEvent me) {
-						// Do nothing. This disables nodes replacing with mouse.
-					}
-				}
-		);
-				
-		viewer.setContentProvider(new NodeContentProvider());
-		
-		final NodeLabelProvider labelProvider = new NodeLabelProvider();
-		viewer.setLabelProvider(labelProvider);
-
-		final Menu menu = createMenu(parent);
-
-		TreeLayoutAlgorithm tla = 
-			new TreeLayoutAlgorithm(LayoutStyles.NO_LAYOUT_NODE_RESIZING);
-		
-		tla.setComparator(new Comparator<Object>() {
-			
-			/* We just keep the original order */
-			@Override
-			public int compare (Object node1, Object node2) {
-				return 0;
-			}
-			
-		});
-				
-		viewer.getGraphControl().addMouseListener(new MouseAdapter() {
-			
-			public void mouseDown(MouseEvent e) {
-				GraphNode node = getFirstGraphNode( ((Graph) e.widget).getSelection() );
-				if(node == null)
-					return;
-					
-				int dx = e.x - node.getLocation().x;
-				int dy = e.y - node.getLocation().y;
-				
-				int scrollX = 0;
-				int scrollY = 0;
-				
-				if (viewer.getGraphControl().getHorizontalBar() != null) {
-					scrollX = viewer.getGraphControl().getHorizontalBar().getSelection();
-				}
-				
-				if (viewer.getGraphControl().getVerticalBar() != null) {
-					scrollY = viewer.getGraphControl().getVerticalBar().getSelection();
-				}
-												
-				ParseNode modelNode = (ParseNode) node.getData();
-				Word wordNode = null;
-				if (modelNode instanceof Word) {
-					wordNode = (Word) modelNode;
-				}
-				
-				if (wordNode != null) {
-					int width = labelProvider.countNodeWidth(wordNode);
-					
-					if ((dx + scrollX > width - 4) && (dy + scrollY < 17)) {
-						menu.setVisible(true);
-					}
-				}
-			}
-			
-		});
-		
-		viewer.setLayoutAlgorithm(
-				new CompositeLayoutAlgorithm(
-						new LayoutAlgorithm[] {
-								
-								tla,
-								new HorizontalShift(LayoutStyles.ENFORCE_BOUNDS)
-						}
-				),
-				true
-			);
-	}
-
-	@Override
-	public void setFocus() {
-		// TODO Auto-generated method stub
-
-	}
-}
+//package reprotool.ide.views;
+//
+//import java.util.Comparator;
+//import java.util.List;
+//
+//import org.eclipse.draw2d.IFigure;
+//import org.eclipse.draw2d.Label;
+//import org.eclipse.draw2d.SWTEventDispatcher;
+//import org.eclipse.jface.viewers.LabelProvider;
+//import org.eclipse.swt.SWT;
+//import org.eclipse.swt.events.MouseAdapter;
+//import org.eclipse.swt.events.MouseEvent;
+//import org.eclipse.swt.events.SelectionAdapter;
+//import org.eclipse.swt.events.SelectionEvent;
+//import org.eclipse.swt.graphics.Color;
+//import org.eclipse.swt.layout.FillLayout;
+//import org.eclipse.swt.widgets.Composite;
+//import org.eclipse.swt.widgets.Display;
+//import org.eclipse.swt.widgets.Event;
+//import org.eclipse.swt.widgets.Listener;
+//import org.eclipse.swt.widgets.Menu;
+//import org.eclipse.swt.widgets.MenuItem;
+//import org.eclipse.ui.part.ViewPart;
+//import org.eclipse.zest.core.viewers.GraphViewer;
+//import org.eclipse.zest.core.widgets.Graph;
+//import org.eclipse.zest.core.widgets.GraphConnection;
+//import org.eclipse.zest.core.widgets.GraphNode;
+//import org.eclipse.zest.core.widgets.ZestStyles;
+//import org.eclipse.zest.layouts.LayoutAlgorithm;
+//import org.eclipse.zest.layouts.LayoutStyles;
+//import org.eclipse.zest.layouts.algorithms.CompositeLayoutAlgorithm;
+//import org.eclipse.zest.layouts.algorithms.HorizontalShift;
+//import org.eclipse.zest.layouts.algorithms.TreeLayoutAlgorithm;
+//
+//import reprotool.ide.parsetree.NodeContentProvider;
+//import reprotool.ide.parsetree.NodeLabelProvider;
+//import reprotool.ide.parsetree.NodeModelContentProvider;
+//import reprotool.model.linguistic.parsetree.EWordType;
+//import reprotool.model.linguistic.parsetree.InnerParseNode;
+//import reprotool.model.linguistic.parsetree.ParseNode;
+//import reprotool.model.linguistic.parsetree.SentenceNode;
+//import reprotool.model.linguistic.parsetree.Word;
+//
+//
+//public class ParsedTreeView extends ViewPart {
+//	public static final String ID = "cz.cuni.mff.reprotool.ide.view_parsed_tree";
+//
+//	private GraphViewer viewer;
+//	private NodeModelContentProvider sentenceModel = new NodeModelContentProvider();
+//	
+//	public ParsedTreeView() {
+//		// TODO Auto-generated constructor stub
+//	}
+//	
+//	private void mapGraphNodes2EMF(SentenceNode modelRootNode) {
+//		GraphNode root = getFirstGraphNode( viewer.getGraphControl().getNodes() );
+//		while (root.getTargetConnections().size() != 0) {
+//			root =  ((GraphConnection) root.getTargetConnections().get(0)).getSource();
+//		}
+//		
+//		createGraph2EMFMapping(root, modelRootNode);
+//	}
+//	
+//	private Menu createMenu(Composite parent) {
+//		Menu menu = new Menu(parent);
+//		
+//		MenuItem notImpItem = new MenuItem(menu, SWT.PUSH);
+//		notImpItem.setText("Not important");
+//		
+//		notImpItem.addSelectionListener(new SelectionAdapter() {
+//
+//			@Override
+//			public void widgetSelected(SelectionEvent e) {
+//				GraphNode node = getFirstGraphNode(viewer);
+//				Word word = (Word) node.getData();
+//				word.setWordType(EWordType.NOT_IMPORTANT);
+//				node.setImage(((LabelProvider) viewer.getLabelProvider()).getImage(word));
+//			}
+//			
+//		});
+//		
+//		
+//		MenuItem subjectItem = new MenuItem(menu, SWT.PUSH);
+//		subjectItem.setText("Subject");
+//		
+//		subjectItem.addSelectionListener(new SelectionAdapter() {
+//
+//			@Override
+//			public void widgetSelected(SelectionEvent e) {
+//				GraphNode node = getFirstGraphNode( viewer );
+//				Word word = (Word) node.getData();
+//				word.setWordType(EWordType.SUBJECT);
+//				node.setImage(((LabelProvider) viewer.getLabelProvider()).getImage(word));
+//			}
+//			
+//		});
+//		
+//		
+//		MenuItem indirectObjItem = new MenuItem(menu, SWT.PUSH);
+//		indirectObjItem.setText("Indirect o.");
+//		
+//		indirectObjItem.addSelectionListener(new SelectionAdapter() {
+//
+//			@Override
+//			public void widgetSelected(SelectionEvent e) {
+//				GraphNode node = getFirstGraphNode( viewer );
+//				Word word = (Word) node.getData();
+//				word.setWordType(EWordType.INDIRECT_OBJECT);
+//				node.setImage(((LabelProvider) viewer.getLabelProvider()).getImage(word));
+//			}
+//			
+//		});
+//		
+//		
+//		MenuItem verbItem = new MenuItem(menu, SWT.PUSH);
+//		verbItem.setText("verb");
+//		
+//		verbItem.addSelectionListener(new SelectionAdapter() {
+//
+//			@Override
+//			public void widgetSelected(SelectionEvent e) {
+//				GraphNode node = getFirstGraphNode( viewer );
+//				Word word = (Word) node.getData();
+//				word.setWordType(EWordType.VERB);
+//				node.setImage(((LabelProvider) viewer.getLabelProvider()).getImage(word));
+//			}
+//			
+//		});
+//		
+//		
+//		MenuItem repObjItem = new MenuItem(menu, SWT.PUSH);
+//		repObjItem.setText("Representative o.");
+//		
+//		repObjItem.addSelectionListener(new SelectionAdapter() {
+//
+//			@Override
+//			public void widgetSelected(SelectionEvent e) {
+//				GraphNode node = getFirstGraphNode( viewer );
+//				Word word = (Word) node.getData();
+//				word.setWordType(EWordType.REPRESENTATIVE_OBJECT);
+//				node.setImage(((LabelProvider) viewer.getLabelProvider()).getImage(word));
+//			}
+//		});
+//		
+//		MenuItem gotoItem = new MenuItem(menu, SWT.PUSH);
+//		gotoItem.setText("Goto target");
+//		
+//		gotoItem.addSelectionListener(new SelectionAdapter() {
+//
+//			@Override
+//			public void widgetSelected(SelectionEvent e) {
+//				GraphNode node = getFirstGraphNode( viewer );
+//				Word word = (Word) node.getData();
+//				word.setWordType(EWordType.GOTO_TARGET);
+//				node.setImage(((LabelProvider) viewer.getLabelProvider()).getImage(word));
+//			}
+//		});
+//		
+//		
+//		MenuItem condItem = new MenuItem(menu, SWT.PUSH);
+//		condItem.setText("Condition label");
+//		
+//		condItem.addSelectionListener(new SelectionAdapter() {
+//
+//			@Override
+//			public void widgetSelected(SelectionEvent e) {
+//				GraphNode node = getFirstGraphNode( viewer );
+//				Word word = (Word) node.getData();
+//				word.setWordType(EWordType.CONDITION_LABEL);
+//				node.setImage(((LabelProvider) viewer.getLabelProvider()).getImage(word));
+//			}
+//		});
+//		
+//		return menu;
+//	}
+//	
+//	/**
+//	 * Helper method.
+//	 * @param viewer2
+//	 * @return first graph node from viewer's selection
+//	 */
+//	protected static GraphNode getFirstGraphNode(GraphViewer viewer2) {
+//		return getFirstGraphNode( viewer2.getGraphControl().getSelection() );
+//	}
+//
+//	/**
+//	 * Helper method.
+//	 * @param nodes
+//	 * @return first graph node from a list
+//	 */
+//	protected static GraphNode getFirstGraphNode(List<?> nodes) {
+//		if(nodes.size() == 0)
+//			return null;
+//		
+//		Object firstNode = nodes.get(0);
+//		if(firstNode instanceof GraphNode)
+//			return (GraphNode) firstNode;
+//		
+//		return null;
+//	}
+//
+//
+//	private void initGraphNode(GraphNode gNode, ParseNode mNode) {
+//		gNode.setData(mNode);
+//		gNode.setBackgroundColor(new Color(Display.getDefault(), 255, 255, 255));
+//		gNode.setHighlightColor(new Color(Display.getDefault(), 255, 255, 255));
+//		
+//		if (mNode instanceof Word) {
+//			Word word = (Word) mNode;
+//			IFigure toolTip = new Label();
+//			((Label) toolTip).setText(word.getWordStr());
+//			gNode.setTooltip(toolTip);
+//		}
+//	}
+//	
+//	private void createGraph2EMFMapping(GraphNode gNode, ParseNode mNode) {
+//		initGraphNode(gNode, mNode);
+//		
+//		if (!(mNode instanceof InnerParseNode)) {
+//			return;
+//		}
+//		
+//		InnerParseNode innerNode = (InnerParseNode) mNode;
+//		for (int i = 0; i < gNode.getSourceConnections().size(); i++) {
+//			GraphConnection con = (GraphConnection) gNode.getSourceConnections().get(i);
+//			GraphNode gChild = con.getDestination();
+//			ParseNode mChild = innerNode.getChildNodes().get(i);
+//			
+//			createGraph2EMFMapping(gChild, mChild);
+//		}
+//	}
+//	
+//	public void showTree(SentenceNode treeRoot) {
+//		sentenceModel.setRootNode(treeRoot);
+//		viewer.setInput(sentenceModel.getNodes());
+//		viewer.getGraphControl().setNodeStyle(ZestStyles.NODES_NO_ANIMATION);
+//		mapGraphNodes2EMF(sentenceModel.getRootNode());
+//		viewer.applyLayout();
+//	}
+//
+//	@Override
+//	public void createPartControl(Composite parent) {
+//		
+//		parent.addListener(SWT.Resize, new Listener() {
+//			public void handleEvent(Event e) {
+//				viewer.applyLayout();
+//			}
+//		});
+//		
+//		parent.setLayout(new FillLayout());
+//        
+//		viewer = new GraphViewer(parent, SWT.BORDER);
+//		
+//		viewer.getGraphControl().getLightweightSystem().setEventDispatcher(
+//				new SWTEventDispatcher() {
+//					@Override
+//					public void dispatchMouseMoved(org.eclipse.swt.events.MouseEvent me) {
+//						// Do nothing. This disables nodes replacing with mouse.
+//					}
+//				}
+//		);
+//				
+//		viewer.setContentProvider(new NodeContentProvider());
+//		
+//		final NodeLabelProvider labelProvider = new NodeLabelProvider();
+//		viewer.setLabelProvider(labelProvider);
+//
+//		final Menu menu = createMenu(parent);
+//
+//		TreeLayoutAlgorithm tla = 
+//			new TreeLayoutAlgorithm(LayoutStyles.NO_LAYOUT_NODE_RESIZING);
+//		
+//		tla.setComparator(new Comparator<Object>() {
+//			
+//			/* We just keep the original order */
+//			@Override
+//			public int compare (Object node1, Object node2) {
+//				return 0;
+//			}
+//			
+//		});
+//				
+//		viewer.getGraphControl().addMouseListener(new MouseAdapter() {
+//			
+//			public void mouseDown(MouseEvent e) {
+//				GraphNode node = getFirstGraphNode( ((Graph) e.widget).getSelection() );
+//				if(node == null)
+//					return;
+//					
+//				int dx = e.x - node.getLocation().x;
+//				int dy = e.y - node.getLocation().y;
+//				
+//				int scrollX = 0;
+//				int scrollY = 0;
+//				
+//				if (viewer.getGraphControl().getHorizontalBar() != null) {
+//					scrollX = viewer.getGraphControl().getHorizontalBar().getSelection();
+//				}
+//				
+//				if (viewer.getGraphControl().getVerticalBar() != null) {
+//					scrollY = viewer.getGraphControl().getVerticalBar().getSelection();
+//				}
+//												
+//				ParseNode modelNode = (ParseNode) node.getData();
+//				Word wordNode = null;
+//				if (modelNode instanceof Word) {
+//					wordNode = (Word) modelNode;
+//				}
+//				
+//				if (wordNode != null) {
+//					int width = labelProvider.countNodeWidth(wordNode);
+//					
+//					if ((dx + scrollX > width - 4) && (dy + scrollY < 17)) {
+//						menu.setVisible(true);
+//					}
+//				}
+//			}
+//			
+//		});
+//		
+//		viewer.setLayoutAlgorithm(
+//				new CompositeLayoutAlgorithm(
+//						new LayoutAlgorithm[] {
+//								
+//								tla,
+//								new HorizontalShift(LayoutStyles.ENFORCE_BOUNDS)
+//						}
+//				),
+//				true
+//			);
+//	}
+//
+//	@Override
+//	public void setFocus() {
+//		// TODO Auto-generated method stub
+//
+//	}
+//}

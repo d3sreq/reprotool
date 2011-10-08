@@ -4,23 +4,20 @@
  *
  * $Id$
  */
-package reprotool.ide.editors;
+package reprotool.ide.editors.project;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
 import org.eclipse.emf.common.ui.viewer.IViewerProvider;
-
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
-
 import org.eclipse.emf.edit.ui.action.ControlAction;
 import org.eclipse.emf.edit.ui.action.CreateChildAction;
 import org.eclipse.emf.edit.ui.action.CreateSiblingAction;
 import org.eclipse.emf.edit.ui.action.EditingDomainActionBarContributor;
 import org.eclipse.emf.edit.ui.action.LoadResourceAction;
 import org.eclipse.emf.edit.ui.action.ValidateAction;
-
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.IAction;
@@ -32,26 +29,24 @@ import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.action.SubContributionItem;
-
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.Viewer;
-
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PartInitException;
 
 import reprotool.model.lts.presentation.ReprotoolEditorPlugin;
 
 /**
- * This is the action bar contributor for the Usecase model editor.
+ * This is the action bar contributor for the Swproj model editor.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
  */
-public class UsecaseEMFActionBarContributor
+public class ProjectActionBarContributor
 	extends EditingDomainActionBarContributor
 	implements ISelectionChangedListener {
 	/**
@@ -154,7 +149,7 @@ public class UsecaseEMFActionBarContributor
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public UsecaseEMFActionBarContributor() {
+	public ProjectActionBarContributor() {
 		super(ADDITIONS_LAST_STYLE);
 		loadResourceAction = new LoadResourceAction();
 		validateAction = new ValidateAction();
@@ -169,8 +164,8 @@ public class UsecaseEMFActionBarContributor
 	 */
 	@Override
 	public void contributeToToolBar(IToolBarManager toolBarManager) {
-		toolBarManager.add(new Separator("usecase-settings"));
-		toolBarManager.add(new Separator("usecase-additions"));
+		toolBarManager.add(new Separator("swproj-settings"));
+		toolBarManager.add(new Separator("swproj-additions"));
 	}
 
 	/**
@@ -184,7 +179,7 @@ public class UsecaseEMFActionBarContributor
 	public void contributeToMenu(IMenuManager menuManager) {
 		super.contributeToMenu(menuManager);
 
-		IMenuManager submenuManager = new MenuManager(ReprotoolEditorPlugin.INSTANCE.getString("_UI_UsecaseEditor_menu"), "reprotool.model.usecaseMenuID");
+		IMenuManager submenuManager = new MenuManager(ReprotoolEditorPlugin.INSTANCE.getString("_UI_SwprojEditor_menu"), "reprotool.model.swprojMenuID");
 		menuManager.insertAfter("additions", submenuManager);
 		submenuManager.add(new Separator("settings"));
 		submenuManager.add(new Separator("actions"));
@@ -210,6 +205,7 @@ public class UsecaseEMFActionBarContributor
 				 }
 			 });
 
+		// TODO - jvinarek - add this ?
 		addGlobalActions(submenuManager);
 	}
 
