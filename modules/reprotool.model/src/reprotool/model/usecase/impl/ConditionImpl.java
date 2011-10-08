@@ -29,6 +29,7 @@ import reprotool.model.swproj.Requirement;
 import reprotool.model.usecase.Condition;
 import reprotool.model.usecase.ParseableElement;
 import reprotool.model.usecase.Scenario;
+import reprotool.model.usecase.UseCaseStep;
 import reprotool.model.usecase.UsecasePackage;
 
 import reprotool.model.usecase.annotate.StepAnnotation;
@@ -157,16 +158,30 @@ public class ConditionImpl extends EObjectImpl implements Condition {
 		}
 		
 		Scenario scenario = (Scenario)conditionParent;
-		int index = scenario.getSteps().indexOf(this);
-//		String toReturn = String.valueOf((char)('a' + index));
-		String toReturn = "x";
-		
 		EObject scenarioParent = scenario.eContainer();
-		if (scenarioParent instanceof ParseableElement) {
-			ParseableElement parseableElement = (ParseableElement)scenarioParent;
-			toReturn = parseableElement.getLabel() + "." + toReturn;
+		if (!(scenarioParent instanceof UseCaseStep)) {
+			return "";
 		}
 		
+		UseCaseStep parentUseCaseStep = (UseCaseStep)scenarioParent;
+		
+		int labelIndex = -1;
+		int extensionIndex = parentUseCaseStep.getExtensions().indexOf(scenario);
+		
+		if (extensionIndex != -1) {
+			labelIndex = extensionIndex;
+		} else {
+			int variationsIndex = parentUseCaseStep.getVariations().indexOf(scenario);
+			if (variationsIndex != -1) {
+				labelIndex = parentUseCaseStep.getExtensions().size() + variationsIndex;
+			}
+		}
+		
+		String toReturn = "";
+		if (labelIndex != -1) {
+			toReturn = parentUseCaseStep.getLabel() + String.valueOf((char)('a' + labelIndex));
+		}
+
 		return toReturn;
 	}
 

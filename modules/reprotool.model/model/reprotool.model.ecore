@@ -64,7 +64,7 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="action" lowerBound="1"
           eType="#//linguistic/action/Action" containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="softwareProject" eType="#//swproj/SoftwareProject"
-          changeable="false" volatile="true" transient="true" unsettable="true" derived="true"/>
+          changeable="false" volatile="true" transient="true" derived="true"/>
     </eClassifiers>
     <eSubpackages name="annotate" nsURI="http://d3s.mff.cuni.cz/reprotool/model/usecase/annotate"
         nsPrefix="annotate">

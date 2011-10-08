@@ -191,18 +191,18 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 	 * @generated NOT
 	 */
 	public String getLabel() {
-		EObject useCaseParent = this.eContainer();
-		if (!(useCaseParent instanceof Scenario)) {
+		EObject parent = this.eContainer();
+		if (!(parent instanceof Scenario)) {
 			return "";
 		}
 		
-		Scenario scenario = (Scenario)useCaseParent;
+		Scenario scenario = (Scenario)parent;
 		String toReturn = Integer.toString(scenario.getSteps().indexOf(this) + 1);
 		
 		EObject scenarioParent = scenario.eContainer();
-		if (scenarioParent instanceof ParseableElement) {
-			ParseableElement parseableElement = (ParseableElement)scenarioParent;
-			toReturn = parseableElement.getLabel() + "." + toReturn;
+		if (scenarioParent instanceof UseCaseStep && scenario.getPreconditions().size() != 0) {
+			String labelStart = scenario.getPreconditions().get(0).getLabel();
+			toReturn = labelStart + toReturn;
 		}
 		
 		return toReturn;
@@ -318,17 +318,6 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 		
 		SoftwareProject softwareProject = (SoftwareProject)useCase.eContainer();
 		return softwareProject;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean isSetSoftwareProject() {
-		// TODO: implement this method to return whether the 'Software Project' reference is set
-		// Ensure that you remove @generated or mark it @generated NOT
-		throw new UnsupportedOperationException();
 	}
 
 	/**
@@ -471,7 +460,7 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 			case UsecasePackage.USE_CASE_STEP__ACTION:
 				return action != null;
 			case UsecasePackage.USE_CASE_STEP__SOFTWARE_PROJECT:
-				return isSetSoftwareProject();
+				return basicGetSoftwareProject() != null;
 		}
 		return super.eIsSet(featureID);
 	}
