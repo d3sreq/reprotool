@@ -7,6 +7,7 @@
 package reprotool.model.linguistic.action;
 
 import reprotool.model.linguistic.actionpart.ActionPart;
+
 import reprotool.model.usecase.UseCase;
 
 /**

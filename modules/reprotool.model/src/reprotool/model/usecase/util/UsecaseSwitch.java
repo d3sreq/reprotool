@@ -12,14 +12,10 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 
 import reprotool.model.swproj.ReqCover;
+
 import reprotool.model.traceability.TraceableEntity;
+
 import reprotool.model.usecase.*;
-import reprotool.model.usecase.Condition;
-import reprotool.model.usecase.ParseableElement;
-import reprotool.model.usecase.Scenario;
-import reprotool.model.usecase.UseCase;
-import reprotool.model.usecase.UseCaseStep;
-import reprotool.model.usecase.UsecasePackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -167,21 +163,6 @@ public class UsecaseSwitch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Use Case Step</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Use Case Step</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseUseCaseStep(UseCaseStep object) {
-		return null;
-	}
-
-	/**
 	 * Returns the result of interpreting the object as an instance of '<em>Scenario</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
@@ -208,6 +189,21 @@ public class UsecaseSwitch<T> {
 	 * @generated
 	 */
 	public T caseCondition(Condition object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Use Case Step</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Use Case Step</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseUseCaseStep(UseCaseStep object) {
 		return null;
 	}
 

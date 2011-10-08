@@ -9,15 +9,12 @@ package reprotool.model.comp.impl;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
+
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
 import reprotool.model.comp.*;
-import reprotool.model.comp.CompFactory;
-import reprotool.model.comp.CompInterface;
-import reprotool.model.comp.CompInterfaceType;
-import reprotool.model.comp.CompPackage;
-import reprotool.model.comp.Component;
 
 /**
  * <!-- begin-user-doc -->

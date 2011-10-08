@@ -8,18 +8,16 @@ package reprotool.model.usecase.util;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
+
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
+
 import org.eclipse.emf.ecore.EObject;
 
 import reprotool.model.swproj.ReqCover;
+
 import reprotool.model.traceability.TraceableEntity;
+
 import reprotool.model.usecase.*;
-import reprotool.model.usecase.Condition;
-import reprotool.model.usecase.ParseableElement;
-import reprotool.model.usecase.Scenario;
-import reprotool.model.usecase.UseCase;
-import reprotool.model.usecase.UseCaseStep;
-import reprotool.model.usecase.UsecasePackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -154,20 +152,6 @@ public class UsecaseAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link reprotool.model.usecase.UseCaseStep <em>Use Case Step</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see reprotool.model.usecase.UseCaseStep
-	 * @generated
-	 */
-	public Adapter createUseCaseStepAdapter() {
-		return null;
-	}
-
-	/**
 	 * Creates a new adapter for an object of class '{@link reprotool.model.usecase.Scenario <em>Scenario</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
@@ -192,6 +176,20 @@ public class UsecaseAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createConditionAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link reprotool.model.usecase.UseCaseStep <em>Use Case Step</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see reprotool.model.usecase.UseCaseStep
+	 * @generated
+	 */
+	public Adapter createUseCaseStepAdapter() {
 		return null;
 	}
 

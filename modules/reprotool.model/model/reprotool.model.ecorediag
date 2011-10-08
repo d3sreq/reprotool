@@ -68,6 +68,10 @@
     <children xmi:type="notation:Node" xmi:id="_7hhioO01EeCcuJeC_Sm0Dg" type="1001">
       <children xmi:type="notation:Node" xmi:id="_7hiJsO01EeCcuJeC_Sm0Dg" type="4001"/>
       <children xmi:type="notation:Node" xmi:id="_7hiJse01EeCcuJeC_Sm0Dg" type="5001">
+        <children xmi:type="notation:Node" xmi:id="_JI8RoPG3EeCfnpmlBQvHeQ" type="2001">
+          <element xmi:type="ecore:EAttribute" href="reprotool.model.ecore#//usecase/ParseableElement/label"/>
+          <layoutConstraint xmi:type="notation:Location" xmi:id="_JI8RofG3EeCfnpmlBQvHeQ"/>
+        </children>
         <styles xmi:type="notation:DrawerStyle" xmi:id="_7hiJsu01EeCcuJeC_Sm0Dg"/>
         <styles xmi:type="notation:SortingStyle" xmi:id="_7hiJs-01EeCcuJeC_Sm0Dg"/>
         <styles xmi:type="notation:FilteringStyle" xmi:id="_7hiJtO01EeCcuJeC_Sm0Dg"/>

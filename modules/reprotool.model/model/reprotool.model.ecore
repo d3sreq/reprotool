@@ -38,11 +38,13 @@
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="ParseableElement" abstract="true"
         interface="true" eSuperTypes="#//swproj/ReqCover">
-      <eOperations name="getLabel" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="textNodes" upperBound="-1"
           eType="#//linguistic/actionpart/Text" containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="annotations" upperBound="-1"
           eType="#//usecase/annotate/StepAnnotation" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="label" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+          changeable="false" volatile="true" transient="true" derived="true"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="Scenario">
       <eStructuralFeatures xsi:type="ecore:EReference" name="steps" upperBound="-1"
@@ -62,7 +64,7 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="action" lowerBound="1"
           eType="#//linguistic/action/Action" containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="softwareProject" eType="#//swproj/SoftwareProject"
-          changeable="false" volatile="true" transient="true" unsettable="true" derived="true"/>
+          changeable="false" volatile="true" transient="true" derived="true"/>
     </eClassifiers>
     <eSubpackages name="annotate" nsURI="http://d3s.mff.cuni.cz/reprotool/model/usecase/annotate"
         nsPrefix="annotate">

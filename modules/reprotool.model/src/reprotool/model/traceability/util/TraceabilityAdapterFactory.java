@@ -8,13 +8,12 @@ package reprotool.model.traceability.util;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
+
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
+
 import org.eclipse.emf.ecore.EObject;
 
 import reprotool.model.traceability.*;
-import reprotool.model.traceability.TraceLink;
-import reprotool.model.traceability.TraceabilityPackage;
-import reprotool.model.traceability.TraceableEntity;
 
 /**
  * <!-- begin-user-doc -->

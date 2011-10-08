@@ -9,15 +9,12 @@ package reprotool.model.doc.impl;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
+
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
 import reprotool.model.doc.*;
-import reprotool.model.doc.DocFactory;
-import reprotool.model.doc.DocPackage;
-import reprotool.model.doc.Document;
-import reprotool.model.doc.Paragraph;
-import reprotool.model.doc.Section;
 
 /**
  * <!-- begin-user-doc -->

@@ -309,7 +309,6 @@ public interface SwprojPackage extends EPackage {
 	 */
 	int REQ_COVER_FEATURE_COUNT = 1;
 
-
 	/**
 	 * The meta object id for the '{@link reprotool.model.swproj.DomainElement <em>Domain Element</em>}' class.
 	 * <!-- begin-user-doc -->

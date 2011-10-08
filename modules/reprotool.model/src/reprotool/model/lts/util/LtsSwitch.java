@@ -12,11 +12,6 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 
 import reprotool.model.lts.*;
-import reprotool.model.lts.ActionTransition;
-import reprotool.model.lts.LtsPackage;
-import reprotool.model.lts.State;
-import reprotool.model.lts.StateMachine;
-import reprotool.model.lts.Transition;
 
 /**
  * <!-- begin-user-doc -->

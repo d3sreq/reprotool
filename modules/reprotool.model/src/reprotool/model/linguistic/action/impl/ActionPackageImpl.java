@@ -9,14 +9,21 @@ package reprotool.model.linguistic.action.impl;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
+
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 import reprotool.model.ast.AstPackage;
+
 import reprotool.model.ast.impl.AstPackageImpl;
+
 import reprotool.model.comp.CompPackage;
+
 import reprotool.model.comp.impl.CompPackageImpl;
+
 import reprotool.model.doc.DocPackage;
+
 import reprotool.model.doc.impl.DocPackageImpl;
+
 import reprotool.model.linguistic.action.AbortUseCase;
 import reprotool.model.linguistic.action.Action;
 import reprotool.model.linguistic.action.ActionFactory;
@@ -28,17 +35,29 @@ import reprotool.model.linguistic.action.Internal;
 import reprotool.model.linguistic.action.ToSystem;
 import reprotool.model.linguistic.action.Unknown;
 import reprotool.model.linguistic.action.UseCaseInclude;
+
 import reprotool.model.linguistic.actionpart.ActionpartPackage;
+
 import reprotool.model.linguistic.actionpart.impl.ActionpartPackageImpl;
+
 import reprotool.model.lts.LtsPackage;
+
 import reprotool.model.lts.impl.LtsPackageImpl;
+
 import reprotool.model.swproj.SwprojPackage;
+
 import reprotool.model.swproj.impl.SwprojPackageImpl;
+
 import reprotool.model.traceability.TraceabilityPackage;
+
 import reprotool.model.traceability.impl.TraceabilityPackageImpl;
+
 import reprotool.model.usecase.UsecasePackage;
+
 import reprotool.model.usecase.annotate.AnnotatePackage;
+
 import reprotool.model.usecase.annotate.impl.AnnotatePackageImpl;
+
 import reprotool.model.usecase.impl.UsecasePackageImpl;
 
 /**

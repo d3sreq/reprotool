@@ -7,16 +7,20 @@
 package reprotool.model.linguistic.action.impl;
 
 import org.eclipse.emf.common.notify.Notification;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
+
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
 import reprotool.model.linguistic.action.ActionPackage;
 import reprotool.model.linguistic.action.Goto;
+
 import reprotool.model.linguistic.actionpart.ActionPart;
 import reprotool.model.linguistic.actionpart.ActionpartPackage;
 import reprotool.model.linguistic.actionpart.Text;
+
 import reprotool.model.usecase.UseCaseStep;
 
 /**

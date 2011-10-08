@@ -35,15 +35,6 @@ public interface UsecaseFactory extends EFactory {
 	UseCase createUseCase();
 
 	/**
-	 * Returns a new object of class '<em>Use Case Step</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Use Case Step</em>'.
-	 * @generated
-	 */
-	UseCaseStep createUseCaseStep();
-
-	/**
 	 * Returns a new object of class '<em>Scenario</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -60,6 +51,15 @@ public interface UsecaseFactory extends EFactory {
 	 * @generated
 	 */
 	Condition createCondition();
+
+	/**
+	 * Returns a new object of class '<em>Use Case Step</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Use Case Step</em>'.
+	 * @generated
+	 */
+	UseCaseStep createUseCaseStep();
 
 	/**
 	 * Returns the package supported by this factory.

@@ -9,19 +9,12 @@ package reprotool.model.usecase.annotate.impl;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
+
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
 import reprotool.model.usecase.annotate.*;
-import reprotool.model.usecase.annotate.AnnotateFactory;
-import reprotool.model.usecase.annotate.AnnotatePackage;
-import reprotool.model.usecase.annotate.CTLAnnotationSet;
-import reprotool.model.usecase.annotate.LTLAnnotationSet;
-import reprotool.model.usecase.annotate.OnAnnotation;
-import reprotool.model.usecase.annotate.SpecialAnnotationSet;
-import reprotool.model.usecase.annotate.StepAnnotation;
-import reprotool.model.usecase.annotate.TemporalAnnotation;
-import reprotool.model.usecase.annotate.TraceAnnotation;
 
 /**
  * <!-- begin-user-doc -->

@@ -7,10 +7,13 @@
 package reprotool.model.swproj;
 
 import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EObject;
 
 import reprotool.model.doc.Document;
+
 import reprotool.model.usecase.UseCase;
+
 import reprotool.model.usecase.annotate.AnnotationSet;
 
 /**

@@ -8,15 +8,12 @@ package reprotool.model.lts.util;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
+
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
+
 import org.eclipse.emf.ecore.EObject;
 
 import reprotool.model.lts.*;
-import reprotool.model.lts.ActionTransition;
-import reprotool.model.lts.LtsPackage;
-import reprotool.model.lts.State;
-import reprotool.model.lts.StateMachine;
-import reprotool.model.lts.Transition;
 
 /**
  * <!-- begin-user-doc -->

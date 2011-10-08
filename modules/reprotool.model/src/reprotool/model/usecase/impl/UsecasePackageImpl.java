@@ -10,24 +10,41 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
+
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 import reprotool.model.ast.AstPackage;
+
 import reprotool.model.ast.impl.AstPackageImpl;
+
 import reprotool.model.comp.CompPackage;
+
 import reprotool.model.comp.impl.CompPackageImpl;
+
 import reprotool.model.doc.DocPackage;
+
 import reprotool.model.doc.impl.DocPackageImpl;
+
 import reprotool.model.linguistic.action.ActionPackage;
+
 import reprotool.model.linguistic.action.impl.ActionPackageImpl;
+
 import reprotool.model.linguistic.actionpart.ActionpartPackage;
+
 import reprotool.model.linguistic.actionpart.impl.ActionpartPackageImpl;
+
 import reprotool.model.lts.LtsPackage;
+
 import reprotool.model.lts.impl.LtsPackageImpl;
+
 import reprotool.model.swproj.SwprojPackage;
+
 import reprotool.model.swproj.impl.SwprojPackageImpl;
+
 import reprotool.model.traceability.TraceabilityPackage;
+
 import reprotool.model.traceability.impl.TraceabilityPackageImpl;
+
 import reprotool.model.usecase.Condition;
 import reprotool.model.usecase.ParseableElement;
 import reprotool.model.usecase.Scenario;
@@ -35,7 +52,9 @@ import reprotool.model.usecase.UseCase;
 import reprotool.model.usecase.UseCaseStep;
 import reprotool.model.usecase.UsecaseFactory;
 import reprotool.model.usecase.UsecasePackage;
+
 import reprotool.model.usecase.annotate.AnnotatePackage;
+
 import reprotool.model.usecase.annotate.impl.AnnotatePackageImpl;
 
 /**
@@ -64,13 +83,6 @@ public class UsecasePackageImpl extends EPackageImpl implements UsecasePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass useCaseStepEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	private EClass scenarioEClass = null;
 
 	/**
@@ -79,6 +91,13 @@ public class UsecasePackageImpl extends EPackageImpl implements UsecasePackage {
 	 * @generated
 	 */
 	private EClass conditionEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass useCaseStepEClass = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -238,44 +257,8 @@ public class UsecasePackageImpl extends EPackageImpl implements UsecasePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getUseCaseStep() {
-		return useCaseStepEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getUseCaseStep_Extensions() {
-		return (EReference)useCaseStepEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getUseCaseStep_Variations() {
-		return (EReference)useCaseStepEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getUseCaseStep_Action() {
-		return (EReference)useCaseStepEClass.getEStructuralFeatures().get(2);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getUseCaseStep_SoftwareProject() {
-		return (EReference)useCaseStepEClass.getEStructuralFeatures().get(3);
+	public EAttribute getParseableElement_Label() {
+		return (EAttribute)parseableElementEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -337,6 +320,51 @@ public class UsecasePackageImpl extends EPackageImpl implements UsecasePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getUseCaseStep() {
+		return useCaseStepEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getUseCaseStep_Extensions() {
+		return (EReference)useCaseStepEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getUseCaseStep_Variations() {
+		return (EReference)useCaseStepEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getUseCaseStep_Action() {
+		return (EReference)useCaseStepEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getUseCaseStep_SoftwareProject() {
+		return (EReference)useCaseStepEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public UsecaseFactory getUsecaseFactory() {
 		return (UsecaseFactory)getEFactoryInstance();
 	}
@@ -368,6 +396,7 @@ public class UsecasePackageImpl extends EPackageImpl implements UsecasePackage {
 		parseableElementEClass = createEClass(PARSEABLE_ELEMENT);
 		createEReference(parseableElementEClass, PARSEABLE_ELEMENT__TEXT_NODES);
 		createEReference(parseableElementEClass, PARSEABLE_ELEMENT__ANNOTATIONS);
+		createEAttribute(parseableElementEClass, PARSEABLE_ELEMENT__LABEL);
 
 		scenarioEClass = createEClass(SCENARIO);
 		createEReference(scenarioEClass, SCENARIO__STEPS);
@@ -437,8 +466,7 @@ public class UsecasePackageImpl extends EPackageImpl implements UsecasePackage {
 		initEClass(parseableElementEClass, ParseableElement.class, "ParseableElement", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getParseableElement_TextNodes(), theActionpartPackage.getText(), null, "textNodes", null, 0, -1, ParseableElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getParseableElement_Annotations(), theAnnotatePackage.getStepAnnotation(), null, "annotations", null, 0, -1, ParseableElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		addEOperation(parseableElementEClass, ecorePackage.getEString(), "getLabel", 0, 1, IS_UNIQUE, IS_ORDERED);
+		initEAttribute(getParseableElement_Label(), ecorePackage.getEString(), "label", null, 1, 1, ParseableElement.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 
 		initEClass(scenarioEClass, Scenario.class, "Scenario", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getScenario_Steps(), this.getUseCaseStep(), null, "steps", null, 0, -1, Scenario.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -452,7 +480,7 @@ public class UsecasePackageImpl extends EPackageImpl implements UsecasePackage {
 		initEReference(getUseCaseStep_Extensions(), this.getScenario(), null, "extensions", null, 0, -1, UseCaseStep.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getUseCaseStep_Variations(), this.getScenario(), null, "variations", null, 0, -1, UseCaseStep.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getUseCaseStep_Action(), theActionPackage.getAction(), null, "action", null, 1, 1, UseCaseStep.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getUseCaseStep_SoftwareProject(), theSwprojPackage.getSoftwareProject(), null, "softwareProject", null, 0, 1, UseCaseStep.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+		initEReference(getUseCaseStep_SoftwareProject(), theSwprojPackage.getSoftwareProject(), null, "softwareProject", null, 0, 1, UseCaseStep.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);

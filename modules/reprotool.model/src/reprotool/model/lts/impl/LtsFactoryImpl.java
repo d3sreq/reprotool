@@ -9,15 +9,12 @@ package reprotool.model.lts.impl;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
+
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
 import reprotool.model.lts.*;
-import reprotool.model.lts.ActionTransition;
-import reprotool.model.lts.LtsFactory;
-import reprotool.model.lts.LtsPackage;
-import reprotool.model.lts.State;
-import reprotool.model.lts.StateMachine;
 
 /**
  * <!-- begin-user-doc -->

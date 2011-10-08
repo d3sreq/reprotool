@@ -9,17 +9,12 @@ package reprotool.model.swproj.impl;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
+
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
 import reprotool.model.swproj.*;
-import reprotool.model.swproj.Actor;
-import reprotool.model.swproj.ConceptualObject;
-import reprotool.model.swproj.NFRequirement;
-import reprotool.model.swproj.Requirement;
-import reprotool.model.swproj.SoftwareProject;
-import reprotool.model.swproj.SwprojFactory;
-import reprotool.model.swproj.SwprojPackage;
 
 /**
  * <!-- begin-user-doc -->

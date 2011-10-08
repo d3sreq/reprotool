@@ -9,13 +9,12 @@ package reprotool.model.traceability.impl;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
+
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
 import reprotool.model.traceability.*;
-import reprotool.model.traceability.TraceLink;
-import reprotool.model.traceability.TraceabilityFactory;
-import reprotool.model.traceability.TraceabilityPackage;
 
 /**
  * <!-- begin-user-doc -->

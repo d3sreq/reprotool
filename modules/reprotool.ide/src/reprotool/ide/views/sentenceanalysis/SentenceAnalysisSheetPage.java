@@ -53,7 +53,6 @@ import reprotool.model.swproj.Actor;
 import reprotool.model.swproj.SoftwareProject;
 import reprotool.model.swproj.SwprojFactory;
 import reprotool.model.swproj.SwprojPackage;
-import reprotool.model.usecase.Guard;
 import reprotool.model.usecase.Scenario;
 import reprotool.model.usecase.UseCase;
 import reprotool.model.usecase.UseCaseStep;

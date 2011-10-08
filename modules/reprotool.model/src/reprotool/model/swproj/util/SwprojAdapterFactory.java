@@ -8,18 +8,13 @@ package reprotool.model.swproj.util;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
+
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
+
 import org.eclipse.emf.ecore.EObject;
 
 import reprotool.model.swproj.*;
-import reprotool.model.swproj.Actor;
-import reprotool.model.swproj.ConceptualObject;
-import reprotool.model.swproj.DomainElement;
-import reprotool.model.swproj.NFRequirement;
-import reprotool.model.swproj.ReqCover;
-import reprotool.model.swproj.Requirement;
-import reprotool.model.swproj.SoftwareProject;
-import reprotool.model.swproj.SwprojPackage;
+
 import reprotool.model.traceability.TraceableEntity;
 
 /**

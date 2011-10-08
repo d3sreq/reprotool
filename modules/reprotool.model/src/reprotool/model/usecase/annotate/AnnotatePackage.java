@@ -357,6 +357,7 @@ public interface AnnotatePackage extends EPackage {
 	 */
 	int CTL_ANNOTATION_SET_FEATURE_COUNT = ANNOTATION_SET_FEATURE_COUNT + 2;
 
+
 	/**
 	 * Returns the meta object for class '{@link reprotool.model.usecase.annotate.StepAnnotation <em>Step Annotation</em>}'.
 	 * <!-- begin-user-doc -->

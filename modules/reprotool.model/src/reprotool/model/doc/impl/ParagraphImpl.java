@@ -7,6 +7,7 @@
 package reprotool.model.doc.impl;
 
 import org.eclipse.emf.ecore.EClass;
+
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
 import reprotool.model.doc.DocPackage;

@@ -252,6 +252,7 @@ public interface LtsPackage extends EPackage {
 	 */
 	int ACTION_TRANSITION_FEATURE_COUNT = TRANSITION_FEATURE_COUNT + 0;
 
+
 	/**
 	 * Returns the meta object for class '{@link reprotool.model.lts.Transition <em>Transition</em>}'.
 	 * <!-- begin-user-doc -->

@@ -9,7 +9,9 @@ package reprotool.model.usecase;
 import org.eclipse.emf.common.util.EList;
 
 import reprotool.model.linguistic.actionpart.Text;
+
 import reprotool.model.swproj.ReqCover;
+
 import reprotool.model.usecase.annotate.StepAnnotation;
 
 /**
@@ -22,6 +24,7 @@ import reprotool.model.usecase.annotate.StepAnnotation;
  * <ul>
  *   <li>{@link reprotool.model.usecase.ParseableElement#getTextNodes <em>Text Nodes</em>}</li>
  *   <li>{@link reprotool.model.usecase.ParseableElement#getAnnotations <em>Annotations</em>}</li>
+ *   <li>{@link reprotool.model.usecase.ParseableElement#getLabel <em>Label</em>}</li>
  * </ul>
  * </p>
  *
@@ -63,9 +66,16 @@ public interface ParseableElement extends ReqCover {
 	EList<StepAnnotation> getAnnotations();
 
 	/**
+	 * Returns the value of the '<em><b>Label</b></em>' attribute.
 	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Label</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
 	 * <!-- end-user-doc -->
-	 * @model kind="operation"
+	 * @return the value of the '<em>Label</em>' attribute.
+	 * @see reprotool.model.usecase.UsecasePackage#getParseableElement_Label()
+	 * @model required="true" transient="true" changeable="false" volatile="true" derived="true"
 	 * @generated
 	 */
 	String getLabel();

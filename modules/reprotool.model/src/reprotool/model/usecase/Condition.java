@@ -18,5 +18,4 @@ package reprotool.model.usecase;
  * @generated
  */
 public interface Condition extends ParseableElement {
-
 } // Condition

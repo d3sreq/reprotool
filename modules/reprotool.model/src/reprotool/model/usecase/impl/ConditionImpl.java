@@ -9,18 +9,28 @@ package reprotool.model.usecase.impl;
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.NotificationChain;
+
 import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
+
 import org.eclipse.emf.ecore.impl.EObjectImpl;
+
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 import reprotool.model.linguistic.actionpart.Text;
+
 import reprotool.model.swproj.Requirement;
+
 import reprotool.model.usecase.Condition;
+import reprotool.model.usecase.ParseableElement;
+import reprotool.model.usecase.Scenario;
 import reprotool.model.usecase.UsecasePackage;
+
 import reprotool.model.usecase.annotate.StepAnnotation;
 
 /**
@@ -33,6 +43,7 @@ import reprotool.model.usecase.annotate.StepAnnotation;
  *   <li>{@link reprotool.model.usecase.impl.ConditionImpl#getRelatedRequirements <em>Related Requirements</em>}</li>
  *   <li>{@link reprotool.model.usecase.impl.ConditionImpl#getTextNodes <em>Text Nodes</em>}</li>
  *   <li>{@link reprotool.model.usecase.impl.ConditionImpl#getAnnotations <em>Annotations</em>}</li>
+ *   <li>{@link reprotool.model.usecase.impl.ConditionImpl#getLabel <em>Label</em>}</li>
  * </ul>
  * </p>
  *
@@ -68,6 +79,16 @@ public class ConditionImpl extends EObjectImpl implements Condition {
 	 * @ordered
 	 */
 	protected EList<StepAnnotation> annotations;
+
+	/**
+	 * The default value of the '{@link #getLabel() <em>Label</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getLabel()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String LABEL_EDEFAULT = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -127,12 +148,26 @@ public class ConditionImpl extends EObjectImpl implements Condition {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	public String getLabel() {
-		// TODO: implement this method
-		// Ensure that you remove @generated or mark it @generated NOT
-		throw new UnsupportedOperationException();
+		EObject conditionParent = this.eContainer();
+		if (!(conditionParent instanceof Scenario)) {
+			return "";
+		}
+		
+		Scenario scenario = (Scenario)conditionParent;
+		int index = scenario.getSteps().indexOf(this);
+//		String toReturn = String.valueOf((char)('a' + index));
+		String toReturn = "x";
+		
+		EObject scenarioParent = scenario.eContainer();
+		if (scenarioParent instanceof ParseableElement) {
+			ParseableElement parseableElement = (ParseableElement)scenarioParent;
+			toReturn = parseableElement.getLabel() + "." + toReturn;
+		}
+		
+		return toReturn;
 	}
 
 	/**
@@ -165,6 +200,8 @@ public class ConditionImpl extends EObjectImpl implements Condition {
 				return getTextNodes();
 			case UsecasePackage.CONDITION__ANNOTATIONS:
 				return getAnnotations();
+			case UsecasePackage.CONDITION__LABEL:
+				return getLabel();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -229,6 +266,8 @@ public class ConditionImpl extends EObjectImpl implements Condition {
 				return textNodes != null && !textNodes.isEmpty();
 			case UsecasePackage.CONDITION__ANNOTATIONS:
 				return annotations != null && !annotations.isEmpty();
+			case UsecasePackage.CONDITION__LABEL:
+				return LABEL_EDEFAULT == null ? getLabel() != null : !LABEL_EDEFAULT.equals(getLabel());
 		}
 		return super.eIsSet(featureID);
 	}

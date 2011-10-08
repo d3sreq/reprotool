@@ -5,7 +5,6 @@ import org.eclipse.jface.viewers.StyledString;
 import org.eclipse.jface.viewers.ViewerCell;
 
 import reprotool.model.linguistic.actionpart.Text;
-import reprotool.model.usecase.Guard;
 import reprotool.model.usecase.UseCase;
 import reprotool.model.usecase.UseCaseStep;
 
@@ -33,8 +32,8 @@ public class UsecaseEMFLabelProvider {
 				updateUsecase(cell, (UseCase) cellObject);
 			} else if (cellObject instanceof UseCaseStep) {
 				updateUsecaseStep(cell, (UseCaseStep) cellObject);
-			} else if (cellObject instanceof Guard) {
-				updateGuard(cell, (Guard) cellObject);
+//			} else if (cellObject instanceof Guard) {
+//				updateGuard(cell, (Guard) cellObject);
 			} else {
 				updateDefault(cell, cellObject);
 			}
@@ -44,9 +43,9 @@ public class UsecaseEMFLabelProvider {
 			updateDefault(cell, useCase);
 		}
 
-		protected void updateGuard(ViewerCell cell, Guard guard) {
-			updateDefault(cell, guard);
-		}
+//		protected void updateGuard(ViewerCell cell, Guard guard) {
+//			updateDefault(cell, guard);
+//		}
 		
 		protected void updateUsecaseStep(ViewerCell cell, UseCaseStep useCaseStep) {
 			updateDefault(cell, useCaseStep);			
@@ -87,10 +86,10 @@ public class UsecaseEMFLabelProvider {
 			cell.setText(useCase.getName());
 		}
 		
-		@Override
-		protected void updateGuard(ViewerCell cell, Guard guard) {
-			cell.setText(guard.getSentence());
-		}
+//		@Override
+//		protected void updateGuard(ViewerCell cell, Guard guard) {
+//			cell.setText(guard.getSentence());
+//		}
 		
 		@Override
 		protected void updateUsecaseStep(ViewerCell cell, UseCaseStep useCaseStep) {

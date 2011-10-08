@@ -8,6 +8,7 @@ package reprotool.model.usecase;
 
 import reprotool.model.swproj.Actor;
 import reprotool.model.swproj.ReqCover;
+
 import reprotool.model.traceability.TraceableEntity;
 
 /**

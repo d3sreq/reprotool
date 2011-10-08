@@ -9,30 +9,49 @@ package reprotool.model.doc.impl;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
+
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 import reprotool.model.ast.AstPackage;
+
 import reprotool.model.ast.impl.AstPackageImpl;
+
 import reprotool.model.comp.CompPackage;
+
 import reprotool.model.comp.impl.CompPackageImpl;
+
 import reprotool.model.doc.DocFactory;
 import reprotool.model.doc.DocPackage;
 import reprotool.model.doc.Document;
 import reprotool.model.doc.Paragraph;
 import reprotool.model.doc.Section;
+
 import reprotool.model.linguistic.action.ActionPackage;
+
 import reprotool.model.linguistic.action.impl.ActionPackageImpl;
+
 import reprotool.model.linguistic.actionpart.ActionpartPackage;
+
 import reprotool.model.linguistic.actionpart.impl.ActionpartPackageImpl;
+
 import reprotool.model.lts.LtsPackage;
+
 import reprotool.model.lts.impl.LtsPackageImpl;
+
 import reprotool.model.swproj.SwprojPackage;
+
 import reprotool.model.swproj.impl.SwprojPackageImpl;
+
 import reprotool.model.traceability.TraceabilityPackage;
+
 import reprotool.model.traceability.impl.TraceabilityPackageImpl;
+
 import reprotool.model.usecase.UsecasePackage;
+
 import reprotool.model.usecase.annotate.AnnotatePackage;
+
 import reprotool.model.usecase.annotate.impl.AnnotatePackageImpl;
+
 import reprotool.model.usecase.impl.UsecasePackageImpl;
 
 /**
