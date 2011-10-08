@@ -3,13 +3,16 @@ package reprotool.uc.tempeditor;
 import java.awt.Point;
 import java.util.HashMap;
 
+import org.eclipse.core.runtime.Assert;
 import org.eclipse.zest.core.widgets.GraphNode;
 import org.eclipse.zest.layouts.algorithms.AbstractLayoutAlgorithm;
 import org.eclipse.zest.layouts.dataStructures.InternalNode;
 import org.eclipse.zest.layouts.dataStructures.InternalRelationship;
 
+import reprotool.model.linguistic.action.AbortUseCase;
 import reprotool.model.linguistic.action.Goto;
 import reprotool.model.lts.State;
+import reprotool.model.lts.Transition;
 import reprotool.model.usecase.Scenario;
 import reprotool.model.usecase.UseCaseStep;
 
@@ -17,27 +20,34 @@ import reprotool.model.usecase.UseCaseStep;
 public class LTSLayoutAlgorithm extends AbstractLayoutAlgorithm {
 	private double verSpacing = 30;
 	private double horSpacing = 80;
+	private int verticalLineSize;
 	
 	private Point rootPos = new Point();
 
 	private Scenario mainScenario;
 	private State initialState;
+	private State abortState;
 	
-	private HashMap<UseCaseStep, State> ucStep2State;
-	private HashMap<State, InternalNode> state2Node = new HashMap<State, InternalNode>();
 	private HashMap<Integer, Integer> occupiedCols = new HashMap<Integer, Integer>();
-	private int verticalLineSize;
+	private HashMap<State, InternalNode> state2Node = new HashMap<State, InternalNode>();
+	private HashMap<Transition, GraphNode> trans2Node = new HashMap<Transition, GraphNode>();
+	private HashMap<UseCaseStep, Transition> ucStep2Trans = new HashMap<UseCaseStep, Transition>();
+	private HashMap<GraphNode, InternalNode> graph2Internal = new HashMap<GraphNode, InternalNode>();
 	
 	private void initMapping(InternalNode[] entitiesToLayout) {
 		for (InternalNode node: entitiesToLayout) {
 			GraphNode gNode = (GraphNode) node.getLayoutEntity().getGraphData();
 			State s = (State) gNode.getData();
-			state2Node.put(s, node);
+			if (s == abortState) {
+				graph2Internal.put(gNode, node);
+			} else {
+				state2Node.put(s, node);
+			}
 		}
 	}
 	
 	private InternalNode findMappedNode(UseCaseStep step) {
-		return state2Node.get(ucStep2State.get(step));
+		return state2Node.get(ucStep2Trans.get(step).getTarget());
 	}
 	
 	private int stepForward(int pos, SpanDirection dir) {
@@ -109,19 +119,28 @@ public class LTSLayoutAlgorithm extends AbstractLayoutAlgorithm {
 				continue;
 			}
 			
+			
 			InternalNode node = findMappedNode(step);
+			
+			if (step.getAction() instanceof AbortUseCase) {
+				Transition t = ucStep2Trans.get(step);
+				Assert.isNotNull(t);
+				GraphNode gNode = trans2Node.get(t);
+				Assert.isNotNull(gNode);
+				node = graph2Internal.get(gNode);
+				Assert.isNotNull(node);
+			}
+			
 			node.setLocation(x, y);
 						
 			if (!step.getExtensions().isEmpty()) {
 				double yy = y + verticalLineSize;
 				for (Scenario scenario: step.getExtensions()) {
-					
 					int k = findFreeColumn(c, scenario.getSteps().size(), extensionSpan);
 					double xx = rootPos.getX() + (extensionStep * k);
 					occupiedCols.put(k, c);
 					layoutScenario(scenario, xx, yy, extensionSpan);
 					k = stepForward(k, extensionSpan);
-					xx += extensionStep;
 				}
 			}
 			
@@ -147,24 +166,24 @@ public class LTSLayoutAlgorithm extends AbstractLayoutAlgorithm {
 		node.setLocation(rootPos.getX(), rootPos.getY());
 	}
 	
-	public LTSLayoutAlgorithm(int styles, Scenario s, HashMap<UseCaseStep, State> map,
-			State initialState) {
+	public LTSLayoutAlgorithm(int styles, Scenario s, HashMap<Transition, GraphNode> trans2Node,
+			HashMap<UseCaseStep, Transition> ucStep2Trans,
+			State initialState, State abortState) {
 		super(styles);
 		mainScenario = s;
-		ucStep2State = map;
+		this.ucStep2Trans = ucStep2Trans;
+		this.trans2Node = trans2Node;
 		this.initialState = initialState;
+		this.abortState = abortState;
 	}
 
 	@Override
 	public void setLayoutArea(double x, double y, double width, double height) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	protected boolean isValidConfiguration(boolean asynchronous,
 			boolean continuous) {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
@@ -186,26 +205,20 @@ public class LTSLayoutAlgorithm extends AbstractLayoutAlgorithm {
 	protected void preLayoutAlgorithm(InternalNode[] entitiesToLayout,
 			InternalRelationship[] relationshipsToConsider, double x, double y,
 			double width, double height) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	protected void postLayoutAlgorithm(InternalNode[] entitiesToLayout,
 			InternalRelationship[] relationshipsToConsider) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	protected int getTotalNumberOfLayoutSteps() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	protected int getCurrentLayoutStep() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 

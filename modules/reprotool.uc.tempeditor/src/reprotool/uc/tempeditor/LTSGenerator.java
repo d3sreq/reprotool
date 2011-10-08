@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.eclipse.core.runtime.Assert;
-
 import reprotool.model.linguistic.action.AbortUseCase;
 import reprotool.model.linguistic.action.Goto;
 import reprotool.model.lts.LtsFactory;
@@ -21,10 +20,7 @@ public class LTSGenerator {
 	private State initialState;
 	private State abortState;
 	
-	/*
-	 * Maps a use-case step to a state to which it leads in the LTS model.
-	 */
-	private HashMap<UseCaseStep, State> ucStep2State = new HashMap<UseCaseStep, State>();
+	private HashMap<UseCaseStep, Transition> ucStep2Trans = new HashMap<UseCaseStep, Transition>();
 	
 	/*
 	 * Maps a use-case step to a state where the corresponding edge starts in
@@ -50,6 +46,7 @@ public class LTSGenerator {
 	 */
 	private List<UseCaseStep> gotoSteps = new ArrayList<UseCaseStep>();
 	
+	private List<Transition> gotoTransitions = new ArrayList<Transition>();
 	
 	private State processScenario(Scenario s, State init, State next) {
 		if ((s == null) || (s.getSteps().isEmpty())) {
@@ -86,9 +83,9 @@ public class LTSGenerator {
 			if (ucStep.getAction() instanceof AbortUseCase) {				
 				Transition t = LtsFactory.eINSTANCE.createActionTransition();
 				t.setSource(srcState);
-				ucStep2State.put(ucStep, machine.getAbortState());
 				t.setTarget(machine.getAbortState());
 				machine.getAllTransitions().add(t);
+				ucStep2Trans.put(ucStep, t);
 				continue;
 			}
 			
@@ -99,8 +96,8 @@ public class LTSGenerator {
 			
 			
 			Transition t = LtsFactory.eINSTANCE.createActionTransition();
+			ucStep2Trans.put(ucStep, t);
 			t.setSource(srcState);
-			ucStep2State.put(ucStep, tgtState);
 			
 			machine.getAllStates().add(tgtState);
 			t.setTarget(tgtState);
@@ -163,6 +160,8 @@ public class LTSGenerator {
 			t.setSource(src);
 			t.setTarget(dst);
 			machine.getAllTransitions().add(t);
+			gotoTransitions.add(t);
+			ucStep2Trans.put(ucStep, t);
 		}
 	}
 	
@@ -185,8 +184,11 @@ public class LTSGenerator {
 		return machine;
 	}
 	
-	public HashMap<UseCaseStep, State> getUCStep2StateMap() {
-		return ucStep2State;
+	public HashMap<UseCaseStep, Transition> getUCStep2Trans() {
+		return ucStep2Trans;
 	}
 
+	public List<Transition> getGotoTransitions() {
+		return gotoTransitions;
+	}
 }

@@ -2,6 +2,7 @@ package reprotool.uc.tempeditor;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 
 import org.eclipse.draw2d.SWTEventDispatcher;
 import org.eclipse.draw2d.SWTGraphics;
@@ -37,6 +38,7 @@ import org.eclipse.zest.core.viewers.GraphViewer;
 import org.eclipse.zest.core.widgets.CGraphNode;
 import org.eclipse.zest.core.widgets.Graph;
 import org.eclipse.zest.core.widgets.GraphConnection;
+import org.eclipse.zest.core.widgets.GraphItem;
 import org.eclipse.zest.core.widgets.GraphNode;
 import org.eclipse.zest.core.widgets.ZestStyles;
 import org.eclipse.zest.layouts.LayoutAlgorithm;
@@ -51,16 +53,19 @@ import reprotool.model.usecase.UseCaseStep;
 
 
 public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
-	
 	private GraphViewer viewer;
 	private Composite graphParent;
 	private FigureProvider figureProvider;
 	private Scenario mainScenario;
 	private StateMachine machine;
-	private HashMap<UseCaseStep, State> ucStep2State = null;
+	private HashMap<UseCaseStep, Transition> ucStep2Trans = null;
+	private HashMap<Transition, GraphNode> trans2Node = new HashMap<Transition, GraphNode>();
+	private List<Transition> gotoTransitions = null;
 	
 	private LTSContentViewer contentViewer;
 	private AdapterFactory adapterFactory;
+	
+	private HashMap<Transition, GraphConnection> trans2Edge = new HashMap<Transition, GraphConnection>();
 	
 	LTSContentOutlinePage(Scenario s, AdapterFactory aFactory) {
 		super();
@@ -74,7 +79,23 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 		LTSGenerator generator = new LTSGenerator(mainScenario);
 		machine = generator.getLabelTransitionSystem();
 		figureProvider.setMachine(machine);
-		ucStep2State = generator.getUCStep2StateMap();
+		ucStep2Trans = generator.getUCStep2Trans();
+		gotoTransitions = generator.getGotoTransitions();
+	}
+	
+	void handleEditorUCStepSelected(List<UseCaseStep> selection) {
+		GraphItem[] items = new GraphItem[selection.size()];
+		int i = 0;
+		for (UseCaseStep step: selection) {
+			Transition t = ucStep2Trans.get(step);
+			GraphConnection con = trans2Edge.get(t);
+			items[i++] = con;
+		}
+		try {
+			viewer.getGraphControl().setSelection(items);
+		} catch (org.eclipse.swt.SWTException e) {
+			// Just ignore it...
+		}
 	}
 	
 	private void emfModelChanged() {
@@ -91,7 +112,10 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 				connection.dispose();
 			}
 		}
-		ucStep2State.clear();
+		ucStep2Trans.clear();
+		gotoTransitions.clear();
+		trans2Node.clear();
+		trans2Edge.clear();
 		
 		regenerateLTS();
 		
@@ -135,6 +159,9 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 		HashMap<State, GraphNode> state2Node = new HashMap<State, GraphNode>();
 		
 		for (State s: machine.getAllStates()) {
+			if (s == machine.getAbortState())
+				continue;
+			
 			GraphNode node = new CGraphNode(viewer.getGraphControl(), SWT.NONE,
 				figureProvider.getFigure(s));
 			node.setData(s);
@@ -142,13 +169,31 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 		}
 		
 		for (Transition t: machine.getAllTransitions()) {
-			new GraphConnection(viewer.getGraphControl(), ZestStyles.CONNECTIONS_DIRECTED,
-					state2Node.get(t.getSource()), state2Node.get(t.getTarget()));
+			if (t.getTarget() == machine.getAbortState()) {
+				GraphNode node = new CGraphNode(viewer.getGraphControl(), SWT.NONE,
+						figureProvider.getFigure(machine.getAbortState()));
+				node.setData(machine.getAbortState());
+				trans2Node.put(t, node);
+				GraphConnection con =
+					new GraphConnection(viewer.getGraphControl(), ZestStyles.CONNECTIONS_DIRECTED,
+						state2Node.get(t.getSource()), node);
+				trans2Edge.put(t, con);
+			} else {
+				GraphConnection con = 
+					new GraphConnection(viewer.getGraphControl(), ZestStyles.CONNECTIONS_DIRECTED,
+							state2Node.get(t.getSource()), state2Node.get(t.getTarget()));
+				trans2Edge.put(t, con);
+				if (gotoTransitions.contains(t)) {
+					con.setCurveDepth(16);
+				}
+			}
 		}
 
 		// layout algorithm
 		LayoutAlgorithm ltsLayout = new LTSLayoutAlgorithm(LayoutStyles.NO_LAYOUT_NODE_RESIZING,
-				mainScenario, ucStep2State, machine.getInitialState());
+			mainScenario, trans2Node, ucStep2Trans, machine.getInitialState(),
+			machine.getAbortState());
+		
 		viewer.setLayoutAlgorithm(ltsLayout, false);
 		
 		viewer.getGraphControl().setNodeStyle(ZestStyles.NODES_NO_ANIMATION);
@@ -187,6 +232,9 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 		viewer.getGraphControl().addMouseListener(new MouseAdapter() {
 			
 			public void mouseDown(MouseEvent e) {
+				if (e.button == 1) {
+					viewer.getGraphControl().setSelection(null);
+				}
 				if (e.button == 3) {
 					menu.setVisible(true);
 				}
@@ -265,8 +313,6 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 		@Override
 		public void setSelection(ISelection selection, boolean reveal) {
 			// Do nothing
-		}
-		
+		}	
 	}
-
 }
