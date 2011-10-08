@@ -38,6 +38,8 @@ import reprotool.model.lts.LtsPackage;
 
 import reprotool.model.lts.impl.LtsPackageImpl;
 
+import reprotool.model.lts2.Lts2Package;
+import reprotool.model.lts2.impl.Lts2PackageImpl;
 import reprotool.model.swproj.SwprojPackage;
 
 import reprotool.model.swproj.impl.SwprojPackageImpl;
@@ -138,6 +140,7 @@ public class DocPackageImpl extends EPackageImpl implements DocPackage {
 		ActionPackageImpl theActionPackage = (ActionPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ActionPackage.eNS_URI) instanceof ActionPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ActionPackage.eNS_URI) : ActionPackage.eINSTANCE);
 		AstPackageImpl theAstPackage = (AstPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(AstPackage.eNS_URI) instanceof AstPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(AstPackage.eNS_URI) : AstPackage.eINSTANCE);
 		CompPackageImpl theCompPackage = (CompPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(CompPackage.eNS_URI) instanceof CompPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(CompPackage.eNS_URI) : CompPackage.eINSTANCE);
+		Lts2PackageImpl theLts2Package = (Lts2PackageImpl)(EPackage.Registry.INSTANCE.getEPackage(Lts2Package.eNS_URI) instanceof Lts2PackageImpl ? EPackage.Registry.INSTANCE.getEPackage(Lts2Package.eNS_URI) : Lts2Package.eINSTANCE);
 
 		// Create package meta-data objects
 		theDocPackage.createPackageContents();
@@ -150,6 +153,7 @@ public class DocPackageImpl extends EPackageImpl implements DocPackage {
 		theActionPackage.createPackageContents();
 		theAstPackage.createPackageContents();
 		theCompPackage.createPackageContents();
+		theLts2Package.createPackageContents();
 
 		// Initialize created meta-data
 		theDocPackage.initializePackageContents();
@@ -162,6 +166,7 @@ public class DocPackageImpl extends EPackageImpl implements DocPackage {
 		theActionPackage.initializePackageContents();
 		theAstPackage.initializePackageContents();
 		theCompPackage.initializePackageContents();
+		theLts2Package.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
 		theDocPackage.freeze();

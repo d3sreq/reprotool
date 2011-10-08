@@ -99,10 +99,21 @@ public interface UseCaseStep extends ParseableElement {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Software Project</em>' reference.
+	 * @see #isSetSoftwareProject()
 	 * @see reprotool.model.usecase.UsecasePackage#getUseCaseStep_SoftwareProject()
-	 * @model transient="true" changeable="false" volatile="true" derived="true"
+	 * @model unsettable="true" transient="true" changeable="false" volatile="true" derived="true"
 	 * @generated
 	 */
 	SoftwareProject getSoftwareProject();
+
+	/**
+	 * Returns whether the value of the '{@link reprotool.model.usecase.UseCaseStep#getSoftwareProject <em>Software Project</em>}' reference is set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return whether the value of the '<em>Software Project</em>' reference is set.
+	 * @see #getSoftwareProject()
+	 * @generated
+	 */
+	boolean isSetSoftwareProject();
 
 } // UseCaseStep

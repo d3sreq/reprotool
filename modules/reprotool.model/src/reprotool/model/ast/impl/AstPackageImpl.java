@@ -40,6 +40,8 @@ import reprotool.model.lts.LtsPackage;
 
 import reprotool.model.lts.impl.LtsPackageImpl;
 
+import reprotool.model.lts2.Lts2Package;
+import reprotool.model.lts2.impl.Lts2PackageImpl;
 import reprotool.model.swproj.SwprojPackage;
 
 import reprotool.model.swproj.impl.SwprojPackageImpl;
@@ -147,6 +149,7 @@ public class AstPackageImpl extends EPackageImpl implements AstPackage {
 		ActionPackageImpl theActionPackage = (ActionPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ActionPackage.eNS_URI) instanceof ActionPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ActionPackage.eNS_URI) : ActionPackage.eINSTANCE);
 		CompPackageImpl theCompPackage = (CompPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(CompPackage.eNS_URI) instanceof CompPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(CompPackage.eNS_URI) : CompPackage.eINSTANCE);
 		DocPackageImpl theDocPackage = (DocPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(DocPackage.eNS_URI) instanceof DocPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(DocPackage.eNS_URI) : DocPackage.eINSTANCE);
+		Lts2PackageImpl theLts2Package = (Lts2PackageImpl)(EPackage.Registry.INSTANCE.getEPackage(Lts2Package.eNS_URI) instanceof Lts2PackageImpl ? EPackage.Registry.INSTANCE.getEPackage(Lts2Package.eNS_URI) : Lts2Package.eINSTANCE);
 
 		// Create package meta-data objects
 		theAstPackage.createPackageContents();
@@ -159,6 +162,7 @@ public class AstPackageImpl extends EPackageImpl implements AstPackage {
 		theActionPackage.createPackageContents();
 		theCompPackage.createPackageContents();
 		theDocPackage.createPackageContents();
+		theLts2Package.createPackageContents();
 
 		// Initialize created meta-data
 		theAstPackage.initializePackageContents();
@@ -171,6 +175,7 @@ public class AstPackageImpl extends EPackageImpl implements AstPackage {
 		theActionPackage.initializePackageContents();
 		theCompPackage.initializePackageContents();
 		theDocPackage.initializePackageContents();
+		theLts2Package.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
 		theAstPackage.freeze();

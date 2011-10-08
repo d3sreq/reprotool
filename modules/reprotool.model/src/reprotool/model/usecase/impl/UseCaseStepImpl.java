@@ -325,6 +325,17 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public boolean isSetSoftwareProject() {
+		// TODO: implement this method to return whether the 'Software Project' reference is set
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -460,7 +471,7 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 			case UsecasePackage.USE_CASE_STEP__ACTION:
 				return action != null;
 			case UsecasePackage.USE_CASE_STEP__SOFTWARE_PROJECT:
-				return basicGetSoftwareProject() != null;
+				return isSetSoftwareProject();
 		}
 		return super.eIsSet(featureID);
 	}
