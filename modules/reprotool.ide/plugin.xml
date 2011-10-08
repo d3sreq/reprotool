@@ -77,64 +77,6 @@
       </editor>
    </extension>
    <extension
-         point="org.eclipse.ui.commands">
-      <command
-            defaultHandler="reprotool.ide.commands.AddActor"
-            id="commands.addActor"
-            name="Add actor">
-      </command>
-      <command
-            defaultHandler="reprotool.ide.commands.EditActor"
-            id="commands.editActor"
-            name="Edit actor">
-      </command>
-      <command
-            defaultHandler="reprotool.ide.commands.RemoveActor"
-            id="commands.removeActor"
-            name="Remove actor">
-      </command>
-      <command
-            defaultHandler="reprotool.ide.commands.ShowStep"
-            id="commands.showStep"
-            name="Show step">
-      </command>
-      <command
-            defaultHandler="reprotool.ide.commands.NewStep"
-            id="commands.newStep"
-            name="New step">
-      </command>
-      <command
-            defaultHandler="reprotool.ide.commands.AddScenario"
-            id="commands.addExtension"
-            name="Add extension">
-      </command>
-      <command
-            defaultHandler="reprotool.ide.commands.AddScenario"
-            id="commands.addVariation"
-            name="Add variaton">
-      </command>
-      <command
-            defaultHandler="reprotool.ide.commands.DeleteStep"
-            id="org.eclipse.ui.edit.delete"
-            name="Delete step">
-      </command>
-      <command
-            defaultHandler="reprotool.ide.commands.DuplicateStep"
-            id="commands.duplicateStep"
-            name="Duplicate step">
-      </command>
-      <command
-            defaultHandler="reprotool.ide.commands.MoveStep"
-            id="commands.stepUp"
-            name="Move up">
-      </command>
-      <command
-            defaultHandler="reprotool.ide.commands.MoveStep"
-            id="commands.stepDown"
-            name="Move down">
-      </command>
-   </extension>
-   <extension
          point="org.eclipse.ui.newWizards">
       <category
             id="reprotool.ide.category1"
@@ -163,12 +105,6 @@
             class="reprotool.ide.preferences.ReprotoolPreferencePage"
             id="reprotool.ide.preferences.ReprotoolPreferencePage"
             name="ReProTool">
-      </page>
-      <page
-            class="reprotool.ide.preferences.LingToolsPreferencePage"
-            id="reprotool.ide.preferences.LingToolsPreferencePage"
-            name="Linguistics Tools"
-            category="reprotool.ide.preferences.ReprotoolPreferencePage">
       </page>
    </extension>
    <extension

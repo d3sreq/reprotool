@@ -95,7 +95,7 @@ public class UsecaseEMFLabelProvider {
 		@Override
 		protected void updateUsecaseStep(ViewerCell cell, UseCaseStep useCaseStep) {
 			StringBuffer stringBuffer = new StringBuffer();
-			for (Text text : useCaseStep.getSentenceNodes()) {
+			for (Text text : useCaseStep.getTextNodes()) {
 				stringBuffer.append(text.getContent());
 			}
 			cell.setText(stringBuffer.toString());
