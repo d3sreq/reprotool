@@ -4,7 +4,7 @@
  *
  * $Id$
  */
-package reprotool.model.lts2;
+package lts2;
 
 
 /**
@@ -13,7 +13,7 @@ package reprotool.model.lts2;
  * <!-- end-user-doc -->
  *
  *
- * @see reprotool.model.lts2.Lts2Package#getInitialState()
+ * @see lts2.Lts2Package#getInitialState()
  * @model
  * @generated
  */

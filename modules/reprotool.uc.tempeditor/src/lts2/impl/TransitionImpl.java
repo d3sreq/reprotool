@@ -4,9 +4,15 @@
  *
  * $Id$
  */
-package reprotool.model.lts2.impl;
+package lts2.impl;
+
+import lts2.Lts2Package;
+import lts2.State;
+import lts2.Transition;
+import lts2.TransitionalState;
 
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
@@ -14,9 +20,7 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
-import reprotool.model.lts2.Lts2Package;
-import reprotool.model.lts2.State;
-import reprotool.model.lts2.Transition;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import reprotool.model.usecase.UseCaseStep;
 
@@ -27,8 +31,9 @@ import reprotool.model.usecase.UseCaseStep;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link reprotool.model.lts2.impl.TransitionImpl#getTargetState <em>Target State</em>}</li>
- *   <li>{@link reprotool.model.lts2.impl.TransitionImpl#getRelatedStep <em>Related Step</em>}</li>
+ *   <li>{@link lts2.impl.TransitionImpl#getTargetState <em>Target State</em>}</li>
+ *   <li>{@link lts2.impl.TransitionImpl#getRelatedStep <em>Related Step</em>}</li>
+ *   <li>{@link lts2.impl.TransitionImpl#getSourceState <em>Source State</em>}</li>
  * </ul>
  * </p>
  *
@@ -155,6 +160,91 @@ public class TransitionImpl extends EObjectImpl implements Transition {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public TransitionalState getSourceState() {
+		if (eContainerFeatureID() != Lts2Package.TRANSITION__SOURCE_STATE) return null;
+		return (TransitionalState)eContainer();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetSourceState(TransitionalState newSourceState, NotificationChain msgs) {
+		msgs = eBasicSetContainer((InternalEObject)newSourceState, Lts2Package.TRANSITION__SOURCE_STATE, msgs);
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setSourceState(TransitionalState newSourceState) {
+		if (newSourceState != eInternalContainer() || (eContainerFeatureID() != Lts2Package.TRANSITION__SOURCE_STATE && newSourceState != null)) {
+			if (EcoreUtil.isAncestor(this, newSourceState))
+				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
+			NotificationChain msgs = null;
+			if (eInternalContainer() != null)
+				msgs = eBasicRemoveFromContainer(msgs);
+			if (newSourceState != null)
+				msgs = ((InternalEObject)newSourceState).eInverseAdd(this, Lts2Package.TRANSITIONAL_STATE__TRANSITIONS, TransitionalState.class, msgs);
+			msgs = basicSetSourceState(newSourceState, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, Lts2Package.TRANSITION__SOURCE_STATE, newSourceState, newSourceState));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case Lts2Package.TRANSITION__SOURCE_STATE:
+				if (eInternalContainer() != null)
+					msgs = eBasicRemoveFromContainer(msgs);
+				return basicSetSourceState((TransitionalState)otherEnd, msgs);
+		}
+		return super.eInverseAdd(otherEnd, featureID, msgs);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case Lts2Package.TRANSITION__SOURCE_STATE:
+				return basicSetSourceState(null, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
+		switch (eContainerFeatureID()) {
+			case Lts2Package.TRANSITION__SOURCE_STATE:
+				return eInternalContainer().eInverseRemove(this, Lts2Package.TRANSITIONAL_STATE__TRANSITIONS, TransitionalState.class, msgs);
+		}
+		return super.eBasicRemoveFromContainerFeature(msgs);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
@@ -164,6 +254,8 @@ public class TransitionImpl extends EObjectImpl implements Transition {
 			case Lts2Package.TRANSITION__RELATED_STEP:
 				if (resolve) return getRelatedStep();
 				return basicGetRelatedStep();
+			case Lts2Package.TRANSITION__SOURCE_STATE:
+				return getSourceState();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -181,6 +273,9 @@ public class TransitionImpl extends EObjectImpl implements Transition {
 				return;
 			case Lts2Package.TRANSITION__RELATED_STEP:
 				setRelatedStep((UseCaseStep)newValue);
+				return;
+			case Lts2Package.TRANSITION__SOURCE_STATE:
+				setSourceState((TransitionalState)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -200,6 +295,9 @@ public class TransitionImpl extends EObjectImpl implements Transition {
 			case Lts2Package.TRANSITION__RELATED_STEP:
 				setRelatedStep((UseCaseStep)null);
 				return;
+			case Lts2Package.TRANSITION__SOURCE_STATE:
+				setSourceState((TransitionalState)null);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -216,6 +314,8 @@ public class TransitionImpl extends EObjectImpl implements Transition {
 				return targetState != null;
 			case Lts2Package.TRANSITION__RELATED_STEP:
 				return relatedStep != null;
+			case Lts2Package.TRANSITION__SOURCE_STATE:
+				return getSourceState() != null;
 		}
 		return super.eIsSet(featureID);
 	}

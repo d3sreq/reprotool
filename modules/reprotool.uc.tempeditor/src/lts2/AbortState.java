@@ -4,7 +4,7 @@
  *
  * $Id$
  */
-package reprotool.model.lts2;
+package lts2;
 
 
 /**
@@ -13,9 +13,9 @@ package reprotool.model.lts2;
  * <!-- end-user-doc -->
  *
  *
- * @see reprotool.model.lts2.Lts2Package#getAbortState()
+ * @see lts2.Lts2Package#getAbortState()
  * @model
  * @generated
  */
-public interface AbortState extends FinalState {
+public interface AbortState extends State {
 } // AbortState

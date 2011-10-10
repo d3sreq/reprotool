@@ -4,7 +4,7 @@
  *
  * $Id$
  */
-package reprotool.model.lts2;
+package lts2;
 
 import org.eclipse.emf.ecore.EObject;
 
@@ -14,7 +14,7 @@ import org.eclipse.emf.ecore.EObject;
  * <!-- end-user-doc -->
  *
  *
- * @see reprotool.model.lts2.Lts2Package#getState()
+ * @see lts2.Lts2Package#getState()
  * @model interface="true" abstract="true"
  * @generated
  */

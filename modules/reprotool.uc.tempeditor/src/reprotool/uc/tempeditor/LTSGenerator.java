@@ -30,11 +30,11 @@ public class LTSGenerator {
 	
 	/*
 	 * I process the graph from upside down. That means whenever I process an
-	 * extension, I can not add to the LST the edge leading from the last state
+	 * extension, I cannot add to the LST the edge leading from the last state
 	 * of the extension to the state following the extension. This is because
 	 * the state following the extension has not yet been created - it will be
 	 * created in the next iteration.
-	 * So whenever I finish an extension, I save the last state of that
+	 * Therefore, whenever I finish an extension, I save the last state of that
 	 * extension. Then in the next iteration, when the new state is already
 	 * created I add the edge.
 	 */
@@ -64,9 +64,15 @@ public class LTSGenerator {
 					(registerExtClosure.containsKey(srcState))
 			) {
 				for (State src: registerExtClosure.get(srcState)) {
+
 					Transition t = LtsFactory.eINSTANCE.createActionTransition();
+					// reference to UseCaseStep
+					assert t.getSentence() == null;
+					t.setSentence(ucStep);
+					
 					t.setSource(src);
 					t.setTarget(tgtState);
+
 					machine.getAllTransitions().add(t);
 				}
 				registerExtClosure.remove(srcState);
@@ -82,8 +88,12 @@ public class LTSGenerator {
 			
 			if (ucStep.getAction() instanceof AbortUseCase) {				
 				Transition t = LtsFactory.eINSTANCE.createActionTransition();
+				// reference to UseCaseStep
+				assert t.getSentence() == null;
+				t.setSentence(ucStep);
+				
 				t.setSource(srcState);
-				t.setTarget(machine.getAbortState());
+				t.setTarget(machine.getAbortState());				
 				machine.getAllTransitions().add(t);
 				ucStep2Trans.put(ucStep, t);
 				continue;
@@ -96,6 +106,10 @@ public class LTSGenerator {
 			
 			
 			Transition t = LtsFactory.eINSTANCE.createActionTransition();
+			// reference to UseCaseStep
+			assert t.getSentence() == null;
+			t.setSentence(ucStep);
+
 			ucStep2Trans.put(ucStep, t);
 			t.setSource(srcState);
 			
@@ -135,6 +149,10 @@ public class LTSGenerator {
 				(next != null)
 		) {
 			Transition t = LtsFactory.eINSTANCE.createActionTransition();
+			// reference to UseCaseStep
+			assert t.getSentence() == null;
+			t.setSentence(lastStep);
+			
 			t.setSource(srcState);
 			t.setTarget(next);
 			machine.getAllTransitions().add(t);
@@ -156,7 +174,12 @@ public class LTSGenerator {
 			State dst = ucStep2SrcState.get(gotoAction.getGotoTarget());
 			Assert.isNotNull(src);
 			Assert.isNotNull(dst);
+
 			Transition t = LtsFactory.eINSTANCE.createActionTransition();
+			// reference to UseCaseStep
+			assert t.getSentence() == null;
+			t.setSentence(ucStep);
+			
 			t.setSource(src);
 			t.setTarget(dst);
 			machine.getAllTransitions().add(t);

@@ -4,14 +4,18 @@
  *
  * $Id$
  */
-package reprotool.model.lts2.util;
+package lts2.util;
 
 import java.util.List;
+import java.util.Map;
 
+import lts2.*;
+
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 
-import reprotool.model.lts2.*;
+import reprotool.model.usecase.UseCaseStep;
 
 /**
  * <!-- begin-user-doc -->
@@ -23,7 +27,7 @@ import reprotool.model.lts2.*;
  * until a non-null result is returned,
  * which is the result of the switch.
  * <!-- end-user-doc -->
- * @see reprotool.model.lts2.Lts2Package
+ * @see lts2.Lts2Package
  * @generated
  */
 public class Lts2Switch<T> {
@@ -130,8 +134,25 @@ public class Lts2Switch<T> {
 			case Lts2Package.ABORT_STATE: {
 				AbortState abortState = (AbortState)theEObject;
 				T result = caseAbortState(abortState);
-				if (result == null) result = caseFinalState(abortState);
 				if (result == null) result = caseState(abortState);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case Lts2Package.STEP_TO_TRANSITION_MAP: {
+				@SuppressWarnings("unchecked") Map.Entry<UseCaseStep, Transition> stepToTransitionMap = (Map.Entry<UseCaseStep, Transition>)theEObject;
+				T result = caseStepToTransitionMap(stepToTransitionMap);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case Lts2Package.LTS_GENERATOR: {
+				LTSGenerator ltsGenerator = (LTSGenerator)theEObject;
+				T result = caseLTSGenerator(ltsGenerator);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case Lts2Package.REGISTER_EXT_CLOSURE: {
+				@SuppressWarnings("unchecked") Map.Entry<State, EList<State>> registerExtClosure = (Map.Entry<State, EList<State>>)theEObject;
+				T result = caseRegisterExtClosure(registerExtClosure);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -241,6 +262,51 @@ public class Lts2Switch<T> {
 	 * @generated
 	 */
 	public T caseAbortState(AbortState object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Step To Transition Map</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Step To Transition Map</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseStepToTransitionMap(Map.Entry<UseCaseStep, Transition> object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>LTS Generator</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>LTS Generator</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseLTSGenerator(LTSGenerator object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Register Ext Closure</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Register Ext Closure</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseRegisterExtClosure(Map.Entry<State, EList<State>> object) {
 		return null;
 	}
 

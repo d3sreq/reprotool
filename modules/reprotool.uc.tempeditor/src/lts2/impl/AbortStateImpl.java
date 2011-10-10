@@ -4,31 +4,31 @@
  *
  * $Id$
  */
-package reprotool.model.lts2.impl;
+package lts2.impl;
+
+import lts2.AbortState;
+import lts2.Lts2Package;
 
 import org.eclipse.emf.ecore.EClass;
 
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
-import reprotool.model.lts2.FinalState;
-import reprotool.model.lts2.Lts2Package;
-
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Final State</b></em>'.
+ * An implementation of the model object '<em><b>Abort State</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * </p>
  *
  * @generated
  */
-public class FinalStateImpl extends EObjectImpl implements FinalState {
+public class AbortStateImpl extends EObjectImpl implements AbortState {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected FinalStateImpl() {
+	protected AbortStateImpl() {
 		super();
 	}
 
@@ -39,7 +39,7 @@ public class FinalStateImpl extends EObjectImpl implements FinalState {
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return Lts2Package.Literals.FINAL_STATE;
+		return Lts2Package.Literals.ABORT_STATE;
 	}
 
-} //FinalStateImpl
+} //AbortStateImpl

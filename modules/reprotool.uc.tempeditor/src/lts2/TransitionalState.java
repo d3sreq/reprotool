@@ -4,7 +4,7 @@
  *
  * $Id$
  */
-package reprotool.model.lts2;
+package lts2;
 
 import org.eclipse.emf.common.util.EList;
 
@@ -16,18 +16,19 @@ import org.eclipse.emf.common.util.EList;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link reprotool.model.lts2.TransitionalState#getTransitions <em>Transitions</em>}</li>
+ *   <li>{@link lts2.TransitionalState#getTransitions <em>Transitions</em>}</li>
  * </ul>
  * </p>
  *
- * @see reprotool.model.lts2.Lts2Package#getTransitionalState()
+ * @see lts2.Lts2Package#getTransitionalState()
  * @model
  * @generated
  */
 public interface TransitionalState extends State {
 	/**
 	 * Returns the value of the '<em><b>Transitions</b></em>' containment reference list.
-	 * The list contents are of type {@link reprotool.model.lts2.Transition}.
+	 * The list contents are of type {@link lts2.Transition}.
+	 * It is bidirectional and its opposite is '{@link lts2.Transition#getSourceState <em>Source State</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Transitions</em>' containment reference list isn't clear,
@@ -35,8 +36,9 @@ public interface TransitionalState extends State {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Transitions</em>' containment reference list.
-	 * @see reprotool.model.lts2.Lts2Package#getTransitionalState_Transitions()
-	 * @model containment="true" required="true"
+	 * @see lts2.Lts2Package#getTransitionalState_Transitions()
+	 * @see lts2.Transition#getSourceState
+	 * @model opposite="sourceState" containment="true" required="true"
 	 * @generated
 	 */
 	EList<Transition> getTransitions();

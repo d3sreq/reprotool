@@ -4,23 +4,28 @@
  *
  * $Id$
  */
-package reprotool.model.lts2.util;
+package lts2.util;
+
+import java.util.Map;
+
+import lts2.*;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 
-import reprotool.model.lts2.*;
+import reprotool.model.usecase.UseCaseStep;
 
 /**
  * <!-- begin-user-doc -->
  * The <b>Adapter Factory</b> for the model.
  * It provides an adapter <code>createXXX</code> method for each class of the model.
  * <!-- end-user-doc -->
- * @see reprotool.model.lts2.Lts2Package
+ * @see lts2.Lts2Package
  * @generated
  */
 public class Lts2AdapterFactory extends AdapterFactoryImpl {
@@ -100,6 +105,18 @@ public class Lts2AdapterFactory extends AdapterFactoryImpl {
 				return createAbortStateAdapter();
 			}
 			@Override
+			public Adapter caseStepToTransitionMap(Map.Entry<UseCaseStep, Transition> object) {
+				return createStepToTransitionMapAdapter();
+			}
+			@Override
+			public Adapter caseLTSGenerator(LTSGenerator object) {
+				return createLTSGeneratorAdapter();
+			}
+			@Override
+			public Adapter caseRegisterExtClosure(Map.Entry<State, EList<State>> object) {
+				return createRegisterExtClosureAdapter();
+			}
+			@Override
 			public Adapter defaultCase(EObject object) {
 				return createEObjectAdapter();
 			}
@@ -120,13 +137,13 @@ public class Lts2AdapterFactory extends AdapterFactoryImpl {
 
 
 	/**
-	 * Creates a new adapter for an object of class '{@link reprotool.model.lts2.StateMachine <em>State Machine</em>}'.
+	 * Creates a new adapter for an object of class '{@link lts2.StateMachine <em>State Machine</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see reprotool.model.lts2.StateMachine
+	 * @see lts2.StateMachine
 	 * @generated
 	 */
 	public Adapter createStateMachineAdapter() {
@@ -134,13 +151,13 @@ public class Lts2AdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link reprotool.model.lts2.InitialState <em>Initial State</em>}'.
+	 * Creates a new adapter for an object of class '{@link lts2.InitialState <em>Initial State</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see reprotool.model.lts2.InitialState
+	 * @see lts2.InitialState
 	 * @generated
 	 */
 	public Adapter createInitialStateAdapter() {
@@ -148,13 +165,13 @@ public class Lts2AdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link reprotool.model.lts2.FinalState <em>Final State</em>}'.
+	 * Creates a new adapter for an object of class '{@link lts2.FinalState <em>Final State</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see reprotool.model.lts2.FinalState
+	 * @see lts2.FinalState
 	 * @generated
 	 */
 	public Adapter createFinalStateAdapter() {
@@ -162,13 +179,13 @@ public class Lts2AdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link reprotool.model.lts2.State <em>State</em>}'.
+	 * Creates a new adapter for an object of class '{@link lts2.State <em>State</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see reprotool.model.lts2.State
+	 * @see lts2.State
 	 * @generated
 	 */
 	public Adapter createStateAdapter() {
@@ -176,13 +193,13 @@ public class Lts2AdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link reprotool.model.lts2.TransitionalState <em>Transitional State</em>}'.
+	 * Creates a new adapter for an object of class '{@link lts2.TransitionalState <em>Transitional State</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see reprotool.model.lts2.TransitionalState
+	 * @see lts2.TransitionalState
 	 * @generated
 	 */
 	public Adapter createTransitionalStateAdapter() {
@@ -190,13 +207,13 @@ public class Lts2AdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link reprotool.model.lts2.Transition <em>Transition</em>}'.
+	 * Creates a new adapter for an object of class '{@link lts2.Transition <em>Transition</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see reprotool.model.lts2.Transition
+	 * @see lts2.Transition
 	 * @generated
 	 */
 	public Adapter createTransitionAdapter() {
@@ -204,16 +221,58 @@ public class Lts2AdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link reprotool.model.lts2.AbortState <em>Abort State</em>}'.
+	 * Creates a new adapter for an object of class '{@link lts2.AbortState <em>Abort State</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see reprotool.model.lts2.AbortState
+	 * @see lts2.AbortState
 	 * @generated
 	 */
 	public Adapter createAbortStateAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link java.util.Map.Entry <em>Step To Transition Map</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see java.util.Map.Entry
+	 * @generated
+	 */
+	public Adapter createStepToTransitionMapAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link lts2.LTSGenerator <em>LTS Generator</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see lts2.LTSGenerator
+	 * @generated
+	 */
+	public Adapter createLTSGeneratorAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link java.util.Map.Entry <em>Register Ext Closure</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see java.util.Map.Entry
+	 * @generated
+	 */
+	public Adapter createRegisterExtClosureAdapter() {
 		return null;
 	}
 

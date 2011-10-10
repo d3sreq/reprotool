@@ -251,30 +251,4 @@
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="Paragraph" eSuperTypes="#//traceability/TraceableEntity"/>
   </eSubpackages>
-  <eSubpackages name="lts2" nsURI="http://d3s.mff.cuni.cz/reprotool/model/lts2" nsPrefix="lts2">
-    <eClassifiers xsi:type="ecore:EClass" name="StateMachine">
-      <eStructuralFeatures xsi:type="ecore:EReference" name="initialState" lowerBound="1"
-          eType="#//lts2/InitialState" containment="true"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="transitionalStates" upperBound="-1"
-          eType="#//lts2/TransitionalState" containment="true"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="finalState" lowerBound="1"
-          eType="#//lts2/FinalState" containment="true"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="abortState" eType="#//lts2/AbortState"
-          containment="true"/>
-    </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="InitialState" eSuperTypes="#//lts2/TransitionalState"/>
-    <eClassifiers xsi:type="ecore:EClass" name="FinalState" eSuperTypes="#//lts2/State"/>
-    <eClassifiers xsi:type="ecore:EClass" name="State" abstract="true" interface="true"/>
-    <eClassifiers xsi:type="ecore:EClass" name="TransitionalState" eSuperTypes="#//lts2/State">
-      <eStructuralFeatures xsi:type="ecore:EReference" name="transitions" lowerBound="1"
-          upperBound="-1" eType="#//lts2/Transition" containment="true"/>
-    </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="Transition">
-      <eStructuralFeatures xsi:type="ecore:EReference" name="targetState" lowerBound="1"
-          eType="#//lts2/State"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="relatedStep" lowerBound="1"
-          eType="#//usecase/UseCaseStep"/>
-    </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="AbortState" eSuperTypes="#//lts2/State"/>
-  </eSubpackages>
 </ecore:EPackage>

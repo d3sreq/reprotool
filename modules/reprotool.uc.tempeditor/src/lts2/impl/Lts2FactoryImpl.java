@@ -4,8 +4,13 @@
  *
  * $Id$
  */
-package reprotool.model.lts2.impl;
+package lts2.impl;
 
+import java.util.Map;
+
+import lts2.*;
+
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
@@ -14,7 +19,7 @@ import org.eclipse.emf.ecore.impl.EFactoryImpl;
 
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
-import reprotool.model.lts2.*;
+import reprotool.model.usecase.UseCaseStep;
 
 /**
  * <!-- begin-user-doc -->
@@ -66,6 +71,9 @@ public class Lts2FactoryImpl extends EFactoryImpl implements Lts2Factory {
 			case Lts2Package.TRANSITIONAL_STATE: return createTransitionalState();
 			case Lts2Package.TRANSITION: return createTransition();
 			case Lts2Package.ABORT_STATE: return createAbortState();
+			case Lts2Package.STEP_TO_TRANSITION_MAP: return (EObject)createStepToTransitionMap();
+			case Lts2Package.LTS_GENERATOR: return createLTSGenerator();
+			case Lts2Package.REGISTER_EXT_CLOSURE: return (EObject)createRegisterExtClosure();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -129,6 +137,36 @@ public class Lts2FactoryImpl extends EFactoryImpl implements Lts2Factory {
 	public AbortState createAbortState() {
 		AbortStateImpl abortState = new AbortStateImpl();
 		return abortState;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Map.Entry<UseCaseStep, Transition> createStepToTransitionMap() {
+		StepToTransitionMapImpl stepToTransitionMap = new StepToTransitionMapImpl();
+		return stepToTransitionMap;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public LTSGenerator createLTSGenerator() {
+		LTSGeneratorImpl ltsGenerator = new LTSGeneratorImpl();
+		return ltsGenerator;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Map.Entry<State, EList<State>> createRegisterExtClosure() {
+		RegisterExtClosureImpl registerExtClosure = new RegisterExtClosureImpl();
+		return registerExtClosure;
 	}
 
 	/**

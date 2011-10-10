@@ -4,9 +4,16 @@
  *
  * $Id$
  */
-package reprotool.model.lts2.impl;
+package lts2.impl;
 
 import java.util.Collection;
+
+import lts2.AbortState;
+import lts2.FinalState;
+import lts2.InitialState;
+import lts2.Lts2Package;
+import lts2.StateMachine;
+import lts2.TransitionalState;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -22,12 +29,6 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
-import reprotool.model.lts2.FinalState;
-import reprotool.model.lts2.InitialState;
-import reprotool.model.lts2.Lts2Package;
-import reprotool.model.lts2.StateMachine;
-import reprotool.model.lts2.TransitionalState;
-
 /**
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>State Machine</b></em>'.
@@ -35,9 +36,10 @@ import reprotool.model.lts2.TransitionalState;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link reprotool.model.lts2.impl.StateMachineImpl#getInitialState <em>Initial State</em>}</li>
- *   <li>{@link reprotool.model.lts2.impl.StateMachineImpl#getTransitionalStates <em>Transitional States</em>}</li>
- *   <li>{@link reprotool.model.lts2.impl.StateMachineImpl#getFinalState <em>Final State</em>}</li>
+ *   <li>{@link lts2.impl.StateMachineImpl#getInitialState <em>Initial State</em>}</li>
+ *   <li>{@link lts2.impl.StateMachineImpl#getTransitionalStates <em>Transitional States</em>}</li>
+ *   <li>{@link lts2.impl.StateMachineImpl#getFinalState <em>Final State</em>}</li>
+ *   <li>{@link lts2.impl.StateMachineImpl#getAbortState <em>Abort State</em>}</li>
  * </ul>
  * </p>
  *
@@ -73,6 +75,16 @@ public class StateMachineImpl extends EObjectImpl implements StateMachine {
 	 * @ordered
 	 */
 	protected FinalState finalState;
+
+	/**
+	 * The cached value of the '{@link #getAbortState() <em>Abort State</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getAbortState()
+	 * @generated
+	 * @ordered
+	 */
+	protected AbortState abortState;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -196,6 +208,49 @@ public class StateMachineImpl extends EObjectImpl implements StateMachine {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public AbortState getAbortState() {
+		return abortState;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetAbortState(AbortState newAbortState, NotificationChain msgs) {
+		AbortState oldAbortState = abortState;
+		abortState = newAbortState;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, Lts2Package.STATE_MACHINE__ABORT_STATE, oldAbortState, newAbortState);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setAbortState(AbortState newAbortState) {
+		if (newAbortState != abortState) {
+			NotificationChain msgs = null;
+			if (abortState != null)
+				msgs = ((InternalEObject)abortState).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - Lts2Package.STATE_MACHINE__ABORT_STATE, null, msgs);
+			if (newAbortState != null)
+				msgs = ((InternalEObject)newAbortState).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - Lts2Package.STATE_MACHINE__ABORT_STATE, null, msgs);
+			msgs = basicSetAbortState(newAbortState, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, Lts2Package.STATE_MACHINE__ABORT_STATE, newAbortState, newAbortState));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -205,6 +260,8 @@ public class StateMachineImpl extends EObjectImpl implements StateMachine {
 				return ((InternalEList<?>)getTransitionalStates()).basicRemove(otherEnd, msgs);
 			case Lts2Package.STATE_MACHINE__FINAL_STATE:
 				return basicSetFinalState(null, msgs);
+			case Lts2Package.STATE_MACHINE__ABORT_STATE:
+				return basicSetAbortState(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -223,6 +280,8 @@ public class StateMachineImpl extends EObjectImpl implements StateMachine {
 				return getTransitionalStates();
 			case Lts2Package.STATE_MACHINE__FINAL_STATE:
 				return getFinalState();
+			case Lts2Package.STATE_MACHINE__ABORT_STATE:
+				return getAbortState();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -246,6 +305,9 @@ public class StateMachineImpl extends EObjectImpl implements StateMachine {
 			case Lts2Package.STATE_MACHINE__FINAL_STATE:
 				setFinalState((FinalState)newValue);
 				return;
+			case Lts2Package.STATE_MACHINE__ABORT_STATE:
+				setAbortState((AbortState)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -267,6 +329,9 @@ public class StateMachineImpl extends EObjectImpl implements StateMachine {
 			case Lts2Package.STATE_MACHINE__FINAL_STATE:
 				setFinalState((FinalState)null);
 				return;
+			case Lts2Package.STATE_MACHINE__ABORT_STATE:
+				setAbortState((AbortState)null);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -285,6 +350,8 @@ public class StateMachineImpl extends EObjectImpl implements StateMachine {
 				return transitionalStates != null && !transitionalStates.isEmpty();
 			case Lts2Package.STATE_MACHINE__FINAL_STATE:
 				return finalState != null;
+			case Lts2Package.STATE_MACHINE__ABORT_STATE:
+				return abortState != null;
 		}
 		return super.eIsSet(featureID);
 	}

@@ -60,11 +60,5 @@
             genModel="model/reprotool.model.genmodel"/>
    </extension>
 
-   <extension point="org.eclipse.emf.ecore.generated_package">
-      <package
-            uri="http://d3s.mff.cuni.cz/reprotool/model/procases"
-            class="reprotool.model.procases.ProcasesPackage"
-            genModel="model/reprotool.model.genmodel"/>
-   </extension>
 
 </plugin>

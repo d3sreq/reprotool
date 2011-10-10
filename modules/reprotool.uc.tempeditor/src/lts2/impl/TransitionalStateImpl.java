@@ -4,9 +4,13 @@
  *
  * $Id$
  */
-package reprotool.model.lts2.impl;
+package lts2.impl;
 
 import java.util.Collection;
+
+import lts2.Lts2Package;
+import lts2.Transition;
+import lts2.TransitionalState;
 
 import org.eclipse.emf.common.notify.NotificationChain;
 
@@ -17,12 +21,8 @@ import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
-import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.InternalEList;
-
-import reprotool.model.lts2.Lts2Package;
-import reprotool.model.lts2.Transition;
-import reprotool.model.lts2.TransitionalState;
 
 /**
  * <!-- begin-user-doc -->
@@ -31,7 +31,7 @@ import reprotool.model.lts2.TransitionalState;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link reprotool.model.lts2.impl.TransitionalStateImpl#getTransitions <em>Transitions</em>}</li>
+ *   <li>{@link lts2.impl.TransitionalStateImpl#getTransitions <em>Transitions</em>}</li>
  * </ul>
  * </p>
  *
@@ -74,9 +74,24 @@ public class TransitionalStateImpl extends EObjectImpl implements TransitionalSt
 	 */
 	public EList<Transition> getTransitions() {
 		if (transitions == null) {
-			transitions = new EObjectContainmentEList<Transition>(Transition.class, this, Lts2Package.TRANSITIONAL_STATE__TRANSITIONS);
+			transitions = new EObjectContainmentWithInverseEList<Transition>(Transition.class, this, Lts2Package.TRANSITIONAL_STATE__TRANSITIONS, Lts2Package.TRANSITION__SOURCE_STATE);
 		}
 		return transitions;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case Lts2Package.TRANSITIONAL_STATE__TRANSITIONS:
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getTransitions()).basicAdd(otherEnd, msgs);
+		}
+		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
 
 	/**
