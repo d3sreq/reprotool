@@ -71,9 +71,7 @@ public class Lts2FactoryImpl extends EFactoryImpl implements Lts2Factory {
 			case Lts2Package.TRANSITIONAL_STATE: return createTransitionalState();
 			case Lts2Package.TRANSITION: return createTransition();
 			case Lts2Package.ABORT_STATE: return createAbortState();
-			case Lts2Package.STEP_TO_TRANSITION_MAP: return (EObject)createStepToTransitionMap();
 			case Lts2Package.LTS_GENERATOR: return createLTSGenerator();
-			case Lts2Package.REGISTER_EXT_CLOSURE: return (EObject)createRegisterExtClosure();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -144,29 +142,9 @@ public class Lts2FactoryImpl extends EFactoryImpl implements Lts2Factory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Map.Entry<UseCaseStep, Transition> createStepToTransitionMap() {
-		StepToTransitionMapImpl stepToTransitionMap = new StepToTransitionMapImpl();
-		return stepToTransitionMap;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public LTSGenerator createLTSGenerator() {
 		LTSGeneratorImpl ltsGenerator = new LTSGeneratorImpl();
 		return ltsGenerator;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Map.Entry<State, EList<State>> createRegisterExtClosure() {
-		RegisterExtClosureImpl registerExtClosure = new RegisterExtClosureImpl();
-		return registerExtClosure;
 	}
 
 	/**

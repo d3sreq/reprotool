@@ -29,38 +29,11 @@
         eType="#//TransitionalState" eOpposite="#//TransitionalState/transitions"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="AbortState" eSuperTypes="#//State"/>
-  <eClassifiers xsi:type="ecore:EClass" name="StepToTransitionMap" instanceClassName="java.util.Map$Entry">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="key" eType="ecore:EClass ../../reprotool.model/model/reprotool.model.ecore#//usecase/UseCaseStep"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="value" eType="#//Transition"/>
-  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="LTSGenerator">
     <eOperations name="processUseCase">
       <eParameters name="useCase" eType="ecore:EClass ../../reprotool.model/model/reprotool.model.ecore#//usecase/UseCase"/>
     </eOperations>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="gotoTransitions" upperBound="-1"
-        eType="#//Transition" changeable="false" volatile="true" transient="true"
-        unsettable="true" derived="true">
-      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="We can not process the goto steps while processing the scenario because at that time some goto targets may not be known yet.&#xA;Thus we process the goto steps only after all steps have been visited.&#xA;"/>
-      </eAnnotations>
-    </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="labelTransitionSystem"
         lowerBound="1" eType="#//StateMachine" changeable="false" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="stepToTransitionMap" upperBound="-1"
-        eType="#//StepToTransitionMap" transient="true" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="registerExtClosure" upperBound="-1"
-        eType="#//RegisterExtClosure" transient="true" containment="true">
-      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="I process the graph from upside down. That means whenever I process an&#xA;extension, I cannot add to the LST the edge leading from the last state&#xA;of the extension to the state following the extension. This is because&#xA;the state following the extension has not yet been created - it will be&#xA;created in the next iteration.&#xA;&#xA;Therefore, whenever I finish an extension, I save the last state of that&#xA;extension. Then in the next iteration, when the new state is already&#xA;created I add the edge.&#xA;"/>
-      </eAnnotations>
-    </eStructuralFeatures>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="RegisterExtClosure" instanceClassName="java.util.Map$Entry">
-    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="I process the graph from upside down. That means whenever I process an&#xA;extension, I cannot add to the LST the edge leading from the last state&#xA;of the extension to the state following the extension. This is because&#xA;the state following the extension has not yet been created - it will be&#xA;created in the next iteration.&#xA;&#xA;Therefore, whenever I finish an extension, I save the last state of that&#xA;extension. Then in the next iteration, when the new state is already&#xA;created I add the edge.&#xA;"/>
-    </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="key" eType="#//State"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="value" upperBound="-1"
-        eType="#//State"/>
   </eClassifiers>
 </ecore:EPackage>

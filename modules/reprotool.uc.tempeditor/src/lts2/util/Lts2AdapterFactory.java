@@ -105,16 +105,8 @@ public class Lts2AdapterFactory extends AdapterFactoryImpl {
 				return createAbortStateAdapter();
 			}
 			@Override
-			public Adapter caseStepToTransitionMap(Map.Entry<UseCaseStep, Transition> object) {
-				return createStepToTransitionMapAdapter();
-			}
-			@Override
 			public Adapter caseLTSGenerator(LTSGenerator object) {
 				return createLTSGeneratorAdapter();
-			}
-			@Override
-			public Adapter caseRegisterExtClosure(Map.Entry<State, EList<State>> object) {
-				return createRegisterExtClosureAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -235,20 +227,6 @@ public class Lts2AdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link java.util.Map.Entry <em>Step To Transition Map</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see java.util.Map.Entry
-	 * @generated
-	 */
-	public Adapter createStepToTransitionMapAdapter() {
-		return null;
-	}
-
-	/**
 	 * Creates a new adapter for an object of class '{@link lts2.LTSGenerator <em>LTS Generator</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
@@ -259,20 +237,6 @@ public class Lts2AdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createLTSGeneratorAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link java.util.Map.Entry <em>Register Ext Closure</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see java.util.Map.Entry
-	 * @generated
-	 */
-	public Adapter createRegisterExtClosureAdapter() {
 		return null;
 	}
 

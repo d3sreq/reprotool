@@ -273,43 +273,6 @@ public interface Lts2Package extends EPackage {
 	int ABORT_STATE_FEATURE_COUNT = STATE_FEATURE_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link lts2.impl.StepToTransitionMapImpl <em>Step To Transition Map</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see lts2.impl.StepToTransitionMapImpl
-	 * @see lts2.impl.Lts2PackageImpl#getStepToTransitionMap()
-	 * @generated
-	 */
-	int STEP_TO_TRANSITION_MAP = 7;
-
-	/**
-	 * The feature id for the '<em><b>Key</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int STEP_TO_TRANSITION_MAP__KEY = 0;
-
-	/**
-	 * The feature id for the '<em><b>Value</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int STEP_TO_TRANSITION_MAP__VALUE = 1;
-
-	/**
-	 * The number of structural features of the '<em>Step To Transition Map</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int STEP_TO_TRANSITION_MAP_FEATURE_COUNT = 2;
-
-	/**
 	 * The meta object id for the '{@link lts2.impl.LTSGeneratorImpl <em>LTS Generator</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -317,16 +280,7 @@ public interface Lts2Package extends EPackage {
 	 * @see lts2.impl.Lts2PackageImpl#getLTSGenerator()
 	 * @generated
 	 */
-	int LTS_GENERATOR = 8;
-
-	/**
-	 * The feature id for the '<em><b>Goto Transitions</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int LTS_GENERATOR__GOTO_TRANSITIONS = 0;
+	int LTS_GENERATOR = 7;
 
 	/**
 	 * The feature id for the '<em><b>Label Transition System</b></em>' containment reference.
@@ -335,25 +289,7 @@ public interface Lts2Package extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int LTS_GENERATOR__LABEL_TRANSITION_SYSTEM = 1;
-
-	/**
-	 * The feature id for the '<em><b>Step To Transition Map</b></em>' map.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int LTS_GENERATOR__STEP_TO_TRANSITION_MAP = 2;
-
-	/**
-	 * The feature id for the '<em><b>Register Ext Closure</b></em>' map.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int LTS_GENERATOR__REGISTER_EXT_CLOSURE = 3;
+	int LTS_GENERATOR__LABEL_TRANSITION_SYSTEM = 0;
 
 	/**
 	 * The number of structural features of the '<em>LTS Generator</em>' class.
@@ -362,45 +298,7 @@ public interface Lts2Package extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int LTS_GENERATOR_FEATURE_COUNT = 4;
-
-
-	/**
-	 * The meta object id for the '{@link lts2.impl.RegisterExtClosureImpl <em>Register Ext Closure</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see lts2.impl.RegisterExtClosureImpl
-	 * @see lts2.impl.Lts2PackageImpl#getRegisterExtClosure()
-	 * @generated
-	 */
-	int REGISTER_EXT_CLOSURE = 9;
-
-	/**
-	 * The feature id for the '<em><b>Key</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int REGISTER_EXT_CLOSURE__KEY = 0;
-
-	/**
-	 * The feature id for the '<em><b>Value</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int REGISTER_EXT_CLOSURE__VALUE = 1;
-
-	/**
-	 * The number of structural features of the '<em>Register Ext Closure</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int REGISTER_EXT_CLOSURE_FEATURE_COUNT = 2;
+	int LTS_GENERATOR_FEATURE_COUNT = 1;
 
 
 	/**
@@ -562,40 +460,6 @@ public interface Lts2Package extends EPackage {
 	EClass getAbortState();
 
 	/**
-	 * Returns the meta object for class '{@link java.util.Map.Entry <em>Step To Transition Map</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Step To Transition Map</em>'.
-	 * @see java.util.Map.Entry
-	 * @model keyType="reprotool.model.usecase.UseCaseStep"
-	 *        valueType="lts2.Transition"
-	 * @generated
-	 */
-	EClass getStepToTransitionMap();
-
-	/**
-	 * Returns the meta object for the reference '{@link java.util.Map.Entry <em>Key</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Key</em>'.
-	 * @see java.util.Map.Entry
-	 * @see #getStepToTransitionMap()
-	 * @generated
-	 */
-	EReference getStepToTransitionMap_Key();
-
-	/**
-	 * Returns the meta object for the reference '{@link java.util.Map.Entry <em>Value</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Value</em>'.
-	 * @see java.util.Map.Entry
-	 * @see #getStepToTransitionMap()
-	 * @generated
-	 */
-	EReference getStepToTransitionMap_Value();
-
-	/**
 	 * Returns the meta object for class '{@link lts2.LTSGenerator <em>LTS Generator</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -604,17 +468,6 @@ public interface Lts2Package extends EPackage {
 	 * @generated
 	 */
 	EClass getLTSGenerator();
-
-	/**
-	 * Returns the meta object for the reference list '{@link lts2.LTSGenerator#getGotoTransitions <em>Goto Transitions</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Goto Transitions</em>'.
-	 * @see lts2.LTSGenerator#getGotoTransitions()
-	 * @see #getLTSGenerator()
-	 * @generated
-	 */
-	EReference getLTSGenerator_GotoTransitions();
 
 	/**
 	 * Returns the meta object for the containment reference '{@link lts2.LTSGenerator#getLabelTransitionSystem <em>Label Transition System</em>}'.
@@ -626,62 +479,6 @@ public interface Lts2Package extends EPackage {
 	 * @generated
 	 */
 	EReference getLTSGenerator_LabelTransitionSystem();
-
-	/**
-	 * Returns the meta object for the map '{@link lts2.LTSGenerator#getStepToTransitionMap <em>Step To Transition Map</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the map '<em>Step To Transition Map</em>'.
-	 * @see lts2.LTSGenerator#getStepToTransitionMap()
-	 * @see #getLTSGenerator()
-	 * @generated
-	 */
-	EReference getLTSGenerator_StepToTransitionMap();
-
-	/**
-	 * Returns the meta object for the map '{@link lts2.LTSGenerator#getRegisterExtClosure <em>Register Ext Closure</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the map '<em>Register Ext Closure</em>'.
-	 * @see lts2.LTSGenerator#getRegisterExtClosure()
-	 * @see #getLTSGenerator()
-	 * @generated
-	 */
-	EReference getLTSGenerator_RegisterExtClosure();
-
-	/**
-	 * Returns the meta object for class '{@link java.util.Map.Entry <em>Register Ext Closure</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Register Ext Closure</em>'.
-	 * @see java.util.Map.Entry
-	 * @model keyType="lts2.State"
-	 *        valueType="lts2.State" valueMany="true"
-	 * @generated
-	 */
-	EClass getRegisterExtClosure();
-
-	/**
-	 * Returns the meta object for the reference '{@link java.util.Map.Entry <em>Key</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Key</em>'.
-	 * @see java.util.Map.Entry
-	 * @see #getRegisterExtClosure()
-	 * @generated
-	 */
-	EReference getRegisterExtClosure_Key();
-
-	/**
-	 * Returns the meta object for the reference list '{@link java.util.Map.Entry <em>Value</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Value</em>'.
-	 * @see java.util.Map.Entry
-	 * @see #getRegisterExtClosure()
-	 * @generated
-	 */
-	EReference getRegisterExtClosure_Value();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -840,32 +637,6 @@ public interface Lts2Package extends EPackage {
 		EClass ABORT_STATE = eINSTANCE.getAbortState();
 
 		/**
-		 * The meta object literal for the '{@link lts2.impl.StepToTransitionMapImpl <em>Step To Transition Map</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see lts2.impl.StepToTransitionMapImpl
-		 * @see lts2.impl.Lts2PackageImpl#getStepToTransitionMap()
-		 * @generated
-		 */
-		EClass STEP_TO_TRANSITION_MAP = eINSTANCE.getStepToTransitionMap();
-
-		/**
-		 * The meta object literal for the '<em><b>Key</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference STEP_TO_TRANSITION_MAP__KEY = eINSTANCE.getStepToTransitionMap_Key();
-
-		/**
-		 * The meta object literal for the '<em><b>Value</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference STEP_TO_TRANSITION_MAP__VALUE = eINSTANCE.getStepToTransitionMap_Value();
-
-		/**
 		 * The meta object literal for the '{@link lts2.impl.LTSGeneratorImpl <em>LTS Generator</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -876,62 +647,12 @@ public interface Lts2Package extends EPackage {
 		EClass LTS_GENERATOR = eINSTANCE.getLTSGenerator();
 
 		/**
-		 * The meta object literal for the '<em><b>Goto Transitions</b></em>' reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference LTS_GENERATOR__GOTO_TRANSITIONS = eINSTANCE.getLTSGenerator_GotoTransitions();
-
-		/**
 		 * The meta object literal for the '<em><b>Label Transition System</b></em>' containment reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
 		EReference LTS_GENERATOR__LABEL_TRANSITION_SYSTEM = eINSTANCE.getLTSGenerator_LabelTransitionSystem();
-
-		/**
-		 * The meta object literal for the '<em><b>Step To Transition Map</b></em>' map feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference LTS_GENERATOR__STEP_TO_TRANSITION_MAP = eINSTANCE.getLTSGenerator_StepToTransitionMap();
-
-		/**
-		 * The meta object literal for the '<em><b>Register Ext Closure</b></em>' map feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference LTS_GENERATOR__REGISTER_EXT_CLOSURE = eINSTANCE.getLTSGenerator_RegisterExtClosure();
-
-		/**
-		 * The meta object literal for the '{@link lts2.impl.RegisterExtClosureImpl <em>Register Ext Closure</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see lts2.impl.RegisterExtClosureImpl
-		 * @see lts2.impl.Lts2PackageImpl#getRegisterExtClosure()
-		 * @generated
-		 */
-		EClass REGISTER_EXT_CLOSURE = eINSTANCE.getRegisterExtClosure();
-
-		/**
-		 * The meta object literal for the '<em><b>Key</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference REGISTER_EXT_CLOSURE__KEY = eINSTANCE.getRegisterExtClosure_Key();
-
-		/**
-		 * The meta object literal for the '<em><b>Value</b></em>' reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference REGISTER_EXT_CLOSURE__VALUE = eINSTANCE.getRegisterExtClosure_Value();
 
 	}
 

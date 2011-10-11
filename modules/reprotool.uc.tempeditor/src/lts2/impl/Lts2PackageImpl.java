@@ -105,21 +105,7 @@ public class Lts2PackageImpl extends EPackageImpl implements Lts2Package {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass stepToTransitionMapEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	private EClass ltsGeneratorEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass registerExtClosureEClass = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -333,33 +319,6 @@ public class Lts2PackageImpl extends EPackageImpl implements Lts2Package {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getStepToTransitionMap() {
-		return stepToTransitionMapEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getStepToTransitionMap_Key() {
-		return (EReference)stepToTransitionMapEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getStepToTransitionMap_Value() {
-		return (EReference)stepToTransitionMapEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EClass getLTSGenerator() {
 		return ltsGeneratorEClass;
 	}
@@ -369,62 +328,8 @@ public class Lts2PackageImpl extends EPackageImpl implements Lts2Package {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getLTSGenerator_GotoTransitions() {
-		return (EReference)ltsGeneratorEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EReference getLTSGenerator_LabelTransitionSystem() {
-		return (EReference)ltsGeneratorEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getLTSGenerator_StepToTransitionMap() {
-		return (EReference)ltsGeneratorEClass.getEStructuralFeatures().get(2);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getLTSGenerator_RegisterExtClosure() {
-		return (EReference)ltsGeneratorEClass.getEStructuralFeatures().get(3);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EClass getRegisterExtClosure() {
-		return registerExtClosureEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getRegisterExtClosure_Key() {
-		return (EReference)registerExtClosureEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getRegisterExtClosure_Value() {
-		return (EReference)registerExtClosureEClass.getEStructuralFeatures().get(1);
+		return (EReference)ltsGeneratorEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -477,19 +382,8 @@ public class Lts2PackageImpl extends EPackageImpl implements Lts2Package {
 
 		abortStateEClass = createEClass(ABORT_STATE);
 
-		stepToTransitionMapEClass = createEClass(STEP_TO_TRANSITION_MAP);
-		createEReference(stepToTransitionMapEClass, STEP_TO_TRANSITION_MAP__KEY);
-		createEReference(stepToTransitionMapEClass, STEP_TO_TRANSITION_MAP__VALUE);
-
 		ltsGeneratorEClass = createEClass(LTS_GENERATOR);
-		createEReference(ltsGeneratorEClass, LTS_GENERATOR__GOTO_TRANSITIONS);
 		createEReference(ltsGeneratorEClass, LTS_GENERATOR__LABEL_TRANSITION_SYSTEM);
-		createEReference(ltsGeneratorEClass, LTS_GENERATOR__STEP_TO_TRANSITION_MAP);
-		createEReference(ltsGeneratorEClass, LTS_GENERATOR__REGISTER_EXT_CLOSURE);
-
-		registerExtClosureEClass = createEClass(REGISTER_EXT_CLOSURE);
-		createEReference(registerExtClosureEClass, REGISTER_EXT_CLOSURE__KEY);
-		createEReference(registerExtClosureEClass, REGISTER_EXT_CLOSURE__VALUE);
 	}
 
 	/**
@@ -551,22 +445,11 @@ public class Lts2PackageImpl extends EPackageImpl implements Lts2Package {
 
 		initEClass(abortStateEClass, AbortState.class, "AbortState", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
-		initEClass(stepToTransitionMapEClass, Map.Entry.class, "StepToTransitionMap", !IS_ABSTRACT, !IS_INTERFACE, !IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getStepToTransitionMap_Key(), theUsecasePackage.getUseCaseStep(), null, "key", null, 0, 1, Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getStepToTransitionMap_Value(), this.getTransition(), null, "value", null, 0, 1, Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
 		initEClass(ltsGeneratorEClass, LTSGenerator.class, "LTSGenerator", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getLTSGenerator_GotoTransitions(), this.getTransition(), null, "gotoTransitions", null, 0, -1, LTSGenerator.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 		initEReference(getLTSGenerator_LabelTransitionSystem(), this.getStateMachine(), null, "labelTransitionSystem", null, 1, 1, LTSGenerator.class, !IS_TRANSIENT, !IS_VOLATILE, !IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getLTSGenerator_StepToTransitionMap(), this.getStepToTransitionMap(), null, "stepToTransitionMap", null, 0, -1, LTSGenerator.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getLTSGenerator_RegisterExtClosure(), this.getRegisterExtClosure(), null, "registerExtClosure", null, 0, -1, LTSGenerator.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		EOperation op = addEOperation(ltsGeneratorEClass, null, "processUseCase", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, theUsecasePackage.getUseCase(), "useCase", 0, 1, IS_UNIQUE, IS_ORDERED);
-
-		initEClass(registerExtClosureEClass, Map.Entry.class, "RegisterExtClosure", !IS_ABSTRACT, !IS_INTERFACE, !IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getRegisterExtClosure_Key(), this.getState(), null, "key", null, 0, 1, Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getRegisterExtClosure_Value(), this.getState(), null, "value", null, 0, -1, Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);
