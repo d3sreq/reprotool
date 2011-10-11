@@ -4,7 +4,6 @@ import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 
 import reprotool.model.swproj.provider.SoftwareProjectItemProviderExt;
-import reprotool.model.usecase.provider.UseCaseItemProvider;
 
 /**
  * Extension of generated UseCaseItemProvider class.

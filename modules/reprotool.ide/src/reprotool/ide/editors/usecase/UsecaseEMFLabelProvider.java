@@ -29,25 +29,19 @@ public class UsecaseEMFLabelProvider {
 			Object cellObject = cell.getElement();
 
 			if (cellObject instanceof UseCase) {
-				updateUsecase(cell, (UseCase) cellObject);
+				updateUseCase(cell, (UseCase) cellObject);
 			} else if (cellObject instanceof UseCaseStep) {
-				updateUsecaseStep(cell, (UseCaseStep) cellObject);
-//			} else if (cellObject instanceof Guard) {
-//				updateGuard(cell, (Guard) cellObject);
+				updateUseCaseStep(cell, (UseCaseStep) cellObject);
 			} else {
 				updateDefault(cell, cellObject);
 			}
 		}
 		
-		protected void updateUsecase(ViewerCell cell, UseCase useCase) {
+		protected void updateUseCase(ViewerCell cell, UseCase useCase) {
 			updateDefault(cell, useCase);
 		}
 
-//		protected void updateGuard(ViewerCell cell, Guard guard) {
-//			updateDefault(cell, guard);
-//		}
-		
-		protected void updateUsecaseStep(ViewerCell cell, UseCaseStep useCaseStep) {
+		protected void updateUseCaseStep(ViewerCell cell, UseCaseStep useCaseStep) {
 			updateDefault(cell, useCaseStep);			
 		}
 		
@@ -72,6 +66,16 @@ public class UsecaseEMFLabelProvider {
 			cell.setText(styledString.getString());
 			cell.setStyleRanges(styledString.getStyleRanges());
 		}
+		
+		@Override
+		protected void updateUseCaseStep(ViewerCell cell, UseCaseStep useCaseStep) {
+			// dummy example implementation
+			StyledString styledString = new StyledString();
+			styledString.append(useCaseStep.getLabel(), StyledString.COUNTER_STYLER);
+	
+			cell.setText(styledString.getString());
+			cell.setStyleRanges(styledString.getStyleRanges());
+		}
 	}
 	
 	/**
@@ -82,17 +86,12 @@ public class UsecaseEMFLabelProvider {
 	 */
 	public static class TextColumnProvider extends DefaultUsecaseLabelProvider {
 		@Override
-		protected void updateUsecase(ViewerCell cell, UseCase useCase) {
+		protected void updateUseCase(ViewerCell cell, UseCase useCase) {
 			cell.setText(useCase.getName());
 		}
 		
-//		@Override
-//		protected void updateGuard(ViewerCell cell, Guard guard) {
-//			cell.setText(guard.getSentence());
-//		}
-		
 		@Override
-		protected void updateUsecaseStep(ViewerCell cell, UseCaseStep useCaseStep) {
+		protected void updateUseCaseStep(ViewerCell cell, UseCaseStep useCaseStep) {
 			StringBuffer stringBuffer = new StringBuffer();
 			for (Text text : useCaseStep.getTextNodes()) {
 				stringBuffer.append(text.getContent());
