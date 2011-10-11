@@ -1,10 +1,14 @@
 package reprotool.uc.tempeditor;
 
-import java.awt.Point;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.zest.core.widgets.GraphNode;
+import org.eclipse.zest.layouts.LayoutStyles;
 import org.eclipse.zest.layouts.algorithms.AbstractLayoutAlgorithm;
 import org.eclipse.zest.layouts.dataStructures.InternalNode;
 import org.eclipse.zest.layouts.dataStructures.InternalRelationship;
@@ -12,8 +16,10 @@ import org.eclipse.zest.layouts.dataStructures.InternalRelationship;
 import reprotool.model.linguistic.action.AbortUseCase;
 import reprotool.model.linguistic.action.Goto;
 import reprotool.model.lts.State;
+import reprotool.model.lts.StateMachine;
 import reprotool.model.lts.Transition;
 import reprotool.model.usecase.Scenario;
+import reprotool.model.usecase.UseCase;
 import reprotool.model.usecase.UseCaseStep;
 
 
@@ -22,11 +28,9 @@ public class LTSLayoutAlgorithm extends AbstractLayoutAlgorithm {
 	private double horSpacing = 80;
 	private int verticalLineSize;
 	
-	private Point rootPos = new Point();
-
 	private Scenario mainScenario;
 	private State initialState;
-	private State abortState;
+	private Set<State> abortStates = new HashSet<State>();
 	
 	private HashMap<Integer, Integer> occupiedCols = new HashMap<Integer, Integer>();
 	private HashMap<State, InternalNode> state2Node = new HashMap<State, InternalNode>();
@@ -34,11 +38,22 @@ public class LTSLayoutAlgorithm extends AbstractLayoutAlgorithm {
 	private HashMap<UseCaseStep, Transition> ucStep2Trans = new HashMap<UseCaseStep, Transition>();
 	private HashMap<GraphNode, InternalNode> graph2Internal = new HashMap<GraphNode, InternalNode>();
 	
+	private StateMachine workingMachine;
+	private List<StateMachine> includedMachines;
+	private HashMap<StateMachine, UseCase> machine2UseCase;
+	
+	private List<BoardNode> boardNodes = new ArrayList<BoardNode>();
+	private HashMap<InternalNode, BoardNode> internal2Board = new HashMap<InternalNode, BoardNode>();
+	
 	private void initMapping(InternalNode[] entitiesToLayout) {
 		for (InternalNode node: entitiesToLayout) {
+			BoardNode bNode = new BoardNode(node);
+			boardNodes.add(bNode);
+			internal2Board.put(node, bNode);
+			
 			GraphNode gNode = (GraphNode) node.getLayoutEntity().getGraphData();
 			State s = (State) gNode.getData();
-			if (s == abortState) {
+			if (abortStates.contains(s)) {
 				graph2Internal.put(gNode, node);
 			} else {
 				state2Node.put(s, node);
@@ -95,16 +110,12 @@ public class LTSLayoutAlgorithm extends AbstractLayoutAlgorithm {
 		return s.getSteps().size();
 	}
 	
-	private void layoutScenario(Scenario s, double x0, double y0, SpanDirection span) {
-		double x = x0;
-		double y = y0 + (countEffectiveSize(s) - 1) * verticalLineSize;
-		double extensionStep = 0;
-		double variationStep = 0;
+	private void processScenario(Scenario s, int x0, int y0, SpanDirection span) {
+		int x = x0;
+		int y = y0 + (countEffectiveSize(s) - 1);
 		
 		SpanDirection extensionSpan = span;
 		SpanDirection variationSpan = span;
-		extensionStep = horSpacing;
-		variationStep = horSpacing;
 		
 		if (span == SpanDirection.BOTH) {
 			extensionSpan = SpanDirection.RIGHT;
@@ -119,7 +130,6 @@ public class LTSLayoutAlgorithm extends AbstractLayoutAlgorithm {
 				continue;
 			}
 			
-			
 			InternalNode node = findMappedNode(step);
 			
 			if (step.getAction() instanceof AbortUseCase) {
@@ -131,50 +141,74 @@ public class LTSLayoutAlgorithm extends AbstractLayoutAlgorithm {
 				Assert.isNotNull(node);
 			}
 			
-			node.setLocation(x, y);
+			internal2Board.get(node).setLocation(x, y);
 						
 			if (!step.getExtensions().isEmpty()) {
-				double yy = y + verticalLineSize;
+				int yy = y + 1;
 				for (Scenario scenario: step.getExtensions()) {
-					int k = findFreeColumn(c, scenario.getSteps().size(), extensionSpan);
-					double xx = rootPos.getX() + (extensionStep * k);
+					int k = findFreeColumn(c, countEffectiveSize(scenario), extensionSpan);
+					int xx = k;
 					occupiedCols.put(k, c);
-					layoutScenario(scenario, xx, yy, extensionSpan);
-					k = stepForward(k, extensionSpan);
+					processScenario(scenario, xx, yy, extensionSpan);
 				}
 			}
 			
-			y -= verticalLineSize;
+			y--;
 			c++;
 			
 			if (!step.getVariations().isEmpty()) {
-				double yy = y + verticalLineSize;
+				int yy = y + 1;
 				for (Scenario scenario: step.getVariations()) {
-					int k = findFreeColumn(c, scenario.getSteps().size(), variationSpan);
-					double xx = rootPos.getX() + (variationStep * k);
+					int k = findFreeColumn(c, countEffectiveSize(scenario), variationSpan);
+					int xx = k;
 					occupiedCols.put(k, c);
-					layoutScenario(scenario, xx, yy, variationSpan);
-					k = stepForward(k, variationSpan);
-					xx += variationStep;
+					processScenario(scenario, xx, yy, variationSpan);
 				}
 			}
 		}
 	}
 	
-	private void layoutInitialState() {
-		InternalNode node = state2Node.get(initialState);
-		node.setLocation(rootPos.getX(), rootPos.getY());
+	private void layoutBoard(double x, double y) {
+		for (BoardNode bNode: boardNodes) {
+			InternalNode node = bNode.getNode();
+			GraphNode gNode = (GraphNode) node.getLayoutEntity().getGraphData();
+			State s = (State) gNode.getData();
+			if (!workingMachine.getAllStates().contains(s)) {
+				continue;
+			}
+			Assert.isNotNull(s);
+			System.out.println("Node [" + bNode.getX() + ", " + bNode.getY()+ "] found");
+			node.setLocation(x + (bNode.getX() * horSpacing),
+				y + (bNode.getY() * verticalLineSize));
+		}
 	}
 	
-	public LTSLayoutAlgorithm(int styles, Scenario s, HashMap<Transition, GraphNode> trans2Node,
+	private void processInitialState() {
+		InternalNode node = state2Node.get(initialState);
+		internal2Board.get(node).setLocation(0, 0);
+	}
+	
+	public LTSLayoutAlgorithm(HashMap<Transition, GraphNode> trans2Node,
 			HashMap<UseCaseStep, Transition> ucStep2Trans,
-			State initialState, State abortState) {
-		super(styles);
-		mainScenario = s;
+			List<StateMachine> includedMachines,
+			HashMap<StateMachine, UseCase> machine2UseCase)
+	{
+		super(LayoutStyles.NO_LAYOUT_NODE_RESIZING);
+		
+		workingMachine = includedMachines.remove(0);
+		UseCase u = machine2UseCase.get(workingMachine);
+		
+		mainScenario = u.getMainScenario();
 		this.ucStep2Trans = ucStep2Trans;
 		this.trans2Node = trans2Node;
-		this.initialState = initialState;
-		this.abortState = abortState;
+		this.initialState = workingMachine.getInitialState();
+		this.includedMachines = includedMachines;
+		this.machine2UseCase = machine2UseCase;
+		abortStates.add(workingMachine.getAbortState());
+		
+		for (StateMachine mach: includedMachines) {
+			abortStates.add(mach.getAbortState());
+		}
 	}
 
 	@Override
@@ -195,10 +229,20 @@ public class LTSLayoutAlgorithm extends AbstractLayoutAlgorithm {
 		initMapping(entitiesToLayout);
 		verticalLineSize = (int) (entitiesToLayout[0].getLayoutEntity().getHeightInLayout() + verSpacing);
 		
-		rootPos.setLocation(boundsWidth / 2, verSpacing / 2);
-		layoutInitialState();
-		layoutScenario(mainScenario, rootPos.getX(),
-				rootPos.getY() + verticalLineSize, SpanDirection.BOTH);
+		processInitialState();
+		processScenario(mainScenario, 0, 1, SpanDirection.BOTH);
+		
+		layoutBoard(boundsWidth / 2, verSpacing / 2);
+		
+		for (StateMachine m: includedMachines) {
+			workingMachine = m;
+			occupiedCols.clear();
+			initialState = workingMachine.getInitialState();
+			processInitialState();
+			processScenario(machine2UseCase.get(workingMachine).getMainScenario(), 0,
+					1 , SpanDirection.BOTH);
+			layoutBoard(100, 100);
+		}
 	}
 
 	@Override
@@ -226,4 +270,31 @@ public class LTSLayoutAlgorithm extends AbstractLayoutAlgorithm {
 
 enum SpanDirection {
 	LEFT, RIGHT, BOTH
+}
+
+class BoardNode {
+	private int x;
+	private int y;
+	private InternalNode node;
+	
+	public BoardNode(InternalNode node) {
+		this.node = node;
+	}
+	
+	public int getX() {
+		return x;
+	}
+	
+	public int getY() {
+		return y;
+	}
+	
+	public InternalNode getNode() {
+		return node;
+	}
+	
+	public void setLocation(int x, int y) {
+		this.x = x;
+		this.y = y;
+	}
 }

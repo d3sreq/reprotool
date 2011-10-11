@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ASCII"?>
-<swproj:SoftwareProject xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:action="http://d3s.mff.cuni.cz/reprotool/model/linguistic/action" xmlns:swproj="http://d3s.mff.cuni.cz/reprotool/model/swproj" xsi:schemaLocation="http://d3s.mff.cuni.cz/reprotool/model/linguistic/action reprotool.model.ecore#//linguistic/action http://d3s.mff.cuni.cz/reprotool/model/swproj reprotool.model.ecore#//swproj" name="File manager">
+<swproj:SoftwareProject xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:action="http://d3s.mff.cuni.cz/reprotool/model/linguistic/action" xmlns:swproj="http://d3s.mff.cuni.cz/reprotool/model/swproj" name="File manager">
   <actors name="User"/>
   <actors name="GUI"/>
   <actors name="System"/>

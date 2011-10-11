@@ -7,11 +7,13 @@ import java.util.List;
 import org.eclipse.core.runtime.Assert;
 import reprotool.model.linguistic.action.AbortUseCase;
 import reprotool.model.linguistic.action.Goto;
+import reprotool.model.linguistic.action.UseCaseInclude;
 import reprotool.model.lts.LtsFactory;
 import reprotool.model.lts.State;
 import reprotool.model.lts.StateMachine;
 import reprotool.model.lts.Transition;
 import reprotool.model.usecase.Scenario;
+import reprotool.model.usecase.UseCase;
 import reprotool.model.usecase.UseCaseStep;
 
 public class LTSGenerator {
@@ -20,7 +22,10 @@ public class LTSGenerator {
 	private State initialState;
 	private State abortState;
 	
+	private List<UseCase> includedUseCases = new ArrayList<UseCase>();
+	
 	private HashMap<UseCaseStep, Transition> ucStep2Trans = new HashMap<UseCaseStep, Transition>();
+	private HashMap<Transition, UseCaseStep> trans2UCStep = new HashMap<Transition, UseCaseStep>();
 	
 	/*
 	 * Maps a use-case step to a state where the corresponding edge starts in
@@ -30,11 +35,11 @@ public class LTSGenerator {
 	
 	/*
 	 * I process the graph from upside down. That means whenever I process an
-	 * extension, I cannot add to the LST the edge leading from the last state
+	 * extension, I can not add to the LST the edge leading from the last state
 	 * of the extension to the state following the extension. This is because
 	 * the state following the extension has not yet been created - it will be
 	 * created in the next iteration.
-	 * Therefore, whenever I finish an extension, I save the last state of that
+	 * So whenever I finish an extension, I save the last state of that
 	 * extension. Then in the next iteration, when the new state is already
 	 * created I add the edge.
 	 */
@@ -56,6 +61,11 @@ public class LTSGenerator {
 		State srcState = init;
 		
 		for(UseCaseStep ucStep: s.getSteps()) {
+			if (ucStep.getAction() instanceof UseCaseInclude) {
+				UseCaseInclude include = (UseCaseInclude) ucStep.getAction();
+				includedUseCases.add(include.getIncludeTarget());
+			}
+			
 			ucStep2SrcState.put(ucStep, srcState);
 			State tgtState = LtsFactory.eINSTANCE.createState();
 			
@@ -64,15 +74,9 @@ public class LTSGenerator {
 					(registerExtClosure.containsKey(srcState))
 			) {
 				for (State src: registerExtClosure.get(srcState)) {
-
 					Transition t = LtsFactory.eINSTANCE.createActionTransition();
-					// reference to UseCaseStep
-					assert t.getSentence() == null;
-					t.setSentence(ucStep);
-					
 					t.setSource(src);
 					t.setTarget(tgtState);
-
 					machine.getAllTransitions().add(t);
 				}
 				registerExtClosure.remove(srcState);
@@ -88,14 +92,11 @@ public class LTSGenerator {
 			
 			if (ucStep.getAction() instanceof AbortUseCase) {				
 				Transition t = LtsFactory.eINSTANCE.createActionTransition();
-				// reference to UseCaseStep
-				assert t.getSentence() == null;
-				t.setSentence(ucStep);
-				
 				t.setSource(srcState);
-				t.setTarget(machine.getAbortState());				
+				t.setTarget(machine.getAbortState());
 				machine.getAllTransitions().add(t);
 				ucStep2Trans.put(ucStep, t);
+				trans2UCStep.put(t, ucStep);
 				continue;
 			}
 			
@@ -106,11 +107,8 @@ public class LTSGenerator {
 			
 			
 			Transition t = LtsFactory.eINSTANCE.createActionTransition();
-			// reference to UseCaseStep
-			assert t.getSentence() == null;
-			t.setSentence(ucStep);
-
 			ucStep2Trans.put(ucStep, t);
+			trans2UCStep.put(t, ucStep);
 			t.setSource(srcState);
 			
 			machine.getAllStates().add(tgtState);
@@ -149,10 +147,6 @@ public class LTSGenerator {
 				(next != null)
 		) {
 			Transition t = LtsFactory.eINSTANCE.createActionTransition();
-			// reference to UseCaseStep
-			assert t.getSentence() == null;
-			t.setSentence(lastStep);
-			
 			t.setSource(srcState);
 			t.setTarget(next);
 			machine.getAllTransitions().add(t);
@@ -174,17 +168,13 @@ public class LTSGenerator {
 			State dst = ucStep2SrcState.get(gotoAction.getGotoTarget());
 			Assert.isNotNull(src);
 			Assert.isNotNull(dst);
-
 			Transition t = LtsFactory.eINSTANCE.createActionTransition();
-			// reference to UseCaseStep
-			assert t.getSentence() == null;
-			t.setSentence(ucStep);
-			
 			t.setSource(src);
 			t.setTarget(dst);
 			machine.getAllTransitions().add(t);
 			gotoTransitions.add(t);
 			ucStep2Trans.put(ucStep, t);
+			trans2UCStep.put(t, ucStep);
 		}
 	}
 	
@@ -199,8 +189,10 @@ public class LTSGenerator {
 		machine.setInitialState(initialState);
 		machine.setAbortState(abortState);
 		
-		processScenario(scenario, initialState, null);
+		State successState = processScenario(scenario, initialState, null);
 		processGotoSteps();
+		
+		machine.setSuccessState(successState);
 	}
 	
 	public StateMachine getLabelTransitionSystem() {
@@ -210,8 +202,16 @@ public class LTSGenerator {
 	public HashMap<UseCaseStep, Transition> getUCStep2Trans() {
 		return ucStep2Trans;
 	}
+	
+	public HashMap<Transition, UseCaseStep> getTrans2UCStep() {
+		return trans2UCStep;
+	}
 
 	public List<Transition> getGotoTransitions() {
 		return gotoTransitions;
+	}
+	
+	public List<UseCase> getIncludedUseCases() {
+		return includedUseCases;
 	}
 }

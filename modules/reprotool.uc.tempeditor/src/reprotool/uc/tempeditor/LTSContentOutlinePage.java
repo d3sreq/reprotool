@@ -1,11 +1,18 @@
 package reprotool.uc.tempeditor;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
+import org.eclipse.core.runtime.Assert;
+import org.eclipse.draw2d.ColorConstants;
+import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.SWTEventDispatcher;
 import org.eclipse.draw2d.SWTGraphics;
+import org.eclipse.draw2d.Shape;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -45,10 +52,12 @@ import org.eclipse.zest.layouts.LayoutAlgorithm;
 import org.eclipse.zest.layouts.LayoutStyles;
 import org.eclipse.swt.SWT;
 
+import reprotool.model.linguistic.action.UseCaseInclude;
 import reprotool.model.lts.State;
 import reprotool.model.lts.StateMachine;
 import reprotool.model.lts.Transition;
 import reprotool.model.usecase.Scenario;
+import reprotool.model.usecase.UseCase;
 import reprotool.model.usecase.UseCaseStep;
 
 
@@ -56,9 +65,21 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 	private GraphViewer viewer;
 	private Composite graphParent;
 	private FigureProvider figureProvider;
-	private Scenario mainScenario;
+	private UseCase useCase;
 	private StateMachine machine;
+	
+	HashMap<State, GraphNode> state2Node = new HashMap<State, GraphNode>();
+	
+	/*
+	 * List of machines corresponding to the included use cases.
+	 */
+	private List<StateMachine> includedMachines = new ArrayList<StateMachine>();
+	private List<UseCase> includedUseCases = new ArrayList<UseCase>();
+	private HashMap<StateMachine, UseCase> machine2UseCase = new HashMap<StateMachine, UseCase>();
+	private HashMap<UseCase, StateMachine> useCase2Machine = new HashMap<UseCase, StateMachine>();
+	
 	private HashMap<UseCaseStep, Transition> ucStep2Trans = null;
+	private HashMap<Transition, UseCaseStep> trans2UCStep = null;
 	private HashMap<Transition, GraphNode> trans2Node = new HashMap<Transition, GraphNode>();
 	private List<Transition> gotoTransitions = null;
 	
@@ -67,20 +88,44 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 	
 	private HashMap<Transition, GraphConnection> trans2Edge = new HashMap<Transition, GraphConnection>();
 	
-	LTSContentOutlinePage(Scenario s, AdapterFactory aFactory) {
+	LTSContentOutlinePage(UseCase uc, AdapterFactory aFactory) {
 		super();
-		mainScenario = s;
+		useCase = uc;
 		adapterFactory = aFactory;
 		figureProvider = new FigureProvider();
 		regenerateLTS();
 	}
 	
+	private void generateIncludedMachines(List<UseCase> roots) {
+		Queue<UseCase> ucQueue = new LinkedList<UseCase>(roots);
+		includedUseCases.clear();
+		includedMachines.clear();
+		
+		machine2UseCase.put(machine, useCase);
+		useCase2Machine.put(useCase, machine);
+		
+		while (!ucQueue.isEmpty()) {
+			UseCase u = ucQueue.poll();
+			if (!includedUseCases.contains(u)) {
+				includedUseCases.add(u);
+				LTSGenerator g = new LTSGenerator(u.getMainScenario());
+				includedMachines.add(g.getLabelTransitionSystem());
+				ucQueue.addAll(g.getIncludedUseCases());
+				ucStep2Trans.putAll(g.getUCStep2Trans());
+				gotoTransitions.addAll(g.getGotoTransitions());
+				machine2UseCase.put(g.getLabelTransitionSystem(), u);
+				useCase2Machine.put(u, g.getLabelTransitionSystem());
+			}
+		}
+	}
+	
 	private void regenerateLTS() {
-		LTSGenerator generator = new LTSGenerator(mainScenario);
+		LTSGenerator generator = new LTSGenerator(useCase.getMainScenario());
 		machine = generator.getLabelTransitionSystem();
-		figureProvider.setMachine(machine);
 		ucStep2Trans = generator.getUCStep2Trans();
+		trans2UCStep = generator.getTrans2UCStep();
 		gotoTransitions = generator.getGotoTransitions();
+		generateIncludedMachines(generator.getIncludedUseCases());
 	}
 	
 	void handleEditorUCStepSelected(List<UseCaseStep> selection) {
@@ -113,9 +158,13 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 			}
 		}
 		ucStep2Trans.clear();
+		trans2UCStep.clear();
 		gotoTransitions.clear();
 		trans2Node.clear();
 		trans2Edge.clear();
+		state2Node.clear();
+		machine2UseCase.clear();
+		useCase2Machine.clear();
 		
 		regenerateLTS();
 		
@@ -137,29 +186,11 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 		
 	}
 	
-	/**
-	 * @param graphParent
-	 *            Where to paint the graph
-	 * @param machine
-	 *            Which StateMachine to show
-	 */
-	private void createLtsGraph(final Composite graphParent, StateMachine machine) {
+	private void generateGraphNodes(StateMachine m) {
+		figureProvider.setMachine(m);
 		
-		// Create a new graph
-		viewer.setConnectionStyle(ZestStyles.CONNECTIONS_DIRECTED);
-		viewer.getGraphControl().getLightweightSystem().setEventDispatcher(
-				new SWTEventDispatcher() {
-					@Override
-					public void dispatchMouseMoved(org.eclipse.swt.events.MouseEvent me) {
-						// Do nothing. This disables nodes replacing with mouse.
-					}
-				}
-		);
-		
-		HashMap<State, GraphNode> state2Node = new HashMap<State, GraphNode>();
-		
-		for (State s: machine.getAllStates()) {
-			if (s == machine.getAbortState())
+		for (State s: m.getAllStates()) {
+			if (s == m.getAbortState())
 				continue;
 			
 			GraphNode node = new CGraphNode(viewer.getGraphControl(), SWT.NONE,
@@ -167,12 +198,47 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 			node.setData(s);
 			state2Node.put(s, node);
 		}
+	}
+	
+	private void generateGraphEdges(StateMachine m) {
+		figureProvider.setMachine(m);
 		
-		for (Transition t: machine.getAllTransitions()) {
-			if (t.getTarget() == machine.getAbortState()) {
+		for (Transition t: m.getAllTransitions()) {
+			if (
+					(trans2UCStep.get(t) != null) &&
+					(trans2UCStep.get(t).getAction() instanceof UseCaseInclude)
+			) {
+				UseCaseInclude inc = (UseCaseInclude) trans2UCStep.get(t).getAction();
+				UseCase uc = inc.getIncludeTarget();
+				StateMachine mach = useCase2Machine.get(uc);
+				State st1 = mach.getInitialState();
+				State st2 = mach.getSuccessState();
+				Assert.isNotNull(st1);
+				Assert.isNotNull(st2);
+				Assert.isNotNull(state2Node.get(st1));
+				Assert.isNotNull(state2Node.get(st2));
+				GraphConnection c1 =
+					new GraphConnection(viewer.getGraphControl(),
+						ZestStyles.CONNECTIONS_DIRECTED, state2Node.get(t.getSource()), state2Node.get(st1));
+				GraphConnection c2 =
+					new GraphConnection(viewer.getGraphControl(),
+						ZestStyles.CONNECTIONS_DIRECTED, state2Node.get(st2), state2Node.get(t.getTarget()));
+				
+				Shape s = (Shape) c1.getConnectionFigure();
+				s.setAntialias(SWT.ON);
+				s.setLineStyle(SWT.LINE_CUSTOM);
+				s.setLineDash(new float[] {7.0f, 5.0f});
+				
+				s = (Shape) c2.getConnectionFigure();
+				s.setAntialias(SWT.ON);
+				s.setLineStyle(SWT.LINE_CUSTOM);
+				s.setLineDash(new float[] {7.0f, 5.0f});				
+			}
+			
+			if (t.getTarget() == m.getAbortState()) {
 				GraphNode node = new CGraphNode(viewer.getGraphControl(), SWT.NONE,
-						figureProvider.getFigure(machine.getAbortState()));
-				node.setData(machine.getAbortState());
+						figureProvider.getFigure(m.getAbortState()));
+				node.setData(m.getAbortState());
 				trans2Node.put(t, node);
 				GraphConnection con =
 					new GraphConnection(viewer.getGraphControl(), ZestStyles.CONNECTIONS_DIRECTED,
@@ -188,11 +254,44 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 				}
 			}
 		}
+	}
+	
+	/**
+	 * @param graphParent
+	 *            Where to paint the graph
+	 * @param machine
+	 *            Which StateMachine to show
+	 */
+	private void createLtsGraph(final Composite graphParent, StateMachine machine) {
+		
+		// Create a new graph
+		//viewer.setConnectionStyle(ZestStyles.CONNECTIONS_DOT);
+		viewer.getGraphControl().getLightweightSystem().setEventDispatcher(
+				new SWTEventDispatcher() {
+					@Override
+					public void dispatchMouseMoved(org.eclipse.swt.events.MouseEvent me) {
+						// Do nothing. This disables nodes replacing with mouse.
+					}
+				}
+		);
+		
+		// Firstly we need to generate all nodes
+		generateGraphNodes(machine);
+		for (StateMachine m: includedMachines) {
+			generateGraphNodes(m);
+		}
+		
+		// Only after nodes are ready we can create edges.
+		generateGraphEdges(machine);
+		for (StateMachine m: includedMachines) {
+			generateGraphEdges(m);
+		}
+		
+		includedMachines.add(0, machine);
 
 		// layout algorithm
-		LayoutAlgorithm ltsLayout = new LTSLayoutAlgorithm(LayoutStyles.NO_LAYOUT_NODE_RESIZING,
-			mainScenario, trans2Node, ucStep2Trans, machine.getInitialState(),
-			machine.getAbortState());
+		LayoutAlgorithm ltsLayout = new LTSLayoutAlgorithm(trans2Node,
+			ucStep2Trans, includedMachines, machine2UseCase);
 		
 		viewer.setLayoutAlgorithm(ltsLayout, false);
 		
