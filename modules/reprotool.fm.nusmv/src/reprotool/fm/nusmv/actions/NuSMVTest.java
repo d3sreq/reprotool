@@ -13,26 +13,12 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
-import org.eclipse.ui.console.ConsolePlugin;
-import org.eclipse.ui.console.IConsole;
-import org.eclipse.ui.console.IConsoleManager;
-import org.eclipse.ui.console.MessageConsole;
-import org.eclipse.ui.console.MessageConsoleStream;
-import org.eclipselabs.nusmvtools.counterexample.CounterExampleType;
-import org.eclipselabs.nusmvtools.counterexample.DocumentRoot;
-import org.eclipselabs.nusmvtools.counterexample.NodeType;
-import org.eclipselabs.nusmvtools.counterexample.StateType;
-import org.eclipselabs.nusmvtools.counterexample.ValueType;
-import org.eclipselabs.nusmvtools.counterexample.util.CounterexampleResourceFactoryImpl;
-import org.eclipselabs.nusmvtools.nusmv4j.NuSMV4J;
-import org.eclipselabs.nusmvtools.nusmv4j.NusmvLibrary;
-import org.eclipselabs.nusmvtools.nusmv4j.NusmvLibrary.PropDb_TAG;
-import org.eclipselabs.nusmvtools.nusmv4j.NusmvLibrary.Prop_TAG;
-import org.eclipselabs.nusmvtools.nusmv4j.NusmvLibraryUtil;
 import org.osgi.framework.Bundle;
 
 import reprotool.fm.nusmv.Activator;
+import reprotool.fm.nusmv.NuSMVWrapper;
 import reprotool.model.swproj.SoftwareProject;
+import reprotool.model.usecase.UseCase;
 
 /**
  * Our sample action implements workbench action delegate.
@@ -44,14 +30,6 @@ import reprotool.model.swproj.SoftwareProject;
  */
 public class NuSMVTest implements IWorkbenchWindowActionDelegate {
 	
-	private NusmvLibrary nusmvLib;
-
-	private static final String MODEL_FILE = "examples/uctest3.smv";
-	private static final String COUNTER_EXAMPLE_FILE = "counterexample.xml";
-
-	private MessageConsole con = findConsole(Activator.PLUGIN_ID);
-	private MessageConsoleStream out = con.newMessageStream();
-	
 	/**
 	 * Converts a file name relative to the bundle location to an absolute
 	 * path to the file.
@@ -59,9 +37,9 @@ public class NuSMVTest implements IWorkbenchWindowActionDelegate {
 	 * @param bundleFileString location relative to the bundle directory
 	 * @return absolute path to the file within file system
 	 */
-	private String bundleFileToAbsoluteFile(String bundleFileString) {
-		Bundle bundle = Platform.getBundle( Activator.PLUGIN_ID );
-        URL fileURL = bundle.getEntry(bundleFileString);
+	private String bundleFileToAbsoluteFile( String bundleId, String relativeFileName) {
+		Bundle bundle = Platform.getBundle( bundleId );
+        URL fileURL = bundle.getEntry(relativeFileName);
         
 		try {
 			return FileLocator.resolve(fileURL).getFile();
@@ -71,136 +49,65 @@ public class NuSMVTest implements IWorkbenchWindowActionDelegate {
 	}
 	
 	/**
-	 * The constructor.
-	 */
-	public NuSMVTest() {
-		
-		nusmvLib = NuSMV4J.INSTANCE().getNusmvLibrary();
-		
-		// disable console output from NuSMV
-	    //NusmvLibrary.nusmv_stdout.set(nusmvLib.CmdOpenFile(new File("/dev/null").getAbsolutePath()));
-		
-		out.println("NuSMV native library build date : " + nusmvLib.NuSMVCore_get_build_date().getString(0));
-		out.println("NuSMV native library version    : " + nusmvLib.NuSMVCore_get_library_version().getString(0));
-		out.println("Generated JNA interface version : " + NusmvLibrary.NUSMV_LIBRARY_VERSION);
-		
-		String modelFile = bundleFileToAbsoluteFile(MODEL_FILE);
-		
-		out.println("Reading SMV code from:" + modelFile );
-        execCommand("read_model -i " + modelFile);
-
-		execCommand("set default_trace_plugin 4");
-	}
-
-	/**
-	 * Creating a new console within the running Eclipse instance.
-	 * @param name
-	 * @return 
-	 */
-	private MessageConsole findConsole(String name) {
-		ConsolePlugin plugin = ConsolePlugin.getDefault();
-		IConsoleManager consoleManager = plugin.getConsoleManager();
-
-		for (IConsole console : consoleManager.getConsoles()) {
-			if (name.equals(console.getName())) {
-				return (MessageConsole) console;
-			}
-		}
-
-		MessageConsole console = new MessageConsole(name, null);
-		consoleManager.addConsoles(new IConsole[] { console });
-
-		return console;
-	}
-	
-	/**
-	 * @param command NuSMV command
-	 */
-	private void execCommand(String command) {
-		NusmvLibraryUtil.executeCommand(nusmvLib, command);
-	}
-
-	/**
 	 * The action has been activated. The argument of the
 	 * method represents the 'real' action sitting
 	 * in the workbench UI.
 	 * @see IWorkbenchWindowActionDelegate#run
 	 */
 	public void run(IAction action) {
-		con.activate();
-		con.clearConsole();
+		NuSMVWrapper nusmv = Activator.getDefault().getNuSMVWrapper();
+		nusmv.clearConsole();
 		
-		execCommand("reset");
-		execCommand("go");
-		
-		checkCTLSpec( "After 'open' there should always be 'close'",
-				"AG(open_x -> AF(close_x))" );
-		
-		checkCTLSpec( "No multi-open without close",
-				"AG(open_x -> AX(A[!open_x U close_x]))" );
-		
-		checkCTLSpec( "No multi-close without open",
-				"AG(close_x -> AX(A[!close_x U open_x | !AF(close_x) ]))" );
-		
-		checkCTLSpec( "First 'open' then 'close'",
-				"A[!close_x U open_x | !AF(close_x)]" );
-		
-		checkCTLSpec( "After 'create' there must be some branch containing 'use'",
-				"AG( create_item -> EF(use_item) )" );
-		
-		checkCTLSpec( "Only one 'create'",
-				"AG( create_item -> AX(AG(!create_item)) )" );
-		
-		checkCTLSpec( "No 'use' before 'create'",
-				"A[ !use_item U create_item | !AF(use_item)]" );
-		
-	}
-	
-	/**
-	 * Check CTL specification and print counter-example.
-	 * @param ctlSpec CTL formula to be checked
-	 * @param description Textual description of the formula
-	 */
-	private void checkCTLSpec(String ctlDescr, String ctlSpec) {
-
-	    out.print("Checking: " + ctlDescr + " .. ");
-		execCommand("check_ctlspec -p \"" + ctlSpec + "\"");
-
-		PropDb_TAG db = nusmvLib.PropPkg_get_prop_database();
-	    final Prop_TAG prop = nusmvLib.PropDb_get_last( db );
-	    int traceId = nusmvLib.Prop_get_trace(prop);
-	    
-	    if(traceId == 0) {
-	    	out.println("OK");
-	    	return;
-	    }
-	    
-	    execCommand("show_traces -o " + COUNTER_EXAMPLE_FILE + " " + traceId);
-
-	    // open the generated XML file containing the counter-example as EMF model
-	    Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("xml", new CounterexampleResourceFactoryImpl());
-	    final URI uri = URI.createURI(COUNTER_EXAMPLE_FILE);
-	    final ResourceSet rs = new ResourceSetImpl();
-	    final Resource resource = rs.getResource(uri, true);
-	    try {
-			resource.load(null);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		SoftwareProject swproj = generateTestingReprotoolModel();
+		for (UseCase useCase : swproj.getUseCases()) {
+			System.out.println( "Found UseCase: " + useCase.getName() );
 		}
 		
-		// now we have got the EMF model
-	    final CounterExampleType counterExample = ((DocumentRoot) resource.getContents().get(0)).getCounterExample();
-	    
-	    out.println("FAILED : " + counterExample.getDesc());
-	    for (NodeType node : counterExample.getNode()) {
-	    	for (StateType state : node.getState()) {
-	    		out.println("  State: " + state.getId() + " = ");
-				for (ValueType var : state.getValue()) {
-					if( "TRUE".equals(var.getValue()) && ! var.getVariable().startsWith("x."))
-						out.println( "    - " + var.getVariable() );
-				}
-			}
+		// ----
+		String modelFile = bundleFileToAbsoluteFile(
+				Activator.PLUGIN_ID, "examples/uctest3.smv");
+		
+		nusmv.loadModelFile(modelFile);
+        // ----
+        
+		try {
+			nusmv.checkCTLSpec( "After 'open' there should always be 'close'",
+					"AG(open_x -> AF(close_x))" );
+			
+			nusmv.checkCTLSpec( "No multi-open without close",
+					"AG(open_x -> AX(A[!open_x U close_x]))" );
+			
+			nusmv.checkCTLSpec( "No multi-close without open",
+					"AG(close_x -> AX(A[!close_x U open_x | !AF(close_x) ]))" );
+			
+			nusmv.checkCTLSpec( "First 'open' then 'close'",
+					"A[!close_x U open_x | !AF(close_x)]" );
+			
+			nusmv.checkCTLSpec( "After 'create' there must be some branch containing 'use'",
+					"AG( create_item -> EF(use_item) )" );
+			
+			nusmv.checkCTLSpec( "Only one 'create'",
+					"AG( create_item -> AX(AG(!create_item)) )" );
+			
+			nusmv.checkCTLSpec( "No 'use' before 'create'",
+					"A[ !use_item U create_item | !AF(use_item)]" );
+			
+			// ------------------------------------------------------
+			
+//			checkCTLSpec( "All UCs must finish in future",
+//					"AF( x1.s=sFin & x1.y.s=sFin & x3.s=sFin & x4.s=sFin & x5.s=sFin )" );
+//			
+//			checkCTLSpec( "All UCs must be set to 'not running'",
+//					"AF( !x1run & !x1.yrun & !x3run & !x4run & !x5run)" );
+//
+//			checkCTLSpec( "UCs cannot run in parallel",
+//					"AG( x1run & !x3run & !x4run & !x5run | !x1run & x3run & !x4run & !x5run | !x1run & !x3run & x4run & !x5run | !x1run & !x3run & !x4run & x5run | !x1run & !x3run & !x4run & !x5run)" );
+
+			
+//			checkCTLSpec( "Showing trace to final state of UC_5",
+//					"!EF(x5.s = sFin)" );
+		} catch(Exception e) {
+			nusmv.printMessage( e.getMessage() );
 		}
 	}
 	
@@ -210,8 +117,9 @@ public class NuSMVTest implements IWorkbenchWindowActionDelegate {
 	 */
 	private SoftwareProject generateTestingReprotoolModel() {
 		
+		URI sampleModelUri = URI.createPlatformPluginURI("/reprotool.model/model/SampleSoftwareProject.xmi", true);
+		
 		ResourceSet resourceSet = new ResourceSetImpl();
-		URI sampleModelUri = URI.createURI("examples/SampleSoftwareProject.xmi");
 		Resource resource = resourceSet.getResource(sampleModelUri, true);
 
 		return (SoftwareProject) resource.getContents().get(0);		

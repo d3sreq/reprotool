@@ -1,5 +1,64 @@
 MODULE main
-	VAR x : UC_1(self, TRUE);
+
+--	CTLSPEC AG( open_x -> AF(close_x) )									-- After 'open' there should always be 'close'
+--	CTLSPEC AG( open_x -> AX(A[!open_x U close_x]) )					-- No multi-open without close
+--	CTLSPEC AG( close_x -> AX(A[!close_x U open_x | !AF(close_x) ]) )	-- No multi-close without open
+--	CTLSPEC A[!close_x U open_x | !AF(close_x)]							-- First 'open' then 'close'
+--	CTLSPEC AG( create_item -> EF(use_item) )							-- After 'create' there must be some branch containing 'use'
+--	CTLSPEC AG( create_item -> AX(AG(!create_item)) )					-- Only one 'create'
+--	CTLSPEC A[ !use_item U create_item | !AF(use_item) ]				-- No 'use' before 'create'
+	
+	-- ==================================
+	-- Fair non-deterministic scheduler 
+	-- ==================================
+	
+	FAIRNESS p=p1;
+	FAIRNESS p=p3;
+	FAIRNESS p=p4;
+	FAIRNESS p=p5;
+	
+	VAR p : {none, p1,p3,p4,p5};
+	INIT p in none;
+	ASSIGN next(p) := case
+		p = none : {p1,p3,p4,p5};
+		TRUE : none;
+	esac;
+
+	-- =================================================
+	-- UCs are executed based on the precedence relation
+	-- =================================================
+
+	VAR x1 : UC_1(self, x1run);
+	VAR x1run : boolean;
+	INIT x1run in FALSE;
+	ASSIGN next(x1run) := case
+		p=p1 : TRUE;
+		TRUE : x1run;
+	esac;
+		
+	VAR x3 : UC_3(self, x3run);
+	VAR x3run : boolean;
+	INIT x3run in FALSE;
+	ASSIGN next(x3run) := case
+		p=p3 & x1.s = sFin : TRUE;
+		TRUE : x3run;
+	esac;
+
+	VAR x4 : UC_4(self, x4run);
+	VAR x4run : boolean;
+	INIT x4run in FALSE;
+	ASSIGN next(x4run) := case
+		p=p4 & x1.s = sFin : TRUE;
+		TRUE : x4run;
+	esac;
+
+	VAR x5 : UC_5(self, x5run);
+	VAR x5run : boolean;
+	INIT x5run in FALSE;
+	ASSIGN next(x5run) := case
+		p=p5 & x4.s = sFin : TRUE;
+		TRUE : x5run;
+	esac;
 	
 	-- ===========================
 	-- #create:item
@@ -7,7 +66,7 @@ MODULE main
 	VAR create_item : boolean;
 	INIT create_item in FALSE;
 	ASSIGN next(create_item) := FALSE
-		| x.y.s in {s3};
+		| x1.y.s in {s3};
 	
 	-- ===========================
 	-- #use:item
@@ -15,7 +74,7 @@ MODULE main
 	VAR use_item : boolean;
 	INIT use_item in FALSE;
 	ASSIGN next(use_item) := FALSE
-		| x.s in {s4};
+		| x1.s in {s4};
 
 	-- ===========================
 	-- #open:x
@@ -23,7 +82,9 @@ MODULE main
 	VAR open_x : boolean;
 	INIT open_x in FALSE;
 	ASSIGN next(open_x) := FALSE
-		| x.s in {s1};
+		| x1.s in {s1}
+		| x4.s in {s2}
+		;
 
 	-- ===========================
 	-- #close:x
@@ -31,7 +92,9 @@ MODULE main
 	VAR close_x : boolean;
 	INIT close_x in FALSE;
 	ASSIGN next(close_x) := FALSE
-		| x.s in {s3};
+		| x1.s in {s3}
+		| x5.s in {s2}
+		;
 
 	-- ===========================
 	-- #trace:a
@@ -39,7 +102,7 @@ MODULE main
 	VAR tr_a : boolean;
 	INIT tr_a in FALSE;
 	ASSIGN next(tr_a) := case
-		x.y.s=s32 : TRUE;
+		x1.y.s=s32 : TRUE;
 		TRUE : tr_a;
 	esac;
 
@@ -90,6 +153,55 @@ MODULE UC_2(top, run)
 		s=s2 : {s3,s31};
 		s=s31 : s32;
 		s=s32 : sFin;
+		s=s3 : sFin;
+		s=sFin : sFin;
+	esac;
+
+	
+-- ================================================
+--	0+>1->2->3->F
+-- ================================================
+MODULE UC_3(top, run)
+	VAR s : {s0,s1,s2,s3,sFin};
+	INIT s in s0;
+	
+	ASSIGN next(s) := case
+		s=s0 & !run : s0;
+		s=s0 & run : s1;
+		s=s1 : s2;
+		s=s2 : s3;
+		s=s3 : sFin;
+		s=sFin : sFin;
+	esac;
+
+-- ================================================
+--	0+>1->2->3->F
+-- ================================================
+MODULE UC_4(top, run)
+	VAR s : {s0,s1,s2,s3,sFin};
+	INIT s in s0;
+	
+	ASSIGN next(s) := case
+		s=s0 & !run : s0;
+		s=s0 & run : s1;
+		s=s1 : s2;
+		s=s2 : s3;
+		s=s3 : sFin;
+		s=sFin : sFin;
+	esac;
+
+-- ================================================
+--	0+>1->2->3->F
+-- ================================================
+MODULE UC_5(top, run)
+	VAR s : {s0,s1,s2,s3,sFin};
+	INIT s in s0;
+	
+	ASSIGN next(s) := case
+		s=s0 & !run : s0;
+		s=s0 & run : s1;
+		s=s1 : s2;
+		s=s2 : s3;
 		s=s3 : sFin;
 		s=sFin : sFin;
 	esac;

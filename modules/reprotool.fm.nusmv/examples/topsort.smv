@@ -1,0 +1,61 @@
+--     x1 
+--   ↗    ↖ 
+--  x2    x3 
+--   ↑     ↑ 
+--  x5 →  x4 
+
+MODULE main
+	
+	FAIRNESS p=p1;
+	FAIRNESS p=p2;
+	FAIRNESS p=p3;
+	FAIRNESS p=p4;
+	FAIRNESS p=p5;
+
+	VAR p : {none, p1,p2,p3,p4,p5};
+	INIT p in none;
+	ASSIGN next(p) := case
+		p = none : {p1,p2,p3,p4,p5};
+		TRUE : none;
+	esac;
+	
+	VAR x1run : boolean;
+	INIT x1run in FALSE;
+	ASSIGN next(x1run) := case
+		p=p1 : TRUE;
+		TRUE : x1run;
+	esac;
+		
+	VAR x2run : boolean;
+	INIT x2run in FALSE;
+	ASSIGN next(x2run) := case
+		p=p2 & x1run : TRUE;
+		TRUE : x2run;
+	esac;
+
+	VAR x3run : boolean;
+	INIT x3run in FALSE;
+	ASSIGN next(x3run) := case
+		p=p3 & x1run : TRUE;
+		TRUE : x3run;
+	esac;
+
+	VAR x4run : boolean;
+	INIT x4run in FALSE;
+	ASSIGN next(x4run) := case
+		p=p4 & x3run : TRUE;
+		TRUE : x4run;
+	esac;
+
+	VAR x5run : boolean;
+	INIT x5run in FALSE;
+	ASSIGN next(x5run) := case
+		p=p5 & x2run & x4run : TRUE;
+		TRUE : x5run;
+	esac;
+	
+--	CTLSPEC EF( AG(x1run & x2run & x3run & x4run) )
+--	CTLSPEC AG( x4run -> (x3run & x1run) )
+--	CTLSPEC AG( x5run -> x3run )
+
+	CTLSPEC AG(x1run -> AF(x5run))
