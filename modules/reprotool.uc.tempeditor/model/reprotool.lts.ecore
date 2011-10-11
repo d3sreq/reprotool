@@ -29,7 +29,7 @@
         eType="#//TransitionalState" eOpposite="#//TransitionalState/transitions"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="AbortState" eSuperTypes="#//State"/>
-  <eClassifiers xsi:type="ecore:EClass" name="LTSGenerator">
+  <eClassifiers xsi:type="ecore:EClass" name="LTSGenerator" abstract="true" interface="true">
     <eOperations name="processUseCase">
       <eParameters name="useCase" eType="ecore:EClass ../../reprotool.model/model/reprotool.model.ecore#//usecase/UseCase"/>
     </eOperations>
