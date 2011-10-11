@@ -109,6 +109,7 @@ public class UsecaseSwitch<T> {
 			case UsecasePackage.SCENARIO: {
 				Scenario scenario = (Scenario)theEObject;
 				T result = caseScenario(scenario);
+				if (result == null) result = caseLabelledElement(scenario);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -124,7 +125,14 @@ public class UsecaseSwitch<T> {
 				UseCaseStep useCaseStep = (UseCaseStep)theEObject;
 				T result = caseUseCaseStep(useCaseStep);
 				if (result == null) result = caseParseableElement(useCaseStep);
+				if (result == null) result = caseLabelledElement(useCaseStep);
 				if (result == null) result = caseReqCover(useCaseStep);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case UsecasePackage.LABELLED_ELEMENT: {
+				LabelledElement labelledElement = (LabelledElement)theEObject;
+				T result = caseLabelledElement(labelledElement);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -204,6 +212,21 @@ public class UsecaseSwitch<T> {
 	 * @generated
 	 */
 	public T caseUseCaseStep(UseCaseStep object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Labelled Element</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Labelled Element</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseLabelledElement(LabelledElement object) {
 		return null;
 	}
 

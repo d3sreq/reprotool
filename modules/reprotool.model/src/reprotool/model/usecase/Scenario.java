@@ -22,6 +22,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link reprotool.model.usecase.Scenario#getPreconditions <em>Preconditions</em>}</li>
  *   <li>{@link reprotool.model.usecase.Scenario#getPostconditions <em>Postconditions</em>}</li>
  *   <li>{@link reprotool.model.usecase.Scenario#getComment <em>Comment</em>}</li>
+ *   <li>{@link reprotool.model.usecase.Scenario#getScenarioGuard <em>Scenario Guard</em>}</li>
  * </ul>
  * </p>
  *
@@ -29,7 +30,7 @@ import org.eclipse.emf.ecore.EObject;
  * @model
  * @generated
  */
-public interface Scenario extends EObject {
+public interface Scenario extends LabelledElement {
 	/**
 	 * Returns the value of the '<em><b>Steps</b></em>' containment reference list.
 	 * The list contents are of type {@link reprotool.model.usecase.UseCaseStep}.
@@ -103,5 +104,31 @@ public interface Scenario extends EObject {
 	 * @generated
 	 */
 	void setComment(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Scenario Guard</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Scenario Guard</em>' containment reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Scenario Guard</em>' containment reference.
+	 * @see #setScenarioGuard(Condition)
+	 * @see reprotool.model.usecase.UsecasePackage#getScenario_ScenarioGuard()
+	 * @model containment="true"
+	 * @generated
+	 */
+	Condition getScenarioGuard();
+
+	/**
+	 * Sets the value of the '{@link reprotool.model.usecase.Scenario#getScenarioGuard <em>Scenario Guard</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Scenario Guard</em>' containment reference.
+	 * @see #getScenarioGuard()
+	 * @generated
+	 */
+	void setScenarioGuard(Condition value);
 
 } // Scenario

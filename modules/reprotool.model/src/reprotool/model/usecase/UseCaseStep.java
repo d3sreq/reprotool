@@ -31,7 +31,7 @@ import reprotool.model.swproj.SoftwareProject;
  * @model
  * @generated
  */
-public interface UseCaseStep extends ParseableElement {
+public interface UseCaseStep extends ParseableElement, LabelledElement {
 	/**
 	 * Returns the value of the '<em><b>Extensions</b></em>' containment reference list.
 	 * The list contents are of type {@link reprotool.model.usecase.Scenario}.

@@ -154,22 +154,41 @@ public interface UsecasePackage extends EPackage {
 	int PARSEABLE_ELEMENT__ANNOTATIONS = SwprojPackage.REQ_COVER_FEATURE_COUNT + 1;
 
 	/**
-	 * The feature id for the '<em><b>Label</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PARSEABLE_ELEMENT__LABEL = SwprojPackage.REQ_COVER_FEATURE_COUNT + 2;
-
-	/**
 	 * The number of structural features of the '<em>Parseable Element</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PARSEABLE_ELEMENT_FEATURE_COUNT = SwprojPackage.REQ_COVER_FEATURE_COUNT + 3;
+	int PARSEABLE_ELEMENT_FEATURE_COUNT = SwprojPackage.REQ_COVER_FEATURE_COUNT + 2;
+
+	/**
+	 * The meta object id for the '{@link reprotool.model.usecase.LabelledElement <em>Labelled Element</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see reprotool.model.usecase.LabelledElement
+	 * @see reprotool.model.usecase.impl.UsecasePackageImpl#getLabelledElement()
+	 * @generated
+	 */
+	int LABELLED_ELEMENT = 5;
+
+	/**
+	 * The feature id for the '<em><b>Label</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LABELLED_ELEMENT__LABEL = 0;
+
+	/**
+	 * The number of structural features of the '<em>Labelled Element</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LABELLED_ELEMENT_FEATURE_COUNT = 1;
 
 	/**
 	 * The meta object id for the '{@link reprotool.model.usecase.impl.ScenarioImpl <em>Scenario</em>}' class.
@@ -182,13 +201,22 @@ public interface UsecasePackage extends EPackage {
 	int SCENARIO = 2;
 
 	/**
+	 * The feature id for the '<em><b>Label</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SCENARIO__LABEL = LABELLED_ELEMENT__LABEL;
+
+	/**
 	 * The feature id for the '<em><b>Steps</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SCENARIO__STEPS = 0;
+	int SCENARIO__STEPS = LABELLED_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Preconditions</b></em>' containment reference list.
@@ -197,7 +225,7 @@ public interface UsecasePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SCENARIO__PRECONDITIONS = 1;
+	int SCENARIO__PRECONDITIONS = LABELLED_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Postconditions</b></em>' containment reference list.
@@ -206,7 +234,7 @@ public interface UsecasePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SCENARIO__POSTCONDITIONS = 2;
+	int SCENARIO__POSTCONDITIONS = LABELLED_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Comment</b></em>' attribute.
@@ -215,7 +243,16 @@ public interface UsecasePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SCENARIO__COMMENT = 3;
+	int SCENARIO__COMMENT = LABELLED_ELEMENT_FEATURE_COUNT + 3;
+
+	/**
+	 * The feature id for the '<em><b>Scenario Guard</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SCENARIO__SCENARIO_GUARD = LABELLED_ELEMENT_FEATURE_COUNT + 4;
 
 	/**
 	 * The number of structural features of the '<em>Scenario</em>' class.
@@ -224,7 +261,7 @@ public interface UsecasePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SCENARIO_FEATURE_COUNT = 4;
+	int SCENARIO_FEATURE_COUNT = LABELLED_ELEMENT_FEATURE_COUNT + 5;
 
 	/**
 	 * The meta object id for the '{@link reprotool.model.usecase.impl.ConditionImpl <em>Condition</em>}' class.
@@ -262,15 +299,6 @@ public interface UsecasePackage extends EPackage {
 	 * @ordered
 	 */
 	int CONDITION__ANNOTATIONS = PARSEABLE_ELEMENT__ANNOTATIONS;
-
-	/**
-	 * The feature id for the '<em><b>Label</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CONDITION__LABEL = PARSEABLE_ELEMENT__LABEL;
 
 	/**
 	 * The number of structural features of the '<em>Condition</em>' class.
@@ -325,7 +353,7 @@ public interface UsecasePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int USE_CASE_STEP__LABEL = PARSEABLE_ELEMENT__LABEL;
+	int USE_CASE_STEP__LABEL = PARSEABLE_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Extensions</b></em>' containment reference list.
@@ -334,7 +362,7 @@ public interface UsecasePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int USE_CASE_STEP__EXTENSIONS = PARSEABLE_ELEMENT_FEATURE_COUNT + 0;
+	int USE_CASE_STEP__EXTENSIONS = PARSEABLE_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Variations</b></em>' containment reference list.
@@ -343,7 +371,7 @@ public interface UsecasePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int USE_CASE_STEP__VARIATIONS = PARSEABLE_ELEMENT_FEATURE_COUNT + 1;
+	int USE_CASE_STEP__VARIATIONS = PARSEABLE_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Action</b></em>' containment reference.
@@ -352,7 +380,7 @@ public interface UsecasePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int USE_CASE_STEP__ACTION = PARSEABLE_ELEMENT_FEATURE_COUNT + 2;
+	int USE_CASE_STEP__ACTION = PARSEABLE_ELEMENT_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>Software Project</b></em>' reference.
@@ -361,7 +389,7 @@ public interface UsecasePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int USE_CASE_STEP__SOFTWARE_PROJECT = PARSEABLE_ELEMENT_FEATURE_COUNT + 3;
+	int USE_CASE_STEP__SOFTWARE_PROJECT = PARSEABLE_ELEMENT_FEATURE_COUNT + 4;
 
 	/**
 	 * The number of structural features of the '<em>Use Case Step</em>' class.
@@ -370,7 +398,7 @@ public interface UsecasePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int USE_CASE_STEP_FEATURE_COUNT = PARSEABLE_ELEMENT_FEATURE_COUNT + 4;
+	int USE_CASE_STEP_FEATURE_COUNT = PARSEABLE_ELEMENT_FEATURE_COUNT + 5;
 
 
 	/**
@@ -449,17 +477,6 @@ public interface UsecasePackage extends EPackage {
 	EReference getParseableElement_Annotations();
 
 	/**
-	 * Returns the meta object for the attribute '{@link reprotool.model.usecase.ParseableElement#getLabel <em>Label</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Label</em>'.
-	 * @see reprotool.model.usecase.ParseableElement#getLabel()
-	 * @see #getParseableElement()
-	 * @generated
-	 */
-	EAttribute getParseableElement_Label();
-
-	/**
 	 * Returns the meta object for class '{@link reprotool.model.usecase.Scenario <em>Scenario</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -512,6 +529,17 @@ public interface UsecasePackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getScenario_Comment();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link reprotool.model.usecase.Scenario#getScenarioGuard <em>Scenario Guard</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Scenario Guard</em>'.
+	 * @see reprotool.model.usecase.Scenario#getScenarioGuard()
+	 * @see #getScenario()
+	 * @generated
+	 */
+	EReference getScenario_ScenarioGuard();
 
 	/**
 	 * Returns the meta object for class '{@link reprotool.model.usecase.Condition <em>Condition</em>}'.
@@ -576,6 +604,27 @@ public interface UsecasePackage extends EPackage {
 	 * @generated
 	 */
 	EReference getUseCaseStep_SoftwareProject();
+
+	/**
+	 * Returns the meta object for class '{@link reprotool.model.usecase.LabelledElement <em>Labelled Element</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Labelled Element</em>'.
+	 * @see reprotool.model.usecase.LabelledElement
+	 * @generated
+	 */
+	EClass getLabelledElement();
+
+	/**
+	 * Returns the meta object for the attribute '{@link reprotool.model.usecase.LabelledElement#getLabel <em>Label</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Label</em>'.
+	 * @see reprotool.model.usecase.LabelledElement#getLabel()
+	 * @see #getLabelledElement()
+	 * @generated
+	 */
+	EAttribute getLabelledElement_Label();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -660,14 +709,6 @@ public interface UsecasePackage extends EPackage {
 		EReference PARSEABLE_ELEMENT__ANNOTATIONS = eINSTANCE.getParseableElement_Annotations();
 
 		/**
-		 * The meta object literal for the '<em><b>Label</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute PARSEABLE_ELEMENT__LABEL = eINSTANCE.getParseableElement_Label();
-
-		/**
 		 * The meta object literal for the '{@link reprotool.model.usecase.impl.ScenarioImpl <em>Scenario</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -708,6 +749,14 @@ public interface UsecasePackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute SCENARIO__COMMENT = eINSTANCE.getScenario_Comment();
+
+		/**
+		 * The meta object literal for the '<em><b>Scenario Guard</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SCENARIO__SCENARIO_GUARD = eINSTANCE.getScenario_ScenarioGuard();
 
 		/**
 		 * The meta object literal for the '{@link reprotool.model.usecase.impl.ConditionImpl <em>Condition</em>}' class.
@@ -760,6 +809,24 @@ public interface UsecasePackage extends EPackage {
 		 * @generated
 		 */
 		EReference USE_CASE_STEP__SOFTWARE_PROJECT = eINSTANCE.getUseCaseStep_SoftwareProject();
+
+		/**
+		 * The meta object literal for the '{@link reprotool.model.usecase.LabelledElement <em>Labelled Element</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see reprotool.model.usecase.LabelledElement
+		 * @see reprotool.model.usecase.impl.UsecasePackageImpl#getLabelledElement()
+		 * @generated
+		 */
+		EClass LABELLED_ELEMENT = eINSTANCE.getLabelledElement();
+
+		/**
+		 * The meta object literal for the '<em><b>Label</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute LABELLED_ELEMENT__LABEL = eINSTANCE.getLabelledElement_Label();
 
 	}
 

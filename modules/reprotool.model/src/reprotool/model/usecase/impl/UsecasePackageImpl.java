@@ -46,6 +46,7 @@ import reprotool.model.traceability.TraceabilityPackage;
 import reprotool.model.traceability.impl.TraceabilityPackageImpl;
 
 import reprotool.model.usecase.Condition;
+import reprotool.model.usecase.LabelledElement;
 import reprotool.model.usecase.ParseableElement;
 import reprotool.model.usecase.Scenario;
 import reprotool.model.usecase.UseCase;
@@ -98,6 +99,13 @@ public class UsecasePackageImpl extends EPackageImpl implements UsecasePackage {
 	 * @generated
 	 */
 	private EClass useCaseStepEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass labelledElementEClass = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -257,15 +265,6 @@ public class UsecasePackageImpl extends EPackageImpl implements UsecasePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getParseableElement_Label() {
-		return (EAttribute)parseableElementEClass.getEStructuralFeatures().get(2);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EClass getScenario() {
 		return scenarioEClass;
 	}
@@ -304,6 +303,15 @@ public class UsecasePackageImpl extends EPackageImpl implements UsecasePackage {
 	 */
 	public EAttribute getScenario_Comment() {
 		return (EAttribute)scenarioEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getScenario_ScenarioGuard() {
+		return (EReference)scenarioEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -365,6 +373,24 @@ public class UsecasePackageImpl extends EPackageImpl implements UsecasePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getLabelledElement() {
+		return labelledElementEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getLabelledElement_Label() {
+		return (EAttribute)labelledElementEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public UsecaseFactory getUsecaseFactory() {
 		return (UsecaseFactory)getEFactoryInstance();
 	}
@@ -396,13 +422,13 @@ public class UsecasePackageImpl extends EPackageImpl implements UsecasePackage {
 		parseableElementEClass = createEClass(PARSEABLE_ELEMENT);
 		createEReference(parseableElementEClass, PARSEABLE_ELEMENT__TEXT_NODES);
 		createEReference(parseableElementEClass, PARSEABLE_ELEMENT__ANNOTATIONS);
-		createEAttribute(parseableElementEClass, PARSEABLE_ELEMENT__LABEL);
 
 		scenarioEClass = createEClass(SCENARIO);
 		createEReference(scenarioEClass, SCENARIO__STEPS);
 		createEReference(scenarioEClass, SCENARIO__PRECONDITIONS);
 		createEReference(scenarioEClass, SCENARIO__POSTCONDITIONS);
 		createEAttribute(scenarioEClass, SCENARIO__COMMENT);
+		createEReference(scenarioEClass, SCENARIO__SCENARIO_GUARD);
 
 		conditionEClass = createEClass(CONDITION);
 
@@ -411,6 +437,9 @@ public class UsecasePackageImpl extends EPackageImpl implements UsecasePackage {
 		createEReference(useCaseStepEClass, USE_CASE_STEP__VARIATIONS);
 		createEReference(useCaseStepEClass, USE_CASE_STEP__ACTION);
 		createEReference(useCaseStepEClass, USE_CASE_STEP__SOFTWARE_PROJECT);
+
+		labelledElementEClass = createEClass(LABELLED_ELEMENT);
+		createEAttribute(labelledElementEClass, LABELLED_ELEMENT__LABEL);
 	}
 
 	/**
@@ -454,8 +483,10 @@ public class UsecasePackageImpl extends EPackageImpl implements UsecasePackage {
 		useCaseEClass.getESuperTypes().add(theSwprojPackage.getReqCover());
 		useCaseEClass.getESuperTypes().add(theTraceabilityPackage.getTraceableEntity());
 		parseableElementEClass.getESuperTypes().add(theSwprojPackage.getReqCover());
+		scenarioEClass.getESuperTypes().add(this.getLabelledElement());
 		conditionEClass.getESuperTypes().add(this.getParseableElement());
 		useCaseStepEClass.getESuperTypes().add(this.getParseableElement());
+		useCaseStepEClass.getESuperTypes().add(this.getLabelledElement());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(useCaseEClass, UseCase.class, "UseCase", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -466,13 +497,13 @@ public class UsecasePackageImpl extends EPackageImpl implements UsecasePackage {
 		initEClass(parseableElementEClass, ParseableElement.class, "ParseableElement", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getParseableElement_TextNodes(), theActionpartPackage.getText(), null, "textNodes", null, 0, -1, ParseableElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getParseableElement_Annotations(), theAnnotatePackage.getStepAnnotation(), null, "annotations", null, 0, -1, ParseableElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getParseableElement_Label(), ecorePackage.getEString(), "label", null, 1, 1, ParseableElement.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 
 		initEClass(scenarioEClass, Scenario.class, "Scenario", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getScenario_Steps(), this.getUseCaseStep(), null, "steps", null, 0, -1, Scenario.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getScenario_Preconditions(), this.getCondition(), null, "preconditions", null, 0, -1, Scenario.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getScenario_Postconditions(), this.getCondition(), null, "postconditions", null, 0, -1, Scenario.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getScenario_Comment(), ecorePackage.getEString(), "comment", null, 0, 1, Scenario.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getScenario_ScenarioGuard(), this.getCondition(), null, "scenarioGuard", null, 0, 1, Scenario.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(conditionEClass, Condition.class, "Condition", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
@@ -481,6 +512,9 @@ public class UsecasePackageImpl extends EPackageImpl implements UsecasePackage {
 		initEReference(getUseCaseStep_Variations(), this.getScenario(), null, "variations", null, 0, -1, UseCaseStep.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getUseCaseStep_Action(), theActionPackage.getAction(), null, "action", null, 1, 1, UseCaseStep.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getUseCaseStep_SoftwareProject(), theSwprojPackage.getSoftwareProject(), null, "softwareProject", null, 0, 1, UseCaseStep.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+
+		initEClass(labelledElementEClass, LabelledElement.class, "LabelledElement", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getLabelledElement_Label(), ecorePackage.getEString(), "label", null, 1, 1, LabelledElement.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);

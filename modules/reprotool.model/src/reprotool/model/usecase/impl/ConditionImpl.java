@@ -44,7 +44,6 @@ import reprotool.model.usecase.annotate.StepAnnotation;
  *   <li>{@link reprotool.model.usecase.impl.ConditionImpl#getRelatedRequirements <em>Related Requirements</em>}</li>
  *   <li>{@link reprotool.model.usecase.impl.ConditionImpl#getTextNodes <em>Text Nodes</em>}</li>
  *   <li>{@link reprotool.model.usecase.impl.ConditionImpl#getAnnotations <em>Annotations</em>}</li>
- *   <li>{@link reprotool.model.usecase.impl.ConditionImpl#getLabel <em>Label</em>}</li>
  * </ul>
  * </p>
  *
@@ -80,16 +79,6 @@ public class ConditionImpl extends EObjectImpl implements Condition {
 	 * @ordered
 	 */
 	protected EList<StepAnnotation> annotations;
-
-	/**
-	 * The default value of the '{@link #getLabel() <em>Label</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getLabel()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String LABEL_EDEFAULT = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -149,45 +138,6 @@ public class ConditionImpl extends EObjectImpl implements Condition {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated NOT
-	 */
-	public String getLabel() {
-		EObject conditionParent = this.eContainer();
-		if (!(conditionParent instanceof Scenario)) {
-			return "";
-		}
-		
-		Scenario scenario = (Scenario)conditionParent;
-		EObject scenarioParent = scenario.eContainer();
-		if (!(scenarioParent instanceof UseCaseStep)) {
-			return "";
-		}
-		
-		UseCaseStep parentUseCaseStep = (UseCaseStep)scenarioParent;
-		
-		int labelIndex = -1;
-		int extensionIndex = parentUseCaseStep.getExtensions().indexOf(scenario);
-		
-		if (extensionIndex != -1) {
-			labelIndex = extensionIndex;
-		} else {
-			int variationsIndex = parentUseCaseStep.getVariations().indexOf(scenario);
-			if (variationsIndex != -1) {
-				labelIndex = parentUseCaseStep.getExtensions().size() + variationsIndex;
-			}
-		}
-		
-		String toReturn = "";
-		if (labelIndex != -1) {
-			toReturn = parentUseCaseStep.getLabel() + String.valueOf((char)('a' + labelIndex));
-		}
-
-		return toReturn;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -215,8 +165,6 @@ public class ConditionImpl extends EObjectImpl implements Condition {
 				return getTextNodes();
 			case UsecasePackage.CONDITION__ANNOTATIONS:
 				return getAnnotations();
-			case UsecasePackage.CONDITION__LABEL:
-				return getLabel();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -281,8 +229,6 @@ public class ConditionImpl extends EObjectImpl implements Condition {
 				return textNodes != null && !textNodes.isEmpty();
 			case UsecasePackage.CONDITION__ANNOTATIONS:
 				return annotations != null && !annotations.isEmpty();
-			case UsecasePackage.CONDITION__LABEL:
-				return LABEL_EDEFAULT == null ? getLabel() != null : !LABEL_EDEFAULT.equals(getLabel());
 		}
 		return super.eIsSet(featureID);
 	}

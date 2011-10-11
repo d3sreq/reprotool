@@ -96,6 +96,10 @@ public class UsecaseAdapterFactory extends AdapterFactoryImpl {
 				return createUseCaseStepAdapter();
 			}
 			@Override
+			public Adapter caseLabelledElement(LabelledElement object) {
+				return createLabelledElementAdapter();
+			}
+			@Override
 			public Adapter caseReqCover(ReqCover object) {
 				return createReqCoverAdapter();
 			}
@@ -190,6 +194,20 @@ public class UsecaseAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createUseCaseStepAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link reprotool.model.usecase.LabelledElement <em>Labelled Element</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see reprotool.model.usecase.LabelledElement
+	 * @generated
+	 */
+	public Adapter createLabelledElementAdapter() {
 		return null;
 	}
 

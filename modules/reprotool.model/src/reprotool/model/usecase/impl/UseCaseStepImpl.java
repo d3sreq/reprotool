@@ -31,6 +31,7 @@ import reprotool.model.linguistic.actionpart.Text;
 import reprotool.model.swproj.Requirement;
 import reprotool.model.swproj.SoftwareProject;
 
+import reprotool.model.usecase.LabelledElement;
 import reprotool.model.usecase.ParseableElement;
 import reprotool.model.usecase.Scenario;
 import reprotool.model.usecase.UseCase;
@@ -197,15 +198,9 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 		}
 		
 		Scenario scenario = (Scenario)parent;
-		String toReturn = Integer.toString(scenario.getSteps().indexOf(this) + 1);
+		String stepIndex = Integer.toString(scenario.getSteps().indexOf(this) + 1);
 		
-		EObject scenarioParent = scenario.eContainer();
-		if (scenarioParent instanceof UseCaseStep && scenario.getPreconditions().size() != 0) {
-			String labelStart = scenario.getPreconditions().get(0).getLabel();
-			toReturn = labelStart + toReturn;
-		}
-		
-		return toReturn;
+		return scenario.getLabel() + stepIndex;
 	}
 
 	/**
@@ -463,6 +458,38 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 				return basicGetSoftwareProject() != null;
 		}
 		return super.eIsSet(featureID);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
+		if (baseClass == LabelledElement.class) {
+			switch (derivedFeatureID) {
+				case UsecasePackage.USE_CASE_STEP__LABEL: return UsecasePackage.LABELLED_ELEMENT__LABEL;
+				default: return -1;
+			}
+		}
+		return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
+		if (baseClass == LabelledElement.class) {
+			switch (baseFeatureID) {
+				case UsecasePackage.LABELLED_ELEMENT__LABEL: return UsecasePackage.USE_CASE_STEP__LABEL;
+				default: return -1;
+			}
+		}
+		return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);
 	}
 
 } //UseCaseStepImpl
