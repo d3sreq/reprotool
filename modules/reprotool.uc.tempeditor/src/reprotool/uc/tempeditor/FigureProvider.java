@@ -10,8 +10,8 @@ import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.PaletteData;
 import org.eclipse.swt.widgets.Display;
 
-import reprotool.model.lts.State;
-import reprotool.model.lts.StateMachine;
+import lts2.State;
+import lts2.StateMachine;
 
 public class FigureProvider {
 	private static final int STATE_NODE_DIAMETER = 16;
@@ -119,7 +119,7 @@ public class FigureProvider {
 			return drawInitialStateFigure();
 		} else if (s == machine.getAbortState()) {
 			return drawAbortStateFigure();
-		} else if (s == machine.getSuccessState()) {
+		} else if (s == machine.getFinalState()) {
 			return drawSuccessStateFigure();
 		} else {
 			return drawNormalStateFigure();

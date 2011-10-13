@@ -8,8 +8,6 @@ import java.util.List;
 import java.util.Queue;
 
 import org.eclipse.core.runtime.Assert;
-import org.eclipse.draw2d.ColorConstants;
-import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.SWTEventDispatcher;
 import org.eclipse.draw2d.SWTGraphics;
 import org.eclipse.draw2d.Shape;
@@ -49,16 +47,19 @@ import org.eclipse.zest.core.widgets.GraphItem;
 import org.eclipse.zest.core.widgets.GraphNode;
 import org.eclipse.zest.core.widgets.ZestStyles;
 import org.eclipse.zest.layouts.LayoutAlgorithm;
-import org.eclipse.zest.layouts.LayoutStyles;
 import org.eclipse.swt.SWT;
 
 import reprotool.model.linguistic.action.UseCaseInclude;
-import reprotool.model.lts.State;
-import reprotool.model.lts.StateMachine;
-import reprotool.model.lts.Transition;
-import reprotool.model.usecase.Scenario;
 import reprotool.model.usecase.UseCase;
 import reprotool.model.usecase.UseCaseStep;
+
+import lts2.AbortState;
+import lts2.Lts2Factory;
+import lts2.State;
+import lts2.StateMachine;
+import lts2.Transition;
+import lts2.TransitionalState;
+import lts2.impl.LTSGeneratorImpl;
 
 
 public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
@@ -79,7 +80,6 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 	private HashMap<UseCase, StateMachine> useCase2Machine = new HashMap<UseCase, StateMachine>();
 	
 	private HashMap<UseCaseStep, Transition> ucStep2Trans = null;
-	private HashMap<Transition, UseCaseStep> trans2UCStep = null;
 	private HashMap<Transition, GraphNode> trans2Node = new HashMap<Transition, GraphNode>();
 	private List<Transition> gotoTransitions = null;
 	
@@ -108,11 +108,12 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 			UseCase u = ucQueue.poll();
 			if (!includedUseCases.contains(u)) {
 				includedUseCases.add(u);
-				LTSGenerator g = new LTSGenerator(u.getMainScenario());
+				LTSGeneratorImpl g = new LTSGeneratorImpl();
+				g.processUseCase(u);
 				includedMachines.add(g.getLabelTransitionSystem());
-				ucQueue.addAll(g.getIncludedUseCases());
-				ucStep2Trans.putAll(g.getUCStep2Trans());
-				gotoTransitions.addAll(g.getGotoTransitions());
+				ucQueue.addAll(g.getLtsCache().getIncludedUseCases());
+				ucStep2Trans.putAll(g.getLtsCache().getUCStep2Trans());
+				gotoTransitions.addAll(g.getLtsCache().getGotoTransitions());
 				machine2UseCase.put(g.getLabelTransitionSystem(), u);
 				useCase2Machine.put(u, g.getLabelTransitionSystem());
 			}
@@ -120,12 +121,13 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 	}
 	
 	private void regenerateLTS() {
-		LTSGenerator generator = new LTSGenerator(useCase.getMainScenario());
+		LTSGeneratorImpl generator = new LTSGeneratorImpl();
+		generator.processUseCase(useCase);
 		machine = generator.getLabelTransitionSystem();
-		ucStep2Trans = generator.getUCStep2Trans();
-		trans2UCStep = generator.getTrans2UCStep();
-		gotoTransitions = generator.getGotoTransitions();
-		generateIncludedMachines(generator.getIncludedUseCases());
+		System.out.println("Transitional states: " + machine.getTransitionalStates().size());
+		ucStep2Trans = generator.getLtsCache().getUCStep2Trans();
+		gotoTransitions = generator.getLtsCache().getGotoTransitions();
+		generateIncludedMachines(generator.getLtsCache().getIncludedUseCases());
 	}
 	
 	void handleEditorUCStepSelected(List<UseCaseStep> selection) {
@@ -158,7 +160,6 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 			}
 		}
 		ucStep2Trans.clear();
-		trans2UCStep.clear();
 		gotoTransitions.clear();
 		trans2Node.clear();
 		trans2Edge.clear();
@@ -188,70 +189,94 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 	
 	private void generateGraphNodes(StateMachine m) {
 		figureProvider.setMachine(m);
-		
-		for (State s: m.getAllStates()) {
-			if (s == m.getAbortState())
-				continue;
-			
+		for (State s: m.getTransitionalStates()) {
+			if (s == m.getInitialState()) {
+				System.out.println("Creating graph node for initial state");
+			} else {
+				System.out.println("Creating graph node");
+			}
 			GraphNode node = new CGraphNode(viewer.getGraphControl(), SWT.NONE,
 				figureProvider.getFigure(s));
 			node.setData(s);
 			state2Node.put(s, node);
 		}
+		
+		State s = m.getInitialState();
+		GraphNode node = new CGraphNode(viewer.getGraphControl(), SWT.NONE,
+			figureProvider.getFigure(s));
+		node.setData(s);
+		state2Node.put(s, node);
+		System.out.println("Creating graph node for initial state");
+		
+		s = m.getFinalState();
+		node = new CGraphNode(viewer.getGraphControl(), SWT.NONE,
+			figureProvider.getFigure(s));
+		node.setData(s);
+		state2Node.put(s, node);
+		System.out.println("Creating graph node for final state");
+	}
+	
+	private void processTransition(Transition t, AbortState abort) {
+		if (
+				(t.getRelatedStep() != null) &&
+				(t.getRelatedStep().getAction() instanceof UseCaseInclude)
+		) {
+			UseCaseInclude inc = (UseCaseInclude) t.getRelatedStep().getAction();
+			UseCase uc = inc.getIncludeTarget();
+			StateMachine mach = useCase2Machine.get(uc);
+			State st1 = mach.getInitialState();
+			State st2 = mach.getFinalState();
+			Assert.isNotNull(st1);
+			Assert.isNotNull(st2);
+			Assert.isNotNull(state2Node.get(st1));
+			Assert.isNotNull(state2Node.get(st2));
+			GraphConnection c1 =
+				new GraphConnection(viewer.getGraphControl(),
+					ZestStyles.CONNECTIONS_DIRECTED, state2Node.get(t.getSourceState()), state2Node.get(st1));
+			GraphConnection c2 =
+				new GraphConnection(viewer.getGraphControl(),
+					ZestStyles.CONNECTIONS_DIRECTED, state2Node.get(st2), state2Node.get(t.getTargetState()));
+			
+			Shape s = (Shape) c1.getConnectionFigure();
+			s.setAntialias(SWT.ON);
+			s.setLineStyle(SWT.LINE_CUSTOM);
+			s.setLineDash(new float[] {7.0f, 5.0f});
+			
+			s = (Shape) c2.getConnectionFigure();
+			s.setAntialias(SWT.ON);
+			s.setLineStyle(SWT.LINE_CUSTOM);
+			s.setLineDash(new float[] {7.0f, 5.0f});				
+		}
+		
+		if (t.getTargetState() == abort) {
+			GraphNode node = new CGraphNode(viewer.getGraphControl(), SWT.NONE,
+					figureProvider.getFigure(abort));
+			node.setData(abort);
+			trans2Node.put(t, node);
+			GraphConnection con =
+				new GraphConnection(viewer.getGraphControl(), ZestStyles.CONNECTIONS_DIRECTED,
+					state2Node.get(t.getSourceState()), node);
+			trans2Edge.put(t, con);
+		} else {
+			GraphConnection con = 
+				new GraphConnection(viewer.getGraphControl(), ZestStyles.CONNECTIONS_DIRECTED,
+						state2Node.get(t.getSourceState()), state2Node.get(t.getTargetState()));
+			trans2Edge.put(t, con);
+			if (gotoTransitions.contains(t)) {
+				con.setCurveDepth(16);
+			}
+		}
 	}
 	
 	private void generateGraphEdges(StateMachine m) {
 		figureProvider.setMachine(m);
+		for (Transition t: m.getInitialState().getTransitions()) {
+			processTransition(t, m.getAbortState());
+		}
 		
-		for (Transition t: m.getAllTransitions()) {
-			if (
-					(trans2UCStep.get(t) != null) &&
-					(trans2UCStep.get(t).getAction() instanceof UseCaseInclude)
-			) {
-				UseCaseInclude inc = (UseCaseInclude) trans2UCStep.get(t).getAction();
-				UseCase uc = inc.getIncludeTarget();
-				StateMachine mach = useCase2Machine.get(uc);
-				State st1 = mach.getInitialState();
-				State st2 = mach.getSuccessState();
-				Assert.isNotNull(st1);
-				Assert.isNotNull(st2);
-				Assert.isNotNull(state2Node.get(st1));
-				Assert.isNotNull(state2Node.get(st2));
-				GraphConnection c1 =
-					new GraphConnection(viewer.getGraphControl(),
-						ZestStyles.CONNECTIONS_DIRECTED, state2Node.get(t.getSource()), state2Node.get(st1));
-				GraphConnection c2 =
-					new GraphConnection(viewer.getGraphControl(),
-						ZestStyles.CONNECTIONS_DIRECTED, state2Node.get(st2), state2Node.get(t.getTarget()));
-				
-				Shape s = (Shape) c1.getConnectionFigure();
-				s.setAntialias(SWT.ON);
-				s.setLineStyle(SWT.LINE_CUSTOM);
-				s.setLineDash(new float[] {7.0f, 5.0f});
-				
-				s = (Shape) c2.getConnectionFigure();
-				s.setAntialias(SWT.ON);
-				s.setLineStyle(SWT.LINE_CUSTOM);
-				s.setLineDash(new float[] {7.0f, 5.0f});				
-			}
-			
-			if (t.getTarget() == m.getAbortState()) {
-				GraphNode node = new CGraphNode(viewer.getGraphControl(), SWT.NONE,
-						figureProvider.getFigure(m.getAbortState()));
-				node.setData(m.getAbortState());
-				trans2Node.put(t, node);
-				GraphConnection con =
-					new GraphConnection(viewer.getGraphControl(), ZestStyles.CONNECTIONS_DIRECTED,
-						state2Node.get(t.getSource()), node);
-				trans2Edge.put(t, con);
-			} else {
-				GraphConnection con = 
-					new GraphConnection(viewer.getGraphControl(), ZestStyles.CONNECTIONS_DIRECTED,
-							state2Node.get(t.getSource()), state2Node.get(t.getTarget()));
-				trans2Edge.put(t, con);
-				if (gotoTransitions.contains(t)) {
-					con.setCurveDepth(16);
-				}
+		for (TransitionalState tState: m.getTransitionalStates()) {
+			for (Transition t: tState.getTransitions()) {
+				processTransition(t, m.getAbortState());
 			}
 		}
 	}
@@ -265,7 +290,6 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 	private void createLtsGraph(final Composite graphParent, StateMachine machine) {
 		
 		// Create a new graph
-		//viewer.setConnectionStyle(ZestStyles.CONNECTIONS_DOT);
 		viewer.getGraphControl().getLightweightSystem().setEventDispatcher(
 				new SWTEventDispatcher() {
 					@Override
@@ -291,7 +315,7 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 
 		// layout algorithm
 		LayoutAlgorithm ltsLayout = new LTSLayoutAlgorithm(trans2Node,
-			ucStep2Trans, includedMachines, machine2UseCase);
+			ucStep2Trans, includedMachines, machine2UseCase, useCase2Machine);
 		
 		viewer.setLayoutAlgorithm(ltsLayout, false);
 		

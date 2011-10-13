@@ -6,25 +6,33 @@
  */
 package lts2.impl;
 
+import java.util.ArrayList;
+import lts2.AbortState;
+import lts2.FinalState;
+import lts2.InitialState;
 import lts2.LTSGenerator;
+import lts2.Lts2Factory;
 import lts2.Lts2Package;
 import lts2.State;
 import lts2.StateMachine;
 import lts2.Transition;
 import lts2.TransitionalState;
 
+import org.eclipse.core.runtime.Assert;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-import org.eclipse.emf.common.util.BasicEList;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
+import reprotool.model.linguistic.action.AbortUseCase;
 import reprotool.model.linguistic.action.Goto;
+import reprotool.model.linguistic.action.UseCaseInclude;
 import reprotool.model.usecase.Scenario;
 import reprotool.model.usecase.UseCase;
+import reprotool.model.usecase.UseCaseStep;
+import reprotool.uc.tempeditor.LTSCache;
 
 /**
  * <!-- begin-user-doc -->
@@ -53,9 +61,9 @@ public class LTSGeneratorImpl extends EObjectImpl implements LTSGenerator {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
-	protected LTSGeneratorImpl() {
+	public LTSGeneratorImpl() {
 		super();
 	}
 
@@ -93,29 +101,31 @@ public class LTSGeneratorImpl extends EObjectImpl implements LTSGenerator {
 		return msgs;
 	}
 
-	/**
-	 * Helper method.
-	 * @return List of GOTO transitions
+	/*
 	 * @generated NOT
 	 */
-	private EList<Transition> getGotoTransitions() {
-		EList<Transition> outputList = new BasicEList<Transition>();
-		for (TransitionalState state : labelTransitionSystem.getTransitionalStates()) {
-			for (Transition transition : state.getTransitions()) {
-				if( transition.getRelatedStep().getAction() instanceof Goto )
-					outputList.add(transition);
-			}
-		}
-		return outputList;
+	public LTSCache getLtsCache() {
+		return ltsCache;
 	}
-
+	
+	/*
+	 * @generated NOT
+	 */
+	private LTSCache ltsCache = new LTSCache();
+	
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
 	public void processUseCase(UseCase useCase) {
-		processScenario(useCase.getMainScenario(), labelTransitionSystem.getInitialState(), null);
+		labelTransitionSystem = Lts2Factory.eINSTANCE.createStateMachine();
+		InitialState init = Lts2Factory.eINSTANCE.createInitialState();
+		FinalState fin = Lts2Factory.eINSTANCE.createFinalState();
+		// labelTransitionSystem.getTransitionalStates().add(init);
+		labelTransitionSystem.setInitialState(init);
+		labelTransitionSystem.setFinalState(fin);
+		processScenario(useCase.getMainScenario(), labelTransitionSystem.getInitialState(), null, true);
 		processGotoSteps();
 	}
 
@@ -126,140 +136,150 @@ public class LTSGeneratorImpl extends EObjectImpl implements LTSGenerator {
 	 * @generated NOT
 	 */
 	private void processGotoSteps() {
-//		for (UseCaseStep ucStep: gotoSteps) {
-//			Assert.isTrue(ucStep.getAction() instanceof Goto);
-//			Goto gotoAction = (Goto) ucStep.getAction();
-//			State src = ucStep2SrcState.get(ucStep);
-//			State dst = ucStep2SrcState.get(gotoAction.getGotoTarget());
-//			Assert.isNotNull(src);
-//			Assert.isNotNull(dst);
-//
-//			Transition t = LtsFactory.eINSTANCE.createActionTransition();
-//			// reference to UseCaseStep
-//			assert t.getSentence() == null;
-//			t.setSentence(ucStep);
-//			
-//			t.setSource(src);
-//			t.setTarget(dst);
-//			machine.getAllTransitions().add(t);
-//			gotoTransitions.add(t);
-//			ucStep2Trans.put(ucStep, t);
-//		}
-	}
+		for (UseCaseStep ucStep: ltsCache.getGotoSteps()) {
+			Assert.isTrue(ucStep.getAction() instanceof Goto);
+			Goto gotoAction = (Goto) ucStep.getAction();
+			State src = ltsCache.getUCStep2TSrcState().get(ucStep);
+			State dst = ltsCache.getUCStep2TSrcState().get(gotoAction.getGotoTarget());
+			Assert.isNotNull(src);
+			Assert.isNotNull(dst);
 
+			Transition t = Lts2Factory.eINSTANCE.createTransition();
+			t.setRelatedStep(ucStep);
+			Assert.isTrue(src instanceof TransitionalState);
+			TransitionalState srcTransitional = (TransitionalState) src;
+			t.setSourceState(srcTransitional);
+			t.setTargetState(dst);
+			srcTransitional.getTransitions().add(t);
+			ltsCache.getGotoTransitions().add(t);
+			ltsCache.getUCStep2Trans().put(ucStep, t);
+		}
+	}
+	
 	/**
 	 * @param mainScenario
 	 * @param initialState
 	 * @param object
 	 * @generated NOT
 	 */
-	private State processScenario(Scenario scen, State init, State next) {
+	private State processScenario(Scenario scen, State init, State next, boolean mainScenario) {
 		
 		if ((scen == null) || (scen.getSteps().isEmpty())) {
+			System.out.println("Returning null");
 			return null;
 		}
 		
 		State srcState = init;
+		UseCaseStep lastStep = scen.getSteps().get(scen.getSteps().size() - 1);
 		
-//		for(UseCaseStep ucStep: scen.getSteps()) {
-//			//TODO: ucStep2SrcState.put(ucStep, srcState);
-//			State tgtState = Lts2Factory.eINSTANCE.createTransitionalState();
-//			
-//			if ( srcState != init && registerExtClosure.containsKey(srcState) ) {
-//				for (State src: registerExtClosure.get(srcState)) {
-//
-//					Transition t = Lts2Factory.eINSTANCE.createTransition();
-//					// reference to UseCaseStep
-//					assert t.getSentence() == null;
-//					t.setSentence(ucStep);
-//					
-//					t.setSource(src);
-//					t.setTarget(tgtState);
-//
-//					machine.getAllTransitions().add(t);
-//				}
-//				registerExtClosure.remove(srcState);
-//			}
+		for(UseCaseStep ucStep: scen.getSteps()) {
+			if (ucStep.getAction() instanceof UseCaseInclude) {
+				UseCaseInclude include = (UseCaseInclude) ucStep.getAction();
+				ltsCache.getIncludedUseCases().add(include.getIncludeTarget());
+			}
+			
+			ltsCache.getUCStep2TSrcState().put(ucStep, srcState);
+			State tgtState;
+			if (mainScenario && (ucStep == lastStep)) {
+				tgtState = labelTransitionSystem.getFinalState();
+			} else {
+				tgtState = Lts2Factory.eINSTANCE.createTransitionalState();
+			}
+			
+			if (srcState != init && ltsCache.getExtClosures().containsKey(srcState) ) {
+				for (TransitionalState src: ltsCache.getExtClosures().get(srcState)) {
+					Transition t = Lts2Factory.eINSTANCE.createTransition();
+					t.setRelatedStep(null);
+					src.getTransitions().add(t);
+					t.setSourceState(src);
+					t.setTargetState(tgtState);
+				}
+				ltsCache.getExtClosures().remove(srcState);
+			}
 
 			// Variations are attached to the source state.
-//			if (!ucStep.getVariations().isEmpty()) {
-//				for (int i = 0; i < ucStep.getVariations().size(); i++) {
-//					Scenario sc = ucStep.getVariations().get(i);
-//					processScenario(sc, srcState, tgtState);
-//				}
-//			}
-//			
-//			if (ucStep.getAction() instanceof AbortUseCase) {				
-//				Transition t = LtsFactory.eINSTANCE.createActionTransition();
-//				// reference to UseCaseStep
-//				assert t.getSentence() == null;
-//				t.setSentence(ucStep);
-//				
-//				t.setSource(srcState);
-//				t.setTarget(machine.getAbortState());				
-//				machine.getAllTransitions().add(t);
-//				ucStep2Trans.put(ucStep, t);
-//				continue;
-//			}
-//			
-//			if( ucStep.getAction() instanceof Goto ) {
-//				gotoSteps.add(ucStep);
-//				continue;
-//			}
-//			
-//			
-//			Transition t = LtsFactory.eINSTANCE.createActionTransition();
-//			// reference to UseCaseStep
-//			assert t.getSentence() == null;
-//			t.setSentence(ucStep);
-//
-//			ucStep2Trans.put(ucStep, t);
-//			t.setSource(srcState);
-//			
-//			machine.getAllStates().add(tgtState);
-//			t.setTarget(tgtState);
-//			machine.getAllTransitions().add(t);
-//			
-//			// Extensions are attached to the target state
-//			if (!ucStep.getExtensions().isEmpty()) {
-//				registerExtClosure.put(tgtState, new ArrayList<State>());
-//				
-//				for (int i = 0; i < ucStep.getExtensions().size(); i++) {
-//					Scenario sc = ucStep.getExtensions().get(i);
-//					if (!sc.getSteps().isEmpty()) {
-//						UseCaseStep lastStep = sc.getSteps().get(sc.getSteps().size() - 1);
-//						State st = processScenario(sc, tgtState, null);
-//						if (
-//							(!(lastStep.getAction() instanceof Goto)) &&
-//							(!(lastStep.getAction() instanceof AbortUseCase))
-//						) {
-//							Assert.isNotNull(registerExtClosure.get(tgtState));
-//							registerExtClosure.get(tgtState).add(st);
-//						}
-//					}
-//				}
-//			} 
-//			
-//			// iterate.
-//			srcState = tgtState;
-//		}
-//		
-//		UseCaseStep lastStep = s.getSteps().get(s.getSteps().size() - 1);
-//		
-//		if (
-//				(!(lastStep.getAction() instanceof Goto)) &&
-//				(!(lastStep.getAction() instanceof AbortUseCase)) &&
-//				(next != null)
-//		) {
-//			Transition t = LtsFactory.eINSTANCE.createActionTransition();
-//			// reference to UseCaseStep
-//			assert t.getSentence() == null;
-//			t.setSentence(lastStep);
-//			
-//			t.setSource(srcState);
-//			t.setTarget(next);
-//			machine.getAllTransitions().add(t);
-//		}
+			if (!ucStep.getVariations().isEmpty()) {
+				for (int i = 0; i < ucStep.getVariations().size(); i++) {
+					Scenario sc = ucStep.getVariations().get(i);
+					processScenario(sc, srcState, tgtState, false);
+				}
+			}
+			
+			if (ucStep.getAction() instanceof AbortUseCase) {				
+				Transition t = Lts2Factory.eINSTANCE.createTransition();
+				t.setRelatedStep(ucStep);
+				Assert.isTrue(srcState instanceof TransitionalState);
+				TransitionalState srcTransitional = (TransitionalState) srcState;
+				t.setSourceState(srcTransitional);
+				if (labelTransitionSystem.getAbortState() == null) {
+					AbortState abortState = Lts2Factory.eINSTANCE.createAbortState();
+					labelTransitionSystem.setAbortState(abortState);
+				}
+				t.setTargetState(labelTransitionSystem.getAbortState());				
+				srcTransitional.getTransitions().add(t);
+				ltsCache.getUCStep2Trans().put(ucStep, t);
+				continue;
+			}
+			
+			if(ucStep.getAction() instanceof Goto) {
+				ltsCache.getGotoSteps().add(ucStep);
+				continue;
+			}
+			
+			
+			Transition t = Lts2Factory.eINSTANCE.createTransition();
+			t.setRelatedStep(ucStep);
+
+			ltsCache.getUCStep2Trans().put(ucStep, t);
+			Assert.isTrue(srcState instanceof TransitionalState);
+			TransitionalState srcTransitional = (TransitionalState) srcState;
+			t.setSourceState(srcTransitional);
+			
+			if (tgtState instanceof TransitionalState) {
+				labelTransitionSystem.getTransitionalStates().add((TransitionalState) tgtState);
+			}
+			t.setTargetState(tgtState);
+			srcTransitional.getTransitions().add(t);
+			
+			// Extensions are attached to the target state
+			if (!ucStep.getExtensions().isEmpty()) {
+				ltsCache.getExtClosures().put(tgtState, new ArrayList<TransitionalState>());
+				
+				for (int i = 0; i < ucStep.getExtensions().size(); i++) {
+					Scenario sc = ucStep.getExtensions().get(i);
+					if (!sc.getSteps().isEmpty()) {
+						UseCaseStep lStep = sc.getSteps().get(sc.getSteps().size() - 1);
+						State st = processScenario(sc, tgtState, null, false);
+						if (
+							(!(lStep.getAction() instanceof Goto)) &&
+							(!(lStep.getAction() instanceof AbortUseCase))
+						) {
+							Assert.isNotNull(ltsCache.getExtClosures().get(tgtState));
+							Assert.isTrue(st instanceof TransitionalState);
+							ltsCache.getExtClosures().get(tgtState).add((TransitionalState) st);
+						}
+					}
+				}
+			} 
+			
+			// iterate.
+			srcState = tgtState;
+		}
+		
+		
+		if (
+				(!(lastStep.getAction() instanceof Goto)) &&
+				(!(lastStep.getAction() instanceof AbortUseCase)) &&
+				(next != null)
+		) {
+			Transition t = Lts2Factory.eINSTANCE.createTransition();
+			t.setRelatedStep(lastStep);
+			Assert.isTrue(srcState instanceof TransitionalState);
+			TransitionalState srcTransitional = (TransitionalState) srcState;
+			t.setSourceState(srcTransitional);
+			t.setTargetState(next);
+			srcTransitional.getTransitions().add(t);
+		}
 		
 		return srcState;
 	}
