@@ -35,6 +35,7 @@ public class UsecaseEMFEditorComposite extends Composite {
 		treeViewer = new TreeViewer(this, SWT.BORDER);
 		Tree tree = treeViewer.getTree();
 		tree.setFont(SWTResourceManager.getFont("Tahoma", 10, SWT.NORMAL));
+//		tree.setFont(SWTResourceManager.getFont("Tahoma", 10, SWT.NORMAL));
 		tree.setLinesVisible(true);
 		tree.setHeaderVisible(true);
 

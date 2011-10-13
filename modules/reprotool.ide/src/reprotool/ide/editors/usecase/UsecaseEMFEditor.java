@@ -118,7 +118,9 @@ import reprotool.model.linguistic.action.provider.ActionItemProviderAdapterFacto
 import reprotool.model.linguistic.actionpart.provider.ActionpartItemProviderAdapterFactory;
 import reprotool.model.lts.presentation.ReprotoolEditorPlugin;
 import reprotool.model.swproj.provider.SwprojItemProviderAdapterFactory;
+import reprotool.model.swproj.provider.SwprojItemProviderAdapterFactoryExt;
 import reprotool.model.usecase.provider.UsecaseItemProviderAdapterFactory;
+import reprotool.model.usecase.provider.UsecaseItemProviderAdapterFactoryExt;
 
 
 /**
@@ -648,7 +650,7 @@ public class UsecaseEMFEditor
 //		adapterFactory.addAdapterFactory(new CompItemProviderAdapterFactory());
 //		adapterFactory.addAdapterFactory(new DocItemProviderAdapterFactory());
 //		adapterFactory.addAdapterFactory(new ProcasesItemProviderAdapterFactory());
-		adapterFactory.addAdapterFactory(new ReflectiveItemProviderAdapterFactory());
+//		adapterFactory.addAdapterFactory(new ReflectiveItemProviderAdapterFactory());
 
 		// Create the command stack that will notify this editor as commands are executed.
 		//
