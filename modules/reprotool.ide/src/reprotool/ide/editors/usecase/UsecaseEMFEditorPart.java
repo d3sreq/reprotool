@@ -118,7 +118,9 @@ public class UsecaseEMFEditorPart extends EditorPart implements IMenuListener, I
 
 	    // set custom provider instead of AdapterFactoryLabelProvider 
 	    composite.getLabelColumn().setLabelProvider(new UsecaseEMFLabelProvider.LabelColumnProvider());
+	    
 	    composite.getTextColumn().setLabelProvider(new UsecaseEMFLabelProvider.TextColumnProvider());
+	    composite.getTextColumn().setEditingSupport(new UseCaseStepEditingSupport(composite.getTreeViewer()));
 	    
 	    createContextMenuFor(viewer);
 	    getEditorSite().setSelectionProvider(viewer);

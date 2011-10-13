@@ -32,13 +32,13 @@ public class UseCaseStepLineStyleListener implements LineStyleListener {
 		int start = 0;
 		for (Text text : useCaseStep.getTextNodes()) {
 			StyleRange styleRange = new StyleRange();
+			styleRange.start = start;
+			styleRange.length = text.getContent().length();
 			
 			ActionPart actionPart = text.getActionPart();
 			if (actionPart != null) {
 				// TODO jvinarek add additional styling
 				styleRange.fontStyle = SWT.BOLD;
-				styleRange.start = 0;
-				styleRange.length = text.getContent().length();
 			}
 			
 			styleRangeList.add(styleRange);
