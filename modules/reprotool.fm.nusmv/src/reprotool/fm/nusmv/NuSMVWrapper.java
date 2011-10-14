@@ -3,11 +3,9 @@ package reprotool.fm.nusmv;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.Reader;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.emf.common.util.URI;
@@ -27,9 +25,9 @@ import org.eclipselabs.nusmvtools.counterexample.ValueType;
 import org.eclipselabs.nusmvtools.counterexample.util.CounterexampleResourceFactoryImpl;
 import org.eclipselabs.nusmvtools.nusmv4j.NuSMV4J;
 import org.eclipselabs.nusmvtools.nusmv4j.NusmvLibrary;
-import org.eclipselabs.nusmvtools.nusmv4j.NusmvLibraryUtil;
 import org.eclipselabs.nusmvtools.nusmv4j.NusmvLibrary.PropDb_TAG;
 import org.eclipselabs.nusmvtools.nusmv4j.NusmvLibrary.Prop_TAG;
+import org.eclipselabs.nusmvtools.nusmv4j.NusmvLibraryUtil;
 
 public class NuSMVWrapper {
 

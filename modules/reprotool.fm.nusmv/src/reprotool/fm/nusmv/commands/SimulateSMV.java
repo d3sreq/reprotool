@@ -27,7 +27,7 @@ public class SimulateSMV implements IHandler {
 			nusmv.execCommand("go");
 			nusmv.execCommand("pick_state -r");
 			nusmv.execCommand("simulate -r 200");
-//			nusmv.execCommand("show_traces -a");
+			nusmv.execCommand("show_traces -a");
 			try {
 				nusmv.collectCheckerResults();
 			} catch (Exception e) {

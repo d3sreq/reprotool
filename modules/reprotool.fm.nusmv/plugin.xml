@@ -22,13 +22,18 @@
          point="org.eclipse.ui.commands">
       <command
             defaultHandler="reprotool.fm.nusmv.commands.CheckCTL"
-            id="commands.CheckCTL"
+            id="reprotool.commands.CheckCTL"
             name="Check CTL using NuSMV">
       </command>
       <command
             defaultHandler="reprotool.fm.nusmv.commands.SimulateSMV"
-            id="commands.SimulateSMV"
+            id="reprotool.commands.SimulateSMV"
             name="Simulate SMV model using NuSMV">
+      </command>
+      <command
+            defaultHandler="reprotool.fm.nusmv.commands.SwprojToSMV"
+            id="reprotool.commands.SwprojToSMV"
+            name="SW Project To SMV">
       </command>
    </extension>
    <extension
@@ -37,15 +42,21 @@
             allPopups="false"
             locationURI="popup:org.eclipse.ui.navigator.ProjectExplorer#PopupMenu">
          <command
-               commandId="commands.CheckCTL"
+               commandId="reprotool.commands.CheckCTL"
                icon="icons/tick.png"
                label="Check CTL using NuSMV"
                style="push">
          </command>
          <command
-               commandId="commands.SimulateSMV"
+               commandId="reprotool.commands.SimulateSMV"
                icon="icons/tick.png"
                label="Simulate SMV model using NuSMV"
+               style="push">
+         </command>
+         <command
+               commandId="reprotool.commands.SwprojToSMV"
+               icon="icons/swproj2smv.gif"
+               label="Convert SW Project To SMV"
                style="push">
          </command>
       </menuContribution>

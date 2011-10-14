@@ -15,8 +15,11 @@ public class Activator extends AbstractUIPlugin {
 	// The shared instance
 	private static Activator plugin;
 	
-	final NuSMVWrapper nusmvWrapper = new NuSMVWrapper();
+	NuSMVWrapper nusmvWrapper;
 	final public NuSMVWrapper getNuSMVWrapper() {
+		if(nusmvWrapper == null)
+			nusmvWrapper = new NuSMVWrapper();
+
 		return nusmvWrapper;
 	}
 	

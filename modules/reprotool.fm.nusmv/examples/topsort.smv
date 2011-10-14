@@ -58,4 +58,4 @@ MODULE main
 --	CTLSPEC AG( x4run -> (x3run & x1run) )
 --	CTLSPEC AG( x5run -> x3run )
 
-	CTLSPEC AG(x1run -> AF(x5run))
+--	CTLSPEC AG(x1run -> AF(x5run))
