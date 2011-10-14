@@ -1,11 +1,15 @@
 package reprotool.ide.editors.usecase;
 
+import org.eclipse.core.databinding.DataBindingContext;
+import org.eclipse.core.databinding.UpdateValueStrategy;
+import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.command.BasicCommandStack;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.ui.URIEditorInput;
+import org.eclipse.emf.databinding.IEMFValueProperty;
+import org.eclipse.emf.databinding.edit.EMFEditProperties;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
 import org.eclipse.emf.edit.ui.dnd.EditingDomainViewerDropAdapter;
@@ -17,6 +21,8 @@ import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
+import org.eclipse.jface.databinding.swt.SWTObservables;
+import org.eclipse.jface.databinding.viewers.ViewersObservables;
 import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
@@ -31,6 +37,7 @@ import org.eclipse.ui.part.EditorPart;
 
 import reprotool.model.lts.presentation.ReprotoolEditorPlugin;
 import reprotool.model.usecase.UseCase;
+import reprotool.model.usecase.UsecasePackage;
 
 /**
  * Page of the Use case editor containing tree with use case steps and editor to
@@ -44,6 +51,9 @@ public class UsecaseEMFEditorPart extends EditorPart implements IMenuListener, I
 	private UsecaseEMFEditorComposite composite;
 	protected UsecaseEMFEditor parentEditor;
 
+	// TODO jvinarek - remove ?
+	private DataBindingContext m_bindingContext;
+	
 	public UsecaseEMFEditorPart(UsecaseEMFEditor parent) {
 		super();
 		this.parentEditor = parent;
@@ -129,22 +139,44 @@ public class UsecaseEMFEditorPart extends EditorPart implements IMenuListener, I
 		getEditorSite().setSelectionProvider(viewer);
 
 		// try to get use case from the input and set it into viewer
-		insertInput();
+		UseCase useCase = getInputUseCase();
+		if (useCase != null) {
+			// set use case to viewer
+			this.setInput(useCase);
 		
-//		composite.getTreeViewer().expandAll();
+			// add binding
+			m_bindingContext = initDataBindings(useCase);
+		}
+		
+		composite.getTreeViewer().expandAll();
 	}
 
-	private void insertInput() {		
+	private DataBindingContext initDataBindings(UseCase useCase) {
+		DataBindingContext bindingContext = new DataBindingContext();
+		
+		UpdateValueStrategy strategy1 = new UpdateValueStrategy();
+		UpdateValueStrategy strategy2 = new UpdateValueStrategy();
+		
+		// FIXME - changes don't mark editor as dirty and change in another editor doesn't affect UC name
+		IObservableValue emfValue =  EMFEditProperties.value(getEditingDomain(), UsecasePackage.Literals.USE_CASE__NAME).observe(useCase);
+		IObservableValue textValue = SWTObservables.observeText(composite.getTxtUseCaseName());
+		bindingContext.bindValue(textValue, emfValue, strategy1, strategy2);
+		
+		return bindingContext;
+	}
+
+	private UseCase getInputUseCase() {		
 		IEditorInput input = getEditorInput();
 		if (input instanceof URIEditorInput) {
 			URIEditorInput uriEditorInput = (URIEditorInput) input;
 
 			EObject object = getEditingDomain().getResourceSet().getEObject(uriEditorInput.getURI(), true);
 			if (object instanceof UseCase) {
-				// FIXME jvinarek - sw project is still set as root
-				this.setInput((UseCase) object);
+				return (UseCase)object; 
 			}
 		}
+		
+		return null;
 	}
 
 	@Override
@@ -154,7 +186,5 @@ public class UsecaseEMFEditorPart extends EditorPart implements IMenuListener, I
 
 	public void setInput(Object input) {
 		composite.getTreeViewer().setInput(input);
-		
-		composite.getTreeViewer().expandAll();
 	}
 }

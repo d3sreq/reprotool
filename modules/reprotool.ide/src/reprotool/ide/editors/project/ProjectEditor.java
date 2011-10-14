@@ -108,13 +108,13 @@ public class ProjectEditor extends EditorPart implements IEditingDomainProvider,
 	private final FormToolkit formToolkit = new FormToolkit(Display.getDefault());
 
 	/**
-	 * Map to store the diagnostic associated with a resource.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Map to store the diagnostic associated with a resource. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected Map<Resource, Diagnostic> resourceToDiagnosticMap = new LinkedHashMap<Resource, Diagnostic>();
-	
+
 	/**
 	 * This keeps track of the editing domain that is used to track all changes
 	 * to the model. <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -382,7 +382,7 @@ public class ProjectEditor extends EditorPart implements IEditingDomainProvider,
 		viewer.getControl().setMenu(menu);
 		getSite().registerContextMenu(contextMenu, new UnwrappingSelectionProvider(viewer));
 
-		int dndOperations = DND.DROP_COPY | DND.DROP_MOVE | DND.DROP_LINK ;
+		int dndOperations = DND.DROP_COPY | DND.DROP_MOVE | DND.DROP_LINK;
 		Transfer[] transfers = new Transfer[] { LocalTransfer.getInstance() };
 		viewer.addDragSupport(dndOperations, transfers, new ViewerDragAdapter(viewer));
 		viewer.addDropSupport(dndOperations, transfers, new EditingDomainViewerDropAdapter(editingDomain, viewer));
@@ -510,7 +510,7 @@ public class ProjectEditor extends EditorPart implements IEditingDomainProvider,
 					});
 				}
 			} catch (CoreException exception) {
-//				ReprotoolIdePlugin.INSTANCE.log(exception);
+				// ReprotoolIdePlugin.INSTANCE.log(exception);
 				exception.printStackTrace();
 			}
 		}
@@ -597,107 +597,97 @@ public class ProjectEditor extends EditorPart implements IEditingDomainProvider,
 			updateProblemIndication();
 		}
 	}
-	
+
 	/**
-	 * Updates the problems indication with the information described in the specified diagnostic.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Updates the problems indication with the information described in the
+	 * specified diagnostic. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected void updateProblemIndication() {
 		// TODO
-		
-//		if (updateProblemIndication) {
-//			BasicDiagnostic diagnostic =
-//				new BasicDiagnostic
-//					(Diagnostic.OK,
-//					 "reprotool.model.editor",
-//					 0,
-//					 null,
-//					 new Object [] { editingDomain.getResourceSet() });
-//			for (Diagnostic childDiagnostic : resourceToDiagnosticMap.values()) {
-//				if (childDiagnostic.getSeverity() != Diagnostic.OK) {
-//					diagnostic.add(childDiagnostic);
-//				}
-//			}
-//
-//			int lastEditorPage = getPageCount() - 1;
-//			if (lastEditorPage >= 0 && getEditor(lastEditorPage) instanceof ProblemEditorPart) {
-//				((ProblemEditorPart)getEditor(lastEditorPage)).setDiagnostic(diagnostic);
-//				if (diagnostic.getSeverity() != Diagnostic.OK) {
-//					setActivePage(lastEditorPage);
-//				}
-//			}
-//			else if (diagnostic.getSeverity() != Diagnostic.OK) {
-//				ProblemEditorPart problemEditorPart = new ProblemEditorPart();
-//				problemEditorPart.setDiagnostic(diagnostic);
-//				problemEditorPart.setMarkerHelper(markerHelper);
-//				try {
-//					addPage(++lastEditorPage, problemEditorPart, getEditorInput());
-//					setPageText(lastEditorPage, problemEditorPart.getPartName());
-//					setActivePage(lastEditorPage);
-//					showTabs();
-//				}
-//				catch (PartInitException exception) {
-//					ReprotoolIdePlugin.INSTANCE.log(exception);
-//				}
-//			}
-//
-//			if (markerHelper.hasMarkers(editingDomain.getResourceSet())) {
-//				markerHelper.deleteMarkers(editingDomain.getResourceSet());
-//				if (diagnostic.getSeverity() != Diagnostic.OK) {
-//					try {
-//						markerHelper.createMarkers(diagnostic);
-//					}
-//					catch (CoreException exception) {
-//						ReprotoolIdePlugin.INSTANCE.log(exception);
-//					}
-//				}
-//			}
-//		}
+
+		// if (updateProblemIndication) {
+		// BasicDiagnostic diagnostic =
+		// new BasicDiagnostic
+		// (Diagnostic.OK,
+		// "reprotool.model.editor",
+		// 0,
+		// null,
+		// new Object [] { editingDomain.getResourceSet() });
+		// for (Diagnostic childDiagnostic : resourceToDiagnosticMap.values()) {
+		// if (childDiagnostic.getSeverity() != Diagnostic.OK) {
+		// diagnostic.add(childDiagnostic);
+		// }
+		// }
+		//
+		// int lastEditorPage = getPageCount() - 1;
+		// if (lastEditorPage >= 0 && getEditor(lastEditorPage) instanceof
+		// ProblemEditorPart) {
+		// ((ProblemEditorPart)getEditor(lastEditorPage)).setDiagnostic(diagnostic);
+		// if (diagnostic.getSeverity() != Diagnostic.OK) {
+		// setActivePage(lastEditorPage);
+		// }
+		// }
+		// else if (diagnostic.getSeverity() != Diagnostic.OK) {
+		// ProblemEditorPart problemEditorPart = new ProblemEditorPart();
+		// problemEditorPart.setDiagnostic(diagnostic);
+		// problemEditorPart.setMarkerHelper(markerHelper);
+		// try {
+		// addPage(++lastEditorPage, problemEditorPart, getEditorInput());
+		// setPageText(lastEditorPage, problemEditorPart.getPartName());
+		// setActivePage(lastEditorPage);
+		// showTabs();
+		// }
+		// catch (PartInitException exception) {
+		// ReprotoolIdePlugin.INSTANCE.log(exception);
+		// }
+		// }
+		//
+		// if (markerHelper.hasMarkers(editingDomain.getResourceSet())) {
+		// markerHelper.deleteMarkers(editingDomain.getResourceSet());
+		// if (diagnostic.getSeverity() != Diagnostic.OK) {
+		// try {
+		// markerHelper.createMarkers(diagnostic);
+		// }
+		// catch (CoreException exception) {
+		// ReprotoolIdePlugin.INSTANCE.log(exception);
+		// }
+		// }
+		// }
+		// }
 	}
-	
+
 	/**
-	 * Returns a diagnostic describing the errors and warnings listed in the resource
-	 * and the specified exception (if any).
-	 * <!-- begin-user-doc -->
+	 * Returns a diagnostic describing the errors and warnings listed in the
+	 * resource and the specified exception (if any). <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public Diagnostic analyzeResourceProblems(Resource resource, Exception exception) {
 		if (!resource.getErrors().isEmpty() || !resource.getWarnings().isEmpty()) {
-			BasicDiagnostic basicDiagnostic =
-				new BasicDiagnostic
-					(Diagnostic.ERROR,
-					 "reprotool.model.editor",
-					 0,
-					 getString("_UI_CreateModelError_message", resource.getURI()),
-					 new Object [] { exception == null ? (Object)resource : exception });
+			BasicDiagnostic basicDiagnostic = new BasicDiagnostic(Diagnostic.ERROR, "reprotool.model.editor", 0,
+					getString("_UI_CreateModelError_message", resource.getURI()),
+					new Object[] { exception == null ? (Object) resource : exception });
 			basicDiagnostic.merge(EcoreUtil.computeDiagnostic(resource, true));
 			return basicDiagnostic;
-		}
-		else if (exception != null) {
-			return
-				new BasicDiagnostic
-					(Diagnostic.ERROR,
-					 "reprotool.model.editor",
-					 0,
-					 getString("_UI_CreateModelError_message", resource.getURI()),
-					 new Object[] { exception });
-		}
-		else {
+		} else if (exception != null) {
+			return new BasicDiagnostic(Diagnostic.ERROR, "reprotool.model.editor", 0, getString(
+					"_UI_CreateModelError_message", resource.getURI()), new Object[] { exception });
+		} else {
 			return Diagnostic.OK_INSTANCE;
 		}
 	}
-	
+
 	/**
-	 * This looks up a string in plugin.properties, making a substitution.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * This looks up a string in plugin.properties, making a substitution. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	private static String getString(String key, Object s1) {
-		return ReprotoolEditorPlugin.INSTANCE.getString(key, new Object [] { s1 });
+		return ReprotoolEditorPlugin.INSTANCE.getString(key, new Object[] { s1 });
 	}
 
 	/**
@@ -819,7 +809,7 @@ public class ProjectEditor extends EditorPart implements IEditingDomainProvider,
 		} catch (Exception exception) {
 			// Something went wrong that shouldn't.
 			//
-//			ReprotoolIdePlugin.INSTANCE.log(exception);
+			// ReprotoolIdePlugin.INSTANCE.log(exception);
 			// TODO - jvinarek
 			exception.printStackTrace();
 		}
@@ -929,13 +919,11 @@ public class ProjectEditor extends EditorPart implements IEditingDomainProvider,
 
 		adapterFactory.addAdapterFactory(new ResourceItemProviderAdapterFactory());
 
-		// TODO - jvinarek - add more item provider factories ?
-		SwprojItemProviderAdapterFactoryExt swprojItemProviderAdapterFactoryExt = new SwprojItemProviderAdapterFactoryExt();  
+		// TODO - is UsecaseItemProviderAdapterFactoryExt "stateful" ?
+		SwprojItemProviderAdapterFactoryExt swprojItemProviderAdapterFactoryExt = new SwprojItemProviderAdapterFactoryExt();
 		adapterFactory.addAdapterFactory(swprojItemProviderAdapterFactoryExt);
 		adapterFactory.addAdapterFactory(new UsecaseItemProviderAdapterFactoryExt(swprojItemProviderAdapterFactoryExt));
-
-		adapterFactory.addAdapterFactory(new ReflectiveItemProviderAdapterFactory());
-
+		
 		// Create the command stack that will notify this editor as commands are
 		// executed.
 		//

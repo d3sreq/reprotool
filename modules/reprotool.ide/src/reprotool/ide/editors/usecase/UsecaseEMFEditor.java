@@ -638,20 +638,27 @@ public class UsecaseEMFEditor
 		//
 		adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
 
-		adapterFactory.addAdapterFactory(new ResourceItemProviderAdapterFactory());
+//		adapterFactory.addAdapterFactory(new ResourceItemProviderAdapterFactory());
 //		adapterFactory.addAdapterFactory(new LtsItemProviderAdapterFactory());
 		adapterFactory.addAdapterFactory(new UsecaseItemProviderAdapterFactory());
-		adapterFactory.addAdapterFactory(new SwprojItemProviderAdapterFactory());
+//		adapterFactory.addAdapterFactory(new SwprojItemProviderAdapterFactory());
 //		adapterFactory.addAdapterFactory(new TraceabilityItemProviderAdapterFactory());
 //		adapterFactory.addAdapterFactory(new ParsetreeItemProviderAdapterFactory());
-		adapterFactory.addAdapterFactory(new ActionpartItemProviderAdapterFactory());
-		adapterFactory.addAdapterFactory(new ActionItemProviderAdapterFactory());
+//		adapterFactory.addAdapterFactory(new ActionpartItemProviderAdapterFactory());
+//		adapterFactory.addAdapterFactory(new ActionItemProviderAdapterFactory());
 //		adapterFactory.addAdapterFactory(new AstItemProviderAdapterFactory());
 //		adapterFactory.addAdapterFactory(new CompItemProviderAdapterFactory());
 //		adapterFactory.addAdapterFactory(new DocItemProviderAdapterFactory());
 //		adapterFactory.addAdapterFactory(new ProcasesItemProviderAdapterFactory());
 //		adapterFactory.addAdapterFactory(new ReflectiveItemProviderAdapterFactory());
-
+		
+		// TODO - jvinarek - add more item provider factories ?
+		// TODO - is UsecaseItemProviderAdapterFactoryExt "stateful" ?
+//		SwprojItemProviderAdapterFactoryExt swprojItemProviderAdapterFactoryExt = new SwprojItemProviderAdapterFactoryExt();
+//		adapterFactory.addAdapterFactory(swprojItemProviderAdapterFactoryExt);
+//		adapterFactory.addAdapterFactory(new UsecaseItemProviderAdapterFactoryExt(swprojItemProviderAdapterFactoryExt));
+		
+		
 		// Create the command stack that will notify this editor as commands are executed.
 		//
 		BasicCommandStack commandStack = new BasicCommandStack();
@@ -1079,16 +1086,17 @@ public class UsecaseEMFEditor
 
 			contentOutlinePage = new MyContentOutlinePage();
 
+			// TODO jvinarek - remove ?
 			// Listen to selection so that we can handle it is a special way.
 			//
-			contentOutlinePage.addSelectionChangedListener
-				(new ISelectionChangedListener() {
-					 // This ensures that we handle selections correctly.
-					 //
-					 public void selectionChanged(SelectionChangedEvent event) {
-						 handleContentOutlineSelection(event.getSelection());
-					 }
-				 });
+//			contentOutlinePage.addSelectionChangedListener
+//				(new ISelectionChangedListener() {
+//					 // This ensures that we handle selections correctly.
+//					 //
+//					 public void selectionChanged(SelectionChangedEvent event) {
+//						 handleContentOutlineSelection(event.getSelection());
+//					 }
+//				 });
 		}
 
 		return contentOutlinePage;
@@ -1142,10 +1150,11 @@ public class UsecaseEMFEditor
 	 * @generated NOT
 	 */
 	public void handleContentOutlineSelection(ISelection selection) {
-		if (!selection.isEmpty() && selection instanceof IStructuredSelection) {
-			List<?> selectedElements = ((IStructuredSelection) selection).toList();
-			((UsecaseEMFEditorPart) getActiveEditor()).setInput(selectedElements.get(0));
-		}
+		// TODO jvinarek - remove ?
+//		if (!selection.isEmpty() && selection instanceof IStructuredSelection) {
+//			List<?> selectedElements = ((IStructuredSelection) selection).toList();
+//			((UsecaseEMFEditorPart) getActiveEditor()).setInput(selectedElements.get(0));
+//		}
 	}
 
 	/**

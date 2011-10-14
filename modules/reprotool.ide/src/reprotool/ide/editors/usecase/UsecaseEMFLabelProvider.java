@@ -5,6 +5,9 @@ import org.eclipse.jface.viewers.StyledString;
 import org.eclipse.jface.viewers.ViewerCell;
 
 import reprotool.model.linguistic.actionpart.Text;
+import reprotool.model.usecase.LabelledElement;
+import reprotool.model.usecase.ParseableElement;
+import reprotool.model.usecase.Scenario;
 import reprotool.model.usecase.UseCase;
 import reprotool.model.usecase.UseCaseStep;
 
@@ -30,6 +33,8 @@ public class UsecaseEMFLabelProvider {
 
 			if (cellObject instanceof UseCase) {
 				updateUseCase(cell, (UseCase) cellObject);
+			} else if (cellObject instanceof Scenario) {
+				updateScenario(cell, (Scenario) cellObject);	
 			} else if (cellObject instanceof UseCaseStep) {
 				updateUseCaseStep(cell, (UseCaseStep) cellObject);
 			} else {
@@ -41,6 +46,10 @@ public class UsecaseEMFLabelProvider {
 			updateDefault(cell, useCase);
 		}
 
+		protected void updateScenario(ViewerCell cell, Scenario scenario) {
+			updateDefault(cell, scenario);			
+		}
+		
 		protected void updateUseCaseStep(ViewerCell cell, UseCaseStep useCaseStep) {
 			updateDefault(cell, useCaseStep);			
 		}
@@ -68,14 +77,23 @@ public class UsecaseEMFLabelProvider {
 		}
 		
 		@Override
+		protected void updateScenario(ViewerCell cell, Scenario scenario) {
+			StyledString styledString = new StyledString();
+			styledString.append(scenario.getLabel(), StyledString.COUNTER_STYLER);
+	
+			cell.setText(styledString.getString());
+			cell.setStyleRanges(styledString.getStyleRanges());
+		}
+		
+		@Override
 		protected void updateUseCaseStep(ViewerCell cell, UseCaseStep useCaseStep) {
-			// dummy example implementation
 			StyledString styledString = new StyledString();
 			styledString.append(useCaseStep.getLabel(), StyledString.COUNTER_STYLER);
 	
 			cell.setText(styledString.getString());
 			cell.setStyleRanges(styledString.getStyleRanges());
 		}
+		
 	}
 	
 	/**
@@ -91,12 +109,30 @@ public class UsecaseEMFLabelProvider {
 		}
 		
 		@Override
+		protected void updateScenario(ViewerCell cell, Scenario scenario) {
+			String content;
+			if (scenario.getScenarioGuard() == null) {
+				// TODO jvinarek - move to resource file
+				content = "Main scenario";
+			} else {
+				content = getContent(scenario.getScenarioGuard());
+			}
+			cell.setText(content);			
+		}
+		
+		@Override
 		protected void updateUseCaseStep(ViewerCell cell, UseCaseStep useCaseStep) {
+			cell.setText(getContent(useCaseStep));
+		}
+		
+		private String getContent(ParseableElement parseableElement) {
 			StringBuffer stringBuffer = new StringBuffer();
-			for (Text text : useCaseStep.getTextNodes()) {
+			
+			for (Text text : parseableElement.getTextNodes()) {
 				stringBuffer.append(text.getContent());
 			}
-			cell.setText(stringBuffer.toString());
+			
+			return stringBuffer.toString();
 		}
 	}
 }

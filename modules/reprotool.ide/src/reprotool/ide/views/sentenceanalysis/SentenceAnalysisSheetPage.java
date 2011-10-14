@@ -68,6 +68,7 @@ public class SentenceAnalysisSheetPage extends Page implements ISentenceAnalysis
 	private WritableValue writableValue = new WritableValue();
 	private IWorkbenchPart sourcePart;
 	
+	// TODO jvinarek - remove ?
 	private DataBindingContext m_bindingContext;
 	
 	private AdapterFactoryEditingDomain editingDomain;
@@ -80,7 +81,7 @@ public class SentenceAnalysisSheetPage extends Page implements ISentenceAnalysis
 		this.editingDomain = editingDomain;
 	}
 
-	protected DataBindingContext initDataBindings(AdapterFactoryEditingDomain editingDomain) {
+	protected DataBindingContext initDataBindings() {
 		bindActionTypeCombo();
 		
 		DataBindingContext bindingContext = new DataBindingContext();
@@ -252,7 +253,7 @@ public class SentenceAnalysisSheetPage extends Page implements ISentenceAnalysis
 		
 		// TODO jvinarek
 		if (editingDomain != null) {
-			m_bindingContext = initDataBindings(editingDomain);
+			m_bindingContext = initDataBindings();
 		}
 	}
 	

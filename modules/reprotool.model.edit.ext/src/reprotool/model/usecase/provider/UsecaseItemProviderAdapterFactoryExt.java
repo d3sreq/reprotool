@@ -31,14 +31,14 @@ public class UsecaseItemProviderAdapterFactoryExt extends UsecaseItemProviderAda
 		return useCaseItemProvider;
 	}
 
-	@Override
-	public Adapter createScenarioAdapter() {
-		if (scenarioItemProvider == null) {
-			scenarioItemProvider = new ScenarioItemProviderExt(this);
-		}
-
-		return scenarioItemProvider;
-	}
+//	@Override
+//	public Adapter createScenarioAdapter() {
+//		if (scenarioItemProvider == null) {
+//			scenarioItemProvider = new ScenarioItemProviderExt(this);
+//		}
+//
+//		return scenarioItemProvider;
+//	}
 	
 	@Override
 	public Adapter createUseCaseStepAdapter() {
