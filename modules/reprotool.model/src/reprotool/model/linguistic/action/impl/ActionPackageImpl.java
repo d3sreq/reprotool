@@ -6,6 +6,7 @@
  */
 package reprotool.model.linguistic.action.impl;
 
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
@@ -31,7 +32,7 @@ import reprotool.model.linguistic.action.ActionPackage;
 import reprotool.model.linguistic.action.Communication;
 import reprotool.model.linguistic.action.FromSystem;
 import reprotool.model.linguistic.action.Goto;
-import reprotool.model.linguistic.action.Internal;
+import reprotool.model.linguistic.action.InternalAction;
 import reprotool.model.linguistic.action.ToSystem;
 import reprotool.model.linguistic.action.Unknown;
 import reprotool.model.linguistic.action.UseCaseInclude;
@@ -86,7 +87,7 @@ public class ActionPackageImpl extends EPackageImpl implements ActionPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass internalEClass = null;
+	private EClass internalActionEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -234,6 +235,15 @@ public class ActionPackageImpl extends EPackageImpl implements ActionPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getAction_Summary() {
+		return (EAttribute)actionEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getFromSystem() {
 		return fromSystemEClass;
 	}
@@ -252,8 +262,8 @@ public class ActionPackageImpl extends EPackageImpl implements ActionPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getInternal() {
-		return internalEClass;
+	public EClass getInternalAction() {
+		return internalActionEClass;
 	}
 
 	/**
@@ -384,11 +394,12 @@ public class ActionPackageImpl extends EPackageImpl implements ActionPackage {
 
 		// Create classes and their features
 		actionEClass = createEClass(ACTION);
+		createEAttribute(actionEClass, ACTION__SUMMARY);
 
 		fromSystemEClass = createEClass(FROM_SYSTEM);
 		createEReference(fromSystemEClass, FROM_SYSTEM__RECEIVER);
 
-		internalEClass = createEClass(INTERNAL);
+		internalActionEClass = createEClass(INTERNAL_ACTION);
 
 		gotoEClass = createEClass(GOTO);
 		createEReference(gotoEClass, GOTO__GOTO_TARGET);
@@ -441,7 +452,7 @@ public class ActionPackageImpl extends EPackageImpl implements ActionPackage {
 
 		// Add supertypes to classes
 		fromSystemEClass.getESuperTypes().add(this.getCommunication());
-		internalEClass.getESuperTypes().add(this.getCommunication());
+		internalActionEClass.getESuperTypes().add(this.getCommunication());
 		gotoEClass.getESuperTypes().add(this.getAction());
 		gotoEClass.getESuperTypes().add(theActionpartPackage.getActionPart());
 		unknownEClass.getESuperTypes().add(this.getAction());
@@ -453,11 +464,12 @@ public class ActionPackageImpl extends EPackageImpl implements ActionPackage {
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(actionEClass, Action.class, "Action", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getAction_Summary(), ecorePackage.getEString(), "summary", null, 1, 1, Action.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 
 		initEClass(fromSystemEClass, FromSystem.class, "FromSystem", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getFromSystem_Receiver(), theActionpartPackage.getSentenceActor(), null, "receiver", null, 1, 1, FromSystem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(internalEClass, Internal.class, "Internal", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEClass(internalActionEClass, InternalAction.class, "InternalAction", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(gotoEClass, Goto.class, "Goto", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getGoto_GotoTarget(), theUsecasePackage.getUseCaseStep(), null, "gotoTarget", null, 1, 1, Goto.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

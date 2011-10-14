@@ -108,13 +108,22 @@ public interface UsecasePackage extends EPackage {
 	int USE_CASE__MAIN_SCENARIO = SwprojPackage.REQ_COVER_FEATURE_COUNT + 2;
 
 	/**
+	 * The feature id for the '<em><b>Preceding Use Cases</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int USE_CASE__PRECEDING_USE_CASES = SwprojPackage.REQ_COVER_FEATURE_COUNT + 3;
+
+	/**
 	 * The number of structural features of the '<em>Use Case</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int USE_CASE_FEATURE_COUNT = SwprojPackage.REQ_COVER_FEATURE_COUNT + 3;
+	int USE_CASE_FEATURE_COUNT = SwprojPackage.REQ_COVER_FEATURE_COUNT + 4;
 
 	/**
 	 * The meta object id for the '{@link reprotool.model.usecase.ParseableElement <em>Parseable Element</em>}' class.
@@ -445,6 +454,17 @@ public interface UsecasePackage extends EPackage {
 	EReference getUseCase_MainScenario();
 
 	/**
+	 * Returns the meta object for the reference list '{@link reprotool.model.usecase.UseCase#getPrecedingUseCases <em>Preceding Use Cases</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Preceding Use Cases</em>'.
+	 * @see reprotool.model.usecase.UseCase#getPrecedingUseCases()
+	 * @see #getUseCase()
+	 * @generated
+	 */
+	EReference getUseCase_PrecedingUseCases();
+
+	/**
 	 * Returns the meta object for class '{@link reprotool.model.usecase.ParseableElement <em>Parseable Element</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -681,6 +701,14 @@ public interface UsecasePackage extends EPackage {
 		 * @generated
 		 */
 		EReference USE_CASE__MAIN_SCENARIO = eINSTANCE.getUseCase_MainScenario();
+
+		/**
+		 * The meta object literal for the '<em><b>Preceding Use Cases</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference USE_CASE__PRECEDING_USE_CASES = eINSTANCE.getUseCase_PrecedingUseCases();
 
 		/**
 		 * The meta object literal for the '{@link reprotool.model.usecase.ParseableElement <em>Parseable Element</em>}' class.

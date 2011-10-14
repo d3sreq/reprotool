@@ -193,12 +193,12 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 	 */
 	public String getLabel() {
 		EObject parent = this.eContainer();
-		if (!(parent instanceof Scenario)) {
+		if ( !(parent instanceof Scenario) ) {
 			return "";
 		}
 		
-		Scenario scenario = (Scenario)parent;
-		String stepIndex = Integer.toString(scenario.getSteps().indexOf(this) + 1);
+		Scenario scenario = (Scenario) parent;
+		String stepIndex = Integer.toString( scenario.getSteps().indexOf(this) + 1 );
 		
 		return scenario.getLabel() + stepIndex;
 	}
@@ -288,30 +288,30 @@ public class UseCaseStepImpl extends EObjectImpl implements UseCaseStep {
 	public SoftwareProject basicGetSoftwareProject() {
 		UseCaseStep useCaseStep = this;
 		while (true) {
-			Scenario scenario = (Scenario)useCaseStep.eContainer();
+			Scenario scenario = (Scenario) useCaseStep.eContainer();
 			if (scenario == null) {
-				return null;
+				return null; // dangling step without a scenario
 			}
-			
+
 			EObject container = scenario.eContainer();
 			if (container == null) {
-				return null;
+				return null; // dangling scenario without a container
 			}
-			
+
 			if (container instanceof UseCase) {
 				break;
 			} else { // container instanceof UseCaseStep
-				useCaseStep = (UseCaseStep)container;
+				useCaseStep = (UseCaseStep) container;
 			}
 		}
-		
-		Scenario scenario = (Scenario)useCaseStep.eContainer();
-		UseCase useCase = (UseCase)scenario.eContainer();
+
+		Scenario scenario = (Scenario) useCaseStep.eContainer();
+		UseCase useCase = (UseCase) scenario.eContainer();
 		if (useCase == null) {
 			return null;
 		}
-		
-		SoftwareProject softwareProject = (SoftwareProject)useCase.eContainer();
+
+		SoftwareProject softwareProject = (SoftwareProject) useCase.eContainer();
 		return softwareProject;
 	}
 

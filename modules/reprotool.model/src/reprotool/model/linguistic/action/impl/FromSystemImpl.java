@@ -36,6 +36,7 @@ import reprotool.model.linguistic.actionpart.Text;
  * <p>
  * The following features are implemented:
  * <ul>
+ *   <li>{@link reprotool.model.linguistic.action.impl.FromSystemImpl#getSummary <em>Summary</em>}</li>
  *   <li>{@link reprotool.model.linguistic.action.impl.FromSystemImpl#getActionParam <em>Action Param</em>}</li>
  *   <li>{@link reprotool.model.linguistic.action.impl.FromSystemImpl#getActionName <em>Action Name</em>}</li>
  *   <li>{@link reprotool.model.linguistic.action.impl.FromSystemImpl#getReceiver <em>Receiver</em>}</li>
@@ -45,6 +46,16 @@ import reprotool.model.linguistic.actionpart.Text;
  * @generated
  */
 public class FromSystemImpl extends EObjectImpl implements FromSystem {
+	/**
+	 * The default value of the '{@link #getSummary() <em>Summary</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getSummary()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String SUMMARY_EDEFAULT = null;
+
 	/**
 	 * The cached value of the '{@link #getActionParam() <em>Action Param</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
@@ -147,6 +158,24 @@ public class FromSystemImpl extends EObjectImpl implements FromSystem {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public String getSummary() {
+		
+		String receiverName;
+		
+		try {
+			receiverName = getReceiver().getActor().getName();
+		} catch (NullPointerException e) {
+			receiverName = "<Unknown Actor>";
+		}
+		
+		return "Request received by " + receiverName;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public SentenceActor getReceiver() {
@@ -211,6 +240,8 @@ public class FromSystemImpl extends EObjectImpl implements FromSystem {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
+			case ActionPackage.FROM_SYSTEM__SUMMARY:
+				return getSummary();
 			case ActionPackage.FROM_SYSTEM__ACTION_PARAM:
 				return getActionParam();
 			case ActionPackage.FROM_SYSTEM__ACTION_NAME:
@@ -274,6 +305,8 @@ public class FromSystemImpl extends EObjectImpl implements FromSystem {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
+			case ActionPackage.FROM_SYSTEM__SUMMARY:
+				return SUMMARY_EDEFAULT == null ? getSummary() != null : !SUMMARY_EDEFAULT.equals(getSummary());
 			case ActionPackage.FROM_SYSTEM__ACTION_PARAM:
 				return actionParam != null && !actionParam.isEmpty();
 			case ActionPackage.FROM_SYSTEM__ACTION_NAME:

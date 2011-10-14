@@ -35,13 +35,13 @@ public interface ActionFactory extends EFactory {
 	FromSystem createFromSystem();
 
 	/**
-	 * Returns a new object of class '<em>Internal</em>'.
+	 * Returns a new object of class '<em>Internal Action</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Internal</em>'.
+	 * @return a new object of class '<em>Internal Action</em>'.
 	 * @generated
 	 */
-	Internal createInternal();
+	InternalAction createInternalAction();
 
 	/**
 	 * Returns a new object of class '<em>Goto</em>'.

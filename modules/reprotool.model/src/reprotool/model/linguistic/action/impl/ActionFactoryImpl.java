@@ -61,7 +61,7 @@ public class ActionFactoryImpl extends EFactoryImpl implements ActionFactory {
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
 			case ActionPackage.FROM_SYSTEM: return createFromSystem();
-			case ActionPackage.INTERNAL: return createInternal();
+			case ActionPackage.INTERNAL_ACTION: return createInternalAction();
 			case ActionPackage.GOTO: return createGoto();
 			case ActionPackage.UNKNOWN: return createUnknown();
 			case ActionPackage.USE_CASE_INCLUDE: return createUseCaseInclude();
@@ -87,9 +87,9 @@ public class ActionFactoryImpl extends EFactoryImpl implements ActionFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Internal createInternal() {
-		InternalImpl internal = new InternalImpl();
-		return internal;
+	public InternalAction createInternalAction() {
+		InternalActionImpl internalAction = new InternalActionImpl();
+		return internalAction;
 	}
 
 	/**

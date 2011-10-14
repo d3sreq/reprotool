@@ -30,6 +30,7 @@ import reprotool.model.usecase.UseCaseStep;
  * <p>
  * The following features are implemented:
  * <ul>
+ *   <li>{@link reprotool.model.linguistic.action.impl.GotoImpl#getSummary <em>Summary</em>}</li>
  *   <li>{@link reprotool.model.linguistic.action.impl.GotoImpl#getText <em>Text</em>}</li>
  *   <li>{@link reprotool.model.linguistic.action.impl.GotoImpl#getGotoTarget <em>Goto Target</em>}</li>
  * </ul>
@@ -38,6 +39,16 @@ import reprotool.model.usecase.UseCaseStep;
  * @generated
  */
 public class GotoImpl extends EObjectImpl implements Goto {
+	/**
+	 * The default value of the '{@link #getSummary() <em>Summary</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getSummary()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String SUMMARY_EDEFAULT = null;
+
 	/**
 	 * The cached value of the '{@link #getText() <em>Text</em>}' reference.
 	 * <!-- begin-user-doc -->
@@ -75,6 +86,19 @@ public class GotoImpl extends EObjectImpl implements Goto {
 	@Override
 	protected EClass eStaticClass() {
 		return ActionPackage.Literals.GOTO;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public String getSummary() {
+		try {
+			return getGotoTarget().getLabel();
+		} catch (NullPointerException e) {
+			return "Unknown step";
+		}
 	}
 
 	/**
@@ -161,6 +185,8 @@ public class GotoImpl extends EObjectImpl implements Goto {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
+			case ActionPackage.GOTO__SUMMARY:
+				return getSummary();
 			case ActionPackage.GOTO__TEXT:
 				if (resolve) return getText();
 				return basicGetText();
@@ -215,6 +241,8 @@ public class GotoImpl extends EObjectImpl implements Goto {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
+			case ActionPackage.GOTO__SUMMARY:
+				return SUMMARY_EDEFAULT == null ? getSummary() != null : !SUMMARY_EDEFAULT.equals(getSummary());
 			case ActionPackage.GOTO__TEXT:
 				return text != null;
 			case ActionPackage.GOTO__GOTO_TARGET:

@@ -6,6 +6,7 @@
  */
 package reprotool.model.usecase;
 
+import org.eclipse.emf.common.util.EList;
 import reprotool.model.swproj.Actor;
 import reprotool.model.swproj.ReqCover;
 
@@ -22,6 +23,7 @@ import reprotool.model.traceability.TraceableEntity;
  *   <li>{@link reprotool.model.usecase.UseCase#getPrimaryActor <em>Primary Actor</em>}</li>
  *   <li>{@link reprotool.model.usecase.UseCase#getName <em>Name</em>}</li>
  *   <li>{@link reprotool.model.usecase.UseCase#getMainScenario <em>Main Scenario</em>}</li>
+ *   <li>{@link reprotool.model.usecase.UseCase#getPrecedingUseCases <em>Preceding Use Cases</em>}</li>
  * </ul>
  * </p>
  *
@@ -107,5 +109,21 @@ public interface UseCase extends ReqCover, TraceableEntity {
 	 * @generated
 	 */
 	void setMainScenario(Scenario value);
+
+	/**
+	 * Returns the value of the '<em><b>Preceding Use Cases</b></em>' reference list.
+	 * The list contents are of type {@link reprotool.model.usecase.UseCase}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Preceding Use Cases</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Preceding Use Cases</em>' reference list.
+	 * @see reprotool.model.usecase.UsecasePackage#getUseCase_PrecedingUseCases()
+	 * @model
+	 * @generated
+	 */
+	EList<UseCase> getPrecedingUseCases();
 
 } // UseCase

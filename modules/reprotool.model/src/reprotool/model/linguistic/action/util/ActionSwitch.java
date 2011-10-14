@@ -103,11 +103,11 @@ public class ActionSwitch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case ActionPackage.INTERNAL: {
-				Internal internal = (Internal)theEObject;
-				T result = caseInternal(internal);
-				if (result == null) result = caseCommunication(internal);
-				if (result == null) result = caseAction(internal);
+			case ActionPackage.INTERNAL_ACTION: {
+				InternalAction internalAction = (InternalAction)theEObject;
+				T result = caseInternalAction(internalAction);
+				if (result == null) result = caseCommunication(internalAction);
+				if (result == null) result = caseAction(internalAction);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -191,17 +191,17 @@ public class ActionSwitch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Internal</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Internal Action</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Internal</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Internal Action</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseInternal(Internal object) {
+	public T caseInternalAction(InternalAction object) {
 		return null;
 	}
 

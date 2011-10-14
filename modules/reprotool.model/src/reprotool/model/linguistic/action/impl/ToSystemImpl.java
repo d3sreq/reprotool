@@ -28,6 +28,7 @@ import reprotool.model.linguistic.action.ToSystem;
 import reprotool.model.linguistic.actionpart.SentenceActionParam;
 import reprotool.model.linguistic.actionpart.SentenceActor;
 import reprotool.model.linguistic.actionpart.Text;
+import reprotool.model.swproj.Actor;
 
 /**
  * <!-- begin-user-doc -->
@@ -36,6 +37,7 @@ import reprotool.model.linguistic.actionpart.Text;
  * <p>
  * The following features are implemented:
  * <ul>
+ *   <li>{@link reprotool.model.linguistic.action.impl.ToSystemImpl#getSummary <em>Summary</em>}</li>
  *   <li>{@link reprotool.model.linguistic.action.impl.ToSystemImpl#getActionParam <em>Action Param</em>}</li>
  *   <li>{@link reprotool.model.linguistic.action.impl.ToSystemImpl#getActionName <em>Action Name</em>}</li>
  *   <li>{@link reprotool.model.linguistic.action.impl.ToSystemImpl#getSender <em>Sender</em>}</li>
@@ -45,6 +47,16 @@ import reprotool.model.linguistic.actionpart.Text;
  * @generated
  */
 public class ToSystemImpl extends EObjectImpl implements ToSystem {
+	/**
+	 * The default value of the '{@link #getSummary() <em>Summary</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getSummary()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String SUMMARY_EDEFAULT = null;
+
 	/**
 	 * The cached value of the '{@link #getActionParam() <em>Action Param</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
@@ -147,6 +159,24 @@ public class ToSystemImpl extends EObjectImpl implements ToSystem {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public String getSummary() {
+		
+		String senderName;
+		
+		try {
+			senderName = getSender().getActor().getName();
+		} catch (NullPointerException e) {
+			senderName = "<Unknown Actor>";
+		}
+		
+		return "Request sent by " + senderName;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public SentenceActor getSender() {
@@ -211,6 +241,8 @@ public class ToSystemImpl extends EObjectImpl implements ToSystem {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
+			case ActionPackage.TO_SYSTEM__SUMMARY:
+				return getSummary();
 			case ActionPackage.TO_SYSTEM__ACTION_PARAM:
 				return getActionParam();
 			case ActionPackage.TO_SYSTEM__ACTION_NAME:
@@ -274,6 +306,8 @@ public class ToSystemImpl extends EObjectImpl implements ToSystem {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
+			case ActionPackage.TO_SYSTEM__SUMMARY:
+				return SUMMARY_EDEFAULT == null ? getSummary() != null : !SUMMARY_EDEFAULT.equals(getSummary());
 			case ActionPackage.TO_SYSTEM__ACTION_PARAM:
 				return actionParam != null && !actionParam.isEmpty();
 			case ActionPackage.TO_SYSTEM__ACTION_NAME:

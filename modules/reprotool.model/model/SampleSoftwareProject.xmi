@@ -4,6 +4,7 @@
   <actors name="GUI"/>
   <actors name="System"/>
   <actors name="Content Display Component"/>
+  <actors name="Compression Component"/>
   <useCases primaryActor="//@actors.0" name="Listing of directory">
     <mainScenario>
       <steps>
@@ -11,7 +12,7 @@
         <extensions>
           <steps>
             <textNodes content="System selects user's root directory"/>
-            <action xsi:type="action:Internal" actionName="//@useCases.0/@mainScenario/@steps.0/@extensions.0/@steps.0/@textNodes.0"/>
+            <action xsi:type="action:InternalAction" actionName="//@useCases.0/@mainScenario/@steps.0/@extensions.0/@steps.0/@textNodes.0"/>
           </steps>
           <steps>
             <textNodes content="Execution continues from point 2 with root directory" lemmaForm="Execution continue from point 2 with root directory"/>
@@ -46,7 +47,7 @@
                 <textNodes content="Current directory is not available"/>
               </preconditions>
             </extensions>
-            <action xsi:type="action:Internal" actionName="//@useCases.0/@mainScenario/@steps.1/@extensions.0/@steps.1/@textNodes.0"/>
+            <action xsi:type="action:InternalAction" actionName="//@useCases.0/@mainScenario/@steps.1/@extensions.0/@steps.1/@textNodes.0"/>
           </steps>
           <steps>
             <textNodes content="Continue from point 2 with current directory"/>
@@ -56,7 +57,7 @@
             <textNodes content="Selected directory is not available at the moment"/>
           </preconditions>
         </extensions>
-        <action xsi:type="action:Internal" actionName="//@useCases.0/@mainScenario/@steps.1/@textNodes.0"/>
+        <action xsi:type="action:InternalAction" actionName="//@useCases.0/@mainScenario/@steps.1/@textNodes.0"/>
       </steps>
       <steps>
         <textNodes content="Systems notifies the GUI that directory representation is available" lemmaForm="Systems notify GUI that directory representation is available"/>
@@ -84,7 +85,7 @@
       </steps>
       <steps>
         <textNodes content="System recognize the type of file according to file extension"/>
-        <action xsi:type="action:Internal" actionName="//@useCases.1/@mainScenario/@steps.1/@textNodes.0"/>
+        <action xsi:type="action:InternalAction" actionName="//@useCases.1/@mainScenario/@steps.1/@textNodes.0"/>
       </steps>
       <steps>
         <textNodes content="Suitable component is called to display content" lemmaForm=""/>
@@ -144,7 +145,7 @@
       </steps>
       <steps>
         <textNodes content="A new window with file content is created and displayed"/>
-        <action xsi:type="action:Internal" actionName="//@useCases.1/@mainScenario/@steps.4/@textNodes.0"/>
+        <action xsi:type="action:InternalAction" actionName="//@useCases.1/@mainScenario/@steps.4/@textNodes.0"/>
       </steps>
     </mainScenario>
   </useCases>
@@ -152,9 +153,15 @@
     <mainScenario>
       <steps>
         <textNodes content="User select a file, directory or a group of both to compress"/>
+        <action xsi:type="action:ToSystem">
+          <sender actor="//@actors.0"/>
+        </action>
       </steps>
       <steps>
         <textNodes content="System prompts user to get a new name and path for the compressed file"/>
+        <action xsi:type="action:FromSystem">
+          <receiver actor="//@actors.0"/>
+        </action>
       </steps>
       <steps>
         <textNodes content="User enters the name for the compressed file"/>
@@ -183,6 +190,9 @@
             <textNodes content="User cancels compression"/>
           </preconditions>
         </extensions>
+        <action xsi:type="action:ToSystem">
+          <sender actor="//@actors.0"/>
+        </action>
       </steps>
       <steps>
         <textNodes content="System prompts user to get a compression method"/>
@@ -202,9 +212,15 @@
       </steps>
       <steps>
         <textNodes content="User selects the compression method"/>
+        <action xsi:type="action:ToSystem">
+          <sender actor="//@actors.0"/>
+        </action>
       </steps>
       <steps>
         <textNodes content="System calls an appropriate component providing selected compression method"/>
+        <action xsi:type="action:FromSystem">
+          <receiver actor="//@actors.4"/>
+        </action>
       </steps>
       <steps>
         <textNodes content="Compression component creates an empty output file"/>
@@ -232,7 +248,7 @@
             <textNodes content="One or more input file is not available at the moment of compression"/>
           </preconditions>
         </extensions>
-        <extensions>
+        <extensions comment="">
           <steps>
             <textNodes content="Warning message is displayed to user"/>
             <action xsi:type="action:FromSystem">
@@ -242,7 +258,7 @@
           </steps>
           <steps>
             <textNodes content="Output file is closed and deleted"/>
-            <action xsi:type="action:Internal"/>
+            <action xsi:type="action:InternalAction"/>
           </steps>
           <steps>
             <textNodes content="Scenario aborted"/>
@@ -291,6 +307,7 @@
       </steps>
     </mainScenario>
   </useCases>
+  <useCases name="Compression in separate thread"/>
   <conceptualObjects name="Content of directory"/>
   <conceptualObjects name="Warning message"/>
   <conceptualObjects name="File name"/>

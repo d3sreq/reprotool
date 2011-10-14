@@ -6,6 +6,7 @@
  */
 package reprotool.model.linguistic.action;
 
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
@@ -69,13 +70,22 @@ public interface ActionPackage extends EPackage {
 	int ACTION = 0;
 
 	/**
+	 * The feature id for the '<em><b>Summary</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ACTION__SUMMARY = 0;
+
+	/**
 	 * The number of structural features of the '<em>Action</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ACTION_FEATURE_COUNT = 0;
+	int ACTION_FEATURE_COUNT = 1;
 
 	/**
 	 * The meta object id for the '{@link reprotool.model.linguistic.action.Communication <em>Communication</em>}' class.
@@ -86,6 +96,15 @@ public interface ActionPackage extends EPackage {
 	 * @generated
 	 */
 	int COMMUNICATION = 8;
+
+	/**
+	 * The feature id for the '<em><b>Summary</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMMUNICATION__SUMMARY = ACTION__SUMMARY;
 
 	/**
 	 * The feature id for the '<em><b>Action Param</b></em>' containment reference list.
@@ -125,6 +144,15 @@ public interface ActionPackage extends EPackage {
 	int FROM_SYSTEM = 1;
 
 	/**
+	 * The feature id for the '<em><b>Summary</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FROM_SYSTEM__SUMMARY = COMMUNICATION__SUMMARY;
+
+	/**
 	 * The feature id for the '<em><b>Action Param</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -161,14 +189,23 @@ public interface ActionPackage extends EPackage {
 	int FROM_SYSTEM_FEATURE_COUNT = COMMUNICATION_FEATURE_COUNT + 1;
 
 	/**
-	 * The meta object id for the '{@link reprotool.model.linguistic.action.impl.InternalImpl <em>Internal</em>}' class.
+	 * The meta object id for the '{@link reprotool.model.linguistic.action.impl.InternalActionImpl <em>Internal Action</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see reprotool.model.linguistic.action.impl.InternalImpl
-	 * @see reprotool.model.linguistic.action.impl.ActionPackageImpl#getInternal()
+	 * @see reprotool.model.linguistic.action.impl.InternalActionImpl
+	 * @see reprotool.model.linguistic.action.impl.ActionPackageImpl#getInternalAction()
 	 * @generated
 	 */
-	int INTERNAL = 2;
+	int INTERNAL_ACTION = 2;
+
+	/**
+	 * The feature id for the '<em><b>Summary</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INTERNAL_ACTION__SUMMARY = COMMUNICATION__SUMMARY;
 
 	/**
 	 * The feature id for the '<em><b>Action Param</b></em>' containment reference list.
@@ -177,7 +214,7 @@ public interface ActionPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int INTERNAL__ACTION_PARAM = COMMUNICATION__ACTION_PARAM;
+	int INTERNAL_ACTION__ACTION_PARAM = COMMUNICATION__ACTION_PARAM;
 
 	/**
 	 * The feature id for the '<em><b>Action Name</b></em>' reference.
@@ -186,16 +223,16 @@ public interface ActionPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int INTERNAL__ACTION_NAME = COMMUNICATION__ACTION_NAME;
+	int INTERNAL_ACTION__ACTION_NAME = COMMUNICATION__ACTION_NAME;
 
 	/**
-	 * The number of structural features of the '<em>Internal</em>' class.
+	 * The number of structural features of the '<em>Internal Action</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int INTERNAL_FEATURE_COUNT = COMMUNICATION_FEATURE_COUNT + 0;
+	int INTERNAL_ACTION_FEATURE_COUNT = COMMUNICATION_FEATURE_COUNT + 0;
 
 	/**
 	 * The meta object id for the '{@link reprotool.model.linguistic.action.impl.GotoImpl <em>Goto</em>}' class.
@@ -206,6 +243,15 @@ public interface ActionPackage extends EPackage {
 	 * @generated
 	 */
 	int GOTO = 3;
+
+	/**
+	 * The feature id for the '<em><b>Summary</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GOTO__SUMMARY = ACTION__SUMMARY;
 
 	/**
 	 * The feature id for the '<em><b>Text</b></em>' reference.
@@ -245,6 +291,15 @@ public interface ActionPackage extends EPackage {
 	int UNKNOWN = 4;
 
 	/**
+	 * The feature id for the '<em><b>Summary</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UNKNOWN__SUMMARY = ACTION__SUMMARY;
+
+	/**
 	 * The number of structural features of the '<em>Unknown</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -262,6 +317,15 @@ public interface ActionPackage extends EPackage {
 	 * @generated
 	 */
 	int USE_CASE_INCLUDE = 5;
+
+	/**
+	 * The feature id for the '<em><b>Summary</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int USE_CASE_INCLUDE__SUMMARY = ACTION__SUMMARY;
 
 	/**
 	 * The feature id for the '<em><b>Text</b></em>' reference.
@@ -301,6 +365,15 @@ public interface ActionPackage extends EPackage {
 	int ABORT_USE_CASE = 6;
 
 	/**
+	 * The feature id for the '<em><b>Summary</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ABORT_USE_CASE__SUMMARY = ACTION__SUMMARY;
+
+	/**
 	 * The number of structural features of the '<em>Abort Use Case</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -318,6 +391,15 @@ public interface ActionPackage extends EPackage {
 	 * @generated
 	 */
 	int TO_SYSTEM = 7;
+
+	/**
+	 * The feature id for the '<em><b>Summary</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TO_SYSTEM__SUMMARY = COMMUNICATION__SUMMARY;
 
 	/**
 	 * The feature id for the '<em><b>Action Param</b></em>' containment reference list.
@@ -367,6 +449,17 @@ public interface ActionPackage extends EPackage {
 	EClass getAction();
 
 	/**
+	 * Returns the meta object for the attribute '{@link reprotool.model.linguistic.action.Action#getSummary <em>Summary</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Summary</em>'.
+	 * @see reprotool.model.linguistic.action.Action#getSummary()
+	 * @see #getAction()
+	 * @generated
+	 */
+	EAttribute getAction_Summary();
+
+	/**
 	 * Returns the meta object for class '{@link reprotool.model.linguistic.action.FromSystem <em>From System</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -388,14 +481,14 @@ public interface ActionPackage extends EPackage {
 	EReference getFromSystem_Receiver();
 
 	/**
-	 * Returns the meta object for class '{@link reprotool.model.linguistic.action.Internal <em>Internal</em>}'.
+	 * Returns the meta object for class '{@link reprotool.model.linguistic.action.InternalAction <em>Internal Action</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Internal</em>'.
-	 * @see reprotool.model.linguistic.action.Internal
+	 * @return the meta object for class '<em>Internal Action</em>'.
+	 * @see reprotool.model.linguistic.action.InternalAction
 	 * @generated
 	 */
-	EClass getInternal();
+	EClass getInternalAction();
 
 	/**
 	 * Returns the meta object for class '{@link reprotool.model.linguistic.action.Goto <em>Goto</em>}'.
@@ -545,6 +638,14 @@ public interface ActionPackage extends EPackage {
 		EClass ACTION = eINSTANCE.getAction();
 
 		/**
+		 * The meta object literal for the '<em><b>Summary</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ACTION__SUMMARY = eINSTANCE.getAction_Summary();
+
+		/**
 		 * The meta object literal for the '{@link reprotool.model.linguistic.action.impl.FromSystemImpl <em>From System</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -563,14 +664,14 @@ public interface ActionPackage extends EPackage {
 		EReference FROM_SYSTEM__RECEIVER = eINSTANCE.getFromSystem_Receiver();
 
 		/**
-		 * The meta object literal for the '{@link reprotool.model.linguistic.action.impl.InternalImpl <em>Internal</em>}' class.
+		 * The meta object literal for the '{@link reprotool.model.linguistic.action.impl.InternalActionImpl <em>Internal Action</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see reprotool.model.linguistic.action.impl.InternalImpl
-		 * @see reprotool.model.linguistic.action.impl.ActionPackageImpl#getInternal()
+		 * @see reprotool.model.linguistic.action.impl.InternalActionImpl
+		 * @see reprotool.model.linguistic.action.impl.ActionPackageImpl#getInternalAction()
 		 * @generated
 		 */
-		EClass INTERNAL = eINSTANCE.getInternal();
+		EClass INTERNAL_ACTION = eINSTANCE.getInternalAction();
 
 		/**
 		 * The meta object literal for the '{@link reprotool.model.linguistic.action.impl.GotoImpl <em>Goto</em>}' class.

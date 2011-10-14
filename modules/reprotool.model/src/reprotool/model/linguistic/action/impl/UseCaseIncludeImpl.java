@@ -30,6 +30,7 @@ import reprotool.model.usecase.UseCase;
  * <p>
  * The following features are implemented:
  * <ul>
+ *   <li>{@link reprotool.model.linguistic.action.impl.UseCaseIncludeImpl#getSummary <em>Summary</em>}</li>
  *   <li>{@link reprotool.model.linguistic.action.impl.UseCaseIncludeImpl#getText <em>Text</em>}</li>
  *   <li>{@link reprotool.model.linguistic.action.impl.UseCaseIncludeImpl#getIncludeTarget <em>Include Target</em>}</li>
  * </ul>
@@ -38,6 +39,16 @@ import reprotool.model.usecase.UseCase;
  * @generated
  */
 public class UseCaseIncludeImpl extends EObjectImpl implements UseCaseInclude {
+	/**
+	 * The default value of the '{@link #getSummary() <em>Summary</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getSummary()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String SUMMARY_EDEFAULT = null;
+
 	/**
 	 * The cached value of the '{@link #getText() <em>Text</em>}' reference.
 	 * <!-- begin-user-doc -->
@@ -75,6 +86,19 @@ public class UseCaseIncludeImpl extends EObjectImpl implements UseCaseInclude {
 	@Override
 	protected EClass eStaticClass() {
 		return ActionPackage.Literals.USE_CASE_INCLUDE;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public String getSummary() {
+		try {
+			return getIncludeTarget().getName();
+		} catch (NullPointerException e) {
+			return "Unknown Use Case";
+		}
 	}
 
 	/**
@@ -161,6 +185,8 @@ public class UseCaseIncludeImpl extends EObjectImpl implements UseCaseInclude {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
+			case ActionPackage.USE_CASE_INCLUDE__SUMMARY:
+				return getSummary();
 			case ActionPackage.USE_CASE_INCLUDE__TEXT:
 				if (resolve) return getText();
 				return basicGetText();
@@ -215,6 +241,8 @@ public class UseCaseIncludeImpl extends EObjectImpl implements UseCaseInclude {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
+			case ActionPackage.USE_CASE_INCLUDE__SUMMARY:
+				return SUMMARY_EDEFAULT == null ? getSummary() != null : !SUMMARY_EDEFAULT.equals(getSummary());
 			case ActionPackage.USE_CASE_INCLUDE__TEXT:
 				return text != null;
 			case ActionPackage.USE_CASE_INCLUDE__INCLUDE_TARGET:

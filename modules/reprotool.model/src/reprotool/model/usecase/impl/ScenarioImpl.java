@@ -139,36 +139,34 @@ public class ScenarioImpl extends EObjectImpl implements Scenario {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * @return child elements of the scenario depend on this value
 	 * @generated NOT
 	 */
 	public String getLabel() {
+		
 		EObject scenarioParent = this.eContainer();
-		if (!(scenarioParent instanceof UseCaseStep)) {
-			return "";
-		}
+		if (!(scenarioParent instanceof UseCaseStep))
+			return ""; // child elements depend on this value
 		
-		UseCaseStep parentUseCaseStep = (UseCaseStep)scenarioParent;
+		UseCaseStep parentUseCaseStep = (UseCaseStep) scenarioParent;
 		
-		int labelIndex = -1;
-
 		// find scenario among extensions 
-		int extensionIndex = parentUseCaseStep.getExtensions().indexOf(this);
-		if (extensionIndex != -1) {
-			labelIndex = extensionIndex;
-		} else {
-			// find scenario among variations
-			int variationsIndex = parentUseCaseStep.getVariations().indexOf(this);
-			if (variationsIndex != -1) {
-				labelIndex = parentUseCaseStep.getExtensions().size() + variationsIndex;
-			}
+		int labelIndex = parentUseCaseStep.getExtensions().indexOf(this);
+
+		// find scenario among variations
+		if (labelIndex == -1) {
+			labelIndex = parentUseCaseStep.getVariations().indexOf(this);
+
+			if (labelIndex != -1)
+				labelIndex += parentUseCaseStep.getExtensions().size();
 		}
 		
-		String toReturn = "";
-		if (labelIndex != -1) {
-			toReturn = parentUseCaseStep.getLabel() + String.valueOf((char)('a' + labelIndex));
-		}
+		// label still not found
+		if (labelIndex == -1)
+			return ""; // child elements depend on this value
 
-		return toReturn;
+		// now we can finally return the correct label
+		return parentUseCaseStep.getLabel() + String.valueOf( (char)('a' + labelIndex) );
 	}
 
 	/**

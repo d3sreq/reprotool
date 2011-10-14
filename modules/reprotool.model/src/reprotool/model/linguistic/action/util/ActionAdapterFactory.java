@@ -82,8 +82,8 @@ public class ActionAdapterFactory extends AdapterFactoryImpl {
 				return createFromSystemAdapter();
 			}
 			@Override
-			public Adapter caseInternal(Internal object) {
-				return createInternalAdapter();
+			public Adapter caseInternalAction(InternalAction object) {
+				return createInternalActionAdapter();
 			}
 			@Override
 			public Adapter caseGoto(Goto object) {
@@ -162,16 +162,16 @@ public class ActionAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link reprotool.model.linguistic.action.Internal <em>Internal</em>}'.
+	 * Creates a new adapter for an object of class '{@link reprotool.model.linguistic.action.InternalAction <em>Internal Action</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see reprotool.model.linguistic.action.Internal
+	 * @see reprotool.model.linguistic.action.InternalAction
 	 * @generated
 	 */
-	public Adapter createInternalAdapter() {
+	public Adapter createInternalActionAdapter() {
 		return null;
 	}
 
