@@ -27,7 +27,7 @@ import reprotool.model.usecase.UseCaseStep;
  * </p>
  *
  * @see lts2.Lts2Package#getLTSGenerator()
- * @model
+ * @model interface="true" abstract="true"
  * @generated
  */
 public interface LTSGenerator extends EObject {

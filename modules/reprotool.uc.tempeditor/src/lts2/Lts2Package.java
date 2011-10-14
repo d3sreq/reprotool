@@ -273,10 +273,10 @@ public interface Lts2Package extends EPackage {
 	int ABORT_STATE_FEATURE_COUNT = STATE_FEATURE_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link lts2.impl.LTSGeneratorImpl <em>LTS Generator</em>}' class.
+	 * The meta object id for the '{@link lts2.LTSGenerator <em>LTS Generator</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see lts2.impl.LTSGeneratorImpl
+	 * @see lts2.LTSGenerator
 	 * @see lts2.impl.Lts2PackageImpl#getLTSGenerator()
 	 * @generated
 	 */
@@ -637,10 +637,10 @@ public interface Lts2Package extends EPackage {
 		EClass ABORT_STATE = eINSTANCE.getAbortState();
 
 		/**
-		 * The meta object literal for the '{@link lts2.impl.LTSGeneratorImpl <em>LTS Generator</em>}' class.
+		 * The meta object literal for the '{@link lts2.LTSGenerator <em>LTS Generator</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see lts2.impl.LTSGeneratorImpl
+		 * @see lts2.LTSGenerator
 		 * @see lts2.impl.Lts2PackageImpl#getLTSGenerator()
 		 * @generated
 		 */

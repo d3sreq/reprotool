@@ -8,6 +8,7 @@ Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: reprotool.ling,
  reprotool.ling.analyser,
+ reprotool.ling.antocorpus,
  reprotool.ling.impl,
  reprotool.ling.util
 Require-Bundle: org.eclipse.core.runtime,

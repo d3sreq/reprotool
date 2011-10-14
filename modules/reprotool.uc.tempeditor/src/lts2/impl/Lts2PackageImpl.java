@@ -445,7 +445,7 @@ public class Lts2PackageImpl extends EPackageImpl implements Lts2Package {
 
 		initEClass(abortStateEClass, AbortState.class, "AbortState", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
-		initEClass(ltsGeneratorEClass, LTSGenerator.class, "LTSGenerator", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEClass(ltsGeneratorEClass, LTSGenerator.class, "LTSGenerator", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getLTSGenerator_LabelTransitionSystem(), this.getStateMachine(), null, "labelTransitionSystem", null, 1, 1, LTSGenerator.class, !IS_TRANSIENT, !IS_VOLATILE, !IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		EOperation op = addEOperation(ltsGeneratorEClass, null, "processUseCase", 0, 1, IS_UNIQUE, IS_ORDERED);

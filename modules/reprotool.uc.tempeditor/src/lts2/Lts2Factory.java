@@ -80,15 +80,6 @@ public interface Lts2Factory extends EFactory {
 	AbortState createAbortState();
 
 	/**
-	 * Returns a new object of class '<em>LTS Generator</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>LTS Generator</em>'.
-	 * @generated
-	 */
-	LTSGenerator createLTSGenerator();
-
-	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
