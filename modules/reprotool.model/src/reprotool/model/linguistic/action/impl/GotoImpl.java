@@ -8,6 +8,7 @@ package reprotool.model.linguistic.action.impl;
 
 import org.eclipse.emf.common.notify.Notification;
 
+import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
@@ -132,11 +133,33 @@ public class GotoImpl extends EObjectImpl implements Goto {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setText(Text newText) {
+	public NotificationChain basicSetText(Text newText, NotificationChain msgs) {
 		Text oldText = text;
 		text = newText;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ActionPackage.GOTO__TEXT, oldText, text));
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ActionPackage.GOTO__TEXT, oldText, newText);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setText(Text newText) {
+		if (newText != text) {
+			NotificationChain msgs = null;
+			if (text != null)
+				msgs = ((InternalEObject)text).eInverseRemove(this, ActionpartPackage.TEXT__ACTION_PART, Text.class, msgs);
+			if (newText != null)
+				msgs = ((InternalEObject)newText).eInverseAdd(this, ActionpartPackage.TEXT__ACTION_PART, Text.class, msgs);
+			msgs = basicSetText(newText, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ActionPackage.GOTO__TEXT, newText, newText));
 	}
 
 	/**
@@ -175,6 +198,36 @@ public class GotoImpl extends EObjectImpl implements Goto {
 		gotoTarget = newGotoTarget;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ActionPackage.GOTO__GOTO_TARGET, oldGotoTarget, gotoTarget));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case ActionPackage.GOTO__TEXT:
+				if (text != null)
+					msgs = ((InternalEObject)text).eInverseRemove(this, ActionpartPackage.TEXT__ACTION_PART, Text.class, msgs);
+				return basicSetText((Text)otherEnd, msgs);
+		}
+		return super.eInverseAdd(otherEnd, featureID, msgs);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case ActionPackage.GOTO__TEXT:
+				return basicSetText(null, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**

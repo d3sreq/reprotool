@@ -27,6 +27,7 @@ import org.eclipse.emf.ecore.EObject;
 public interface ActionPart extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Text</b></em>' reference.
+	 * It is bidirectional and its opposite is '{@link reprotool.model.linguistic.actionpart.Text#getActionPart <em>Action Part</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Text</em>' reference isn't clear,
@@ -36,7 +37,8 @@ public interface ActionPart extends EObject {
 	 * @return the value of the '<em>Text</em>' reference.
 	 * @see #setText(Text)
 	 * @see reprotool.model.linguistic.actionpart.ActionpartPackage#getActionPart_Text()
-	 * @model
+	 * @see reprotool.model.linguistic.actionpart.Text#getActionPart
+	 * @model opposite="actionPart"
 	 * @generated
 	 */
 	Text getText();

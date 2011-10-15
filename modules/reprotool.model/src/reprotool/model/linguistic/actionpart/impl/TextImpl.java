@@ -8,6 +8,7 @@ package reprotool.model.linguistic.actionpart.impl;
 
 import org.eclipse.emf.common.notify.Notification;
 
+import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
@@ -176,11 +177,33 @@ public class TextImpl extends EObjectImpl implements Text {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setActionPart(ActionPart newActionPart) {
+	public NotificationChain basicSetActionPart(ActionPart newActionPart, NotificationChain msgs) {
 		ActionPart oldActionPart = actionPart;
 		actionPart = newActionPart;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ActionpartPackage.TEXT__ACTION_PART, oldActionPart, actionPart));
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ActionpartPackage.TEXT__ACTION_PART, oldActionPart, newActionPart);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setActionPart(ActionPart newActionPart) {
+		if (newActionPart != actionPart) {
+			NotificationChain msgs = null;
+			if (actionPart != null)
+				msgs = ((InternalEObject)actionPart).eInverseRemove(this, ActionpartPackage.ACTION_PART__TEXT, ActionPart.class, msgs);
+			if (newActionPart != null)
+				msgs = ((InternalEObject)newActionPart).eInverseAdd(this, ActionpartPackage.ACTION_PART__TEXT, ActionPart.class, msgs);
+			msgs = basicSetActionPart(newActionPart, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ActionpartPackage.TEXT__ACTION_PART, newActionPart, newActionPart));
 	}
 
 	/**
@@ -223,6 +246,36 @@ public class TextImpl extends EObjectImpl implements Text {
 		posTag = newPosTag;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ActionpartPackage.TEXT__POS_TAG, oldPosTag, posTag));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case ActionpartPackage.TEXT__ACTION_PART:
+				if (actionPart != null)
+					msgs = ((InternalEObject)actionPart).eInverseRemove(this, ActionpartPackage.ACTION_PART__TEXT, ActionPart.class, msgs);
+				return basicSetActionPart((ActionPart)otherEnd, msgs);
+		}
+		return super.eInverseAdd(otherEnd, featureID, msgs);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case ActionpartPackage.TEXT__ACTION_PART:
+				return basicSetActionPart(null, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**

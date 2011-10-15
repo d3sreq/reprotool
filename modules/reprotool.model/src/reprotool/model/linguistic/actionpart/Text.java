@@ -56,6 +56,7 @@ public interface Text extends EObject {
 
 	/**
 	 * Returns the value of the '<em><b>Action Part</b></em>' reference.
+	 * It is bidirectional and its opposite is '{@link reprotool.model.linguistic.actionpart.ActionPart#getText <em>Text</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Action Part</em>' reference isn't clear,
@@ -65,7 +66,8 @@ public interface Text extends EObject {
 	 * @return the value of the '<em>Action Part</em>' reference.
 	 * @see #setActionPart(ActionPart)
 	 * @see reprotool.model.linguistic.actionpart.ActionpartPackage#getText_ActionPart()
-	 * @model
+	 * @see reprotool.model.linguistic.actionpart.ActionPart#getText
+	 * @model opposite="text"
 	 * @generated
 	 */
 	ActionPart getActionPart();
