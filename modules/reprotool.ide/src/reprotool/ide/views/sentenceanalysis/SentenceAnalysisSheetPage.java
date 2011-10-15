@@ -45,7 +45,6 @@ import reprotool.model.linguistic.action.Action;
 import reprotool.model.linguistic.action.ActionFactory;
 import reprotool.model.linguistic.action.ActionPackage;
 import reprotool.model.linguistic.action.Goto;
-import reprotool.model.linguistic.action.Internal;
 import reprotool.model.linguistic.action.Unknown;
 import reprotool.model.linguistic.action.UseCaseInclude;
 import reprotool.model.linguistic.actionpart.ActionpartPackage;
@@ -422,7 +421,8 @@ public class SentenceAnalysisSheetPage extends Page implements ISentenceAnalysis
 		INTERNAL {
 			@Override
 			Action createAction() {
-				return ActionFactory.eINSTANCE.createInternal();
+//				return ActionFactory.eINSTANCE.createInternal();
+				return null;
 			}
 
 			@Override

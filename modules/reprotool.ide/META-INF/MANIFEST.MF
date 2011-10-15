@@ -7,7 +7,6 @@ Bundle-Activator: reprotool.ide.Activator
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.zest.core;bundle-version="1.2.0",
  org.eclipse.zest.layouts;bundle-version="1.1.0",
- org.eclipse.wb.swt.layout.grouplayout;bundle-version="0.9.0",
  org.eclipse.core.databinding.beans;bundle-version="1.2.100",
  org.eclipse.jface.databinding;bundle-version="1.4.0",
  org.eclipse.emf.databinding,
