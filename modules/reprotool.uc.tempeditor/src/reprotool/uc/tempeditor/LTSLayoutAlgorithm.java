@@ -4,9 +4,7 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
 import java.util.Set;
 
 import org.eclipse.core.runtime.Assert;
@@ -51,7 +49,9 @@ public class LTSLayoutAlgorithm extends AbstractLayoutAlgorithm {
 	
 	private List<BoardNode> boardNodes = new ArrayList<BoardNode>();
 	private HashMap<InternalNode, BoardNode> internal2Board = new HashMap<InternalNode, BoardNode>();
-	private Queue<MachineInclude> ltsIncludes = new LinkedList<MachineInclude>();
+	private List<MachineInclude> ltsIncludes = new ArrayList<MachineInclude>();
+	private List<Point> occupiedPositions = new ArrayList<Point>();
+	private List<StateMachine> drawnMachines = new ArrayList<StateMachine>();
 	
 	private void initMapping(InternalNode[] entitiesToLayout) {
 		for (InternalNode node: entitiesToLayout) {
@@ -155,7 +155,7 @@ public class LTSLayoutAlgorithm extends AbstractLayoutAlgorithm {
 			
 			if (step.getAction() instanceof UseCaseInclude) {
 				UseCase uc = ((UseCaseInclude) step.getAction()).getIncludeTarget();
-				ltsIncludes.add(new MachineInclude(x, y, useCase2Machine.get(uc)));
+				ltsIncludes.add(new MachineInclude(x, y, workingMachine, useCase2Machine.get(uc)));
 			}
 			
 			internal2Board.get(node).setLocation(x, y);
@@ -205,10 +205,77 @@ public class LTSLayoutAlgorithm extends AbstractLayoutAlgorithm {
 			}
 			
 			Assert.isNotNull(s);
-			System.out.println("Node [" + bNode.getX() + ", " + bNode.getY()+ "] found");
 			node.setLocation(rootPos.getX() + ((x + bNode.getX()) * horSpacing),
 				rootPos.getY() + ((y + bNode.getY()) * verticalLineSize));
+			occupiedPositions.add(new Point(x + bNode.getX(), y + bNode.getY()));
 		}
+		
+		for (MachineInclude mi: ltsIncludes) {
+			if (mi.getOrigin() == workingMachine) {
+				mi.setLocation(mi.getX() + x, mi.getY() + y);
+			}
+		}
+	}
+	
+	boolean isFreePosition(int x, int y) {
+		for (BoardNode bNode: boardNodes) {
+			InternalNode node = bNode.getNode();
+			GraphNode gNode = (GraphNode) node.getLayoutEntity().getGraphData();
+			State s = (State) gNode.getData();
+			
+			if (!stateIsActive(s)) {
+				continue;
+			}
+						
+			if (occupiedPositions.contains(new Point(x + bNode.getX(), y + bNode.getY()))) {
+				return false;
+			}
+		}
+		
+		return true;
+	}
+	
+	private Point findFreePosition(int x, int y) {		
+		Point leftTop = new Point(x - 1, y - 1);
+		Point rightTop = new Point(x + 1, y - 1);
+		Point leftDown = new Point(x - 1, y + 1);
+		Point rightDown = new Point(x + 1, y + 1);
+		
+		do {
+			// Check the top line.
+			for (int ix = (int) leftTop.getX(); ix <= rightTop.getX(); ix++) {
+				if (isFreePosition(ix, (int) leftTop.getY())) {
+					return new Point(ix, (int) leftTop.getY());
+				}
+			}
+			
+			// Check the right side line
+			for (int iy = (int) rightTop.getY(); iy <= rightDown.getY(); iy++) {
+				if (isFreePosition((int) rightTop.getX(), iy)) {
+					return new Point((int) rightTop.getX(), iy);
+				}
+			}
+			
+			// Check the bottom line.
+			for (int ix = (int) leftDown.getX(); ix <= rightDown.getX(); ix++) {
+				if (isFreePosition(ix, (int) leftDown.getY())) {
+					return new Point(ix, (int) leftDown.getY());
+				}
+			}
+			
+			// Check the left side line
+			for (int iy = (int) leftTop.getY(); iy <= leftDown.getY(); iy++) {
+				if (isFreePosition((int) leftTop.getX(), iy)) {
+					return new Point((int) leftTop.getX(), iy);
+				}
+			}
+						
+			leftTop.setLocation(leftTop.getX() - 1, leftTop.getY() - 1);
+			rightTop.setLocation(rightTop.getX() + 1, rightTop.getY() - 1);
+			leftDown.setLocation(leftDown.getX() - 1, leftDown.getY() + 1);
+			rightDown.setLocation(rightDown.getX() + 1, rightDown.getY() + 1);
+		} while (true);
+		
 	}
 	
 	private void processInitialState() {
@@ -265,6 +332,7 @@ public class LTSLayoutAlgorithm extends AbstractLayoutAlgorithm {
 		processInitialState();
 		processScenario(mainScenario, 0, 1, SpanDirection.BOTH);
 		layoutBoard(0, 0);
+		drawnMachines.add(workingMachine);
 		
 		for (StateMachine m: includedMachines) {
 			workingMachine = m;
@@ -276,9 +344,22 @@ public class LTSLayoutAlgorithm extends AbstractLayoutAlgorithm {
 		}
 		
 		while (!ltsIncludes.isEmpty()) {
-			MachineInclude mi = ltsIncludes.poll();
-			workingMachine = mi.getMachine();
-			layoutBoard(mi.getX() + 2, mi.getY());
+			MachineInclude t = null;
+			
+			for (MachineInclude mi: ltsIncludes) {
+				if (drawnMachines.contains(mi.getOrigin())) {
+					t = mi;
+					workingMachine = mi.getMachine();
+					Point pos = findFreePosition(mi.getX(), mi.getY());
+					layoutBoard((int) pos.getX(), (int) pos.getY());	
+					drawnMachines.add(workingMachine);
+					break;
+				}
+			}
+			
+			if (t != null) {
+				ltsIncludes.remove(t);
+			}
 		}
 	}
 
@@ -340,11 +421,13 @@ class MachineInclude {
 	private int x;
 	private int y;
 	private StateMachine m;
+	private StateMachine origin;
 	
-	MachineInclude(int x, int y, StateMachine m) {
+	MachineInclude(int x, int y, StateMachine origin, StateMachine m) {
 		this.x = x;
 		this.y = y;
 		this.m = m;
+		this.origin = origin;
 	}
 	
 	int getX() {
@@ -355,7 +438,16 @@ class MachineInclude {
 		return y;
 	}
 	
+	void setLocation(int x, int y) {
+		this.x = x;
+		this.y = y;
+	}
+	
 	StateMachine getMachine() {
 		return m;
+	}
+	
+	StateMachine getOrigin() {
+		return origin;
 	}
 }

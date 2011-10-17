@@ -124,7 +124,6 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 		LTSGeneratorImpl generator = new LTSGeneratorImpl();
 		generator.processUseCase(useCase);
 		machine = generator.getLabelTransitionSystem();
-		System.out.println("Transitional states: " + machine.getTransitionalStates().size());
 		ucStep2Trans = generator.getLtsCache().getUCStep2Trans();
 		gotoTransitions = generator.getLtsCache().getGotoTransitions();
 		generateIncludedMachines(generator.getLtsCache().getIncludedUseCases());
@@ -190,11 +189,6 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 	private void generateGraphNodes(StateMachine m) {
 		figureProvider.setMachine(m);
 		for (State s: m.getTransitionalStates()) {
-			if (s == m.getInitialState()) {
-				System.out.println("Creating graph node for initial state");
-			} else {
-				System.out.println("Creating graph node");
-			}
 			GraphNode node = new CGraphNode(viewer.getGraphControl(), SWT.NONE,
 				figureProvider.getFigure(s));
 			node.setData(s);
@@ -206,14 +200,12 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 			figureProvider.getFigure(s));
 		node.setData(s);
 		state2Node.put(s, node);
-		System.out.println("Creating graph node for initial state");
 		
 		s = m.getFinalState();
 		node = new CGraphNode(viewer.getGraphControl(), SWT.NONE,
 			figureProvider.getFigure(s));
 		node.setData(s);
 		state2Node.put(s, node);
-		System.out.println("Creating graph node for final state");
 	}
 	
 	private void processTransition(Transition t, AbortState abort) {
