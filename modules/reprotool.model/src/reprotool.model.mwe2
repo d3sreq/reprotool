@@ -1,0 +1,24 @@
+module reprotool.model
+
+import org.eclipse.emf.mwe.utils.*
+import org.eclipse.emf.mwe2.ecore.*
+
+var projectName = "reprotool.model"
+var runtimeProject = "${projectName}"
+
+Workflow {
+	bean = StandaloneSetup {
+		platformUri = ".."
+	}
+
+	component = DirectoryCleaner {
+		directory = "${runtimeProject}/src-gen"
+	}
+	
+	component = EcoreGenerator {
+		srcPath = "platform:/resource/${runtimeProject}/src"
+		genModel = "platform:/resource/${runtimeProject}/model/${projectName}.genmodel"
+		
+	}
+}
+

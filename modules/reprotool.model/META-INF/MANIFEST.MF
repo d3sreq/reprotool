@@ -8,35 +8,29 @@ Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: reprotool.model.ast,
- reprotool.model.ast.impl,
  reprotool.model.ast.util,
  reprotool.model.comp,
- reprotool.model.comp.impl,
  reprotool.model.comp.util,
  reprotool.model.doc,
- reprotool.model.doc.impl,
  reprotool.model.doc.util,
  reprotool.model.linguistic.action,
- reprotool.model.linguistic.action.impl,
  reprotool.model.linguistic.action.util,
  reprotool.model.linguistic.actionpart,
- reprotool.model.linguistic.actionpart.impl,
  reprotool.model.linguistic.actionpart.util,
  reprotool.model.lts,
- reprotool.model.lts.impl,
  reprotool.model.lts.util,
  reprotool.model.swproj,
- reprotool.model.swproj.impl,
  reprotool.model.swproj.util,
  reprotool.model.traceability,
- reprotool.model.traceability.impl,
  reprotool.model.traceability.util,
  reprotool.model.usecase,
  reprotool.model.usecase.annotate,
- reprotool.model.usecase.annotate.impl,
  reprotool.model.usecase.annotate.util,
- reprotool.model.usecase.impl,
  reprotool.model.usecase.util
 Require-Bundle: org.eclipse.core.runtime,
- org.eclipse.emf.ecore;visibility:=reexport
+ org.eclipse.emf.ecore;visibility:=reexport,
+ org.eclipse.emf.mwe2.launch;bundle-version="2.0.1",
+ org.eclipse.emf.mwe2.lib;bundle-version="2.0.1"
 Bundle-ActivationPolicy: lazy
+Import-Package: org.apache.commons.logging,
+ org.apache.log4j
