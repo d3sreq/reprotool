@@ -60,22 +60,6 @@
     <element xmi:type="ecore:EClass" href="reprotool.fm.nusmv.ecore#//TemporalVar"/>
     <layoutConstraint xmi:type="notation:Bounds" xmi:id="_WY3AcvZVEeCiaIec8wZMjQ" x="348" y="432" width="171" height="75"/>
   </children>
-  <children xmi:type="notation:Node" xmi:id="_WY3nhPZVEeCiaIec8wZMjQ" type="1001">
-    <children xmi:type="notation:Node" xmi:id="_WY3nh_ZVEeCiaIec8wZMjQ" type="4001"/>
-    <children xmi:type="notation:Node" xmi:id="_WY4OkPZVEeCiaIec8wZMjQ" type="5001">
-      <styles xmi:type="notation:DrawerStyle" xmi:id="_WY4OkfZVEeCiaIec8wZMjQ"/>
-      <styles xmi:type="notation:SortingStyle" xmi:id="_WY4OkvZVEeCiaIec8wZMjQ"/>
-      <styles xmi:type="notation:FilteringStyle" xmi:id="_WY4Ok_ZVEeCiaIec8wZMjQ"/>
-    </children>
-    <children xmi:type="notation:Node" xmi:id="_WY4OlPZVEeCiaIec8wZMjQ" type="5002">
-      <styles xmi:type="notation:DrawerStyle" xmi:id="_WY4OlfZVEeCiaIec8wZMjQ"/>
-      <styles xmi:type="notation:SortingStyle" xmi:id="_WY4OlvZVEeCiaIec8wZMjQ"/>
-      <styles xmi:type="notation:FilteringStyle" xmi:id="_WY4Ol_ZVEeCiaIec8wZMjQ"/>
-    </children>
-    <styles xmi:type="notation:ShapeStyle" xmi:id="_WY3nhfZVEeCiaIec8wZMjQ" fontColor="4210752" fontName="Sans" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
-    <element xmi:type="ecore:EClass" href="reprotool.fm.nusmv.ecore#//State"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_WY3nhvZVEeCiaIec8wZMjQ" x="594"/>
-  </children>
   <children xmi:type="notation:Node" xmi:id="_flERUPZVEeCiaIec8wZMjQ" type="1001">
     <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_flTh4PZVEeCiaIec8wZMjQ" source="Shortcut">
       <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_flTh4fZVEeCiaIec8wZMjQ" key="modelID" value="EcoreTools"/>
@@ -112,7 +96,7 @@
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_ZSXSQfZXEeCiaIec8wZMjQ" fontColor="4210752" fontName="Sans" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
     <element xmi:type="ecore:EClass" href="platform:/resource/reprotool.model/model/reprotool.model.ecore#//usecase/UseCase"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_ZSXSQvZXEeCiaIec8wZMjQ" x="-168" y="396"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_ZSXSQvZXEeCiaIec8wZMjQ" x="-156" y="396" width="126"/>
   </children>
   <styles xmi:type="notation:DiagramStyle" xmi:id="_WUe2wPZVEeCiaIec8wZMjQ"/>
   <element xmi:type="ecore:EPackage" href="reprotool.fm.nusmv.ecore#/"/>
