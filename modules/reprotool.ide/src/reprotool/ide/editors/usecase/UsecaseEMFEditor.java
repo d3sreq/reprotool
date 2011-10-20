@@ -114,6 +114,7 @@ import org.eclipse.ui.views.properties.PropertySheetPage;
 
 import reprotool.ide.views.sentenceanalysis.ISentenceAnalysisSheetPage;
 import reprotool.ide.views.sentenceanalysis.SentenceAnalysisSheetPage;
+import reprotool.model.edit.ext.factory.UsecaseEMFEditorAdapterFactory;
 import reprotool.model.lts.presentation.ReprotoolEditorPlugin;
 import reprotool.model.usecase.provider.UsecaseItemProviderAdapterFactory;
 
@@ -632,9 +633,9 @@ public class UsecaseEMFEditor
 		// Create an adapter factory that yields item providers.
 		//
 //		adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
-		adapterFactory = new ComposedAdapterFactory();
+		adapterFactory = new UsecaseEMFEditorAdapterFactory();
 
-		adapterFactory.addAdapterFactory(new ResourceItemProviderAdapterFactory());
+//		adapterFactory.addAdapterFactory(new ResourceItemProviderAdapterFactory());
 //		adapterFactory.addAdapterFactory(new LtsItemProviderAdapterFactory());
 //		adapterFactory.addAdapterFactory(new UsecaseItemProviderAdapterFactory());
 //		adapterFactory.addAdapterFactory(new SwprojItemProviderAdapterFactory());
@@ -646,7 +647,7 @@ public class UsecaseEMFEditor
 //		adapterFactory.addAdapterFactory(new CompItemProviderAdapterFactory());
 //		adapterFactory.addAdapterFactory(new DocItemProviderAdapterFactory());
 //		adapterFactory.addAdapterFactory(new ProcasesItemProviderAdapterFactory());
-		adapterFactory.addAdapterFactory(new ReflectiveItemProviderAdapterFactory());
+//		adapterFactory.addAdapterFactory(new ReflectiveItemProviderAdapterFactory());
 		
 		// TODO - jvinarek - add more item provider factories ?
 		// TODO - is UsecaseItemProviderAdapterFactoryExt "stateful" ?

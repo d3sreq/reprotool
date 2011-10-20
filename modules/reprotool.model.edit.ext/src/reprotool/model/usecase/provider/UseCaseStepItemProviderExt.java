@@ -1,8 +1,10 @@
 package reprotool.model.usecase.provider;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
 import reprotool.model.edit.ext.annotation.UseCaseStepItemProviderAnnotation;
@@ -11,6 +13,7 @@ import reprotool.model.usecase.UseCaseStep;
 import reprotool.model.usecase.UsecasePackage;
 
 import com.google.inject.Inject;
+import com.google.inject.name.Named;
 
 /**
  * @author jvinarek
@@ -18,37 +21,37 @@ import com.google.inject.Inject;
  */
 public class UseCaseStepItemProviderExt extends UseCaseStepItemProvider {
 
+	public static final String REMOVED_CHILDREN_FEATURES_KEY = "REMOVED_CHILDREN_FEATURES_UseCaseStepItemProvider";
+	
+	private List<EReference> removedChildrenFeatures = null;
+	
 	@Inject
 	public UseCaseStepItemProviderExt(@UseCaseStepItemProviderAnnotation AdapterFactory adapterFactory) {
 		super(adapterFactory);
-	}
-
-	@Override
-	public String getText(Object object) {
-		UseCaseStep useCaseStep = (UseCaseStep)object;
-		String label = useCaseStep.getLabel();
-		label = label == null || label.length() == 0 ?
-			getString("_UI_UseCaseStep_type") :
-			getString("_UI_UseCaseStep_type") + " " + label;
-			
-		StringBuffer stringBuffer = new StringBuffer();
-		for (Text text : useCaseStep.getTextNodes()) {
-			stringBuffer.append(text.getContent());
-		}
-		
-		if (stringBuffer.length() != 0) {
-			label += " " + stringBuffer;
-		}
-			
-		return label;
 	}
 	
 	@Override
 	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
-			childrenFeatures.remove(UsecasePackage.Literals.PARSEABLE_ELEMENT__TEXT_NODES);
+			if (removedChildrenFeatures != null) {
+				childrenFeatures.removeAll(removedChildrenFeatures);
+			}
 		}
 		return childrenFeatures;
+	}
+	
+	/**
+	 * Overriden to prevent call to {@link ItemProviderAdapter} method which casts proxy to {@link ComposeableAdapterFactory}
+	 * and causes {@link ClassCastException}
+	 */
+	@Override
+	public Object getCreateChildImage(Object owner, Object feature, Object child, Collection<?> selection) {
+		return null;
+	}
+	
+	@Inject(optional=true)
+	public void setRemovedChildrenFeatures(@Named(REMOVED_CHILDREN_FEATURES_KEY) List<EReference> removedChildrenFeatures) {
+		this.removedChildrenFeatures = removedChildrenFeatures;
 	}
 }

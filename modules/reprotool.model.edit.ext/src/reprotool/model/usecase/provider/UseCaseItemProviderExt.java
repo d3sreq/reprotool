@@ -1,16 +1,18 @@
 package reprotool.model.usecase.provider;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 
-import com.google.inject.Inject;
-
 import reprotool.model.edit.ext.annotation.UseCaseItemProviderAnnotation;
 import reprotool.model.swproj.provider.SoftwareProjectItemProviderExt;
-import reprotool.model.usecase.UsecasePackage;
+
+import com.google.inject.Inject;
+import com.google.inject.name.Named;
 
 /**
  * Extension of generated UseCaseItemProvider class.
@@ -20,11 +22,15 @@ import reprotool.model.usecase.UsecasePackage;
  */
 public class UseCaseItemProviderExt extends UseCaseItemProvider {
 
+	public static final String REMOVED_CHILDREN_FEATURES_KEY = "REMOVED_CHILDREN_FEATURES_UseCaseItemProvider";
+	
+	private List<EReference> removedChildrenFeatures = null;
+	
 	@Inject
 	public UseCaseItemProviderExt(@UseCaseItemProviderAnnotation AdapterFactory adapterFactory) {
 		super(adapterFactory);
 	}
-
+	
 	/**
 	 * Returns parent node.
 	 * 
@@ -43,9 +49,20 @@ public class UseCaseItemProviderExt extends UseCaseItemProvider {
 	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
-			childrenFeatures.remove(UsecasePackage.Literals.USE_CASE__MAIN_SCENARIO);
+			if (removedChildrenFeatures != null) {
+				childrenFeatures.removeAll(removedChildrenFeatures);
+			}
 		}
 		return childrenFeatures;
+	}
+	
+	public Object getCreateChildImage(Object owner, Object feature, Object child, Collection<?> selection) {
+		return null;
+	}
+	
+	@Inject(optional=true)
+	public void setRemovedChildrenFeatures(@Named(REMOVED_CHILDREN_FEATURES_KEY) List<EReference> removedChildrenFeatures) {
+		this.removedChildrenFeatures = removedChildrenFeatures;
 	}
 	
 }
