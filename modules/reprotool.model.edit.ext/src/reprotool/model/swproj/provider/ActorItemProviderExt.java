@@ -3,6 +3,10 @@ package reprotool.model.swproj.provider;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 
+import reprotool.model.edit.ext.annotation.ActorItemProviderAnnotation;
+
+import com.google.inject.Inject;
+
 /**
  * Extension of generated ActorItemProvider class.
  * 
@@ -11,7 +15,8 @@ import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
  */
 public class ActorItemProviderExt extends ActorItemProvider {
 
-	public ActorItemProviderExt(AdapterFactory adapterFactory) {
+	@Inject
+	public ActorItemProviderExt(@ActorItemProviderAnnotation AdapterFactory adapterFactory) {
 		super(adapterFactory);
 	}
 

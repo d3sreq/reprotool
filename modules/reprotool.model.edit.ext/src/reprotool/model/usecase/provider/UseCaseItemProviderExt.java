@@ -6,6 +6,9 @@ import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 
+import com.google.inject.Inject;
+
+import reprotool.model.edit.ext.annotation.UseCaseItemProviderAnnotation;
 import reprotool.model.swproj.provider.SoftwareProjectItemProviderExt;
 import reprotool.model.usecase.UsecasePackage;
 
@@ -17,7 +20,8 @@ import reprotool.model.usecase.UsecasePackage;
  */
 public class UseCaseItemProviderExt extends UseCaseItemProvider {
 
-	public UseCaseItemProviderExt(AdapterFactory adapterFactory) {
+	@Inject
+	public UseCaseItemProviderExt(@UseCaseItemProviderAnnotation AdapterFactory adapterFactory) {
 		super(adapterFactory);
 	}
 

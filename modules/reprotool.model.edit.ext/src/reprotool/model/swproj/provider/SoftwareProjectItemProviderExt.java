@@ -23,6 +23,9 @@ import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 
+import com.google.inject.Inject;
+
+import reprotool.model.edit.ext.annotation.SoftwareProjectItemProviderAnnotation;
 import reprotool.model.edit.ext.common.ReprotoolEditExtPlugin;
 import reprotool.model.lts.provider.ReprotoolEditPlugin;
 import reprotool.model.swproj.SoftwareProject;
@@ -31,6 +34,8 @@ import reprotool.model.swproj.SwprojPackage;
 import reprotool.model.usecase.UsecaseFactory;
 
 /**
+ * Extension of generated {@link SoftwareProjectItemProvider} class.
+ * 
  * @author jvinarek
  * 
  */
@@ -41,12 +46,14 @@ public class SoftwareProjectItemProviderExt extends SoftwareProjectItemProvider 
 
 	protected List<ItemProviderAdapter> children = null;
 
-	public SoftwareProjectItemProviderExt(AdapterFactory adapterFactory) {
+	@Inject
+	public SoftwareProjectItemProviderExt(@SoftwareProjectItemProviderAnnotation AdapterFactory adapterFactory) {
 		super(adapterFactory);
 	}
 
 	@Override
 	public Collection<?> getChildren(Object object) {
+		// TODO jvinarek - replace with DI
 		if (children == null) {
 			SoftwareProject softwareProject = (SoftwareProject) object;
 			children = new ArrayList<ItemProviderAdapter>();

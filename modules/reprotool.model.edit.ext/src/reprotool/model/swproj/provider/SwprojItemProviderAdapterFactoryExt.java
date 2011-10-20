@@ -2,25 +2,33 @@ package reprotool.model.swproj.provider;
 
 import org.eclipse.emf.common.notify.Adapter;
 
+import reprotool.model.swproj.provider.ActorItemProvider;
+import reprotool.model.swproj.provider.SwprojItemProviderAdapterFactory;
+
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+
 /**
  * @author jvinarek
  * 
  */
-public class SwprojItemProviderAdapterFactoryExt extends
-		SwprojItemProviderAdapterFactory {
+@Singleton
+public class SwprojItemProviderAdapterFactoryExt extends SwprojItemProviderAdapterFactory {
 
-	public SwprojItemProviderAdapterFactoryExt() {
-		super();
+	private final FactorySoftwareProject factorySoftwareProject;
+
+	@Inject
+	SwprojItemProviderAdapterFactoryExt(FactorySoftwareProject factorySoftwareProject, ActorItemProvider actorItemProvider) {
+		this.factorySoftwareProject = factorySoftwareProject;
+		this.actorItemProvider = actorItemProvider;
 	}
 
 	@Override
 	public Adapter createSoftwareProjectAdapter() {
-		return new SoftwareProjectItemProviderExt(this);
+		return factorySoftwareProject.create(this);
 	}
-
-	@Override
-	public Adapter createActorAdapter() {
-		return new ActorItemProviderExt(this);
+	
+	public interface FactorySoftwareProject {
+		SoftwareProjectItemProvider create(SwprojItemProviderAdapterFactory adapterFactory);
 	}
-
 }

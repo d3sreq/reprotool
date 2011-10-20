@@ -8,8 +8,8 @@ Bundle-Localization: plugin
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.emf.edit;visibility:=reexport,
- reprotool.model.edit;bundle-version="1.0.0"
+ reprotool.model.edit;bundle-version="1.0.0",
+ com.google.inject;bundle-version="2.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Export-Package: reprotool.model.swproj.provider,
- reprotool.model.usecase.provider
+Export-Package: reprotool.model.edit.ext.factory

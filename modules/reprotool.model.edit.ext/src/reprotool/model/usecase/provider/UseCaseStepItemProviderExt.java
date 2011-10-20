@@ -5,9 +5,12 @@ import java.util.Collection;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
+import reprotool.model.edit.ext.annotation.UseCaseStepItemProviderAnnotation;
 import reprotool.model.linguistic.actionpart.Text;
 import reprotool.model.usecase.UseCaseStep;
 import reprotool.model.usecase.UsecasePackage;
+
+import com.google.inject.Inject;
 
 /**
  * @author jvinarek
@@ -15,7 +18,8 @@ import reprotool.model.usecase.UsecasePackage;
  */
 public class UseCaseStepItemProviderExt extends UseCaseStepItemProvider {
 
-	public UseCaseStepItemProviderExt(AdapterFactory adapterFactory) {
+	@Inject
+	public UseCaseStepItemProviderExt(@UseCaseStepItemProviderAnnotation AdapterFactory adapterFactory) {
 		super(adapterFactory);
 	}
 

@@ -92,10 +92,9 @@ import org.eclipse.ui.views.contentoutline.ContentOutline;
 import org.eclipse.ui.views.contentoutline.ContentOutlinePage;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 
+import reprotool.model.edit.ext.factory.ProjectOutlineAdapterFactory;
 import reprotool.model.lts.presentation.ReprotoolEditorPlugin;
-import reprotool.model.swproj.provider.SwprojItemProviderAdapterFactoryExt;
 import reprotool.model.usecase.UseCase;
-import reprotool.model.usecase.provider.UsecaseItemProviderAdapterFactoryExt;
 
 /**
  * @author jvinarek
@@ -910,19 +909,13 @@ public class ProjectEditor extends EditorPart implements IEditingDomainProvider,
 	 * This sets up the editing domain for the model editor. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
 	 * 
-	 * @generated
+	 * @generated NOT
 	 */
 	protected void initializeEditingDomain() {
 		// Create an adapter factory that yields item providers.
 		//
-		adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
-
-		adapterFactory.addAdapterFactory(new ResourceItemProviderAdapterFactory());
-
-		// TODO - is UsecaseItemProviderAdapterFactoryExt "stateful" ?
-		SwprojItemProviderAdapterFactoryExt swprojItemProviderAdapterFactoryExt = new SwprojItemProviderAdapterFactoryExt();
-		adapterFactory.addAdapterFactory(swprojItemProviderAdapterFactoryExt);
-		adapterFactory.addAdapterFactory(new UsecaseItemProviderAdapterFactoryExt(swprojItemProviderAdapterFactoryExt));
+		adapterFactory = new ProjectOutlineAdapterFactory();
+		
 		
 		// Create the command stack that will notify this editor as commands are
 		// executed.
