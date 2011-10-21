@@ -273,7 +273,7 @@ public class LTSGeneratorImpl extends EObjectImpl implements LTSGenerator {
 				(next != null)
 		) {
 			Transition t = Lts2Factory.eINSTANCE.createTransition();
-			t.setRelatedStep(lastStep);
+			t.setRelatedStep(null);
 			Assert.isTrue(srcState instanceof TransitionalState);
 			TransitionalState srcTransitional = (TransitionalState) srcState;
 			t.setSourceState(srcTransitional);

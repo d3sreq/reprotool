@@ -8,10 +8,14 @@ import java.util.List;
 import java.util.Queue;
 
 import org.eclipse.core.runtime.Assert;
+import org.eclipse.draw2d.ColorConstants;
+import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.SWTEventDispatcher;
 import org.eclipse.draw2d.SWTGraphics;
 import org.eclipse.draw2d.Shape;
 import org.eclipse.emf.common.notify.AdapterFactory;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -50,6 +54,9 @@ import org.eclipse.zest.layouts.LayoutAlgorithm;
 import org.eclipse.swt.SWT;
 
 import reprotool.model.linguistic.action.UseCaseInclude;
+import reprotool.model.linguistic.actionpart.Text;
+import reprotool.model.usecase.Condition;
+import reprotool.model.usecase.Scenario;
 import reprotool.model.usecase.UseCase;
 import reprotool.model.usecase.UseCaseStep;
 
@@ -240,23 +247,53 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 			s.setLineDash(new float[] {7.0f, 5.0f});				
 		}
 		
+		GraphConnection con = null;
+		
 		if (t.getTargetState() == abort) {
 			GraphNode node = new CGraphNode(viewer.getGraphControl(), SWT.NONE,
 					figureProvider.getFigure(abort));
 			node.setData(abort);
 			trans2Node.put(t, node);
-			GraphConnection con =
-				new GraphConnection(viewer.getGraphControl(), ZestStyles.CONNECTIONS_DIRECTED,
+			con = new GraphConnection(viewer.getGraphControl(), ZestStyles.CONNECTIONS_DIRECTED,
 					state2Node.get(t.getSourceState()), node);
 			trans2Edge.put(t, con);
 		} else {
-			GraphConnection con = 
-				new GraphConnection(viewer.getGraphControl(), ZestStyles.CONNECTIONS_DIRECTED,
+			con = new GraphConnection(viewer.getGraphControl(), ZestStyles.CONNECTIONS_DIRECTED,
 						state2Node.get(t.getSourceState()), state2Node.get(t.getTargetState()));
 			trans2Edge.put(t, con);
 			if (gotoTransitions.contains(t)) {
 				con.setCurveDepth(16);
 			}
+		}
+		
+		if (t.getRelatedStep() != null) {
+			IFigure toolTip = new Label();
+			StringBuffer s = new StringBuffer();
+			s.append("Label: " + t.getRelatedStep().getLabel());
+			Text txt = null;
+			EList<Text> txtNodes = t.getRelatedStep().getTextNodes();
+			if ((txtNodes != null) && (!txtNodes.isEmpty())) {
+				txt = txtNodes.get(0);
+			}
+			if (txt != null) {
+				s.append("\n");
+				s.append("Text: " + txt.getContent());
+			}
+			txt = null;
+			Scenario sc = (Scenario) t.getRelatedStep().eContainer();
+			EList<Condition> preconditions = sc.getPreconditions();
+			if ((preconditions != null) && (!preconditions.isEmpty())) {
+				txtNodes = preconditions.get(0).getTextNodes();
+				if ((txtNodes != null) && (!txtNodes.isEmpty())) {
+					txt = txtNodes.get(0);
+				}
+			}
+			if (txt != null) {
+				s.append("\n");
+				s.append("Cond: " + txt.getContent());
+			}
+			((Label) toolTip).setText(s.toString());
+			con.setTooltip(toolTip);
 		}
 	}
 	
