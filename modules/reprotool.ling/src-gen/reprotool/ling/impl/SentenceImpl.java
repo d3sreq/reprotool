@@ -8,16 +8,19 @@ package reprotool.ling.impl;
 
 import java.util.Collection;
 
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 import reprotool.ling.LingPackage;
 import reprotool.ling.Sentence;
+import reprotool.ling.SentenceNode;
 import reprotool.ling.Word;
 
 /**
@@ -28,6 +31,8 @@ import reprotool.ling.Word;
  * The following features are implemented:
  * <ul>
  *   <li>{@link reprotool.ling.impl.SentenceImpl#getWords <em>Words</em>}</li>
+ *   <li>{@link reprotool.ling.impl.SentenceImpl#getEReference0 <em>EReference0</em>}</li>
+ *   <li>{@link reprotool.ling.impl.SentenceImpl#getSentenceTree <em>Sentence Tree</em>}</li>
  * </ul>
  * </p>
  *
@@ -43,6 +48,25 @@ public class SentenceImpl extends EObjectImpl implements Sentence {
 	 * @ordered
 	 */
 	protected EList<Word> words;
+
+	/**
+	 * The cached value of the '{@link #getEReference0() <em>EReference0</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getEReference0()
+	 * @generated
+	 * @ordered
+	 */
+	protected SentenceNode eReference0;
+	/**
+	 * The cached value of the '{@link #getSentenceTree() <em>Sentence Tree</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getSentenceTree()
+	 * @generated
+	 * @ordered
+	 */
+	protected SentenceNode sentenceTree;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -73,6 +97,82 @@ public class SentenceImpl extends EObjectImpl implements Sentence {
 			words = new EObjectContainmentEList<Word>(Word.class, this, LingPackage.SENTENCE__WORDS);
 		}
 		return words;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public SentenceNode getEReference0() {
+		if (eReference0 != null && eReference0.eIsProxy()) {
+			InternalEObject oldEReference0 = (InternalEObject)eReference0;
+			eReference0 = (SentenceNode)eResolveProxy(oldEReference0);
+			if (eReference0 != oldEReference0) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, LingPackage.SENTENCE__EREFERENCE0, oldEReference0, eReference0));
+			}
+		}
+		return eReference0;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public SentenceNode basicGetEReference0() {
+		return eReference0;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setEReference0(SentenceNode newEReference0) {
+		SentenceNode oldEReference0 = eReference0;
+		eReference0 = newEReference0;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, LingPackage.SENTENCE__EREFERENCE0, oldEReference0, eReference0));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public SentenceNode getSentenceTree() {
+		if (sentenceTree != null && sentenceTree.eIsProxy()) {
+			InternalEObject oldSentenceTree = (InternalEObject)sentenceTree;
+			sentenceTree = (SentenceNode)eResolveProxy(oldSentenceTree);
+			if (sentenceTree != oldSentenceTree) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, LingPackage.SENTENCE__SENTENCE_TREE, oldSentenceTree, sentenceTree));
+			}
+		}
+		return sentenceTree;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public SentenceNode basicGetSentenceTree() {
+		return sentenceTree;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setSentenceTree(SentenceNode newSentenceTree) {
+		SentenceNode oldSentenceTree = sentenceTree;
+		sentenceTree = newSentenceTree;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, LingPackage.SENTENCE__SENTENCE_TREE, oldSentenceTree, sentenceTree));
 	}
 
 	/**
@@ -181,6 +281,12 @@ public class SentenceImpl extends EObjectImpl implements Sentence {
 		switch (featureID) {
 			case LingPackage.SENTENCE__WORDS:
 				return getWords();
+			case LingPackage.SENTENCE__EREFERENCE0:
+				if (resolve) return getEReference0();
+				return basicGetEReference0();
+			case LingPackage.SENTENCE__SENTENCE_TREE:
+				if (resolve) return getSentenceTree();
+				return basicGetSentenceTree();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -198,6 +304,12 @@ public class SentenceImpl extends EObjectImpl implements Sentence {
 				getWords().clear();
 				getWords().addAll((Collection<? extends Word>)newValue);
 				return;
+			case LingPackage.SENTENCE__EREFERENCE0:
+				setEReference0((SentenceNode)newValue);
+				return;
+			case LingPackage.SENTENCE__SENTENCE_TREE:
+				setSentenceTree((SentenceNode)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -213,6 +325,12 @@ public class SentenceImpl extends EObjectImpl implements Sentence {
 			case LingPackage.SENTENCE__WORDS:
 				getWords().clear();
 				return;
+			case LingPackage.SENTENCE__EREFERENCE0:
+				setEReference0((SentenceNode)null);
+				return;
+			case LingPackage.SENTENCE__SENTENCE_TREE:
+				setSentenceTree((SentenceNode)null);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -227,6 +345,10 @@ public class SentenceImpl extends EObjectImpl implements Sentence {
 		switch (featureID) {
 			case LingPackage.SENTENCE__WORDS:
 				return words != null && !words.isEmpty();
+			case LingPackage.SENTENCE__EREFERENCE0:
+				return eReference0 != null;
+			case LingPackage.SENTENCE__SENTENCE_TREE:
+				return sentenceTree != null;
 		}
 		return super.eIsSet(featureID);
 	}
