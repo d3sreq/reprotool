@@ -6,11 +6,10 @@ import java.util.List;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
+import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 
 import reprotool.model.edit.ext.annotation.UseCaseStepItemProviderAnnotation;
-import reprotool.model.linguistic.actionpart.Text;
-import reprotool.model.usecase.UseCaseStep;
-import reprotool.model.usecase.UsecasePackage;
 
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
@@ -21,9 +20,9 @@ import com.google.inject.name.Named;
  */
 public class UseCaseStepItemProviderExt extends UseCaseStepItemProvider {
 
-	public static final String REMOVED_CHILDREN_FEATURES_KEY = "REMOVED_CHILDREN_FEATURES_UseCaseStepItemProvider";
+	public static final String CUSTOM_CHILDREN_FEATURES_KEY = "CUSTOM_CHILDREN_FEATURES_UseCaseStepItemProvider";
 	
-	private List<EReference> removedChildrenFeatures = null;
+	private List<EReference> customChildrenFeatures = null;
 	
 	@Inject
 	public UseCaseStepItemProviderExt(@UseCaseStepItemProviderAnnotation AdapterFactory adapterFactory) {
@@ -34,8 +33,9 @@ public class UseCaseStepItemProviderExt extends UseCaseStepItemProvider {
 	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
-			if (removedChildrenFeatures != null) {
-				childrenFeatures.removeAll(removedChildrenFeatures);
+			if (customChildrenFeatures != null) {
+				childrenFeatures.clear();
+				childrenFeatures.addAll(customChildrenFeatures);
 			}
 		}
 		return childrenFeatures;
@@ -51,7 +51,7 @@ public class UseCaseStepItemProviderExt extends UseCaseStepItemProvider {
 	}
 	
 	@Inject(optional=true)
-	public void setRemovedChildrenFeatures(@Named(REMOVED_CHILDREN_FEATURES_KEY) List<EReference> removedChildrenFeatures) {
-		this.removedChildrenFeatures = removedChildrenFeatures;
+	public void setCustomChildrenFeatures(@Named(CUSTOM_CHILDREN_FEATURES_KEY) List<EReference> customChildrenFeatures) {
+		this.customChildrenFeatures = customChildrenFeatures;
 	}
 }

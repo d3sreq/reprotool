@@ -15,19 +15,25 @@ import com.google.inject.Singleton;
 @Singleton
 public class SwprojItemProviderAdapterFactoryExt extends SwprojItemProviderAdapterFactory {
 
-	private final FactorySoftwareProject factorySoftwareProject;
-
-	@Inject
-	SwprojItemProviderAdapterFactoryExt(FactorySoftwareProject factorySoftwareProject, ActorItemProvider actorItemProvider) {
-		this.factorySoftwareProject = factorySoftwareProject;
-		this.actorItemProvider = actorItemProvider;
-	}
+	private FactorySoftwareProject factorySoftwareProject;
 
 	@Override
 	public Adapter createSoftwareProjectAdapter() {
+		// TODO jvinarek - replace assert (with guava method ?)
+		assert(factorySoftwareProject != null);
 		return factorySoftwareProject.create(this);
 	}
 	
+	@Inject(optional=true)
+	public void setFactorySoftwareProject(FactorySoftwareProject factorySoftwareProject) {
+		this.factorySoftwareProject = factorySoftwareProject;
+	}
+	
+	@Inject(optional=true)
+	public void setActorItemProvider(ActorItemProvider actorItemProvider) {
+		this.actorItemProvider = actorItemProvider;
+	}
+
 	public interface FactorySoftwareProject {
 		SoftwareProjectItemProvider create(SwprojItemProviderAdapterFactory adapterFactory);
 	}

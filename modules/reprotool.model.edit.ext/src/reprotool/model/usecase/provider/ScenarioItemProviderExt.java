@@ -1,13 +1,20 @@
 package reprotool.model.usecase.provider;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
+import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 
-import reprotool.model.usecase.UsecasePackage;
+import reprotool.model.edit.ext.annotation.ScenarioItemProviderAnnotation;
 
 import com.google.inject.Inject;
+import com.google.inject.name.Named;
+
+
 
 /**
  * @author jvinarek
@@ -15,8 +22,12 @@ import com.google.inject.Inject;
  */
 public class ScenarioItemProviderExt extends ScenarioItemProvider {
 
+	public static final String CUSTOM_CHILDREN_FEATURES_KEY = "CUSTOM_CHILDREN_FEATURES_ScenarioItemProvider";
+	
+	private List<EReference> customChildrenFeatures = null;
+	
 	@Inject
-	public ScenarioItemProviderExt(AdapterFactory adapterFactory) {
+	public ScenarioItemProviderExt(@ScenarioItemProviderAnnotation AdapterFactory adapterFactory) {
 		super(adapterFactory);
 	}
 
@@ -24,11 +35,26 @@ public class ScenarioItemProviderExt extends ScenarioItemProvider {
 	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
-			childrenFeatures.remove(UsecasePackage.Literals.SCENARIO__SCENARIO_GUARD);
+			if (customChildrenFeatures != null) {
+				childrenFeatures.clear();
+				childrenFeatures.addAll(customChildrenFeatures);
+			}
 		}
 		return childrenFeatures;
 	}
 	
+	/**
+	 * Overriden to prevent call to {@link ItemProviderAdapter} method which casts proxy to {@link ComposeableAdapterFactory}
+	 * and causes {@link ClassCastException}
+	 */
+	@Override
+	public Object getCreateChildImage(Object owner, Object feature, Object child, Collection<?> selection) {
+		return null;
+	}
 	
+	@Inject(optional=true)
+	public void setCustomChildrenFeatures(@Named(CUSTOM_CHILDREN_FEATURES_KEY) List<EReference> customChildrenFeatures) {
+		this.customChildrenFeatures = customChildrenFeatures;
+	}
 	
 }

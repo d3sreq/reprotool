@@ -22,9 +22,9 @@ import com.google.inject.name.Named;
  */
 public class UseCaseItemProviderExt extends UseCaseItemProvider {
 
-	public static final String REMOVED_CHILDREN_FEATURES_KEY = "REMOVED_CHILDREN_FEATURES_UseCaseItemProvider";
+	public static final String CUSTOM_CHILDREN_FEATURES_KEY = "CUSTOM_CHILDREN_FEATURES_UseCaseItemProvider";
 	
-	private List<EReference> removedChildrenFeatures = null;
+	private List<EReference> customChildrenFeatures = null;
 	
 	@Inject
 	public UseCaseItemProviderExt(@UseCaseItemProviderAnnotation AdapterFactory adapterFactory) {
@@ -49,8 +49,9 @@ public class UseCaseItemProviderExt extends UseCaseItemProvider {
 	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
-			if (removedChildrenFeatures != null) {
-				childrenFeatures.removeAll(removedChildrenFeatures);
+			if (customChildrenFeatures != null) {
+				childrenFeatures.clear();
+				childrenFeatures.addAll(customChildrenFeatures);
 			}
 		}
 		return childrenFeatures;
@@ -61,8 +62,8 @@ public class UseCaseItemProviderExt extends UseCaseItemProvider {
 	}
 	
 	@Inject(optional=true)
-	public void setRemovedChildrenFeatures(@Named(REMOVED_CHILDREN_FEATURES_KEY) List<EReference> removedChildrenFeatures) {
-		this.removedChildrenFeatures = removedChildrenFeatures;
+	public void setRemovedChildrenFeatures(@Named(CUSTOM_CHILDREN_FEATURES_KEY) List<EReference> customChildrenFeatures) {
+		this.customChildrenFeatures = customChildrenFeatures;
 	}
 	
 }

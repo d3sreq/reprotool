@@ -12,7 +12,6 @@ import org.eclipse.emf.edit.provider.resource.ResourceItemProviderAdapterFactory
 import reprotool.model.edit.ext.annotation.ActorItemProviderAnnotation;
 import reprotool.model.edit.ext.annotation.SoftwareProjectItemProviderAnnotation;
 import reprotool.model.edit.ext.annotation.UseCaseItemProviderAnnotation;
-import reprotool.model.edit.ext.annotation.UseCaseStepItemProviderAnnotation;
 import reprotool.model.swproj.provider.ActorItemProvider;
 import reprotool.model.swproj.provider.ActorItemProviderExt;
 import reprotool.model.swproj.provider.SoftwareProjectItemProvider;
@@ -20,11 +19,8 @@ import reprotool.model.swproj.provider.SoftwareProjectItemProviderExt;
 import reprotool.model.swproj.provider.SwprojItemProviderAdapterFactory;
 import reprotool.model.swproj.provider.SwprojItemProviderAdapterFactoryExt;
 import reprotool.model.swproj.provider.SwprojItemProviderAdapterFactoryExt.FactorySoftwareProject;
-import reprotool.model.usecase.UsecasePackage;
 import reprotool.model.usecase.provider.UseCaseItemProvider;
 import reprotool.model.usecase.provider.UseCaseItemProviderExt;
-import reprotool.model.usecase.provider.UseCaseStepItemProvider;
-import reprotool.model.usecase.provider.UseCaseStepItemProviderExt;
 import reprotool.model.usecase.provider.UsecaseItemProviderAdapterFactory;
 import reprotool.model.usecase.provider.UsecaseItemProviderAdapterFactoryExt;
 
@@ -59,45 +55,54 @@ public class ProjectOutlineAdapterFactory extends ComposedAdapterFactory {
 
 		@Override
 		protected void configure() {
-			// ProjectOutlineAdapterFactory dependencies
+			bindSwprojFactoryDependencies();
+			bindUsecaseFactoryDependencies();
+		}
+
+		private void bindSwprojFactoryDependencies() {
+			// factory
+			//
 			bind(SwprojItemProviderAdapterFactory.class).to(SwprojItemProviderAdapterFactoryExt.class).in(Scopes.SINGLETON);
-			bind(UsecaseItemProviderAdapterFactory.class).to(UsecaseItemProviderAdapterFactoryExt.class).in(Scopes.SINGLETON);
 			
-			// SwprojItemProviderAdapterFactoryExt dependencies
+			// factory item providers
+			//
 			bind(ActorItemProvider.class).to(ActorItemProviderExt.class).in(Scopes.SINGLETON);
-			// factory, becouse SoftwareProjectItemProviderExt is stateful
+			// factory, because SoftwareProjectItemProviderExt is stateful
 			bind(FactorySoftwareProject.class).to(FactorySoftwareProjectImpl.class).in(Scopes.SINGLETON);
 			
-			// UsecaseItemProviderAdapterFactoryExt dependencies
-			bind(UseCaseItemProvider.class).to(UseCaseItemProviderExt.class).in(Scopes.SINGLETON);
-			bind(UseCaseStepItemProvider.class).to(UseCaseStepItemProviderExt.class).in(Scopes.SINGLETON);
-			
-			// SwprojItemProviderAdapterFactoryExt item providers dependencies
-			bind(AdapterFactory.class).annotatedWith(ActorItemProviderAnnotation.class).to(SwprojItemProviderAdapterFactoryExt.class).in(Scopes.SINGLETON);
+			// item providers dependencies
+			//
 			bind(AdapterFactory.class).annotatedWith(SoftwareProjectItemProviderAnnotation.class).to(SwprojItemProviderAdapterFactoryExt.class).in(Scopes.SINGLETON);
+			bind(AdapterFactory.class).annotatedWith(ActorItemProviderAnnotation.class).to(SwprojItemProviderAdapterFactoryExt.class).in(Scopes.SINGLETON);
+		}
+
+		private void bindUsecaseFactoryDependencies() {
+			// factory
+			//
+			bind(UsecaseItemProviderAdapterFactory.class).to(UsecaseItemProviderAdapterFactoryExt.class).in(Scopes.SINGLETON);
 			
-			// UsecaseItemProviderAdapterFactoryExt item providers dependencies
+			// factory item providers
+			//
 			bindUseCaseItemProvider();
-			bindUseCaseStepItemProvider();
 		}
 
 		private void bindUseCaseItemProvider() {
+			// item provider
+			//
+			bind(UseCaseItemProvider.class).to(UseCaseItemProviderExt.class).in(Scopes.SINGLETON);
+			
+			// factory in item provider
+			//
 			// use case item provider needs SwprojItemProviderAdapterFactoryExt as parent factory 
 			bind(AdapterFactory.class).annotatedWith(UseCaseItemProviderAnnotation.class).to(SwprojItemProviderAdapterFactoryExt.class).in(Scopes.SINGLETON);
-
-			List<EReference> removedUseCaseChildren = new ArrayList<EReference>();
-			removedUseCaseChildren.add(UsecasePackage.Literals.USE_CASE__MAIN_SCENARIO);
-			bind(new TypeLiteral<List<EReference>>() {}).annotatedWith(Names.named(UseCaseItemProviderExt.REMOVED_CHILDREN_FEATURES_KEY)).toInstance(removedUseCaseChildren);
-		}
-
-		private void bindUseCaseStepItemProvider() {
-			bind(AdapterFactory.class).annotatedWith(UseCaseStepItemProviderAnnotation.class).to(UsecaseItemProviderAdapterFactoryExt.class).in(Scopes.SINGLETON);
-			
-			List<EReference> removedUseCaseStepChildren = new ArrayList<EReference>();
-			removedUseCaseStepChildren.add(UsecasePackage.Literals.PARSEABLE_ELEMENT__TEXT_NODES);
-			bind(new TypeLiteral<List<EReference>>() {}).annotatedWith(Names.named(UseCaseStepItemProviderExt.REMOVED_CHILDREN_FEATURES_KEY)).toInstance(removedUseCaseStepChildren);
-		}
 		
+			// item provider children features
+			//
+			// remove all child nodes from use case node 
+			List<EReference> customUseCaseChildren = new ArrayList<EReference>();
+			bind(new TypeLiteral<List<EReference>>() {}).annotatedWith(Names.named(UseCaseItemProviderExt.CUSTOM_CHILDREN_FEATURES_KEY)).toInstance(customUseCaseChildren);
+		}
+
 	}
 	
 	static class FactorySoftwareProjectImpl implements FactorySoftwareProject {

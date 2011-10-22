@@ -19,11 +19,20 @@ import com.google.inject.Singleton;
  */
 @Singleton
 public class UsecaseItemProviderAdapterFactoryExt extends UsecaseItemProviderAdapterFactory {
-
-	@Inject
-	UsecaseItemProviderAdapterFactoryExt(UseCaseItemProvider useCaseItemProvider, UseCaseStepItemProvider useCaseStepItemProvider) {
+	
+	@Inject(optional=true)
+	public void setUseCaseItemProvider(UseCaseItemProvider useCaseItemProvider) {
 		this.useCaseItemProvider = useCaseItemProvider;
+	}
+	
+	@Inject(optional=true)
+	public void setUseCaseStepItemProvider(UseCaseStepItemProvider useCaseStepItemProvider) {
 		this.useCaseStepItemProvider = useCaseStepItemProvider;
+	}
+	
+	@Inject(optional=true)
+	public void setScenarioItemProvider(ScenarioItemProvider scenarioItemProvider) {
+		this.scenarioItemProvider = scenarioItemProvider;
 	}
 	
 }

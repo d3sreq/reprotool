@@ -9,9 +9,12 @@ import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.provider.ReflectiveItemProviderAdapterFactory;
 import org.eclipse.emf.edit.provider.resource.ResourceItemProviderAdapterFactory;
 
+import reprotool.model.edit.ext.annotation.ScenarioItemProviderAnnotation;
 import reprotool.model.edit.ext.annotation.UseCaseItemProviderAnnotation;
 import reprotool.model.edit.ext.annotation.UseCaseStepItemProviderAnnotation;
 import reprotool.model.usecase.UsecasePackage;
+import reprotool.model.usecase.provider.ScenarioItemProvider;
+import reprotool.model.usecase.provider.ScenarioItemProviderExt;
 import reprotool.model.usecase.provider.UseCaseItemProvider;
 import reprotool.model.usecase.provider.UseCaseItemProviderExt;
 import reprotool.model.usecase.provider.UseCaseStepItemProvider;
@@ -48,24 +51,41 @@ public class UsecaseEMFEditorAdapterFactory extends ComposedAdapterFactory {
 
 		@Override
 		protected void configure() {
-			// ProjectOutlineAdapterFactory dependencies
+			// factory
+			//
 			bind(UsecaseItemProviderAdapterFactory.class).to(UsecaseItemProviderAdapterFactoryExt.class).in(Scopes.SINGLETON);
 			
-			// UsecaseItemProviderAdapterFactoryExt dependencies
+			// factory item providers
+			//
 			bind(UseCaseItemProvider.class).to(UseCaseItemProviderExt.class).in(Scopes.SINGLETON);
+			bind(ScenarioItemProvider.class).to(ScenarioItemProviderExt.class).in(Scopes.SINGLETON);
 			bind(UseCaseStepItemProvider.class).to(UseCaseStepItemProviderExt.class).in(Scopes.SINGLETON);
 			
+			// item providers dependencies
+			//
 			// use case item provider needs SwprojItemProviderAdapterFactoryExt as parent factory 
 			bind(AdapterFactory.class).annotatedWith(UseCaseItemProviderAnnotation.class).to(UsecaseItemProviderAdapterFactoryExt.class).in(Scopes.SINGLETON);
 			bindUseCaseStepItemProvider();
+			bindScenarioItemProvider();
 		}
 		
 		private void bindUseCaseStepItemProvider() {
 			bind(AdapterFactory.class).annotatedWith(UseCaseStepItemProviderAnnotation.class).to(UsecaseItemProviderAdapterFactoryExt.class).in(Scopes.SINGLETON);
 			
-			List<EReference> removedUseCaseStepChildren = new ArrayList<EReference>();
-			removedUseCaseStepChildren.add(UsecasePackage.Literals.PARSEABLE_ELEMENT__TEXT_NODES);
-			bind(new TypeLiteral<List<EReference>>() {}).annotatedWith(Names.named(UseCaseStepItemProviderExt.REMOVED_CHILDREN_FEATURES_KEY)).toInstance(removedUseCaseStepChildren);
+			List<EReference> customUseCaseStepChildren = new ArrayList<EReference>();
+			customUseCaseStepChildren.add(UsecasePackage.Literals.USE_CASE_STEP__EXTENSIONS);
+			customUseCaseStepChildren.add(UsecasePackage.Literals.USE_CASE_STEP__VARIATIONS);
+		
+			bind(new TypeLiteral<List<EReference>>() {}).annotatedWith(Names.named(UseCaseStepItemProviderExt.CUSTOM_CHILDREN_FEATURES_KEY)).toInstance(customUseCaseStepChildren);
+		}
+
+		private void bindScenarioItemProvider() {
+			bind(AdapterFactory.class).annotatedWith(ScenarioItemProviderAnnotation.class).to(UsecaseItemProviderAdapterFactoryExt.class).in(Scopes.SINGLETON);
+
+			List<EReference> customUseCaseStepChildren = new ArrayList<EReference>();
+			customUseCaseStepChildren.add(UsecasePackage.Literals.SCENARIO__STEPS);
+			
+			bind(new TypeLiteral<List<EReference>>() {}).annotatedWith(Names.named(ScenarioItemProviderExt.CUSTOM_CHILDREN_FEATURES_KEY)).toInstance(customUseCaseStepChildren);
 		}
 
 	}
