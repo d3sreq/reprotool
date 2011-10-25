@@ -53,4 +53,9 @@ public class UseCaseStepImplCustom extends UseCaseStepImpl {
 		return softwareProject;
 	}
 	
+	@Override
+	public String getContent() {
+		return Utils.getContent(this);
+	}
+	
 }

@@ -40,10 +40,13 @@
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="ParseableElement" abstract="true"
         interface="true" eSuperTypes="#//swproj/ReqCover">
-      <eStructuralFeatures xsi:type="ecore:EReference" name="textNodes" upperBound="-1"
-          eType="#//linguistic/actionpart/Text" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="textNodes" lowerBound="1"
+          upperBound="-1" eType="#//linguistic/actionpart/Text" containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="annotations" upperBound="-1"
           eType="#//usecase/annotate/StepAnnotation" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="content" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+          changeable="false" volatile="true" transient="true" derived="true"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="Scenario" eSuperTypes="#//usecase/LabelledElement">
       <eStructuralFeatures xsi:type="ecore:EReference" name="steps" upperBound="-1"
@@ -165,7 +168,8 @@
         nsPrefix="actionpart">
       <eClassifiers xsi:type="ecore:EClass" name="Text">
         <eStructuralFeatures xsi:type="ecore:EAttribute" name="content" lowerBound="1"
-            eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+            eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+            defaultValueLiteral=""/>
         <eStructuralFeatures xsi:type="ecore:EReference" name="actionPart" eType="#//linguistic/actionpart/ActionPart"
             eOpposite="#//linguistic/actionpart/ActionPart/text"/>
         <eStructuralFeatures xsi:type="ecore:EAttribute" name="lemmaForm" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
