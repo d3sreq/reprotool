@@ -231,18 +231,6 @@ public class StyledTextCellEditor extends CellEditor {
         Assert.isTrue(text != null && (value instanceof String));
         text.removeModifyListener(getModifyListener());
         text.setText((String) value);
-        
-        // TODO - jvinarek - test
-//        StyleRange style = new StyleRange();
-//		style.start = 0;
-//		style.length = 5;
-//	    style.underline = true;
-//	    style.strikeout = true;
-//	    style.fontStyle = SWT.BOLD;
-//	    style.borderStyle = SWT.BORDER_SOLID;
-//	    text.setStyleRange(style);
-        
-        
         text.addModifyListener(getModifyListener());
     }
 

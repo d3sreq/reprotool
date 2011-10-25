@@ -1,6 +1,6 @@
 package reprotool.model.edit.ext.factory;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
@@ -99,7 +99,7 @@ public class ProjectOutlineAdapterFactory extends ComposedAdapterFactory {
 			// item provider children features
 			//
 			// remove all child nodes from use case node 
-			List<EReference> customUseCaseChildren = new ArrayList<EReference>();
+			List<EReference> customUseCaseChildren = Collections.emptyList();
 			bind(new TypeLiteral<List<EReference>>() {}).annotatedWith(Names.named(UseCaseItemProviderExt.CUSTOM_CHILDREN_FEATURES_KEY)).toInstance(customUseCaseChildren);
 		}
 

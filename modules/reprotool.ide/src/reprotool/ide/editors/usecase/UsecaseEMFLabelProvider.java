@@ -3,10 +3,9 @@ package reprotool.ide.editors.usecase;
 import org.eclipse.jface.viewers.StyledCellLabelProvider;
 import org.eclipse.jface.viewers.StyledString;
 import org.eclipse.jface.viewers.ViewerCell;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.StyleRange;
 
-import reprotool.model.linguistic.actionpart.Text;
-import reprotool.model.usecase.LabelledElement;
-import reprotool.model.usecase.ParseableElement;
 import reprotool.model.usecase.Scenario;
 import reprotool.model.usecase.UseCase;
 import reprotool.model.usecase.UseCaseStep;
@@ -115,24 +114,17 @@ public class UsecaseEMFLabelProvider {
 				// TODO jvinarek - move to resource file
 				content = "Main scenario";
 			} else {
-				content = getContent(scenario.getScenarioGuard());
+				content = scenario.getScenarioGuard().getContent();
 			}
+			
 			cell.setText(content);			
 		}
 		
 		@Override
 		protected void updateUseCaseStep(ViewerCell cell, UseCaseStep useCaseStep) {
-			cell.setText(getContent(useCaseStep));
+			cell.setText(useCaseStep.getContent());
+			cell.setStyleRanges(UseCaseStepStyler.style(useCaseStep));
 		}
 		
-		private String getContent(ParseableElement parseableElement) {
-			StringBuffer stringBuffer = new StringBuffer();
-			
-			for (Text text : parseableElement.getTextNodes()) {
-				stringBuffer.append(text.getContent());
-			}
-			
-			return stringBuffer.toString();
-		}
 	}
 }

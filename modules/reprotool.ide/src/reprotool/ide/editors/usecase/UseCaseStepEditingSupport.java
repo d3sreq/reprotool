@@ -3,8 +3,8 @@ package reprotool.ide.editors.usecase;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.swt.custom.StyledTextContent;
 
-import reprotool.model.linguistic.actionpart.Text;
 import reprotool.model.usecase.UseCaseStep;
 
 
@@ -27,8 +27,12 @@ public class UseCaseStepEditingSupport extends EditingSupport {
 		
 		if (element instanceof UseCaseStep) {
 			UseCaseStep useCaseStep = (UseCaseStep)element;		
+
+			StyledTextContent styledTextContent = new UseCaseStepStyledTextContent(useCaseStep);
+			styledTextCellEditor.getText().setContent(styledTextContent);
+			
 			UseCaseStepLineStyleListener listener = new UseCaseStepLineStyleListener(useCaseStep);
-			styledTextCellEditor.getText().addLineStyleListener(listener);
+			styledTextCellEditor.getText().addLineStyleListener(listener);			
 		}
 		
 		return styledTextCellEditor;
@@ -42,15 +46,8 @@ public class UseCaseStepEditingSupport extends EditingSupport {
 	@Override
 	protected Object getValue(Object element) {
 		if (element instanceof UseCaseStep) {
-			
 			UseCaseStep useCaseStep = (UseCaseStep)element;
-			
-			StringBuilder stringBuilder = new StringBuilder();
-			for (Text text : useCaseStep.getTextNodes()) {
-				stringBuilder.append(text.getContent());
-			}
-			
-			return stringBuilder.toString();
+			return useCaseStep.getContent();
 		}
 		
 		return element;
@@ -58,9 +55,6 @@ public class UseCaseStepEditingSupport extends EditingSupport {
 
 	@Override
 	protected void setValue(Object element, Object value) {
-		// TODO jvinarek
-//		((Person) element).setFirstName(String.valueOf(value));
-		
 		viewer.refresh();
 	}
 }

@@ -13,12 +13,12 @@ import org.eclipse.swt.widgets.Composite;
  */
 public class BoxContainer extends Composite {
 	private ActionTypeBox actionTypeBox;
-	private VerbBox verbBox;
+	private VerbBox activityBox;
 	private TextWithComboBox includeUseCaseBox;
 	private TextWithComboBox gotoUseCaseStepBox;
 	private TextWithComboBox indirectObjectBox;
-	private TextWithComboBox directObjectBox;
-	private TextWithComboBox subjectBox;
+	private TextWithComboBox actionParamBox;
+	private TextWithComboBox sentenceActorBox;
 
 	/**
 	 * Create the composite.
@@ -34,13 +34,13 @@ public class BoxContainer extends Composite {
 
 		actionTypeBox = new ActionTypeBox(sashForm, SWT.NONE);
 
-		subjectBox = new TextWithComboBox(sashForm, SWT.NONE);
-		subjectBox.getGrpActionPart().setText("Subject");
+		sentenceActorBox = new TextWithComboBox(sashForm, SWT.NONE);
+		sentenceActorBox.getGrpActionPart().setText("Sentence actor");
 
-		verbBox = new VerbBox(sashForm, SWT.NONE);
+		activityBox = new VerbBox(sashForm, SWT.NONE);
 
-		directObjectBox = new TextWithComboBox(sashForm, SWT.NONE);
-		directObjectBox.getGrpActionPart().setText("Direct object");
+		actionParamBox = new TextWithComboBox(sashForm, SWT.NONE);
+		actionParamBox.getGrpActionPart().setText("Direct object");
 
 		indirectObjectBox = new TextWithComboBox(sashForm, SWT.NONE);
 		indirectObjectBox.getGrpActionPart().setText("Indirect object");
@@ -65,7 +65,7 @@ public class BoxContainer extends Composite {
 	}
 
 	public VerbBox getVerbBox() {
-		return verbBox;
+		return activityBox;
 	}
 
 	public TextWithComboBox getIncludeUseCaseBox() {
@@ -81,10 +81,10 @@ public class BoxContainer extends Composite {
 	}
 
 	public TextWithComboBox getDirectObjectBox() {
-		return directObjectBox;
+		return actionParamBox;
 	}
 
 	public TextWithComboBox getSubjectBox() {
-		return subjectBox;
+		return sentenceActorBox;
 	}
 }

@@ -53,8 +53,6 @@ import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
 import org.eclipse.emf.edit.provider.AdapterFactoryItemDelegator;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
-import org.eclipse.emf.edit.provider.ReflectiveItemProviderAdapterFactory;
-import org.eclipse.emf.edit.provider.resource.ResourceItemProviderAdapterFactory;
 import org.eclipse.emf.edit.ui.action.EditingDomainActionBarContributor;
 import org.eclipse.emf.edit.ui.dnd.EditingDomainViewerDropAdapter;
 import org.eclipse.emf.edit.ui.dnd.LocalTransfer;
@@ -116,7 +114,6 @@ import reprotool.ide.views.sentenceanalysis.ISentenceAnalysisSheetPage;
 import reprotool.ide.views.sentenceanalysis.SentenceAnalysisSheetPage;
 import reprotool.model.edit.ext.factory.UsecaseEMFEditorAdapterFactory;
 import reprotool.model.lts.presentation.ReprotoolEditorPlugin;
-import reprotool.model.usecase.provider.UsecaseItemProviderAdapterFactory;
 
 
 /**

@@ -54,7 +54,7 @@ public class UsecaseEMFEditorComposite extends Composite {
 		tree.setHeaderVisible(true);
 
 		labelColumn = new TreeViewerColumn(treeViewer, SWT.NONE);
-		labelColumn.getColumn().setWidth(100);
+		labelColumn.getColumn().setWidth(130);
 		labelColumn.getColumn().setText("Label");
 
 		textColumn = new TreeViewerColumn(treeViewer, SWT.NONE);
