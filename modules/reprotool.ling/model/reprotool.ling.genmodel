@@ -7,8 +7,17 @@
   <foreignModel>reprotool.ling.ecore</foreignModel>
   <genPackages prefix="Ling" basePackage="reprotool" disposableProviderFactory="true"
       ecorePackage="reprotool.ling.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="reprotool.ling.ecore#//SentenceType">
+      <genEnumLiterals ecoreEnumLiteral="reprotool.ling.ecore#//SentenceType/NounPhrase"/>
+      <genEnumLiterals ecoreEnumLiteral="reprotool.ling.ecore#//SentenceType/VerbPhrase"/>
+      <genEnumLiterals ecoreEnumLiteral="reprotool.ling.ecore#//SentenceType/PrepositionPhrase"/>
+      <genEnumLiterals ecoreEnumLiteral="reprotool.ling.ecore#//SentenceType/Undefined"/>
+      <genEnumLiterals ecoreEnumLiteral="reprotool.ling.ecore#//SentenceType/SentencePhrase"/>
+    </genEnums>
     <genClasses ecoreClass="reprotool.ling.ecore#//Sentence">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference reprotool.ling.ecore#//Sentence/words"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference reprotool.ling.ecore#//Sentence/EReference0"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference reprotool.ling.ecore#//Sentence/sentenceTree"/>
       <genOperations ecoreOperation="reprotool.ling.ecore#//Sentence/parseString">
         <genParameters ecoreParameter="reprotool.ling.ecore#//Sentence/parseString/inputString"/>
       </genOperations>
@@ -16,6 +25,16 @@
     </genClasses>
     <genClasses ecoreClass="reprotool.ling.ecore#//Word">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reprotool.ling.ecore#//Word/wordStr"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reprotool.ling.ecore#//Word/text"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reprotool.ling.ecore#//Word/lemma"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reprotool.ling.ecore#//Word/POS"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reprotool.ling.ecore#//Word/ID"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference reprotool.ling.ecore#//Word/actor"/>
+    </genClasses>
+    <genClasses ecoreClass="reprotool.ling.ecore#//SentenceNode">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference reprotool.ling.ecore#//SentenceNode/children"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reprotool.ling.ecore#//SentenceNode/type"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference reprotool.ling.ecore#//SentenceNode/word"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>
