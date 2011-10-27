@@ -3,7 +3,6 @@ package reprotool.ide.editors.usecase;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.jface.viewers.StyledString;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyleRange;
 

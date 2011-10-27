@@ -20,7 +20,10 @@ import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
+import org.eclipse.jface.databinding.swt.ISWTObservable;
+import org.eclipse.jface.databinding.swt.ISWTObservableValue;
 import org.eclipse.jface.databinding.swt.SWTObservables;
+import org.eclipse.jface.databinding.swt.WidgetProperties;
 import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
@@ -152,13 +155,10 @@ public class UsecaseEMFEditorPart extends EditorPart implements IMenuListener, I
 	private DataBindingContext initDataBindings(UseCase useCase) {
 		DataBindingContext bindingContext = new DataBindingContext();
 		
-		UpdateValueStrategy strategy1 = new UpdateValueStrategy();
-		UpdateValueStrategy strategy2 = new UpdateValueStrategy();
-		
-		// FIXME - changes don't mark editor as dirty and change in another editor doesn't affect UC name
+		// bind use case name (title under "Use case" label)
 		IObservableValue emfValue =  EMFEditProperties.value(getEditingDomain(), UsecasePackage.Literals.USE_CASE__NAME).observe(useCase);
-		IObservableValue textValue = SWTObservables.observeText(composite.getTxtUseCaseName());
-		bindingContext.bindValue(textValue, emfValue, strategy1, strategy2);
+		ISWTObservableValue textValue = WidgetProperties.text(SWT.Modify).observe(composite.getTxtUseCaseName());
+		bindingContext.bindValue(textValue, emfValue);
 		
 		return bindingContext;
 	}
