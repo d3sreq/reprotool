@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.emf.common.command.Command;
+import org.eclipse.emf.common.command.CompoundCommand;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.edit.command.RemoveCommand;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
@@ -15,8 +17,9 @@ import org.eclipse.swt.custom.TextChangedEvent;
 import org.eclipse.swt.custom.TextChangingEvent;
 
 import reprotool.model.linguistic.actionpart.ActionpartPackage;
-import reprotool.model.linguistic.actionpart.Text;
+import reprotool.model.linguistic.actionpart.TextRange;
 import reprotool.model.usecase.UseCaseStep;
+import reprotool.model.usecase.UsecasePackage;
 
 /**
  * Some methods copied from org.eclipse.swt.custom.DefaultContent class
@@ -124,7 +127,7 @@ public class UseCaseStepStyledTextContent implements StyledTextContent {
 	public void replaceTextRange(int start, int replaceLength, String text) {
 		// TODO - jvinarek - detect and implement paste across more than one Text node.
 		// TODO - jvinarek - add copy & paste
-		TextChange textChange = textNodeOnPosition(useCaseStep.getTextNodes(), start, replaceLength, text);
+		Command command = changeUseCaseStep(start, replaceLength, text);
 		
 		// inform listeners
 		TextChangingEvent textChangingEvent = new TextChangingEvent(this);
@@ -132,11 +135,8 @@ public class UseCaseStepStyledTextContent implements StyledTextContent {
 			listener.textChanging(textChangingEvent);
 		}
 		
-		EditingDomain editingDomain = getEditingDomain(textChange.getTextNode());
-		Command command = SetCommand.create(editingDomain, textChange.getTextNode(), ActionpartPackage.Literals.TEXT__CONTENT, textChange.getNewTextNodeContent());
-		
 		// execute command
-		editingDomain.getCommandStack().execute(command);
+		getEditingDomain().getCommandStack().execute(command);
 		
 		// inform listeners
 		TextChangedEvent textChangedEvent = new TextChangedEvent(this);
@@ -146,7 +146,7 @@ public class UseCaseStepStyledTextContent implements StyledTextContent {
 	}
 	
 	/**
-	 * Looks for {@link Text} node which should be affected by text change at "start" 
+	 * Looks for {@link TextRange} node which should be affected by text change at "start" 
 	 * position.
 	 * 
 	 * @param textNodeList
@@ -155,38 +155,154 @@ public class UseCaseStepStyledTextContent implements StyledTextContent {
 	 * @param text
 	 * @return
 	 */
-	private TextChange textNodeOnPosition(List<Text> textNodeList, int start, int replaceLength, String text) {
+	private Command changeUseCaseStep(int start, int replaceLength, String text) {
 		
-		// skip nodes with text before "start"
-		// TODO jvinarek - ensure that list has at least one node
-		int lenghtBeforeSelected = 0;
-		Text selectedTextNode = null;
-
-		for (Text textNode : textNodeList) {
-			selectedTextNode = textNode;
-			// TODO jvinarek - ensure that content is not null
-			if (start <= lenghtBeforeSelected + textNode.getContent().length()) {
-				break;
-			}
-			lenghtBeforeSelected += textNode.getContent().length();
-		}
+		EditingDomain editingDomain = getEditingDomain();
 		
-		int changeOffset = start - lenghtBeforeSelected;
-
-		String oldContent = selectedTextNode.getContent();
-		String before = oldContent.substring(0, changeOffset);
+		// command changing text of the step
+		String oldContent = useCaseStep.getContent();
+		String before = oldContent.substring(0, start);
 		// empty text means delete - skip deleted char(s)
-		int afterStart = text.equals("") ? changeOffset + replaceLength : changeOffset;
+		int afterStart = text.isEmpty() ? start + replaceLength : start;
 		String after = oldContent.substring(afterStart);
 		
 		String newContent = before + text + after; 
+		Command changeTextCommand = SetCommand.create(editingDomain, useCaseStep, UsecasePackage.Literals.PARSEABLE_ELEMENT__CONTENT, newContent);
+		
+		// commands (re)moving ranges of the nodes
+		List<Command> rangeCommands = new ArrayList<Command>();		
+		for (TextRange textNode : useCaseStep.getTextNodes()) {
 
-		TextChange textChange = new TextChange(selectedTextNode, newContent);
-		return textChange;
+			if (changeStartsInsideNode(textNode, start)) {
+				int lengthChange = text.isEmpty() ? -replaceLength : text.length();
+				int newLength = textNode.getLength() + lengthChange;
+				SetCommand setCommand = new SetCommand(editingDomain, textNode, ActionpartPackage.Literals.TEXT_RANGE__LENGTH, newLength);
+				rangeCommands.add(setCommand);
+				
+			} else if (changeDeletesWholeNode(textNode, start, replaceLength, text)) {
+				RemoveCommand removeCommand = new RemoveCommand(editingDomain, useCaseStep, ActionpartPackage.Literals.ACTION_PART__TEXT, textNode);
+				rangeCommands.add(removeCommand);
+				
+			} else if (changeDeletesNodeStart(textNode, start, replaceLength, text)) {
+				int newLength = textNode.getStartPosition() + textNode.getLength() - (start + replaceLength);
+				SetCommand setLengthCommand = new SetCommand(editingDomain, textNode, ActionpartPackage.Literals.TEXT_RANGE__LENGTH, newLength);
+				rangeCommands.add(setLengthCommand);
+				
+				SetCommand setPositionCommand = new SetCommand(editingDomain, textNode, ActionpartPackage.Literals.TEXT_RANGE__START_POSITION, start);
+				rangeCommands.add(setPositionCommand);
+				
+			} else if (changeBeforeNode(textNode, start, replaceLength, text)) {
+				// node after added/deleted text
+				int positionChange = text.isEmpty() ? -replaceLength : text.length();
+				int newStartPosition = textNode.getStartPosition() + positionChange;
+				SetCommand setCommand = new SetCommand(editingDomain, textNode, ActionpartPackage.Literals.TEXT_RANGE__START_POSITION, newStartPosition);
+				rangeCommands.add(setCommand);
+			}
+		}
+		
+		if (!rangeCommands.isEmpty()) {
+			CompoundCommand compoundCommand = new CompoundCommand();
+			compoundCommand.append(changeTextCommand);
+			
+			for (Command command : rangeCommands) {
+				compoundCommand.append(command);
+			}
+			changeTextCommand = compoundCommand;
+		}
+		
+		return changeTextCommand;
+	}
+	
+	
+	/**
+	 * Change deletes the node start. For example:
+	 * <pre>
+	 * {@code
+	 * "^" means start of the delete, "$" end of the delete
+	 * 
+	 *   |C l e r k|
+	 * ^ ^  
+	 * }
+	 * </pre> 
+	 * 
+	 * @param textNode
+	 * @param start
+	 * @param replaceLength
+	 * @param text
+	 * @return
+	 */
+	private boolean changeBeforeNode(TextRange textNode, int start, int replaceLength, String text) {
+		return start <= textNode.getStartPosition();
 	}
 
-	private EditingDomain getEditingDomain(Text textNode) {
-		ResourceSet resourceSet = textNode.eResource().getResourceSet();
+	/**
+	 * Change deletes the node start. For example:
+	 * <pre>
+	 * {@code
+	 * "^" means start of the delete, "$" end of the delete
+	 * 
+	 *   |C l e r k|
+	 * ^ ^ $ $ $ $     
+	 * }
+	 * </pre> 
+	 * 
+	 * @param textNode
+	 * @param start
+	 * @param replaceLength
+	 * @param text
+	 * @return
+	 */
+	private boolean changeDeletesNodeStart(TextRange textNode, int start, int replaceLength, String text) {
+		return text.isEmpty()
+				&& start + replaceLength > textNode.getStartPosition()
+				&& start + replaceLength < textNode.getStartPosition() + textNode.getLength();
+	}
+
+	/**
+	 * Change deletes the node. For example:
+	 * <pre>
+	 * {@code
+	 * "^" means start of the delete, "$" end of the delete
+	 * 
+	 *   |C l e r k|
+	 * ^ ^         $ $ 
+	 * }
+	 * </pre>
+	 * 
+	 * @param textNode
+	 * @param start
+	 * @param replaceLength
+	 * @param text
+	 * @return
+	 */
+	private boolean changeDeletesWholeNode(TextRange textNode, int start, int replaceLength, String text) {
+		return text.isEmpty() 
+				&& start <= textNode.getStartPosition()
+				&& start + replaceLength >= textNode.getStartPosition() + textNode.getLength();
+	}
+
+	/**
+	 * Change occurs inside the given node:
+	 * <pre>
+	 * {@code
+	 * "^" means start of the insert/delete
+	 * 
+	 * |C l e r k|
+	 *   ^ ^ ^ ^ ^
+	 * }
+	 * </pre>
+	 * 
+	 * @param textNode
+	 * @param changeStart
+	 * @return
+	 */
+	private boolean changeStartsInsideNode(TextRange textNode, int changeStart) {		 
+		return changeStart > textNode.getStartPosition() 
+				&& changeStart <= textNode.getStartPosition() + textNode.getLength(); 
+	}
+
+	private EditingDomain getEditingDomain() {
+		ResourceSet resourceSet = useCaseStep.eResource().getResourceSet();
 		// TODO - jvinarek - use guava validation ?
 		assert(resourceSet instanceof IEditingDomainProvider);
 		EditingDomain editingDomain = ((IEditingDomainProvider)resourceSet).getEditingDomain(); 
@@ -198,22 +314,4 @@ public class UseCaseStepStyledTextContent implements StyledTextContent {
 		// TODO jvinarek - add xreal implementation
 	}
 	
-	private static class TextChange {
-		private final Text textNode;
-		private final String newTextNodeContent;
-
-		public TextChange(Text textNode, String newTextNodeContent) {
-			this.textNode = textNode;
-			this.newTextNodeContent = newTextNodeContent;
-		}
-
-		public Text getTextNode() {
-			return textNode;
-		}
-
-		public String getNewTextNodeContent() {
-			return newTextNodeContent;
-		}
-	}
-
 }

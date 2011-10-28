@@ -7,8 +7,14 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
+import lts2.AbortState;
+import lts2.State;
+import lts2.StateMachine;
+import lts2.Transition;
+import lts2.TransitionalState;
+import lts2.impl.LTSGeneratorImpl;
+
 import org.eclipse.core.runtime.Assert;
-import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.SWTEventDispatcher;
@@ -24,6 +30,7 @@ import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
 import org.eclipse.jface.viewers.ContentViewer;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -40,9 +47,8 @@ import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IActionBars;
-import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 import org.eclipse.ui.part.Page;
-
+import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 import org.eclipse.zest.core.viewers.GraphViewer;
 import org.eclipse.zest.core.widgets.CGraphNode;
 import org.eclipse.zest.core.widgets.Graph;
@@ -51,22 +57,12 @@ import org.eclipse.zest.core.widgets.GraphItem;
 import org.eclipse.zest.core.widgets.GraphNode;
 import org.eclipse.zest.core.widgets.ZestStyles;
 import org.eclipse.zest.layouts.LayoutAlgorithm;
-import org.eclipse.swt.SWT;
 
 import reprotool.model.linguistic.action.UseCaseInclude;
-import reprotool.model.linguistic.actionpart.Text;
 import reprotool.model.usecase.Condition;
 import reprotool.model.usecase.Scenario;
 import reprotool.model.usecase.UseCase;
 import reprotool.model.usecase.UseCaseStep;
-
-import lts2.AbortState;
-import lts2.Lts2Factory;
-import lts2.State;
-import lts2.StateMachine;
-import lts2.Transition;
-import lts2.TransitionalState;
-import lts2.impl.LTSGeneratorImpl;
 
 
 public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
@@ -215,12 +211,12 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 		state2Node.put(s, node);
 	}
 	
-	private void processTransition(Transition t, AbortState abort) {
+	private void processTransition(Transition transition, AbortState abort) {
 		if (
-				(t.getRelatedStep() != null) &&
-				(t.getRelatedStep().getAction() instanceof UseCaseInclude)
+				(transition.getRelatedStep() != null) &&
+				(transition.getRelatedStep().getAction() instanceof UseCaseInclude)
 		) {
-			UseCaseInclude inc = (UseCaseInclude) t.getRelatedStep().getAction();
+			UseCaseInclude inc = (UseCaseInclude) transition.getRelatedStep().getAction();
 			UseCase uc = inc.getIncludeTarget();
 			StateMachine mach = useCase2Machine.get(uc);
 			State st1 = mach.getInitialState();
@@ -231,68 +227,56 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 			Assert.isNotNull(state2Node.get(st2));
 			GraphConnection c1 =
 				new GraphConnection(viewer.getGraphControl(),
-					ZestStyles.CONNECTIONS_DIRECTED, state2Node.get(t.getSourceState()), state2Node.get(st1));
+					ZestStyles.CONNECTIONS_DIRECTED, state2Node.get(transition.getSourceState()), state2Node.get(st1));
 			GraphConnection c2 =
 				new GraphConnection(viewer.getGraphControl(),
-					ZestStyles.CONNECTIONS_DIRECTED, state2Node.get(st2), state2Node.get(t.getTargetState()));
+					ZestStyles.CONNECTIONS_DIRECTED, state2Node.get(st2), state2Node.get(transition.getTargetState()));
 			
-			Shape s = (Shape) c1.getConnectionFigure();
-			s.setAntialias(SWT.ON);
-			s.setLineStyle(SWT.LINE_CUSTOM);
-			s.setLineDash(new float[] {7.0f, 5.0f});
+			Shape shape = (Shape) c1.getConnectionFigure();
+			shape.setAntialias(SWT.ON);
+			shape.setLineStyle(SWT.LINE_CUSTOM);
+			shape.setLineDash(new float[] {7.0f, 5.0f});
 			
-			s = (Shape) c2.getConnectionFigure();
-			s.setAntialias(SWT.ON);
-			s.setLineStyle(SWT.LINE_CUSTOM);
-			s.setLineDash(new float[] {7.0f, 5.0f});				
+			shape = (Shape) c2.getConnectionFigure();
+			shape.setAntialias(SWT.ON);
+			shape.setLineStyle(SWT.LINE_CUSTOM);
+			shape.setLineDash(new float[] {7.0f, 5.0f});				
 		}
 		
 		GraphConnection con = null;
 		
-		if (t.getTargetState() == abort) {
+		if (transition.getTargetState() == abort) {
 			GraphNode node = new CGraphNode(viewer.getGraphControl(), SWT.NONE,
 					figureProvider.getFigure(abort));
 			node.setData(abort);
-			trans2Node.put(t, node);
+			trans2Node.put(transition, node);
 			con = new GraphConnection(viewer.getGraphControl(), ZestStyles.CONNECTIONS_DIRECTED,
-					state2Node.get(t.getSourceState()), node);
-			trans2Edge.put(t, con);
+					state2Node.get(transition.getSourceState()), node);
+			trans2Edge.put(transition, con);
 		} else {
 			con = new GraphConnection(viewer.getGraphControl(), ZestStyles.CONNECTIONS_DIRECTED,
-						state2Node.get(t.getSourceState()), state2Node.get(t.getTargetState()));
-			trans2Edge.put(t, con);
-			if (gotoTransitions.contains(t)) {
+						state2Node.get(transition.getSourceState()), state2Node.get(transition.getTargetState()));
+			trans2Edge.put(transition, con);
+			if (gotoTransitions.contains(transition)) {
 				con.setCurveDepth(16);
 			}
 		}
 		
-		if (t.getRelatedStep() != null) {
+		if (transition.getRelatedStep() != null) {
 			IFigure toolTip = new Label();
-			StringBuffer s = new StringBuffer();
-			s.append("Label: " + t.getRelatedStep().getLabel());
-			Text txt = null;
-			EList<Text> txtNodes = t.getRelatedStep().getTextNodes();
-			if ((txtNodes != null) && (!txtNodes.isEmpty())) {
-				txt = txtNodes.get(0);
+			
+			StringBuffer stringBuffer = new StringBuffer();
+			stringBuffer.append("Label: " + transition.getRelatedStep().getLabel());
+			stringBuffer.append("\n");
+			stringBuffer.append("Text: " + transition.getRelatedStep().getContent());
+			
+			Scenario scenario = (Scenario) transition.getRelatedStep().eContainer();
+			EList<Condition> preconditions = scenario.getPreconditions();
+			if (!preconditions.isEmpty()) {
+				stringBuffer.append("\n");
+				stringBuffer.append("Cond: " + preconditions.get(0).getContent());
 			}
-			if (txt != null) {
-				s.append("\n");
-				s.append("Text: " + txt.getContent());
-			}
-			txt = null;
-			Scenario sc = (Scenario) t.getRelatedStep().eContainer();
-			EList<Condition> preconditions = sc.getPreconditions();
-			if ((preconditions != null) && (!preconditions.isEmpty())) {
-				txtNodes = preconditions.get(0).getTextNodes();
-				if ((txtNodes != null) && (!txtNodes.isEmpty())) {
-					txt = txtNodes.get(0);
-				}
-			}
-			if (txt != null) {
-				s.append("\n");
-				s.append("Cond: " + txt.getContent());
-			}
-			((Label) toolTip).setText(s.toString());
+			((Label) toolTip).setText(stringBuffer.toString());
 			con.setTooltip(toolTip);
 		}
 	}

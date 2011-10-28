@@ -676,9 +676,21 @@
     <children xmi:type="notation:Node" xmi:id="_AcxawNMCEeC2DsylnBoSvA" type="1001">
       <children xmi:type="notation:Node" xmi:id="_Acxaw9MCEeC2DsylnBoSvA" type="4001"/>
       <children xmi:type="notation:Node" xmi:id="_AcxaxNMCEeC2DsylnBoSvA" type="5001">
-        <children xmi:type="notation:Node" xmi:id="_eaJzgNMNEeC2DsylnBoSvA" type="2001">
-          <element xmi:type="ecore:EAttribute" href="reprotool.model.ecore#//linguistic/actionpart/Text/content"/>
-          <layoutConstraint xmi:type="notation:Location" xmi:id="_eaJzgdMNEeC2DsylnBoSvA"/>
+        <children xmi:type="notation:Node" xmi:id="_ZFBmUQDKEeGLzKvkE0IDeA" type="2001">
+          <element xmi:type="ecore:EAttribute" href="reprotool.model.ecore#//linguistic/actionpart/Text/startPosition"/>
+          <layoutConstraint xmi:type="notation:Location" xmi:id="_ZFBmUgDKEeGLzKvkE0IDeA"/>
+        </children>
+        <children xmi:type="notation:Node" xmi:id="_fl0Z0ADKEeGLzKvkE0IDeA" type="2001">
+          <element xmi:type="ecore:EAttribute" href="reprotool.model.ecore#//linguistic/actionpart/Text/length"/>
+          <layoutConstraint xmi:type="notation:Location" xmi:id="_fl0Z0QDKEeGLzKvkE0IDeA"/>
+        </children>
+        <children xmi:type="notation:Node" xmi:id="_ZFLXUADKEeGLzKvkE0IDeA" type="2001">
+          <element xmi:type="ecore:EAttribute" href="reprotool.model.ecore#//linguistic/actionpart/Text/lemmaForm"/>
+          <layoutConstraint xmi:type="notation:Location" xmi:id="_ZFLXUQDKEeGLzKvkE0IDeA"/>
+        </children>
+        <children xmi:type="notation:Node" xmi:id="_ZFLXUgDKEeGLzKvkE0IDeA" type="2001">
+          <element xmi:type="ecore:EAttribute" href="reprotool.model.ecore#//linguistic/actionpart/Text/posTag"/>
+          <layoutConstraint xmi:type="notation:Location" xmi:id="_ZFLXUwDKEeGLzKvkE0IDeA"/>
         </children>
         <styles xmi:type="notation:DrawerStyle" xmi:id="_AcxaxdMCEeC2DsylnBoSvA"/>
         <styles xmi:type="notation:SortingStyle" xmi:id="_AcxaxtMCEeC2DsylnBoSvA"/>
@@ -728,18 +740,6 @@
       <element xmi:type="ecore:EClass" href="reprotool.model.ecore#//usecase/ParseableElement"/>
       <layoutConstraint xmi:type="notation:Bounds" xmi:id="_PJjU0tOdEeC2DsylnBoSvA" x="84" y="36"/>
     </children>
-    <children xmi:type="notation:Shape" xmi:id="_7s3uINOmEeC2DsylnBoSvA" type="Note" description="Text without actionPart is not important for analysis" fillColor="13369343" transparency="0" lineColor="6737151" lineWidth="1">
-      <children xmi:type="notation:BasicDecorationNode" xmi:id="_7s3uJNOmEeC2DsylnBoSvA" type="DiagramName">
-        <element xsi:nil="true"/>
-      </children>
-      <children xmi:type="notation:BasicDecorationNode" xmi:id="_7s3uJdOmEeC2DsylnBoSvA" type="Description">
-        <element xsi:nil="true"/>
-      </children>
-      <styles xmi:type="notation:TextStyle" xmi:id="_7s3uIdOmEeC2DsylnBoSvA"/>
-      <styles xmi:type="notation:LineTypeStyle" xmi:id="_7s3uItOmEeC2DsylnBoSvA"/>
-      <element xsi:nil="true"/>
-      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_7s3uI9OmEeC2DsylnBoSvA" x="240" y="340" width="151"/>
-    </children>
     <children xmi:type="notation:Shape" xmi:id="_FNIjcNOnEeC2DsylnBoSvA" type="Note" description="Actionpart without text in sentence - when for example when representative is missing in sentence text, but is clear from context - &quot;User logs in&quot;, rep. obj. is SUD." fillColor="13369343" transparency="0" lineColor="6737151" lineWidth="1">
       <children xmi:type="notation:BasicDecorationNode" xmi:id="_FNIjdNOnEeC2DsylnBoSvA" type="DiagramName">
         <element xsi:nil="true"/>
@@ -764,9 +764,9 @@
       <styles xmi:type="notation:ConnectorStyle" xmi:id="_Go97MdOaEeC2DsylnBoSvA" lineColor="4210752"/>
       <styles xmi:type="notation:FontStyle" xmi:id="_Go97MtOaEeC2DsylnBoSvA" fontColor="4210752" fontHeight="10"/>
       <element xmi:type="ecore:EReference" href="reprotool.model.ecore#//linguistic/actionpart/Text/actionPart"/>
-      <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_Go97M9OaEeC2DsylnBoSvA" points="[0, 0, 0, 60]$[0, -60, 0, 0]"/>
-      <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_lG4HwNOdEeC2DsylnBoSvA" id="(0.8538461538461538,0.6530612244897959)"/>
-      <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_lG4HwdOdEeC2DsylnBoSvA" id="(0.02,0.5185185185185185)"/>
+      <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_Go97M9OaEeC2DsylnBoSvA" points="[23, -3, -174, 19]$[107, -27, -90, -5]$[195, -21, -2, 1]"/>
+      <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_Ps0HggDPEeGLzKvkE0IDeA" id="(0.8538461538461538,0.6530612244897959)"/>
+      <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_Ps0HgwDPEeGLzKvkE0IDeA" id="(0.02,0.5185185185185185)"/>
     </edges>
     <edges xmi:type="notation:Edge" xmi:id="_Q9F2YNOaEeC2DsylnBoSvA" type="3002" source="_CDtnUNOaEeC2DsylnBoSvA" target="_AcxawNMCEeC2DsylnBoSvA">
       <children xmi:type="notation:Node" xmi:id="_Q9F2ZNOaEeC2DsylnBoSvA" type="4011">
@@ -778,7 +778,7 @@
       <styles xmi:type="notation:ConnectorStyle" xmi:id="_Q9F2YdOaEeC2DsylnBoSvA" lineColor="4210752"/>
       <styles xmi:type="notation:FontStyle" xmi:id="_Q9F2YtOaEeC2DsylnBoSvA" fontColor="4210752" fontHeight="10"/>
       <element xmi:type="ecore:EReference" href="reprotool.model.ecore#//linguistic/actionpart/ActionPart/text"/>
-      <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_Q9F2Y9OaEeC2DsylnBoSvA" points="[0, 0, 0, -60]$[0, 60, 0, 0]"/>
+      <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_Q9F2Y9OaEeC2DsylnBoSvA" points="[-2, 1, 195, -21]$[-90, -5, 107, -27]$[-174, 19, 23, -3]"/>
       <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_HJbWQfdwEeCY4MASQd-Dbg" id="(0.02,0.5185185185185185)"/>
       <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_HJbWQvdwEeCY4MASQd-Dbg" id="(0.8538461538461538,0.6530612244897959)"/>
     </edges>
@@ -795,14 +795,6 @@
       <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_PKAAw9OdEeC2DsylnBoSvA" points="[0, 0, 0, 60]$[0, -60, 0, 0]"/>
       <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_dV7T8NOdEeC2DsylnBoSvA" id="(0.5,0.0)"/>
       <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_dV7T8dOdEeC2DsylnBoSvA" id="(0.5,1.0)"/>
-    </edges>
-    <edges xmi:type="notation:Connector" xmi:id="_-CoEkNOmEeC2DsylnBoSvA" type="NoteAttachment" source="_Go97MNOaEeC2DsylnBoSvA" target="_7s3uINOmEeC2DsylnBoSvA" lineWidth="1">
-      <styles xmi:type="notation:ArrowStyle" xmi:id="_-CoEkdOmEeC2DsylnBoSvA"/>
-      <styles xmi:type="notation:LineTypeStyle" xmi:id="_-CoEktOmEeC2DsylnBoSvA"/>
-      <element xsi:nil="true"/>
-      <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_-CoEk9OmEeC2DsylnBoSvA" points="[-1, 0, 0, -80]$[-1, 80, 0, 0]"/>
-      <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_-DEwgNOmEeC2DsylnBoSvA" id="(0.48660714285714285,0.532258064516129)"/>
-      <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_-DEwgdOmEeC2DsylnBoSvA" id="(0.28,0.0)"/>
     </edges>
     <edges xmi:type="notation:Connector" xmi:id="_GVQpINOnEeC2DsylnBoSvA" type="NoteAttachment" source="_Q9F2YNOaEeC2DsylnBoSvA" target="_FNIjcNOnEeC2DsylnBoSvA" lineWidth="1">
       <styles xmi:type="notation:ArrowStyle" xmi:id="_GVQpIdOnEeC2DsylnBoSvA"/>
@@ -1203,7 +1195,6 @@
       <children xmi:type="notation:Node" xmi:id="_eTiFY-2sEeCCKq9-TiMlEA" type="4001"/>
       <children xmi:type="notation:Node" xmi:id="_eTiFZO2sEeCCKq9-TiMlEA" type="5001">
         <children xmi:type="notation:Node" xmi:id="_eTlvwO2sEeCCKq9-TiMlEA" type="2001">
-          <element xmi:type="ecore:EAttribute" href="reprotool.model.ecore#//linguistic/actionpart/Text/content"/>
           <layoutConstraint xmi:type="notation:Location" xmi:id="_eTlvwe2sEeCCKq9-TiMlEA"/>
         </children>
         <children xmi:type="notation:Node" xmi:id="_2wm4QO2sEeCCKq9-TiMlEA" type="2001">
@@ -1526,6 +1517,25 @@
       </eAnnotations>
       <children xmi:type="notation:Node" xmi:id="_aJZ8YO2uEeCCKq9-TiMlEA" type="4001"/>
       <children xmi:type="notation:Node" xmi:id="_aJZ8Ye2uEeCCKq9-TiMlEA" type="5001">
+        <children xmi:type="notation:Node" xmi:id="_oDUxoADKEeGLzKvkE0IDeA" type="2001">
+          <element xmi:type="ecore:EAttribute" href="reprotool.model.ecore#//linguistic/actionpart/Text/startPosition"/>
+          <layoutConstraint xmi:type="notation:Location" xmi:id="_oDUxoQDKEeGLzKvkE0IDeA"/>
+        </children>
+        <children xmi:type="notation:Node" xmi:id="_oDUxogDKEeGLzKvkE0IDeA" type="2001">
+          <element xmi:type="ecore:EAttribute" href="reprotool.model.ecore#//linguistic/actionpart/Text/length"/>
+          <layoutConstraint xmi:type="notation:Location" xmi:id="_oDUxowDKEeGLzKvkE0IDeA"/>
+        </children>
+        <children xmi:type="notation:Node" xmi:id="_oDUxpADKEeGLzKvkE0IDeA" type="2001">
+          <layoutConstraint xmi:type="notation:Location" xmi:id="_oDUxpQDKEeGLzKvkE0IDeA"/>
+        </children>
+        <children xmi:type="notation:Node" xmi:id="_oDUxpgDKEeGLzKvkE0IDeA" type="2001">
+          <element xmi:type="ecore:EAttribute" href="reprotool.model.ecore#//linguistic/actionpart/Text/lemmaForm"/>
+          <layoutConstraint xmi:type="notation:Location" xmi:id="_oDUxpwDKEeGLzKvkE0IDeA"/>
+        </children>
+        <children xmi:type="notation:Node" xmi:id="_oDUxqADKEeGLzKvkE0IDeA" type="2001">
+          <element xmi:type="ecore:EAttribute" href="reprotool.model.ecore#//linguistic/actionpart/Text/posTag"/>
+          <layoutConstraint xmi:type="notation:Location" xmi:id="_oDUxqQDKEeGLzKvkE0IDeA"/>
+        </children>
         <styles xmi:type="notation:DrawerStyle" xmi:id="_aJZ8Yu2uEeCCKq9-TiMlEA"/>
         <styles xmi:type="notation:SortingStyle" xmi:id="_aJZ8Y-2uEeCCKq9-TiMlEA"/>
         <styles xmi:type="notation:FilteringStyle" xmi:id="_aJZ8ZO2uEeCCKq9-TiMlEA"/>

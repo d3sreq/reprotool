@@ -201,16 +201,16 @@ public class SentenceAnalysisSheetPage extends Page implements ISentenceAnalysis
 		IObservableValue widgetObservableValue = SWTObservables.observeText(lblMarkedText);
 		
 		final IObservableValue[] emfObservableValues = new IObservableValue[eReferences.length];
-		for (int i = 0; i < eReferences.length; i++) {
-			IEMFEditValueProperty property = EMFEditProperties.value(editingDomain, 
-					FeaturePath.fromList(
-							UsecasePackage.Literals.USE_CASE_STEP__ACTION, 
-							eReferences[i], 
-							ActionpartPackage.Literals.ACTION_PART__TEXT, 
-							ActionpartPackage.Literals.TEXT__CONTENT
-					));		
-			emfObservableValues[i] = property.observeDetail(writableValue);
-		}
+//		for (int i = 0; i < eReferences.length; i++) {
+//			IEMFEditValueProperty property = EMFEditProperties.value(editingDomain, 
+//					FeaturePath.fromList(
+//							UsecasePackage.Literals.USE_CASE_STEP__ACTION, 
+//							eReferences[i], 
+//							ActionpartPackage.Literals.ACTION_PART__TEXT, 
+//							ActionpartPackage.Literals.TEXT__CONTENT
+//					));		
+//			emfObservableValues[i] = property.observeDetail(writableValue);
+//		}
 		
 		IObservableValue emfCompoundObservableValue = new ComputedValue() {
 			
