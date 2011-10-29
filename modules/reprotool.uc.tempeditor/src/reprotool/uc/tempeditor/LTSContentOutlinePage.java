@@ -91,7 +91,7 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 	
 	private HashMap<Transition, GraphConnection> trans2Edge = new HashMap<Transition, GraphConnection>();
 	
-	LTSContentOutlinePage(UseCase uc, AdapterFactory aFactory) {
+	public LTSContentOutlinePage(UseCase uc, AdapterFactory aFactory) {
 		super();
 		useCase = uc;
 		adapterFactory = aFactory;
@@ -132,7 +132,7 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 		generateIncludedMachines(generator.getLtsCache().getIncludedUseCases());
 	}
 	
-	void handleEditorUCStepSelected(List<UseCaseStep> selection) {
+	public void handleEditorUCStepSelected(List<UseCaseStep> selection) {
 		GraphItem[] items = new GraphItem[selection.size()];
 		int i = 0;
 		for (UseCaseStep step: selection) {
@@ -144,6 +144,7 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 			viewer.getGraphControl().setSelection(items);
 		} catch (org.eclipse.swt.SWTException e) {
 			// Just ignore it...
+			e.printStackTrace();
 		}
 	}
 	
@@ -175,17 +176,17 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 		createLtsGraph(graphParent, machine);
 		
 		// TODO: saving LTS to file
-		ResourceSet rs = new ResourceSetImpl();
-		URI fileURI = URI.createPlatformResourceURI("repro1/testik.lts", true);
-		Resource resource = rs.createResource(fileURI);
-		resource.getContents().add(machine);
-
-		try {
-			resource.save(null);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		ResourceSet rs = new ResourceSetImpl();
+//		URI fileURI = URI.createPlatformResourceURI("repro1/testik.lts", true);
+//		Resource resource = rs.createResource(fileURI);
+//		resource.getContents().add(machine);
+//
+//		try {
+//			resource.save(null);
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		
 	}
 	

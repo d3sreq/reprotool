@@ -14,6 +14,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.EventObject;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +27,7 @@ import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.resources.IResourceDeltaVisitor;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -37,6 +39,7 @@ import org.eclipse.emf.common.command.CommandStackListener;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.ui.MarkerHelper;
+import org.eclipse.emf.common.ui.URIEditorInput;
 import org.eclipse.emf.common.ui.editor.ProblemEditorPart;
 import org.eclipse.emf.common.ui.viewer.IViewerProvider;
 import org.eclipse.emf.common.util.BasicDiagnostic;
@@ -114,6 +117,9 @@ import reprotool.ide.views.sentenceanalysis.ISentenceAnalysisSheetPage;
 import reprotool.ide.views.sentenceanalysis.SentenceAnalysisSheetPage;
 import reprotool.model.edit.ext.factory.UsecaseEMFEditorAdapterFactory;
 import reprotool.model.lts.presentation.ReprotoolEditorPlugin;
+import reprotool.model.usecase.UseCase;
+import reprotool.model.usecase.UseCaseStep;
+import reprotool.uc.tempeditor.LTSContentOutlinePage;
 
 
 /**
@@ -1035,50 +1041,50 @@ public class UsecaseEMFEditor
 	 * This accesses a cached version of the content outliner.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	public IContentOutlinePage getContentOutlinePage() {
-		if (contentOutlinePage == null) {
-			// The content outline is just a tree.
-			//
-			class MyContentOutlinePage extends ContentOutlinePage {
-				@Override
-				public void createControl(Composite parent) {
-					super.createControl(parent);
-					contentOutlineViewer = getTreeViewer();
-					contentOutlineViewer.addSelectionChangedListener(this);
-
-					// Set up the tree viewer.
-					//
-					contentOutlineViewer.setContentProvider(new AdapterFactoryContentProvider(adapterFactory));
-					contentOutlineViewer.setLabelProvider(new AdapterFactoryLabelProvider(adapterFactory));
-					contentOutlineViewer.setInput(editingDomain.getResourceSet());
-
-					// Make sure our popups work.
-					//
-					createContextMenuFor(contentOutlineViewer);
-
-					if (!editingDomain.getResourceSet().getResources().isEmpty()) {
-					  // Select the root object in the view.
-					  //
-					  contentOutlineViewer.setSelection(new StructuredSelection(editingDomain.getResourceSet().getResources().get(0)), true);
-					}
-				}
-
-				@Override
-				public void makeContributions(IMenuManager menuManager, IToolBarManager toolBarManager, IStatusLineManager statusLineManager) {
-					super.makeContributions(menuManager, toolBarManager, statusLineManager);
-					contentOutlineStatusLineManager = statusLineManager;
-				}
-
-				@Override
-				public void setActionBars(IActionBars actionBars) {
-					super.setActionBars(actionBars);
-					getActionBarContributor().shareGlobalActions(this, actionBars);
-				}
-			}
-
-			contentOutlinePage = new MyContentOutlinePage();
+//		if (contentOutlinePage == null) {
+//			// The content outline is just a tree.
+//			//
+//			class MyContentOutlinePage extends ContentOutlinePage {
+//				@Override
+//				public void createControl(Composite parent) {
+//					super.createControl(parent);
+//					contentOutlineViewer = getTreeViewer();
+//					contentOutlineViewer.addSelectionChangedListener(this);
+//
+//					// Set up the tree viewer.
+//					//
+//					contentOutlineViewer.setContentProvider(new AdapterFactoryContentProvider(adapterFactory));
+//					contentOutlineViewer.setLabelProvider(new AdapterFactoryLabelProvider(adapterFactory));
+//					contentOutlineViewer.setInput(editingDomain.getResourceSet());
+//
+//					// Make sure our popups work.
+//					//
+//					createContextMenuFor(contentOutlineViewer);
+//
+//					if (!editingDomain.getResourceSet().getResources().isEmpty()) {
+//					  // Select the root object in the view.
+//					  //
+//					  contentOutlineViewer.setSelection(new StructuredSelection(editingDomain.getResourceSet().getResources().get(0)), true);
+//					}
+//				}
+//
+//				@Override
+//				public void makeContributions(IMenuManager menuManager, IToolBarManager toolBarManager, IStatusLineManager statusLineManager) {
+//					super.makeContributions(menuManager, toolBarManager, statusLineManager);
+//					contentOutlineStatusLineManager = statusLineManager;
+//				}
+//
+//				@Override
+//				public void setActionBars(IActionBars actionBars) {
+//					super.setActionBars(actionBars);
+//					getActionBarContributor().shareGlobalActions(this, actionBars);
+//				}
+//			}
+//
+//			contentOutlinePage = new MyContentOutlinePage();
 
 			// TODO jvinarek - remove ?
 			// Listen to selection so that we can handle it is a special way.
@@ -1091,8 +1097,48 @@ public class UsecaseEMFEditor
 //						 handleContentOutlineSelection(event.getSelection());
 //					 }
 //				 });
-		}
+//		}
+//
+//		return contentOutlinePage;
+		
+		if (contentOutlinePage == null) {
+			// create outline page
+			IEditorInput input = getEditorInput();
+			Assert.isTrue(input instanceof URIEditorInput);
+			URIEditorInput uriEditorInput = (URIEditorInput) input;
 
+			EObject object = getEditingDomain().getResourceSet().getEObject(uriEditorInput.getURI(), true);
+			Assert.isTrue(object instanceof UseCase);
+			UseCase useCase = (UseCase)object;
+			final LTSContentOutlinePage outlinePage = new LTSContentOutlinePage(useCase, getAdapterFactory());
+			
+			// add selection listener (changes arrows color in outline)
+			selectionProvider.addSelectionChangedListener(new ISelectionChangedListener() {
+				
+				public void selectionChanged(SelectionChangedEvent event) {
+					if (event.getSelection() instanceof IStructuredSelection) {
+						IStructuredSelection sel = (IStructuredSelection) event.getSelection();
+						Collection<?> col = ((IStructuredSelection)sel).toList();
+						List<UseCaseStep> selection = new ArrayList<UseCaseStep>();
+						Iterator<?> it = col.iterator();
+						while(it.hasNext()) {
+							Object obj = it.next();
+							if (obj instanceof UseCaseStep) {
+								UseCaseStep s = (UseCaseStep) obj;
+								selection.add(s);
+							}
+						}
+						if (!selection.isEmpty()) {
+							outlinePage.handleEditorUCStepSelected(selection);
+						}
+					}
+				}
+				
+			});
+			
+			contentOutlinePage = outlinePage;
+		}
+		
 		return contentOutlinePage;
 	}
 
