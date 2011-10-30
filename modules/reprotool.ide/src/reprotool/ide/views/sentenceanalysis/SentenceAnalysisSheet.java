@@ -31,7 +31,7 @@ public class SentenceAnalysisSheet extends PageBookView {
 //		IPageBookViewPage page = (IPageBookViewPage) ViewsPlugin.getAdapter(this, ISentenceAnalysisSheetPage.class, false);
 //		if (page == null) {
 			MessagePage messagePage = new MessagePage();
-			messagePage.setMessage("No interested in this part");
+			messagePage.setMessage("Not interested in this part");
 			IPageBookViewPage page = messagePage;
 //		}
 		initPage(page);

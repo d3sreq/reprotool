@@ -13,12 +13,13 @@ import org.eclipse.swt.widgets.Composite;
  */
 public class BoxContainer extends Composite {
 	private ActionTypeBox actionTypeBox;
-	private VerbBox activityBox;
+	private ActivityBox activityBox;
 	private TextWithComboBox includeUseCaseBox;
 	private TextWithComboBox gotoUseCaseStepBox;
-	private TextWithComboBox indirectObjectBox;
+	private TextWithComboBox receiverBox;
 	private TextWithComboBox actionParamBox;
-	private TextWithComboBox sentenceActorBox;
+	private TextWithComboBox senderBox;
+	private SashForm sashForm;
 
 	/**
 	 * Create the composite.
@@ -30,29 +31,28 @@ public class BoxContainer extends Composite {
 		super(parent, style);
 		setLayout(new FillLayout(SWT.HORIZONTAL));
 
-		SashForm sashForm = new SashForm(this, SWT.NONE);
+		sashForm = new SashForm(this, SWT.NONE);
 
 		actionTypeBox = new ActionTypeBox(sashForm, SWT.NONE);
 
-		sentenceActorBox = new TextWithComboBox(sashForm, SWT.NONE);
-		sentenceActorBox.getGrpActionPart().setText("Sentence actor");
+		senderBox = new TextWithComboBox(sashForm, SWT.NONE);
+		senderBox.getGrpActionPart().setText("Sender");
 
-		activityBox = new VerbBox(sashForm, SWT.NONE);
+		activityBox = new ActivityBox(sashForm, SWT.NONE);
+		activityBox.getLblMarkedText().setText("Marked activity");
 
 		actionParamBox = new TextWithComboBox(sashForm, SWT.NONE);
-		actionParamBox.getGrpActionPart().setText("Direct object");
+		actionParamBox.getGrpActionPart().setText("Action parameter");
 
-		indirectObjectBox = new TextWithComboBox(sashForm, SWT.NONE);
-		indirectObjectBox.getGrpActionPart().setText("Indirect object");
+		receiverBox = new TextWithComboBox(sashForm, SWT.NONE);
+		receiverBox.getGrpActionPart().setText("Receiver");
 
 		gotoUseCaseStepBox = new TextWithComboBox(sashForm, SWT.NONE);
 		gotoUseCaseStepBox.getGrpActionPart().setText("Goto target");
 
 		includeUseCaseBox = new TextWithComboBox(sashForm, SWT.NONE);
 		includeUseCaseBox.getGrpActionPart().setText("Include use case");
-
-		sashForm.setWeights(new int[] { 1, 2, 1, 2, 2, 2, 2 });
-
+		sashForm.setWeights(new int[] { 1, 1, 1, 1, 1, 1, 1 });
 	}
 
 	@Override
@@ -64,7 +64,7 @@ public class BoxContainer extends Composite {
 		return actionTypeBox;
 	}
 
-	public VerbBox getVerbBox() {
+	public ActivityBox getActivityBox() {
 		return activityBox;
 	}
 
@@ -76,15 +76,19 @@ public class BoxContainer extends Composite {
 		return gotoUseCaseStepBox;
 	}
 
-	public TextWithComboBox getIndirectObjectBox() {
-		return indirectObjectBox;
+	public TextWithComboBox getReceiverBox() {
+		return receiverBox;
 	}
 
-	public TextWithComboBox getDirectObjectBox() {
+	public TextWithComboBox getActionParamBox() {
 		return actionParamBox;
 	}
 
-	public TextWithComboBox getSubjectBox() {
-		return sentenceActorBox;
+	public TextWithComboBox getSenderBox() {
+		return senderBox;
+	}
+
+	public SashForm getSashForm() {
+		return sashForm;
 	}
 }

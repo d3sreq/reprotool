@@ -175,6 +175,9 @@
             eType="#//linguistic/actionpart/ActionPart" eOpposite="#//linguistic/actionpart/ActionPart/text"/>
         <eStructuralFeatures xsi:type="ecore:EAttribute" name="lemmaForm" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
         <eStructuralFeatures xsi:type="ecore:EAttribute" name="posTag" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="content" lowerBound="1"
+            eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+            changeable="false" volatile="true" transient="true" derived="true"/>
       </eClassifiers>
       <eClassifiers xsi:type="ecore:EClass" name="SentenceActor" eSuperTypes="#//linguistic/actionpart/ActionPart">
         <eStructuralFeatures xsi:type="ecore:EReference" name="actor" lowerBound="1"

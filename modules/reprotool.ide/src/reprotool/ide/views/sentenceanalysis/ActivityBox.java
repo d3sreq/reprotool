@@ -15,7 +15,7 @@ import org.eclipse.swt.widgets.Label;
  * @author jvinarek
  *
  */
-public class VerbBox extends Composite {
+public class ActivityBox extends Composite {
 	private Label lblMarkedText;
 
 	/**
@@ -23,12 +23,12 @@ public class VerbBox extends Composite {
 	 * @param parent
 	 * @param style
 	 */
-	public VerbBox(Composite parent, int style) {
+	public ActivityBox(Composite parent, int style) {
 		super(parent, style);
 		setLayout(new FillLayout(SWT.HORIZONTAL));
 		
 		Group grpVerb = new Group(this, SWT.NONE);
-		grpVerb.setText("Verb");
+		grpVerb.setText("Activity");
 		grpVerb.setLayout(new FormLayout());
 		
 		lblMarkedText = new Label(grpVerb, SWT.NONE);
@@ -36,7 +36,7 @@ public class VerbBox extends Composite {
 		fd_lblMarkedText.top = new FormAttachment(0, 10);
 		fd_lblMarkedText.left = new FormAttachment(0, 10);
 		lblMarkedText.setLayoutData(fd_lblMarkedText);
-		lblMarkedText.setText("Marked verb");
+		lblMarkedText.setText("Marked activity");
 
 	}
 
