@@ -217,26 +217,8 @@ public class SentenceAnalysisSheetPage extends Page implements ISentenceAnalysis
 	 * @param referenceName
 	 */
 	private void bindBoxVisibility(DataBindingContext bindingContext, IObservableValue emfValue, Composite box, String referenceName) {
-		IObservableValue widgetValue = WidgetProperties.visible().observe(box);
+		IObservableValue widgetValue = PojoProperties.value("visibleAndInclude").observe(box);
 		UpdateValueStrategy strategy = new UpdateValueStrategy();
-		emfValue.addChangeListener(new IChangeListener() {
-			
-			@Override
-			public void handleChange(ChangeEvent event) {
-//				SentenceAnalysisSheetPage.this.boxContainer.pack(true);
-//				SentenceAnalysisSheetPage.this.boxContainer.redraw();
-			}
-		});
-		
-		widgetValue.addChangeListener(new IChangeListener() {
-			
-			@Override
-			public void handleChange(ChangeEvent event) {
-//				SentenceAnalysisSheetPage.this.boxContainer.pack(true);
-//				SentenceAnalysisSheetPage.this.boxContainer.redraw();
-			}
-		});
-		
 		strategy.setConverter(new BoxVisibleConverter(referenceName));
 		bindingContext.bindValue(widgetValue, emfValue, null, strategy);
 	}
@@ -262,10 +244,9 @@ public class SentenceAnalysisSheetPage extends Page implements ISentenceAnalysis
 			
 			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
-//				SentenceAnalysisSheetPage.this.boxContainer.redraw();
-//				SentenceAnalysisSheetPage.this.boxContainer.getGotoUseCaseStepBox().redraw();
-//				SentenceAnalysisSheetPage.this.boxContainer.pack(true);
-//				SentenceAnalysisSheetPage.this.boxContainer.redraw();
+				// some of the boxes are hidden after selection
+				// call is needed to recompute layout.
+				SentenceAnalysisSheetPage.this.boxContainer.layout();
 			}
 		});
 	}

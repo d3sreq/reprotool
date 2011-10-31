@@ -5,9 +5,11 @@ import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
+import org.eclipse.swt.layout.RowData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Text;
 
 /**
  * Composite showing verb action part.
@@ -17,7 +19,8 @@ import org.eclipse.swt.widgets.Label;
  */
 public class ActivityBox extends Composite {
 	private Label lblMarkedText;
-
+	private RowData rowData;
+	
 	/**
 	 * Create the composite.
 	 * @param parent
@@ -33,11 +36,14 @@ public class ActivityBox extends Composite {
 		
 		lblMarkedText = new Label(grpVerb, SWT.NONE);
 		FormData fd_lblMarkedText = new FormData();
-		fd_lblMarkedText.top = new FormAttachment(0, 10);
+		fd_lblMarkedText.top = new FormAttachment(0, 13);
 		fd_lblMarkedText.left = new FormAttachment(0, 10);
 		lblMarkedText.setLayoutData(fd_lblMarkedText);
 		lblMarkedText.setText("Marked activity");
 
+		// TODO - jvinarek - comment
+		rowData = new RowData();
+		setLayoutData(rowData);
 	}
 
 	@Override
@@ -46,5 +52,10 @@ public class ActivityBox extends Composite {
 	}
 	public Label getLblMarkedText() {
 		return lblMarkedText;
+	}
+	
+	public void setVisibleAndInclude(boolean visibleAndInclude) {
+		this.setVisible(visibleAndInclude);
+		this.rowData.exclude = !visibleAndInclude;
 	}
 }

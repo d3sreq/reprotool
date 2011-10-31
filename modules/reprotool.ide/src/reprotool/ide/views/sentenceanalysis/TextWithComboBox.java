@@ -5,6 +5,7 @@ import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
+import org.eclipse.swt.layout.RowData;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
@@ -22,7 +23,8 @@ public class TextWithComboBox extends Composite {
 	private Group grpActionPart;
 	private Combo combo;
 	private ComboViewer comboViewer;
-
+	private RowData rowData;
+	
 	/**
 	 * Create the composite.
 	 * @param parent
@@ -38,7 +40,7 @@ public class TextWithComboBox extends Composite {
 		
 		lblMarkedText = new Label(grpActionPart, SWT.NONE);
 		FormData fd_lblMarkedText = new FormData();
-		fd_lblMarkedText.top = new FormAttachment(0, 10);
+		fd_lblMarkedText.top = new FormAttachment(0, 13);
 		fd_lblMarkedText.left = new FormAttachment(0, 10);
 		lblMarkedText.setLayoutData(fd_lblMarkedText);
 		lblMarkedText.setText("Marked text");
@@ -46,11 +48,14 @@ public class TextWithComboBox extends Composite {
 		comboViewer = new ComboViewer(grpActionPart, SWT.READ_ONLY);
 		combo = comboViewer.getCombo();
 		FormData fd_combo = new FormData();
-		fd_combo.top = new FormAttachment(lblMarkedText, -3, SWT.TOP);
 		fd_combo.left = new FormAttachment(lblMarkedText, 6);
-		fd_combo.right = new FormAttachment(100, -13);
+		fd_combo.top = new FormAttachment(0, 10);
+		fd_combo.right = new FormAttachment(100, -7);
 		combo.setLayoutData(fd_combo);
 
+		// TODO - jvinarek - comment
+		rowData = new RowData();
+		setLayoutData(rowData);
 	}
 
 	@Override
@@ -65,5 +70,10 @@ public class TextWithComboBox extends Composite {
 	}
 	public ComboViewer getComboViewer() {
 		return comboViewer;
+	}
+	
+	public void setVisibleAndInclude(boolean visibleAndInclude) {
+		this.setVisible(visibleAndInclude);
+		this.rowData.exclude = !visibleAndInclude;
 	}
 }
