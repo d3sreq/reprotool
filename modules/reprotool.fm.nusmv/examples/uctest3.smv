@@ -1,23 +1,36 @@
 MODULE main
 
---	CTLSPEC AG( open_x -> AF(close_x) )									-- After 'open' there should always be 'close'
---	CTLSPEC AG( open_x -> AX(A[!open_x U close_x]) )					-- No multi-open without close
---	CTLSPEC AG( close_x -> AX(A[!close_x U open_x | !AF(close_x) ]) )	-- No multi-close without open
---	CTLSPEC A[!close_x U open_x | !AF(close_x)]							-- First 'open' then 'close'
---	CTLSPEC AG( create_item -> EF(use_item) )							-- After 'create' there must be some branch containing 'use'
---	CTLSPEC AG( create_item -> AX(AG(!create_item)) )					-- Only one 'create'
---	CTLSPEC A[ !use_item U create_item | !AF(use_item) ]				-- No 'use' before 'create'
+	-- =========================================
+	-- Temporal Formulae to be checked,
+	-- they refer to temporal annotations below
+	-- =========================================
+	
+	CTLSPEC AG( open_x -> AF(close_x) )									-- After 'open' there should always be 'close'
+	CTLSPEC AG( open_x -> AX(A[!open_x U close_x]) )					-- No multi-open without close
+	CTLSPEC AG( close_x -> AX(A[!close_x U open_x | !AF(close_x) ]) )	-- No multi-close without open
+	CTLSPEC A[!close_x U open_x | !AF(close_x)]							-- First 'open' then 'close'
+	CTLSPEC AG( create_item -> EF(use_item) )							-- After 'create' there must be some branch containing 'use'
+	CTLSPEC AG( create_item -> AX(AG(!create_item)) )					-- Only one 'create'
+	CTLSPEC A[ !use_item U create_item | !AF(use_item) ]				-- No 'use' before 'create'
 	
 	-- ==================================
 	-- Fair non-deterministic scheduler 
 	-- ==================================
 	
+	-- FairnessConstraint
 	FAIRNESS p=p1;
+
+	-- FairnessConstraint
 	FAIRNESS p=p3;
+
+	-- FairnessConstraint
 	FAIRNESS p=p4;
+
+	-- FairnessConstraint
 	FAIRNESS p=p5;
 	
-	VAR p : {none, p1,p3,p4,p5};
+	
+	VAR p : {none,p1,p3,p4,p5};
 	INIT p in none;
 	ASSIGN next(p) := case
 		p = none : {p1,p3,p4,p5};
@@ -28,6 +41,17 @@ MODULE main
 	-- UCs are executed based on the precedence relation
 	-- =================================================
 
+	---------------------------------
+	-- Precedence relation visualized
+	---------------------------------
+	--  	   p1 ⊃ p2
+	--  	 ↗    ↖ 
+	--  	p3    p4 
+	--  	       ↑ 
+	--  	      p5
+	---------------------------------
+
+	-- Process
 	VAR x1 : UC_1(self, x1run);
 	VAR x1run : boolean;
 	INIT x1run in FALSE;
@@ -36,6 +60,7 @@ MODULE main
 		TRUE : x1run;
 	esac;
 		
+	-- Process
 	VAR x3 : UC_3(self, x3run);
 	VAR x3run : boolean;
 	INIT x3run in FALSE;
@@ -44,6 +69,7 @@ MODULE main
 		TRUE : x3run;
 	esac;
 
+	-- Process
 	VAR x4 : UC_4(self, x4run);
 	VAR x4run : boolean;
 	INIT x4run in FALSE;
@@ -52,6 +78,7 @@ MODULE main
 		TRUE : x4run;
 	esac;
 
+	-- Process
 	VAR x5 : UC_5(self, x5run);
 	VAR x5run : boolean;
 	INIT x5run in FALSE;
@@ -60,8 +87,12 @@ MODULE main
 		TRUE : x5run;
 	esac;
 	
+	-- =================================================
+	-- Placement of annotations into steps
+	-- =================================================
+
 	-- ===========================
-	-- #create:item
+	-- #create:item (TemporalVar)
 	-- ===========================
 	VAR create_item : boolean;
 	INIT create_item in FALSE;
@@ -69,7 +100,7 @@ MODULE main
 		| x1.y.s in {s3};
 	
 	-- ===========================
-	-- #use:item
+	-- #use:item (TemporalVar)
 	-- ===========================
 	VAR use_item : boolean;
 	INIT use_item in FALSE;
@@ -77,7 +108,7 @@ MODULE main
 		| x1.s in {s4};
 
 	-- ===========================
-	-- #open:x
+	-- #open:x (TemporalVar)
 	-- ===========================
 	VAR open_x : boolean;
 	INIT open_x in FALSE;
@@ -87,7 +118,7 @@ MODULE main
 		;
 
 	-- ===========================
-	-- #close:x
+	-- #close:x (TemporalVar)
 	-- ===========================
 	VAR close_x : boolean;
 	INIT close_x in FALSE;
@@ -97,7 +128,7 @@ MODULE main
 		;
 
 	-- ===========================
-	-- #trace:a
+	-- #trace:a (TraceVar)
 	-- ===========================
 	VAR tr_a : boolean;
 	INIT tr_a in FALSE;
