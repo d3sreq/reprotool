@@ -104,18 +104,6 @@
       <element xmi:type="ecore:EClass" href="reprotool.model.ecore#//swproj/SoftwareProject"/>
       <layoutConstraint xmi:type="notation:Bounds" xmi:id="_-RA9Yu2mEeCCKq9-TiMlEA" x="423" y="28"/>
     </children>
-    <children xmi:type="notation:Shape" xmi:id="_tSLBMO2nEeCCKq9-TiMlEA" type="Note" fontName="Sans" description="Shortcut reference implemented in Java" fillColor="13369343" transparency="0" lineColor="6737151" lineWidth="1">
-      <children xmi:type="notation:BasicDecorationNode" xmi:id="_tSOrkO2nEeCCKq9-TiMlEA" type="DiagramName">
-        <element xsi:nil="true"/>
-      </children>
-      <children xmi:type="notation:BasicDecorationNode" xmi:id="_tSOrke2nEeCCKq9-TiMlEA" type="Description">
-        <element xsi:nil="true"/>
-      </children>
-      <styles xmi:type="notation:TextStyle" xmi:id="_tSLBMe2nEeCCKq9-TiMlEA"/>
-      <styles xmi:type="notation:LineTypeStyle" xmi:id="_tSLBMu2nEeCCKq9-TiMlEA"/>
-      <element xsi:nil="true"/>
-      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_tSLBM-2nEeCCKq9-TiMlEA" x="600" y="228" width="152"/>
-    </children>
     <children xmi:type="notation:Node" xmi:id="_IRYiEPQpEeC4t5-8MfiELw" type="1001">
       <children xmi:type="notation:Node" xmi:id="_IRaXQPQpEeC4t5-8MfiELw" type="4001"/>
       <children xmi:type="notation:Node" xmi:id="_IRaXQfQpEeC4t5-8MfiELw" type="5001">
@@ -241,28 +229,6 @@
       <element xmi:type="ecore:EReference" href="reprotool.model.ecore#//swproj/SoftwareProject/useCases"/>
       <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_-RNxse2mEeCCKq9-TiMlEA" points="[1, 0, -171, -73]$[114, 49, -58, -24]"/>
       <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="__xr10PTAEeCZ89vOgmMw5Q" id="(0.037267080745341616,0.4)"/>
-    </edges>
-    <edges xmi:type="notation:Edge" xmi:id="__tgwkO2mEeCCKq9-TiMlEA" type="3002" source="_nfXgEO0uEeCcuJeC_Sm0Dg" target="_-RA9YO2mEeCCKq9-TiMlEA">
-      <children xmi:type="notation:Node" xmi:id="__thXoO2mEeCCKq9-TiMlEA" type="4011">
-        <layoutConstraint xmi:type="notation:Location" xmi:id="__thXoe2mEeCCKq9-TiMlEA" x="45" y="64"/>
-      </children>
-      <children xmi:type="notation:Node" xmi:id="__thXou2mEeCCKq9-TiMlEA" type="4012">
-        <layoutConstraint xmi:type="notation:Location" xmi:id="__thXo-2mEeCCKq9-TiMlEA" x="33" y="25"/>
-      </children>
-      <styles xmi:type="notation:ConnectorStyle" xmi:id="__tgwke2mEeCCKq9-TiMlEA" routing="Rectilinear" lineColor="4210752"/>
-      <styles xmi:type="notation:FontStyle" xmi:id="__tgwku2mEeCCKq9-TiMlEA" fontColor="4210752" fontName="Sans" fontHeight="10"/>
-      <element xmi:type="ecore:EReference" href="reprotool.model.ecore#//usecase/UseCaseStep/softwareProject"/>
-      <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="__tgwk-2mEeCCKq9-TiMlEA" points="[11, -20, -307, 522]$[309, -20, -9, 522]$[309, -533, -9, 9]"/>
-      <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="__tlCAO2mEeCCKq9-TiMlEA" id="(0.9308176100628931,0.9523809523809523)"/>
-      <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_JOsy8O2nEeCCKq9-TiMlEA" id="(0.8650306748466258,0.8941176470588236)"/>
-    </edges>
-    <edges xmi:type="notation:Connector" xmi:id="_wRHekO2nEeCCKq9-TiMlEA" type="NoteAttachment" source="__tgwkO2mEeCCKq9-TiMlEA" target="_tSLBMO2nEeCCKq9-TiMlEA" lineWidth="1">
-      <styles xmi:type="notation:ArrowStyle" xmi:id="_wRHeke2nEeCCKq9-TiMlEA"/>
-      <styles xmi:type="notation:LineTypeStyle" xmi:id="_wRHeku2nEeCCKq9-TiMlEA"/>
-      <element xsi:nil="true"/>
-      <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_wRHek-2nEeCCKq9-TiMlEA" points="[88, -7, -125, -81]$[213, 74, 0, 0]"/>
-      <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_wRJ60O2nEeCCKq9-TiMlEA" id="(0.7038724373576309,0.25839793281653745)"/>
-      <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_wRJ60e2nEeCCKq9-TiMlEA" id="(0.0,0.0)"/>
     </edges>
     <edges xmi:type="notation:Edge" xmi:id="_gWIUgPQpEeC4t5-8MfiELw" type="3003" source="_LWsfkNLfEeC2DsylnBoSvA" target="_IRYiEPQpEeC4t5-8MfiELw">
       <styles xmi:type="notation:ConnectorStyle" xmi:id="_gWIUgfQpEeC4t5-8MfiELw" routing="Rectilinear" lineColor="4210752"/>

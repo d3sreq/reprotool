@@ -8,22 +8,17 @@ import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.UpdateValueStrategy;
 import org.eclipse.core.databinding.beans.PojoProperties;
 import org.eclipse.core.databinding.conversion.Converter;
-import org.eclipse.core.databinding.observable.ChangeEvent;
-import org.eclipse.core.databinding.observable.IChangeListener;
 import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.list.WritableList;
-import org.eclipse.core.databinding.observable.value.ComputedValue;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.databinding.observable.value.WritableValue;
 import org.eclipse.emf.databinding.FeaturePath;
 import org.eclipse.emf.databinding.IEMFValueProperty;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
-import org.eclipse.emf.databinding.edit.IEMFEditListProperty;
-import org.eclipse.emf.databinding.edit.IEMFEditValueProperty;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.jface.databinding.swt.SWTObservables;
-import org.eclipse.jface.databinding.swt.WidgetProperties;
 import org.eclipse.jface.databinding.viewers.ViewerSupport;
 import org.eclipse.jface.databinding.viewers.ViewersObservables;
 import org.eclipse.jface.viewers.ComboViewer;
@@ -78,138 +73,209 @@ public class SentenceAnalysisSheetPage extends Page implements ISentenceAnalysis
 	}
 
 	protected DataBindingContext initDataBindings() {
-		// fill combobox with values
-		bindActionTypeCombo();
-		
 		DataBindingContext bindingContext = new DataBindingContext();
-		//
-		// binds value to action box combo
+		
 		IEMFValueProperty mProp = EMFEditProperties.value(editingDomain, UsecasePackage.Literals.USE_CASE_STEP__ACTION);
 		IObservableValue emfValue = mProp.observeDetail(writableValue);
-		IObservableValue comboValue = ViewersObservables.observeSingleSelection(boxContainer.getActionTypeBox().getComboViewer());
-//		emfValue.addValueChangeListener(new IValueChangeListener() {
-//			
-//			@Override
-//			public void handleValueChange(ValueChangeEvent event) {
-//				
-//			}
-//		});
-		UpdateValueStrategy comboToEmfStrategy = new UpdateValueStrategy();
-		// TODO - add validator to repaint view ?
-		comboToEmfStrategy.setConverter(new ComboToActionConverter());
-		UpdateValueStrategy emfToComboStrategy = new UpdateValueStrategy();
-		emfToComboStrategy.setConverter(new ActionToComboConverter());
-		bindingContext.bindValue(comboValue, emfValue, comboToEmfStrategy, emfToComboStrategy);
+
+		// action type combobox
+		bindActionTypeList();
+		bindActionSelection(bindingContext, emfValue);
 		
-		//
-		// binds value to visibility of the action boxes	
+		// sender
+		// @formatter:off
 		bindBoxVisibility(bindingContext, emfValue, boxContainer.getSenderBox(), "sender");
+		bindMarkedText(bindingContext, 
+				boxContainer.getSenderBox().getLblMarkedText(),
+				FeaturePath.fromList(
+					UsecasePackage.Literals.USE_CASE_STEP__ACTION, 
+					ActionPackage.Literals.TO_SYSTEM__SENDER, 
+					ActionpartPackage.Literals.ACTION_PART__TEXT, 
+					ActionpartPackage.Literals.TEXT_RANGE__CONTENT
+				)				
+		);
+		bindActorList(bindingContext, boxContainer.getSenderBox().getComboViewer());
+		bindComboSelection(bindingContext, 
+				boxContainer.getSenderBox().getComboViewer(), 
+				FeaturePath.fromList(new EReference[] {
+					UsecasePackage.Literals.USE_CASE_STEP__ACTION, 
+					ActionPackage.Literals.TO_SYSTEM__SENDER, 
+					ActionpartPackage.Literals.SENTENCE_ACTOR__ACTOR
+				} 
+		));
+		// @formatter:on
+		
+		// activity (verb)
 		// TODO - jvinarek - discuss and repair "activity" box
 //		bindBoxVisibility(bindingContext, emfValue, boxContainer.getActivityBox(), "verb");
-		boxContainer.getActivityBox().setVisible(false);
+//		boxContainer.getActivityBox().setVisibleAndInclude(false);
+//		bindMarkedText(bindingContext, boxContainer.getVerbBox().getLblMarkedText(), new EReference[] {ActionPackage.Literals.SEND__VERB, ActionPackage.Literals.RECEIVE__VERB, ActionPackage.Literals.INTERNAL__VERB});
+		
+		// receiver
+		// @formatter:off
 		bindBoxVisibility(bindingContext, emfValue, boxContainer.getReceiverBox(), "receiver");
+		bindActorList(bindingContext, boxContainer.getReceiverBox().getComboViewer());
+		bindMarkedText(bindingContext, 
+				boxContainer.getReceiverBox().getLblMarkedText(),
+				FeaturePath.fromList(
+					UsecasePackage.Literals.USE_CASE_STEP__ACTION, 
+					ActionPackage.Literals.FROM_SYSTEM__RECEIVER, 
+					ActionpartPackage.Literals.ACTION_PART__TEXT, 
+					ActionpartPackage.Literals.TEXT_RANGE__CONTENT
+				)
+		);
+		bindComboSelection(bindingContext, 
+				boxContainer.getReceiverBox().getComboViewer(), 
+				FeaturePath.fromList(new EReference[] {
+					UsecasePackage.Literals.USE_CASE_STEP__ACTION, 
+					ActionPackage.Literals.FROM_SYSTEM__RECEIVER, 
+					ActionpartPackage.Literals.SENTENCE_ACTOR__ACTOR
+				} 
+		));
+		// @formatter:on
+		
+		// action param
 		// TODO - jvinarek - discuss and repair "action param" box
 //		bindBoxVisibility(bindingContext, emfValue, boxContainer.getReceiverBox(), "actionParam");
-		boxContainer.getActionParamBox().setVisible(false);
-		bindBoxVisibility(bindingContext, emfValue, boxContainer.getGotoUseCaseStepBox(), "gotoTarget");
-		bindBoxVisibility(bindingContext, emfValue, boxContainer.getIncludeUseCaseBox(), "includeTarget");
-		
-		// bind marked text
-		// FIXME jvinarek
-		bindMarkedText(bindingContext, boxContainer.getSenderBox().getLblMarkedText(), new EReference[] {ActionPackage.Literals.TO_SYSTEM__SENDER});
-		// TODO - jvinarek - discuss and repair "activity" box
-//		bindMarkedText(bindingContext, boxContainer.getVerbBox().getLblMarkedText(), new EReference[] {ActionPackage.Literals.SEND__VERB, ActionPackage.Literals.RECEIVE__VERB, ActionPackage.Literals.INTERNAL__VERB});
-		bindMarkedText(bindingContext, boxContainer.getReceiverBox().getLblMarkedText(), new EReference[] {ActionPackage.Literals.FROM_SYSTEM__RECEIVER});
-		// TODO - jvinarek - multiple values allowed in action param
-//		bindMarkedText(bindingContext, boxContainer.getActionParamBox().getLblMarkedText(), new EReference[] {ActionPackage.Literals.COMMUNICATION__ACTION_PARAM});
-		bindMarkedText(bindingContext, boxContainer.getGotoUseCaseStepBox().getLblMarkedText(), new EReference[] {ActionPackage.Literals.GOTO__GOTO_TARGET});
-		bindMarkedText(bindingContext, boxContainer.getIncludeUseCaseBox().getLblMarkedText(), new EReference[] {ActionPackage.Literals.USE_CASE_INCLUDE__INCLUDE_TARGET});
-		
-		// bind actors to the combo boxes - create combo boxes content
-		bindActorsContentToCombo(bindingContext, boxContainer.getSenderBox().getComboViewer());
+//		boxContainer.getActionParamBox().setVisibleAndInclude(false);
 		// TODO - jvinarek - multiple values allowed in action param
 //		bindActorsContentToCombo(bindingContext, boxContainer.getActionParamBox().getComboViewer());
-		bindActorsContentToCombo(bindingContext, boxContainer.getReceiverBox().getComboViewer());
+//		bindMarkedText(bindingContext, boxContainer.getActionParamBox().getLblMarkedText(), new EReference[] {ActionPackage.Literals.COMMUNICATION__ACTION_PARAM});
 		
-		// bind comboboxes selection
+		// goto
+		bindBoxVisibility(bindingContext, emfValue, boxContainer.getGotoUseCaseStepBox(), "gotoTarget");
+		// bind goto
+		// TODO - jvinarek - filter out selected use case step ?
+		bindGotoList(bindingContext);
+		// @formatter:off
+		bindMarkedText(bindingContext,
+				boxContainer.getGotoUseCaseStepBox().getLblMarkedText(), 
+				FeaturePath.fromList(
+					UsecasePackage.Literals.USE_CASE_STEP__ACTION, 
+					ActionpartPackage.Literals.ACTION_PART__TEXT, 
+					ActionpartPackage.Literals.TEXT_RANGE__CONTENT
+				)
+		);		
+		bindComboSelection(bindingContext, 
+				boxContainer.getGotoUseCaseStepBox().getComboViewer(), 
+				FeaturePath.fromList(new EReference[] {
+					UsecasePackage.Literals.USE_CASE_STEP__ACTION, 
+					ActionPackage.Literals.GOTO__GOTO_TARGET
+				} 
+		));
+		// @formatter:on
 		
+		// use case include
+		bindBoxVisibility(bindingContext, emfValue, boxContainer.getIncludeUseCaseBox(), "includeTarget");
+		// TODO - jvinarek - filter out selected use case step ?
+		bindIncludeUseCaseList(bindingContext);
+		// @formatter:off
+		bindMarkedText(bindingContext, 
+				boxContainer.getIncludeUseCaseBox().getLblMarkedText(), 
+				FeaturePath.fromList(
+					UsecasePackage.Literals.USE_CASE_STEP__ACTION, 
+					ActionpartPackage.Literals.ACTION_PART__TEXT, 
+					ActionpartPackage.Literals.TEXT_RANGE__CONTENT
+				)
+		);
+		bindComboSelection(bindingContext, 
+				boxContainer.getIncludeUseCaseBox().getComboViewer(), 
+				FeaturePath.fromList(new EReference[] {
+					UsecasePackage.Literals.USE_CASE_STEP__ACTION, 
+					ActionPackage.Literals.USE_CASE_INCLUDE__INCLUDE_TARGET
+				} 
+		));
+		// @formatter:on
 		
 		return bindingContext;
 	}
-	
+
+	private void bindActionSelection(DataBindingContext bindingContext, IObservableValue emfValue) {
+		//
+		// binds value to action box combo
+		IObservableValue comboValue = ViewersObservables.observeSingleSelection(boxContainer.getActionTypeBox().getComboViewer());
+
+		UpdateValueStrategy comboToEmfStrategy = new UpdateValueStrategy();
+		comboToEmfStrategy.setConverter(new ComboToActionConverter());
+		UpdateValueStrategy emfToComboStrategy = new UpdateValueStrategy();
+		emfToComboStrategy.setConverter(new ActionToComboConverter());
+
+		bindingContext.bindValue(comboValue, emfValue, comboToEmfStrategy, emfToComboStrategy);
+	}
+
 	/**
 	 * Fills given combobox with actors found in project. 
 	 * 
 	 * @param bindingContext
 	 * @param comboViewer
 	 */
-	private void bindActorsContentToCombo(DataBindingContext bindingContext, ComboViewer comboViewer) {
-		IObservableList comboList = WidgetProperties.items().observe(comboViewer.getCombo());
-		IEMFEditListProperty emfProperty = EMFEditProperties.list(editingDomain, 
-				FeaturePath.fromList(
-						UsecasePackage.Literals.USE_CASE_STEP__SOFTWARE_PROJECT, 
-						SwprojPackage.Literals.SOFTWARE_PROJECT__ACTORS						 
-				)).values(SwprojPackage.Literals.DOMAIN_ELEMENT__NAME);
-		IObservableList emfList = emfProperty.observeDetail(writableValue);
-		bindingContext.bindList(comboList, emfList);
+	private void bindActorList(DataBindingContext bindingContext, ComboViewer comboViewer) {
+		FeaturePath featurePath = FeaturePath.fromList(
+				UsecasePackage.Literals.USE_CASE_STEP__SOFTWARE_PROJECT_SHORTCUT, 
+				SwprojPackage.Literals.SOFTWARE_PROJECT__ACTORS						 
+		);
+		EStructuralFeature detailValue = SwprojPackage.Literals.DOMAIN_ELEMENT__NAME;
+
+		bindComboListCommon(bindingContext, comboViewer, featurePath, detailValue);
+	}
+
+	private void bindGotoList(DataBindingContext bindingContext) {
+		// @formatter:off
+		FeaturePath featurePath = FeaturePath.fromList(
+				UsecasePackage.Literals.USE_CASE_STEP__USE_CASE_SHORTCUT, 
+				UsecasePackage.Literals.USE_CASE__ALL_USE_CASE_STEPS_SHORTCUT						 
+		);
+		// @formatter:on
+		ComboViewer comboViewer = boxContainer.getGotoUseCaseStepBox().getComboViewer();
+		EStructuralFeature detailValue = UsecasePackage.Literals.LABELLED_ELEMENT__LABEL;
+
+		bindComboListCommon(bindingContext, comboViewer, featurePath, detailValue);
+	}
+	
+	private void bindIncludeUseCaseList(DataBindingContext bindingContext) {
+		// @formatter:off
+		FeaturePath featurePath = FeaturePath.fromList(
+				UsecasePackage.Literals.USE_CASE_STEP__SOFTWARE_PROJECT_SHORTCUT, 
+				SwprojPackage.Literals.SOFTWARE_PROJECT__USE_CASES						 
+		);
+		// @formatter:on
+		ComboViewer comboViewer = boxContainer.getIncludeUseCaseBox().getComboViewer();
+		EStructuralFeature detailValue = UsecasePackage.Literals.USE_CASE__NAME;
+
+		bindComboListCommon(bindingContext, comboViewer, featurePath, detailValue);
+	}
+
+	private void bindComboListCommon(DataBindingContext bindingContext, ComboViewer comboViewer, FeaturePath featurePath, EStructuralFeature detailValue) {
+		IObservableList emfList = EMFEditProperties.list(editingDomain, featurePath).observeDetail(writableValue);
+		IEMFValueProperty labelProperty = EMFEditProperties.value(editingDomain, detailValue);
+		ViewerSupport.bind(comboViewer, emfList, labelProperty);
+	}
+	
+	private void bindComboSelection(DataBindingContext bindingContext, ComboViewer comboViewer, FeaturePath featurePath) {
+		IObservableValue comboSelectionValue = ViewersObservables.observeSingleSelection(comboViewer);
+		IObservableValue emfValue = EMFEditProperties.value(editingDomain, featurePath).observeDetail(writableValue);
+		bindingContext.bindValue(comboSelectionValue, emfValue);
 	}
 
 	/**
 	 * Fills combobox with values of the {@link EComboActionType}.
 	 */
-	private void bindActionTypeCombo() {
+	private void bindActionTypeList() {
 		ComboViewer comboViewer = boxContainer.getActionTypeBox().getComboViewer();
 		List<EComboActionType> list = new ArrayList<EComboActionType>(Arrays.asList(EComboActionType.values()));
 		WritableList input = new WritableList(list, EComboActionType.class);
 		ViewerSupport.bind(comboViewer, input, PojoProperties.value("name"));
 	}
 	
-	/**
-	 * Binds multiple features pointing to the same class to the given widget observable.
-	 * Only one feature-path is expected to be active.
-	 * 
-	 * @param bindingContext
-	 * @param lblMarkedText
-	 * @param eReferences
-	 */
-	private void bindMarkedText(DataBindingContext bindingContext, Label lblMarkedText, EReference[] eReferences) {
-		IObservableValue widgetObservableValue = SWTObservables.observeText(lblMarkedText);
-		
-		final IObservableValue[] emfObservableValues = new IObservableValue[eReferences.length];
-		for (int i = 0; i < eReferences.length; i++) {
-			IEMFEditValueProperty property = EMFEditProperties.value(editingDomain, 
-					FeaturePath.fromList(
-							UsecasePackage.Literals.USE_CASE_STEP__ACTION, 
-							eReferences[i], 
-							ActionpartPackage.Literals.ACTION_PART__TEXT, 
-							ActionpartPackage.Literals.TEXT_RANGE__CONTENT
-					));		
-			emfObservableValues[i] = property.observeDetail(writableValue);
-		}
-		
-		// computed chooses real observable value 
-		IObservableValue emfCompoundObservableValue = new ComputedValue() {
-			
-			@Override
-			protected Object calculate() {
-				for (IObservableValue observableValue : emfObservableValues) {
-					Object value = observableValue.getValue();
-					if (value != null) {
-						return value;
-					}
-				}
-
-				return null;
-			}
-		};
-		
-		// this is strange but it works
-		// emfCompoundObservableValue and widgetObservableValue should be in reverse order
-		bindingContext.bindValue(emfCompoundObservableValue, widgetObservableValue, new UpdateValueStrategy(), new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER));		
+	
+	private void bindMarkedText(DataBindingContext bindingContext, Label lblMarkedText, FeaturePath featurePath) {
+		IObservableValue widgetValue = SWTObservables.observeText(lblMarkedText);
+		IObservableValue emfValue = EMFEditProperties.value(editingDomain, featurePath).observeDetail(writableValue);
+		bindingContext.bindValue(emfValue, widgetValue);
 	}
 
 	/**
-	 * Binds
+	 * Binds visibility of the box to the given emfValue which is converted to boolean.  
 	 * 
 	 * @param bindingContext
 	 * @param emfValue
@@ -223,6 +289,8 @@ public class SentenceAnalysisSheetPage extends Page implements ISentenceAnalysis
 		bindingContext.bindValue(widgetValue, emfValue, null, strategy);
 	}
 	
+	
+	
 	/**
 	 * Create contents of the PageBookView Page.
 	 * @param parent
@@ -235,7 +303,7 @@ public class SentenceAnalysisSheetPage extends Page implements ISentenceAnalysis
 		
 		getSite().getPage().addSelectionListener(this);
 		
-		// TODO jvinarek
+		// TODO jvinarek - can be editingDomain null ?
 		if (editingDomain != null) {
 			m_bindingContext = initDataBindings();
 		}
@@ -283,6 +351,8 @@ public class SentenceAnalysisSheetPage extends Page implements ISentenceAnalysis
 		if (object instanceof UseCaseStep) {
 			UseCaseStep useCaseStep = (UseCaseStep)object; 
 			writableValue.setValue(useCaseStep);
+			
+			boxContainer.layout();
 		}
 	}
 
@@ -327,10 +397,6 @@ public class SentenceAnalysisSheetPage extends Page implements ISentenceAnalysis
 	public static class BoxVisibleConverter extends Converter {
 
 		private String referenceName;
-
-//		 public BoxVisibleConverter() {
-//		 super(Action.class, Boolean.class);
-//		 }
 
 		public BoxVisibleConverter(String referenceName) {
 			super(Action.class, Boolean.class);

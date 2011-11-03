@@ -23,7 +23,18 @@ public class UseCaseStepImplCustom extends UseCaseStepImpl {
 	}
 
 	@Override
-	public SoftwareProject basicGetSoftwareProject() {
+	public SoftwareProject basicGetSoftwareProjectShortcut() {
+		UseCase useCase = basicGetUseCaseShortcut();
+		if (useCase == null) {
+			return null;
+		}
+
+		SoftwareProject softwareProject = (SoftwareProject) useCase.eContainer();
+		return softwareProject;
+	}
+	
+	@Override
+	public UseCase basicGetUseCaseShortcut() {
 		UseCaseStep useCaseStep = this;
 		while (true) {
 			Scenario scenario = (Scenario) useCaseStep.eContainer();
@@ -45,12 +56,6 @@ public class UseCaseStepImplCustom extends UseCaseStepImpl {
 
 		Scenario scenario = (Scenario) useCaseStep.eContainer();
 		UseCase useCase = (UseCase) scenario.eContainer();
-		if (useCase == null) {
-			return null;
-		}
-
-		SoftwareProject softwareProject = (SoftwareProject) useCase.eContainer();
-		return softwareProject;
+		return useCase;
 	}
-	
 }

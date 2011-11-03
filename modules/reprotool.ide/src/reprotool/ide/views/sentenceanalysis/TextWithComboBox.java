@@ -35,6 +35,7 @@ public class TextWithComboBox extends Composite {
 		setLayout(new FillLayout(SWT.HORIZONTAL));
 		
 		grpActionPart = new Group(this, SWT.NONE);
+		// TODO jvinarek - move to property file
 		grpActionPart.setText("Action part");
 		grpActionPart.setLayout(new FormLayout());
 		
@@ -43,11 +44,12 @@ public class TextWithComboBox extends Composite {
 		fd_lblMarkedText.top = new FormAttachment(0, 13);
 		fd_lblMarkedText.left = new FormAttachment(0, 10);
 		lblMarkedText.setLayoutData(fd_lblMarkedText);
-		lblMarkedText.setText("Marked text");
+		lblMarkedText.setText("<Marked text>");
 		
 		comboViewer = new ComboViewer(grpActionPart, SWT.READ_ONLY);
 		combo = comboViewer.getCombo();
 		FormData fd_combo = new FormData();
+		fd_combo.width = 150;
 		fd_combo.left = new FormAttachment(lblMarkedText, 6);
 		fd_combo.top = new FormAttachment(0, 10);
 		fd_combo.right = new FormAttachment(100, -7);
@@ -75,5 +77,9 @@ public class TextWithComboBox extends Composite {
 	public void setVisibleAndInclude(boolean visibleAndInclude) {
 		this.setVisible(visibleAndInclude);
 		this.rowData.exclude = !visibleAndInclude;
+	}
+	
+	public boolean getVisibleAndInclude() {
+		return this.isVisible();
 	}
 }
