@@ -38,10 +38,12 @@
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference reprotool.model.ecore#//usecase/UseCase/mainScenario"/>
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
             ecoreFeature="ecore:EReference reprotool.model.ecore#//usecase/UseCase/precedingUseCases"/>
+        <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference reprotool.model.ecore#//usecase/UseCase/allUseCaseStepsShortcut"/>
       </genClasses>
       <genClasses image="false" ecoreClass="reprotool.model.ecore#//usecase/ParseableElement">
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference reprotool.model.ecore#//usecase/ParseableElement/textNodes"/>
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference reprotool.model.ecore#//usecase/ParseableElement/annotations"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reprotool.model.ecore#//usecase/ParseableElement/content"/>
       </genClasses>
       <genClasses ecoreClass="reprotool.model.ecore#//usecase/Scenario">
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference reprotool.model.ecore#//usecase/Scenario/steps"/>
@@ -55,7 +57,8 @@
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference reprotool.model.ecore#//usecase/UseCaseStep/extensions"/>
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference reprotool.model.ecore#//usecase/UseCaseStep/variations"/>
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference reprotool.model.ecore#//usecase/UseCaseStep/action"/>
-        <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference reprotool.model.ecore#//usecase/UseCaseStep/softwareProject"/>
+        <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference reprotool.model.ecore#//usecase/UseCaseStep/softwareProjectShortcut"/>
+        <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference reprotool.model.ecore#//usecase/UseCaseStep/useCaseShortcut"/>
       </genClasses>
       <genClasses image="false" ecoreClass="reprotool.model.ecore#//usecase/LabelledElement">
         <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute reprotool.model.ecore#//usecase/LabelledElement/label"/>
@@ -68,23 +71,26 @@
         </genClasses>
         <genClasses image="false" ecoreClass="reprotool.model.ecore#//usecase/annotate/StepAnnotationType">
           <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reprotool.model.ecore#//usecase/annotate/StepAnnotationType/name"/>
+          <genFeatures notify="false" createChild="false" propertySortChoices="true"
+              ecoreFeature="ecore:EReference reprotool.model.ecore#//usecase/annotate/StepAnnotationType/memberOf"/>
         </genClasses>
         <genClasses ecoreClass="reprotool.model.ecore#//usecase/annotate/TemporalAnnotation"/>
         <genClasses image="false" ecoreClass="reprotool.model.ecore#//usecase/annotate/SpecialAnnotation"/>
-        <genClasses image="false" ecoreClass="reprotool.model.ecore#//usecase/annotate/AnnotationSet"/>
-        <genClasses ecoreClass="reprotool.model.ecore#//usecase/annotate/LTLAnnotationSet">
-          <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference reprotool.model.ecore#//usecase/annotate/LTLAnnotationSet/contains"/>
-          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reprotool.model.ecore#//usecase/annotate/LTLAnnotationSet/ltlFormula"/>
+        <genClasses image="false" ecoreClass="reprotool.model.ecore#//usecase/annotate/AnnotationGroup">
+          <genFeatures notify="false" createChild="false" propertySortChoices="true"
+              ecoreFeature="ecore:EReference reprotool.model.ecore#//usecase/annotate/AnnotationGroup/members"/>
         </genClasses>
-        <genClasses ecoreClass="reprotool.model.ecore#//usecase/annotate/SpecialAnnotationSet">
-          <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference reprotool.model.ecore#//usecase/annotate/SpecialAnnotationSet/contains"/>
+        <genClasses ecoreClass="reprotool.model.ecore#//usecase/annotate/SpecialAnnotationGroup"/>
+        <genClasses ecoreClass="reprotool.model.ecore#//usecase/annotate/TemporalAnnotationGroup">
+          <genFeatures notify="false" createChild="false" propertySortChoices="true"
+              ecoreFeature="ecore:EReference reprotool.model.ecore#//usecase/annotate/TemporalAnnotationGroup/formulas"/>
         </genClasses>
-        <genClasses ecoreClass="reprotool.model.ecore#//usecase/annotate/TraceAnnotation"/>
-        <genClasses ecoreClass="reprotool.model.ecore#//usecase/annotate/OnAnnotation"/>
-        <genClasses ecoreClass="reprotool.model.ecore#//usecase/annotate/CTLAnnotationSet">
-          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reprotool.model.ecore#//usecase/annotate/CTLAnnotationSet/ctlFormula"/>
-          <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference reprotool.model.ecore#//usecase/annotate/CTLAnnotationSet/contains"/>
+        <genClasses ecoreClass="reprotool.model.ecore#//usecase/annotate/LTLFormula"/>
+        <genClasses image="false" ecoreClass="reprotool.model.ecore#//usecase/annotate/TemporalLogicFormula">
+          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reprotool.model.ecore#//usecase/annotate/TemporalLogicFormula/formula"/>
+          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reprotool.model.ecore#//usecase/annotate/TemporalLogicFormula/description"/>
         </genClasses>
+        <genClasses ecoreClass="reprotool.model.ecore#//usecase/annotate/CTLFormula"/>
       </nestedGenPackages>
     </nestedGenPackages>
     <nestedGenPackages prefix="Swproj" disposableProviderFactory="true" ecorePackage="reprotool.model.ecore#//swproj">
@@ -96,8 +102,9 @@
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
             ecoreFeature="ecore:EReference reprotool.model.ecore#//swproj/SoftwareProject/srsDocuments"/>
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference reprotool.model.ecore#//swproj/SoftwareProject/useCases"/>
-        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference reprotool.model.ecore#//swproj/SoftwareProject/annotationSets"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference reprotool.model.ecore#//swproj/SoftwareProject/annotationGroups"/>
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference reprotool.model.ecore#//swproj/SoftwareProject/conceptualObjects"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference reprotool.model.ecore#//swproj/SoftwareProject/annotationTypes"/>
       </genClasses>
       <genClasses ecoreClass="reprotool.model.ecore#//swproj/Actor">
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
@@ -131,12 +138,15 @@
     </nestedGenPackages>
     <nestedGenPackages prefix="Linguistic" disposableProviderFactory="true" ecorePackage="reprotool.model.ecore#//linguistic">
       <nestedGenPackages prefix="Actionpart" disposableProviderFactory="true" ecorePackage="reprotool.model.ecore#//linguistic/actionpart">
-        <genClasses ecoreClass="reprotool.model.ecore#//linguistic/actionpart/Text">
-          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reprotool.model.ecore#//linguistic/actionpart/Text/content"/>
+        <genClasses ecoreClass="reprotool.model.ecore#//linguistic/actionpart/TextRange"
+            labelFeature="#//model/linguistic/actionpart/TextRange/content">
+          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reprotool.model.ecore#//linguistic/actionpart/TextRange/startPosition"/>
+          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reprotool.model.ecore#//linguistic/actionpart/TextRange/length"/>
           <genFeatures notify="false" createChild="false" propertySortChoices="true"
-              ecoreFeature="ecore:EReference reprotool.model.ecore#//linguistic/actionpart/Text/actionPart"/>
-          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reprotool.model.ecore#//linguistic/actionpart/Text/lemmaForm"/>
-          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reprotool.model.ecore#//linguistic/actionpart/Text/posTag"/>
+              ecoreFeature="ecore:EReference reprotool.model.ecore#//linguistic/actionpart/TextRange/actionPart"/>
+          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reprotool.model.ecore#//linguistic/actionpart/TextRange/lemmaForm"/>
+          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reprotool.model.ecore#//linguistic/actionpart/TextRange/posTag"/>
+          <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute reprotool.model.ecore#//linguistic/actionpart/TextRange/content"/>
         </genClasses>
         <genClasses ecoreClass="reprotool.model.ecore#//linguistic/actionpart/SentenceActor">
           <genFeatures notify="false" createChild="false" propertySortChoices="true"
@@ -150,6 +160,7 @@
           <genFeatures notify="false" createChild="false" propertySortChoices="true"
               ecoreFeature="ecore:EReference reprotool.model.ecore#//linguistic/actionpart/ActionPart/text"/>
         </genClasses>
+        <genClasses ecoreClass="reprotool.model.ecore#//linguistic/actionpart/SentenceActivity"/>
       </nestedGenPackages>
       <nestedGenPackages prefix="Action" disposableProviderFactory="true" ecorePackage="reprotool.model.ecore#//linguistic/action">
         <genClasses image="false" ecoreClass="reprotool.model.ecore#//linguistic/action/Action">
@@ -173,8 +184,7 @@
         </genClasses>
         <genClasses image="false" ecoreClass="reprotool.model.ecore#//linguistic/action/Communication">
           <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference reprotool.model.ecore#//linguistic/action/Communication/actionParam"/>
-          <genFeatures notify="false" createChild="false" propertySortChoices="true"
-              ecoreFeature="ecore:EReference reprotool.model.ecore#//linguistic/action/Communication/actionName"/>
+          <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference reprotool.model.ecore#//linguistic/action/Communication/sentenceActivity"/>
         </genClasses>
       </nestedGenPackages>
     </nestedGenPackages>
