@@ -4,7 +4,7 @@ import org.eclipse.emf.mwe.utils.*
 import org.eclipse.emf.mwe2.ecore.*
 
 var projectName = "reprotool.model"
-var runtimeProject = "${projectName}"
+var runtimeProject = "../${projectName}"
 
 Workflow {
 	bean = StandaloneSetup {
@@ -15,10 +15,19 @@ Workflow {
 		directory = "${runtimeProject}/src-gen"
 	}
 	
+	component = DirectoryCleaner {
+		directory = "${runtimeProject}.edit/src"
+	}
+
+	component = DirectoryCleaner {
+		directory = "${runtimeProject}.editor/src"
+	}
+	
 	component = EcoreGenerator {
-		srcPath = "platform:/resource/${runtimeProject}/src"
-		genModel = "platform:/resource/${runtimeProject}/model/${projectName}.genmodel"
-		
+		srcPath = "platform:/resource/${projectName}/src"
+		genModel = "platform:/resource/${projectName}/model/${projectName}.genmodel"
+		generateEdit = true
+		generateEditor = true
 	}
 }
 
