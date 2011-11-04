@@ -104,27 +104,27 @@
       <eClassifiers xsi:type="ecore:EClass" name="StepAnnotationType" abstract="true"
           interface="true">
         <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="memberOf" eType="#//usecase/annotate/AnnotationGroup"
+            eOpposite="#//usecase/annotate/AnnotationGroup/members"/>
       </eClassifiers>
       <eClassifiers xsi:type="ecore:EClass" name="TemporalAnnotation" eSuperTypes="#//usecase/annotate/StepAnnotationType"/>
-      <eClassifiers xsi:type="ecore:EClass" name="SpecialAnnotation" abstract="true"
-          interface="true" eSuperTypes="#//usecase/annotate/StepAnnotationType"/>
-      <eClassifiers xsi:type="ecore:EClass" name="AnnotationSet" abstract="true" interface="true"/>
-      <eClassifiers xsi:type="ecore:EClass" name="LTLAnnotationSet" eSuperTypes="#//usecase/annotate/AnnotationSet">
-        <eStructuralFeatures xsi:type="ecore:EReference" name="contains" lowerBound="1"
-            upperBound="-1" eType="#//usecase/annotate/TemporalAnnotation" containment="true"/>
-        <eStructuralFeatures xsi:type="ecore:EAttribute" name="ltlFormula" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eClassifiers xsi:type="ecore:EClass" name="SpecialAnnotation" eSuperTypes="#//usecase/annotate/StepAnnotationType"/>
+      <eClassifiers xsi:type="ecore:EClass" name="AnnotationGroup" abstract="true"
+          interface="true">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="members" upperBound="-1"
+            eType="#//usecase/annotate/StepAnnotationType" eOpposite="#//usecase/annotate/StepAnnotationType/memberOf"/>
       </eClassifiers>
-      <eClassifiers xsi:type="ecore:EClass" name="SpecialAnnotationSet" eSuperTypes="#//usecase/annotate/AnnotationSet">
-        <eStructuralFeatures xsi:type="ecore:EReference" name="contains" lowerBound="1"
-            upperBound="-1" eType="#//usecase/annotate/SpecialAnnotation" containment="true"/>
+      <eClassifiers xsi:type="ecore:EClass" name="SpecialAnnotationGroup" eSuperTypes="#//usecase/annotate/AnnotationGroup"/>
+      <eClassifiers xsi:type="ecore:EClass" name="TemporalAnnotationGroup" eSuperTypes="#//usecase/annotate/AnnotationGroup">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="formulas" eType="#//usecase/annotate/TemporalLogicFormula"/>
       </eClassifiers>
-      <eClassifiers xsi:type="ecore:EClass" name="TraceAnnotation" eSuperTypes="#//usecase/annotate/StepAnnotationType #//usecase/annotate/AnnotationSet #//usecase/annotate/SpecialAnnotation"/>
-      <eClassifiers xsi:type="ecore:EClass" name="OnAnnotation" eSuperTypes="#//usecase/annotate/StepAnnotationType #//usecase/annotate/AnnotationSet #//usecase/annotate/SpecialAnnotation"/>
-      <eClassifiers xsi:type="ecore:EClass" name="CTLAnnotationSet" eSuperTypes="#//usecase/annotate/AnnotationSet">
-        <eStructuralFeatures xsi:type="ecore:EAttribute" name="ctlFormula" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-        <eStructuralFeatures xsi:type="ecore:EReference" name="contains" lowerBound="1"
-            upperBound="-1" eType="#//usecase/annotate/TemporalAnnotation" containment="true"/>
+      <eClassifiers xsi:type="ecore:EClass" name="LTLFormula" eSuperTypes="#//usecase/annotate/TemporalLogicFormula"/>
+      <eClassifiers xsi:type="ecore:EClass" name="TemporalLogicFormula" abstract="true"
+          interface="true">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="formula" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="CTLFormula" eSuperTypes="#//usecase/annotate/TemporalLogicFormula"/>
     </eSubpackages>
   </eSubpackages>
   <eSubpackages name="swproj" nsURI="http://d3s.mff.cuni.cz/reprotool/model/swproj"
@@ -140,14 +140,16 @@
           eType="#//doc/Document"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="useCases" upperBound="-1"
           eType="#//usecase/UseCase" containment="true"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="annotationSets" upperBound="-1"
-          eType="#//usecase/annotate/AnnotationSet" containment="true">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="annotationGroups" upperBound="-1"
+          eType="#//usecase/annotate/AnnotationGroup" containment="true">
         <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
           <details key="documentation" value="A project "/>
         </eAnnotations>
       </eStructuralFeatures>
       <eStructuralFeatures xsi:type="ecore:EReference" name="conceptualObjects" upperBound="-1"
           eType="#//swproj/ConceptualObject" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="annotationTypes" upperBound="-1"
+          eType="#//usecase/annotate/StepAnnotationType" containment="true"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="Actor" eSuperTypes="#//traceability/TraceableEntity #//swproj/DomainElement">
       <eStructuralFeatures xsi:type="ecore:EReference" name="childrenActors" upperBound="-1"
