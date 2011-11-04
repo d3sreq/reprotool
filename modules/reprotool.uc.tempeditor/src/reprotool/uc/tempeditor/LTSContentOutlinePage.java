@@ -1,8 +1,8 @@
 package reprotool.uc.tempeditor;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -15,6 +15,7 @@ import lts2.TransitionalState;
 import lts2.impl.LTSGeneratorImpl;
 
 import org.eclipse.core.runtime.Assert;
+import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.SWTEventDispatcher;
@@ -22,10 +23,6 @@ import org.eclipse.draw2d.SWTGraphics;
 import org.eclipse.draw2d.Shape;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
 import org.eclipse.jface.viewers.ContentViewer;
 import org.eclipse.jface.viewers.ISelection;
@@ -57,7 +54,6 @@ import org.eclipse.zest.core.widgets.GraphItem;
 import org.eclipse.zest.core.widgets.GraphNode;
 import org.eclipse.zest.core.widgets.ZestStyles;
 import org.eclipse.zest.layouts.LayoutAlgorithm;
-
 import reprotool.model.linguistic.action.UseCaseInclude;
 import reprotool.model.usecase.Condition;
 import reprotool.model.usecase.Scenario;
@@ -71,6 +67,7 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 	private FigureProvider figureProvider;
 	private UseCase useCase;
 	private StateMachine machine;
+	private NuSMVGenerator NuSMVGen;
 	
 	HashMap<State, GraphNode> state2Node = new HashMap<State, GraphNode>();
 	
@@ -130,6 +127,8 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 		ucStep2Trans = generator.getLtsCache().getUCStep2Trans();
 		gotoTransitions = generator.getLtsCache().getGotoTransitions();
 		generateIncludedMachines(generator.getLtsCache().getIncludedUseCases());
+		NuSMVGen = new NuSMVGenerator(machine, this);
+		NuSMVGen.writeToFile();
 	}
 	
 	public void handleEditorUCStepSelected(List<UseCaseStep> selection) {
@@ -146,6 +145,29 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 			// Just ignore it...
 			e.printStackTrace();
 		}
+	}
+	
+	public void selectStates(List<State> states) {
+		Iterator<State> i1 = states.iterator();
+		List<GraphItem> items = new ArrayList<GraphItem>();
+		State oldState = i1.next();
+		State newState = oldState;
+		while (i1.hasNext()) {
+			oldState = newState;
+			newState = i1.next();
+			for (Object obj: viewer.getGraphControl().getConnections()) {
+				GraphConnection con = (GraphConnection) obj;
+				if (
+						(con.getSource() == state2Node.get(oldState)) &&
+						(con.getDestination() == state2Node.get(newState))
+				) {
+					items.add(con);
+					break;
+				}
+			}
+		}
+		
+		viewer.getGraphControl().setSelection(items.toArray(new GraphItem[items.size()]));
 	}
 	
 	private void emfModelChanged() {
@@ -362,6 +384,18 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 				ImageLoader loader = new ImageLoader();
 				loader.data = new ImageData[] {image.getImageData()};
 				loader.save(selected, SWT.IMAGE_PNG);
+			}
+			
+		});
+		
+		MenuItem nusmvItem = new MenuItem(menu, SWT.PUSH);
+		nusmvItem.setText("NuSMV test");
+		nusmvItem.addSelectionListener(new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				System.out.println("NuSMV test");
+				NuSMVGen.performTest();
 			}
 			
 		});
