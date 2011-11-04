@@ -209,6 +209,7 @@
         <eStructuralFeatures xsi:type="ecore:EReference" name="text" eType="#//linguistic/actionpart/TextRange"
             eOpposite="#//linguistic/actionpart/TextRange/actionPart"/>
       </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="SentenceActivity" eSuperTypes="#//linguistic/actionpart/ActionPart"/>
     </eSubpackages>
     <eSubpackages name="action" nsURI="http://d3s.mff.cuni.cz/reprotool/model/linguistic/action"
         nsPrefix="action">
@@ -240,8 +241,8 @@
           eSuperTypes="#//linguistic/action/Action">
         <eStructuralFeatures xsi:type="ecore:EReference" name="actionParam" upperBound="-1"
             eType="#//linguistic/actionpart/SentenceActionParam" containment="true"/>
-        <eStructuralFeatures xsi:type="ecore:EReference" name="actionName" lowerBound="1"
-            eType="#//linguistic/actionpart/TextRange"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="sentenceActivity" lowerBound="1"
+            eType="#//linguistic/actionpart/SentenceActivity" containment="true"/>
       </eClassifiers>
     </eSubpackages>
   </eSubpackages>
