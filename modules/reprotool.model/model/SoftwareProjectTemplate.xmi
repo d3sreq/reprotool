@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="ASCII"?>
+<swproj:SoftwareProject xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:annotate="http://d3s.mff.cuni.cz/reprotool/model/usecase/annotate" xmlns:swproj="http://d3s.mff.cuni.cz/reprotool/model/swproj" xsi:schemaLocation="http://d3s.mff.cuni.cz/reprotool/model/usecase/annotate reprotool.model.ecore#//usecase/annotate http://d3s.mff.cuni.cz/reprotool/model/swproj reprotool.model.ecore#//swproj">
+  <annotationSets xsi:type="annotate:CTLAnnotationSet"/>
+  <annotationSets xsi:type="annotate:CTLAnnotationSet"/>
+</swproj:SoftwareProject>

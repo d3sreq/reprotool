@@ -104,19 +104,23 @@
       <eClassifiers xsi:type="ecore:EClass" name="StepAnnotationType" abstract="true"
           interface="true">
         <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-        <eStructuralFeatures xsi:type="ecore:EReference" name="memberOf" eType="#//usecase/annotate/AnnotationGroup"
-            eOpposite="#//usecase/annotate/AnnotationGroup/members"/>
       </eClassifiers>
       <eClassifiers xsi:type="ecore:EClass" name="TemporalAnnotation" eSuperTypes="#//usecase/annotate/StepAnnotationType"/>
       <eClassifiers xsi:type="ecore:EClass" name="SpecialAnnotation" eSuperTypes="#//usecase/annotate/StepAnnotationType"/>
       <eClassifiers xsi:type="ecore:EClass" name="AnnotationGroup" abstract="true"
           interface="true">
-        <eStructuralFeatures xsi:type="ecore:EReference" name="members" upperBound="-1"
-            eType="#//usecase/annotate/StepAnnotationType" eOpposite="#//usecase/annotate/StepAnnotationType/memberOf"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+            changeable="false" volatile="true" transient="true" derived="true"/>
       </eClassifiers>
-      <eClassifiers xsi:type="ecore:EClass" name="SpecialAnnotationGroup" eSuperTypes="#//usecase/annotate/AnnotationGroup"/>
+      <eClassifiers xsi:type="ecore:EClass" name="SpecialAnnotationGroup" eSuperTypes="#//usecase/annotate/AnnotationGroup">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="members" upperBound="-1"
+            eType="#//usecase/annotate/SpecialAnnotation" containment="true"/>
+      </eClassifiers>
       <eClassifiers xsi:type="ecore:EClass" name="TemporalAnnotationGroup" eSuperTypes="#//usecase/annotate/AnnotationGroup">
-        <eStructuralFeatures xsi:type="ecore:EReference" name="formulas" eType="#//usecase/annotate/TemporalLogicFormula"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="formulas" upperBound="-1"
+            eType="#//usecase/annotate/TemporalLogicFormula" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="members" upperBound="-1"
+            eType="#//usecase/annotate/TemporalAnnotation" containment="true"/>
       </eClassifiers>
       <eClassifiers xsi:type="ecore:EClass" name="LTLFormula" eSuperTypes="#//usecase/annotate/TemporalLogicFormula"/>
       <eClassifiers xsi:type="ecore:EClass" name="TemporalLogicFormula" abstract="true"
@@ -148,8 +152,6 @@
       </eStructuralFeatures>
       <eStructuralFeatures xsi:type="ecore:EReference" name="conceptualObjects" upperBound="-1"
           eType="#//swproj/ConceptualObject" containment="true"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="annotationTypes" upperBound="-1"
-          eType="#//usecase/annotate/StepAnnotationType" containment="true"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="Actor" eSuperTypes="#//traceability/TraceableEntity #//swproj/DomainElement">
       <eStructuralFeatures xsi:type="ecore:EReference" name="childrenActors" upperBound="-1"
