@@ -58,4 +58,9 @@ public class UseCaseStepImplCustom extends UseCaseStepImpl {
 		UseCase useCase = (UseCase) scenario.eContainer();
 		return useCase;
 	}
+	
+	@Override
+	public String getLabelWithContent() {
+		return getLabel() + ". " + getContent();
+	}
 }
