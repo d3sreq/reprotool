@@ -10,6 +10,11 @@ import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 
 import reprotool.model.edit.ext.annotation.UseCaseStepItemProviderAnnotation;
+import reprotool.model.usecase.Condition;
+import reprotool.model.usecase.Scenario;
+import reprotool.model.usecase.UsecaseFactory;
+import reprotool.model.usecase.UsecasePackage;
+import utils.Utils;
 
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
@@ -49,6 +54,31 @@ public class UseCaseStepItemProviderExt extends UseCaseStepItemProvider {
 	public Object getCreateChildImage(Object owner, Object feature, Object child, Collection<?> selection) {
 		return null;
 	}
+	
+	@Override
+	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
+		super.collectNewChildDescriptors(newChildDescriptors, object);
+		
+		// extensions & variations - add condition to added extension / variation
+		Utils.removeCommandParameter(newChildDescriptors, UsecasePackage.Literals.USE_CASE_STEP__EXTENSIONS);
+		newChildDescriptors.add(createChildParameter(UsecasePackage.Literals.USE_CASE_STEP__EXTENSIONS,
+				createScenarioWithCondition()));
+		
+		Utils.removeCommandParameter(newChildDescriptors, UsecasePackage.Literals.USE_CASE_STEP__VARIATIONS);
+		newChildDescriptors.add(createChildParameter(UsecasePackage.Literals.USE_CASE_STEP__VARIATIONS,
+				createScenarioWithCondition()));
+	}
+	
+	private Scenario createScenarioWithCondition() {
+		Scenario scenario = UsecaseFactory.eINSTANCE.createScenario();
+		Condition condition = UsecaseFactory.eINSTANCE.createCondition();
+		scenario.setScenarioGuard(condition);
+		return scenario;
+	}
+	
+	//
+	// Guice setters
+	//
 	
 	@Inject(optional=true)
 	public void setCustomChildrenFeatures(@Named(CUSTOM_CHILDREN_FEATURES_KEY) List<EReference> customChildrenFeatures) {

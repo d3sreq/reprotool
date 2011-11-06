@@ -10,17 +10,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import org.eclipse.emf.common.ui.viewer.IViewerProvider;
-
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
-
 import org.eclipse.emf.edit.ui.action.ControlAction;
 import org.eclipse.emf.edit.ui.action.CreateChildAction;
 import org.eclipse.emf.edit.ui.action.CreateSiblingAction;
 import org.eclipse.emf.edit.ui.action.EditingDomainActionBarContributor;
 import org.eclipse.emf.edit.ui.action.LoadResourceAction;
 import org.eclipse.emf.edit.ui.action.ValidateAction;
-
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.IAction;
@@ -32,17 +29,22 @@ import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.action.SubContributionItem;
-
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.Viewer;
-
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PartInitException;
 
+import reprotool.ide.editors.usecase.action.ActivityAction;
+import reprotool.ide.editors.usecase.action.ParamAction;
+import reprotool.ide.editors.usecase.action.GotoAction;
+import reprotool.ide.editors.usecase.action.IncludeUseCaseAction;
+import reprotool.ide.editors.usecase.action.PlainTextAction;
+import reprotool.ide.editors.usecase.action.ReceiverAction;
+import reprotool.ide.editors.usecase.action.SenderAction;
 import reprotool.model.lts.presentation.ReprotoolEditorPlugin;
 
 /**
@@ -170,6 +172,15 @@ public class UsecaseEMFActionBarContributor
 	@Override
 	public void contributeToToolBar(IToolBarManager toolBarManager) {
 		toolBarManager.add(new Separator("usecase-settings"));
+		
+		toolBarManager.add(new SenderAction("sender-action"));
+		toolBarManager.add(new ActivityAction("activity-action"));
+		toolBarManager.add(new ReceiverAction("receiver-action"));
+		toolBarManager.add(new ParamAction("action-param-action"));
+		toolBarManager.add(new GotoAction("goto-action"));
+		toolBarManager.add(new IncludeUseCaseAction("include-use-case-action"));
+		toolBarManager.add(new PlainTextAction("plain-text-action"));
+		
 		toolBarManager.add(new Separator("usecase-additions"));
 	}
 

@@ -15,7 +15,7 @@ import org.eclipse.swt.widgets.Composite;
  */
 public class BoxContainer extends Composite {
 	private ActionTypeBox actionTypeBox;
-	private ActivityBox activityBox;
+	private ActivityBox sentenceActivityBox;
 	private TextWithComboBox includeUseCaseBox;
 	private TextWithComboBox gotoUseCaseStepBox;
 	private TextWithComboBox receiverBox;
@@ -39,12 +39,10 @@ public class BoxContainer extends Composite {
 		senderBox = new TextWithComboBox(this, SWT.NONE);
 		senderBox.getGrpActionPart().setText("Sender");
 
-		activityBox = new ActivityBox(this, SWT.NONE);
-		// TODO - jvinarek - temporarily excluded
+		sentenceActivityBox = new ActivityBox(this, SWT.NONE);
 		RowData rd_activityBox = new RowData(SWT.DEFAULT, SWT.DEFAULT);
-		rd_activityBox.exclude = true;
-		activityBox.setLayoutData(rd_activityBox);
-		activityBox.getLblMarkedText().setText("Marked activity");
+		sentenceActivityBox.setLayoutData(rd_activityBox);
+		sentenceActivityBox.getLblMarkedText().setText("Marked activity");
 
 		actionParamBox = new TextWithComboBox(this, SWT.NONE);
 		// TODO - jvinarek - temporarily excluded
@@ -72,8 +70,8 @@ public class BoxContainer extends Composite {
 		return actionTypeBox;
 	}
 
-	public ActivityBox getActivityBox() {
-		return activityBox;
+	public ActivityBox getSentenceActivityBox() {
+		return sentenceActivityBox;
 	}
 
 	public TextWithComboBox getIncludeUseCaseBox() {

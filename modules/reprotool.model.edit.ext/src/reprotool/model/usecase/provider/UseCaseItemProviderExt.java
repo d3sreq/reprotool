@@ -10,6 +10,11 @@ import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 
 import reprotool.model.edit.ext.annotation.UseCaseItemProviderAnnotation;
 import reprotool.model.swproj.provider.SoftwareProjectItemProviderExt;
+import reprotool.model.usecase.Condition;
+import reprotool.model.usecase.Scenario;
+import reprotool.model.usecase.UsecaseFactory;
+import reprotool.model.usecase.UsecasePackage;
+import utils.Utils;
 
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
@@ -61,8 +66,12 @@ public class UseCaseItemProviderExt extends UseCaseItemProvider {
 		return null;
 	}
 	
+	//
+	// Guice setters
+	//
+	
 	@Inject(optional=true)
-	public void setRemovedChildrenFeatures(@Named(CUSTOM_CHILDREN_FEATURES_KEY) List<EReference> customChildrenFeatures) {
+	public void setCustomChildrenFeatures(@Named(CUSTOM_CHILDREN_FEATURES_KEY) List<EReference> customChildrenFeatures) {
 		this.customChildrenFeatures = customChildrenFeatures;
 	}
 	

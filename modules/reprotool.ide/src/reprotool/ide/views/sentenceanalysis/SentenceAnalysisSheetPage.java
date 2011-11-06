@@ -105,11 +105,19 @@ public class SentenceAnalysisSheetPage extends Page implements ISentenceAnalysis
 		));
 		// @formatter:on
 		
-		// activity (verb)
-		// TODO - jvinarek - discuss and repair "activity" box
-//		bindBoxVisibility(bindingContext, emfValue, boxContainer.getActivityBox(), "verb");
-//		boxContainer.getActivityBox().setVisibleAndInclude(false);
-//		bindMarkedText(bindingContext, boxContainer.getVerbBox().getLblMarkedText(), new EReference[] {ActionPackage.Literals.SEND__VERB, ActionPackage.Literals.RECEIVE__VERB, ActionPackage.Literals.INTERNAL__VERB});
+		// sentence activity
+		// @formatter:off
+		bindBoxVisibility(bindingContext, emfValue, boxContainer.getSentenceActivityBox(), "sentenceActivity");
+		bindMarkedText(bindingContext, 
+				boxContainer.getSentenceActivityBox().getLblMarkedText(),
+				FeaturePath.fromList(
+					UsecasePackage.Literals.USE_CASE_STEP__ACTION, 
+					ActionPackage.Literals.COMMUNICATION__SENTENCE_ACTIVITY, 
+					ActionpartPackage.Literals.ACTION_PART__TEXT, 
+					ActionpartPackage.Literals.TEXT_RANGE__CONTENT
+				)
+		);
+		// @formatter:on
 		
 		// receiver
 		// @formatter:off
@@ -407,11 +415,18 @@ public class SentenceAnalysisSheetPage extends Page implements ISentenceAnalysis
 		public Object convert(Object fromObject) {
 			Action action = (Action) fromObject;
 
-			for (EReference reference : action.eClass().getEReferences()) {
+			for (EReference reference : action.eClass().getEAllReferences()) {
 				if (reference.getName().equals(referenceName)) {
 					return true;
 				}
 			}
+//			for (EReference reference : action.eClass().geteall) {
+//				if (reference.getName().equals(referenceName)) {
+//					return true;
+//				}
+//			}
+			
+			
 			return false;
 		}
 	}

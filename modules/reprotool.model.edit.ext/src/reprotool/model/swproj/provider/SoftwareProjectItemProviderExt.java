@@ -31,7 +31,13 @@ import reprotool.model.lts.provider.ReprotoolEditPlugin;
 import reprotool.model.swproj.SoftwareProject;
 import reprotool.model.swproj.SwprojFactory;
 import reprotool.model.swproj.SwprojPackage;
+import reprotool.model.usecase.Condition;
+import reprotool.model.usecase.Scenario;
+import reprotool.model.usecase.UseCase;
+import reprotool.model.usecase.UseCaseStep;
 import reprotool.model.usecase.UsecaseFactory;
+import reprotool.model.usecase.UsecasePackage;
+import utils.Utils;
 
 /**
  * Extension of generated {@link SoftwareProjectItemProvider} class.
@@ -98,22 +104,34 @@ public class SoftwareProjectItemProviderExt extends SoftwareProjectItemProvider 
 	protected Command createWrappedCommand(Command command, final EObject owner, final EStructuralFeature feature) {
 		if (feature == SwprojPackage.eINSTANCE.getSoftwareProject_Actors()
 				|| feature == SwprojPackage.eINSTANCE.getSoftwareProject_UseCases()) {
-			return new CommandWrapper(command) {
+			
+			Command wrapper = new CommandWrapper(command) {
+				
 				@Override
 				public Collection<?> getAffectedObjects() {
 					Collection<?> affected = super.getAffectedObjects();
 					if (affected.contains(owner)) {
-						affected = Collections
-								.singleton(feature == SwprojPackage.eINSTANCE.getSoftwareProject_Actors() ? getActors()
-										: getUseCases());
+						if (feature == SwprojPackage.eINSTANCE.getSoftwareProject_Actors()) {
+							affected = Collections.singleton(getActors());
+						} else {
+							affected = Collections.singleton(getUseCases());
+						}
 					}
 					return affected;
 				}
+				
 			};
+			
+			return wrapper;
 		}
 		return command;
 	}
-
+	
+	@Override
+	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
+		super.collectNewChildDescriptors(newChildDescriptors, object);
+	}
+	
 	/**
 	 * Common base class for non-model nodes.
 	 * 
@@ -265,8 +283,21 @@ public class SoftwareProjectItemProviderExt extends SoftwareProjectItemProvider 
 		@Override
 		protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
 			super.collectNewChildDescriptors(newChildDescriptors, object);
+			
+			// add use case with scenario and first step
+			Utils.removeCommandParameter(newChildDescriptors, SwprojPackage.Literals.SOFTWARE_PROJECT__USE_CASES);
 			newChildDescriptors.add(createChildParameter(SwprojPackage.Literals.SOFTWARE_PROJECT__USE_CASES,
-					UsecaseFactory.eINSTANCE.createUseCase()));
+					createDefaultUseCase()));
+		}
+		
+		private UseCase createDefaultUseCase() {
+			UseCase useCase = UsecaseFactory.eINSTANCE.createUseCase();
+			Scenario scenario = UsecaseFactory.eINSTANCE.createScenario();
+			UseCaseStep useCaseStep = UsecaseFactory.eINSTANCE.createUseCaseStep();
+			
+			useCase.setMainScenario(scenario);
+			scenario.getSteps().add(useCaseStep);
+			return useCase;
 		}
 
 		@Override

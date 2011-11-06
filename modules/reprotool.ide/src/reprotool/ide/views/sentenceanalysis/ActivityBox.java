@@ -58,4 +58,8 @@ public class ActivityBox extends Composite {
 		this.setVisible(visibleAndInclude);
 		this.rowData.exclude = !visibleAndInclude;
 	}
+	
+	public boolean getVisibleAndInclude() {
+		return this.isVisible();
+	}
 }
