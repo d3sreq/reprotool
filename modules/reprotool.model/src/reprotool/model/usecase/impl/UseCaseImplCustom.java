@@ -16,8 +16,11 @@ public class UseCaseImplCustom extends UseCaseImpl {
 	private EList<UseCaseStep> getStepsFromScenario(Scenario scenario) {
 		EList<UseCaseStep> list = new BasicEList<UseCaseStep>();  
 		
-		list.addAll(scenario.getSteps());
-		// TODO - jvinarek - add recursion, get steps from extensions & variations. 
+		// check is needed, exception was thrown when deleting use case or actor
+		if (scenario != null) {
+			list.addAll(scenario.getSteps());
+			// TODO - jvinarek - add recursion, get steps from extensions & variations. 
+		}
 		
 		return list;
 	}
