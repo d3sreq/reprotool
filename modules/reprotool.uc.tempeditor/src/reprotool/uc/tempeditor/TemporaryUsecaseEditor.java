@@ -48,7 +48,7 @@ public class TemporaryUsecaseEditor extends UsecaseEditor {
 			Resource resource = editingDomain.getResourceSet().getResources().get(0);
 			Object obj = resource.getContents().get(0);
 			UseCase uc = (UseCase) obj;
-			contentOutlinePage = new LTSContentOutlinePage(uc, getAdapterFactory());
+			contentOutlinePage = new LTSContentOutlinePage(uc);
 			
 			contentOutlinePage.addSelectionChangedListener
 				(new ISelectionChangedListener() {

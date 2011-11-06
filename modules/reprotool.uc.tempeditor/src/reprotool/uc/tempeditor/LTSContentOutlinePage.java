@@ -43,9 +43,13 @@ import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.ToolTip;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.part.Page;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
+import org.eclipse.ui.views.properties.IPropertyDescriptor;
+import org.eclipse.ui.views.properties.IPropertySource;
+import org.eclipse.ui.views.properties.PropertyDescriptor;
 import org.eclipse.zest.core.viewers.GraphViewer;
 import org.eclipse.zest.core.widgets.CGraphNode;
 import org.eclipse.zest.core.widgets.Graph;
@@ -81,17 +85,12 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 	
 	private HashMap<UseCaseStep, Transition> ucStep2Trans = null;
 	private HashMap<Transition, GraphNode> trans2Node = new HashMap<Transition, GraphNode>();
-	private List<Transition> gotoTransitions = null;
-	
-	private LTSContentViewer contentViewer;
-	private AdapterFactory adapterFactory;
-	
+	private List<Transition> gotoTransitions = null;	
 	private HashMap<Transition, GraphConnection> trans2Edge = new HashMap<Transition, GraphConnection>();
 	
-	public LTSContentOutlinePage(UseCase uc, AdapterFactory aFactory) {
+	public LTSContentOutlinePage(UseCase uc) {
 		super();
 		useCase = uc;
-		adapterFactory = aFactory;
 		figureProvider = new FigureProvider();
 		regenerateLTS();
 	}
@@ -143,13 +142,11 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 			viewer.getGraphControl().setSelection(items);
 		} catch (org.eclipse.swt.SWTException e) {
 			// Just ignore it...
-			e.printStackTrace();
 		}
 	}
 	
 	public void selectStates(List<State> states) {
 		Iterator<State> i1 = states.iterator();
-		List<GraphItem> items = new ArrayList<GraphItem>();
 		State oldState = i1.next();
 		State newState = oldState;
 		while (i1.hasNext()) {
@@ -161,16 +158,14 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 						(con.getSource() == state2Node.get(oldState)) &&
 						(con.getDestination() == state2Node.get(newState))
 				) {
-					items.add(con);
+					con.setLineColor(ColorConstants.red);
 					break;
 				}
 			}
-		}
-		
-		viewer.getGraphControl().setSelection(items.toArray(new GraphItem[items.size()]));
+		}		
 	}
 	
-	private void emfModelChanged() {
+	public void emfModelChanged() {
 		// Remove the old graph.
 		while (viewer.getGraphControl().getNodes().size() > 0) {
 			GraphNode node = (GraphNode) viewer.getGraphControl().getNodes().get(0);
@@ -372,6 +367,10 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 				fd.setFilterExtensions(new String[] {"*.png"});
 				fd.setText("Save");
 				String selected = fd.open();
+				
+				if (selected == null) {
+					return;
+				}
 			        
 				Graph g = viewer.getGraphControl();
 				Point size = new Point(g.getContents().getSize().width, g.getContents().getSize().height);
@@ -419,9 +418,6 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 		graphParent = parent;
 		viewer = new GraphViewer(graphParent, SWT.NONE);
 		createLtsGraph(parent, machine);
-		contentViewer = new LTSContentViewer(parent);
-		contentViewer.setContentProvider(new AdapterFactoryContentProvider(adapterFactory));
-		contentViewer.setInput(null);
 	}
 
 	@Override
@@ -457,33 +453,5 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 
 	@Override
 	public void setSelection(ISelection selection) {
-	}
-	
-	class LTSContentViewer extends ContentViewer {
-		private Control control;
-		
-		public LTSContentViewer(Control c) {
-			control = c;
-		}
-
-		@Override
-		public Control getControl() {
-			return control;
-		}
-
-		@Override
-		public ISelection getSelection() {
-			return null;
-		}
-
-		@Override
-		public void refresh() {
-			emfModelChanged();
-		}
-
-		@Override
-		public void setSelection(ISelection selection, boolean reveal) {
-			// Do nothing
-		}	
 	}
 }

@@ -10,11 +10,13 @@ import java.util.List;
 
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.emf.common.util.EList;
 import org.osgi.framework.Bundle;
 
 import reprotool.model.linguistic.action.AbortUseCase;
 import reprotool.model.linguistic.action.Goto;
 import reprotool.model.usecase.UseCaseStep;
+import reprotool.model.usecase.annotate.StepAnnotation;
 
 import lts2.State;
 import lts2.StateMachine;
@@ -25,6 +27,7 @@ public class NuSMVGenerator {
 	private NuSMVWrapper nusmv;
 	
 	private String fileName;
+	private String useCaseID;
 	private StateMachine machine;
 	private Transition finalTransition;
 	private LTSContentOutlinePage outline;
@@ -33,6 +36,9 @@ public class NuSMVGenerator {
 	private HashMap<Transition, String> trans2Label = new HashMap<Transition, String>();
 	private HashMap<State, String> state2Label = new HashMap<State, String>();
 	private HashMap<String, State> label2State = new HashMap<String, State>();
+	
+	private HashMap<String, AnnotationEntry> annotationTracker = new 
+		HashMap<String, AnnotationEntry>();
 	
 	public NuSMVGenerator(StateMachine m, LTSContentOutlinePage outline) {
 		nusmv = new NuSMVWrapper();
@@ -49,6 +55,7 @@ public class NuSMVGenerator {
         
 		machine = m;
 		this.outline = outline;
+		useCaseID = "1";
 		loadStates();
 	}
 	
@@ -72,6 +79,21 @@ public class NuSMVGenerator {
 				trans2Label.put(t, label);
 				state2Label.put(t.getTargetState(), label);
 				label2State.put(label, t.getTargetState());
+				
+				EList<StepAnnotation> annots = ucStep.getAnnotations();
+				if (!annots.isEmpty()) {
+					for (StepAnnotation a: annots) {
+						String tag = a.getAnnotationType().getName() + "_" + a.getId();
+						AnnotationEntry aEntry = annotationTracker.get(tag);
+						if (aEntry == null) {
+							aEntry = new AnnotationEntry();
+							aEntry.automatonID = useCaseID;
+							aEntry.states = new ArrayList<String>();
+							annotationTracker.put(tag, aEntry);
+						}
+						aEntry.states.add(label);
+					}
+				}
 			}
 		}
 		
@@ -92,56 +114,69 @@ public class NuSMVGenerator {
 					trans2Label.put(t, label);
 					state2Label.put(t.getTargetState(), label);
 					label2State.put(label, t.getTargetState());
+
+					EList<StepAnnotation> annots = ucStep.getAnnotations();
+					if (!annots.isEmpty()) {
+						for (StepAnnotation a: annots) {
+							String tag = a.getAnnotationType().getName() + "_" + a.getId();
+							AnnotationEntry aEntry = annotationTracker.get(tag);
+							if (aEntry == null) {
+								aEntry = new AnnotationEntry();
+								aEntry.automatonID = useCaseID;
+								aEntry.states = new ArrayList<String>();
+								annotationTracker.put(tag, aEntry);
+							}
+							aEntry.states.add(label);
+						}
+					}
 				}
 			}
 		}
 	}
 	
-	String getContents() {
+	String getProcess(String name) {
 		StringBuffer buf = new StringBuffer();
 		
-		buf.append("MODULE main\n\n");
-		
-		buf.append("	-- FairnessConstraint\n");
-		buf.append("	FAIRNESS p=p1;\n\n");
-		
-		buf.append("	VAR p : {none,p1};\n");
-		buf.append("	INIT p in none;\n");
-		buf.append("	ASSIGN next(p) := case\n");
-		buf.append("		p=none : {p1};\n");
-		buf.append("		TRUE : none;\n");
-		buf.append("	esac;\n\n");
-		
 		buf.append("	-- Process\n");
-		buf.append("	VAR x1 : UC_1(self, x1run);\n");
-		buf.append("	VAR x1run: boolean;\n");
-		buf.append("	INIT x1run in FALSE;\n");
-		buf.append("	ASSIGN next(x1run) := case\n");
-		buf.append("		p=p1 : TRUE;\n");
-		buf.append("		TRUE : x1run;\n");
+		buf.append("	VAR x" + name + " : UC_" + name + "(self, x" + name + "run);\n");
+		buf.append("	VAR x"  + name + "run: boolean;\n");
+		buf.append("	INIT x" + name + "run in FALSE;\n");
+		buf.append("	ASSIGN next(x" + name + "run) := case\n");
+		buf.append("		p=p" + name + " : TRUE;\n");
+		buf.append("		TRUE : x" + name + "run;\n");
 		buf.append("	esac;\n\n");
 		
-		buf.append("	VAR create_item : boolean;\n");
-		buf.append("	INIT create_item in FALSE;\n");
-		buf.append("	ASSIGN next(create_item) := FALSE\n");
-		buf.append("		;\n\n");
+		return buf.toString();
+	}
+	
+	String getAnnotations() {
+		StringBuffer buf = new StringBuffer();
 		
-		buf.append("	VAR use_item : boolean;\n");
-		buf.append("	INIT use_item in FALSE;\n");
-		buf.append("	ASSIGN next(use_item) := FALSE\n");
-		buf.append("		;\n\n");
+		for (String tag: annotationTracker.keySet()) {
+			AnnotationEntry aEntry = annotationTracker.get(tag);
+			buf.append("	VAR " + tag + " : boolean;\n");
+			buf.append("	INIT " + tag + " in FALSE;\n");
+			buf.append("	ASSIGN next(" + tag + ") := FALSE\n");
+			buf.append("		| x" + aEntry.automatonID + ".s in {" );
+			int c = 0;
+			for (String state: aEntry.states) {
+				if (c > 0) {
+					buf.append(",");
+				}
+				c++;
+				buf.append(state);
+			}
+			buf.append("}\n");
+			buf.append("		;\n\n");
+		}
 		
-		buf.append("	VAR open_x : boolean;\n");
-		buf.append("	INIT open_x in FALSE;\n");
-		buf.append("	ASSIGN next(open_x) := FALSE\n");
-		buf.append("		;\n\n");
-		
-		buf.append("	VAR close_x : boolean;\n");
-		buf.append("	INIT close_x in FALSE;\n");
-		buf.append("	ASSIGN next(close_x) := FALSE\n");
-		buf.append("		;\n\n");
-		
-		buf.append("MODULE UC_1(top, run)\n");
+		return buf.toString();
+	}
+	
+	String getAutomaton(String name) {
+		StringBuffer buf = new StringBuffer();
+
+		buf.append("MODULE UC_" + name + "(top, run)\n");
 		buf.append("	VAR s : {s0,");
 		
 		for (String s:states) {
@@ -198,6 +233,28 @@ public class NuSMVGenerator {
 		return buf.toString();
 	}
 	
+	String getContents() {
+		StringBuffer buf = new StringBuffer();
+		
+		buf.append("MODULE main\n\n");
+		
+		buf.append("	-- FairnessConstraint\n");
+		buf.append("	FAIRNESS p=p1;\n\n");
+		
+		buf.append("	VAR p : {none,p1};\n");
+		buf.append("	INIT p in none;\n");
+		buf.append("	ASSIGN next(p) := case\n");
+		buf.append("		p=none : {p1};\n");
+		buf.append("		TRUE : none;\n");
+		buf.append("	esac;\n\n");
+		
+		buf.append(getProcess(useCaseID));
+		buf.append(getAnnotations());
+		buf.append(getAutomaton(useCaseID));
+		
+		return buf.toString();
+	}
+	
 	public void writeToFile() {
 		try {
 			BufferedWriter out = new BufferedWriter(new FileWriter(fileName));
@@ -226,33 +283,34 @@ public class NuSMVGenerator {
 		
 		try {
 			nusmv.checkCTLSpec( "After 'open' there should always be 'close'",
-					"AG(open_x -> AF(close_x))" );
+					"AG(open_file -> AF(close_file))" );
 			if (!nusmv.getTestResult()) {
 				displayCounterPath(nusmv.getStateTrace());
 				return;
 			}
 			
 			nusmv.checkCTLSpec( "No multi-open without close",
-					"AG(open_x -> AX(A[!open_x U close_x]))" );
+					"AG(open_file -> AX(A[!open_file U close_file]))" );
 			if (!nusmv.getTestResult()) {
 				displayCounterPath(nusmv.getStateTrace());
 				return;
 			}
 			
 			nusmv.checkCTLSpec( "No multi-close without open",
-					"AG(close_x -> AX(A[!close_x U open_x | !AF(close_x) ]))" );
+					"AG(close_file -> AX(A[!close_file U open_file | !AF(close_file) ]))" );
 			if (!nusmv.getTestResult()) {
 				displayCounterPath(nusmv.getStateTrace());
 				return;
 			}
 			
 			nusmv.checkCTLSpec( "First 'open' then 'close'",
-					"A[!close_x U open_x | !AF(close_x)]" );
+					"A[!close_file U open_file | !AF(close_file)]" );
 			if (!nusmv.getTestResult()) {
 				displayCounterPath(nusmv.getStateTrace());
 				return;
 			}
 			
+			/*
 			nusmv.checkCTLSpec( "After 'create' there must be some branch containing 'use'",
 					"AG( create_item -> EF(use_item) )" );
 			if (!nusmv.getTestResult()) {
@@ -273,10 +331,16 @@ public class NuSMVGenerator {
 				displayCounterPath(nusmv.getStateTrace());
 				return;
 			}
+			*/
 			
 		} catch(Exception e) {
 			nusmv.printMessage( e.getMessage() );
 		}
 	}
 
+}
+
+class AnnotationEntry {
+	String automatonID;
+	List<String> states = new ArrayList<String>();
 }

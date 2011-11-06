@@ -672,6 +672,7 @@ public class UsecaseEMFEditor
 						 (new Runnable() {
 							  public void run() {
 								  firePropertyChange(IEditorPart.PROP_DIRTY);
+								  ((LTSContentOutlinePage) contentOutlinePage).emfModelChanged();
 
 								  // Try to select the affected objects.
 								  //
@@ -1110,7 +1111,7 @@ public class UsecaseEMFEditor
 			EObject object = getEditingDomain().getResourceSet().getEObject(uriEditorInput.getURI(), true);
 			Assert.isTrue(object instanceof UseCase);
 			UseCase useCase = (UseCase)object;
-			final LTSContentOutlinePage outlinePage = new LTSContentOutlinePage(useCase, getAdapterFactory());
+			final LTSContentOutlinePage outlinePage = new LTSContentOutlinePage(useCase);
 			
 			// add selection listener (changes arrows color in outline)
 			selectionProvider.addSelectionChangedListener(new ISelectionChangedListener() {
