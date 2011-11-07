@@ -15,4 +15,6 @@ Require-Bundle: org.eclipse.ui,
  org.apache.commons.lang;bundle-version="2.3.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Export-Package: reprotool.uc.tempeditor
+Export-Package: lts2,
+ lts2.impl,
+ reprotool.uc.tempeditor

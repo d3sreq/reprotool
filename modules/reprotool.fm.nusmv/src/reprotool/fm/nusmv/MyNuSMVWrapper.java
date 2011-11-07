@@ -1,4 +1,4 @@
-package reprotool.uc.tempeditor;
+package reprotool.fm.nusmv;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -31,7 +31,8 @@ import org.eclipselabs.nusmvtools.nusmv4j.NusmvLibrary.PropDb_TAG;
 import org.eclipselabs.nusmvtools.nusmv4j.NusmvLibrary.Prop_TAG;
 import org.eclipselabs.nusmvtools.nusmv4j.NusmvLibraryUtil;
 
-public class NuSMVWrapper {
+
+public class MyNuSMVWrapper {
 
 	private static final String COUNTER_EXAMPLE_FILE = "counterexample.xml";
 
@@ -42,7 +43,7 @@ public class NuSMVWrapper {
 	private List<String> stateTrace = new ArrayList<String>();
 	private boolean testResult = false;
 	
-	public NuSMVWrapper() {
+	public MyNuSMVWrapper() {
 		nusmvLib = NuSMV4J.INSTANCE().getNusmvLibrary();
 		
 		// disable console output from NuSMV

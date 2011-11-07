@@ -22,10 +22,7 @@ import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.SWTEventDispatcher;
 import org.eclipse.draw2d.SWTGraphics;
 import org.eclipse.draw2d.Shape;
-import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
-import org.eclipse.jface.viewers.ContentViewer;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.swt.SWT;
@@ -44,13 +41,9 @@ import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.ToolTip;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.part.Page;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
-import org.eclipse.ui.views.properties.IPropertyDescriptor;
-import org.eclipse.ui.views.properties.IPropertySource;
-import org.eclipse.ui.views.properties.PropertyDescriptor;
 import org.eclipse.zest.core.viewers.GraphViewer;
 import org.eclipse.zest.core.widgets.CGraphNode;
 import org.eclipse.zest.core.widgets.Graph;
@@ -59,8 +52,6 @@ import org.eclipse.zest.core.widgets.GraphItem;
 import org.eclipse.zest.core.widgets.GraphNode;
 import org.eclipse.zest.core.widgets.ZestStyles;
 import org.eclipse.zest.layouts.LayoutAlgorithm;
-
-import com.ochafik.util.string.StringUtils;
 
 import reprotool.model.linguistic.action.UseCaseInclude;
 import reprotool.model.usecase.Condition;
@@ -75,7 +66,6 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 	private FigureProvider figureProvider;
 	private UseCase useCase;
 	private StateMachine machine;
-	private NuSMVGenerator NuSMVGen;
 	
 	HashMap<State, GraphNode> state2Node = new HashMap<State, GraphNode>();
 	
@@ -130,8 +120,6 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 		ucStep2Trans = generator.getLtsCache().getUCStep2Trans();
 		gotoTransitions = generator.getLtsCache().getGotoTransitions();
 		generateIncludedMachines(generator.getLtsCache().getIncludedUseCases());
-		NuSMVGen = new NuSMVGenerator(machine, this);
-		NuSMVGen.writeToFile();
 	}
 	
 	public void handleEditorUCStepSelected(List<UseCaseStep> selection) {
@@ -388,18 +376,6 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 				ImageLoader loader = new ImageLoader();
 				loader.data = new ImageData[] {image.getImageData()};
 				loader.save(selected, SWT.IMAGE_PNG);
-			}
-			
-		});
-		
-		MenuItem nusmvItem = new MenuItem(menu, SWT.PUSH);
-		nusmvItem.setText("NuSMV test");
-		nusmvItem.addSelectionListener(new SelectionAdapter() {
-
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				System.out.println("NuSMV test");
-				NuSMVGen.performTest();
 			}
 			
 		});

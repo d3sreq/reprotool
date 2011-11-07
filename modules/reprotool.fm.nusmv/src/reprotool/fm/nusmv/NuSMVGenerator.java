@@ -1,18 +1,10 @@
-package reprotool.uc.tempeditor;
+package reprotool.fm.nusmv;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import org.eclipse.core.runtime.FileLocator;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.EList;
-import org.osgi.framework.Bundle;
-
 import reprotool.model.linguistic.action.AbortUseCase;
 import reprotool.model.linguistic.action.Goto;
 import reprotool.model.usecase.UseCaseStep;
@@ -24,13 +16,13 @@ import lts2.Transition;
 import lts2.TransitionalState;
 
 public class NuSMVGenerator {
-	private NuSMVWrapper nusmv;
+
+//	private MyNuSMVWrapper nusmv;	
+//	private String fileName;
 	
-	private String fileName;
-	private String useCaseID;
+	private String useCaseId;
 	private StateMachine machine;
 	private Transition finalTransition;
-	private LTSContentOutlinePage outline;
 	private List<String> states = new ArrayList<String>();
 	private HashMap<String, Transition> label2Trans = new HashMap<String, Transition>();
 	private HashMap<Transition, String> trans2Label = new HashMap<Transition, String>();
@@ -40,22 +32,21 @@ public class NuSMVGenerator {
 	private HashMap<String, AnnotationEntry> annotationTracker = new 
 		HashMap<String, AnnotationEntry>();
 	
-	public NuSMVGenerator(StateMachine m, LTSContentOutlinePage outline) {
-		nusmv = new NuSMVWrapper();
+	public NuSMVGenerator(StateMachine m, String useCaseID) {
+//		nusmv = new MyNuSMVWrapper();
 		
-		Bundle bundle = Platform.getBundle(Activator.PLUGIN_ID);
-        URL fileURL = bundle.getEntry("nusmv");
-        String dirName = null;
-        try {
-			dirName = FileLocator.resolve(fileURL).getFile();
-		} catch (IOException e) {
-			dirName = fileURL.toExternalForm();
-		}
-		fileName = dirName + "/test.smv";
+//		Bundle bundle = Platform.getBundle(Activator.PLUGIN_ID);
+//        URL fileURL = bundle.getEntry("nusmv");
+//        String dirName = null;
+//        try {
+//			dirName = FileLocator.resolve(fileURL).getFile();
+//		} catch (IOException e) {
+//			dirName = fileURL.toExternalForm();
+//		}
+//		fileName = dirName + "/test.smv";
         
 		machine = m;
-		this.outline = outline;
-		useCaseID = "1";
+		this.useCaseId = useCaseID;
 		loadStates();
 	}
 	
@@ -87,7 +78,7 @@ public class NuSMVGenerator {
 						AnnotationEntry aEntry = annotationTracker.get(tag);
 						if (aEntry == null) {
 							aEntry = new AnnotationEntry();
-							aEntry.automatonID = useCaseID;
+							aEntry.automatonID = useCaseId;
 							aEntry.states = new ArrayList<String>();
 							annotationTracker.put(tag, aEntry);
 						}
@@ -122,7 +113,7 @@ public class NuSMVGenerator {
 							AnnotationEntry aEntry = annotationTracker.get(tag);
 							if (aEntry == null) {
 								aEntry = new AnnotationEntry();
-								aEntry.automatonID = useCaseID;
+								aEntry.automatonID = useCaseId;
 								aEntry.states = new ArrayList<String>();
 								annotationTracker.put(tag, aEntry);
 							}
@@ -134,49 +125,57 @@ public class NuSMVGenerator {
 		}
 	}
 	
-	String getProcess(String name) {
+	public HashMap<String, AnnotationEntry> getAnnotationsTracker() {
+		return annotationTracker;
+	}
+	
+	public String getUseCaseId() {
+		return useCaseId;
+	}
+	
+	public String getProcess() {
 		StringBuffer buf = new StringBuffer();
 		
 		buf.append("	-- Process\n");
-		buf.append("	VAR x" + name + " : UC_" + name + "(self, x" + name + "run);\n");
-		buf.append("	VAR x"  + name + "run: boolean;\n");
-		buf.append("	INIT x" + name + "run in FALSE;\n");
-		buf.append("	ASSIGN next(x" + name + "run) := case\n");
-		buf.append("		p=p" + name + " : TRUE;\n");
-		buf.append("		TRUE : x" + name + "run;\n");
-		buf.append("	esac;\n\n");
+		buf.append("	VAR x" + useCaseId + " : UC_" + useCaseId + "(self, x" + useCaseId + "run);\n");
+		buf.append("	VAR x"  + useCaseId + "run: boolean;\n");
+		buf.append("	INIT x" + useCaseId + "run in FALSE;\n");
+		buf.append("	ASSIGN next(x" + useCaseId + "run) := case\n");
+		buf.append("		p=p" + useCaseId + " : TRUE;\n");
+		buf.append("		TRUE : x" + useCaseId + "run;\n");
+		buf.append("	esac;");
 		
 		return buf.toString();
 	}
 	
-	String getAnnotations() {
-		StringBuffer buf = new StringBuffer();
-		
-		for (String tag: annotationTracker.keySet()) {
-			AnnotationEntry aEntry = annotationTracker.get(tag);
-			buf.append("	VAR " + tag + " : boolean;\n");
-			buf.append("	INIT " + tag + " in FALSE;\n");
-			buf.append("	ASSIGN next(" + tag + ") := FALSE\n");
-			buf.append("		| x" + aEntry.automatonID + ".s in {" );
-			int c = 0;
-			for (String state: aEntry.states) {
-				if (c > 0) {
-					buf.append(",");
-				}
-				c++;
-				buf.append(state);
-			}
-			buf.append("}\n");
-			buf.append("		;\n\n");
-		}
-		
-		return buf.toString();
-	}
+//	public String getAnnotations() {
+//		StringBuffer buf = new StringBuffer();
+//		
+//		for (String tag: annotationTracker.keySet()) {
+//			AnnotationEntry aEntry = annotationTracker.get(tag);
+//			buf.append("	VAR " + tag + " : boolean;\n");
+//			buf.append("	INIT " + tag + " in FALSE;\n");
+//			buf.append("	ASSIGN next(" + tag + ") := FALSE\n");
+//			buf.append("		| x" + aEntry.automatonID + ".s in {" );
+//			int c = 0;
+//			for (String state: aEntry.states) {
+//				if (c > 0) {
+//					buf.append(",");
+//				}
+//				c++;
+//				buf.append(state);
+//			}
+//			buf.append("}\n");
+//			buf.append("		;\n\n");
+//		}
+//		
+//		return buf.toString();
+//	}
 	
-	String getAutomaton(String name) {
+	public String getAutomaton() {
 		StringBuffer buf = new StringBuffer();
 
-		buf.append("MODULE UC_" + name + "(top, run)\n");
+		buf.append("MODULE UC_" + useCaseId + "(top, run)\n");
 		buf.append("	VAR s : {s0,");
 		
 		for (String s:states) {
@@ -228,115 +227,104 @@ public class NuSMVGenerator {
 		
 		buf.append("		s=" + trans2Label.get(finalTransition) + " : sFin;\n");
 		buf.append("		s=sFin : sFin;\n");
-		buf.append("	esac;\n");
+		buf.append("	esac;");
 		
 		return buf.toString();
 	}
 	
-	String getContents() {
-		StringBuffer buf = new StringBuffer();
-		
-		buf.append("MODULE main\n\n");
-		
-		buf.append("	-- FairnessConstraint\n");
-		buf.append("	FAIRNESS p=p1;\n\n");
-		
-		buf.append("	VAR p : {none,p1};\n");
-		buf.append("	INIT p in none;\n");
-		buf.append("	ASSIGN next(p) := case\n");
-		buf.append("		p=none : {p1};\n");
-		buf.append("		TRUE : none;\n");
-		buf.append("	esac;\n\n");
-		
-		buf.append(getProcess(useCaseID));
-		buf.append(getAnnotations());
-		buf.append(getAutomaton(useCaseID));
-		
-		return buf.toString();
-	}
+//	String getContents() {
+//		StringBuffer buf = new StringBuffer();
+//		
+//		buf.append("MODULE main\n\n");
+//		
+//		buf.append("	-- FairnessConstraint\n");
+//		buf.append("	FAIRNESS p=p1;\n\n");
+//		
+//		buf.append("	VAR p : {none,p1};\n");
+//		buf.append("	INIT p in none;\n");
+//		buf.append("	ASSIGN next(p) := case\n");
+//		buf.append("		p=none : {p1};\n");
+//		buf.append("		TRUE : none;\n");
+//		buf.append("	esac;\n\n");
+//		
+//		buf.append(getProcess(useCaseId));
+//		buf.append(getAnnotations());
+//		buf.append(getAutomaton());
+//		
+//		return buf.toString();
+//	}
 	
-	public void writeToFile() {
-		try {
-			BufferedWriter out = new BufferedWriter(new FileWriter(fileName));
-			out.write(getContents());
-			out.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+//	private void displayCounterPath(List<String> states) {
+//		List<State> lStates = new ArrayList<State>();
+//		for (String label: states) {
+//			State state = label2State.get(label);
+//			if (state != null) {
+//				lStates.add(state);
+//			}
+//		}
+//		outline.selectStates(lStates);
+//	}
 	
-	private void displayCounterPath(List<String> states) {
-		System.out.println("States: " + states);
-		List<State> lStates = new ArrayList<State>();
-		for (String label: states) {
-			State state = label2State.get(label);
-			if (state != null) {
-				lStates.add(state);
-			}
-		}
-		outline.selectStates(lStates);
-	}
-	
-	public void performTest() {
-		nusmv.clearConsole();
-		nusmv.loadModelFile(fileName);
-		
-		try {
-			nusmv.checkCTLSpec( "After 'open' there should always be 'close'",
-					"AG(open_file -> AF(close_file))" );
-			if (!nusmv.getTestResult()) {
-				displayCounterPath(nusmv.getStateTrace());
-				return;
-			}
-			
-			nusmv.checkCTLSpec( "No multi-open without close",
-					"AG(open_file -> AX(A[!open_file U close_file]))" );
-			if (!nusmv.getTestResult()) {
-				displayCounterPath(nusmv.getStateTrace());
-				return;
-			}
-			
-			nusmv.checkCTLSpec( "No multi-close without open",
-					"AG(close_file -> AX(A[!close_file U open_file | !AF(close_file) ]))" );
-			if (!nusmv.getTestResult()) {
-				displayCounterPath(nusmv.getStateTrace());
-				return;
-			}
-			
-			nusmv.checkCTLSpec( "First 'open' then 'close'",
-					"A[!close_file U open_file | !AF(close_file)]" );
-			if (!nusmv.getTestResult()) {
-				displayCounterPath(nusmv.getStateTrace());
-				return;
-			}
-			
-			/*
-			nusmv.checkCTLSpec( "After 'create' there must be some branch containing 'use'",
-					"AG( create_item -> EF(use_item) )" );
-			if (!nusmv.getTestResult()) {
-				displayCounterPath(nusmv.getStateTrace());
-				return;
-			}
-			
-			nusmv.checkCTLSpec( "Only one 'create'",
-					"AG( create_item -> AX(AG(!create_item)) )" );
-			if (!nusmv.getTestResult()) {
-				displayCounterPath(nusmv.getStateTrace());
-				return;
-			}
-			
-			nusmv.checkCTLSpec( "No 'use' before 'create'",
-					"A[ !use_item U create_item | !AF(use_item)]" );
-			if (!nusmv.getTestResult()) {
-				displayCounterPath(nusmv.getStateTrace());
-				return;
-			}
-			*/
-			
-		} catch(Exception e) {
-			nusmv.printMessage( e.getMessage() );
-		}
-	}
+//	public void performTest() {
+//		nusmv.clearConsole();
+//		nusmv.loadModelFile(fileName);
+//		
+//		try {
+//			nusmv.checkCTLSpec( "After 'open' there should always be 'close'",
+//					"AG(open_file -> AF(close_file))" );
+//			if (!nusmv.getTestResult()) {
+//				displayCounterPath(nusmv.getStateTrace());
+//				return;
+//			}
+//			
+//			nusmv.checkCTLSpec( "No multi-open without close",
+//					"AG(open_file -> AX(A[!open_file U close_file]))" );
+//			if (!nusmv.getTestResult()) {
+//				displayCounterPath(nusmv.getStateTrace());
+//				return;
+//			}
+//			
+//			nusmv.checkCTLSpec( "No multi-close without open",
+//					"AG(close_file -> AX(A[!close_file U open_file | !AF(close_file) ]))" );
+//			if (!nusmv.getTestResult()) {
+//				displayCounterPath(nusmv.getStateTrace());
+//				return;
+//			}
+//			
+//			nusmv.checkCTLSpec( "First 'open' then 'close'",
+//					"A[!close_file U open_file | !AF(close_file)]" );
+//			if (!nusmv.getTestResult()) {
+//				displayCounterPath(nusmv.getStateTrace());
+//				return;
+//			}
+//			
+//			/*
+//			nusmv.checkCTLSpec( "After 'create' there must be some branch containing 'use'",
+//					"AG( create_item -> EF(use_item) )" );
+//			if (!nusmv.getTestResult()) {
+//				displayCounterPath(nusmv.getStateTrace());
+//				return;
+//			}
+//			
+//			nusmv.checkCTLSpec( "Only one 'create'",
+//					"AG( create_item -> AX(AG(!create_item)) )" );
+//			if (!nusmv.getTestResult()) {
+//				displayCounterPath(nusmv.getStateTrace());
+//				return;
+//			}
+//			
+//			nusmv.checkCTLSpec( "No 'use' before 'create'",
+//					"A[ !use_item U create_item | !AF(use_item)]" );
+//			if (!nusmv.getTestResult()) {
+//				displayCounterPath(nusmv.getStateTrace());
+//				return;
+//			}
+//			*/
+//			
+//		} catch(Exception e) {
+//			nusmv.printMessage( e.getMessage() );
+//		}
+//	}
 
 }
 

@@ -1,13 +1,20 @@
 package reprotool.fm.nusmv.commands;
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+
+import lts2.impl.LTSGeneratorImpl;
 
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.IHandler;
 import org.eclipse.core.commands.IHandlerListener;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.emf.common.CommonPlugin;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -16,12 +23,10 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.ui.handlers.HandlerUtil;
-import org.eclipselabs.nusmvtools.nusmv4j.NusmvLibrary;
-import org.eclipselabs.nusmvtools.nusmv4j.NusmvLibraryUtil;
-
 import reprotool.fm.nusmv.Module;
+import reprotool.fm.nusmv.NuSMVGenerator;
+import reprotool.fm.nusmv.NuSMVProject;
 import reprotool.fm.nusmv.NusmvFactory;
-import reprotool.fm.nusmv.NusmvPackage;
 import reprotool.fm.nusmv.Scheduler;
 import reprotool.model.swproj.SoftwareProject;
 import reprotool.model.usecase.UseCase;
@@ -71,7 +76,7 @@ public class SwprojToSMV implements IHandler {
 	 * @return The derived identifier 
 	 */
 	private String uc2id(UseCase useCase) {
-		return "UC_" + useCase.getName().replaceAll(" +", "_");
+		return useCase.getName().replaceAll(" +", "_");
 	}
 	
 	private String[] ucs2ids(Collection<UseCase> list) {
@@ -91,10 +96,7 @@ public class SwprojToSMV implements IHandler {
 		ISelection sel = HandlerUtil.getCurrentSelection(event);
 		if(sel instanceof TreeSelection) {
 			TreeSelection tsel = (TreeSelection) sel;
-			IFile ifile = (IFile) tsel.getFirstElement();
-			System.out.println(ifile);
-			
-			
+			IFile ifile = (IFile) tsel.getFirstElement();			
 			final ResourceSet rs = new ResourceSetImpl();
 			
 			// Converting IFile to URI: see http://wiki.eclipse.org/index.php/EMF/FAQ#How_do_I_map_between_an_EMF_Resource_and_an_Eclipse_IFile.3F
@@ -110,13 +112,37 @@ public class SwprojToSMV implements IHandler {
 			SoftwareProject swproj = (SoftwareProject) rootEObj;
 			System.out.println("FOUND SWPROJ : " + swproj);
 			
-//			Scheduler scheduler = NusmvFactory.eINSTANCE.createScheduler();
-//			for (UseCase useCase : swproj.getUseCases()) {
-//				Module module = NusmvFactory.eINSTANCE.createModule();
-//				scheduler.getModules().add(module);
-//				module.setAdjacentUseCase(useCase);
-//			}
-//			
+			List<NuSMVGenerator> generators = new ArrayList<NuSMVGenerator>();
+
+			Scheduler scheduler = NusmvFactory.eINSTANCE.createScheduler();
+			for (UseCase useCase : swproj.getUseCases()) {
+				Module module = NusmvFactory.eINSTANCE.createModule();
+				scheduler.getModules().add(module);
+				module.setAdjacentUseCase(useCase);
+				System.out.println("Found usecase " + useCase.getName());
+				
+				LTSGeneratorImpl lts = new LTSGeneratorImpl();
+				lts.processUseCase(useCase);
+				NuSMVGenerator nusmv = new NuSMVGenerator(lts.getLabelTransitionSystem(), uc2id(useCase));
+				generators.add(nusmv);
+			}
+			
+			NuSMVProject nuSMVProj = new NuSMVProject(generators);
+						
+			String fileName = CommonPlugin.resolve(uri).path() + ".smv";			
+			try {
+				BufferedWriter out = new BufferedWriter(new FileWriter(fileName));
+				out.write(nuSMVProj.getHeader());
+				out.write(nuSMVProj.getProcesses());
+				out.write(nuSMVProj.getAnnotations());
+				out.write(nuSMVProj.getAutomata());
+				out.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+			return null;
+			
 //			String outFilename = ifile.getFullPath().toOSString() + ".smv";
 //			
 //			try {
@@ -135,7 +161,7 @@ public class SwprojToSMV implements IHandler {
 //				for (UseCase useCase : swproj.getUseCases()) {
 //					String ucId = "UC_" + useCase.getName().replaceAll(" +", "_");
 //					out.print(", p" + ucId );
-//					p = none : {p1,p3,p4,p5};
+//					//p = none : {p1,p3,p4,p5};
 //				}
 //				out.println("};");
 //				out.println("TRUE : none;");
@@ -171,10 +197,10 @@ public class SwprojToSMV implements IHandler {
 //				// TODO Auto-generated catch block
 //				e.printStackTrace();
 //			}
-////			NuSMVWrapper nusmv = Activator.getDefault().getNuSMVWrapper();
-////			nusmv.clearConsole();
-////			nusmv.loadModelFile( file );
-////			nusmv.checkInlineCTLSpec();
+//			NuSMVWrapper nusmv = Activator.getDefault().getNuSMVWrapper();
+//			nusmv.clearConsole();
+//			nusmv.loadModelFile( file );
+//			nusmv.checkInlineCTLSpec();
 		}
 		return null;
 	}
