@@ -1,5 +1,13 @@
 package reprotool.ide.wizards;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,6 +25,8 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
@@ -35,6 +45,8 @@ import org.eclipse.ui.statushandlers.StatusManager;
 
 import reprotool.ide.Activator;
 import reprotool.ide.natures.ReprotoolProjectNature;
+import reprotool.model.lts.presentation.ReprotoolEditorPlugin;
+import reprotool.model.swproj.SoftwareProject;
 import reprotool.model.swproj.SwprojFactory;
 
 /**
@@ -169,7 +181,25 @@ public class ProjectWizard extends Wizard implements INewWizard {
 	}
 
 	private EObject createInitialModel() {
-		return SwprojFactory.eINSTANCE.createSoftwareProject();
+		try {
+			XMIResourceImpl resource = new XMIResourceImpl();
+			
+			// use SoftwareProject from the template stored in file
+			URL url = new URL("platform:/plugin/reprotool.model/model/EmptySoftwareProjectTemplate.xmi");
+			InputStream inputStream = url.openConnection().getInputStream();
+			resource.load(inputStream, new HashMap<Object, Object>());
+			inputStream.close();
+			
+			SoftwareProject templateProject = (SoftwareProject) resource.getContents().get(0);
+			return EcoreUtil.copy(templateProject);
+			
+		} catch (IOException e) {			
+			IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, "Error initialization from template", e);
+			StatusManager.getManager().handle(status, StatusManager.BLOCK | StatusManager.LOG);
+			
+			// fallback - create empty SoftwareProject
+			return SwprojFactory.eINSTANCE.createSoftwareProject();
+		}
 	}
 
 	private IPath getModelFilePath() {
