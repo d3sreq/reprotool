@@ -14,6 +14,7 @@ import lts2.Transition;
 import lts2.TransitionalState;
 import lts2.impl.LTSGeneratorImpl;
 
+import org.apache.commons.lang.WordUtils;
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.IFigure;
@@ -58,6 +59,9 @@ import org.eclipse.zest.core.widgets.GraphItem;
 import org.eclipse.zest.core.widgets.GraphNode;
 import org.eclipse.zest.core.widgets.ZestStyles;
 import org.eclipse.zest.layouts.LayoutAlgorithm;
+
+import com.ochafik.util.string.StringUtils;
+
 import reprotool.model.linguistic.action.UseCaseInclude;
 import reprotool.model.usecase.Condition;
 import reprotool.model.usecase.Scenario;
@@ -283,10 +287,11 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 		if (transition.getRelatedStep() != null) {
 			IFigure toolTip = new Label();
 			
+
 			StringBuffer stringBuffer = new StringBuffer();
 			stringBuffer.append("Label: " + transition.getRelatedStep().getLabel());
 			stringBuffer.append("\n");
-			stringBuffer.append("Text: " + transition.getRelatedStep().getContent());
+			stringBuffer.append("Text: " + WordUtils.wrap( transition.getRelatedStep().getContent(), 40) );
 			
 			Scenario scenario = (Scenario) transition.getRelatedStep().eContainer();
 			EList<Condition> preconditions = scenario.getPreconditions();
