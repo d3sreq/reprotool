@@ -21,15 +21,38 @@ public class NuSMVProject {
 		StringBuffer buf = new StringBuffer();
 		
 		buf.append("MODULE main\n\n");
-		
 		buf.append("	-- FairnessConstraint\n");
-		buf.append("	FAIRNESS p=pUseCase_1;\n");
-		buf.append("	FAIRNESS p=pUseCase_2;\n\n");
 		
-		buf.append("	VAR p : {none,pUseCase_1,pUseCase_2};\n");
+		for (NuSMVGenerator nusmv: generators) {
+			buf.append("	FAIRNESS p=p" + nusmv.getUseCaseId() + ";\n");			
+		}
+		buf.append("\n");
+		
+		buf.append("	VAR p : {none,");
+		int c = 0;
+		for (NuSMVGenerator nusmv: generators) {
+			buf.append("p" + nusmv.getUseCaseId());
+			c++;
+			if (c < generators.size()) {
+				buf.append(",");
+			}
+		}
+		buf.append("};\n");
+		
 		buf.append("	INIT p in none;\n");
 		buf.append("	ASSIGN next(p) := case\n");
-		buf.append("		p=none : {pUseCase_1,pUseCase_2};\n");
+		buf.append("		p=none : {");
+		
+		c = 0;
+		for (NuSMVGenerator nusmv: generators) {
+			buf.append("p" + nusmv.getUseCaseId());
+			c++;
+			if (c < generators.size()) {
+				buf.append(",");
+			}
+		}
+		buf.append("};\n");
+		
 		buf.append("		TRUE : none;\n");
 		buf.append("	esac;\n\n");
 		
@@ -53,9 +76,11 @@ public class NuSMVProject {
 	
 	public String getProcesses() {
 		StringBuffer buf = new StringBuffer();
+		String pred = null;
 		
 		for (NuSMVGenerator nusmv: generators) {
-			buf.append(nusmv.getProcess() + "\n\n");
+			buf.append(nusmv.getProcess(pred) + "\n\n");
+			pred = nusmv.getUseCaseId();
 		}
 
 		return buf.toString();

@@ -141,8 +141,10 @@ public class LTSGeneratorImpl extends EObjectImpl implements LTSGenerator {
 			Goto gotoAction = (Goto) ucStep.getAction();
 			State src = ltsCache.getUCStep2TSrcState().get(ucStep);
 			State dst = ltsCache.getUCStep2TSrcState().get(gotoAction.getGotoTarget());
-			Assert.isNotNull(src);
-			Assert.isNotNull(dst);
+			
+			if ((src == null) || (dst == null)) {
+				return;
+			}
 
 			Transition t = Lts2Factory.eINSTANCE.createTransition();
 			t.setRelatedStep(ucStep);

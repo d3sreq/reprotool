@@ -16,11 +16,8 @@ import lts2.Transition;
 import lts2.TransitionalState;
 
 public class NuSMVGenerator {
-
-//	private MyNuSMVWrapper nusmv;	
-//	private String fileName;
-	
 	private String useCaseId;
+	private boolean hasAbort = false;
 	private StateMachine machine;
 	private Transition finalTransition;
 	private List<String> states = new ArrayList<String>();
@@ -33,18 +30,6 @@ public class NuSMVGenerator {
 		HashMap<String, AnnotationEntry>();
 	
 	public NuSMVGenerator(StateMachine m, String useCaseID) {
-//		nusmv = new MyNuSMVWrapper();
-		
-//		Bundle bundle = Platform.getBundle(Activator.PLUGIN_ID);
-//        URL fileURL = bundle.getEntry("nusmv");
-//        String dirName = null;
-//        try {
-//			dirName = FileLocator.resolve(fileURL).getFile();
-//		} catch (IOException e) {
-//			dirName = fileURL.toExternalForm();
-//		}
-//		fileName = dirName + "/test.smv";
-        
 		machine = m;
 		this.useCaseId = useCaseID;
 		loadStates();
@@ -86,6 +71,10 @@ public class NuSMVGenerator {
 					}
 				}
 			}
+			
+			if ((ucStep != null) && (ucStep.getAction() instanceof AbortUseCase)) {
+				hasAbort = true;
+			}
 		}
 		
 		for (TransitionalState tState: machine.getTransitionalStates()) {
@@ -121,6 +110,10 @@ public class NuSMVGenerator {
 						}
 					}
 				}
+				
+				if ((ucStep != null) && (ucStep.getAction() instanceof AbortUseCase)) {
+					hasAbort = true;
+				}
 			}
 		}
 	}
@@ -133,7 +126,7 @@ public class NuSMVGenerator {
 		return useCaseId;
 	}
 	
-	public String getProcess() {
+	public String getProcess(String predecessorId) {
 		StringBuffer buf = new StringBuffer();
 		
 		buf.append("	-- Process\n");
@@ -141,36 +134,16 @@ public class NuSMVGenerator {
 		buf.append("	VAR x"  + useCaseId + "run: boolean;\n");
 		buf.append("	INIT x" + useCaseId + "run in FALSE;\n");
 		buf.append("	ASSIGN next(x" + useCaseId + "run) := case\n");
-		buf.append("		p=p" + useCaseId + " : TRUE;\n");
+		if (predecessorId == null) {
+			buf.append("		p=p" + useCaseId + " : TRUE;\n");
+		} else {
+			buf.append("		p=p" + useCaseId + " & x" + predecessorId + ".s = sFin : TRUE;\n");
+		}
 		buf.append("		TRUE : x" + useCaseId + "run;\n");
 		buf.append("	esac;");
 		
 		return buf.toString();
 	}
-	
-//	public String getAnnotations() {
-//		StringBuffer buf = new StringBuffer();
-//		
-//		for (String tag: annotationTracker.keySet()) {
-//			AnnotationEntry aEntry = annotationTracker.get(tag);
-//			buf.append("	VAR " + tag + " : boolean;\n");
-//			buf.append("	INIT " + tag + " in FALSE;\n");
-//			buf.append("	ASSIGN next(" + tag + ") := FALSE\n");
-//			buf.append("		| x" + aEntry.automatonID + ".s in {" );
-//			int c = 0;
-//			for (String state: aEntry.states) {
-//				if (c > 0) {
-//					buf.append(",");
-//				}
-//				c++;
-//				buf.append(state);
-//			}
-//			buf.append("}\n");
-//			buf.append("		;\n\n");
-//		}
-//		
-//		return buf.toString();
-//	}
 	
 	public String getAutomaton() {
 		StringBuffer buf = new StringBuffer();
@@ -180,6 +153,10 @@ public class NuSMVGenerator {
 		
 		for (String s:states) {
 			buf.append(s + ",");
+		}
+		
+		if (hasAbort) {
+			buf.append("sAbort,");
 		}
 		
 		buf.append("sFin};\n");
@@ -211,7 +188,11 @@ public class NuSMVGenerator {
 				TransitionalState tgtTransitional = (TransitionalState) tgt;
 				c = 0;
 				for (Transition tr: tgtTransitional.getTransitions()) {
+					UseCaseStep step = tr.getRelatedStep();
 					String label = trans2Label.get(tr);
+					if ((step != null) && (step.getAction() instanceof AbortUseCase)) {
+						label = "sAbort";
+					}
 					if (label == null) {
 						label = state2Label.get(tr.getTargetState());
 					}
@@ -227,32 +208,13 @@ public class NuSMVGenerator {
 		
 		buf.append("		s=" + trans2Label.get(finalTransition) + " : sFin;\n");
 		buf.append("		s=sFin : sFin;\n");
+		if (hasAbort) {
+			buf.append("		s=sAbort : sAbort;\n");			
+		}
 		buf.append("	esac;");
 		
 		return buf.toString();
 	}
-	
-//	String getContents() {
-//		StringBuffer buf = new StringBuffer();
-//		
-//		buf.append("MODULE main\n\n");
-//		
-//		buf.append("	-- FairnessConstraint\n");
-//		buf.append("	FAIRNESS p=p1;\n\n");
-//		
-//		buf.append("	VAR p : {none,p1};\n");
-//		buf.append("	INIT p in none;\n");
-//		buf.append("	ASSIGN next(p) := case\n");
-//		buf.append("		p=none : {p1};\n");
-//		buf.append("		TRUE : none;\n");
-//		buf.append("	esac;\n\n");
-//		
-//		buf.append(getProcess(useCaseId));
-//		buf.append(getAnnotations());
-//		buf.append(getAutomaton());
-//		
-//		return buf.toString();
-//	}
 	
 //	private void displayCounterPath(List<String> states) {
 //		List<State> lStates = new ArrayList<State>();
