@@ -1,0 +1,18 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: reprotool.fm.nusmv.lang.tests
+Bundle-Vendor: My Company
+Bundle-Version: 1.0.0
+Bundle-SymbolicName: reprotool.fm.nusmv.lang.tests; singleton:=true
+Bundle-ActivationPolicy: lazy
+Require-Bundle: reprotool.fm.nusmv.lang,
+ reprotool.fm.nusmv.lang.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.xtext,
+ org.eclipse.xtext.junit4,
+ org.eclipse.xtext.ui.junit,
+ org.junit4,
+ org.eclipse.ui.workbench;resolution:=optional
+Import-Package: org.apache.log4j,
+ org.apache.commons.logging
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
