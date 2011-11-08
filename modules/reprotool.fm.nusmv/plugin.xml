@@ -35,6 +35,11 @@
             id="reprotool.commands.SwprojToSMV"
             name="SW Project To SMV">
       </command>
+      <command
+            defaultHandler="reprotool.fm.nusmv.commands.SwprojToSMVXtextExample"
+            id="reprotool.commands.SwprojToSmvXtext"
+            name="SW Project To SMV (Xtext Example)">
+      </command>
    </extension>
    <extension
          point="org.eclipse.ui.menus">
@@ -57,6 +62,12 @@
                commandId="reprotool.commands.SwprojToSMV"
                icon="icons/swproj2smv.gif"
                label="Convert SW Project To SMV"
+               style="push">
+         </command>
+         <command
+               commandId="reprotool.commands.SwprojToSmvXtext"
+               icon="icons/swproj2smv.gif"
+               label="Convert SW Project To SMV (Xtext Example)"
                style="push">
          </command>
       </menuContribution>
