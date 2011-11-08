@@ -76,11 +76,9 @@ public class NuSMVProject {
 	
 	public String getProcesses() {
 		StringBuffer buf = new StringBuffer();
-		String pred = null;
 		
 		for (NuSMVGenerator nusmv: generators) {
-			buf.append(nusmv.getProcess(pred) + "\n\n");
-			pred = nusmv.getUseCaseId();
+			buf.append(nusmv.getProcess() + "\n\n");
 		}
 
 		return buf.toString();

@@ -7,6 +7,7 @@ import java.util.List;
 import org.eclipse.emf.common.util.EList;
 import reprotool.model.linguistic.action.AbortUseCase;
 import reprotool.model.linguistic.action.Goto;
+import reprotool.model.usecase.UseCase;
 import reprotool.model.usecase.UseCaseStep;
 import reprotool.model.usecase.annotate.StepAnnotation;
 
@@ -14,11 +15,13 @@ import lts2.State;
 import lts2.StateMachine;
 import lts2.Transition;
 import lts2.TransitionalState;
+import lts2.impl.LTSGeneratorImpl;
 
 public class NuSMVGenerator {
 	private String useCaseId;
 	private boolean hasAbort = false;
 	private StateMachine machine;
+	private UseCase useCase;
 	private Transition finalTransition;
 	private List<String> states = new ArrayList<String>();
 	private HashMap<String, Transition> label2Trans = new HashMap<String, Transition>();
@@ -29,10 +32,22 @@ public class NuSMVGenerator {
 	private HashMap<String, AnnotationEntry> annotationTracker = new 
 		HashMap<String, AnnotationEntry>();
 	
-	public NuSMVGenerator(StateMachine m, String useCaseID) {
-		machine = m;
-		this.useCaseId = useCaseID;
+	public NuSMVGenerator(UseCase uc) {
+		useCase = uc;
+		LTSGeneratorImpl lts = new LTSGeneratorImpl();
+		lts.processUseCase(useCase);
+		machine = lts.getLabelTransitionSystem();
+		this.useCaseId = uc2id(useCase);
 		loadStates();
+	}
+	
+	/**
+	 * Helper method that derives identifier of a use-case.
+	 * @param useCase
+	 * @return The derived identifier 
+	 */
+	private String uc2id(UseCase useCase) {
+		return useCase.getName().replaceAll(" +", "_");
 	}
 	
 	private void loadStates() {
@@ -126,7 +141,7 @@ public class NuSMVGenerator {
 		return useCaseId;
 	}
 	
-	public String getProcess(String predecessorId) {
+	public String getProcess() {
 		StringBuffer buf = new StringBuffer();
 		
 		buf.append("	-- Process\n");
@@ -134,11 +149,21 @@ public class NuSMVGenerator {
 		buf.append("	VAR x"  + useCaseId + "run: boolean;\n");
 		buf.append("	INIT x" + useCaseId + "run in FALSE;\n");
 		buf.append("	ASSIGN next(x" + useCaseId + "run) := case\n");
-		if (predecessorId == null) {
+		
+		if (
+				(useCase.getPrecedingUseCases() == null) ||
+				(useCase.getPrecedingUseCases().isEmpty())
+		) {
 			buf.append("		p=p" + useCaseId + " : TRUE;\n");
+		
 		} else {
-			buf.append("		p=p" + useCaseId + " & x" + predecessorId + ".s = sFin : TRUE;\n");
+			buf.append("		p=p" + useCaseId);
+			for (UseCase pred: useCase.getPrecedingUseCases()) {
+				buf.append(" & x" + uc2id(pred) + ".s = sFin");
+			}
+			buf.append(" : TRUE;\n");
 		}
+		
 		buf.append("		TRUE : x" + useCaseId + "run;\n");
 		buf.append("	esac;");
 		

@@ -38,17 +38,7 @@ public class SwprojToSMV implements IHandler {
 	public void dispose() {
 		// TODO Auto-generated method stub
 	}
-
-	/**
-	 * Helper method that derives identifier of a use-case.
-	 * @param useCase
-	 * @return The derived identifier 
-	 */
-	private String uc2id(UseCase useCase) {
-		return useCase.getName().replaceAll(" +", "_");
-	}
-	
-	
+		
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		ISelection sel = HandlerUtil.getCurrentSelection(event);
@@ -72,18 +62,11 @@ public class SwprojToSMV implements IHandler {
 			
 			List<NuSMVGenerator> generators = new ArrayList<NuSMVGenerator>();
 
-//			Scheduler scheduler = NusmvFactory.eINSTANCE.createScheduler();
-//			for (UseCase useCase : swproj.getUseCases()) {
-//				Module module = NusmvFactory.eINSTANCE.createModule();
-//				scheduler.getModules().add(module);
-//				module.setAdjacentUseCase(useCase);
-//				System.out.println("Found usecase " + useCase.getName());
-//				
-//				LTSGenerator lts = new LTSGeneratorImpl();
-//				lts.processUseCase(useCase);
-//				NuSMVGenerator nusmv = new NuSMVGenerator(lts.getLabelTransitionSystem(), uc2id(useCase));
-//				generators.add(nusmv);
-//			}
+			for (UseCase useCase : swproj.getUseCases()) {
+				System.out.println("Found usecase " + useCase.getName());
+				NuSMVGenerator nusmv = new NuSMVGenerator(useCase);
+				generators.add(nusmv);
+			}
 			
 			NuSMVProject nuSMVProj = new NuSMVProject(generators);
 						
@@ -97,15 +80,9 @@ public class SwprojToSMV implements IHandler {
 				out.close();
 			} catch (IOException e) {
 				e.printStackTrace();
-			}
-			
-			return null;
-			
-//			NuSMVWrapper nusmv = Activator.getDefault().getNuSMVWrapper();
-//			nusmv.clearConsole();
-//			nusmv.loadModelFile( file );
-//			nusmv.checkInlineCTLSpec();
+			}			
 		}
+		
 		return null;
 	}
 
