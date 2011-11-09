@@ -7,6 +7,7 @@ import java.util.List;
 import org.eclipse.emf.common.util.EList;
 import reprotool.model.linguistic.action.AbortUseCase;
 import reprotool.model.linguistic.action.Goto;
+import reprotool.model.linguistic.action.UseCaseInclude;
 import reprotool.model.usecase.UseCase;
 import reprotool.model.usecase.UseCaseStep;
 import reprotool.model.usecase.annotate.StepAnnotation;
@@ -23,11 +24,14 @@ public class NuSMVGenerator {
 	private StateMachine machine;
 	private UseCase useCase;
 	private Transition finalTransition;
+	
 	private List<String> states = new ArrayList<String>();
+	private List<UseCase> includedUseCases = new ArrayList<UseCase>();
 	private HashMap<String, Transition> label2Trans = new HashMap<String, Transition>();
 	private HashMap<Transition, String> trans2Label = new HashMap<Transition, String>();
 	private HashMap<State, String> state2Label = new HashMap<State, String>();
 	private HashMap<String, State> label2State = new HashMap<String, State>();
+	private HashMap<UseCase, String> useCase2Label = new HashMap<UseCase, String>();
 	
 	private HashMap<String, AnnotationEntry> annotationTracker = new 
 		HashMap<String, AnnotationEntry>();
@@ -64,6 +68,12 @@ public class NuSMVGenerator {
 					(!(ucStep.getAction() instanceof Goto)) &&
 					(!(ucStep.getAction() instanceof AbortUseCase))
 			) {
+				if (ucStep.getAction() instanceof UseCaseInclude) {
+					UseCaseInclude ui = (UseCaseInclude) ucStep.getAction();
+					includedUseCases.add(ui.getIncludeTarget());
+					useCase2Label.put(ui.getIncludeTarget(), "s0");
+				}
+				
 				String label = "s" + t.getRelatedStep().getLabel();
 				states.add(label);
 				label2Trans.put(label, t);
@@ -103,6 +113,12 @@ public class NuSMVGenerator {
 						(!(ucStep.getAction() instanceof Goto)) &&
 						(!(ucStep.getAction() instanceof AbortUseCase))
 				) {
+					if (ucStep.getAction() instanceof UseCaseInclude) {
+						UseCaseInclude ui = (UseCaseInclude) ucStep.getAction();
+						includedUseCases.add(ui.getIncludeTarget());
+						useCase2Label.put(ui.getIncludeTarget(), state2Label.get(tState));
+					}
+					
 					String label = "s" + t.getRelatedStep().getLabel();
 					states.add(label);
 					label2Trans.put(label, t);
@@ -141,9 +157,13 @@ public class NuSMVGenerator {
 		return useCaseId;
 	}
 	
+	public UseCase getUseCase() {
+		return useCase;
+	}
+	
 	public String getProcess() {
 		StringBuffer buf = new StringBuffer();
-		
+					
 		buf.append("	-- Process\n");
 		buf.append("	VAR x" + useCaseId + " : UC_" + useCaseId + "(self, x" + useCaseId + "run);\n");
 		buf.append("	VAR x"  + useCaseId + "run: boolean;\n");
@@ -166,14 +186,29 @@ public class NuSMVGenerator {
 		
 		buf.append("		TRUE : x" + useCaseId + "run;\n");
 		buf.append("	esac;");
-		
+
 		return buf.toString();
+	}
+	
+	public List<UseCase> getIncludedUseCases() {
+		return includedUseCases;
 	}
 	
 	public String getAutomaton() {
 		StringBuffer buf = new StringBuffer();
 
 		buf.append("MODULE UC_" + useCaseId + "(top, run)\n");
+		
+		int c = 0;
+		for (UseCase include: getIncludedUseCases()) {
+			c++;
+			String tag = Integer.toString(c);
+			buf.append("	VAR y" + tag + "run : boolean;\n");
+			buf.append("	INIT y" + tag + "run in FALSE;\n");
+			buf.append("	VAR y" + tag + " : UC_" + uc2id(include) + "(top,y" + tag + "run);\n");
+			buf.append("	ASSIGN next (y" + tag + "run) := (s=" + useCase2Label.get(include) + ");\n\n");
+		}
+		
 		buf.append("	VAR s : {s0,");
 		
 		for (String s:states) {
@@ -191,7 +226,7 @@ public class NuSMVGenerator {
 		buf.append("		s=s0 & !run : s0;\n");
 		buf.append("		s=s0 & run : {");
 		
-		int c = 0;
+		c = 0;
 		for (Transition t: machine.getInitialState().getTransitions()) {
 			String label = trans2Label.get(t);
 			if (label == null) {
@@ -209,10 +244,28 @@ public class NuSMVGenerator {
 			Transition t = label2Trans.get(state);
 			State tgt = t.getTargetState();
 			if (tgt instanceof TransitionalState) {
-				buf.append("		s=" + state + " : {");
 				TransitionalState tgtTransitional = (TransitionalState) tgt;
+				EList<Transition> transitions = tgtTransitional.getTransitions();
+				if (
+						(!transitions.isEmpty()) &&
+						(transitions.get(0).getRelatedStep() != null) &&
+						(transitions.get(0).getRelatedStep().getAction() instanceof UseCaseInclude)
+				) {
+					Transition tr = transitions.get(0);
+					String label = trans2Label.get(tr);
+					if (label == null) {
+						label = state2Label.get(tr.getTargetState());
+					}
+					UseCaseInclude ui = (UseCaseInclude)tr.getRelatedStep().getAction();
+					int i = includedUseCases.indexOf(ui.getIncludeTarget()) + 1;
+					String tag = Integer.toString(i);
+					buf.append("		s=" + state + " & y" + tag +  ".s != sFin : " + state + ";\n");
+					buf.append("		s=" + state + " & y" + tag +  ".s = sFin : " + label + ";\n");
+					continue;
+				}
+				buf.append("		s=" + state + " : {");
 				c = 0;
-				for (Transition tr: tgtTransitional.getTransitions()) {
+				for (Transition tr: transitions) {
 					UseCaseStep step = tr.getRelatedStep();
 					String label = trans2Label.get(tr);
 					if ((step != null) && (step.getAction() instanceof AbortUseCase)) {
@@ -318,4 +371,11 @@ public class NuSMVGenerator {
 class AnnotationEntry {
 	String automatonID;
 	List<String> states = new ArrayList<String>();
+	
+	AnnotationEntry(AnnotationEntry a) {
+		automatonID = a.automatonID;
+		states = a.states;
+	}
+	
+	AnnotationEntry() {}
 }

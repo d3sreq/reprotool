@@ -3,6 +3,9 @@ package reprotool.fm.nusmv;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import org.eclipse.core.runtime.Assert;
+
+import reprotool.model.usecase.UseCase;
 
 public class NuSMVProject {
 	private List<NuSMVGenerator> generators;
@@ -12,9 +15,37 @@ public class NuSMVProject {
 	 */
 	private HashMap<String, List<AnnotationEntry>> globalTracker;
 	
+	private HashMap<UseCase, NuSMVGenerator> uc2gen = new HashMap<UseCase, NuSMVGenerator>();
+	
 	public NuSMVProject (List<NuSMVGenerator> generators) {
 		this.generators = generators;
 		globalTracker = new HashMap<String, List<AnnotationEntry>>();
+		
+		processAnnotations();
+		for (NuSMVGenerator nusvm: generators) {
+			uc2gen.put(nusvm.getUseCase(), nusvm);
+		}
+		
+		for (NuSMVGenerator nusmv: generators) {
+			int c = 0;
+			for (UseCase uc: nusmv.getIncludedUseCases()) {
+				c++;
+				String label = Integer.toString(c);
+				NuSMVGenerator g = uc2gen.get(uc);
+				HashMap<String, AnnotationEntry> annotationTracker = g.getAnnotationsTracker();
+				for (String tag: annotationTracker.keySet()) {
+					List<AnnotationEntry> list = globalTracker.get(tag);
+					if (list == null) {
+						Assert.isTrue(false);
+						list = new ArrayList<AnnotationEntry>();
+						globalTracker.put(tag, list);
+					}
+					AnnotationEntry a = new AnnotationEntry(annotationTracker.get(tag));
+					a.automatonID = nusmv.getUseCaseId() + ".y" + label;
+					list.add(a);
+				}
+			}
+		}
 	}
 	
 	public String getHeader() {
@@ -84,9 +115,7 @@ public class NuSMVProject {
 		return buf.toString();
 	}
 	
-	public String getAnnotations() {
-		processAnnotations();
-		
+	public String getAnnotations() {		
 		StringBuffer buf = new StringBuffer();
 		
 		for (String tag: globalTracker.keySet()) {
