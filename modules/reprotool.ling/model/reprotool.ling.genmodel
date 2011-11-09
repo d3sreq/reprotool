@@ -29,7 +29,6 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reprotool.ling.ecore#//Word/lemma"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reprotool.ling.ecore#//Word/POS"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute reprotool.ling.ecore#//Word/ID"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference reprotool.ling.ecore#//Word/actor"/>
     </genClasses>
     <genClasses ecoreClass="reprotool.ling.ecore#//SentenceNode">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference reprotool.ling.ecore#//SentenceNode/children"/>

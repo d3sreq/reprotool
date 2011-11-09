@@ -79,6 +79,8 @@ public class LingFactoryImpl extends EFactoryImpl implements LingFactory {
 		switch (eDataType.getClassifierID()) {
 			case LingPackage.SENTENCE_TYPE:
 				return createSentenceTypeFromString(eDataType, initialValue);
+			case LingPackage.NODE:
+				return createNodeFromString(eDataType, initialValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -94,6 +96,8 @@ public class LingFactoryImpl extends EFactoryImpl implements LingFactory {
 		switch (eDataType.getClassifierID()) {
 			case LingPackage.SENTENCE_TYPE:
 				return convertSentenceTypeToString(eDataType, instanceValue);
+			case LingPackage.NODE:
+				return convertNodeToString(eDataType, instanceValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -146,6 +150,26 @@ public class LingFactoryImpl extends EFactoryImpl implements LingFactory {
 	 * @generated
 	 */
 	public String convertSentenceTypeToString(EDataType eDataType, Object instanceValue) {
+		return instanceValue == null ? null : instanceValue.toString();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Node createNodeFromString(EDataType eDataType, String initialValue) {
+		Node result = Node.get(initialValue);
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertNodeToString(EDataType eDataType, Object instanceValue) {
 		return instanceValue == null ? null : instanceValue.toString();
 	}
 

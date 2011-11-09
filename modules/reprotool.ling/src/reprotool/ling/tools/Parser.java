@@ -7,7 +7,12 @@ import java.util.regex.Pattern;
 
 import org.eclipse.core.runtime.Platform;
 
+import reprotool.ling.LingFactory;
+import reprotool.ling.Node;
+import reprotool.ling.SentenceNode;
+import reprotool.ling.SentenceType;
 import reprotool.ling.Tool;
+import reprotool.ling.Word;
 import danbikel.lisp.Sexp;
 import danbikel.parser.Settings;
 
@@ -35,7 +40,7 @@ public class Parser extends Tool {
 	 *  internal node enum
 	 *  for switches 
 	 */
-	public enum Node {
+/*	public enum Node {
 		NP, VP, PP, FRAG,
 		X;
 		
@@ -50,7 +55,7 @@ public class Parser extends Tool {
 			return Node.X;
 		}	
 	}
-	
+	*/
 	
 	public String run(String text) {
 		return getString(text);
@@ -149,7 +154,7 @@ public class Parser extends Tool {
 	 */	
     public static SentenceNode getTree(String parsedText) {	
     	// root node    	
-		ParsetreeFactory factory = ParsetreeFactory.eINSTANCE;
+		LingFactory  factory = LingFactory.eINSTANCE;
 		SentenceNode rootNode = factory.createSentenceNode();
 		
     	if (parsedText.isEmpty()){
@@ -157,7 +162,7 @@ public class Parser extends Tool {
     	}
 
     	Word curWord = null;
-    	InnerParseNode curNode = rootNode;
+    	SentenceNode curNode = rootNode;
 	   	//TODO spravny STROM - zleva uzly a uzavorkovani
 				
     	// removing head S (sentence) node
@@ -182,21 +187,24 @@ public class Parser extends Tool {
 	    		
 	    		switch(node){
 	    		case NP:
-	    			NounPhraseNode nounPhrase = factory.createNounPhraseNode();
-	    			curNode.getChildNodes().add(nounPhrase);
-	    			nounPhrase.setParentNode(curNode);
+	    			SentenceNode nounPhrase = factory.createSentenceNode();
+	    			nounPhrase.setType(SentenceType.NOUN_PHRASE);
+	    			curNode.getChildren().add(nounPhrase);
+	    			nounPhrase.setParent(curNode);
 	    			curNode = nounPhrase;
 	    			break;
 	    		case VP:
-	    			VerbPhraseNode verbPhrase = factory.createVerbPhraseNode();
-	    			curNode.getChildNodes().add(verbPhrase);
-	    			verbPhrase.setParentNode(curNode);
+	    			SentenceNode verbPhrase = factory.createSentenceNode();
+	    			nounPhrase.setType(SentenceType.VERB_PHRASE);
+	    			curNode.getChildren().add(verbPhrase);
+	    			verbPhrase.setParent(curNode);
 	    			curNode = verbPhrase;
 	    			break;	
 	    		case PP:
-	    			PrepositionalPhraseNode prepositionalPhrase = factory.createPrepositionalPhraseNode();
-	    			curNode.getChildNodes().add(prepositionalPhrase);
-	    			prepositionalPhrase.setParentNode(curNode);
+	    			SentenceNode prepositionalPhrase = factory.createSentenceNode();
+	    			nounPhrase.setType(SentenceType.PREPOSITION_PHRASE);
+	    			curNode.getChildren().add(prepositionalPhrase);
+	    			prepositionalPhrase.setParent(curNode);
 	    			curNode = prepositionalPhrase;
 	    			break;	
 	    		case FRAG:
@@ -205,8 +213,8 @@ public class Parser extends Tool {
 	    		default:
 	    			// preparation for new word (at POS)
 	    			curWord = factory.createWord();	
-	    			curWord.setWordPOS(symbol);
-	    			curNode.getChildNodes().add(curWord);	
+	    			curWord.setPOS(symbol);
+	    			curNode.getChildren().add(curWord);	
 	    			atWord = true;
 
 	    			break;
@@ -215,7 +223,7 @@ public class Parser extends Tool {
 	    		
 	    		if(!atWord){
 	    			
-	    			curNode = curNode.getParentNode();
+	    			curNode = curNode.getParent();
 	    		} else {
 	    			atWord = false;
 	    		}

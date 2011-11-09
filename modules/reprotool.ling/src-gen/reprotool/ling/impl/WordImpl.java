@@ -26,7 +26,6 @@ import reprotool.ling.Word;
  *   <li>{@link reprotool.ling.impl.WordImpl#getText <em>Text</em>}</li>
  *   <li>{@link reprotool.ling.impl.WordImpl#getLemma <em>Lemma</em>}</li>
  *   <li>{@link reprotool.ling.impl.WordImpl#getPOS <em>POS</em>}</li>
- *   <li>{@link reprotool.ling.impl.WordImpl#getActor <em>Actor</em>}</li>
  *   <li>{@link reprotool.ling.impl.WordImpl#getID <em>ID</em>}</li>
  * </ul>
  * </p>
@@ -107,24 +106,6 @@ public class WordImpl extends EObjectImpl implements Word {
 	 * @ordered
 	 */
 	protected String pos = POS_EDEFAULT;
-	/**
-	 * The default value of the '{@link #getActor() <em>Actor</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getActor()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String ACTOR_EDEFAULT = null;
-	/**
-	 * The cached value of the '{@link #getActor() <em>Actor</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getActor()
-	 * @generated
-	 * @ordered
-	 */
-	protected String actor = ACTOR_EDEFAULT;
 	/**
 	 * The default value of the '{@link #getID() <em>ID</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -252,27 +233,6 @@ public class WordImpl extends EObjectImpl implements Word {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getActor() {
-		return actor;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setActor(String newActor) {
-		String oldActor = actor;
-		actor = newActor;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, LingPackage.WORD__ACTOR, oldActor, actor));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public int getID() {
 		return id;
 	}
@@ -305,8 +265,6 @@ public class WordImpl extends EObjectImpl implements Word {
 				return getLemma();
 			case LingPackage.WORD__POS:
 				return getPOS();
-			case LingPackage.WORD__ACTOR:
-				return getActor();
 			case LingPackage.WORD__ID:
 				return getID();
 		}
@@ -332,9 +290,6 @@ public class WordImpl extends EObjectImpl implements Word {
 				return;
 			case LingPackage.WORD__POS:
 				setPOS((String)newValue);
-				return;
-			case LingPackage.WORD__ACTOR:
-				setActor((String)newValue);
 				return;
 			case LingPackage.WORD__ID:
 				setID((Integer)newValue);
@@ -363,9 +318,6 @@ public class WordImpl extends EObjectImpl implements Word {
 			case LingPackage.WORD__POS:
 				setPOS(POS_EDEFAULT);
 				return;
-			case LingPackage.WORD__ACTOR:
-				setActor(ACTOR_EDEFAULT);
-				return;
 			case LingPackage.WORD__ID:
 				setID(ID_EDEFAULT);
 				return;
@@ -389,8 +341,6 @@ public class WordImpl extends EObjectImpl implements Word {
 				return LEMMA_EDEFAULT == null ? lemma != null : !LEMMA_EDEFAULT.equals(lemma);
 			case LingPackage.WORD__POS:
 				return POS_EDEFAULT == null ? pos != null : !POS_EDEFAULT.equals(pos);
-			case LingPackage.WORD__ACTOR:
-				return ACTOR_EDEFAULT == null ? actor != null : !ACTOR_EDEFAULT.equals(actor);
 			case LingPackage.WORD__ID:
 				return id != ID_EDEFAULT;
 		}
@@ -415,8 +365,6 @@ public class WordImpl extends EObjectImpl implements Word {
 		result.append(lemma);
 		result.append(", POS: ");
 		result.append(pos);
-		result.append(", actor: ");
-		result.append(actor);
 		result.append(", ID: ");
 		result.append(id);
 		result.append(')');

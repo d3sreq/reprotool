@@ -1,10 +1,16 @@
 package reprotool.ling.analyser;
 
+import reprotool.ling.LingFactory;
+import reprotool.ling.Node;
 import reprotool.ling.Sentence;
+import reprotool.ling.SentenceNode;
+import reprotool.ling.SentenceType;
+import reprotool.ling.Tool;
+import reprotool.ling.Word;
 import reprotool.ling.impl.LingFactoryImpl;
-import reprotool.model.linguistic.action.Action;
-import reprotool.model.linguistic.action.ActionFactory;
-import reprotool.model.usecase.UseCaseStep;
+import reprotool.model.*;
+import reprotool.model.linguistic.action.*;
+
 
 /**
  * @author ofiala
@@ -12,8 +18,7 @@ import reprotool.model.usecase.UseCaseStep;
  */
 public class Analyser {
 
-	private static String[] gotoVerbs = { "continue", "repeat", "resume",
-			"retry" };
+	private static String[] gotoVerbs = { "continue", "repeat", "resume", "retry" };
 	private static String[] terminateVerbs = {"terminate", "end"};
 	private static String[] abortVerbs = {"abort"};
 	
@@ -28,32 +33,31 @@ public class Analyser {
 	 */
 	public static UseCaseStep analyseTree(UseCaseStep ucs,
 			SentenceNode parsedTree, String text) {
-
 		// ParsetreeFactory factory = ParsetreeFactory.eINSTANCE;
 		SentenceNode curNode = parsedTree;
 		Boolean definedAction = false;
 
-		Sentence sentence = LingFactoryImpl.eINSTANCE.createSentence()
+		Sentence sentence = LingFactoryImpl.eINSTANCE.createSentence();
 		sentence.parseString(text);
 		
 		// tree analyse
 		boolean subject = true;
-		InnerParseNode node = null;
+		SentenceNode node = null;
 
 		// TODO zatim nastrel ohodnoceni vsech NP
-		for (ParseNode pnode : curNode.getChildNodes()) {
-			node = (InnerParseNode) pnode;
+		for (SentenceNode pnode : curNode.getChildren()) {
+			node = (SentenceNode) pnode;
 			if (node.eClass().getName().equals("NounPhrase")) {
 				if (subject) {
-					if (node.getChildNodes().get(0).getClass().getName() == "Word") {
-						((Word) node.getChildNodes().get(0))
-								.setWordType(EWordType.SUBJECT);
+					if (node.getChildren().get(0).getClass().getName() == "Word") {
+						((Word) node.getChildren().get(0))
+								.setType(WordType.SUBJECT);
 						subject = false;
 					}
 				} else {
-					if (node.getChildNodes().get(0).getClass().getName() == "Word") {
-						((Word) node.getChildNodes().get(0))
-								.setWordType(EWordType.REPRESENTATIVE_OBJECT);
+					if (node.getChildren().get(0).getClass().getName() == "Word") {
+						((Word) node.getChildren().get(0))
+								.setType(WordType.REPRESENTATIVE_OBJECT);
 					}
 				}
 			}
@@ -67,8 +71,8 @@ public class Analyser {
 		// detection GOTO action
 		int gotoVerbIndex = -1;
 		int labelIndex = -1;
-		for (int i = 0; i < sentence.words.size(); i++) {
-			String word = sentence.words.get(i).text;
+		for (int i = 0; i < sentence.getWords().size(); i++) {
+			String word = sentence.getWords().get(i).getText();
 			for (int g = 0; g < gotoVerbs.length; g++) {
 				if (word.equalsIgnoreCase(gotoVerbs[g])) {
 					gotoVerbIndex = i;

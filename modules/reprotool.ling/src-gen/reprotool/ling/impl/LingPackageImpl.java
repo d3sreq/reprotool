@@ -17,6 +17,7 @@ import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 import reprotool.ling.LingFactory;
 import reprotool.ling.LingPackage;
+import reprotool.ling.Node;
 import reprotool.ling.Sentence;
 import reprotool.ling.SentenceNode;
 import reprotool.ling.SentenceType;
@@ -56,6 +57,13 @@ public class LingPackageImpl extends EPackageImpl implements LingPackage {
 	 * @generated
 	 */
 	private EEnum sentenceTypeEEnum = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EEnum nodeEEnum = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -204,17 +212,8 @@ public class LingPackageImpl extends EPackageImpl implements LingPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getWord_Actor() {
-		return (EAttribute)wordEClass.getEStructuralFeatures().get(4);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EAttribute getWord_ID() {
-		return (EAttribute)wordEClass.getEStructuralFeatures().get(5);
+		return (EAttribute)wordEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -258,8 +257,26 @@ public class LingPackageImpl extends EPackageImpl implements LingPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getSentenceNode_Parent() {
+		return (EReference)sentenceNodeEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getSentenceType() {
 		return sentenceTypeEEnum;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EEnum getNode() {
+		return nodeEEnum;
 	}
 
 	/**
@@ -300,16 +317,17 @@ public class LingPackageImpl extends EPackageImpl implements LingPackage {
 		createEAttribute(wordEClass, WORD__TEXT);
 		createEAttribute(wordEClass, WORD__LEMMA);
 		createEAttribute(wordEClass, WORD__POS);
-		createEAttribute(wordEClass, WORD__ACTOR);
 		createEAttribute(wordEClass, WORD__ID);
 
 		sentenceNodeEClass = createEClass(SENTENCE_NODE);
 		createEReference(sentenceNodeEClass, SENTENCE_NODE__CHILDREN);
 		createEAttribute(sentenceNodeEClass, SENTENCE_NODE__TYPE);
 		createEReference(sentenceNodeEClass, SENTENCE_NODE__WORD);
+		createEReference(sentenceNodeEClass, SENTENCE_NODE__PARENT);
 
 		// Create enums
 		sentenceTypeEEnum = createEEnum(SENTENCE_TYPE);
+		nodeEEnum = createEEnum(NODE);
 	}
 
 	/**
@@ -357,13 +375,13 @@ public class LingPackageImpl extends EPackageImpl implements LingPackage {
 		initEAttribute(getWord_Text(), ecorePackage.getEString(), "text", null, 0, 1, Word.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getWord_Lemma(), ecorePackage.getEString(), "lemma", null, 0, 1, Word.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getWord_POS(), ecorePackage.getEString(), "POS", null, 0, 1, Word.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getWord_Actor(), ecorePackage.getEString(), "actor", null, 0, 1, Word.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getWord_ID(), ecorePackage.getEInt(), "ID", null, 0, 1, Word.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(sentenceNodeEClass, SentenceNode.class, "SentenceNode", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getSentenceNode_Children(), this.getSentenceNode(), null, "children", null, 0, -1, SentenceNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getSentenceNode_Type(), ecorePackage.getEInt(), "type", null, 0, 1, SentenceNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getSentenceNode_Type(), this.getSentenceType(), "type", null, 0, 1, SentenceNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getSentenceNode_Word(), this.getWord(), null, "word", null, 0, 1, SentenceNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getSentenceNode_Parent(), this.getSentenceNode(), null, "parent", null, 0, 1, SentenceNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(sentenceTypeEEnum, SentenceType.class, "SentenceType");
@@ -372,6 +390,13 @@ public class LingPackageImpl extends EPackageImpl implements LingPackage {
 		addEEnumLiteral(sentenceTypeEEnum, SentenceType.PREPOSITION_PHRASE);
 		addEEnumLiteral(sentenceTypeEEnum, SentenceType.UNDEFINED);
 		addEEnumLiteral(sentenceTypeEEnum, SentenceType.SENTENCE_PHRASE);
+
+		initEEnum(nodeEEnum, Node.class, "Node");
+		addEEnumLiteral(nodeEEnum, Node.NP);
+		addEEnumLiteral(nodeEEnum, Node.VP);
+		addEEnumLiteral(nodeEEnum, Node.PP);
+		addEEnumLiteral(nodeEEnum, Node.FRAG);
+		addEEnumLiteral(nodeEEnum, Node.X);
 
 		// Create resource
 		createResource(eNS_URI);

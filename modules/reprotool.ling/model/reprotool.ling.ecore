@@ -19,14 +19,14 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="lemma" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="POS" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="ID" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="actor" eType="ecore:EClass reprotool.model.ecore#//swproj/Actor"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="actor" eType="ecore:EClass ../../reprotool.model/model/reprotool.model.ecore#//swproj/Actor"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="SentenceNode">
     <eStructuralFeatures xsi:type="ecore:EReference" name="children" upperBound="-1"
         eType="#//SentenceNode"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//SentenceType"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="word" eType="#//Word"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parent" eType="#//SentenceNode"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="SentenceType">
     <eLiterals name="NounPhrase" value="1"/>
@@ -34,5 +34,18 @@
     <eLiterals name="PrepositionPhrase" value="3"/>
     <eLiterals name="Undefined" value="4"/>
     <eLiterals name="SentencePhrase"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="Node">
+    <eLiterals name="NP"/>
+    <eLiterals name="VP" value="1"/>
+    <eLiterals name="PP" value="2"/>
+    <eLiterals name="FRAG" value="3"/>
+    <eLiterals name="X" value="4"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="WordType">
+    <eLiterals name="SUBJECT"/>
+    <eLiterals name="REPRESENTATIVE_OBJECT" value="1"/>
+    <eLiterals name="INDIRECT_OBJECT" value="2"/>
+    <eLiterals name="UNKNOWN" value="3"/>
   </eClassifiers>
 </ecore:EPackage>

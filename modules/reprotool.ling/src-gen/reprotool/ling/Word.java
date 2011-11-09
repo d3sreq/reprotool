@@ -20,7 +20,6 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link reprotool.ling.Word#getText <em>Text</em>}</li>
  *   <li>{@link reprotool.ling.Word#getLemma <em>Lemma</em>}</li>
  *   <li>{@link reprotool.ling.Word#getPOS <em>POS</em>}</li>
- *   <li>{@link reprotool.ling.Word#getActor <em>Actor</em>}</li>
  *   <li>{@link reprotool.ling.Word#getID <em>ID</em>}</li>
  * </ul>
  * </p>
@@ -134,32 +133,6 @@ public interface Word extends EObject {
 	 * @generated
 	 */
 	void setPOS(String value);
-
-	/**
-	 * Returns the value of the '<em><b>Actor</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Actor</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Actor</em>' attribute.
-	 * @see #setActor(String)
-	 * @see reprotool.ling.LingPackage#getWord_Actor()
-	 * @model
-	 * @generated
-	 */
-	String getActor();
-
-	/**
-	 * Sets the value of the '{@link reprotool.ling.Word#getActor <em>Actor</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Actor</em>' attribute.
-	 * @see #getActor()
-	 * @generated
-	 */
-	void setActor(String value);
 
 	/**
 	 * Returns the value of the '<em><b>ID</b></em>' attribute.

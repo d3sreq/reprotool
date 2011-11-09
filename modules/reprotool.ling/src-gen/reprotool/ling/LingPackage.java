@@ -153,22 +153,13 @@ public interface LingPackage extends EPackage {
 	int WORD__POS = 3;
 
 	/**
-	 * The feature id for the '<em><b>Actor</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int WORD__ACTOR = 4;
-
-	/**
 	 * The feature id for the '<em><b>ID</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int WORD__ID = 5;
+	int WORD__ID = 4;
 
 	/**
 	 * The number of structural features of the '<em>Word</em>' class.
@@ -177,7 +168,7 @@ public interface LingPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int WORD_FEATURE_COUNT = 6;
+	int WORD_FEATURE_COUNT = 5;
 
 
 	/**
@@ -218,13 +209,22 @@ public interface LingPackage extends EPackage {
 	int SENTENCE_NODE__WORD = 2;
 
 	/**
+	 * The feature id for the '<em><b>Parent</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SENTENCE_NODE__PARENT = 3;
+
+	/**
 	 * The number of structural features of the '<em>Sentence Node</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SENTENCE_NODE_FEATURE_COUNT = 3;
+	int SENTENCE_NODE_FEATURE_COUNT = 4;
 
 	/**
 	 * The meta object id for the '{@link reprotool.ling.SentenceType <em>Sentence Type</em>}' enum.
@@ -235,6 +235,17 @@ public interface LingPackage extends EPackage {
 	 * @generated
 	 */
 	int SENTENCE_TYPE = 3;
+
+
+	/**
+	 * The meta object id for the '{@link reprotool.ling.Node <em>Node</em>}' enum.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see reprotool.ling.Node
+	 * @see reprotool.ling.impl.LingPackageImpl#getNode()
+	 * @generated
+	 */
+	int NODE = 4;
 
 
 	/**
@@ -335,17 +346,6 @@ public interface LingPackage extends EPackage {
 	EAttribute getWord_POS();
 
 	/**
-	 * Returns the meta object for the attribute '{@link reprotool.ling.Word#getActor <em>Actor</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Actor</em>'.
-	 * @see reprotool.ling.Word#getActor()
-	 * @see #getWord()
-	 * @generated
-	 */
-	EAttribute getWord_Actor();
-
-	/**
 	 * Returns the meta object for the attribute '{@link reprotool.ling.Word#getID <em>ID</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -400,6 +400,17 @@ public interface LingPackage extends EPackage {
 	EReference getSentenceNode_Word();
 
 	/**
+	 * Returns the meta object for the reference '{@link reprotool.ling.SentenceNode#getParent <em>Parent</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Parent</em>'.
+	 * @see reprotool.ling.SentenceNode#getParent()
+	 * @see #getSentenceNode()
+	 * @generated
+	 */
+	EReference getSentenceNode_Parent();
+
+	/**
 	 * Returns the meta object for enum '{@link reprotool.ling.SentenceType <em>Sentence Type</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -408,6 +419,16 @@ public interface LingPackage extends EPackage {
 	 * @generated
 	 */
 	EEnum getSentenceType();
+
+	/**
+	 * Returns the meta object for enum '{@link reprotool.ling.Node <em>Node</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for enum '<em>Node</em>'.
+	 * @see reprotool.ling.Node
+	 * @generated
+	 */
+	EEnum getNode();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -508,14 +529,6 @@ public interface LingPackage extends EPackage {
 		EAttribute WORD__POS = eINSTANCE.getWord_POS();
 
 		/**
-		 * The meta object literal for the '<em><b>Actor</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute WORD__ACTOR = eINSTANCE.getWord_Actor();
-
-		/**
 		 * The meta object literal for the '<em><b>ID</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -558,6 +571,14 @@ public interface LingPackage extends EPackage {
 		EReference SENTENCE_NODE__WORD = eINSTANCE.getSentenceNode_Word();
 
 		/**
+		 * The meta object literal for the '<em><b>Parent</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SENTENCE_NODE__PARENT = eINSTANCE.getSentenceNode_Parent();
+
+		/**
 		 * The meta object literal for the '{@link reprotool.ling.SentenceType <em>Sentence Type</em>}' enum.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -566,6 +587,16 @@ public interface LingPackage extends EPackage {
 		 * @generated
 		 */
 		EEnum SENTENCE_TYPE = eINSTANCE.getSentenceType();
+
+		/**
+		 * The meta object literal for the '{@link reprotool.ling.Node <em>Node</em>}' enum.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see reprotool.ling.Node
+		 * @see reprotool.ling.impl.LingPackageImpl#getNode()
+		 * @generated
+		 */
+		EEnum NODE = eINSTANCE.getNode();
 
 	}
 
