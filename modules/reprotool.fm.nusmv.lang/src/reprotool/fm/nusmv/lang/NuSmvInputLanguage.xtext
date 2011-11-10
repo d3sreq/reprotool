@@ -6,9 +6,14 @@ import "http://www.eclipse.org/emf/2002/Ecore" as ecore
 Model hidden(WS, SL_COMMENT): (modules+=Module)*;
 
 Module:
-	"MODULE" name=ID ("(" (params+=FormalParameter) ("," params+=FormalParameter)* ")")?
-		(moduleElement+=ModuleElement)*
-;
+	"MODULE" (MainModule | OtherModule)
+	(moduleElement+=ModuleElement)*;
+
+MainModule: {MainModule}
+	name='main';
+	
+OtherModule:
+	name=ID ("(" (params+=FormalParameter) ("," params+=FormalParameter)* ")")?;
 
 ModuleElement hidden(WS, SL_COMMENT):
 	VariableDeclaration |
@@ -29,100 +34,83 @@ ModuleElement hidden(WS, SL_COMMENT):
 
 //Also the single keyword "VAR" is accepted (without anything else)
 VariableDeclaration hidden(WS, SL_COMMENT):
-var="VAR" (vars+=VarBody)*
-;
+	var="VAR" (vars+=VarBody)*;
 
 IVariableDeclaration hidden(WS, SL_COMMENT):
-"IVAR" (vars+=VarBody)+
-;
+	"IVAR" (vars+=VarBody)+;
 
 FrozenVariableDeclaration  hidden(WS, SL_COMMENT):
-"FROZENVAR" (vars+=VarBody)+
-;
+	"FROZENVAR" (vars+=VarBody)+;
 
 VarBody hidden(WS, SL_COMMENT):
-	id=ID ":" type=Type semicolon ?= ";"
-;
+	id=ID ":" type=Type ";";
 
 DefineDeclaration hidden(WS, SL_COMMENT):
-define="DEFINE" (defineBodies+=DefineBody)*
-;
+	define="DEFINE" (defineBodies+=DefineBody)*;
 
 DefineBody hidden(WS, SL_COMMENT):
-var=VariableIdentifier ":=" assignment=SimpleExpression semicolon ?= ";"
-;
+	var=VariableIdentifier ":=" assignment=SimpleExpression ";";
 
 ConstantsDeclaration hidden(WS, SL_COMMENT):
-"CONSTANTS" constants+=ID ("," constants+=ID)* semicolon ?= ";"
-;
+	"CONSTANTS" constants+=ID ("," constants+=ID)* ";";
 
-AssignConstraint hidden(WS, SL_COMMENT): assign="ASSIGN"
-	(bodies+=AssignBody)*
-;
+AssignConstraint hidden(WS, SL_COMMENT):
+	{AssignConstraint} "ASSIGN" (bodies+=AssignBody)*;
 
 AssignBody hidden(WS, SL_COMMENT):
-	VarBodyAssign | InitBody | NextBody
-;
+	VarBodyAssign | InitBody | NextBody;
 
-VarBodyAssign returns VarBodyAssign hidden(WS, SL_COMMENT):
-var=VariableIdentifier ":=" assignment=SimpleExpression semicolon ?= ";"
-;
+VarBodyAssign hidden(WS, SL_COMMENT):
+	var=VariableIdentifier ":=" assignment=SimpleExpression ";";
 
-InitBody returns AssignBodyInit hidden(WS, SL_COMMENT):
-"init" "(" var=VariableIdentifier ")" ":=" initial=SimpleExpression semicolon ?= ";"
-;
+InitBody hidden(WS, SL_COMMENT):
+	"init" "(" var=VariableIdentifier ")" ":=" initial=SimpleExpression ";";
 
-NextBody returns NextBody hidden(WS, SL_COMMENT):
-"next" "(" var=VariableIdentifier ")" ":=" next=NextExpression semicolon ?= ";"
-;
+NextBody hidden(WS, SL_COMMENT):
+	"next" "(" var=VariableIdentifier ")" ":=" next=NextExpression ";";
 
 TransConstraint hidden(WS, SL_COMMENT):
-"TRANS" transExpression=SimpleExpression semicolon ?= ";"?
-;
+	"TRANS" transExpression=SimpleExpression ";"?;
 
 InitConstraint hidden(WS, SL_COMMENT):
-"INIT" initExpression=SimpleExpression semicolon ?= ";"?
-;
+	"INIT" initExpression=SimpleExpression ";"?;
 
 InvarConstraint hidden(WS, SL_COMMENT):
-"INVAR" invarExpression=SimpleExpression semicolon ?= ";"?
-;
+	"INVAR" invarExpression=SimpleExpression ";"?;
 
 FairnessConstraint hidden(WS, SL_COMMENT):
-FairnessExpression | JusticeExpression | CompassionExpression
-;
+	FairnessExpression | JusticeExpression | CompassionExpression;
 
 FairnessExpression hidden(WS, SL_COMMENT):
-"FAIRNESS" fairnessExpr=SimpleExpression semicolon ?= ";"?
-;
+	"FAIRNESS" fairnessExpr=SimpleExpression ";"?;
 
 JusticeExpression hidden(WS, SL_COMMENT):
-"JUSTICE" justiceExpr=SimpleExpression semicolon ?= ";"?
-;
+	"JUSTICE" justiceExpr=SimpleExpression ";"?;
 
 CompassionExpression hidden(WS, SL_COMMENT):
-"COMPASSION (" firstCompassionExpr=SimpleExpression "," secondCompassionExpr=SimpleExpression ")" semicolon ?= ";"?
-;
+	"COMPASSION (" firstCompassionExpr=SimpleExpression "," secondCompassionExpr=SimpleExpression ")" ";"?;
 
 CtlSpecification hidden(WS, SL_COMMENT) :
-	specKeyWord=("CTLSPEC" | "SPEC") (nameKeyWord?="NAME" name=ID ":=")? ctlExpression=CTLExpression semicolon?=";"?
+	("CTLSPEC" | "SPEC") (nameKeyWord?="NAME" name=ID ":=")? ctlExpression=CTLExpression ";"?;
+
+LtlSpecification hidden(WS, SL_COMMENT) :
+	"LTLSPEC" (nameId?="NAME" name=ID ":=")? ltlExpression=LTLExpression ";"?
 ;
 
+CTLExpression hidden(WS, SL_COMMENT): simpleExpression=SimpleExpression;
+LTLExpression hidden(WS, SL_COMMENT): simpleExpression=SimpleExpression;
+
 InvarSpecification hidden(WS, SL_COMMENT) :
-"INVARSPEC" invarSpec=NextExpression ";" |
-"INVARSPEC" name=ID ":=" invarSpec=NextExpression semicolon?=";"?
+	"INVARSPEC" invarSpec=NextExpression ";" |
+	"INVARSPEC" name=ID ":=" invarSpec=NextExpression ";"?
 ;
 
 IsaDeclaration hidden(WS, SL_COMMENT): "ISA" id=ID;
 
-LtlSpecification hidden(WS, SL_COMMENT) :
-	"LTLSPEC" (nameId?="NAME" name=ID ":=")? ltlExpression=LTLExpression semicolon ?=";"?
-;
-
 Type hidden(WS, SL_COMMENT): SimpleType | ModuleType;
 
 SimpleType hidden(WS, SL_COMMENT):
-	{BooleanType} "boolean"
+	  {BooleanType} "boolean"
 	| {WordType} ("word" "[" wordNumber=NUMBER "]") 
 	| {UnsignedWordType} ("unsigned" "word" "[" uWordNumber=NUMBER "]")
 	| {SignedWordType} ("signed word" "[" signedNumber=NUMBER "]")
@@ -132,21 +120,17 @@ SimpleType hidden(WS, SL_COMMENT):
 ;
 
 ModuleType hidden(WS, SL_COMMENT):
-{AsyncrProcessType} ("process" module=[Module | ID] ("(" params+=SimpleExpression ("," params+=SimpleExpression)* ")")?)
-| {SyncrProcessType} (module=[Module| ID] ("(" params+=SimpleExpression ("," params+=SimpleExpression)* ")")?);
+	  {AsyncrProcessType} ("process" module=[Module | ID] ("(" params+=SimpleExpression ("," params+=SimpleExpression)* ")")?)
+	| {SyncrProcessType} (module=[Module| ID] ("(" params+=SimpleExpression ("," params+=SimpleExpression)* ")")?)
+;
 
-Val hidden(WS, SL_COMMENT): ID | NUMBER | BOOLEAN_CONSTANT;
+Val hidden(WS, SL_COMMENT): ID | NUMBER | BooleanConstant;
 
 NextExpression hidden(WS, SL_COMMENT):
 	simpleExpression=SimpleExpression
 ;
 
 FormalParameter: id=ID;
-
-CTLExpression hidden(WS, SL_COMMENT): simpleExpression=SimpleExpression;
-LTLExpression hidden(WS, SL_COMMENT): simpleExpression=SimpleExpression;
-
-RangeExpression: lower = NUMBER ".." upper = NUMBER;
 
 VariableIdentifier hidden(WS, SL_COMMENT):
  TerminalVariableIdentifier ("." TerminalVariableIdentifier)*
@@ -166,11 +150,11 @@ TerminalSimpleExpression:
 	'!'? (
 		'next'? '(' SimpleExpression ')'
 	    | (('-' | '+' | 'EG' | 'EX' | 'EF' | 'AG' | 'AX' | 'AF' | 'X' | 'G' | 'F' | 'Y' | 'Z' | 'H' | 'O') SimpleExpression)
-	    | CaseSimpleExpression
+	    | CaseExpression
 	    | VariableIdentifier
 	    | NUMBER
 		| NUMBER '..' NUMBER
-		| BOOLEAN_CONSTANT
+		| BooleanConstant
 		| 'self'
 		| '{' SimpleExpression (',' SimpleExpression)* '}'
 		| ('E' | 'A') '[' InfixExpression ']'
@@ -178,13 +162,22 @@ TerminalSimpleExpression:
 	)
 ;
 
-CaseSimpleExpression hidden(WS, SL_COMMENT):
+CaseExpression hidden(WS, SL_COMMENT):
 	'case'
-	(SimpleExpression ':' SimpleExpression ';')+
+	(CaseSimpleExpression ';')+
 	'esac'
 ;
 
+CaseSimpleExpression:
+	SimpleExpression ':' SimpleExpression
+;
+
+
+BooleanConstant returns ecore::EBoolean: 'TRUE' | 'FALSE';
+
 terminal NUMBER : INT;
-terminal SL_COMMENT : '--' !('\n'|'\r')* ('\r'? '\n')? ;
+
+terminal SL_COMMENT : '--' SL_COMMENT_BODY;
+terminal fragment SL_COMMENT_BODY: !('\n'|'\r')* ('\r'? '\n')?;
+
 terminal ID : ('A'..'Z'|'a'..'z'|'_') ('A'..'Z'|'a'..'z'|'_'|'0'..'9'|'$'|'#'|'-'|'.')*;
-terminal BOOLEAN_CONSTANT : 'TRUE' | 'FALSE';

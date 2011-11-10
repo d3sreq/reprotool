@@ -10,8 +10,8 @@ var projectName = "reprotool.fm.nusmv.lang"
 var runtimeProject = "../${projectName}"
 
 Workflow {
-    bean = StandaloneSetup {
-	    scanClassPath = true
+	bean = StandaloneSetup {
+		scanClassPath = true
 		platformUri = "${runtimeProject}/.."
 	}
 
@@ -58,7 +58,7 @@ Workflow {
 			//		backtrack = true
 			//	}
 			}
-			
+
 			// java-based API for validation 
 			fragment = validation.JavaValidatorFragment {
 				composedCheck = "org.eclipse.xtext.validation.ImportUriValidator"
@@ -79,7 +79,7 @@ Workflow {
 				generateMwe = true
 				generateJavaMain = true
 			}
-			
+
 			// formatter API 
 			fragment = formatting.FormatterFragment {}
 
@@ -95,7 +95,7 @@ Workflow {
 
 			// content assist API  
 			fragment = contentAssist.JavaBasedContentAssistFragment {}
-			
+
 			// generates a more lightweight Antlr parser and lexer tailored for content assist  
 			fragment = parser.antlr.XtextAntlrUiGeneratorFragment {}
 
@@ -103,30 +103,30 @@ Workflow {
 			fragment = junit.Junit4Fragment {}
 
 			// project wizard (optional) 
-			// fragment = projectWizard.SimpleProjectWizardFragment {
-			// 		generatorProjectName = "${projectName}"
-			//		modelFileExtension = file.extensions
-			// }
+			fragment = projectWizard.SimpleProjectWizardFragment {
+				generatorProjectName = "${projectName}"
+				modelFileExtension = file.extensions
+			}
 
 			// provides the necessary bindings for java types integration
 			fragment = types.TypesGeneratorFragment {}
 
 			// generates the required bindings only if the grammar inherits from Xbase
 			fragment = xbase.XbaseGeneratorFragment {}
-			
+
 			// provides a preference page for template proposals 
 			fragment = templates.CodetemplatesGeneratorFragment {}
 
 			// rename refactoring
-            // fragment = refactoring.RefactorElementNameFragment {}
+			fragment = refactoring.RefactorElementNameFragment {}
 
-            // provides a compare view
-            // fragment = compare.CompareFragment {
-            //    fileExtensions = file.extensions
-            // }
+			// provides a compare view
+			fragment = compare.CompareFragment {
+				fileExtensions = file.extensions
+			}
 
-            // Serializer 2.0
-            // fragment = serializer.SerializerFragment {}
+			// Serializer 2.0
+			// fragment = serializer.SerializerFragment {}
 		}
 	}
 }

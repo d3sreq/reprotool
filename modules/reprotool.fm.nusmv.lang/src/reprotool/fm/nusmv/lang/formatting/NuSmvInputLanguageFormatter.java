@@ -25,19 +25,31 @@ public class NuSmvInputLanguageFormatter extends AbstractDeclarativeFormatter {
 		// It's usually a good idea to activate the following three statements.
 		// They will add and preserve newlines around comments
 		c.setLinewrap(0, 1, 2).before(g.getSL_COMMENTRule());
-		c.setLinewrap(0, 1, 2).before(g.getML_COMMENTRule());
-		c.setLinewrap(0, 1, 1).after(g.getML_COMMENTRule());
 		
 		// MODULEs are always separated by a blank line
 		c.setLinewrap(2).after(g.getModuleRule());
 
 		// newline after every ModuleElement
 		c.setLinewrap().before(g.getModuleElementRule());
+
+		// newline after every 'case'
+		c.setLinewrap().before(g.getCaseSimpleExpressionRule());
 		
+		// newline after 'case'..'esac'
+		c.setLinewrap().after(g.getCaseExpressionRule());
+
+
 		// indentation
 		c.setWrappedLineIndentation(2);
+		
+		// every module element is indented
 		c.setIndentationIncrement().before(g.getModuleElementRule());
 		c.setIndentationDecrement().after(g.getModuleElementRule());
+		
+		// expressions within 'case'..'esac' are be indented
+		c.setIndentationIncrement().before(g.getCaseSimpleExpressionRule());
+		c.setIndentationIncrement().after(g.getCaseSimpleExpressionRule());
+		
 		System.out.println("configuring nusmv code formatter");
 	}
 }

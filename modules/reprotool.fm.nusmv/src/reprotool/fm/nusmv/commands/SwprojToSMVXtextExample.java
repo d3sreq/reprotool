@@ -20,12 +20,16 @@ import org.eclipse.xtext.resource.SaveOptions;
 import org.eclipse.xtext.resource.SaveOptions.Builder;
 
 import reprotool.fm.nusmv.lang.NuSmvInputLanguageStandaloneSetup;
+import reprotool.fm.nusmv.lang.nuSmvInputLanguage.AssignConstraint;
 import reprotool.fm.nusmv.lang.nuSmvInputLanguage.FairnessExpression;
 import reprotool.fm.nusmv.lang.nuSmvInputLanguage.FormalParameter;
 import reprotool.fm.nusmv.lang.nuSmvInputLanguage.InitConstraint;
+import reprotool.fm.nusmv.lang.nuSmvInputLanguage.MainModule;
 import reprotool.fm.nusmv.lang.nuSmvInputLanguage.Model;
-import reprotool.fm.nusmv.lang.nuSmvInputLanguage.Module;
+import reprotool.fm.nusmv.lang.nuSmvInputLanguage.NextBody;
+import reprotool.fm.nusmv.lang.nuSmvInputLanguage.NextExpression;
 import reprotool.fm.nusmv.lang.nuSmvInputLanguage.NuSmvInputLanguageFactory;
+import reprotool.fm.nusmv.lang.nuSmvInputLanguage.OtherModule;
 import reprotool.model.swproj.SoftwareProject;
 
 public class SwprojToSMVXtextExample implements IHandler {
@@ -55,6 +59,9 @@ public class SwprojToSMVXtextExample implements IHandler {
 		final URI uri = URI.createPlatformResourceURI(ifile.getFullPath().toString(), true);
 		final Resource resource = rs.getResource(uri, true);
 		
+		if(resource.getContents().size() == 0)
+			return null;
+		
 		EObject rootEObj = resource.getContents().get(0);
 		
 		if( ! (rootEObj instanceof SoftwareProject) ) {
@@ -74,14 +81,15 @@ public class SwprojToSMVXtextExample implements IHandler {
 		Model nusmvModel = factory.createModel();
 		
 		// example main MODULE
-		Module mainModule = factory.createModule();
-		mainModule.setName("main");	
+		MainModule mainModule = factory.createMainModule();
+		mainModule.setName("main");
 		nusmvModel.getModules().add(mainModule);
 		
 		// example other MODULE
-		Module otherModule = factory.createModule();
+		OtherModule otherModule = factory.createOtherModule();
 		otherModule.setName("other");	
 		nusmvModel.getModules().add(otherModule);
+		
 		// some params
 		FormalParameter formalParam = factory.createFormalParameter();
 		formalParam.setId("someParam");
@@ -90,13 +98,25 @@ public class SwprojToSMVXtextExample implements IHandler {
 		// example FAIRNESS
 		FairnessExpression fairness = factory.createFairnessExpression();
 		fairness.setFairnessExpr("p=p1");
-		fairness.setSemicolon(true);
 		mainModule.getModuleElement().add(fairness);
 
 		// example INIT
 		InitConstraint initConstraint = factory.createInitConstraint();
 		initConstraint.setInitExpression("nieco=12");
 		mainModule.getModuleElement().add(initConstraint);
+		
+		// example ASSIGN with next() and case..esac
+		
+		AssignConstraint assignConstraint = factory.createAssignConstraint();
+		NextBody nextBody = factory.createNextBody();
+		nextBody.setVar("s");
+		
+		NextExpression nextExpression = factory.createNextExpression();
+		nextExpression.setSimpleExpression("case s=1 : 3; esac");
+		nextBody.setNext(nextExpression);
+		assignConstraint.getBodies().add(nextBody);
+		
+		mainModule.getModuleElement().add(assignConstraint);
 		
 		// serialization of the model
 		// -----------------------------------------------
