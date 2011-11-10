@@ -263,24 +263,85 @@ public class NuSMVGenerator {
 					buf.append("		s=" + state + " & y" + tag +  ".s = sFin : " + label + ";\n");
 					continue;
 				}
-				buf.append("		s=" + state + " : {");
-				c = 0;
+				
+				boolean onAnnotation = false;
+				List<Transition> skips = new ArrayList<Transition>();
+				String traceTag = null;
+				
 				for (Transition tr: transitions) {
 					UseCaseStep step = tr.getRelatedStep();
-					String label = trans2Label.get(tr);
-					if ((step != null) && (step.getAction() instanceof AbortUseCase)) {
-						label = "sAbort";
+					if (step != null) {
+						for (StepAnnotation a: step.getAnnotations()) {
+							if ("on".equals(a.getAnnotationType().getName())) {
+								onAnnotation = true;
+								skips.add(tr);
+								traceTag = "trace_" + a.getId();
+							}
+						}
 					}
-					if (label == null) {
-						label = state2Label.get(tr.getTargetState());
-					}
-					if (c > 0) {
-						buf.append(",");
-					}
-					c++;
-					buf.append(label);
 				}
-				buf.append("};\n");
+				
+				if (onAnnotation) {
+					buf.append("		s=" + state + " & !top." + traceTag + ": {");
+					c = 0;
+					for (Transition tr: transitions) {
+						if (skips.contains(tr)) {
+							continue;
+						}
+						UseCaseStep step = tr.getRelatedStep();
+						String label = trans2Label.get(tr);
+						if ((step != null) && (step.getAction() instanceof AbortUseCase)) {
+							label = "sAbort";
+						}
+						if (label == null) {
+							label = state2Label.get(tr.getTargetState());
+						}
+						if (c > 0) {
+							buf.append(",");
+						}
+						c++;
+						buf.append(label);
+					}
+					buf.append("};\n");
+					
+					buf.append("		s=" + state + " & top." + traceTag + ": {");
+					c = 0;
+					for (Transition tr: skips) {
+						UseCaseStep step = tr.getRelatedStep();
+						String label = trans2Label.get(tr);
+						if ((step != null) && (step.getAction() instanceof AbortUseCase)) {
+							label = "sAbort";
+						}
+						if (label == null) {
+							label = state2Label.get(tr.getTargetState());
+						}
+						if (c > 0) {
+							buf.append(",");
+						}
+						c++;
+						buf.append(label);
+					}
+					buf.append("};\n");
+				} else {
+					buf.append("		s=" + state + " : {");
+					c = 0;
+					for (Transition tr: transitions) {
+						UseCaseStep step = tr.getRelatedStep();
+						String label = trans2Label.get(tr);
+						if ((step != null) && (step.getAction() instanceof AbortUseCase)) {
+							label = "sAbort";
+						}
+						if (label == null) {
+							label = state2Label.get(tr.getTargetState());
+						}
+						if (c > 0) {
+							buf.append(",");
+						}
+						c++;
+						buf.append(label);
+					}
+					buf.append("};\n");
+				}
 			}
 		}
 		

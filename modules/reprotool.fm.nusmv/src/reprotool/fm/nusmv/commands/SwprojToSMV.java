@@ -3,6 +3,7 @@ package reprotool.fm.nusmv.commands;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.ObjectInputStream.GetField;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +13,7 @@ import org.eclipse.core.commands.IHandler;
 import org.eclipse.core.commands.IHandlerListener;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.emf.common.CommonPlugin;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -25,6 +27,9 @@ import reprotool.fm.nusmv.NuSMVGenerator;
 import reprotool.fm.nusmv.NuSMVProject;
 import reprotool.model.swproj.SoftwareProject;
 import reprotool.model.usecase.UseCase;
+import reprotool.model.usecase.annotate.AnnotationGroup;
+import reprotool.model.usecase.annotate.TemporalAnnotationGroup;
+import reprotool.model.usecase.annotate.TemporalLogicFormula;
 
 
 public class SwprojToSMV implements IHandler {
@@ -68,11 +73,20 @@ public class SwprojToSMV implements IHandler {
 				generators.add(nusmv);
 			}
 			
-			NuSMVProject nuSMVProj = new NuSMVProject(generators);
+			List<TemporalLogicFormula> formulas = new ArrayList<TemporalLogicFormula>();
+			for (AnnotationGroup g: swproj.getAnnotationGroups()) {
+				if (g instanceof TemporalAnnotationGroup) {
+					TemporalAnnotationGroup t = (TemporalAnnotationGroup) g;
+					formulas.addAll(t.getFormulas());
+				}
+			}
+			
+			NuSMVProject nuSMVProj = new NuSMVProject(generators, formulas);
 						
 			String fileName = CommonPlugin.resolve(uri).path() + ".nusmv";			
 			try {
 				BufferedWriter out = new BufferedWriter(new FileWriter(fileName));
+				out.write(nuSMVProj.getFormulas());
 				out.write(nuSMVProj.getHeader());
 				out.write(nuSMVProj.getProcesses());
 				out.write(nuSMVProj.getAnnotations());

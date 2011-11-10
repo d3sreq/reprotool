@@ -6,6 +6,9 @@ import java.util.List;
 import org.eclipse.core.runtime.Assert;
 
 import reprotool.model.usecase.UseCase;
+import reprotool.model.usecase.annotate.TemporalAnnotation;
+import reprotool.model.usecase.annotate.TemporalAnnotationGroup;
+import reprotool.model.usecase.annotate.TemporalLogicFormula;
 
 public class NuSMVProject {
 	private List<NuSMVGenerator> generators;
@@ -16,9 +19,11 @@ public class NuSMVProject {
 	private HashMap<String, List<AnnotationEntry>> globalTracker;
 	
 	private HashMap<UseCase, NuSMVGenerator> uc2gen = new HashMap<UseCase, NuSMVGenerator>();
+	private List<TemporalLogicFormula> formulas;
 	
-	public NuSMVProject (List<NuSMVGenerator> generators) {
+	public NuSMVProject (List<NuSMVGenerator> generators, List<TemporalLogicFormula> formulas) {
 		this.generators = generators;
+		this.formulas = formulas;
 		globalTracker = new HashMap<String, List<AnnotationEntry>>();
 		
 		processAnnotations();
@@ -46,6 +51,35 @@ public class NuSMVProject {
 				}
 			}
 		}
+	}
+	
+	public String getFormulas() {
+		StringBuffer buf = new StringBuffer();
+		
+		for (TemporalLogicFormula formula: formulas) {
+			Assert.isTrue(formula.eContainer() instanceof TemporalAnnotationGroup);
+			TemporalAnnotationGroup tGrp = (TemporalAnnotationGroup) formula.eContainer();
+			List<String> annotations = new ArrayList<String>();
+			for (TemporalAnnotation annot: tGrp.getMembers()) {
+//				System.out.println("Replacing " + annot.getName() + " in formula " + formula.getFormula());
+				annotations.add(annot.getName());
+			}
+//			annot.getName() si vlozim do pola annotations (bude mat napriklad {open, close})
+//			funkcia getAnnotatedVars(List<String> annotations) mi vrati prislusne premenne
+//			(Ak je v global trackeri open_x, close_y, tak vrati list {x,y})
+//			List<String> annotatedVars = getAnnotatedVars(annotations);
+			
+//			for (String var: annotatedVars) {
+//				String f = formula.getFormula();
+//				for (TemporalAnnotation annot: tGrp.getMembers()) {
+//					System.out.println("Replacing " + annot.getName() + " in formula " + formula.getFormula());
+//					f = f.replaceAll(annot.getName(), annot.getName + "_" + var);
+//				}
+//				System.out.println(f);
+//			}
+		}
+		
+		return buf.toString();
 	}
 	
 	public String getHeader() {
@@ -115,10 +149,36 @@ public class NuSMVProject {
 		return buf.toString();
 	}
 	
+	public String getTraceAnnotation(String tag) {
+		StringBuffer buf = new StringBuffer();
+		
+		buf.append("	VAR " + tag + " : boolean;\n");
+		buf.append("	INIT " + tag + " in FALSE;\n");
+		buf.append("	ASSIGN next(" + tag + ") := case\n");
+		
+		AnnotationEntry aEntry = globalTracker.get(tag).get(0);
+		for (String state: aEntry.states) {
+			buf.append("		x" + aEntry.automatonID + ".s=" + state + " : TRUE;\n");
+		}
+		buf.append("		TRUE : " + tag + ";\n");
+		buf.append("	esac;\n\n");
+
+		return buf.toString();
+	}
+	
 	public String getAnnotations() {		
 		StringBuffer buf = new StringBuffer();
 		
 		for (String tag: globalTracker.keySet()) {
+			if (tag.matches("trace_.*")) {
+				buf.append(getTraceAnnotation(tag));
+				continue;
+			}
+			
+			if (tag.matches("on_.*")) {
+				continue;
+			}
+			
 			buf.append("	VAR " + tag + " : boolean;\n");
 			buf.append("	INIT " + tag + " in FALSE;\n");
 			buf.append("	ASSIGN next(" + tag + ") := FALSE\n");
