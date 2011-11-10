@@ -1,6 +1,7 @@
 grammar reprotool.fm.nusmv.lang.NuSmvInputLanguage with org.eclipse.xtext.common.Terminals
 
 generate nuSmvInputLanguage "http://www.fm.reprotool/nusmv/lang/NuSmvInputLanguage"
+import "http://www.eclipse.org/emf/2002/Ecore" as ecore
 
 Model hidden(WS, SL_COMMENT): (modules+=Module)*;
 
@@ -134,13 +135,11 @@ ModuleType hidden(WS, SL_COMMENT):
 {AsyncrProcessType} ("process" module=[Module | ID] ("(" params+=SimpleExpression ("," params+=SimpleExpression)* ")")?)
 | {SyncrProcessType} (module=[Module| ID] ("(" params+=SimpleExpression ("," params+=SimpleExpression)* ")")?);
 
-Val hidden(WS, SL_COMMENT): ID | NUMBER | "TRUE" | "FALSE";
+Val hidden(WS, SL_COMMENT): ID | NUMBER | BOOLEAN_CONSTANT;
 
 NextExpression hidden(WS, SL_COMMENT):
 	simpleExpression=SimpleExpression
 ;
-
-SimpleExpression: STRING; // TODO
 
 FormalParameter: id=ID;
 
@@ -157,6 +156,35 @@ VariableIdentifier hidden(WS, SL_COMMENT):
 
 TerminalVariableIdentifier hidden(WS, SL_COMMENT): ID;
 
-NUMBER : INT;
+SimpleExpression hidden(WS, SL_COMMENT):
+	InfixExpression;
+
+InfixExpression:
+	TerminalSimpleExpression (('U'|'V'|'S'|'T'|'->'|'<->'|'&'|'|'|'xor'|'xnor'|'='|'!='|'<'|'>'|'<='|'>='|'+'|'-'|'*'|'/'|'::'|'<<'|'>>'|'union'|'in'|'mod') TerminalSimpleExpression)*;
+
+TerminalSimpleExpression:
+	'!'? (
+		'next'? '(' SimpleExpression ')'
+	    | (('-' | '+' | 'EG' | 'EX' | 'EF' | 'AG' | 'AX' | 'AF' | 'X' | 'G' | 'F' | 'Y' | 'Z' | 'H' | 'O') SimpleExpression)
+	    | CaseSimpleExpression
+	    | VariableIdentifier
+	    | NUMBER
+		| NUMBER '..' NUMBER
+		| BOOLEAN_CONSTANT
+		| 'self'
+		| '{' SimpleExpression (',' SimpleExpression)* '}'
+		| ('E' | 'A') '[' InfixExpression ']'
+		| ('word1' | 'boo1') '(' SimpleExpression ')'
+	)
+;
+
+CaseSimpleExpression hidden(WS, SL_COMMENT):
+	'case'
+	(SimpleExpression ':' SimpleExpression ';')+
+	'esac'
+;
+
+terminal NUMBER : INT;
 terminal SL_COMMENT : '--' !('\n'|'\r')* ('\r'? '\n')? ;
 terminal ID : ('A'..'Z'|'a'..'z'|'_') ('A'..'Z'|'a'..'z'|'_'|'0'..'9'|'$'|'#'|'-'|'.')*;
+terminal BOOLEAN_CONSTANT : 'TRUE' | 'FALSE';
