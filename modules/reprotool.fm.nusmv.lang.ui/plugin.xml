@@ -9,7 +9,7 @@
             class="reprotool.fm.nusmv.lang.ui.NuSmvInputLanguageExecutableExtensionFactory:org.eclipse.xtext.ui.editor.XtextEditor"
             contributorClass="org.eclipse.ui.editors.text.TextEditorActionContributor"
             default="true"
-            extensions="nusmv"
+            extensions="nusmv,smv"
             id="reprotool.fm.nusmv.lang.NuSmvInputLanguage"
             name="NuSmvInputLanguage Editor">
         </editor>
