@@ -6,13 +6,9 @@
  */
 package lts2;
 
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.common.util.EMap;
-
 import org.eclipse.emf.ecore.EObject;
 
 import reprotool.model.usecase.UseCase;
-import reprotool.model.usecase.UseCaseStep;
 
 /**
  * <!-- begin-user-doc -->
@@ -35,7 +31,7 @@ public interface LTSGenerator extends EObject {
 	 * Returns the value of the '<em><b>Label Transition System</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Label Transition System</em>' reference isn't clear,
+	 * If the meaning of the '<em>Label Transition System</em>' containment reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->

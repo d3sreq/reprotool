@@ -11,6 +11,7 @@ import reprotool.model.usecase.UseCase;
  * @author jvinarek
  *
  */
+@SuppressWarnings("rawtypes")
 public class UseCaseAdapterFactory implements IAdapterFactory {
 
 	private static final Class[] SUPPORTED_ADAPTERS = { IContentOutlinePage.class };

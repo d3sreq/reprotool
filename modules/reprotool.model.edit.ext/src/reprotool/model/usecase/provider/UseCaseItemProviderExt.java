@@ -10,11 +10,6 @@ import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 
 import reprotool.model.edit.ext.annotation.UseCaseItemProviderAnnotation;
 import reprotool.model.swproj.provider.SoftwareProjectItemProviderExt;
-import reprotool.model.usecase.Condition;
-import reprotool.model.usecase.Scenario;
-import reprotool.model.usecase.UsecaseFactory;
-import reprotool.model.usecase.UsecasePackage;
-import utils.Utils;
 
 import com.google.inject.Inject;
 import com.google.inject.name.Named;

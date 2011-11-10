@@ -8,8 +8,6 @@ import org.eclipse.swt.custom.StyleRange;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Display;
 
-import reprotool.ide.editors.usecase.action.GotoAction;
-import reprotool.ide.editors.usecase.action.IncludeUseCaseAction;
 import reprotool.model.linguistic.action.Goto;
 import reprotool.model.linguistic.action.ToSystem;
 import reprotool.model.linguistic.action.UseCaseInclude;

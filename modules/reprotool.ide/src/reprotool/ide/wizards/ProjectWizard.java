@@ -1,12 +1,7 @@
 package reprotool.ide.wizards;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
@@ -45,7 +40,6 @@ import org.eclipse.ui.statushandlers.StatusManager;
 
 import reprotool.ide.Activator;
 import reprotool.ide.natures.ReprotoolProjectNature;
-import reprotool.model.lts.presentation.ReprotoolEditorPlugin;
 import reprotool.model.swproj.SoftwareProject;
 import reprotool.model.swproj.SwprojFactory;
 

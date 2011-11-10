@@ -6,11 +6,8 @@
  */
 package lts2.impl;
 
-import java.util.Map;
-
 import lts2.*;
 
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
@@ -18,8 +15,6 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-
-import reprotool.model.usecase.UseCaseStep;
 
 /**
  * <!-- begin-user-doc -->

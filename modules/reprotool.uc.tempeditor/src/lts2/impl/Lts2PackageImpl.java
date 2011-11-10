@@ -6,8 +6,6 @@
  */
 package lts2.impl;
 
-import java.util.Map;
-
 import lts2.AbortState;
 import lts2.FinalState;
 import lts2.InitialState;
