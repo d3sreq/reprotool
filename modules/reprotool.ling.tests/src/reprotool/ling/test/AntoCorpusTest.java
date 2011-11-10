@@ -10,6 +10,11 @@ import reprotool.ling.antocorpus.AntoCorpus;
 import reprotool.ling.antocorpus.AntoWord;
 import reprotool.ling.antocorpus.ExportWordNet;
 
+/**
+ * @author ofiala
+ * 
+ */
+
 public class AntoCorpusTest {
 	String corpusFile = "../../tools/AntoCorpus/corpus.xml";
 

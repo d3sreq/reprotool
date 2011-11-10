@@ -2,17 +2,15 @@
  * <copyright>
  * </copyright>
  *
- * $Id$
+
  */
 package reprotool.ling.util;
 
-import java.util.List;
-
-import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-
 import org.eclipse.emf.ecore.EPackage;
+
 import org.eclipse.emf.ecore.util.Switch;
+
 import reprotool.ling.*;
 
 /**
@@ -28,7 +26,8 @@ import reprotool.ling.*;
  * @see reprotool.ling.LingPackage
  * @generated
  */
-public class LingSwitch<T> extends Switch<T> {
+public class LingSwitch<T> extends Switch<T>
+{
 	/**
 	 * The cached model package
 	 * <!-- begin-user-doc -->
@@ -43,8 +42,10 @@ public class LingSwitch<T> extends Switch<T> {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public LingSwitch() {
-		if (modelPackage == null) {
+	public LingSwitch()
+	{
+		if (modelPackage == null)
+		{
 			modelPackage = LingPackage.eINSTANCE;
 		}
 	}
@@ -58,7 +59,8 @@ public class LingSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	@Override
-	protected boolean isSwitchFor(EPackage ePackage) {
+	protected boolean isSwitchFor(EPackage ePackage)
+	{
 		return ePackage == modelPackage;
 	}
 
@@ -70,23 +72,44 @@ public class LingSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	@Override
-	protected T doSwitch(int classifierID, EObject theEObject) {
-		switch (classifierID) {
-			case LingPackage.SENTENCE: {
+	protected T doSwitch(int classifierID, EObject theEObject)
+	{
+		switch (classifierID)
+		{
+			case LingPackage.SENTENCE:
+			{
 				Sentence sentence = (Sentence)theEObject;
 				T result = caseSentence(sentence);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case LingPackage.WORD: {
+			case LingPackage.WORD:
+			{
 				Word word = (Word)theEObject;
 				T result = caseWord(word);
+				if (result == null) result = caseParseTreeNode(word);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case LingPackage.SENTENCE_NODE: {
+			case LingPackage.SENTENCE_NODE:
+			{
 				SentenceNode sentenceNode = (SentenceNode)theEObject;
 				T result = caseSentenceNode(sentenceNode);
+				if (result == null) result = caseParseTreeNode(sentenceNode);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case LingPackage.PARSE_TREE_NODE:
+			{
+				ParseTreeNode parseTreeNode = (ParseTreeNode)theEObject;
+				T result = caseParseTreeNode(parseTreeNode);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case LingPackage.NODE_TYPE_CLASS:
+			{
+				NodeTypeClass nodeTypeClass = (NodeTypeClass)theEObject;
+				T result = caseNodeTypeClass(nodeTypeClass);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -105,7 +128,8 @@ public class LingSwitch<T> extends Switch<T> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseSentence(Sentence object) {
+	public T caseSentence(Sentence object)
+	{
 		return null;
 	}
 
@@ -120,7 +144,8 @@ public class LingSwitch<T> extends Switch<T> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseWord(Word object) {
+	public T caseWord(Word object)
+	{
 		return null;
 	}
 
@@ -135,7 +160,40 @@ public class LingSwitch<T> extends Switch<T> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseSentenceNode(SentenceNode object) {
+	public T caseSentenceNode(SentenceNode object)
+	{
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Parse Tree Node</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Parse Tree Node</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseParseTreeNode(ParseTreeNode object)
+	{
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Node Type Class</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Node Type Class</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseNodeTypeClass(NodeTypeClass object)
+	{
 		return null;
 	}
 
@@ -151,7 +209,8 @@ public class LingSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	@Override
-	public T defaultCase(EObject object) {
+	public T defaultCase(EObject object)
+	{
 		return null;
 	}
 

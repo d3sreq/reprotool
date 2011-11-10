@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id$
+
  */
 package reprotool.ling;
 
@@ -27,7 +27,8 @@ import org.eclipse.emf.ecore.EReference;
  * @model kind="package"
  * @generated
  */
-public interface LingPackage extends EPackage {
+public interface LingPackage extends EPackage
+{
 	/**
 	 * The package name.
 	 * <!-- begin-user-doc -->
@@ -71,7 +72,7 @@ public interface LingPackage extends EPackage {
 	int SENTENCE = 0;
 
 	/**
-	 * The feature id for the '<em><b>Words</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Words</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -80,22 +81,13 @@ public interface LingPackage extends EPackage {
 	int SENTENCE__WORDS = 0;
 
 	/**
-	 * The feature id for the '<em><b>EReference0</b></em>' reference.
+	 * The feature id for the '<em><b>Sentence Tree</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SENTENCE__EREFERENCE0 = 1;
-
-	/**
-	 * The feature id for the '<em><b>Sentence Tree</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SENTENCE__SENTENCE_TREE = 2;
+	int SENTENCE__SENTENCE_TREE = 1;
 
 	/**
 	 * The number of structural features of the '<em>Sentence</em>' class.
@@ -104,7 +96,44 @@ public interface LingPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SENTENCE_FEATURE_COUNT = 3;
+	int SENTENCE_FEATURE_COUNT = 2;
+
+	/**
+	 * The meta object id for the '{@link reprotool.ling.ParseTreeNode <em>Parse Tree Node</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see reprotool.ling.ParseTreeNode
+	 * @see reprotool.ling.impl.LingPackageImpl#getParseTreeNode()
+	 * @generated
+	 */
+	int PARSE_TREE_NODE = 3;
+
+	/**
+	 * The feature id for the '<em><b>Parent</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PARSE_TREE_NODE__PARENT = 0;
+
+	/**
+	 * The feature id for the '<em><b>Children</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PARSE_TREE_NODE__CHILDREN = 1;
+
+	/**
+	 * The number of structural features of the '<em>Parse Tree Node</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PARSE_TREE_NODE_FEATURE_COUNT = 2;
 
 	/**
 	 * The meta object id for the '{@link reprotool.ling.impl.WordImpl <em>Word</em>}' class.
@@ -117,13 +146,22 @@ public interface LingPackage extends EPackage {
 	int WORD = 1;
 
 	/**
-	 * The feature id for the '<em><b>Word Str</b></em>' attribute.
+	 * The feature id for the '<em><b>Parent</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int WORD__WORD_STR = 0;
+	int WORD__PARENT = PARSE_TREE_NODE__PARENT;
+
+	/**
+	 * The feature id for the '<em><b>Children</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int WORD__CHILDREN = PARSE_TREE_NODE__CHILDREN;
 
 	/**
 	 * The feature id for the '<em><b>Text</b></em>' attribute.
@@ -132,7 +170,7 @@ public interface LingPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int WORD__TEXT = 1;
+	int WORD__TEXT = PARSE_TREE_NODE_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Lemma</b></em>' attribute.
@@ -141,7 +179,7 @@ public interface LingPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int WORD__LEMMA = 2;
+	int WORD__LEMMA = PARSE_TREE_NODE_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>POS</b></em>' attribute.
@@ -150,7 +188,7 @@ public interface LingPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int WORD__POS = 3;
+	int WORD__POS = PARSE_TREE_NODE_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>ID</b></em>' attribute.
@@ -159,7 +197,34 @@ public interface LingPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int WORD__ID = 4;
+	int WORD__ID = PARSE_TREE_NODE_FEATURE_COUNT + 3;
+
+	/**
+	 * The feature id for the '<em><b>Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int WORD__TYPE = PARSE_TREE_NODE_FEATURE_COUNT + 4;
+
+	/**
+	 * The feature id for the '<em><b>Interpunction</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int WORD__INTERPUNCTION = PARSE_TREE_NODE_FEATURE_COUNT + 5;
+
+	/**
+	 * The feature id for the '<em><b>Numeral</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int WORD__NUMERAL = PARSE_TREE_NODE_FEATURE_COUNT + 6;
 
 	/**
 	 * The number of structural features of the '<em>Word</em>' class.
@@ -168,8 +233,7 @@ public interface LingPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int WORD_FEATURE_COUNT = 5;
-
+	int WORD_FEATURE_COUNT = PARSE_TREE_NODE_FEATURE_COUNT + 7;
 
 	/**
 	 * The meta object id for the '{@link reprotool.ling.impl.SentenceNodeImpl <em>Sentence Node</em>}' class.
@@ -182,13 +246,22 @@ public interface LingPackage extends EPackage {
 	int SENTENCE_NODE = 2;
 
 	/**
-	 * The feature id for the '<em><b>Children</b></em>' reference list.
+	 * The feature id for the '<em><b>Parent</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SENTENCE_NODE__CHILDREN = 0;
+	int SENTENCE_NODE__PARENT = PARSE_TREE_NODE__PARENT;
+
+	/**
+	 * The feature id for the '<em><b>Children</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SENTENCE_NODE__CHILDREN = PARSE_TREE_NODE__CHILDREN;
 
 	/**
 	 * The feature id for the '<em><b>Type</b></em>' attribute.
@@ -197,7 +270,7 @@ public interface LingPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SENTENCE_NODE__TYPE = 1;
+	int SENTENCE_NODE__TYPE = PARSE_TREE_NODE_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Word</b></em>' reference.
@@ -206,16 +279,7 @@ public interface LingPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SENTENCE_NODE__WORD = 2;
-
-	/**
-	 * The feature id for the '<em><b>Parent</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SENTENCE_NODE__PARENT = 3;
+	int SENTENCE_NODE__WORD = PARSE_TREE_NODE_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of structural features of the '<em>Sentence Node</em>' class.
@@ -224,7 +288,26 @@ public interface LingPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SENTENCE_NODE_FEATURE_COUNT = 4;
+	int SENTENCE_NODE_FEATURE_COUNT = PARSE_TREE_NODE_FEATURE_COUNT + 2;
+
+	/**
+	 * The meta object id for the '{@link reprotool.ling.impl.NodeTypeClassImpl <em>Node Type Class</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see reprotool.ling.impl.NodeTypeClassImpl
+	 * @see reprotool.ling.impl.LingPackageImpl#getNodeTypeClass()
+	 * @generated
+	 */
+	int NODE_TYPE_CLASS = 4;
+
+	/**
+	 * The number of structural features of the '<em>Node Type Class</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NODE_TYPE_CLASS_FEATURE_COUNT = 0;
 
 	/**
 	 * The meta object id for the '{@link reprotool.ling.SentenceType <em>Sentence Type</em>}' enum.
@@ -234,18 +317,37 @@ public interface LingPackage extends EPackage {
 	 * @see reprotool.ling.impl.LingPackageImpl#getSentenceType()
 	 * @generated
 	 */
-	int SENTENCE_TYPE = 3;
-
+	int SENTENCE_TYPE = 5;
 
 	/**
-	 * The meta object id for the '{@link reprotool.ling.Node <em>Node</em>}' enum.
+	 * The meta object id for the '{@link reprotool.ling.NodeType <em>Node Type</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see reprotool.ling.Node
-	 * @see reprotool.ling.impl.LingPackageImpl#getNode()
+	 * @see reprotool.ling.NodeType
+	 * @see reprotool.ling.impl.LingPackageImpl#getNodeType()
 	 * @generated
 	 */
-	int NODE = 4;
+	int NODE_TYPE = 6;
+
+	/**
+	 * The meta object id for the '{@link reprotool.ling.WordType <em>Word Type</em>}' enum.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see reprotool.ling.WordType
+	 * @see reprotool.ling.impl.LingPackageImpl#getWordType()
+	 * @generated
+	 */
+	int WORD_TYPE = 7;
+
+	/**
+	 * The meta object id for the '{@link reprotool.ling.POSType <em>POS Type</em>}' enum.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see reprotool.ling.POSType
+	 * @see reprotool.ling.impl.LingPackageImpl#getPOSType()
+	 * @generated
+	 */
+	int POS_TYPE = 8;
 
 
 	/**
@@ -259,10 +361,10 @@ public interface LingPackage extends EPackage {
 	EClass getSentence();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link reprotool.ling.Sentence#getWords <em>Words</em>}'.
+	 * Returns the meta object for the reference list '{@link reprotool.ling.Sentence#getWords <em>Words</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Words</em>'.
+	 * @return the meta object for the reference list '<em>Words</em>'.
 	 * @see reprotool.ling.Sentence#getWords()
 	 * @see #getSentence()
 	 * @generated
@@ -270,21 +372,10 @@ public interface LingPackage extends EPackage {
 	EReference getSentence_Words();
 
 	/**
-	 * Returns the meta object for the reference '{@link reprotool.ling.Sentence#getEReference0 <em>EReference0</em>}'.
+	 * Returns the meta object for the containment reference '{@link reprotool.ling.Sentence#getSentenceTree <em>Sentence Tree</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>EReference0</em>'.
-	 * @see reprotool.ling.Sentence#getEReference0()
-	 * @see #getSentence()
-	 * @generated
-	 */
-	EReference getSentence_EReference0();
-
-	/**
-	 * Returns the meta object for the reference '{@link reprotool.ling.Sentence#getSentenceTree <em>Sentence Tree</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Sentence Tree</em>'.
+	 * @return the meta object for the containment reference '<em>Sentence Tree</em>'.
 	 * @see reprotool.ling.Sentence#getSentenceTree()
 	 * @see #getSentence()
 	 * @generated
@@ -300,17 +391,6 @@ public interface LingPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getWord();
-
-	/**
-	 * Returns the meta object for the attribute '{@link reprotool.ling.Word#getWordStr <em>Word Str</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Word Str</em>'.
-	 * @see reprotool.ling.Word#getWordStr()
-	 * @see #getWord()
-	 * @generated
-	 */
-	EAttribute getWord_WordStr();
 
 	/**
 	 * Returns the meta object for the attribute '{@link reprotool.ling.Word#getText <em>Text</em>}'.
@@ -357,6 +437,39 @@ public interface LingPackage extends EPackage {
 	EAttribute getWord_ID();
 
 	/**
+	 * Returns the meta object for the attribute '{@link reprotool.ling.Word#getType <em>Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Type</em>'.
+	 * @see reprotool.ling.Word#getType()
+	 * @see #getWord()
+	 * @generated
+	 */
+	EAttribute getWord_Type();
+
+	/**
+	 * Returns the meta object for the attribute '{@link reprotool.ling.Word#isInterpunction <em>Interpunction</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Interpunction</em>'.
+	 * @see reprotool.ling.Word#isInterpunction()
+	 * @see #getWord()
+	 * @generated
+	 */
+	EAttribute getWord_Interpunction();
+
+	/**
+	 * Returns the meta object for the attribute '{@link reprotool.ling.Word#isNumeral <em>Numeral</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Numeral</em>'.
+	 * @see reprotool.ling.Word#isNumeral()
+	 * @see #getWord()
+	 * @generated
+	 */
+	EAttribute getWord_Numeral();
+
+	/**
 	 * Returns the meta object for class '{@link reprotool.ling.SentenceNode <em>Sentence Node</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -365,17 +478,6 @@ public interface LingPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getSentenceNode();
-
-	/**
-	 * Returns the meta object for the reference list '{@link reprotool.ling.SentenceNode#getChildren <em>Children</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Children</em>'.
-	 * @see reprotool.ling.SentenceNode#getChildren()
-	 * @see #getSentenceNode()
-	 * @generated
-	 */
-	EReference getSentenceNode_Children();
 
 	/**
 	 * Returns the meta object for the attribute '{@link reprotool.ling.SentenceNode#getType <em>Type</em>}'.
@@ -400,15 +502,46 @@ public interface LingPackage extends EPackage {
 	EReference getSentenceNode_Word();
 
 	/**
-	 * Returns the meta object for the reference '{@link reprotool.ling.SentenceNode#getParent <em>Parent</em>}'.
+	 * Returns the meta object for class '{@link reprotool.ling.ParseTreeNode <em>Parse Tree Node</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Parse Tree Node</em>'.
+	 * @see reprotool.ling.ParseTreeNode
+	 * @generated
+	 */
+	EClass getParseTreeNode();
+
+	/**
+	 * Returns the meta object for the reference '{@link reprotool.ling.ParseTreeNode#getParent <em>Parent</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the reference '<em>Parent</em>'.
-	 * @see reprotool.ling.SentenceNode#getParent()
-	 * @see #getSentenceNode()
+	 * @see reprotool.ling.ParseTreeNode#getParent()
+	 * @see #getParseTreeNode()
 	 * @generated
 	 */
-	EReference getSentenceNode_Parent();
+	EReference getParseTreeNode_Parent();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link reprotool.ling.ParseTreeNode#getChildren <em>Children</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Children</em>'.
+	 * @see reprotool.ling.ParseTreeNode#getChildren()
+	 * @see #getParseTreeNode()
+	 * @generated
+	 */
+	EReference getParseTreeNode_Children();
+
+	/**
+	 * Returns the meta object for class '{@link reprotool.ling.NodeTypeClass <em>Node Type Class</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Node Type Class</em>'.
+	 * @see reprotool.ling.NodeTypeClass
+	 * @generated
+	 */
+	EClass getNodeTypeClass();
 
 	/**
 	 * Returns the meta object for enum '{@link reprotool.ling.SentenceType <em>Sentence Type</em>}'.
@@ -421,14 +554,34 @@ public interface LingPackage extends EPackage {
 	EEnum getSentenceType();
 
 	/**
-	 * Returns the meta object for enum '{@link reprotool.ling.Node <em>Node</em>}'.
+	 * Returns the meta object for enum '{@link reprotool.ling.NodeType <em>Node Type</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for enum '<em>Node</em>'.
-	 * @see reprotool.ling.Node
+	 * @return the meta object for enum '<em>Node Type</em>'.
+	 * @see reprotool.ling.NodeType
 	 * @generated
 	 */
-	EEnum getNode();
+	EEnum getNodeType();
+
+	/**
+	 * Returns the meta object for enum '{@link reprotool.ling.WordType <em>Word Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for enum '<em>Word Type</em>'.
+	 * @see reprotool.ling.WordType
+	 * @generated
+	 */
+	EEnum getWordType();
+
+	/**
+	 * Returns the meta object for enum '{@link reprotool.ling.POSType <em>POS Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for enum '<em>POS Type</em>'.
+	 * @see reprotool.ling.POSType
+	 * @generated
+	 */
+	EEnum getPOSType();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -451,7 +604,8 @@ public interface LingPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	interface Literals {
+	interface Literals
+	{
 		/**
 		 * The meta object literal for the '{@link reprotool.ling.impl.SentenceImpl <em>Sentence</em>}' class.
 		 * <!-- begin-user-doc -->
@@ -463,7 +617,7 @@ public interface LingPackage extends EPackage {
 		EClass SENTENCE = eINSTANCE.getSentence();
 
 		/**
-		 * The meta object literal for the '<em><b>Words</b></em>' containment reference list feature.
+		 * The meta object literal for the '<em><b>Words</b></em>' reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
@@ -471,15 +625,7 @@ public interface LingPackage extends EPackage {
 		EReference SENTENCE__WORDS = eINSTANCE.getSentence_Words();
 
 		/**
-		 * The meta object literal for the '<em><b>EReference0</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference SENTENCE__EREFERENCE0 = eINSTANCE.getSentence_EReference0();
-
-		/**
-		 * The meta object literal for the '<em><b>Sentence Tree</b></em>' reference feature.
+		 * The meta object literal for the '<em><b>Sentence Tree</b></em>' containment reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
@@ -495,14 +641,6 @@ public interface LingPackage extends EPackage {
 		 * @generated
 		 */
 		EClass WORD = eINSTANCE.getWord();
-
-		/**
-		 * The meta object literal for the '<em><b>Word Str</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute WORD__WORD_STR = eINSTANCE.getWord_WordStr();
 
 		/**
 		 * The meta object literal for the '<em><b>Text</b></em>' attribute feature.
@@ -537,6 +675,30 @@ public interface LingPackage extends EPackage {
 		EAttribute WORD__ID = eINSTANCE.getWord_ID();
 
 		/**
+		 * The meta object literal for the '<em><b>Type</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute WORD__TYPE = eINSTANCE.getWord_Type();
+
+		/**
+		 * The meta object literal for the '<em><b>Interpunction</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute WORD__INTERPUNCTION = eINSTANCE.getWord_Interpunction();
+
+		/**
+		 * The meta object literal for the '<em><b>Numeral</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute WORD__NUMERAL = eINSTANCE.getWord_Numeral();
+
+		/**
 		 * The meta object literal for the '{@link reprotool.ling.impl.SentenceNodeImpl <em>Sentence Node</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -545,14 +707,6 @@ public interface LingPackage extends EPackage {
 		 * @generated
 		 */
 		EClass SENTENCE_NODE = eINSTANCE.getSentenceNode();
-
-		/**
-		 * The meta object literal for the '<em><b>Children</b></em>' reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference SENTENCE_NODE__CHILDREN = eINSTANCE.getSentenceNode_Children();
 
 		/**
 		 * The meta object literal for the '<em><b>Type</b></em>' attribute feature.
@@ -571,12 +725,40 @@ public interface LingPackage extends EPackage {
 		EReference SENTENCE_NODE__WORD = eINSTANCE.getSentenceNode_Word();
 
 		/**
+		 * The meta object literal for the '{@link reprotool.ling.ParseTreeNode <em>Parse Tree Node</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see reprotool.ling.ParseTreeNode
+		 * @see reprotool.ling.impl.LingPackageImpl#getParseTreeNode()
+		 * @generated
+		 */
+		EClass PARSE_TREE_NODE = eINSTANCE.getParseTreeNode();
+
+		/**
 		 * The meta object literal for the '<em><b>Parent</b></em>' reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference SENTENCE_NODE__PARENT = eINSTANCE.getSentenceNode_Parent();
+		EReference PARSE_TREE_NODE__PARENT = eINSTANCE.getParseTreeNode_Parent();
+
+		/**
+		 * The meta object literal for the '<em><b>Children</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference PARSE_TREE_NODE__CHILDREN = eINSTANCE.getParseTreeNode_Children();
+
+		/**
+		 * The meta object literal for the '{@link reprotool.ling.impl.NodeTypeClassImpl <em>Node Type Class</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see reprotool.ling.impl.NodeTypeClassImpl
+		 * @see reprotool.ling.impl.LingPackageImpl#getNodeTypeClass()
+		 * @generated
+		 */
+		EClass NODE_TYPE_CLASS = eINSTANCE.getNodeTypeClass();
 
 		/**
 		 * The meta object literal for the '{@link reprotool.ling.SentenceType <em>Sentence Type</em>}' enum.
@@ -589,14 +771,34 @@ public interface LingPackage extends EPackage {
 		EEnum SENTENCE_TYPE = eINSTANCE.getSentenceType();
 
 		/**
-		 * The meta object literal for the '{@link reprotool.ling.Node <em>Node</em>}' enum.
+		 * The meta object literal for the '{@link reprotool.ling.NodeType <em>Node Type</em>}' enum.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see reprotool.ling.Node
-		 * @see reprotool.ling.impl.LingPackageImpl#getNode()
+		 * @see reprotool.ling.NodeType
+		 * @see reprotool.ling.impl.LingPackageImpl#getNodeType()
 		 * @generated
 		 */
-		EEnum NODE = eINSTANCE.getNode();
+		EEnum NODE_TYPE = eINSTANCE.getNodeType();
+
+		/**
+		 * The meta object literal for the '{@link reprotool.ling.WordType <em>Word Type</em>}' enum.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see reprotool.ling.WordType
+		 * @see reprotool.ling.impl.LingPackageImpl#getWordType()
+		 * @generated
+		 */
+		EEnum WORD_TYPE = eINSTANCE.getWordType();
+
+		/**
+		 * The meta object literal for the '{@link reprotool.ling.POSType <em>POS Type</em>}' enum.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see reprotool.ling.POSType
+		 * @see reprotool.ling.impl.LingPackageImpl#getPOSType()
+		 * @generated
+		 */
+		EEnum POS_TYPE = eINSTANCE.getPOSType();
 
 	}
 

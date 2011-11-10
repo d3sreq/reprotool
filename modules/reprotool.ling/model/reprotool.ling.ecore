@@ -4,29 +4,29 @@
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="ling"
     nsURI="http://d3s.mff.cuni.cz/reprotool/model/ling" nsPrefix="ling">
   <eClassifiers xsi:type="ecore:EClass" name="Sentence">
-    <eOperations name="parseString">
-      <eParameters name="inputString" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eOperations name="parseString" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eParameters name="sentenceString" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eOperations>
-    <eOperations name="getNegatedString" eType="#//Sentence"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="words" upperBound="-1"
-        eType="#//Word" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="EReference0" eType="#//SentenceNode"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="sentenceTree" eType="#//SentenceNode"/>
+        eType="#//Word"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sentenceTree" eType="#//SentenceNode"
+        containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Word">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="wordStr" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Word" eSuperTypes="#//ParseTreeNode">
+    <eOperations name="parseString" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eParameters name="wordString" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="text" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="lemma" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="POS" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="POS" eType="#//POSType"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="ID" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//WordType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="interpunction" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="numeral" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="SentenceNode">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="children" upperBound="-1"
-        eType="#//SentenceNode"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SentenceNode" eSuperTypes="#//ParseTreeNode">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//SentenceType"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="word" eType="#//Word"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="parent" eType="#//SentenceNode"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="SentenceType">
     <eLiterals name="NounPhrase" value="1"/>
@@ -35,7 +35,7 @@
     <eLiterals name="Undefined" value="4"/>
     <eLiterals name="SentencePhrase"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EEnum" name="Node">
+  <eClassifiers xsi:type="ecore:EEnum" name="NodeType">
     <eLiterals name="NP"/>
     <eLiterals name="VP" value="1"/>
     <eLiterals name="PP" value="2"/>
@@ -47,5 +47,48 @@
     <eLiterals name="REPRESENTATIVE_OBJECT" value="1"/>
     <eLiterals name="INDIRECT_OBJECT" value="2"/>
     <eLiterals name="UNKNOWN" value="3"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ParseTreeNode" abstract="true" interface="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parent" eType="#//ParseTreeNode"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="children" upperBound="-1"
+        eType="#//ParseTreeNode" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NodeTypeClass"/>
+  <eClassifiers xsi:type="ecore:EEnum" name="POSType">
+    <eLiterals name="Undefined" literal="X"/>
+    <eLiterals name="Coordinating_conjunction" value="1" literal="CC"/>
+    <eLiterals name="Cardinal_number" value="2" literal="CD"/>
+    <eLiterals name="Determiner" value="3" literal="DT"/>
+    <eLiterals name="Existential_there" value="4" literal="EX"/>
+    <eLiterals name="Foreign_word" value="5" literal="FW"/>
+    <eLiterals name="Preposition_or_subordinating_conjunction" value="6" literal="IN"/>
+    <eLiterals name="Adjective" value="7" literal="JJ"/>
+    <eLiterals name="Adjective_comparative" value="8" literal="JJR"/>
+    <eLiterals name="Adjective_superlative" value="9" literal="JJS"/>
+    <eLiterals name="List_item_marker" value="10" literal="LS"/>
+    <eLiterals name="Modal" value="11" literal="MD"/>
+    <eLiterals name="Noun_singular_or_mass" value="12" literal="NN"/>
+    <eLiterals name="Noun_plural" value="13" literal="NNS"/>
+    <eLiterals name="Proper_noun_singular" value="14" literal="NNP"/>
+    <eLiterals name="Proper_noun_plural" value="15" literal="NNPS"/>
+    <eLiterals name="Predeterminer" value="16" literal="PDT"/>
+    <eLiterals name="Possessive_ending" value="17" literal="POS"/>
+    <eLiterals name="Personal_pronoun" value="18" literal="PRP"/>
+    <eLiterals name="Adverb" value="19" literal="RB"/>
+    <eLiterals name="Adverb_comparative" value="20" literal="RBR"/>
+    <eLiterals name="Adverb_superlative" value="21" literal="RBS"/>
+    <eLiterals name="Particle" value="22" literal="RP"/>
+    <eLiterals name="Symbol" value="23" literal="SYM"/>
+    <eLiterals name="to" value="24" literal="TO"/>
+    <eLiterals name="Interjection" value="25" literal="UH"/>
+    <eLiterals name="Verb_base_form" value="26" literal="VB"/>
+    <eLiterals name="Verb_past_tense" value="27" literal="VBD"/>
+    <eLiterals name="Verb_gerund_or_present_participle" value="28" literal="VBG"/>
+    <eLiterals name="Verb_past_participle" value="29" literal="VBN"/>
+    <eLiterals name="Verb_non_3rd_person_singular_present" value="30" literal="VBP"/>
+    <eLiterals name="Verb_3rd_person_singular_present" value="31" literal="VBZ"/>
+    <eLiterals name="Wh_determiner" value="32" literal="WDT"/>
+    <eLiterals name="Wh_pronoun" value="33" literal="WP"/>
+    <eLiterals name="Wh_adverb" value="34" literal="WRB"/>
   </eClassifiers>
 </ecore:EPackage>

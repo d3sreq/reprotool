@@ -8,7 +8,9 @@ import java.util.regex.Pattern;
 import org.eclipse.core.runtime.Platform;
 
 import reprotool.ling.LingFactory;
-import reprotool.ling.Node;
+import reprotool.ling.NodeType;
+import reprotool.ling.POSType;
+import reprotool.ling.ParseTreeNode;
 import reprotool.ling.SentenceNode;
 import reprotool.ling.SentenceType;
 import reprotool.ling.Tool;
@@ -162,7 +164,7 @@ public class Parser extends Tool {
     	}
 
     	Word curWord = null;
-    	SentenceNode curNode = rootNode;
+    	ParseTreeNode curNode = rootNode;
 	   	//TODO spravny STROM - zleva uzly a uzavorkovani
 				
     	// removing head S (sentence) node
@@ -183,7 +185,8 @@ public class Parser extends Tool {
 	    	
 	    	if(symbol.startsWith("(")) { // start node
 	    		symbol = symbol.substring(1).toUpperCase();
-	    		Node node = Node.fromString(symbol);
+	    		//NodeType node = NodeType.fromString(symbol);
+	    		NodeType node = NodeType.get(symbol);
 	    		
 	    		switch(node){
 	    		case NP:
@@ -195,14 +198,14 @@ public class Parser extends Tool {
 	    			break;
 	    		case VP:
 	    			SentenceNode verbPhrase = factory.createSentenceNode();
-	    			nounPhrase.setType(SentenceType.VERB_PHRASE);
+	    			verbPhrase.setType(SentenceType.VERB_PHRASE);
 	    			curNode.getChildren().add(verbPhrase);
 	    			verbPhrase.setParent(curNode);
 	    			curNode = verbPhrase;
 	    			break;	
 	    		case PP:
 	    			SentenceNode prepositionalPhrase = factory.createSentenceNode();
-	    			nounPhrase.setType(SentenceType.PREPOSITION_PHRASE);
+	    			prepositionalPhrase.setType(SentenceType.PREPOSITION_PHRASE);
 	    			curNode.getChildren().add(prepositionalPhrase);
 	    			prepositionalPhrase.setParent(curNode);
 	    			curNode = prepositionalPhrase;
@@ -213,7 +216,7 @@ public class Parser extends Tool {
 	    		default:
 	    			// preparation for new word (at POS)
 	    			curWord = factory.createWord();	
-	    			curWord.setPOS(symbol);
+	    			curWord.setPOS(POSType.get(symbol));
 	    			curNode.getChildren().add(curWord);	
 	    			atWord = true;
 
@@ -228,7 +231,7 @@ public class Parser extends Tool {
 	    			atWord = false;
 	    		}
 	    	} else { // word
-    			curWord.setWordStr(symbol);
+    			curWord.setText(symbol);
 	    	}
   		
 	    }

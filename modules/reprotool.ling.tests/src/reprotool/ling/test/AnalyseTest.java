@@ -4,11 +4,17 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import reprotool.ling.LingFactory;
+import reprotool.ling.Sentence;
+import reprotool.ling.SentenceNode;
 import reprotool.ling.analyser.Analyser;
-import reprotool.model.linguistic.parsetree.NounPhraseNode;
-import reprotool.model.linguistic.parsetree.ParsetreeFactory;
 import reprotool.model.usecase.UseCaseStep;
 import reprotool.model.usecase.UsecaseFactory;
+
+/**
+ * @author ofiala
+ * 
+ */
 
 public class AnalyseTest {
 
@@ -20,20 +26,23 @@ public class AnalyseTest {
 		UseCaseStep ucs1 = ucfactory.createUseCaseStep();
 		UseCaseStep ucs2 = ucfactory.createUseCaseStep();
 		
-		ParsetreeFactory factory = ParsetreeFactory.eINSTANCE;
+		Sentence sentence = LingFactory.eINSTANCE.createSentence();
+		
+		LingFactory factory = LingFactory.eINSTANCE;
 		SentenceNode rootNode = factory.createSentenceNode();
 		
-		NounPhraseNode nounPhrase = factory.createNounPhraseNode();
-		rootNode.getChildNodes().add(nounPhrase);
-		nounPhrase.setParentNode(rootNode);
+		SentenceNode nounPhrase = factory.createSentenceNode();
+		rootNode.getChildren().add(nounPhrase);
+		nounPhrase.setParent(rootNode);
 
-		nounPhrase = factory.createNounPhraseNode();
-		rootNode.getChildNodes().add(nounPhrase);
-		nounPhrase.setParentNode(rootNode);
+		nounPhrase = factory.createSentenceNode();
+		rootNode.getChildren().add(nounPhrase);
+		nounPhrase.setParent(rootNode);
 		
-		ucs1.setParsedSentence(rootNode);
+		//ucs1.setParsedSentence(rootNode);
 		
-		ucs2 = Analyser.analyseTree(ucs1, rootNode);
+		sentence.setSentenceTree(rootNode);
+		ucs2 = Analyser.analyseTree(ucs1, sentence);
 		
 		assertEquals(ucs1, ucs2);
 	}

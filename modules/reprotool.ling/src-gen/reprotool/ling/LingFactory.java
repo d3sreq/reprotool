@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id$
+
  */
 package reprotool.ling;
 
@@ -16,7 +16,8 @@ import org.eclipse.emf.ecore.EFactory;
  * @see reprotool.ling.LingPackage
  * @generated
  */
-public interface LingFactory extends EFactory {
+public interface LingFactory extends EFactory
+{
 	/**
 	 * The singleton instance of the factory.
 	 * <!-- begin-user-doc -->
@@ -51,6 +52,15 @@ public interface LingFactory extends EFactory {
 	 * @generated
 	 */
 	SentenceNode createSentenceNode();
+
+	/**
+	 * Returns a new object of class '<em>Node Type Class</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Node Type Class</em>'.
+	 * @generated
+	 */
+	NodeTypeClass createNodeTypeClass();
 
 	/**
 	 * Returns the package supported by this factory.

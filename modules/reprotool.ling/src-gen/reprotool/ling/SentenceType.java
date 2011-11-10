@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id$
+
  */
 package reprotool.ling;
 
@@ -21,7 +21,8 @@ import org.eclipse.emf.common.util.Enumerator;
  * @model
  * @generated
  */
-public enum SentenceType implements Enumerator {
+public enum SentenceType implements Enumerator
+{
 	/**
 	 * The '<em><b>Noun Phrase</b></em>' literal object.
 	 * <!-- begin-user-doc -->
@@ -154,7 +155,8 @@ public enum SentenceType implements Enumerator {
 	 * @generated
 	 */
 	private static final SentenceType[] VALUES_ARRAY =
-		new SentenceType[] {
+		new SentenceType[]
+		{
 			NOUN_PHRASE,
 			VERB_PHRASE,
 			PREPOSITION_PHRASE,
@@ -176,10 +178,13 @@ public enum SentenceType implements Enumerator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static SentenceType get(String literal) {
-		for (int i = 0; i < VALUES_ARRAY.length; ++i) {
+	public static SentenceType get(String literal)
+	{
+		for (int i = 0; i < VALUES_ARRAY.length; ++i)
+		{
 			SentenceType result = VALUES_ARRAY[i];
-			if (result.toString().equals(literal)) {
+			if (result.toString().equals(literal))
+			{
 				return result;
 			}
 		}
@@ -192,10 +197,13 @@ public enum SentenceType implements Enumerator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static SentenceType getByName(String name) {
-		for (int i = 0; i < VALUES_ARRAY.length; ++i) {
+	public static SentenceType getByName(String name)
+	{
+		for (int i = 0; i < VALUES_ARRAY.length; ++i)
+		{
 			SentenceType result = VALUES_ARRAY[i];
-			if (result.getName().equals(name)) {
+			if (result.getName().equals(name))
+			{
 				return result;
 			}
 		}
@@ -208,8 +216,10 @@ public enum SentenceType implements Enumerator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static SentenceType get(int value) {
-		switch (value) {
+	public static SentenceType get(int value)
+	{
+		switch (value)
+		{
 			case NOUN_PHRASE_VALUE: return NOUN_PHRASE;
 			case VERB_PHRASE_VALUE: return VERB_PHRASE;
 			case PREPOSITION_PHRASE_VALUE: return PREPOSITION_PHRASE;
@@ -246,7 +256,8 @@ public enum SentenceType implements Enumerator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private SentenceType(int value, String name, String literal) {
+	private SentenceType(int value, String name, String literal)
+	{
 		this.value = value;
 		this.name = name;
 		this.literal = literal;
@@ -257,7 +268,8 @@ public enum SentenceType implements Enumerator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public int getValue() {
+	public int getValue()
+	{
 	  return value;
 	}
 
@@ -266,7 +278,8 @@ public enum SentenceType implements Enumerator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getName() {
+	public String getName()
+	{
 	  return name;
 	}
 
@@ -275,7 +288,8 @@ public enum SentenceType implements Enumerator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getLiteral() {
+	public String getLiteral()
+	{
 	  return literal;
 	}
 
@@ -286,7 +300,8 @@ public enum SentenceType implements Enumerator {
 	 * @generated
 	 */
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return literal;
 	}
 	

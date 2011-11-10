@@ -2,11 +2,10 @@
  * <copyright>
  * </copyright>
  *
- * $Id$
+
  */
 package reprotool.ling;
 
-import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -16,11 +15,13 @@ import org.eclipse.emf.ecore.EObject;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link reprotool.ling.Word#getWordStr <em>Word Str</em>}</li>
  *   <li>{@link reprotool.ling.Word#getText <em>Text</em>}</li>
  *   <li>{@link reprotool.ling.Word#getLemma <em>Lemma</em>}</li>
  *   <li>{@link reprotool.ling.Word#getPOS <em>POS</em>}</li>
  *   <li>{@link reprotool.ling.Word#getID <em>ID</em>}</li>
+ *   <li>{@link reprotool.ling.Word#getType <em>Type</em>}</li>
+ *   <li>{@link reprotool.ling.Word#isInterpunction <em>Interpunction</em>}</li>
+ *   <li>{@link reprotool.ling.Word#isNumeral <em>Numeral</em>}</li>
  * </ul>
  * </p>
  *
@@ -28,34 +29,8 @@ import org.eclipse.emf.ecore.EObject;
  * @model
  * @generated
  */
-public interface Word extends EObject {
-
-	/**
-	 * Returns the value of the '<em><b>Word Str</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Word Str</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Word Str</em>' attribute.
-	 * @see #setWordStr(String)
-	 * @see reprotool.ling.LingPackage#getWord_WordStr()
-	 * @model
-	 * @generated
-	 */
-	String getWordStr();
-
-	/**
-	 * Sets the value of the '{@link reprotool.ling.Word#getWordStr <em>Word Str</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Word Str</em>' attribute.
-	 * @see #getWordStr()
-	 * @generated
-	 */
-	void setWordStr(String value);
-
+public interface Word extends ParseTreeNode
+{
 	/**
 	 * Returns the value of the '<em><b>Text</b></em>' attribute.
 	 * <!-- begin-user-doc -->
@@ -110,6 +85,7 @@ public interface Word extends EObject {
 
 	/**
 	 * Returns the value of the '<em><b>POS</b></em>' attribute.
+	 * The literals are from the enumeration {@link reprotool.ling.POSType}.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>POS</em>' attribute isn't clear,
@@ -117,22 +93,24 @@ public interface Word extends EObject {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>POS</em>' attribute.
-	 * @see #setPOS(String)
+	 * @see reprotool.ling.POSType
+	 * @see #setPOS(POSType)
 	 * @see reprotool.ling.LingPackage#getWord_POS()
 	 * @model
 	 * @generated
 	 */
-	String getPOS();
+	POSType getPOS();
 
 	/**
 	 * Sets the value of the '{@link reprotool.ling.Word#getPOS <em>POS</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>POS</em>' attribute.
+	 * @see reprotool.ling.POSType
 	 * @see #getPOS()
 	 * @generated
 	 */
-	void setPOS(String value);
+	void setPOS(POSType value);
 
 	/**
 	 * Returns the value of the '<em><b>ID</b></em>' attribute.
@@ -159,4 +137,94 @@ public interface Word extends EObject {
 	 * @generated
 	 */
 	void setID(int value);
+
+	/**
+	 * Returns the value of the '<em><b>Type</b></em>' attribute.
+	 * The literals are from the enumeration {@link reprotool.ling.WordType}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Type</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Type</em>' attribute.
+	 * @see reprotool.ling.WordType
+	 * @see #setType(WordType)
+	 * @see reprotool.ling.LingPackage#getWord_Type()
+	 * @model
+	 * @generated
+	 */
+	WordType getType();
+
+	/**
+	 * Sets the value of the '{@link reprotool.ling.Word#getType <em>Type</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Type</em>' attribute.
+	 * @see reprotool.ling.WordType
+	 * @see #getType()
+	 * @generated
+	 */
+	void setType(WordType value);
+
+	/**
+	 * Returns the value of the '<em><b>Interpunction</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Interpunction</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Interpunction</em>' attribute.
+	 * @see #setInterpunction(boolean)
+	 * @see reprotool.ling.LingPackage#getWord_Interpunction()
+	 * @model
+	 * @generated
+	 */
+	boolean isInterpunction();
+
+	/**
+	 * Sets the value of the '{@link reprotool.ling.Word#isInterpunction <em>Interpunction</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Interpunction</em>' attribute.
+	 * @see #isInterpunction()
+	 * @generated
+	 */
+	void setInterpunction(boolean value);
+
+	/**
+	 * Returns the value of the '<em><b>Numeral</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Numeral</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Numeral</em>' attribute.
+	 * @see #setNumeral(boolean)
+	 * @see reprotool.ling.LingPackage#getWord_Numeral()
+	 * @model
+	 * @generated
+	 */
+	boolean isNumeral();
+
+	/**
+	 * Sets the value of the '{@link reprotool.ling.Word#isNumeral <em>Numeral</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Numeral</em>' attribute.
+	 * @see #isNumeral()
+	 * @generated
+	 */
+	void setNumeral(boolean value);
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated
+	 */
+	boolean parseString(String wordString);
+
 } // Word

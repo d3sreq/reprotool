@@ -1,10 +1,18 @@
 package reprotool.ling.test;
 
-
 import static org.junit.Assert.*;
+
+/**
+ * @author ofiala
+ * 
+ */
 
 import org.junit.Test;
 
+import reprotool.ling.LingFactory;
+import reprotool.ling.POSType;
+import reprotool.ling.SentenceNode;
+import reprotool.ling.Word;
 import reprotool.ling.tools.Parser;
 import reprotool.ling.tools.Tagger;
 import reprotool.ling.tools.Tokenizer;
@@ -46,35 +54,35 @@ public class ParseTest {
 	public final void testParserTree1() {
 		String sentence = "(S (NP (NNP Administrator)) (VP (VBZ sends ) (NP (NNS messages))))";
 		
-		ParsetreeFactory factory = ParsetreeFactory.eINSTANCE;
+		LingFactory factory = LingFactory.eINSTANCE;
 		SentenceNode rootNode = factory.createSentenceNode();
 		
-		NounPhraseNode nounPhrase = factory.createNounPhraseNode();
-		rootNode.getChildNodes().add(nounPhrase);
-		nounPhrase.setParentNode(rootNode);
+		SentenceNode nounPhrase = factory.createSentenceNode();
+		rootNode.getChildren().add(nounPhrase);
+		nounPhrase.setParent(rootNode);
 		
 		Word curWord = factory.createWord();	
-		curWord.setWordPOS("NNP");
-		curWord.setWordStr("Administrator");
-		nounPhrase.getChildNodes().add(curWord);
+		curWord.setPOS(POSType.get("NNP"));
+		curWord.setText("Administrator");
+		nounPhrase.getChildren().add(curWord);
 		
-		VerbPhraseNode verbPhrase = factory.createVerbPhraseNode();
-		rootNode.getChildNodes().add(verbPhrase);
-		verbPhrase.setParentNode(rootNode);
+		SentenceNode verbPhrase = factory.createSentenceNode();
+		rootNode.getChildren().add(verbPhrase);
+		verbPhrase.setParent(rootNode);
 
 		curWord = factory.createWord();	
-		curWord.setWordPOS("VBZ");
-		curWord.setWordStr("sends");
-		verbPhrase.getChildNodes().add(curWord);
+		curWord.setPOS(POSType.get("VBZ"));
+		curWord.setText("sends");
+		verbPhrase.getChildren().add(curWord);
 		
-		nounPhrase = factory.createNounPhraseNode();
-		verbPhrase.getChildNodes().add(nounPhrase);
-		nounPhrase.setParentNode(verbPhrase);
+		nounPhrase = factory.createSentenceNode();
+		verbPhrase.getChildren().add(nounPhrase);
+		nounPhrase.setParent(verbPhrase);
 		
 		curWord = factory.createWord();	
-		curWord.setWordPOS("NNS");
-		curWord.setWordStr("messages");
-		nounPhrase.getChildNodes().add(curWord);
+		curWord.setPOS(POSType.get("NNS"));
+		curWord.setText("messages");
+		nounPhrase.getChildren().add(curWord);
 		
 		SentenceNode parsedNode = Parser.getTree(sentence);
 

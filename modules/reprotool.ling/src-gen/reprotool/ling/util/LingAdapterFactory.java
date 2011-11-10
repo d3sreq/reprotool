@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id$
+
  */
 package reprotool.ling.util;
 
@@ -23,7 +23,8 @@ import reprotool.ling.*;
  * @see reprotool.ling.LingPackage
  * @generated
  */
-public class LingAdapterFactory extends AdapterFactoryImpl {
+public class LingAdapterFactory extends AdapterFactoryImpl
+{
 	/**
 	 * The cached model package.
 	 * <!-- begin-user-doc -->
@@ -38,8 +39,10 @@ public class LingAdapterFactory extends AdapterFactoryImpl {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public LingAdapterFactory() {
-		if (modelPackage == null) {
+	public LingAdapterFactory()
+	{
+		if (modelPackage == null)
+		{
 			modelPackage = LingPackage.eINSTANCE;
 		}
 	}
@@ -53,11 +56,14 @@ public class LingAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	@Override
-	public boolean isFactoryForType(Object object) {
-		if (object == modelPackage) {
+	public boolean isFactoryForType(Object object)
+	{
+		if (object == modelPackage)
+		{
 			return true;
 		}
-		if (object instanceof EObject) {
+		if (object instanceof EObject)
+		{
 			return ((EObject)object).eClass().getEPackage() == modelPackage;
 		}
 		return false;
@@ -70,21 +76,36 @@ public class LingAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	protected LingSwitch<Adapter> modelSwitch =
-		new LingSwitch<Adapter>() {
+		new LingSwitch<Adapter>()
+		{
 			@Override
-			public Adapter caseSentence(Sentence object) {
+			public Adapter caseSentence(Sentence object)
+			{
 				return createSentenceAdapter();
 			}
 			@Override
-			public Adapter caseWord(Word object) {
+			public Adapter caseWord(Word object)
+			{
 				return createWordAdapter();
 			}
 			@Override
-			public Adapter caseSentenceNode(SentenceNode object) {
+			public Adapter caseSentenceNode(SentenceNode object)
+			{
 				return createSentenceNodeAdapter();
 			}
 			@Override
-			public Adapter defaultCase(EObject object) {
+			public Adapter caseParseTreeNode(ParseTreeNode object)
+			{
+				return createParseTreeNodeAdapter();
+			}
+			@Override
+			public Adapter caseNodeTypeClass(NodeTypeClass object)
+			{
+				return createNodeTypeClassAdapter();
+			}
+			@Override
+			public Adapter defaultCase(EObject object)
+			{
 				return createEObjectAdapter();
 			}
 		};
@@ -98,7 +119,8 @@ public class LingAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	@Override
-	public Adapter createAdapter(Notifier target) {
+	public Adapter createAdapter(Notifier target)
+	{
 		return modelSwitch.doSwitch((EObject)target);
 	}
 
@@ -113,7 +135,8 @@ public class LingAdapterFactory extends AdapterFactoryImpl {
 	 * @see reprotool.ling.Sentence
 	 * @generated
 	 */
-	public Adapter createSentenceAdapter() {
+	public Adapter createSentenceAdapter()
+	{
 		return null;
 	}
 
@@ -127,7 +150,8 @@ public class LingAdapterFactory extends AdapterFactoryImpl {
 	 * @see reprotool.ling.Word
 	 * @generated
 	 */
-	public Adapter createWordAdapter() {
+	public Adapter createWordAdapter()
+	{
 		return null;
 	}
 
@@ -141,7 +165,38 @@ public class LingAdapterFactory extends AdapterFactoryImpl {
 	 * @see reprotool.ling.SentenceNode
 	 * @generated
 	 */
-	public Adapter createSentenceNodeAdapter() {
+	public Adapter createSentenceNodeAdapter()
+	{
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link reprotool.ling.ParseTreeNode <em>Parse Tree Node</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see reprotool.ling.ParseTreeNode
+	 * @generated
+	 */
+	public Adapter createParseTreeNodeAdapter()
+	{
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link reprotool.ling.NodeTypeClass <em>Node Type Class</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see reprotool.ling.NodeTypeClass
+	 * @generated
+	 */
+	public Adapter createNodeTypeClassAdapter()
+	{
 		return null;
 	}
 
@@ -153,7 +208,8 @@ public class LingAdapterFactory extends AdapterFactoryImpl {
 	 * @return the new adapter.
 	 * @generated
 	 */
-	public Adapter createEObjectAdapter() {
+	public Adapter createEObjectAdapter()
+	{
 		return null;
 	}
 

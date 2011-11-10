@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id$
+
  */
 package reprotool.ling;
 
@@ -14,14 +14,15 @@ import org.eclipse.emf.common.util.Enumerator;
 
 /**
  * <!-- begin-user-doc -->
- * A representation of the literals of the enumeration '<em><b>Node</b></em>',
+ * A representation of the literals of the enumeration '<em><b>Node Type</b></em>',
  * and utility methods for working with them.
  * <!-- end-user-doc -->
- * @see reprotool.ling.LingPackage#getNode()
+ * @see reprotool.ling.LingPackage#getNodeType()
  * @model
  * @generated
  */
-public enum Node implements Enumerator {
+public enum NodeType implements Enumerator
+{
 	/**
 	 * The '<em><b>NP</b></em>' literal object.
 	 * <!-- begin-user-doc -->
@@ -148,13 +149,14 @@ public enum Node implements Enumerator {
 	public static final int X_VALUE = 4;
 
 	/**
-	 * An array of all the '<em><b>Node</b></em>' enumerators.
+	 * An array of all the '<em><b>Node Type</b></em>' enumerators.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private static final Node[] VALUES_ARRAY =
-		new Node[] {
+	private static final NodeType[] VALUES_ARRAY =
+		new NodeType[]
+		{
 			NP,
 			VP,
 			PP,
@@ -163,23 +165,26 @@ public enum Node implements Enumerator {
 		};
 
 	/**
-	 * A public read-only list of all the '<em><b>Node</b></em>' enumerators.
+	 * A public read-only list of all the '<em><b>Node Type</b></em>' enumerators.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final List<Node> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
+	public static final List<NodeType> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
 	/**
-	 * Returns the '<em><b>Node</b></em>' literal with the specified literal value.
+	 * Returns the '<em><b>Node Type</b></em>' literal with the specified literal value.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static Node get(String literal) {
-		for (int i = 0; i < VALUES_ARRAY.length; ++i) {
-			Node result = VALUES_ARRAY[i];
-			if (result.toString().equals(literal)) {
+	public static NodeType get(String literal)
+	{
+		for (int i = 0; i < VALUES_ARRAY.length; ++i)
+		{
+			NodeType result = VALUES_ARRAY[i];
+			if (result.toString().equals(literal))
+			{
 				return result;
 			}
 		}
@@ -187,15 +192,18 @@ public enum Node implements Enumerator {
 	}
 
 	/**
-	 * Returns the '<em><b>Node</b></em>' literal with the specified name.
+	 * Returns the '<em><b>Node Type</b></em>' literal with the specified name.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static Node getByName(String name) {
-		for (int i = 0; i < VALUES_ARRAY.length; ++i) {
-			Node result = VALUES_ARRAY[i];
-			if (result.getName().equals(name)) {
+	public static NodeType getByName(String name)
+	{
+		for (int i = 0; i < VALUES_ARRAY.length; ++i)
+		{
+			NodeType result = VALUES_ARRAY[i];
+			if (result.getName().equals(name))
+			{
 				return result;
 			}
 		}
@@ -203,13 +211,15 @@ public enum Node implements Enumerator {
 	}
 
 	/**
-	 * Returns the '<em><b>Node</b></em>' literal with the specified integer value.
+	 * Returns the '<em><b>Node Type</b></em>' literal with the specified integer value.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static Node get(int value) {
-		switch (value) {
+	public static NodeType get(int value)
+	{
+		switch (value)
+		{
 			case NP_VALUE: return NP;
 			case VP_VALUE: return VP;
 			case PP_VALUE: return PP;
@@ -246,7 +256,8 @@ public enum Node implements Enumerator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private Node(int value, String name, String literal) {
+	private NodeType(int value, String name, String literal)
+	{
 		this.value = value;
 		this.name = name;
 		this.literal = literal;
@@ -257,7 +268,8 @@ public enum Node implements Enumerator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public int getValue() {
+	public int getValue()
+	{
 	  return value;
 	}
 
@@ -266,7 +278,8 @@ public enum Node implements Enumerator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getName() {
+	public String getName()
+	{
 	  return name;
 	}
 
@@ -275,7 +288,8 @@ public enum Node implements Enumerator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getLiteral() {
+	public String getLiteral()
+	{
 	  return literal;
 	}
 
@@ -286,8 +300,9 @@ public enum Node implements Enumerator {
 	 * @generated
 	 */
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return literal;
 	}
 	
-} //Node
+} //NodeType

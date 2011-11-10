@@ -1,15 +1,14 @@
 package reprotool.ling.analyser;
 
-import reprotool.ling.LingFactory;
-import reprotool.ling.Node;
+import reprotool.ling.ParseTreeNode;
 import reprotool.ling.Sentence;
 import reprotool.ling.SentenceNode;
-import reprotool.ling.SentenceType;
-import reprotool.ling.Tool;
 import reprotool.ling.Word;
-import reprotool.ling.impl.LingFactoryImpl;
-import reprotool.model.*;
+import reprotool.ling.WordType;
 import reprotool.model.linguistic.action.*;
+import reprotool.model.linguistic.actionpart.ActionpartFactory;
+import reprotool.model.linguistic.actionpart.TextRange;
+import reprotool.model.usecase.UseCaseStep;
 
 
 /**
@@ -31,21 +30,20 @@ public class Analyser {
 	 *            Tree
 	 * @return UseCaseStep analysed_tree
 	 */
-	public static UseCaseStep analyseTree(UseCaseStep ucs,
-			SentenceNode parsedTree, String text) {
+	public static UseCaseStep analyseTree(UseCaseStep ucs, Sentence sentence) {
 		// ParsetreeFactory factory = ParsetreeFactory.eINSTANCE;
-		SentenceNode curNode = parsedTree;
+		SentenceNode curNode = sentence.getSentenceTree();
 		Boolean definedAction = false;
-
+/*
 		Sentence sentence = LingFactoryImpl.eINSTANCE.createSentence();
 		sentence.parseString(text);
-		
+*/		
 		// tree analyse
 		boolean subject = true;
 		SentenceNode node = null;
 
 		// TODO zatim nastrel ohodnoceni vsech NP
-		for (SentenceNode pnode : curNode.getChildren()) {
+		for (ParseTreeNode pnode : curNode.getChildren()) {
 			node = (SentenceNode) pnode;
 			if (node.eClass().getName().equals("NounPhrase")) {
 				if (subject) {
@@ -97,7 +95,7 @@ public class Analyser {
 			if (sentence.getWords().size() > 0) {
 				for (int i = 0; i < sentence.getWords().size(); i++) {
 					for (int t = 0; t < terminateVerbs.length; t++) {
-						if (sentence.getWords().get(i).getWordStr().equalsIgnoreCase(terminateVerbs[t])) {
+						if (sentence.getWords().get(i).getText().equalsIgnoreCase(terminateVerbs[t])) {
 							// ABORT vs TERMINATION
 							Action action = afactory.createAbortUseCase();
 							ucs.setAction(action);
@@ -106,7 +104,7 @@ public class Analyser {
 						}
 					}
 					for (int a = 0; a < abortVerbs.length; a++) {
-						if (sentence.getWords().get(i).getWordStr().equalsIgnoreCase(abortVerbs[a])) {
+						if (sentence.getWords().get(i).getText().equalsIgnoreCase(abortVerbs[a])) {
 							Action action = afactory.createAbortUseCase();
 							ucs.setAction(action);
 							definedAction = true;
@@ -116,14 +114,31 @@ public class Analyser {
 				}
 			}
 		}
+
 		
+		// THE REST
+		if (!definedAction){
+			Action action = afactory.createToSystem();
+			ucs.setAction(action);
+			
+			ActionpartFactory apfactory = ActionpartFactory.eINSTANCE;
+			TextRange tr = apfactory.createTextRange();
+			tr.setStartPosition(0);
+			tr.setLength(sentence.getWords().get(0).getText().length());
+			ucs.getTextNodes().add(tr);
+			
+			
+		}
 		// goto example
 /*		Action action = afactory.createGoto();
 		ucs.setAction(action);
 */
 		// final connection
-		ucs.setParsedSentence(parsedTree);
+/*		ucs.setParsedSentence(parsedTree);
+*/ 
+ 
 		return ucs;
+		
 	}
 
 }

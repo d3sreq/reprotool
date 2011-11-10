@@ -6,6 +6,12 @@ import java.util.regex.Pattern;
 
 import reprotool.ling.wordnet.WordNet;
 
+/** 
+ * !!!DEPRECATED
+ * 
+ * @author ofiala
+ * 
+ */
 public class WordLing {
 	public String original = "";
 	public String text = "";
