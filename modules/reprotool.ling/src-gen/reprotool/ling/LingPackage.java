@@ -291,25 +291,6 @@ public interface LingPackage extends EPackage
 	int SENTENCE_NODE_FEATURE_COUNT = PARSE_TREE_NODE_FEATURE_COUNT + 2;
 
 	/**
-	 * The meta object id for the '{@link reprotool.ling.impl.NodeTypeClassImpl <em>Node Type Class</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see reprotool.ling.impl.NodeTypeClassImpl
-	 * @see reprotool.ling.impl.LingPackageImpl#getNodeTypeClass()
-	 * @generated
-	 */
-	int NODE_TYPE_CLASS = 4;
-
-	/**
-	 * The number of structural features of the '<em>Node Type Class</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int NODE_TYPE_CLASS_FEATURE_COUNT = 0;
-
-	/**
 	 * The meta object id for the '{@link reprotool.ling.SentenceType <em>Sentence Type</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -317,7 +298,7 @@ public interface LingPackage extends EPackage
 	 * @see reprotool.ling.impl.LingPackageImpl#getSentenceType()
 	 * @generated
 	 */
-	int SENTENCE_TYPE = 5;
+	int SENTENCE_TYPE = 4;
 
 	/**
 	 * The meta object id for the '{@link reprotool.ling.NodeType <em>Node Type</em>}' enum.
@@ -327,7 +308,7 @@ public interface LingPackage extends EPackage
 	 * @see reprotool.ling.impl.LingPackageImpl#getNodeType()
 	 * @generated
 	 */
-	int NODE_TYPE = 6;
+	int NODE_TYPE = 5;
 
 	/**
 	 * The meta object id for the '{@link reprotool.ling.WordType <em>Word Type</em>}' enum.
@@ -337,7 +318,7 @@ public interface LingPackage extends EPackage
 	 * @see reprotool.ling.impl.LingPackageImpl#getWordType()
 	 * @generated
 	 */
-	int WORD_TYPE = 7;
+	int WORD_TYPE = 6;
 
 	/**
 	 * The meta object id for the '{@link reprotool.ling.POSType <em>POS Type</em>}' enum.
@@ -347,7 +328,7 @@ public interface LingPackage extends EPackage
 	 * @see reprotool.ling.impl.LingPackageImpl#getPOSType()
 	 * @generated
 	 */
-	int POS_TYPE = 8;
+	int POS_TYPE = 7;
 
 
 	/**
@@ -532,16 +513,6 @@ public interface LingPackage extends EPackage
 	 * @generated
 	 */
 	EReference getParseTreeNode_Children();
-
-	/**
-	 * Returns the meta object for class '{@link reprotool.ling.NodeTypeClass <em>Node Type Class</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Node Type Class</em>'.
-	 * @see reprotool.ling.NodeTypeClass
-	 * @generated
-	 */
-	EClass getNodeTypeClass();
 
 	/**
 	 * Returns the meta object for enum '{@link reprotool.ling.SentenceType <em>Sentence Type</em>}'.
@@ -749,16 +720,6 @@ public interface LingPackage extends EPackage
 		 * @generated
 		 */
 		EReference PARSE_TREE_NODE__CHILDREN = eINSTANCE.getParseTreeNode_Children();
-
-		/**
-		 * The meta object literal for the '{@link reprotool.ling.impl.NodeTypeClassImpl <em>Node Type Class</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see reprotool.ling.impl.NodeTypeClassImpl
-		 * @see reprotool.ling.impl.LingPackageImpl#getNodeTypeClass()
-		 * @generated
-		 */
-		EClass NODE_TYPE_CLASS = eINSTANCE.getNodeTypeClass();
 
 		/**
 		 * The meta object literal for the '{@link reprotool.ling.SentenceType <em>Sentence Type</em>}' enum.

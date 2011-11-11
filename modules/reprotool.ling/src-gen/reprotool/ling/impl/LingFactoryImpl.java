@@ -72,7 +72,6 @@ public class LingFactoryImpl extends EFactoryImpl implements LingFactory
 			case LingPackage.SENTENCE: return createSentence();
 			case LingPackage.WORD: return createWord();
 			case LingPackage.SENTENCE_NODE: return createSentenceNode();
-			case LingPackage.NODE_TYPE_CLASS: return createNodeTypeClass();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -155,17 +154,6 @@ public class LingFactoryImpl extends EFactoryImpl implements LingFactory
 	{
 		SentenceNodeImpl sentenceNode = new SentenceNodeImpl();
 		return sentenceNode;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public NodeTypeClass createNodeTypeClass()
-	{
-		NodeTypeClassImpl nodeTypeClass = new NodeTypeClassImpl();
-		return nodeTypeClass;
 	}
 
 	/**

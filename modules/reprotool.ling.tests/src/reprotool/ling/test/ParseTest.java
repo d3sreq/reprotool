@@ -52,7 +52,7 @@ public class ParseTest {
 	
 	@Test
 	public final void testParserTree1() {
-		String sentence = "(S (NP (NNP Administrator)) (VP (VBZ sends ) (NP (NNS messages))))";
+		String sentenceString = "(S (NP (NNP Administrator)) (VP (VBZ sends ) (NP (NNS messages))))";
 		
 		LingFactory factory = LingFactory.eINSTANCE;
 		SentenceNode rootNode = factory.createSentenceNode();
@@ -84,10 +84,10 @@ public class ParseTest {
 		curWord.setText("messages");
 		nounPhrase.getChildren().add(curWord);
 		
-		SentenceNode parsedNode = Parser.getTree(sentence);
-
+		SentenceNode node = Parser.parseTree(Parser.getString(sentenceString));
+		
 		// TODO vypsani stromu do stringu
-		assertSame(rootNode, parsedNode);
+		assertSame(rootNode, node);
 	}
 	
 	// second sentence

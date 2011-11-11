@@ -1,6 +1,5 @@
 package reprotool.ling.impl;
 
-import reprotool.ling.LingFactory;
 import reprotool.ling.Word;
 
 /**
@@ -12,12 +11,13 @@ public class SentenceImplCustom extends SentenceImpl {
 	/* (non-Javadoc)
 	 * @see reprotool.ling.impl.SentenceImpl#parseString(java.lang.String)
 	 */
-	
+	/*
 	/**
 	 * Parse sentence string from PennTreeBank syntax to Sentence object
 	 *
 	 * @return Boolean success 
 	 */	
+	/*
 	@Override
 	public boolean parseString(String sentenceString) {
     	if (!sentenceString.isEmpty()){
@@ -29,7 +29,7 @@ public class SentenceImplCustom extends SentenceImpl {
 	    	return true;
     	}
     	return false;
-	}	
+	}	*/
 	
 	/**
 	 * Recreates sentence string.

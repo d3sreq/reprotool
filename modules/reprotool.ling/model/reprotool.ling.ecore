@@ -4,9 +4,6 @@
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="ling"
     nsURI="http://d3s.mff.cuni.cz/reprotool/model/ling" nsPrefix="ling">
   <eClassifiers xsi:type="ecore:EClass" name="Sentence">
-    <eOperations name="parseString" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
-      <eParameters name="sentenceString" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    </eOperations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="words" upperBound="-1"
         eType="#//Word"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="sentenceTree" eType="#//SentenceNode"
@@ -53,7 +50,6 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="children" upperBound="-1"
         eType="#//ParseTreeNode" containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="NodeTypeClass"/>
   <eClassifiers xsi:type="ecore:EEnum" name="POSType">
     <eLiterals name="Undefined" literal="X"/>
     <eLiterals name="Coordinating_conjunction" value="1" literal="CC"/>

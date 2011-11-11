@@ -11,6 +11,7 @@ import reprotool.ling.LingFactory;
 import reprotool.ling.NodeType;
 import reprotool.ling.POSType;
 import reprotool.ling.ParseTreeNode;
+import reprotool.ling.Sentence;
 import reprotool.ling.SentenceNode;
 import reprotool.ling.SentenceType;
 import reprotool.ling.Tool;
@@ -32,6 +33,7 @@ import danbikel.parser.Settings;
  *
  */
 public class Parser extends Tool {
+	
 	/**
 	 * Parse trees of each sentence
 	 *
@@ -67,7 +69,7 @@ public class Parser extends Tool {
      * Parse sentence into tree in string format
      * 
      * @param originalText Sentence from linguistics tagger
-     * @return Parsed sentence
+     * @return Sentence whole Sentence object with tree and array
      */
     public static String getString(String originalText) {	
     	String settingsFile = "";
@@ -90,7 +92,6 @@ public class Parser extends Tool {
 			String rootPath = new java.io.File(Tagger.class.getResource("/").getPath()).getParentFile().getParent();
 			settingsFile = rootPath + "/../tools/parser/collins.properties";
 		}
-		System.out.print(settingsFile);
 		
     	/* CMD LINE LIKE EXECUTION
     	String[] args = new String[6];
@@ -145,6 +146,7 @@ public class Parser extends Tool {
 		} catch (Exception e) {
 			System.err.print("Invalid input string!");
 		}
+		
     	return result.toString();
     }
     
@@ -154,13 +156,16 @@ public class Parser extends Tool {
 	 * @param parsedText Result of this.getString method
 	 * @return SentenceNode parsed_tree 
 	 */	
-    public static SentenceNode getTree(String parsedText) {	
+    
+    public static Sentence parseSentence(String parsedText) {	
     	// root node    	
 		LingFactory  factory = LingFactory.eINSTANCE;
 		SentenceNode rootNode = factory.createSentenceNode();
+		Sentence sentence = factory.createSentence();
 		
     	if (parsedText.isEmpty()){
-	    	return rootNode;
+    		sentence.setSentenceTree(rootNode);
+	    	return sentence;
     	}
 
     	Word curWord = null;
@@ -178,7 +183,7 @@ public class Parser extends Tool {
 		// whitespaces cleanup
 		parsedText = Pattern.compile("[\\s]+").matcher(parsedText).replaceAll(" ");
 		
-		//System.out.print(parsedText + "\n");
+		System.out.print(parsedText + "\n");
 		
 		boolean atWord = false;
 	    for (String symbol : parsedText.split("\\s")) {
@@ -186,8 +191,13 @@ public class Parser extends Tool {
 	    	if(symbol.startsWith("(")) { // start node
 	    		symbol = symbol.substring(1).toUpperCase();
 	    		//NodeType node = NodeType.fromString(symbol);
-	    		NodeType node = NodeType.get(symbol);
 	    		
+	    		// converting to ENUM
+	    		NodeType node = NodeType.get(symbol);
+	    		if(node == null){
+	    			node = NodeType.X;
+	    		}
+
 	    		switch(node){
 	    		case NP:
 	    			SentenceNode nounPhrase = factory.createSentenceNode();
@@ -214,29 +224,48 @@ public class Parser extends Tool {
 	    			
 	    			break;
 	    		default:
-	    			// preparation for new word (at POS)
-	    			curWord = factory.createWord();	
-	    			curWord.setPOS(POSType.get(symbol));
+	    			// preparation for new WORD (at POS)
+	    			curWord = factory.createWord();
+	    			// set POS of word
+	    			try {
+	    				curWord.setPOS(POSType.get(symbol));
+	    			} catch (NullPointerException e) {
+	    				curWord.setPOS(POSType.UNDEFINED); 
+	    			}
+    			
 	    			curNode.getChildren().add(curWord);	
+	    			sentence.getWords().add(curWord);
 	    			atWord = true;
 
 	    			break;
 	    		}
 	    	} else if(symbol.startsWith(")")) { // end node
 	    		
-	    		if(!atWord){
-	    			
+	    		if(!atWord){	//    			
 	    			curNode = curNode.getParent();
 	    		} else {
 	    			atWord = false;
 	    		}
-	    	} else { // word
+	    	} else { // parsing WORD
     			curWord.setText(symbol);
-	    	}
-  		
+    			curWord.setInterpunction(Pattern.matches("[,.!?]", symbol));
+    			// finding digits - all from Label1 to 99IMG
+    			curWord.setNumeral(Pattern.matches("([a-zA-Z]*\\d+)|(\\d+[a-zA-Z]*)", symbol));
+	    	}  		
 	    }
 	    	
-    	return rootNode;
+	    sentence.setSentenceTree(rootNode);
+    	return sentence;
     }
     
+	/**
+	 * Parse trees of each sentence
+	 *
+	 * @param parsedText Result of this.getString method
+	 * @return SentenceNode parsed_tree 
+	 */	
+    public static SentenceNode parseTree(String parsedText) {	
+    	Sentence sentence = Parser.parseSentence(parsedText);
+    	return sentence.getSentenceTree();    	
+    }
 }

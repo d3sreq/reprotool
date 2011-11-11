@@ -99,11 +99,6 @@ public class LingAdapterFactory extends AdapterFactoryImpl
 				return createParseTreeNodeAdapter();
 			}
 			@Override
-			public Adapter caseNodeTypeClass(NodeTypeClass object)
-			{
-				return createNodeTypeClassAdapter();
-			}
-			@Override
 			public Adapter defaultCase(EObject object)
 			{
 				return createEObjectAdapter();
@@ -181,21 +176,6 @@ public class LingAdapterFactory extends AdapterFactoryImpl
 	 * @generated
 	 */
 	public Adapter createParseTreeNodeAdapter()
-	{
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link reprotool.ling.NodeTypeClass <em>Node Type Class</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see reprotool.ling.NodeTypeClass
-	 * @generated
-	 */
-	public Adapter createNodeTypeClassAdapter()
 	{
 		return null;
 	}

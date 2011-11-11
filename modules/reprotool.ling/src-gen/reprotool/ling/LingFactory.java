@@ -54,15 +54,6 @@ public interface LingFactory extends EFactory
 	SentenceNode createSentenceNode();
 
 	/**
-	 * Returns a new object of class '<em>Node Type Class</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Node Type Class</em>'.
-	 * @generated
-	 */
-	NodeTypeClass createNodeTypeClass();
-
-	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

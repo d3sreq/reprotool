@@ -18,7 +18,6 @@ import org.eclipse.emf.ecore.impl.EPackageImpl;
 import reprotool.ling.LingFactory;
 import reprotool.ling.LingPackage;
 import reprotool.ling.NodeType;
-import reprotool.ling.NodeTypeClass;
 import reprotool.ling.POSType;
 import reprotool.ling.ParseTreeNode;
 import reprotool.ling.Sentence;
@@ -62,13 +61,6 @@ public class LingPackageImpl extends EPackageImpl implements LingPackage
 	 * @generated
 	 */
 	private EClass parseTreeNodeEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass nodeTypeClassEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -336,16 +328,6 @@ public class LingPackageImpl extends EPackageImpl implements LingPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getNodeTypeClass()
-	{
-		return nodeTypeClassEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EEnum getSentenceType()
 	{
 		return sentenceTypeEEnum;
@@ -432,8 +414,6 @@ public class LingPackageImpl extends EPackageImpl implements LingPackage
 		createEReference(parseTreeNodeEClass, PARSE_TREE_NODE__PARENT);
 		createEReference(parseTreeNodeEClass, PARSE_TREE_NODE__CHILDREN);
 
-		nodeTypeClassEClass = createEClass(NODE_TYPE_CLASS);
-
 		// Create enums
 		sentenceTypeEEnum = createEEnum(SENTENCE_TYPE);
 		nodeTypeEEnum = createEEnum(NODE_TYPE);
@@ -478,9 +458,6 @@ public class LingPackageImpl extends EPackageImpl implements LingPackage
 		initEReference(getSentence_Words(), this.getWord(), null, "words", null, 0, -1, Sentence.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getSentence_SentenceTree(), this.getSentenceNode(), null, "sentenceTree", null, 0, 1, Sentence.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		EOperation op = addEOperation(sentenceEClass, ecorePackage.getEBoolean(), "parseString", 0, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, ecorePackage.getEString(), "sentenceString", 0, 1, IS_UNIQUE, IS_ORDERED);
-
 		initEClass(wordEClass, Word.class, "Word", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getWord_Text(), ecorePackage.getEString(), "text", null, 0, 1, Word.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getWord_Lemma(), ecorePackage.getEString(), "lemma", null, 0, 1, Word.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -490,7 +467,7 @@ public class LingPackageImpl extends EPackageImpl implements LingPackage
 		initEAttribute(getWord_Interpunction(), ecorePackage.getEBoolean(), "interpunction", null, 0, 1, Word.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getWord_Numeral(), ecorePackage.getEBoolean(), "numeral", null, 0, 1, Word.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		op = addEOperation(wordEClass, ecorePackage.getEBoolean(), "parseString", 0, 1, IS_UNIQUE, IS_ORDERED);
+		EOperation op = addEOperation(wordEClass, ecorePackage.getEBoolean(), "parseString", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, ecorePackage.getEString(), "wordString", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		initEClass(sentenceNodeEClass, SentenceNode.class, "SentenceNode", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -500,8 +477,6 @@ public class LingPackageImpl extends EPackageImpl implements LingPackage
 		initEClass(parseTreeNodeEClass, ParseTreeNode.class, "ParseTreeNode", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getParseTreeNode_Parent(), this.getParseTreeNode(), null, "parent", null, 0, 1, ParseTreeNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getParseTreeNode_Children(), this.getParseTreeNode(), null, "children", null, 0, -1, ParseTreeNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(nodeTypeClassEClass, NodeTypeClass.class, "NodeTypeClass", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		// Initialize enums and add enum literals
 		initEEnum(sentenceTypeEEnum, SentenceType.class, "SentenceType");

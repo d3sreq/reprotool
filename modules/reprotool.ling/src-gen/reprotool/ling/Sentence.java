@@ -71,12 +71,4 @@ public interface Sentence extends EObject
 	 */
 	void setSentenceTree(SentenceNode value);
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @model
-	 * @generated
-	 */
-	boolean parseString(String sentenceString);
-
 } // Sentence

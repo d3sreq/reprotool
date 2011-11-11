@@ -2,7 +2,6 @@ package reprotool.ling.impl;
 
 import java.util.regex.Pattern;
 
-import reprotool.ling.NodeType;
 import reprotool.ling.POSType;
 
 /**
