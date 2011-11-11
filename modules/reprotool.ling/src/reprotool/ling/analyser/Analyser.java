@@ -108,11 +108,9 @@ public class Analyser {
 			// finding target
 			for (int i = gotoVerbIndex; i < sentence.getWords().size(); i++){
 				Word word = sentence.getWords().get(i);
-				//System.out.println(word.isNumeral());
-				//System.out.println(word.getPOS().toString().substring(0,2));				
-				if(word.isNumeral() && word.getPOS().toString().substring(0,2) == "NN"){
-					//System.out.println(word.getPOS().toString().substring(0,2));
-					Matcher match = Pattern.compile("/d").matcher(word.getText());
+				if(word.isNumeral() && word.getPOS().toString().substring(0,2).equals("NN")){
+					System.out.println("Goto target");
+					Matcher match = Pattern.compile("\\d").matcher(word.getText());
 					if (match.find()) {
 						labelIndex = i;
 						//String partNumber = match.group(1);

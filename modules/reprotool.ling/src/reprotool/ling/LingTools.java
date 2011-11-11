@@ -1,8 +1,13 @@
 package reprotool.ling;
 
+import org.eclipse.emf.common.command.CompoundCommand;
+import org.eclipse.emf.edit.domain.EditingDomain;
+
+import reprotool.ling.analyser.Analyser;
 import reprotool.ling.tools.Parser;
 import reprotool.ling.tools.Tagger;
 import reprotool.ling.tools.Tokenizer;
+import reprotool.model.usecase.UseCaseStep;
 
 /**
  * @author ofiala
@@ -57,4 +62,22 @@ public class LingTools {
 		return sentence;
 	}
 
+	/**
+	 * Runs all linguistic tools
+	 * 
+	 * @param editingDomain
+	 * @param ucs
+	 * @return CompoundCommand all commands at model objects
+	 */
+	public static CompoundCommand analyseUseCaseStep(EditingDomain editingDomain, UseCaseStep ucs) {
+		
+		String sentenceString = ucs.getContent();
+		
+		Sentence sentence = parseSentence(sentenceString);
+		
+		CompoundCommand command = Analyser.analyseTree(editingDomain, ucs, sentence);
+
+		return command;
+	}	
+	
 }
