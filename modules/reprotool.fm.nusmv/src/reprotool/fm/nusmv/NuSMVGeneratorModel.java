@@ -5,6 +5,21 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.eclipse.emf.common.util.EList;
+
+import reprotool.fm.nusmv.lang.nuSmvInputLanguage.AssignConstraint;
+import reprotool.fm.nusmv.lang.nuSmvInputLanguage.BooleanType;
+import reprotool.fm.nusmv.lang.nuSmvInputLanguage.EnumType;
+import reprotool.fm.nusmv.lang.nuSmvInputLanguage.FormalParameter;
+import reprotool.fm.nusmv.lang.nuSmvInputLanguage.InitConstraint;
+import reprotool.fm.nusmv.lang.nuSmvInputLanguage.MainModule;
+import reprotool.fm.nusmv.lang.nuSmvInputLanguage.Model;
+import reprotool.fm.nusmv.lang.nuSmvInputLanguage.NextBody;
+import reprotool.fm.nusmv.lang.nuSmvInputLanguage.NextExpression;
+import reprotool.fm.nusmv.lang.nuSmvInputLanguage.NuSmvInputLanguageFactory;
+import reprotool.fm.nusmv.lang.nuSmvInputLanguage.OtherModule;
+import reprotool.fm.nusmv.lang.nuSmvInputLanguage.SyncrProcessType;
+import reprotool.fm.nusmv.lang.nuSmvInputLanguage.VarBody;
+import reprotool.fm.nusmv.lang.nuSmvInputLanguage.VariableDeclaration;
 import reprotool.model.linguistic.action.AbortUseCase;
 import reprotool.model.linguistic.action.Goto;
 import reprotool.model.linguistic.action.UseCaseInclude;
@@ -18,12 +33,14 @@ import lts2.Transition;
 import lts2.TransitionalState;
 import lts2.impl.LTSGeneratorImpl;
 
-public class NuSMVGenerator {
+public class NuSMVGeneratorModel {
 	private String useCaseId;
 	private boolean hasAbort = false;
 	private StateMachine machine;
 	private UseCase useCase;
 	private Transition finalTransition;
+	private NuSmvInputLanguageFactory factory;
+	private OtherModule module;
 	
 	private List<String> states = new ArrayList<String>();
 	private List<UseCase> includedUseCases = new ArrayList<UseCase>();
@@ -36,13 +53,15 @@ public class NuSMVGenerator {
 	private HashMap<String, AnnotationEntry> annotationTracker = new 
 		HashMap<String, AnnotationEntry>();
 	
-	public NuSMVGenerator(UseCase uc) {
+	public NuSMVGeneratorModel(UseCase uc) {
+		factory = NuSmvInputLanguageFactory.eINSTANCE;
 		useCase = uc;
 		LTSGeneratorImpl lts = new LTSGeneratorImpl();
 		lts.processUseCase(useCase);
 		machine = lts.getLabelTransitionSystem();
 		this.useCaseId = uc2id(useCase);
 		loadStates();
+		generateAutomaton();
 	}
 	
 	/**
@@ -161,70 +180,138 @@ public class NuSMVGenerator {
 		return useCase;
 	}
 	
-	public String getProcess() {
-		StringBuffer buf = new StringBuffer();
-					
-		buf.append("	-- Process\n");
-		buf.append("	VAR x" + useCaseId + " : UC_" + useCaseId + "(self, x" + useCaseId + "run);\n");
-		buf.append("	VAR x"  + useCaseId + "run: boolean;\n");
-		buf.append("	INIT x" + useCaseId + "run in FALSE;\n");
-		buf.append("	ASSIGN next(x" + useCaseId + "run) := case\n");
+	public void addProcess(MainModule module, Model model) {
+		VariableDeclaration xVar = factory.createVariableDeclaration();
+		xVar.setVar("VAR");
+		VarBody xBody = factory.createVarBody();
+		xBody.setId("x" + useCaseId);
+		SyncrProcessType xType = factory.createSyncrProcessType();
+		xType.setModule(getModule());
+		xType.getParams().add("self");
+		xType.getParams().add("x" + uc2id(useCase) + "run");
+		xBody.setType(xType);
+		xVar.getVars().add(xBody);
+		module.getModuleElement().add(xVar);
+				
+		VariableDeclaration runVar = factory.createVariableDeclaration();
+		runVar.setVar("VAR");	
+		VarBody runBody = factory.createVarBody();
+		runBody.setId("x" + useCaseId + "run");
+		BooleanType runType = factory.createBooleanType();
+		runBody.setType(runType);
+		runVar.getVars().add(runBody);
+		module.getModuleElement().add(runVar);
+		
+		InitConstraint initConstraint = factory.createInitConstraint();
+		initConstraint.setInitExpression("x" + useCaseId + "run in FALSE");
+		module.getModuleElement().add(initConstraint);
+		
+		StringBuffer nextExpr = new StringBuffer();
 		
 		if (
 				(useCase.getPrecedingUseCases() == null) ||
 				(useCase.getPrecedingUseCases().isEmpty())
 		) {
-			buf.append("		p=p" + useCaseId + " : TRUE;\n");
+			nextExpr.append("case\n\t\tp=p" + useCaseId + " : TRUE;\n");
 		
 		} else {
-			buf.append("		p=p" + useCaseId);
+			nextExpr.append("case\n\t\tp=p" + useCaseId);
 			for (UseCase pred: useCase.getPrecedingUseCases()) {
-				buf.append(" & x" + uc2id(pred) + ".s = sFin");
+				nextExpr.append(" & x" + uc2id(pred) + ".s = sFin");
 			}
-			buf.append(" : TRUE;\n");
-		}
+			nextExpr.append(" : TRUE;\n");
+		}		
+		nextExpr.append("\t\tTRUE : x" + useCaseId + "run;\n\tesac");
 		
-		buf.append("		TRUE : x" + useCaseId + "run;\n");
-		buf.append("	esac;");
-
-		return buf.toString();
+		AssignConstraint assignConstraint = factory.createAssignConstraint();
+		NextBody nextBody = factory.createNextBody();
+		nextBody.setVar("x" + useCaseId + "run");
+		NextExpression nextExpression = factory.createNextExpression();
+		nextExpression.setSimpleExpression(nextExpr.toString());
+		nextBody.setNext(nextExpression);
+		assignConstraint.getBodies().add(nextBody);
+		module.getModuleElement().add(assignConstraint);
 	}
 	
 	public List<UseCase> getIncludedUseCases() {
 		return includedUseCases;
 	}
 	
-	public String getAutomaton() {
-		StringBuffer buf = new StringBuffer();
-
-		buf.append("MODULE UC_" + useCaseId + "(top, run)\n");
-		
+	public OtherModule getModule() {
+		return module;
+	}
+	
+	public void fillAutomaton(HashMap<UseCase, NuSMVGeneratorModel> uc2gen) {
 		int c = 0;
 		for (UseCase include: getIncludedUseCases()) {
 			c++;
 			String tag = Integer.toString(c);
-			buf.append("	VAR y" + tag + "run : boolean;\n");
-			buf.append("	INIT y" + tag + "run in FALSE;\n");
-			buf.append("	VAR y" + tag + " : UC_" + uc2id(include) + "(top,y" + tag + "run);\n");
-			buf.append("	ASSIGN next (y" + tag + "run) := (s=" + useCase2Label.get(include) + ");\n\n");
+			
+			VariableDeclaration runVar = factory.createVariableDeclaration();
+			runVar.setVar("VAR");	
+			VarBody runBody = factory.createVarBody();
+			runBody.setId("y" + tag + "run");
+			BooleanType runType = factory.createBooleanType();
+			runBody.setType(runType);
+			runVar.getVars().add(runBody);
+			module.getModuleElement().add(runVar);
+			
+			InitConstraint initConstraint = factory.createInitConstraint();
+			initConstraint.setInitExpression("y" + tag + "run in FALSE");
+			module.getModuleElement().add(initConstraint);
+			
+			VariableDeclaration yVar = factory.createVariableDeclaration();
+			yVar.setVar("VAR");
+			VarBody yBody = factory.createVarBody();
+			yBody.setId("y" + tag);
+			SyncrProcessType yType = factory.createSyncrProcessType();
+			yType.setModule(uc2gen.get(include).getModule());
+			yType.getParams().add("top");
+			yType.getParams().add("y" + tag + "run");
+			yBody.setType(yType);
+			yVar.getVars().add(yBody);
+			module.getModuleElement().add(yVar);
+						
+			AssignConstraint assignConstraint = factory.createAssignConstraint();
+			NextBody nextBody = factory.createNextBody();
+			nextBody.setVar("y" + tag + "run");
+			NextExpression nextExpression = factory.createNextExpression();
+			nextExpression.setSimpleExpression("(s=" + useCase2Label.get(include) + ")");
+			nextBody.setNext(nextExpression);
+			assignConstraint.getBodies().add(nextBody);
+			module.getModuleElement().add(assignConstraint);
 		}
 		
-		buf.append("	VAR s : {s0,");
+		VariableDeclaration sVar = factory.createVariableDeclaration();
+		sVar.setVar("VAR");
 		
-		for (String s:states) {
-			buf.append(s + ",");
+		VarBody sBody = factory.createVarBody();
+		sBody.setId("s");
+		
+		EnumType sType = factory.createEnumType();
+		sType.getVal().add("s0");
+		for (String s: states) {
+			sType.getVal().add(s);
 		}
-		
 		if (hasAbort) {
-			buf.append("sAbort,");
+			sType.getVal().add("sAbort");
 		}
+		sType.getVal().add("sFin");
 		
-		buf.append("sFin};\n");
-		buf.append("	INIT s in s0;\n\n");
+		sBody.setType(sType);
 		
-		buf.append("	ASSIGN next(s) := case\n");
-		buf.append("		s=s0 & !run : s0;\n");
-		buf.append("		s=s0 & run : {");
+		sVar.getVars().add(sBody);
+		module.getModuleElement().add(sVar);
+		
+		InitConstraint initConstraint = factory.createInitConstraint();
+		initConstraint.setInitExpression("s in s0");
+		module.getModuleElement().add(initConstraint);
+		
+		StringBuffer nextExpr = new StringBuffer();
+		
+		nextExpr.append("case\n");
+		nextExpr.append("		s=s0 & !run : s0;\n");
+		nextExpr.append("		s=s0 & run : {");
 		
 		c = 0;
 		for (Transition t: machine.getInitialState().getTransitions()) {
@@ -233,12 +320,12 @@ public class NuSMVGenerator {
 				continue;
 			}
 			if (c > 0) {
-				buf.append(",");
+				nextExpr.append(",");
 			}
 			c++;
-			buf.append(label);
+			nextExpr.append(label);
 		}
-		buf.append("};\n");
+		nextExpr.append("};\n");
 		
 		for(String state: states) {
 			Transition t = label2Trans.get(state);
@@ -259,8 +346,8 @@ public class NuSMVGenerator {
 					UseCaseInclude ui = (UseCaseInclude)tr.getRelatedStep().getAction();
 					int i = includedUseCases.indexOf(ui.getIncludeTarget()) + 1;
 					String tag = Integer.toString(i);
-					buf.append("		s=" + state + " & y" + tag +  ".s != sFin : " + state + ";\n");
-					buf.append("		s=" + state + " & y" + tag +  ".s = sFin : " + label + ";\n");
+					nextExpr.append("		s=" + state + " & y" + tag +  ".s != sFin : " + state + ";\n");
+					nextExpr.append("		s=" + state + " & y" + tag +  ".s = sFin : " + label + ";\n");
 					continue;
 				}
 				
@@ -282,7 +369,7 @@ public class NuSMVGenerator {
 				}
 				
 				if (onAnnotation) {
-					buf.append("		s=" + state + " & !top." + traceTag + ": {");
+					nextExpr.append("		s=" + state + " & !top." + traceTag + ": {");
 					c = 0;
 					for (Transition tr: transitions) {
 						if (skips.contains(tr)) {
@@ -297,14 +384,14 @@ public class NuSMVGenerator {
 							label = state2Label.get(tr.getTargetState());
 						}
 						if (c > 0) {
-							buf.append(",");
+							nextExpr.append(",");
 						}
 						c++;
-						buf.append(label);
+						nextExpr.append(label);
 					}
-					buf.append("};\n");
+					nextExpr.append("};\n");
 					
-					buf.append("		s=" + state + " & top." + traceTag + ": {");
+					nextExpr.append("		s=" + state + " & top." + traceTag + ": {");
 					c = 0;
 					for (Transition tr: skips) {
 						UseCaseStep step = tr.getRelatedStep();
@@ -316,14 +403,14 @@ public class NuSMVGenerator {
 							label = state2Label.get(tr.getTargetState());
 						}
 						if (c > 0) {
-							buf.append(",");
+							nextExpr.append(",");
 						}
 						c++;
-						buf.append(label);
+						nextExpr.append(label);
 					}
-					buf.append("};\n");
+					nextExpr.append("};\n");
 				} else {
-					buf.append("		s=" + state + " : {");
+					nextExpr.append("		s=" + state + " : {");
 					c = 0;
 					for (Transition tr: transitions) {
 						UseCaseStep step = tr.getRelatedStep();
@@ -335,24 +422,44 @@ public class NuSMVGenerator {
 							label = state2Label.get(tr.getTargetState());
 						}
 						if (c > 0) {
-							buf.append(",");
+							nextExpr.append(",");
 						}
 						c++;
-						buf.append(label);
+						nextExpr.append(label);
 					}
-					buf.append("};\n");
+					nextExpr.append("};\n");
 				}
 			}
 		}
 		
-		buf.append("		s=" + trans2Label.get(finalTransition) + " : sFin;\n");
-		buf.append("		s=sFin : sFin;\n");
+		nextExpr.append("		s=" + trans2Label.get(finalTransition) + " : sFin;\n");
+		nextExpr.append("		s=sFin : sFin;\n");
 		if (hasAbort) {
-			buf.append("		s=sAbort : sAbort;\n");			
+			nextExpr.append("		s=sAbort : sAbort;\n");			
 		}
-		buf.append("	esac;");
+		nextExpr.append("	esac");
+			
+		AssignConstraint assignConstraint = factory.createAssignConstraint();
+		NextBody nextBody = factory.createNextBody();
+		nextBody.setVar("s");
+		NextExpression nextExpression = factory.createNextExpression();
+		nextExpression.setSimpleExpression(nextExpr.toString());
+		nextBody.setNext(nextExpression);
+		assignConstraint.getBodies().add(nextBody);
+		module.getModuleElement().add(assignConstraint);
+	}
+	
+	private void generateAutomaton() {
+		module = factory.createOtherModule();
+		module.setName("UC_" + uc2id(useCase));
 		
-		return buf.toString();
+		FormalParameter p1 = factory.createFormalParameter();
+		p1.setId("top");
+		module.getParams().add(p1);
+		
+		FormalParameter p2 = factory.createFormalParameter();
+		p2.setId("run");
+		module.getParams().add(p2);
 	}
 	
 //	private void displayCounterPath(List<String> states) {
@@ -429,14 +536,14 @@ public class NuSMVGenerator {
 
 }
 
-//class AnnotationEntry {
-//	String automatonID;
-//	List<String> states = new ArrayList<String>();
-//	
-//	AnnotationEntry(AnnotationEntry a) {
-//		automatonID = a.automatonID;
-//		states = a.states;
-//	}
-//	
-//	AnnotationEntry() {}
-//}
+class AnnotationEntry {
+	String automatonID;
+	List<String> states = new ArrayList<String>();
+	
+	AnnotationEntry(AnnotationEntry a) {
+		automatonID = a.automatonID;
+		states = a.states;
+	}
+	
+	AnnotationEntry() {}
+}
