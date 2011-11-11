@@ -19,6 +19,9 @@ import reprotool.model.linguistic.actionpart.TextRange;
 import reprotool.model.usecase.UseCaseStep;
 
 /**
+ * Groups information about styling {@link TextRange}s (colors, borders, ...) 
+ * included in {@link UseCaseStep}.
+ * 
  * @author jvinarek
  *
  */
@@ -79,7 +82,5 @@ public class UseCaseStepStyler {
 		
 		return styleRangeList.toArray(new StyleRange[0]);
 	}
-	
-	
 	
 }

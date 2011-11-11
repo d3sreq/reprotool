@@ -4,6 +4,7 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.actions.BaseSelectionListenerAction;
 
 import reprotool.ide.Activator;
+import reprotool.ide.editors.usecase.MarkingService;
 
 public class ActivityAction extends BaseSelectionListenerAction {
 
@@ -17,5 +18,10 @@ public class ActivityAction extends BaseSelectionListenerAction {
 	@Override
 	public ImageDescriptor getImageDescriptor() {
 		return imageDescriptor;
+	}
+	
+	@Override
+	public void run() {
+		MarkingService.getInstance().markActivity();
 	}
 }

@@ -5,6 +5,7 @@ import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.custom.StyledTextContent;
 
+import reprotool.ide.editors.usecase.action.AutomaticAnalysisAction;
 import reprotool.model.usecase.UseCaseStep;
 
 
@@ -27,12 +28,14 @@ public class UseCaseStepEditingSupport extends EditingSupport {
 		
 		if (element instanceof UseCaseStep) {
 			UseCaseStep useCaseStep = (UseCaseStep)element;		
-
-			StyledTextContent styledTextContent = new UseCaseStepStyledTextContent(useCaseStep);
-			styledTextCellEditor.getText().setContent(styledTextContent);
+			UseCaseStepStyledTextContent content = new UseCaseStepStyledTextContent(useCaseStep);
+			
+			styledTextCellEditor.getText().setContent(content);
 			
 			UseCaseStepLineStyleListener listener = new UseCaseStepLineStyleListener(useCaseStep);
-			styledTextCellEditor.getText().addLineStyleListener(listener);			
+			styledTextCellEditor.getText().addLineStyleListener(listener);
+			
+			MarkingService.getInstance().setEditorAndContent(content, styledTextCellEditor);
 		}
 		
 		return styledTextCellEditor;
@@ -57,4 +60,5 @@ public class UseCaseStepEditingSupport extends EditingSupport {
 	protected void setValue(Object element, Object value) {
 		viewer.refresh();
 	}
+	
 }

@@ -3,9 +3,11 @@ package reprotool.ide.editors.usecase;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.core.runtime.Assert;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CompoundCommand;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.edit.command.AddCommand;
 import org.eclipse.emf.edit.command.RemoveCommand;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
@@ -16,7 +18,12 @@ import org.eclipse.swt.custom.TextChangeListener;
 import org.eclipse.swt.custom.TextChangedEvent;
 import org.eclipse.swt.custom.TextChangingEvent;
 
+import reprotool.model.linguistic.action.Communication;
+import reprotool.model.linguistic.action.ToSystem;
+import reprotool.model.linguistic.actionpart.ActionpartFactory;
 import reprotool.model.linguistic.actionpart.ActionpartPackage;
+import reprotool.model.linguistic.actionpart.SentenceActivity;
+import reprotool.model.linguistic.actionpart.SentenceActor;
 import reprotool.model.linguistic.actionpart.TextRange;
 import reprotool.model.usecase.UseCaseStep;
 import reprotool.model.usecase.UsecasePackage;
@@ -129,6 +136,10 @@ public class UseCaseStepStyledTextContent implements StyledTextContent {
 		// TODO - jvinarek - add copy & paste
 		Command command = changeUseCaseStep(start, replaceLength, text);
 		
+		executeWithNotification(command);
+	}
+	
+	private void executeWithNotification(Command command) {
 		// inform listeners
 		TextChangingEvent textChangingEvent = new TextChangingEvent(this);
 		for (TextChangeListener listener : listenerList) {
@@ -180,7 +191,12 @@ public class UseCaseStepStyledTextContent implements StyledTextContent {
 				rangeCommands.add(setCommand);
 				
 			} else if (changeDeletesWholeNode(textNode, start, replaceLength, text)) {
-				RemoveCommand removeCommand = new RemoveCommand(editingDomain, useCaseStep, ActionpartPackage.Literals.ACTION_PART__TEXT, textNode);
+				// set action part linked from text to null
+				SetCommand setCommand = new SetCommand(editingDomain, textNode.getActionPart(), ActionpartPackage.Literals.ACTION_PART__TEXT, null);
+				rangeCommands.add(setCommand);
+				
+				// remove text range
+				RemoveCommand removeCommand = new RemoveCommand(editingDomain, useCaseStep, UsecasePackage.Literals.PARSEABLE_ELEMENT__TEXT_NODES, textNode);
 				rangeCommands.add(removeCommand);
 				
 			} else if (changeDeletesNodeStart(textNode, start, replaceLength, text)) {
@@ -312,6 +328,106 @@ public class UseCaseStepStyledTextContent implements StyledTextContent {
 	@Override
 	public void setText(String text) {
 		// TODO jvinarek - add xreal implementation
+	}
+
+	//
+	// methods for text marking
+	//
+	
+	/**
+	 * TODO - add documentation
+	 * @param length 
+	 * @param start 
+	 */
+	public void markSender(int start, int length) {
+		// TODO - test only
+		// TODO - log
+//		System.out.println(useCaseStep.getContent().substring(start, start + length));
+		
+		EditingDomain editingDomain = getEditingDomain();
+		
+		// create marked text
+		TextRange textRange = createTextRange(start, length);		
+		
+		// TODO jvinarek - solve situation when text is already marked
+		// TODO jvinarek - solve situation when sender is already specified
+		// command to add marked text to use case
+		AddCommand addTextRangeCommand = new AddCommand(editingDomain, useCaseStep, UsecasePackage.Literals.PARSEABLE_ELEMENT__TEXT_NODES, textRange);
+		
+		// command to bind marked text to the sentence actor
+		Assert.isTrue(useCaseStep.getAction() instanceof ToSystem, "Use case step type must be already set to 'ToSystem' when setting Sender");
+		ToSystem toSystem = (ToSystem)useCaseStep.getAction();
+		
+		SentenceActor sentenceActor = toSystem.getSender(); 
+		Assert.isTrue(sentenceActor != null, "SentenceActor object must not be null when setting Sender");
+		
+		SetCommand setSenderTextCommand = new SetCommand(editingDomain, sentenceActor, ActionpartPackage.Literals.ACTION_PART__TEXT, textRange); 		
+		
+		// wrap both commands to compound command
+		CompoundCommand compoundCommand = new CompoundCommand();
+		compoundCommand.append(addTextRangeCommand);
+		compoundCommand.append(setSenderTextCommand);
+		
+		executeWithNotification(compoundCommand);
+	}
+	
+	public void markActivity(int start, int length) {
+		// TODO - test only
+		// TODO - log
+//		System.out.println(useCaseStep.getContent().substring(start, start + length));
+		
+		EditingDomain editingDomain = getEditingDomain();
+		
+		// create marked text
+		TextRange textRange = createTextRange(start, length);		
+		
+		// TODO jvinarek - solve situation when text is already marked
+		// TODO jvinarek - solve situation when activity is already specified
+		// command to add marked text to use case
+		AddCommand addTextRangeCommand = new AddCommand(editingDomain, useCaseStep, UsecasePackage.Literals.PARSEABLE_ELEMENT__TEXT_NODES, textRange);
+		
+		// command to bind marked text to the activity
+		Assert.isTrue(useCaseStep.getAction() instanceof Communication, "Use case step Action type must be 'Communication' implementation when setting Activity");
+		Communication communication = (Communication)useCaseStep.getAction();
+		
+		SentenceActivity sentenceActivity = communication.getSentenceActivity();
+		Assert.isTrue(sentenceActivity != null, "SentenceActivity object must not be null when setting Activity");
+		
+		SetCommand setActivityTextCommand = new SetCommand(editingDomain, sentenceActivity, ActionpartPackage.Literals.ACTION_PART__TEXT, textRange); 		
+		
+		// wrap both commands to compound command
+		CompoundCommand compoundCommand = new CompoundCommand();
+		compoundCommand.append(addTextRangeCommand);
+		compoundCommand.append(setActivityTextCommand);
+		
+		executeWithNotification(compoundCommand);
+	}
+	
+	public void markReceiver(int start, int length) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void markActionParam(int start, int length) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void markIncludeUseCase(int start, int length) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void markGoto(int start, int length) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private TextRange createTextRange(int start, int length) {
+		TextRange textRange = ActionpartFactory.eINSTANCE.createTextRange();
+		textRange.setStartPosition(start);
+		textRange.setLength(length);
+		return textRange;
 	}
 	
 }

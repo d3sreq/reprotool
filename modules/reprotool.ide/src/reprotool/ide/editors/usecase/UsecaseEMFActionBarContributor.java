@@ -39,6 +39,7 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PartInitException;
 
 import reprotool.ide.editors.usecase.action.ActivityAction;
+import reprotool.ide.editors.usecase.action.AutomaticAnalysisAction;
 import reprotool.ide.editors.usecase.action.ParamAction;
 import reprotool.ide.editors.usecase.action.GotoAction;
 import reprotool.ide.editors.usecase.action.IncludeUseCaseAction;
@@ -56,6 +57,9 @@ import reprotool.model.lts.presentation.ReprotoolEditorPlugin;
 public class UsecaseEMFActionBarContributor
 	extends EditingDomainActionBarContributor
 	implements ISelectionChangedListener {
+	
+	private AutomaticAnalysisAction action;
+	
 	/**
 	 * This keeps track of the active editor.
 	 * <!-- begin-user-doc -->
@@ -181,6 +185,11 @@ public class UsecaseEMFActionBarContributor
 		toolBarManager.add(new IncludeUseCaseAction("include-use-case-action"));
 		toolBarManager.add(new PlainTextAction("plain-text-action"));
 		
+		toolBarManager.add(new Separator("usecase-automatic-tools"));
+		
+		action = new AutomaticAnalysisAction("usecase-automatic");
+		toolBarManager.add(action);
+		
 		toolBarManager.add(new Separator("usecase-additions"));
 	}
 
@@ -247,6 +256,9 @@ public class UsecaseEMFActionBarContributor
 			selectionProvider = part.getSite().getSelectionProvider();
 			selectionProvider.addSelectionChangedListener(this);
 
+			// add linguistic tools analysis
+			selectionProvider.addSelectionChangedListener(action);
+			
 			// Fake a selection changed event to update the menus.
 			//
 			if (selectionProvider.getSelection() != null) {
@@ -423,6 +435,9 @@ public class UsecaseEMFActionBarContributor
 		refreshViewerAction.setEnabled(refreshViewerAction.isEnabled());		
 		menuManager.insertAfter("ui-actions", refreshViewerAction);
 
+//		toolBarManager.add(new Separator("usecase-automatic-tools"));
+//		menuManager.add(new AutomaticAnalysisAction("automatic-analysis-action"));
+		
 		super.addGlobalActions(menuManager);
 	}
 
