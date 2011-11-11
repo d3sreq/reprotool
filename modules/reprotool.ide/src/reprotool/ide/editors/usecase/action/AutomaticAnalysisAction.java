@@ -1,10 +1,17 @@
 package reprotool.ide.editors.usecase.action;
 
+import org.eclipse.emf.common.command.CompoundCommand;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.edit.domain.EditingDomain;
+import org.eclipse.emf.edit.domain.IEditingDomainProvider;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.actions.BaseSelectionListenerAction;
 
 import reprotool.ide.Activator;
+import reprotool.ling.LingTools;
+import reprotool.ling.analyser.Analyser;
 import reprotool.model.usecase.UseCaseStep;
 
 /**
@@ -45,6 +52,21 @@ public class AutomaticAnalysisAction extends BaseSelectionListenerAction {
 		
 		UseCaseStep useCaseStep = (UseCaseStep)elem;
 		// TODO - jvinarek - test only
-		System.out.println(">> " + useCaseStep.getContent());
+//		System.out.println(">> " + useCaseStep.getContent());
+		
+		EditingDomain editingDomain = getEditingDomain(useCaseStep);
+		
+		CompoundCommand command = LingTools.analyseUseCaseStep(editingDomain, useCaseStep);
+		
+		// TODO - notify listeners
+		command.execute();
+	}
+	
+	private EditingDomain getEditingDomain(EObject eobject) {
+		ResourceSet resourceSet = eobject.eResource().getResourceSet();
+		// TODO - jvinarek - use guava validation ?
+		assert(resourceSet instanceof IEditingDomainProvider);
+		EditingDomain editingDomain = ((IEditingDomainProvider)resourceSet).getEditingDomain(); 
+        return editingDomain; 
 	}
 }

@@ -31,12 +31,12 @@ public class Tagger extends Tool{
 		String text = "";
 	
 		// locating external model
-		try{
-			path = Platform.getPreferencesService().getString("reprotool.ide", "mxpostModel", "/tagger.project", null);
-		} catch (NullPointerException e){
+//		try{
+	//		path = Platform.getPreferencesService().getString("reprotool.ide", "mxpostModel", "/tagger.project", null);
+//		} catch (NullPointerException e){
 			String rootPath = new java.io.File(Tagger.class.getResource("/").getPath()).getParentFile().getParent();
 			path = rootPath + "/../tools/MXPost_tagger/tagger.project";
-		}
+//		}
 		
 		try{
 			InputStream input = new ByteArrayInputStream(originalText.getBytes("UTF-8"));
