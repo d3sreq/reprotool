@@ -30,7 +30,7 @@ public class LingTools {
 		// calling tokenizer 
 		tokenizedSentence = Tokenizer.getTokens(originalSentence);
 		// calling tagger 
-		taggedSentence = Tagger.getMXPOST(tokenizedSentence);
+		taggedSentence = Tagger.mxposToLisp(Tagger.getMXPOST(tokenizedSentence));
 		// calling parser 
 		parserSentence = Parser.getString(taggedSentence);
 		
@@ -50,11 +50,14 @@ public class LingTools {
 		String parsedSentence = "";
 		
 		// calling tokenizer 
-		tokenizedSentence = Tokenizer.getTokens(originalSentence);
+		tokenizedSentence = Tokenizer.getTokens(originalSentence.trim());
+		System.out.println("Tokenizer: " + tokenizedSentence);
 		// calling tagger 
-		taggedSentence = Tagger.getMXPOST(tokenizedSentence);
+		taggedSentence = Tagger.mxposToLisp(Tagger.getMXPOST(tokenizedSentence));
+		System.out.println("Tagger: " + taggedSentence);
 		// calling parser 
 		parsedSentence = Parser.getString(taggedSentence);
+		System.out.println("Parser: " + parsedSentence);
 		
 		// parsing into a Sentence object
 		Sentence sentence = Parser.parseSentence(parsedSentence);
@@ -70,13 +73,14 @@ public class LingTools {
 	 * @return CompoundCommand all commands at model objects
 	 */
 	public static CompoundCommand analyseUseCaseStep(EditingDomain editingDomain, UseCaseStep ucs) {
-		
+		// gets UseCaseStep string 
 		String sentenceString = ucs.getContent();
-		
-		Sentence sentence = parseSentence(sentenceString);
-		
-		CompoundCommand command = Analyser.analyseTree(editingDomain, ucs, sentence);
+		// gets sentence object
+		Sentence sentence = LingTools.parseSentence(sentenceString);
 
+		CompoundCommand command = Analyser.analyseTree(editingDomain, ucs, sentence);
+		System.out.println("Linguistics - created command - END.");
+		
 		return command;
 	}	
 	

@@ -18,7 +18,9 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.mwe2.launch,
  org.eclipse.emf.mwe2.lib,
  org.eclipse.emf.common.ui,
- org.eclipse.emf.edit
+ org.eclipse.emf.edit,
+ reprotool.tools.mxpost,
+ reprotool.tools.dbparser
 Bundle-ActivationPolicy: lazy
 Import-Package: org.junit
 Bundle-Vendor: Reprotool

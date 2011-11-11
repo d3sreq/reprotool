@@ -29,20 +29,23 @@ public class Tagger extends Tool{
     public static String getMXPOST(String originalText) {	
 		String path = "";
 		String text = "";
-	
+		
+		PrintStream stdout = System.out;
+		InputStream stdin = System.in;
+		
 		// locating external model
-//		try{
-	//		path = Platform.getPreferencesService().getString("reprotool.ide", "mxpostModel", "/tagger.project", null);
-//		} catch (NullPointerException e){
+		try{
+			path = Platform.getPreferencesService().getString("reprotool.ide", "mxpostModel", "/tagger.project", null);
+		} catch (NullPointerException e){
 			String rootPath = new java.io.File(Tagger.class.getResource("/").getPath()).getParentFile().getParent();
 			path = rootPath + "/../tools/MXPost_tagger/tagger.project";
-//		}
-		
+		}
+	
 		try{
 			InputStream input = new ByteArrayInputStream(originalText.getBytes("UTF-8"));
 			System.setIn(input); 
 		} catch (UnsupportedEncodingException e){}
-	
+		
 		// set output stream
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		PrintStream ps = new PrintStream(baos);
@@ -50,11 +53,16 @@ public class Tagger extends Tool{
 		//System.setErr(ps);
 		
 		// run external tool MXPOST
-		tagger.TestTagger.main(new String[] {path});
+		tagger.TestTagger.main(new String[] {path});		
 
 		try{
 			text = baos.toString("UTF-8");
 		} catch (UnsupportedEncodingException e){}
+
+		// reset to standard output
+		System.setOut(stdout);
+		// reset to standard input
+		System.setIn(stdin);
 		
 		return text.trim();
 	}	

@@ -83,7 +83,6 @@ public class Parser extends Tool {
 			String rootPath = new java.io.File(Tagger.class.getResource("/").getPath()).getParentFile().getParent();
 			modelFile = rootPath + "/../tools/parser/wsj-02-21.obj.gz";
 		}
-		System.out.print(modelFile);
  
 		// locating external settings
 		try{
@@ -182,8 +181,6 @@ public class Parser extends Tool {
     	parsedText = Pattern.compile("[)]").matcher(parsedText).replaceAll(" )");	
 		// whitespaces cleanup
 		parsedText = Pattern.compile("[\\s]+").matcher(parsedText).replaceAll(" ");
-		
-		System.out.print(parsedText + "\n");
 		
 		boolean atWord = false;
 	    for (String symbol : parsedText.split("\\s")) {

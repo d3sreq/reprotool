@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Mxpost
+Bundle-SymbolicName: reprotool.tools.mxpost
+Bundle-Version: 1.0.0
+Bundle-ClassPath: mxpost.jar
+Export-Package: eos,
+ maxent,
+ tagger
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6

@@ -5,6 +5,7 @@ import java.util.regex.Pattern;
 
 import org.eclipse.emf.common.command.CompoundCommand;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.edit.command.AddCommand;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
 
@@ -53,11 +54,12 @@ public class Analyser {
 		
 		// tree analyse
 		boolean subject = true;
-		SentenceNode node = null;
+		ParseTreeNode node = null;
 
 		// TODO zatim nastrel ohodnoceni vsech NP
 		for (ParseTreeNode pnode : curNode.getChildren()) {
-			node = (SentenceNode) pnode;
+			//node = (SentenceNode) pnode;
+			node = pnode;
 			if (node.eClass().getName().equals("NounPhrase")) {
 				if (subject) {
 					if (node.getChildren().get(0).getClass().getName() == "Word") {
@@ -100,6 +102,7 @@ public class Analyser {
 			
 			//System.out.println("Goto");
 			Goto action = afactory.createGoto();
+			int partNumber = 0;
 			
 			//ucs.setAction(action);
 			SetCommand setCommand = new SetCommand(editingDomain, ucs, UsecasePackage.Literals.USE_CASE_STEP__ACTION, action);
@@ -109,25 +112,31 @@ public class Analyser {
 			for (int i = gotoVerbIndex; i < sentence.getWords().size(); i++){
 				Word word = sentence.getWords().get(i);
 				if(word.isNumeral() && word.getPOS().toString().substring(0,2).equals("NN")){
-					System.out.println("Goto target");
+					System.out.print("Goto target " + word.getText() + " ");
 					Matcher match = Pattern.compile("\\d").matcher(word.getText());
 					if (match.find()) {
 						labelIndex = i;
-						//String partNumber = match.group(1);
+						partNumber = Integer.parseInt(match.group(0));
 						System.out.println(match.group(0));
-						System.out.println(match.group(1));
-					}					
 
-					//Pattern.compile("Won \' t").matcher(text).replaceAll("Won* n\'t");
+					}					
 				}
 			}
-			//TextRange tr = apfactory.createTextRange();			
-			//action.setGotoTarget(value);
-			//EList<UseCaseStep> lucs = ucs.getUseCaseShortcut().getAllUseCaseStepsShortcut();
 			
-			// TODO
-			//setCommand = new SetCommand(editingDomain, action, ActionPackage.Literals.GOTO__GOTO_TARGET, lucs.get(0));
-			//compoundCommand.append(setCommand);
+			TextRange tr = apfactory.createTextRange();	
+
+			try{
+				EList<UseCaseStep> lucs = ucs.getUseCaseShortcut().getAllUseCaseStepsShortcut();
+				
+				if(lucs.size() >= partNumber){
+					//action.setGotoTarget(lucs.);
+					setCommand = new SetCommand(editingDomain, action, ActionPackage.Literals.GOTO__GOTO_TARGET, lucs.get(labelIndex));
+					compoundCommand.append(setCommand);
+				}
+				
+			} catch (NullPointerException e){
+				labelIndex = 0;
+			}
 			
 			definedAction = true;
 		}
@@ -170,25 +179,18 @@ public class Analyser {
 			SetCommand setCommand = new SetCommand(editingDomain, ucs, UsecasePackage.Literals.USE_CASE_STEP__ACTION, action);
 			compoundCommand.append(setCommand);	
 
+			// text range settings
 			TextRange tr = apfactory.createTextRange();
 			tr.setStartPosition(0);
-//			System.out.print(sentence.getWords().get(0).getText().length());
-//			tr.setLength(sentence.getWords().get(0).getText().length());
-			tr.setLength(2);
-			ucs.getTextNodes().add(tr);
+			tr.setLength(sentence.getWords().get(0).getText().length());
 			
+			AddCommand addCommand = new AddCommand(editingDomain, ucs, UsecasePackage.Literals.PARSEABLE_ELEMENT__TEXT_NODES, tr);
+			compoundCommand.append(addCommand);
+			//ucs.getTextNodes().add(tr);			
 			
 		}
-		// goto example
-/*		Action action = afactory.createGoto();
-		ucs.setAction(action);
-*/
-		// final connection
-/*		ucs.setParsedSentence(parsedTree);
-*/ 
  
-		return compoundCommand;
-		
+		return compoundCommand;		
 	}
 
 }
