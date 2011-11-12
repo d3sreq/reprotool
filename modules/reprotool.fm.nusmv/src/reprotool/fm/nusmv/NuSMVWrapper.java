@@ -127,6 +127,11 @@ public class NuSMVWrapper {
 			
 			String line;
 			while( null != (line = reader.readLine()) ) {
+				if (line.contains("</counter-example>")) {
+					writer.write(line);
+					writer.newLine();
+					break;
+				}
 				if( ! line.startsWith("-- ") ) {
 					writer.write(line);
 					writer.newLine();
