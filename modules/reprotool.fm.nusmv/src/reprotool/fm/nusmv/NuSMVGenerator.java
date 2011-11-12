@@ -12,7 +12,6 @@ import reprotool.fm.nusmv.lang.nuSmvInputLanguage.EnumType;
 import reprotool.fm.nusmv.lang.nuSmvInputLanguage.FormalParameter;
 import reprotool.fm.nusmv.lang.nuSmvInputLanguage.InitConstraint;
 import reprotool.fm.nusmv.lang.nuSmvInputLanguage.MainModule;
-import reprotool.fm.nusmv.lang.nuSmvInputLanguage.Model;
 import reprotool.fm.nusmv.lang.nuSmvInputLanguage.NextBody;
 import reprotool.fm.nusmv.lang.nuSmvInputLanguage.NextExpression;
 import reprotool.fm.nusmv.lang.nuSmvInputLanguage.NuSmvInputLanguageFactory;
@@ -180,7 +179,7 @@ public class NuSMVGenerator {
 		return useCase;
 	}
 	
-	public void addProcess(MainModule module, Model model) {
+	public void addProcess(MainModule module) {
 		VariableDeclaration xVar = factory.createVariableDeclaration();
 		xVar.setVar("VAR");
 		VarBody xBody = factory.createVarBody();

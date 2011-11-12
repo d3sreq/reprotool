@@ -38,7 +38,7 @@ public class NuSMVProject {
 	
 	public Model getModel() {
 		Model nusmvModel = factory.createModel();
-		MainModule mainModule = getMainModule(nusmvModel);
+		MainModule mainModule = getMainModule();
 		nusmvModel.getModules().add(mainModule);
 		for (NuSMVGenerator nusvm: generators) {
 			nusvm.fillAutomaton(uc2gen);
@@ -47,18 +47,14 @@ public class NuSMVProject {
 		return nusmvModel; 
 	}
 	
-	private MainModule getMainModule(Model model) {
-		MainModule mainModule = factory.createMainModule();
-		mainModule.setName("main");
-		addCTLFormulas(mainModule);
-		
+	private void addHeader(MainModule module) {
 		StringBuffer varList = new StringBuffer();
 		
 		int c = 0;
 		for (NuSMVGenerator nusvm: generators) {
 			FairnessExpression fairness = factory.createFairnessExpression();
 			fairness.setFairnessExpr("p=p" + nusvm.getUseCaseId());
-			mainModule.getModuleElement().add(fairness);
+			module.getModuleElement().add(fairness);
 			if (c > 0) {
 				varList.append(",");
 			}
@@ -80,11 +76,11 @@ public class NuSMVProject {
 		pBody.setType(pType);
 		
 		pVar.getVars().add(pBody);
-		mainModule.getModuleElement().add(pVar);
+		module.getModuleElement().add(pVar);
 		
 		InitConstraint initConstraint = factory.createInitConstraint();
 		initConstraint.setInitExpression("p in none");
-		mainModule.getModuleElement().add(initConstraint);
+		module.getModuleElement().add(initConstraint);
 		
 		AssignConstraint assignConstraint = factory.createAssignConstraint();
 		NextBody nextBody = factory.createNextBody();
@@ -95,17 +91,24 @@ public class NuSMVProject {
 			varList + "};\n\t\tTRUE : none;\n\tesac");
 		nextBody.setNext(nextExpression);
 		assignConstraint.getBodies().add(nextBody);
-		mainModule.getModuleElement().add(assignConstraint);
+		module.getModuleElement().add(assignConstraint);
+	}
+	
+	private MainModule getMainModule() {
+		MainModule mainModule = factory.createMainModule();
+		mainModule.setName("main");
 		
-		addProcesses(mainModule, model);
+		addCTLFormulas(mainModule);
+		addHeader(mainModule);
+		addProcesses(mainModule);
 		addAnnotations(mainModule);
 		
 		return mainModule;
 	}
 	
-	private void addProcesses(MainModule module, Model model) {		
+	private void addProcesses(MainModule module) {		
 		for (NuSMVGenerator nusmv: generators) {
-			nusmv.addProcess(module, model);
+			nusmv.addProcess(module);
 		}
 	}
 	
@@ -179,8 +182,6 @@ public class NuSMVProject {
 						f = f.replaceAll(annot.getName(), annot.getName() + "_" + var);
 					}
 				}
-				
-				System.out.println("Formula: " + f);
 				
 				CtlSpecification ctlSpec = factory.createCtlSpecification();
 				CTLExpression ctlExpr = factory.createCTLExpression();
