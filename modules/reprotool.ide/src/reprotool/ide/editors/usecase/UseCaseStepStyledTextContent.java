@@ -6,18 +6,17 @@ import java.util.List;
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CompoundCommand;
-import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.edit.command.AddCommand;
 import org.eclipse.emf.edit.command.RemoveCommand;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
-import org.eclipse.emf.edit.domain.IEditingDomainProvider;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyledTextContent;
 import org.eclipse.swt.custom.TextChangeListener;
 import org.eclipse.swt.custom.TextChangedEvent;
 import org.eclipse.swt.custom.TextChangingEvent;
 
+import reprotool.ide.utils.Utils;
 import reprotool.model.linguistic.action.Communication;
 import reprotool.model.linguistic.action.ToSystem;
 import reprotool.model.linguistic.actionpart.ActionpartFactory;
@@ -30,6 +29,7 @@ import reprotool.model.usecase.UsecasePackage;
 
 /**
  * Some methods copied from org.eclipse.swt.custom.DefaultContent class
+ * TODO jvinarek - use default implementation and add textrange support only by listeners ?
  * 
  * @author jvinarek
  *
@@ -147,7 +147,7 @@ public class UseCaseStepStyledTextContent implements StyledTextContent {
 		}
 		
 		// execute command
-		getEditingDomain().getCommandStack().execute(command);
+		Utils.getEditingDomain(useCaseStep).getCommandStack().execute(command);
 		
 		// inform listeners
 		TextChangedEvent textChangedEvent = new TextChangedEvent(this);
@@ -168,7 +168,7 @@ public class UseCaseStepStyledTextContent implements StyledTextContent {
 	 */
 	private Command changeUseCaseStep(int start, int replaceLength, String text) {
 		
-		EditingDomain editingDomain = getEditingDomain();
+		EditingDomain editingDomain = Utils.getEditingDomain(useCaseStep);
 		
 		// command changing text of the step
 		String oldContent = useCaseStep.getContent();
@@ -317,14 +317,6 @@ public class UseCaseStepStyledTextContent implements StyledTextContent {
 				&& changeStart <= textNode.getStartPosition() + textNode.getLength(); 
 	}
 
-	private EditingDomain getEditingDomain() {
-		ResourceSet resourceSet = useCaseStep.eResource().getResourceSet();
-		// TODO - jvinarek - use guava validation ?
-		assert(resourceSet instanceof IEditingDomainProvider);
-		EditingDomain editingDomain = ((IEditingDomainProvider)resourceSet).getEditingDomain(); 
-        return editingDomain; 
-	}
-
 	@Override
 	public void setText(String text) {
 		// TODO jvinarek - add xreal implementation
@@ -344,7 +336,7 @@ public class UseCaseStepStyledTextContent implements StyledTextContent {
 		// TODO - log
 //		System.out.println(useCaseStep.getContent().substring(start, start + length));
 		
-		EditingDomain editingDomain = getEditingDomain();
+		EditingDomain editingDomain = Utils.getEditingDomain(useCaseStep);
 		
 		// create marked text
 		TextRange textRange = createTextRange(start, length);		
@@ -376,7 +368,7 @@ public class UseCaseStepStyledTextContent implements StyledTextContent {
 		// TODO - log
 //		System.out.println(useCaseStep.getContent().substring(start, start + length));
 		
-		EditingDomain editingDomain = getEditingDomain();
+		EditingDomain editingDomain = Utils.getEditingDomain(useCaseStep);
 		
 		// create marked text
 		TextRange textRange = createTextRange(start, length);		

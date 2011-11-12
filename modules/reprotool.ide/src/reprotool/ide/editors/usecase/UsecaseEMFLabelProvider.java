@@ -3,8 +3,6 @@ package reprotool.ide.editors.usecase;
 import org.eclipse.jface.viewers.StyledCellLabelProvider;
 import org.eclipse.jface.viewers.StyledString;
 import org.eclipse.jface.viewers.ViewerCell;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.StyleRange;
 
 import reprotool.model.usecase.Scenario;
 import reprotool.model.usecase.UseCase;
