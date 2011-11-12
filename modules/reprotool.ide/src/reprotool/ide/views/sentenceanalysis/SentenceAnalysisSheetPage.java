@@ -222,7 +222,7 @@ public class SentenceAnalysisSheetPage extends Page implements ISentenceAnalysis
 				UsecasePackage.Literals.USE_CASE_STEP__SOFTWARE_PROJECT_SHORTCUT, 
 				SwprojPackage.Literals.SOFTWARE_PROJECT__ACTORS						 
 		);
-		EStructuralFeature detailValue = SwprojPackage.Literals.DOMAIN_ELEMENT__NAME;
+		EStructuralFeature detailValue = SwprojPackage.Literals.DESCRIBED_ELEMENT__NAME;
 
 		bindComboListCommon(bindingContext, comboViewer, featurePath, detailValue);
 	}
@@ -248,7 +248,7 @@ public class SentenceAnalysisSheetPage extends Page implements ISentenceAnalysis
 		);
 		// @formatter:on
 		ComboViewer comboViewer = boxContainer.getIncludeUseCaseBox().getComboViewer();
-		EStructuralFeature detailValue = UsecasePackage.Literals.USE_CASE__NAME;
+		EStructuralFeature detailValue = SwprojPackage.Literals.DESCRIBED_ELEMENT__NAME;
 
 		bindComboListCommon(bindingContext, comboViewer, featurePath, detailValue);
 	}

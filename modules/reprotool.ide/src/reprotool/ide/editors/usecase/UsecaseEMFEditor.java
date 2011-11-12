@@ -112,9 +112,9 @@ import org.eclipse.ui.views.properties.PropertySheetPage;
 import reprotool.ide.views.sentenceanalysis.ISentenceAnalysisSheetPage;
 import reprotool.ide.views.sentenceanalysis.SentenceAnalysisSheetPage;
 import reprotool.model.edit.ext.factory.UsecaseEMFEditorAdapterFactory;
-import reprotool.model.lts.presentation.ReprotoolEditorPlugin;
 import reprotool.model.usecase.UseCase;
 import reprotool.model.usecase.UseCaseStep;
+import reprotool.model.usecase.presentation.ReprotoolEditorPlugin;
 import reprotool.uc.tempeditor.LTSContentOutlinePage;
 
 

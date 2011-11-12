@@ -24,21 +24,11 @@ import org.eclipse.emf.ecore.EReference;
 
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
-import reprotool.model.ast.AstPackage;
-
-import reprotool.model.comp.CompPackage;
-
-import reprotool.model.doc.DocPackage;
-
 import reprotool.model.linguistic.action.ActionPackage;
 
 import reprotool.model.linguistic.actionpart.ActionpartPackage;
 
-import reprotool.model.lts.LtsPackage;
-
 import reprotool.model.swproj.SwprojPackage;
-
-import reprotool.model.traceability.TraceabilityPackage;
 
 import reprotool.model.usecase.UsecasePackage;
 
@@ -152,15 +142,10 @@ public class Lts2PackageImpl extends EPackageImpl implements Lts2Package {
 		isInited = true;
 
 		// Initialize simple dependencies
-		LtsPackage.eINSTANCE.eClass();
 		UsecasePackage.eINSTANCE.eClass();
 		SwprojPackage.eINSTANCE.eClass();
-		TraceabilityPackage.eINSTANCE.eClass();
 		ActionpartPackage.eINSTANCE.eClass();
 		ActionPackage.eINSTANCE.eClass();
-		AstPackage.eINSTANCE.eClass();
-		CompPackage.eINSTANCE.eClass();
-		DocPackage.eINSTANCE.eClass();
 
 		// Create package meta-data objects
 		theLts2Package.createPackageContents();

@@ -38,7 +38,7 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PartInitException;
 
-import reprotool.model.lts.presentation.ReprotoolEditorPlugin;
+import reprotool.model.usecase.presentation.ReprotoolEditorPlugin;
 
 /**
  * This is the action bar contributor for the Swproj model editor.

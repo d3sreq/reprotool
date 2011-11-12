@@ -33,9 +33,10 @@ import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.EditorPart;
 
-import reprotool.model.lts.presentation.ReprotoolEditorPlugin;
+import reprotool.model.swproj.SwprojPackage;
 import reprotool.model.usecase.UseCase;
 import reprotool.model.usecase.UsecasePackage;
+import reprotool.model.usecase.presentation.ReprotoolEditorPlugin;
 
 /**
  * Page of the Use case editor containing tree with use case steps and editor to
@@ -153,7 +154,7 @@ public class UsecaseEMFEditorPart extends EditorPart implements IMenuListener, I
 		DataBindingContext bindingContext = new DataBindingContext();
 		
 		// bind use case name (title under "Use case" label)
-		IObservableValue emfValue =  EMFEditProperties.value(getEditingDomain(), UsecasePackage.Literals.USE_CASE__NAME).observe(useCase);
+		IObservableValue emfValue =  EMFEditProperties.value(getEditingDomain(), SwprojPackage.Literals.DESCRIBED_ELEMENT__NAME).observe(useCase);
 		ISWTObservableValue textValue = WidgetProperties.text(SWT.Modify).observe(composite.getTxtUseCaseName());
 		bindingContext.bindValue(textValue, emfValue);
 		

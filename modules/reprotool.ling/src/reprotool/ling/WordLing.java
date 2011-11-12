@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import reprotool.ling.wordnet.WordNet;
+//import reprotool.ling.wordnet.WordNet;
 
 /** 
  * !!!DEPRECATED
@@ -32,32 +32,32 @@ public class WordLing {
 	 *
 	 * @return void
 	 */		
-	public WordLing(String originalWord) {
-    	String[] parts = originalWord.split("_");
-    	List<String> antonyms = new ArrayList<String>();
-    	
-    	if(!parts[0].isEmpty()){
-    		this.original = originalWord;
-    		this.text = parts[0]; 
-    		this.interpunction = Pattern.matches("[,.!?]", this.text);
-			
-        	if(!parts[1].isEmpty()){
-        		this.POS = parts[1];  
-        	}
-    		
-    		String pos = "noun";
-    		if(this.POS == "IN")
-    			//pos = "adverb";
-    			pos = "adjective";
- 
-    		antonyms = WordNet.getAntonyms(this.text, pos);
-    		if(!antonyms.isEmpty()){
-    			this.negation = antonyms.get(0);
-    		}
-    		
-
-    	}
-	}
+//	public WordLing(String originalWord) {
+//    	String[] parts = originalWord.split("_");
+//    	List<String> antonyms = new ArrayList<String>();
+//    	
+//    	if(!parts[0].isEmpty()){
+//    		this.original = originalWord;
+//    		this.text = parts[0]; 
+//    		this.interpunction = Pattern.matches("[,.!?]", this.text);
+//			
+//        	if(!parts[1].isEmpty()){
+//        		this.POS = parts[1];  
+//        	}
+//    		
+//    		String pos = "noun";
+//    		if(this.POS == "IN")
+//    			//pos = "adverb";
+//    			pos = "adjective";
+// 
+//    		antonyms = WordNet.getAntonyms(this.text, pos);
+//    		if(!antonyms.isEmpty()){
+//    			this.negation = antonyms.get(0);
+//    		}
+//    		
+//
+//    	}
+//	}
 	
 	
 	/**

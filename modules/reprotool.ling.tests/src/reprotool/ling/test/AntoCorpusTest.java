@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import reprotool.ling.antocorpus.AntoCorpus;
 import reprotool.ling.antocorpus.AntoWord;
-import reprotool.ling.antocorpus.ExportWordNet;
+//import reprotool.ling.antocorpus.ExportWordNet;
 
 /**
  * @author ofiala
@@ -52,21 +52,21 @@ public class AntoCorpusTest {
 		assertTrue(f.exists());
 	}
 	
-	/**
-	 * Address path doesn't need to be valid
-	 */
-	@Test
-	public final void testExportWordNet() {
-		AntoCorpus corpus = new AntoCorpus(corpusFile);
-		
-		ExportWordNet.export("D:\\Projects\\ReProTool\\SVN\\trunk\\tools\\WordNet-3.0\\dict", corpus);
-
-		try {
-			corpus.writeCorpus();
-		} catch (Exception e) {}
-		
-		assertTrue(corpus.length() > 1000);
-	}
+//	/**
+//	 * Address path doesn't need to be valid
+//	 */
+//	@Test
+//	public final void testExportWordNet() {
+//		AntoCorpus corpus = new AntoCorpus(corpusFile);
+//		
+//		ExportWordNet.export("D:\\Projects\\ReProTool\\SVN\\trunk\\tools\\WordNet-3.0\\dict", corpus);
+//
+//		try {
+//			corpus.writeCorpus();
+//		} catch (Exception e) {}
+//		
+//		assertTrue(corpus.length() > 1000);
+//	}
 
 	@Test
 	public final void testFindAntoWord() {

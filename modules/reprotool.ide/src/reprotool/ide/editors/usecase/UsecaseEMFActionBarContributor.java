@@ -46,7 +46,7 @@ import reprotool.ide.editors.usecase.action.IncludeUseCaseAction;
 import reprotool.ide.editors.usecase.action.PlainTextAction;
 import reprotool.ide.editors.usecase.action.ReceiverAction;
 import reprotool.ide.editors.usecase.action.SenderAction;
-import reprotool.model.lts.presentation.ReprotoolEditorPlugin;
+import reprotool.model.usecase.presentation.ReprotoolEditorPlugin;
 
 /**
  * This is the action bar contributor for the Usecase model editor.

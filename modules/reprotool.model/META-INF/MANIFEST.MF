@@ -7,22 +7,12 @@ Bundle-ClassPath: .
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Export-Package: reprotool.model.ast,
- reprotool.model.ast.util,
- reprotool.model.comp,
- reprotool.model.comp.util,
- reprotool.model.doc,
- reprotool.model.doc.util,
- reprotool.model.linguistic.action,
+Export-Package: reprotool.model.linguistic.action,
  reprotool.model.linguistic.action.util,
  reprotool.model.linguistic.actionpart,
  reprotool.model.linguistic.actionpart.util,
- reprotool.model.lts,
- reprotool.model.lts.util,
  reprotool.model.swproj,
  reprotool.model.swproj.util,
- reprotool.model.traceability,
- reprotool.model.traceability.util,
  reprotool.model.usecase,
  reprotool.model.usecase.annotate,
  reprotool.model.usecase.annotate.util,
