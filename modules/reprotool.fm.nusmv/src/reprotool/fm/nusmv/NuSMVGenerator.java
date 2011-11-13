@@ -167,6 +167,30 @@ public class NuSMVGenerator {
 		}
 	}
 	
+	public Transition findTransition(State src, State dst) {
+		for (Transition t: machine.getInitialState().getTransitions()) {
+			State s1 = (State) t.getSourceState();
+			State s2 = t.getTargetState();
+			
+			if ((s1 == src) && (s2 == dst)) {
+				return t;
+			}
+		}
+		
+		for (TransitionalState ts: machine.getTransitionalStates()) {
+			for (Transition t: ts.getTransitions()) {
+				State s1 = (State) t.getSourceState();
+				State s2 = t.getTargetState();
+				
+				if ((s1 == src) && (s2 == dst)) {
+					return t;
+				}
+			}
+		}
+		
+		return null;
+	}
+	
 	public HashMap<String, AnnotationEntry> getAnnotationsTracker() {
 		return annotationTracker;
 	}
@@ -177,6 +201,10 @@ public class NuSMVGenerator {
 	
 	public UseCase getUseCase() {
 		return useCase;
+	}
+	
+	public HashMap<String, Transition> getLabel2Trans() {
+		return label2Trans;
 	}
 	
 	public void addProcess(MainModule module) {

@@ -1,9 +1,6 @@
 package reprotool.fm.nusmv.commands;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.IHandler;
@@ -21,14 +18,10 @@ import org.eclipse.ui.handlers.HandlerUtil;
 import org.eclipse.xtext.resource.SaveOptions;
 import org.eclipse.xtext.resource.SaveOptions.Builder;
 
-import reprotool.fm.nusmv.NuSMVGenerator;
+import reprotool.fm.nusmv.Activator;
 import reprotool.fm.nusmv.NuSMVProject;
 import reprotool.fm.nusmv.lang.NuSmvInputLanguageStandaloneSetup;
 import reprotool.model.swproj.SoftwareProject;
-import reprotool.model.usecase.UseCase;
-import reprotool.model.usecase.annotate.AnnotationGroup;
-import reprotool.model.usecase.annotate.TemporalAnnotationGroup;
-import reprotool.model.usecase.annotate.TemporalLogicFormula;
 
 
 public class SwprojToSMV implements IHandler {
@@ -70,28 +63,11 @@ public class SwprojToSMV implements IHandler {
 		SoftwareProject swproj = (SoftwareProject) rootEObj;
 		System.out.println("FOUND SWPROJ : " + swproj);
 		
-		List<NuSMVGenerator> generators = new ArrayList<NuSMVGenerator>();
-
-		for (UseCase useCase : swproj.getUseCases()) {
-			System.out.println("Found usecase " + useCase.getName());
-			NuSMVGenerator nusmv = new NuSMVGenerator(useCase);
-			generators.add(nusmv);
-		}
-		
-		List<TemporalLogicFormula> formulas = new ArrayList<TemporalLogicFormula>();
-		
-		for (AnnotationGroup aGrp: swproj.getAnnotationGroups()) {
-			if (!(aGrp instanceof TemporalAnnotationGroup)) {
-				continue;
-			}
-			TemporalAnnotationGroup tGrp = (TemporalAnnotationGroup) aGrp;
-			formulas.addAll(tGrp.getFormulas());
-		}
-		
 		URI outputUri = uri.appendFileExtension("nusmv");
 		System.out.println("Will be saved to : " + CommonPlugin.resolve(outputUri).path());
 		
-		NuSMVProject nusmvProj = new NuSMVProject(generators, formulas);
+		NuSMVProject nusmvProj = new NuSMVProject(swproj);
+		Activator.getDefault().setNuSMVProject(nusmvProj);
 		
 		// serialization of the model
 		NuSmvInputLanguageStandaloneSetup.doSetup(); // activates the correct parser/serializer

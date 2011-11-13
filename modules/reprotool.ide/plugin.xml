@@ -75,6 +75,15 @@
             id="cz.cuni.mff.reprotool.ide.UseCaseEmfEditor"
             name="Use case EMF Editor">
       </editor>
+      <editor
+            class="reprotool.ide.editors.counterExample.CExmpEditor"
+            contributorClass="reprotool.ide.editors.counterExample.CExmpActionBarContributor"
+            default="false"
+            extensions="cexmp"
+            filenames="cexmp"
+            id="reprotool.ide.counterExampleEditorId"
+            name="Counter example editor">
+      </editor>
    </extension>
    <extension
          point="org.eclipse.ui.newWizards">

@@ -132,6 +132,26 @@
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="ConceptualObject" eSuperTypes="#//swproj/DescribedElement"/>
+    <eClassifiers xsi:type="ecore:EClass" name="CounterExample">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="project" lowerBound="1"
+          eType="#//swproj/SoftwareProject"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="formula" lowerBound="1"
+          eType="#//usecase/annotate/TemporalLogicFormula" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="useCaseTransitions" upperBound="-1"
+          eType="#//swproj/UseCaseTransition" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="UseCaseTransition">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="useCase" lowerBound="1"
+          eType="#//usecase/UseCase"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="steps" upperBound="-1"
+          eType="#//swproj/Step" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Step">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="Label" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="Content" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="useCaseTransition" eType="#//swproj/UseCaseTransition"
+          containment="true"/>
+    </eClassifiers>
   </eSubpackages>
   <eSubpackages name="linguistic" nsURI="http://d3s.mff.cuni.cz/reprotool/model/linguistic"
       nsPrefix="linguistic">

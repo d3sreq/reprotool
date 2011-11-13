@@ -19,7 +19,9 @@ import reprotool.fm.nusmv.lang.nuSmvInputLanguage.NextExpression;
 import reprotool.fm.nusmv.lang.nuSmvInputLanguage.NuSmvInputLanguageFactory;
 import reprotool.fm.nusmv.lang.nuSmvInputLanguage.VarBody;
 import reprotool.fm.nusmv.lang.nuSmvInputLanguage.VariableDeclaration;
+import reprotool.model.swproj.SoftwareProject;
 import reprotool.model.usecase.UseCase;
+import reprotool.model.usecase.annotate.AnnotationGroup;
 import reprotool.model.usecase.annotate.TemporalAnnotation;
 import reprotool.model.usecase.annotate.TemporalAnnotationGroup;
 import reprotool.model.usecase.annotate.TemporalLogicFormula;
@@ -27,6 +29,7 @@ import reprotool.model.usecase.annotate.TemporalLogicFormula;
 public class NuSMVProject {
 	private List<NuSMVGenerator> generators;
 	private NuSmvInputLanguageFactory factory;
+	private SoftwareProject swproj;
 	
 	/**
 	 * Global tracker of annotations in the whole project.
@@ -34,6 +37,9 @@ public class NuSMVProject {
 	private HashMap<String, List<AnnotationEntry>> globalTracker;
 	
 	private HashMap<UseCase, NuSMVGenerator> uc2gen = new HashMap<UseCase, NuSMVGenerator>();
+	private HashMap<String, TemporalLogicFormula> expanded2Formula =
+			new HashMap<String, TemporalLogicFormula>();
+	private List<String> expandedFormulas = new ArrayList<String>();
 	private List<TemporalLogicFormula> formulas;
 	
 	public Model getModel() {
@@ -112,8 +118,28 @@ public class NuSMVProject {
 		}
 	}
 	
-	public NuSMVProject (List<NuSMVGenerator> generators, List<TemporalLogicFormula> formulas) {
+	public NuSMVProject (SoftwareProject swproj) {
 		factory = NuSmvInputLanguageFactory.eINSTANCE;
+		
+		List<NuSMVGenerator> generators = new ArrayList<NuSMVGenerator>();
+
+		for (UseCase useCase : swproj.getUseCases()) {
+			System.out.println("Found usecase " + useCase.getName());
+			NuSMVGenerator nusmv = new NuSMVGenerator(useCase);
+			generators.add(nusmv);
+		}
+		
+		List<TemporalLogicFormula> formulas = new ArrayList<TemporalLogicFormula>();
+		
+		for (AnnotationGroup aGrp: swproj.getAnnotationGroups()) {
+			if (!(aGrp instanceof TemporalAnnotationGroup)) {
+				continue;
+			}
+			TemporalAnnotationGroup tGrp = (TemporalAnnotationGroup) aGrp;
+			formulas.addAll(tGrp.getFormulas());
+		}
+		
+		this.swproj = swproj;
 		this.generators = generators;
 		this.formulas = formulas;
 		
@@ -144,6 +170,8 @@ public class NuSMVProject {
 				}
 			}
 		}
+		
+		loadCTLFormulas();
 	}
 	
 	private List<String> getAnnotatedVars(List<String> annotations) {
@@ -164,7 +192,35 @@ public class NuSMVProject {
 		return vars;
 	}
 	
-	public void addCTLFormulas(MainModule module) {		
+	public UseCase getUseCaseById(String id) {
+		for (NuSMVGenerator nusvm: generators) {
+			if (nusvm.getUseCaseId().equals(id)) {
+				return nusvm.getUseCase();
+			}
+		}
+		
+		return null;
+	}
+	
+	public NuSMVGenerator getGeneratorById(String id) {
+		for (NuSMVGenerator nusvm: generators) {
+			if (nusvm.getUseCaseId().equals(id)) {
+				return nusvm;
+			}
+		}
+		
+		return null;
+	}
+	
+	public SoftwareProject getSoftwareProject() {
+		return swproj;
+	}
+	
+	public TemporalLogicFormula getFormula(String f) {
+		return expanded2Formula.get(f);
+	}
+	
+	private void loadCTLFormulas() {
 		for (TemporalLogicFormula formula: formulas) {
 			Assert.isTrue(formula.eContainer() instanceof TemporalAnnotationGroup);
 			TemporalAnnotationGroup tGrp = (TemporalAnnotationGroup) formula.eContainer();
@@ -182,13 +238,21 @@ public class NuSMVProject {
 						f = f.replaceAll(annot.getName(), annot.getName() + "_" + var);
 					}
 				}
-				
-				CtlSpecification ctlSpec = factory.createCtlSpecification();
-				CTLExpression ctlExpr = factory.createCTLExpression();
-				ctlExpr.setSimpleExpression(f);
-				ctlSpec.setCtlExpression(ctlExpr);
-				module.getModuleElement().add(ctlSpec);
+				String normalised = f.replaceAll("\\s+", "");
+				normalised = normalised.replaceAll("[()]", "");
+				expanded2Formula.put(normalised, formula);
+				expandedFormulas.add(f);
 			}
+		}	
+	}
+	
+	public void addCTLFormulas(MainModule module) {		
+		for (String formula: expandedFormulas) {
+			CtlSpecification ctlSpec = factory.createCtlSpecification();
+			CTLExpression ctlExpr = factory.createCTLExpression();
+			ctlExpr.setSimpleExpression(formula);
+			ctlSpec.setCtlExpression(ctlExpr);
+			module.getModuleElement().add(ctlSpec);			
 		}
 	}
 		
