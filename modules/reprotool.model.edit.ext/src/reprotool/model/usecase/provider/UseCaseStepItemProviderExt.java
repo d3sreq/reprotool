@@ -3,15 +3,19 @@ package reprotool.model.usecase.provider;
 import java.util.Collection;
 import java.util.List;
 
+import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.notify.AdapterFactory;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 
 import reprotool.model.edit.ext.annotation.UseCaseStepItemProviderAnnotation;
 import reprotool.model.usecase.Condition;
 import reprotool.model.usecase.Scenario;
+import reprotool.model.usecase.UseCaseStep;
 import reprotool.model.usecase.UsecaseFactory;
 import reprotool.model.usecase.UsecasePackage;
 import utils.Utils;
@@ -59,23 +63,27 @@ public class UseCaseStepItemProviderExt extends UseCaseStepItemProvider {
 	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
 		super.collectNewChildDescriptors(newChildDescriptors, object);
 		
-		// extensions & variations - add condition to added extension / variation
+		// extensions & variations - add condition and first step to added extension / variation
 		Utils.removeCommandParameter(newChildDescriptors, UsecasePackage.Literals.USE_CASE_STEP__EXTENSIONS);
 		newChildDescriptors.add(createChildParameter(UsecasePackage.Literals.USE_CASE_STEP__EXTENSIONS,
-				createScenarioWithCondition()));
+				createFilledScenario()));
 		
 		Utils.removeCommandParameter(newChildDescriptors, UsecasePackage.Literals.USE_CASE_STEP__VARIATIONS);
 		newChildDescriptors.add(createChildParameter(UsecasePackage.Literals.USE_CASE_STEP__VARIATIONS,
-				createScenarioWithCondition()));
+				createFilledScenario()));
 	}
 	
-	private Scenario createScenarioWithCondition() {
+	private Scenario createFilledScenario() {
 		Scenario scenario = UsecaseFactory.eINSTANCE.createScenario();
 		Condition condition = UsecaseFactory.eINSTANCE.createCondition();
 		scenario.setScenarioGuard(condition);
+		
+		UseCaseStep useCaseStep = UsecaseFactory.eINSTANCE.createUseCaseStep();
+		scenario.getSteps().add(useCaseStep);
+		
 		return scenario;
 	}
-	
+
 	//
 	// Guice setters
 	//

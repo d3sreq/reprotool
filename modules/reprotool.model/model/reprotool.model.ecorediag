@@ -95,12 +95,6 @@
       </eAnnotations>
       <children xmi:type="notation:Node" xmi:id="_-RA9Y-2mEeCCKq9-TiMlEA" type="4001"/>
       <children xmi:type="notation:Node" xmi:id="_-RA9ZO2mEeCCKq9-TiMlEA" type="5001">
-        <children xmi:type="notation:Node" xmi:id="_b1FfFA0_EeGx5uXjhY3Ulg" type="2001">
-          <layoutConstraint xmi:type="notation:Location" xmi:id="_b1FfFQ0_EeGx5uXjhY3Ulg"/>
-        </children>
-        <children xmi:type="notation:Node" xmi:id="_b1FfFg0_EeGx5uXjhY3Ulg" type="2001">
-          <layoutConstraint xmi:type="notation:Location" xmi:id="_b1FfFw0_EeGx5uXjhY3Ulg"/>
-        </children>
         <styles xmi:type="notation:DrawerStyle" xmi:id="_-RA9Ze2mEeCCKq9-TiMlEA"/>
         <styles xmi:type="notation:SortingStyle" xmi:id="_-RA9Zu2mEeCCKq9-TiMlEA"/>
         <styles xmi:type="notation:FilteringStyle" xmi:id="_-RA9Z-2mEeCCKq9-TiMlEA"/>

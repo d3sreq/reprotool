@@ -2,6 +2,7 @@ package reprotool.ide.editors.usecase;
 
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
+import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.command.BasicCommandStack;
 import org.eclipse.emf.common.notify.AdapterFactory;
@@ -181,6 +182,8 @@ public class UsecaseEMFEditorPart extends EditorPart implements IMenuListener, I
 	}
 
 	public void setInput(Object input) {
-		composite.getTreeViewer().setInput(input);
+		Assert.isTrue(input instanceof UseCase, "Input must have type 'UseCase' but was:" + input);
+		UseCase useCase = (UseCase)input;
+		composite.getTreeViewer().setInput(useCase.getMainScenario());
 	}
 }

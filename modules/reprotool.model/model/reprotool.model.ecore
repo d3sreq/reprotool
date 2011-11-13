@@ -31,8 +31,8 @@
           defaultValueLiteral=""/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="Scenario" eSuperTypes="#//usecase/LabelledElement">
-      <eStructuralFeatures xsi:type="ecore:EReference" name="steps" upperBound="-1"
-          eType="#//usecase/UseCaseStep" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="steps" lowerBound="1"
+          upperBound="-1" eType="#//usecase/UseCaseStep" containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="preconditions" upperBound="-1"
           eType="#//usecase/Condition" containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="postconditions" upperBound="-1"
