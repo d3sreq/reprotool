@@ -143,10 +143,8 @@ public class SentenceAnalysisSheetPage extends Page implements ISentenceAnalysis
 		// @formatter:on
 		
 		// action param
-		// TODO - jvinarek - discuss and repair "action param" box
-//		bindBoxVisibility(bindingContext, emfValue, boxContainer.getReceiverBox(), "actionParam");
-//		boxContainer.getActionParamBox().setVisibleAndInclude(false);
-		// TODO - jvinarek - multiple values allowed in action param
+		bindBoxVisibility(bindingContext, emfValue, boxContainer.getActionParamBox(), "actionParam");
+		// TODO - add binding of the conceptual objects to the table's combo
 //		bindActorsContentToCombo(bindingContext, boxContainer.getActionParamBox().getComboViewer());
 //		bindMarkedText(bindingContext, boxContainer.getActionParamBox().getLblMarkedText(), new EReference[] {ActionPackage.Literals.COMMUNICATION__ACTION_PARAM});
 		

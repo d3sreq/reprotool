@@ -1,0 +1,127 @@
+package reprotool.ide.views.sentenceanalysis;
+
+import org.eclipse.jface.layout.TableColumnLayout;
+import org.eclipse.jface.viewers.CellEditor;
+import org.eclipse.jface.viewers.ColumnPixelData;
+import org.eclipse.jface.viewers.ComboBoxViewerCellEditor;
+import org.eclipse.jface.viewers.EditingSupport;
+import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.jface.viewers.TableViewerColumn;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.layout.RowData;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableColumn;
+
+import reprotool.model.linguistic.actionpart.SentenceActionParam;
+import reprotool.model.swproj.ConceptualObject;
+
+/**
+ * Composite with table having 2 columns - text and combobox.
+ * 
+ * @author jvinarek
+ *
+ */
+public class ParamBox extends Composite {
+	private Group grpActionPart;
+	private RowData rowData;
+	private Table table;
+	private TableColumn tblclmnNewColumn;
+	private TableViewerColumn textColumn;
+	private TableColumn tblclmnNewColumn_1;
+	private TableViewerColumn comboColumn;
+	
+	/**
+	 * Create the composite.
+	 * @param parent
+	 * @param style
+	 */
+	public ParamBox(Composite parent, int style) {
+		super(parent, style);
+		setLayout(new FillLayout(SWT.HORIZONTAL));
+		
+		grpActionPart = new Group(this, SWT.NONE);
+		// TODO jvinarek - move to property file
+		grpActionPart.setText("Action param");
+		grpActionPart.setLayout(new FillLayout(SWT.HORIZONTAL));
+		
+		Composite composite = new Composite(grpActionPart, SWT.NONE);
+		TableColumnLayout tcl_composite = new TableColumnLayout();
+		composite.setLayout(tcl_composite);
+		
+		TableViewer tableViewer = new TableViewer(composite, SWT.BORDER | SWT.FULL_SELECTION);
+		table = tableViewer.getTable();
+		table.setSize(new Point(200, 0));
+		table.setLinesVisible(true);
+		
+		textColumn = new TableViewerColumn(tableViewer, SWT.NONE);
+		tblclmnNewColumn = textColumn.getColumn();
+		tcl_composite.setColumnData(tblclmnNewColumn, new ColumnPixelData(100, true, true));
+		tblclmnNewColumn.setText("Text");
+		
+		comboColumn = new TableViewerColumn(tableViewer, SWT.NONE);
+		tblclmnNewColumn_1 = comboColumn.getColumn();
+		tcl_composite.setColumnData(tblclmnNewColumn_1, new ColumnPixelData(100, true, true));
+		tblclmnNewColumn_1.setText("Conceptual object");
+
+		// TODO - jvinarek - comment
+		rowData = new RowData();
+		setLayoutData(rowData);
+	}
+
+	@Override
+	protected void checkSubclass() {
+		// Disable the check that prevents subclassing of SWT components
+	}
+	public Group getGrpActionPart() {
+		return grpActionPart;
+	}
+	
+	public void setVisibleAndInclude(boolean visibleAndInclude) {
+		this.setVisible(visibleAndInclude);
+		this.rowData.exclude = !visibleAndInclude;
+	}
+	
+	public boolean getVisibleAndInclude() {
+		return this.isVisible();
+	}
+	
+	public static class ComboColumnEditingSupport extends EditingSupport {
+
+		private final TableViewer viewer;
+		
+		public ComboColumnEditingSupport(TableViewer viewer) {
+			super(viewer);
+			this.viewer = viewer;
+		}
+
+		@Override
+		protected CellEditor getCellEditor(Object element) {
+			return new ComboBoxViewerCellEditor(viewer.getTable());
+		}
+
+		@Override
+		protected boolean canEdit(Object element) {
+			return true;
+		}
+
+		@Override
+		protected Object getValue(Object element) {
+			SentenceActionParam param = (SentenceActionParam)element;
+			return param.getConceptualObject();
+		}
+
+		@Override
+		protected void setValue(Object element, Object value) {
+			SentenceActionParam param = (SentenceActionParam)element;
+			ConceptualObject conceptualObject = (ConceptualObject)value;
+			// TODO jvinarek - add with EMF command or add binding ?
+			param.setConceptualObject(conceptualObject);
+			viewer.refresh();
+		}
+		
+	}
+}

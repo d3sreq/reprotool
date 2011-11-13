@@ -36,7 +36,6 @@ import org.eclipse.ui.part.EditorPart;
 
 import reprotool.model.swproj.SwprojPackage;
 import reprotool.model.usecase.UseCase;
-import reprotool.model.usecase.UsecasePackage;
 import reprotool.model.usecase.presentation.ReprotoolEditorPlugin;
 
 /**

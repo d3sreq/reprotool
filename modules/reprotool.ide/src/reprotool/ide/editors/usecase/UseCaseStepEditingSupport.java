@@ -6,11 +6,8 @@ import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.TreeViewer;
-import org.eclipse.swt.custom.LineStyleEvent;
-import org.eclipse.swt.custom.LineStyleListener;
 
 import reprotool.ide.utils.Utils;
-import reprotool.model.linguistic.actionpart.ActionpartPackage;
 import reprotool.model.usecase.Condition;
 import reprotool.model.usecase.Scenario;
 import reprotool.model.usecase.UseCaseStep;
@@ -46,17 +43,6 @@ public class UseCaseStepEditingSupport extends EditingSupport {
 			
 			MarkingService.getInstance().setEditorAndContent(content, styledTextCellEditor);
 		}
-		
-//		if (element instanceof Scenario) {
-//			styledTextCellEditor.getText().addLineStyleListener(new LineStyleListener() {
-//				
-//				@Override
-//				public void lineGetStyle(LineStyleEvent event) {
-//					// TODO Auto-generated method stub
-//					
-//				}
-//			});
-//		}
 		
 		return styledTextCellEditor;
 	}

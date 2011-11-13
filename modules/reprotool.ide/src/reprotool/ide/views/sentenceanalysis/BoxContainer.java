@@ -19,7 +19,7 @@ public class BoxContainer extends Composite {
 	private TextWithComboBox includeUseCaseBox;
 	private TextWithComboBox gotoUseCaseStepBox;
 	private TextWithComboBox receiverBox;
-	private TextWithComboBox actionParamBox;
+	private ParamBox actionParamBox;
 	private TextWithComboBox senderBox;
 
 	/**
@@ -40,15 +40,9 @@ public class BoxContainer extends Composite {
 		senderBox.getGrpActionPart().setText("Sender");
 
 		sentenceActivityBox = new ActivityBox(this, SWT.NONE);
-		RowData rd_activityBox = new RowData(SWT.DEFAULT, SWT.DEFAULT);
-		sentenceActivityBox.setLayoutData(rd_activityBox);
 		sentenceActivityBox.getLblMarkedText().setText("Marked activity");
 
-		actionParamBox = new TextWithComboBox(this, SWT.NONE);
-		// TODO - jvinarek - temporarily excluded
-		RowData rd_actionParamBox = new RowData(SWT.DEFAULT, SWT.DEFAULT);
-		rd_actionParamBox.exclude = true;
-		actionParamBox.setLayoutData(rd_actionParamBox);
+		actionParamBox = new ParamBox(this, SWT.NONE);		
 		actionParamBox.getGrpActionPart().setText("Action parameter");
 
 		receiverBox = new TextWithComboBox(this, SWT.NONE);
@@ -86,7 +80,7 @@ public class BoxContainer extends Composite {
 		return receiverBox;
 	}
 
-	public TextWithComboBox getActionParamBox() {
+	public ParamBox getActionParamBox() {
 		return actionParamBox;
 	}
 

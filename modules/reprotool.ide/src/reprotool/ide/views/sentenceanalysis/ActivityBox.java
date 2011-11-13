@@ -32,7 +32,9 @@ public class ActivityBox extends Composite {
 		
 		Group grpVerb = new Group(this, SWT.NONE);
 		grpVerb.setText("Activity");
-		grpVerb.setLayout(new FormLayout());
+		FormLayout fl_grpVerb = new FormLayout();
+		fl_grpVerb.marginRight = 10;
+		grpVerb.setLayout(fl_grpVerb);
 		
 		lblMarkedText = new Label(grpVerb, SWT.NONE);
 		FormData fd_lblMarkedText = new FormData();

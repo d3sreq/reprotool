@@ -181,6 +181,7 @@
       <styles xmi:type="notation:FontStyle" xmi:id="_oZrvEu01EeCcuJeC_Sm0Dg" fontColor="4210752" fontName="Sans" fontHeight="10"/>
       <element xmi:type="ecore:EReference" href="reprotool.model.ecore#//usecase/UseCase/mainScenario"/>
       <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_oZrvE-01EeCcuJeC_Sm0Dg" points="[3, 25, -14, -103]$[3, 112, -14, -16]"/>
+      <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_1uSC4Q4JEeG3F8zfybnoWA" id="(0.8725490196078431,0.7142857142857143)"/>
       <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_pF9mQO01EeCcuJeC_Sm0Dg" id="(0.6380368098159509,0.13821138211382114)"/>
     </edges>
     <edges xmi:type="notation:Edge" xmi:id="_rxv3EO01EeCcuJeC_Sm0Dg" type="3002" source="_nfXgEO0uEeCcuJeC_Sm0Dg" target="_LWsfkNLfEeC2DsylnBoSvA">
