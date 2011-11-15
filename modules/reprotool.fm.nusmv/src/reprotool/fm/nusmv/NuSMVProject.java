@@ -150,28 +150,43 @@ public class NuSMVProject {
 			uc2gen.put(nusvm.getUseCase(), nusvm);
 		}
 		
-		for (NuSMVGenerator nusmv: generators) {
+		loadIncludedAnnotations();
+		loadCTLFormulas();
+	}
+	
+	private void loadIncludedAnnotations() {
+		for (NuSMVGenerator nusvm: generators) {
 			int c = 0;
-			for (UseCase uc: nusmv.getIncludedUseCases()) {
+			for (UseCase uc: nusvm.getIncludedUseCases()) {
 				c++;
 				String label = Integer.toString(c);
 				NuSMVGenerator g = uc2gen.get(uc);
-				HashMap<String, AnnotationEntry> annotationTracker = g.getAnnotationsTracker();
-				for (String tag: annotationTracker.keySet()) {
-					List<AnnotationEntry> list = globalTracker.get(tag);
-					if (list == null) {
-						Assert.isTrue(false);
-						list = new ArrayList<AnnotationEntry>();
-						globalTracker.put(tag, list);
-					}
-					AnnotationEntry a = new AnnotationEntry(annotationTracker.get(tag));
-					a.automatonID = nusmv.getUseCaseId() + ".y" + label;
-					list.add(a);
-				}
+				addPath(g, nusvm.getUseCaseId() + ".y" + label);
 			}
 		}
+	}
+	
+	private void addPath(NuSMVGenerator g, String id) {
+		HashMap<String, AnnotationEntry> annotationTracker = g.getAnnotationsTracker();
+		for (String tag: annotationTracker.keySet()) {
+			List<AnnotationEntry> list = globalTracker.get(tag);
+			if (list == null) {
+				Assert.isTrue(false);
+				list = new ArrayList<AnnotationEntry>();
+				globalTracker.put(tag, list);
+			}
+			AnnotationEntry a = new AnnotationEntry(annotationTracker.get(tag));
+			a.automatonID = id;
+			list.add(a);
+		}
 		
-		loadCTLFormulas();
+		int c = 0;
+		for (UseCase uc: g.getIncludedUseCases()) {
+			c++;
+			String label = Integer.toString(c);
+			NuSMVGenerator gen = uc2gen.get(uc);
+			addPath(gen, id + ".y" + label);
+		}
 	}
 	
 	private List<String> getAnnotatedVars(List<String> annotations) {

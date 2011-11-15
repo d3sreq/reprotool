@@ -16,7 +16,7 @@ import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 import org.osgi.framework.Bundle;
 
 import reprotool.fm.nusmv.Activator;
-import reprotool.fm.nusmv.MyNuSMVWrapper;
+import reprotool.fm.nusmv.NuSMVWrapper;
 import reprotool.model.swproj.SoftwareProject;
 import reprotool.model.usecase.UseCase;
 
@@ -55,7 +55,7 @@ public class NuSMVTest implements IWorkbenchWindowActionDelegate {
 	 * @see IWorkbenchWindowActionDelegate#run
 	 */
 	public void run(IAction action) {
-		MyNuSMVWrapper nusmv = Activator.getDefault().getNuSMVWrapper();
+		NuSMVWrapper nusmv = Activator.getDefault().getNuSMVWrapper();
 		nusmv.clearConsole();
 		
 		SoftwareProject swproj = generateTestingReprotoolModel();

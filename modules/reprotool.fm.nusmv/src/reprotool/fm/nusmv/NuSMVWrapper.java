@@ -6,8 +6,12 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.Assert;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -29,17 +33,30 @@ import org.eclipselabs.nusmvtools.nusmv4j.NusmvLibrary.PropDb_TAG;
 import org.eclipselabs.nusmvtools.nusmv4j.NusmvLibrary.Prop_TAG;
 import org.eclipselabs.nusmvtools.nusmv4j.NusmvLibraryUtil;
 
+import reprotool.model.swproj.CounterExample;
+import reprotool.model.swproj.Step;
+import reprotool.model.swproj.SwprojFactory;
+import reprotool.model.swproj.UseCaseTransition;
+import reprotool.model.usecase.Scenario;
+import reprotool.model.usecase.UseCaseStep;
+import reprotool.model.usecase.annotate.TemporalLogicFormula;
+
+
 public class NuSMVWrapper {
 
 	private static final String COUNTER_EXAMPLE_FILE = "counterexample.xml";
-
+	
 	private NusmvLibrary nusmvLib;
 
 	private MessageConsole con = findConsole(Activator.PLUGIN_ID);
 	private MessageConsoleStream out = con.newMessageStream();
+	private NuSMVProject nusmvProject;
+	private CounterExample counterExample;
+	private HashMap<UseCaseTransition, Step> branchingStep = new HashMap<UseCaseTransition, Step>();
 	
 	public NuSMVWrapper() {
 		nusmvLib = NuSMV4J.INSTANCE().getNusmvLibrary();
+		counterExample = SwprojFactory.eINSTANCE.createCounterExample();
 		
 		// disable console output from NuSMV
 	    //NusmvLibrary.nusmv_stdout.set(nusmvLib.CmdOpenFile( new File("/dev/null").getAbsolutePath() ));
@@ -109,6 +126,10 @@ public class NuSMVWrapper {
 	final public void checkInlineCTLSpec() {
 		
 	    out.println("Checking all inline CTLSPEC");
+	    nusmvProject = Activator.getDefault().getNuSMVProject();
+	    counterExample.getUseCaseTransitions().clear();
+	    counterExample.setFormula(null);
+	    counterExample.setProject(nusmvProject.getSoftwareProject());
 	    
 		execCommand("reset");
 		execCommand("go");
@@ -137,6 +158,17 @@ public class NuSMVWrapper {
 					writer.newLine();
 				} else {
 					out.println(line);
+					if (line.matches("-- specification .* is false")) {
+						Pattern myPattern = Pattern.compile("-- specification (.*) is false");
+						Matcher m = myPattern.matcher(line);
+						if (m.find()) {
+							String expandedFormula = m.group(1);
+							expandedFormula = expandedFormula.replaceAll("\\s+", "");
+							expandedFormula = expandedFormula.replaceAll("[()]", "");
+							TemporalLogicFormula tf = nusmvProject.getFormula(expandedFormula);
+							counterExample.setFormula(tf);
+						}
+					}
 				}
 			}
 			writer.close();
@@ -181,8 +213,6 @@ public class NuSMVWrapper {
 		
 	    final Prop_TAG prop = nusmvLib.PropDb_get_last( db );
 	    
-//	    int traceId = nusmvLib.Prop_get_trace(prop);
-//	    if(traceId == 0) {
 	    String status = nusmvLib.Prop_get_status_as_string(prop).getString(0);
 	    if( "True".equals(status) )
 	    {
@@ -190,12 +220,8 @@ public class NuSMVWrapper {
 	    	out.println("OK");
 	    	return;
 	    }
-	    
 	    execCommand("show_traces -a -o " + COUNTER_EXAMPLE_FILE);
-//		execCommand("show_traces -o " + COUNTER_EXAMPLE_FILE + " " + traceId);
-
 	    displayCounterExampleFile(COUNTER_EXAMPLE_FILE);
-
 	}
 	
 	private void displayCounterExampleFile(String fileName) {
@@ -223,15 +249,43 @@ public class NuSMVWrapper {
 			for (StateType state : node.getState()) {
 				out.println("  State: " + state.getId() + " = ");
 				for (ValueType var : state.getValue()) {
-					// if( "TRUE".equals(var.getValue()) && !
-					// var.getVariable().startsWith("TODO"))
-					// out.println( "    - " + var.getVariable() );
 					if (!"FALSE".equals(var.getValue()))
 						out.println("    - " + var.getVariable() + " = "
 								+ var.getValue());
+					if (var.getVariable().matches("x.*\\.s")) {
+						NuSMVParser.processVariable(var.getVariable(), var.getValue(),
+								nusmvProject, this.counterExample, branchingStep);
+					}
 				}
 			}
 		}
+	}
+		
+	public CounterExample getCounterExample() {		
+		if (!branchingStep.isEmpty()) {
+			for (UseCaseTransition ucTrans : branchingStep.keySet()) {
+				Step step = branchingStep.get(ucTrans);
+				Step pred = null;
+				for (Step s: ucTrans.getSteps()) {
+					if (s == step) {
+						break;
+					}
+					pred = s;
+				}
+				Assert.isNotNull(pred);
+				Assert.isTrue(pred.getUcStep().eContainer() instanceof Scenario);
+				Scenario s = (Scenario) pred.getUcStep().eContainer();
+				int i = s.getSteps().indexOf(pred.getUcStep());
+				UseCaseStep missingStep = s.getSteps().get(i + 1);
+				Assert.isNotNull(missingStep);
+				step.setLabel(missingStep.getLabel());
+				step.setContent(missingStep.getContent());
+				step.setUcStep(missingStep);
+				ucTrans.getSteps().add(step);
+			}
+		}
+		
+		return counterExample;
 	}
 	
 	/**

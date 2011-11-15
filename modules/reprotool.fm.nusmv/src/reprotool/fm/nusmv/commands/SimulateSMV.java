@@ -10,7 +10,7 @@ import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.ui.handlers.HandlerUtil;
 
 import reprotool.fm.nusmv.Activator;
-import reprotool.fm.nusmv.MyNuSMVWrapper;
+import reprotool.fm.nusmv.NuSMVWrapper;
 
 public class SimulateSMV implements IHandler {
 
@@ -21,7 +21,7 @@ public class SimulateSMV implements IHandler {
 			TreeSelection tsel = (TreeSelection) sel;
 			IFile file = (IFile) tsel.getFirstElement();
 			
-			MyNuSMVWrapper nusmv = Activator.getDefault().getNuSMVWrapper();
+			NuSMVWrapper nusmv = Activator.getDefault().getNuSMVWrapper();
 			nusmv.clearConsole();
 			nusmv.loadModelFile( file );
 			nusmv.execCommand("go");

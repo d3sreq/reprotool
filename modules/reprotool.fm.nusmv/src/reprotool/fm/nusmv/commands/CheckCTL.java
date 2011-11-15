@@ -17,7 +17,7 @@ import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.ui.handlers.HandlerUtil;
 
 import reprotool.fm.nusmv.Activator;
-import reprotool.fm.nusmv.MyNuSMVWrapper;
+import reprotool.fm.nusmv.NuSMVWrapper;
 import reprotool.fm.nusmv.NuSMVProject;
 import reprotool.model.swproj.CounterExample;
 import reprotool.model.swproj.SoftwareProject;
@@ -59,7 +59,7 @@ public class CheckCTL implements IHandler {
 				loadNuSMVProject(file.getFullPath().removeFileExtension());
 			}
 			
-			MyNuSMVWrapper nusmv = Activator.getDefault().getNuSMVWrapper();
+			NuSMVWrapper nusmv = Activator.getDefault().getNuSMVWrapper();
 			nusmv.clearConsole();
 			nusmv.loadModelFile( file );
 			nusmv.checkInlineCTLSpec();
