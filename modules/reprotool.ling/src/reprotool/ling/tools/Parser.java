@@ -34,44 +34,120 @@ import danbikel.parser.Settings;
  */
 public class Parser extends Tool {
 	
+	static boolean runs = false;
+	static danbikel.parser.Parser parser = null;
+	
 	/**
 	 * Parse trees of each sentence
 	 *
 	 * @return String parsed_tree 
 	 */	
 	
-	/*
-	 *  internal node enum
-	 *  for switches 
-	 */
-/*	public enum Node {
-		NP, VP, PP, FRAG,
-		X;
-		
-		public static Node fromString(String text) {
-			if (text != null) {
-				for (Node node : Node.values()) {
-					if (text.equalsIgnoreCase(node.toString())) {
-						return node;
-					}
-				}
-			}
-			return Node.X;
-		}	
-	}
-	*/
-	
+
 	public String run(String text) {
 		return getString(text);
 	}
 	
+	// main method
+    public static String getString(String originalText) {
+    	String parsedText = "";
+    	// TODO divide start and parse
+    	if (runs){ // get response from tool
+    		
+    		// validation of state
+    		boolean alive = false;
+    		try{
+    			alive = parser.alive();
+    		} catch (RemoteException e){
+    			parsedText = start(originalText);
+    		}
+    		
+    		// is still running in memory
+    		if (alive){
+    			parsedText = parse(originalText);   			
+    		} else {
+    			parsedText = start(originalText);
+    		}
+    		
+    	} else { // load models
+    		parsedText = start(originalText);
+    		//return parse(String originalText);   		
+    	}
+    	
+    	// creating tree objects
+        return parsedText;
+
+    }   
+    
+	
+	
+	private static String start (String originalText) {
+    	String settingsFile = "";
+    	Sexp result = null;
+    	String modelFile = "";
+    	
+		// locating external model
+		try{
+			modelFile = Platform.getPreferencesService().getString("reprotool.ide", "parserModel", "/wsj-02-21.obj.gz", null);
+		} catch (NullPointerException e){
+			String rootPath = new java.io.File(Tagger.class.getResource("/").getPath()).getParentFile().getParent();
+			modelFile = rootPath + "/../tools/parser/wsj-02-21.obj.gz";
+		}
+ 
+		// locating external settings
+		try{
+			settingsFile = Platform.getPreferencesService().getString("reprotool.ide", "parserSettings", "/collins.properties", null);
+		} catch (NullPointerException e){
+			String rootPath = new java.io.File(Tagger.class.getResource("/").getPath()).getParentFile().getParent();
+			settingsFile = rootPath + "/../tools/parser/collins.properties";
+		}
+
+
+    	try {
+			Settings.load(settingsFile);
+		} catch (IOException e) {}		
+
+    	
+		try {
+			//parser = new danbikel.parser.Parser("D:\\Projects\\ReProTool\\dbparser\\wsj-02-21.obj.gz");
+			parser = new danbikel.parser.Parser(modelFile);
+			runs = true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		// parsing sentence
+		try {
+			result = parser.parse(Sexp.read(originalText).list());
+		} catch (Exception e) {
+			System.err.print("Invalid input string!");
+		}
+		
+    	return result.toString();		
+	}
+
+	
+	private static String parse(String originalText) {
+    	Sexp result = null;
+
+		// parsing sentence
+		try {
+			result = parser.parse(Sexp.read(originalText).list());
+		} catch (Exception e) {
+			System.err.print("Invalid input string!");
+		}
+		
+    	return result.toString();	
+	}
+	
+    
     /**
      * Parse sentence into tree in string format
      * 
      * @param originalText Sentence from linguistics tagger
      * @return Sentence whole Sentence object with tree and array
      */
-    public static String getString(String originalText) {	
+    public static String getStringOld(String originalText) {	
     	String settingsFile = "";
     	Sexp result = null;
     	String modelFile = "";
@@ -121,7 +197,7 @@ public class Parser extends Tool {
 		} catch (IOException e) {}
 		
     	danbikel.parser.Parser parser = null;
-    	
+
 		try {
 			//parser = new danbikel.parser.Parser("D:\\Projects\\ReProTool\\dbparser\\wsj-02-21.obj.gz");
 			parser = new danbikel.parser.Parser(modelFile);
@@ -140,6 +216,7 @@ public class Parser extends Tool {
 			e2.printStackTrace();
 		}
 			
+		// parsing sentence
 		try {
 			result = parser.parse(Sexp.read(originalText).list());
 		} catch (Exception e) {
