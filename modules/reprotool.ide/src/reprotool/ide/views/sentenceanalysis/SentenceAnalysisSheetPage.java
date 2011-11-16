@@ -12,6 +12,7 @@ import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.list.WritableList;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.databinding.observable.value.WritableValue;
+import org.eclipse.core.databinding.property.value.IValueProperty;
 import org.eclipse.emf.databinding.FeaturePath;
 import org.eclipse.emf.databinding.IEMFValueProperty;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
@@ -21,11 +22,14 @@ import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.jface.databinding.viewers.ViewerSupport;
 import org.eclipse.jface.databinding.viewers.ViewersObservables;
+import org.eclipse.jface.viewers.ComboBoxViewerCellEditor;
 import org.eclipse.jface.viewers.ComboViewer;
+import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -51,6 +55,11 @@ import reprotool.model.usecase.UseCaseStep;
 import reprotool.model.usecase.UsecasePackage;
 
 /**
+ * Page of the sentence analysis view.
+ * <p>
+ * For more information about EMF databinding look at 
+ * http://tomsondev.bestsolution.at/2009/06/06/galileo-improved-emf-databinding-support/
+ * 
  * @author jvinarek
  *
  */
@@ -59,7 +68,8 @@ public class SentenceAnalysisSheetPage extends Page implements ISentenceAnalysis
 	private BoxContainer boxContainer;
 	private WritableValue writableValue = new WritableValue();
 	
-	// TODO jvinarek - remove ?
+	// binding context is used by binding framework  
+	@SuppressWarnings("unused")
 	private DataBindingContext m_bindingContext;
 	
 	private AdapterFactoryEditingDomain editingDomain;
@@ -144,13 +154,10 @@ public class SentenceAnalysisSheetPage extends Page implements ISentenceAnalysis
 		
 		// action param
 		bindBoxVisibility(bindingContext, emfValue, boxContainer.getActionParamBox(), "actionParam");
-		// TODO - add binding of the conceptual objects to the table's combo
-//		bindActorsContentToCombo(bindingContext, boxContainer.getActionParamBox().getComboViewer());
-//		bindMarkedText(bindingContext, boxContainer.getActionParamBox().getLblMarkedText(), new EReference[] {ActionPackage.Literals.COMMUNICATION__ACTION_PARAM});
+		bindActionParams(bindingContext);
 		
 		// goto
 		bindBoxVisibility(bindingContext, emfValue, boxContainer.getGotoUseCaseStepBox(), "gotoTarget");
-		// bind goto
 		// TODO - jvinarek - filter out selected use case step ?
 		bindGotoList(bindingContext);
 		// @formatter:off
@@ -196,6 +203,46 @@ public class SentenceAnalysisSheetPage extends Page implements ISentenceAnalysis
 		return bindingContext;
 	}
 
+	private void bindActionParams(DataBindingContext bindingContext) {
+		TableViewer tableViewer = boxContainer.getActionParamBox().getTableViewer();
+
+		// @formatter:off
+		// prepare list of "SentenceActionParam" instances for actual "UseCaseStep" 
+		FeaturePath featurePathToActionParamList = FeaturePath.fromList(new EReference[] {
+			UsecasePackage.Literals.USE_CASE_STEP__ACTION, 
+			ActionPackage.Literals.COMMUNICATION__ACTION_PARAM
+		});
+		IObservableList emfList = EMFEditProperties.list(editingDomain, featurePathToActionParamList)				
+				.observeDetail(writableValue);
+
+		// prepare value from "SentenceActionParam" to the "Content" property of the "TextRange" 
+		FeaturePath featurePathTextRangeContent = FeaturePath.fromList(new EStructuralFeature[] {
+				ActionpartPackage.Literals.ACTION_PART__TEXT,
+				ActionpartPackage.Literals.TEXT_RANGE__CONTENT
+		});
+		IEMFValueProperty textRangeProperty = EMFEditProperties.value(editingDomain, featurePathTextRangeContent);
+		
+		// prepare value from "SentenceActionParam" to the "Name" property of the "ConceptualObject" 
+		FeaturePath featurePathConceptualObjectNames = FeaturePath.fromList(new EStructuralFeature[] {
+				ActionpartPackage.Literals.SENTENCE_ACTION_PARAM__CONCEPTUAL_OBJECT,
+				SwprojPackage.Literals.DESCRIBED_ELEMENT__NAME
+		});
+		IEMFValueProperty conceptualObjectProperty = EMFEditProperties.value(editingDomain, featurePathConceptualObjectNames);
+		// @formatter:on
+		
+		// bind param list to the viewer, use feature paths for columns
+		ViewerSupport.bind(tableViewer, emfList, new IValueProperty[] { textRangeProperty, conceptualObjectProperty });
+		
+		// bind editing support - handles combobox property getting/setting
+		IEMFValueProperty elementProperty = EMFEditProperties.value(editingDomain, ActionpartPackage.Literals.SENTENCE_ACTION_PARAM__CONCEPTUAL_OBJECT);
+		ComboBoxViewerCellEditor cellEditor = new ComboBoxViewerCellEditor(tableViewer.getTable(), SWT.READ_ONLY);
+		EditingSupport comboEditingSupport = new ParamBox.ComboColumnEditingSupport(tableViewer, bindingContext, elementProperty, cellEditor); 
+		boxContainer.getActionParamBox().getComboColumn().setEditingSupport(comboEditingSupport);
+		
+		// bind items - values from which user selects
+		bindConceptualObjectsList(bindingContext, cellEditor.getViewer());
+	}
+
 	private void bindActionSelection(DataBindingContext bindingContext, IObservableValue emfValue) {
 		//
 		// binds value to action box combo
@@ -219,6 +266,16 @@ public class SentenceAnalysisSheetPage extends Page implements ISentenceAnalysis
 		FeaturePath featurePath = FeaturePath.fromList(
 				UsecasePackage.Literals.USE_CASE_STEP__SOFTWARE_PROJECT_SHORTCUT, 
 				SwprojPackage.Literals.SOFTWARE_PROJECT__ACTORS						 
+		);
+		EStructuralFeature detailValue = SwprojPackage.Literals.DESCRIBED_ELEMENT__NAME;
+
+		bindComboListCommon(bindingContext, comboViewer, featurePath, detailValue);
+	}
+	
+	private void bindConceptualObjectsList(DataBindingContext bindingContext, ComboViewer comboViewer) {
+		FeaturePath featurePath = FeaturePath.fromList(
+				UsecasePackage.Literals.USE_CASE_STEP__SOFTWARE_PROJECT_SHORTCUT, 
+				SwprojPackage.Literals.SOFTWARE_PROJECT__CONCEPTUAL_OBJECTS						 
 		);
 		EStructuralFeature detailValue = SwprojPackage.Literals.DESCRIBED_ELEMENT__NAME;
 
@@ -294,8 +351,6 @@ public class SentenceAnalysisSheetPage extends Page implements ISentenceAnalysis
 		strategy.setConverter(new BoxVisibleConverter(referenceName));
 		bindingContext.bindValue(widgetValue, emfValue, null, strategy);
 	}
-	
-	
 	
 	/**
 	 * Create contents of the PageBookView Page.
@@ -418,12 +473,6 @@ public class SentenceAnalysisSheetPage extends Page implements ISentenceAnalysis
 					return true;
 				}
 			}
-//			for (EReference reference : action.eClass().geteall) {
-//				if (reference.getName().equals(referenceName)) {
-//					return true;
-//				}
-//			}
-			
 			
 			return false;
 		}

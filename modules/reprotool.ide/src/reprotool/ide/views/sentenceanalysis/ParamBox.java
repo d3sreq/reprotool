@@ -1,12 +1,17 @@
 package reprotool.ide.views.sentenceanalysis;
 
+import org.eclipse.core.databinding.DataBindingContext;
+import org.eclipse.core.databinding.observable.value.IObservableValue;
+import org.eclipse.emf.databinding.IEMFValueProperty;
+import org.eclipse.jface.databinding.viewers.ObservableValueEditingSupport;
+import org.eclipse.jface.databinding.viewers.ViewersObservables;
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ColumnPixelData;
 import org.eclipse.jface.viewers.ComboBoxViewerCellEditor;
-import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
+import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.FillLayout;
@@ -15,9 +20,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
-
-import reprotool.model.linguistic.actionpart.SentenceActionParam;
-import reprotool.model.swproj.ConceptualObject;
 
 /**
  * Composite with table having 2 columns - text and combobox.
@@ -33,6 +35,7 @@ public class ParamBox extends Composite {
 	private TableViewerColumn textColumn;
 	private TableColumn tblclmnNewColumn_1;
 	private TableViewerColumn comboColumn;
+	private TableViewer tableViewer;
 	
 	/**
 	 * Create the composite.
@@ -52,7 +55,7 @@ public class ParamBox extends Composite {
 		TableColumnLayout tcl_composite = new TableColumnLayout();
 		composite.setLayout(tcl_composite);
 		
-		TableViewer tableViewer = new TableViewer(composite, SWT.BORDER | SWT.FULL_SELECTION);
+		tableViewer = new TableViewer(composite, SWT.BORDER | SWT.FULL_SELECTION);
 		table = tableViewer.getTable();
 		table.setSize(new Point(200, 0));
 		table.setLinesVisible(true);
@@ -89,38 +92,38 @@ public class ParamBox extends Composite {
 		return this.isVisible();
 	}
 	
-	public static class ComboColumnEditingSupport extends EditingSupport {
+	public TableViewer getTableViewer() {
+		return tableViewer;
+	}
+	
+	public TableViewerColumn getComboColumn() {
+		return comboColumn;
+	}
 
-		private final TableViewer viewer;
+	public static class ComboColumnEditingSupport extends ObservableValueEditingSupport {
+
+		private final ComboBoxViewerCellEditor cellEditor;
+		private final IEMFValueProperty elementProperty;
 		
-		public ComboColumnEditingSupport(TableViewer viewer) {
-			super(viewer);
-			this.viewer = viewer;
+		public ComboColumnEditingSupport(TableViewer tableViewer, DataBindingContext dbc, IEMFValueProperty elementProperty, ComboBoxViewerCellEditor cellEditor) {
+			super(tableViewer, dbc);
+			this.cellEditor = cellEditor;
+			this.elementProperty = elementProperty;
+		}
+
+		@Override
+		protected IObservableValue doCreateCellEditorObservable(CellEditor cellEditor) {
+			return ViewersObservables.observeSingleSelection(this.cellEditor.getViewer()); 
+		}
+
+		@Override
+		protected IObservableValue doCreateElementObservable(Object element, ViewerCell cell) {
+			return elementProperty.observe(element);
 		}
 
 		@Override
 		protected CellEditor getCellEditor(Object element) {
-			return new ComboBoxViewerCellEditor(viewer.getTable());
-		}
-
-		@Override
-		protected boolean canEdit(Object element) {
-			return true;
-		}
-
-		@Override
-		protected Object getValue(Object element) {
-			SentenceActionParam param = (SentenceActionParam)element;
-			return param.getConceptualObject();
-		}
-
-		@Override
-		protected void setValue(Object element, Object value) {
-			SentenceActionParam param = (SentenceActionParam)element;
-			ConceptualObject conceptualObject = (ConceptualObject)value;
-			// TODO jvinarek - add with EMF command or add binding ?
-			param.setConceptualObject(conceptualObject);
-			viewer.refresh();
+			return cellEditor;
 		}
 		
 	}
