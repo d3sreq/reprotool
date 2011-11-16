@@ -64,7 +64,11 @@ public class NuSMVParser {
 	static void processVariable(String name, String value, NuSMVProject nusmvProject,
 			CounterExample counterExample, HashMap<UseCaseTransition, Step> branchingStep)
 	{
-		if (("s0".equals(value)) || ("sFin".equals(value))) {
+		if (("s0".equals(value)) || ("sFin".equals(value)) || ("sAbort".equals(value))) {
+			return;
+		}
+		
+		if (value.matches(".*_")) {
 			return;
 		}
 				
@@ -101,6 +105,8 @@ public class NuSMVParser {
 				
 		NuSMVGenerator gen = nusmvProject.getGeneratorById(ucId);
 		Transition t = gen.getLabel2Trans().get(value);
+		
+		Assert.isNotNull(t);
 		
 		TransitionalState srcState = t.getSourceState();
 		String prevLabel = null;

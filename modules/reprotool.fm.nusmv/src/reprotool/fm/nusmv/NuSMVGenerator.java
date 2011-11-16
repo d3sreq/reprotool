@@ -83,8 +83,7 @@ public class NuSMVGenerator {
 			UseCaseStep ucStep = t.getRelatedStep();
 			if (
 					(ucStep != null) &&
-					(!(ucStep.getAction() instanceof Goto)) &&
-					(!(ucStep.getAction() instanceof AbortUseCase))
+					(!(ucStep.getAction() instanceof Goto))
 			) {
 				if (ucStep.getAction() instanceof UseCaseInclude) {
 					UseCaseInclude ui = (UseCaseInclude) ucStep.getAction();
@@ -94,6 +93,7 @@ public class NuSMVGenerator {
 				
 				String label = "s" + t.getRelatedStep().getLabel();
 				states.add(label);
+				states.add(label + "_");
 				label2Trans.put(label, t);
 				trans2Label.put(t, label);
 				state2Label.put(t.getTargetState(), label);
@@ -128,8 +128,7 @@ public class NuSMVGenerator {
 				UseCaseStep ucStep = t.getRelatedStep();
 				if (
 						(ucStep != null) &&
-						(!(ucStep.getAction() instanceof Goto)) &&
-						(!(ucStep.getAction() instanceof AbortUseCase))
+						(!(ucStep.getAction() instanceof Goto))
 				) {
 					if (ucStep.getAction() instanceof UseCaseInclude) {
 						UseCaseInclude ui = (UseCaseInclude) ucStep.getAction();
@@ -139,6 +138,7 @@ public class NuSMVGenerator {
 					
 					String label = "s" + t.getRelatedStep().getLabel();
 					states.add(label);
+					states.add(label + "_");
 					label2Trans.put(label, t);
 					trans2Label.put(t, label);
 					state2Label.put(t.getTargetState(), label);
@@ -350,11 +350,16 @@ public class NuSMVGenerator {
 				nextExpr.append(",");
 			}
 			c++;
-			nextExpr.append(label);
+			nextExpr.append(label + "_");
 		}
 		nextExpr.append("};\n");
 		
 		for(String state: states) {
+			if (state.matches(".*_")) {
+				nextExpr.append("\t\ts=" + state + " : " + 
+						state.substring(0, state.length() - 1) + ";\n");
+				continue;
+			}
 			Transition t = label2Trans.get(state);
 			State tgt = t.getTargetState();
 			if (tgt instanceof TransitionalState) {
@@ -374,7 +379,7 @@ public class NuSMVGenerator {
 					int i = includedUseCases.indexOf(ui.getIncludeTarget()) + 1;
 					String tag = Integer.toString(i);
 					nextExpr.append("		s=" + state + " & y" + tag +  ".s != sFin : " + state + ";\n");
-					nextExpr.append("		s=" + state + " & y" + tag +  ".s = sFin : " + label + ";\n");
+					nextExpr.append("		s=" + state + " & y" + tag +  ".s = sFin : " + label + "_;\n");
 					continue;
 				}
 				
@@ -402,10 +407,9 @@ public class NuSMVGenerator {
 						if (skips.contains(tr)) {
 							continue;
 						}
-						UseCaseStep step = tr.getRelatedStep();
 						String label = trans2Label.get(tr);
-						if ((step != null) && (step.getAction() instanceof AbortUseCase)) {
-							label = "sAbort";
+						if (label != null) {
+							label = label + "_";
 						}
 						if (label == null) {
 							label = state2Label.get(tr.getTargetState());
@@ -421,10 +425,9 @@ public class NuSMVGenerator {
 					nextExpr.append("		s=" + state + " & top." + traceTag + ": {");
 					c = 0;
 					for (Transition tr: skips) {
-						UseCaseStep step = tr.getRelatedStep();
 						String label = trans2Label.get(tr);
-						if ((step != null) && (step.getAction() instanceof AbortUseCase)) {
-							label = "sAbort";
+						if (label != null) {
+							label = label + "_";
 						}
 						if (label == null) {
 							label = state2Label.get(tr.getTargetState());
@@ -440,10 +443,9 @@ public class NuSMVGenerator {
 					nextExpr.append("		s=" + state + " : {");
 					c = 0;
 					for (Transition tr: transitions) {
-						UseCaseStep step = tr.getRelatedStep();
 						String label = trans2Label.get(tr);
-						if ((step != null) && (step.getAction() instanceof AbortUseCase)) {
-							label = "sAbort";
+						if (label != null) {
+							label = label + "_";
 						}
 						if (label == null) {
 							label = state2Label.get(tr.getTargetState());
@@ -456,6 +458,10 @@ public class NuSMVGenerator {
 					}
 					nextExpr.append("};\n");
 				}
+			}
+			
+			if (tgt == machine.getAbortState()) {
+				nextExpr.append("\t\ts=" + state + " : sAbort;\n");
 			}
 		}
 		

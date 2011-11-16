@@ -290,7 +290,7 @@ public class NuSMVProject {
 		
 		for (AnnotationEntry aEntry : globalTracker.get(tag)) {
 			for (String state: aEntry.states) {
-				nextExpr.append("\t\tx" + aEntry.automatonID + ".s=" + state + " : TRUE;\n");
+				nextExpr.append("\t\tx" + aEntry.automatonID + ".s=" + state + "_ : TRUE;\n");
 			}
 		}
 		nextExpr.append("\t\tTRUE : " + tag + ";\n\tesac");
@@ -340,7 +340,7 @@ public class NuSMVProject {
 						nextExpr.append(",");
 					}
 					c++;
-					nextExpr.append(state);
+					nextExpr.append(state + "_");
 				}
 				nextExpr.append("}\n");
 			}
