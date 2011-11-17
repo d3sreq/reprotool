@@ -51,15 +51,10 @@ public class AutomaticAnalysisAction extends BaseSelectionListenerAction {
 		}
 		
 		UseCaseStep useCaseStep = (UseCaseStep)elem;
-		// TODO - jvinarek - test only
-//		System.out.println(">> " + useCaseStep.getContent());
-		
 		EditingDomain editingDomain = getEditingDomain(useCaseStep);
 		
 		CompoundCommand command = LingTools.analyseUseCaseStep(editingDomain, useCaseStep);
-		
-		// TODO - notify listeners
-		command.execute();
+		editingDomain.getCommandStack().execute(command);
 	}
 	
 	private EditingDomain getEditingDomain(EObject eobject) {

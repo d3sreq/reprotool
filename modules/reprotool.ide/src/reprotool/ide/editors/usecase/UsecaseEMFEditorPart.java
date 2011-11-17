@@ -1,14 +1,19 @@
 package reprotool.ide.editors.usecase;
 
+import java.util.EventObject;
+
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.command.BasicCommandStack;
+import org.eclipse.emf.common.command.Command;
+import org.eclipse.emf.common.command.CommandStackListener;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.ui.URIEditorInput;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
 import org.eclipse.emf.edit.ui.dnd.EditingDomainViewerDropAdapter;
@@ -36,6 +41,7 @@ import org.eclipse.ui.part.EditorPart;
 
 import reprotool.model.swproj.SwprojPackage;
 import reprotool.model.usecase.UseCase;
+import reprotool.model.usecase.UsecasePackage;
 import reprotool.model.usecase.presentation.ReprotoolEditorPlugin;
 
 /**
@@ -50,9 +56,10 @@ public class UsecaseEMFEditorPart extends EditorPart implements IMenuListener, I
 	private UsecaseEMFEditorComposite composite;
 	protected UsecaseEMFEditor parentEditor;
 
-	// TODO jvinarek - remove ?
+	// used by binding framework
+	@SuppressWarnings("unused")
 	private DataBindingContext m_bindingContext;
-	
+
 	public UsecaseEMFEditorPart(UsecaseEMFEditor parent) {
 		super();
 		this.parentEditor = parent;
@@ -103,6 +110,7 @@ public class UsecaseEMFEditorPart extends EditorPart implements IMenuListener, I
 	public void init(IEditorSite site, IEditorInput input) throws PartInitException {
 		setSite(site);
 		setInput(input);
+
 	}
 
 	@Override
@@ -121,7 +129,7 @@ public class UsecaseEMFEditorPart extends EditorPart implements IMenuListener, I
 	}
 
 	@Override
-	public void createPartControl(Composite parent) {
+	public void createPartControl(final Composite parent) {
 		composite = new UsecaseEMFEditorComposite(parent, SWT.NONE);
 		TreeViewer viewer = composite.getTreeViewer();
 
@@ -142,36 +150,62 @@ public class UsecaseEMFEditorPart extends EditorPart implements IMenuListener, I
 		if (useCase != null) {
 			// set use case to viewer
 			this.setInput(useCase);
-		
+
 			// add binding
 			m_bindingContext = initDataBindings(useCase);
 		}
-		
+
+		// add command stack listener to refresh tree
+		// TODO - jvinarek - add somewhere remove listener ?
+		getCommandStack().addCommandStackListener(new CommandStackListener() {
+			
+			public void commandStackChanged(final EventObject event) {
+				
+				// prevent refresh during writing of the text in cell editor
+				Command mostRecentCommand = getCommandStack().getMostRecentCommand();				
+				if (!isContentSetting(mostRecentCommand)) {
+					parentEditor.getContainer().getDisplay().asyncExec(new Runnable() {
+						public void run() {
+							UsecaseEMFEditorPart.this.composite.getTreeViewer().refresh();
+
+						}
+					});
+				}
+			}
+
+			private boolean isContentSetting(Command command) {
+				return (command instanceof SetCommand)
+						&& ((SetCommand) command).getFeature() == UsecasePackage.Literals.PARSEABLE_ELEMENT__CONTENT;
+			}
+			
+		});
+
 		composite.getTreeViewer().expandAll();
 	}
 
 	private DataBindingContext initDataBindings(UseCase useCase) {
 		DataBindingContext bindingContext = new DataBindingContext();
-		
+
 		// bind use case name (title under "Use case" label)
-		IObservableValue emfValue =  EMFEditProperties.value(getEditingDomain(), SwprojPackage.Literals.DESCRIBED_ELEMENT__NAME).observe(useCase);
+		IObservableValue emfValue = EMFEditProperties.value(getEditingDomain(),
+				SwprojPackage.Literals.DESCRIBED_ELEMENT__NAME).observe(useCase);
 		ISWTObservableValue textValue = WidgetProperties.text(SWT.Modify).observe(composite.getTxtUseCaseName());
 		bindingContext.bindValue(textValue, emfValue);
-		
+
 		return bindingContext;
 	}
 
-	private UseCase getInputUseCase() {		
+	private UseCase getInputUseCase() {
 		IEditorInput input = getEditorInput();
 		if (input instanceof URIEditorInput) {
 			URIEditorInput uriEditorInput = (URIEditorInput) input;
 
 			EObject object = getEditingDomain().getResourceSet().getEObject(uriEditorInput.getURI(), true);
 			if (object instanceof UseCase) {
-				return (UseCase)object; 
+				return (UseCase) object;
 			}
 		}
-		
+
 		return null;
 	}
 
@@ -182,7 +216,8 @@ public class UsecaseEMFEditorPart extends EditorPart implements IMenuListener, I
 
 	public void setInput(Object input) {
 		Assert.isTrue(input instanceof UseCase, "Input must have type 'UseCase' but was:" + input);
-		UseCase useCase = (UseCase)input;
+		UseCase useCase = (UseCase) input;
 		composite.getTreeViewer().setInput(useCase.getMainScenario());
 	}
+
 }

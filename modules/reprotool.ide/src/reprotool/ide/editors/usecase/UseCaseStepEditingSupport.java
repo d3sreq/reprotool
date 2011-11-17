@@ -14,6 +14,7 @@ import reprotool.model.usecase.UseCaseStep;
 import reprotool.model.usecase.UsecasePackage;
 
 
+// TODO - jvinarek - change so that class extends ObservableEditingSupport ?
 /**
  * @author jvinarek
  *

@@ -89,6 +89,7 @@ import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.events.ControlAdapter;
 import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IEditorInput;
@@ -1361,7 +1362,6 @@ public class UsecaseEMFEditor
 		// Change from generated editor 
 		site.setSelectionProvider(selectionProvider);
 		site.getPage().addPartListener(partListener);
-		ResourcesPlugin.getWorkspace().addResourceChangeListener(resourceChangeListener, IResourceChangeEvent.POST_CHANGE);
 	}
 
 	/**
@@ -1494,6 +1494,12 @@ public class UsecaseEMFEditor
 	protected boolean showOutlineView() {
 		return true;
 	}
+
 	
+	// overridden to make method public instead of protected
+	@Override
+	public Composite getContainer() {
+		return super.getContainer();
+	} 
 	
 }
