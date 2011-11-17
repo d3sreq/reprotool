@@ -109,7 +109,7 @@ public class NuSMVWrapper {
 	final public void loadModelFile(String absoluteFileLocation) {
 		out.println("Reading SMV model from:" + absoluteFileLocation );
 		execCommand("reset");
-        execCommand("read_model -i " + absoluteFileLocation);
+        execCommand("read_model -i \"" + absoluteFileLocation + "\"");
 	}
 	
 	/**
@@ -220,7 +220,7 @@ public class NuSMVWrapper {
 	    	out.println("OK");
 	    	return;
 	    }
-	    execCommand("show_traces -a -o " + COUNTER_EXAMPLE_FILE);
+	    execCommand("show_traces -a -o \"" + COUNTER_EXAMPLE_FILE + "\"");
 	    displayCounterExampleFile(COUNTER_EXAMPLE_FILE);
 	}
 	
