@@ -1003,7 +1003,7 @@ public class ProjectEditor extends EditorPart implements IEditingDomainProvider,
 	}
 
 	private void openUseCaseEditor(UseCase useCase) {
-		URI uri = EcoreUtil.getURI(useCase);
+		URI uri = EcoreUtil.getURI(useCase);		
 		URIEditorInput input = new URIEditorInput(uri);
 
 		IWorkbenchPage page = getSite().getPage();
@@ -1011,6 +1011,9 @@ public class ProjectEditor extends EditorPart implements IEditingDomainProvider,
 				.findEditor("cz.cuni.mff.reprotool.ide.UseCaseEmfEditor");
 
 		try {
+			// TODO jvinarek - workaround, resource is saved before use case editor opens
+			// to ensure that use case editor can retrieve use case from passed URIEditorInput. 
+			doSave(new NullProgressMonitor());
 			page.openEditor(input, desc.getId());
 		} catch (PartInitException e1) {
 			// TODO Auto-generated catch block
