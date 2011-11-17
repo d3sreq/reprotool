@@ -45,6 +45,10 @@
         <styles xmi:type="notation:FilteringStyle" xmi:id="_nfZVQ-0uEeCcuJeC_Sm0Dg"/>
       </children>
       <children xmi:type="notation:Node" xmi:id="_nfZVRO0uEeCcuJeC_Sm0Dg" type="5002">
+        <children xmi:type="notation:Node" xmi:id="_dbl0oRE2EeGhILeOiFJZWA" type="2002">
+          <element xmi:type="ecore:EOperation" href="reprotool.model.ecore#//usecase/UseCaseStep/getTextNodeAt"/>
+          <layoutConstraint xmi:type="notation:Location" xmi:id="_dbl0ohE2EeGhILeOiFJZWA"/>
+        </children>
         <styles xmi:type="notation:DrawerStyle" xmi:id="_nfZVRe0uEeCcuJeC_Sm0Dg"/>
         <styles xmi:type="notation:SortingStyle" xmi:id="_nfZVRu0uEeCcuJeC_Sm0Dg"/>
         <styles xmi:type="notation:FilteringStyle" xmi:id="_nfZVR-0uEeCcuJeC_Sm0Dg"/>

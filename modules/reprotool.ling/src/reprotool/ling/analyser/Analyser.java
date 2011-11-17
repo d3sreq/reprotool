@@ -97,41 +97,64 @@ public class Analyser {
 			//	labelIndex = i;
 		}
 
-		// setting of the target	
+		// setting of the target
 		if (gotoVerbIndex >= 0) {			
 			
 			//System.out.println("Goto");
 			Goto action = afactory.createGoto();
-			int partNumber = 0;
+			int targetNumber = 0;
 			
 			//ucs.setAction(action);
 			SetCommand setCommand = new SetCommand(editingDomain, ucs, UsecasePackage.Literals.USE_CASE_STEP__ACTION, action);
-			compoundCommand.append(setCommand);			
+			compoundCommand.append(setCommand);	
+			
+			//System.out.print("Goto target ");
 			
 			// finding target
-			for (int i = gotoVerbIndex; i < sentence.getWords().size(); i++){
+			for (int i = gotoVerbIndex; i < sentence.getWords().size() - 1; i++){
 				Word word = sentence.getWords().get(i);
-				if(word.isNumeral() && word.getPOS().toString().substring(0,2).equals("NN")){
-					System.out.print("Goto target " + word.getText() + " ");
+				Word nextword = sentence.getWords().get(i + 1);
+				if(nextword.isNumeral() && word.getPOS().toString().substring(0,2).equals("NN")){
+					labelIndex = i+1;
+					targetNumber = Integer.parseInt(nextword.getText().toString()) - 1;
+					
+					System.out.print("Goto target " + word.getText() + nextword.getText() + " -> " + targetNumber);
+					/* TODO remove
 					Matcher match = Pattern.compile("\\d").matcher(word.getText());
 					if (match.find()) {
 						labelIndex = i;
 						partNumber = Integer.parseInt(match.group(0));
 						System.out.println(match.group(0));
 
-					}					
+					}	*/				
 				}
 			}
 			
-			TextRange tr = apfactory.createTextRange();	
 
 			try{
 				EList<UseCaseStep> lucs = ucs.getUseCaseShortcut().getAllUseCaseStepsShortcut();
 				
-				if(lucs.size() >= partNumber){
+				if(lucs.size() >= targetNumber){
 					//action.setGotoTarget(lucs.);
-					setCommand = new SetCommand(editingDomain, action, ActionPackage.Literals.GOTO__GOTO_TARGET, lucs.get(labelIndex));
+					// set target of GOTO action (UseCaseStep)
+					setCommand = new SetCommand(editingDomain, action, ActionPackage.Literals.GOTO__GOTO_TARGET, lucs.get(targetNumber));
 					compoundCommand.append(setCommand);
+					
+					// show target to user
+					TextRange tr = apfactory.createTextRange();
+					// TODO vypocet aktualni pozice
+					tr.setStartPosition(5);
+					tr.setLength(sentence.getWords().get(labelIndex).getText().length());
+					
+					// removing TextRange at current position
+					TextRange blockingtr = ucs.getTextNodeAt(5);
+					if (blockingtr != null) {
+						ucs.getTextNodes().remove(blockingtr);
+					}
+					
+					AddCommand addCommand = new AddCommand(editingDomain, ucs, UsecasePackage.Literals.PARSEABLE_ELEMENT__TEXT_NODES, tr);
+					compoundCommand.append(addCommand);
+					
 				}
 				
 			} catch (NullPointerException e){
@@ -139,7 +162,7 @@ public class Analyser {
 			}
 			
 			definedAction = true;
-		}
+		} // end GOTO
 
 		// ABORT and TERMINATION
 		if (!definedAction){
@@ -169,7 +192,7 @@ public class Analyser {
 					}
 				}
 			}
-		}
+		} // end ABORT
 
 		
 		// THE REST

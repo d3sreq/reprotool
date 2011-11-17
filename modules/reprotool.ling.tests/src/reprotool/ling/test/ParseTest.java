@@ -19,6 +19,23 @@ import reprotool.ling.tools.Tokenizer;
 
 public class ParseTest {
 
+	// testing goto
+	@Test
+	public final void testTaggerLispNumeral() {
+		String sentence = "Administrator opens view 1 .";
+		String lisp = "";
+		lisp = Tagger.mxposToLisp(Tagger.getMXPOST(sentence));
+		
+		assertEquals("((Administrator (NNP)) (opens (VBZ)) (view (NN)) (1 (CD)) (. (.)) )", lisp);
+	}
+	
+	@Test
+	public final void testParserStringNumeral() {
+		String sentence = "((Administrator (NNP)) (opens (VBZ)) (view (NN)) (1 (CD)) (. (.)) )";
+		
+		assertEquals("(S (NP (NNP Administrator)) (VP (VBZ opens) (NP (NN view) (CD 1))) (. .))", Parser.getString(sentence));
+	}
+	
 	// first sentence
 	@Test
 	public final void testTokenizer1() {
@@ -33,7 +50,7 @@ public class ParseTest {
 		
 		assertEquals("Administrator_NNP sends_VBZ messages_NNS ._.", Tagger.getMXPOST(sentence));
 	}
-
+	
 	@Test
 	public final void testTaggerLisp1() {
 		String sentence = "Administrator sends messages .";

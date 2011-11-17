@@ -5,8 +5,12 @@ import java.lang.reflect.InvocationTargetException;
 import java.rmi.RemoteException;
 import java.util.regex.Pattern;
 
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.ui.statushandlers.StatusManager;
 
+import reprotool.ling.Activator;
 import reprotool.ling.LingFactory;
 import reprotool.ling.NodeType;
 import reprotool.ling.POSType;
@@ -51,7 +55,6 @@ public class Parser extends Tool {
 	// main method
     public static String getString(String originalText) {
     	String parsedText = "";
-    	// TODO divide start and parse
     	if (runs){ // get response from tool
     		
     		// validation of state
@@ -59,31 +62,38 @@ public class Parser extends Tool {
     		try{
     			alive = parser.alive();
     		} catch (RemoteException e){
-    			parsedText = start(originalText);
+    			if(!start()){    			
+    				IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, "Error during parser model initialization", e);
+    				StatusManager.getManager().handle(status, StatusManager.LOG);
+    			}
     		}
     		
     		// is still running in memory
-    		if (alive){
-    			parsedText = parse(originalText);   			
-    		} else {
-    			parsedText = start(originalText);
-    		}
-    		
-    	} else { // load models
-    		parsedText = start(originalText);
-    		//return parse(String originalText);   		
+    		if (!alive){
+    			start();
+    		}    		
+    	} else { // load models first time
+    		start();
     	}
+    	
+    	// parsing
+		parsedText = parse(originalText); 
     	
     	// creating tree objects
         return parsedText;
-
     }   
     
+	public static boolean isReady(){
+		try {
+			return parser.alive();
+		} catch (RemoteException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
 	
-	
-	private static String start (String originalText) {
+	public static synchronized boolean start () {
     	String settingsFile = "";
-    	Sexp result = null;
     	String modelFile = "";
     	
 		// locating external model
@@ -115,15 +125,7 @@ public class Parser extends Tool {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		// parsing sentence
-		try {
-			result = parser.parse(Sexp.read(originalText).list());
-		} catch (Exception e) {
-			System.err.print("Invalid input string!");
-		}
-		
-    	return result.toString();		
+		return runs;		
 	}
 
 	

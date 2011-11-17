@@ -28,8 +28,8 @@ public class AnalyseTest {
 	// first sentence
 	@Test
 	public final void testAnalyseTree() {
-		
-		String sentenceString = "(S (NP (NNP Administrator)) (VP (VBZ continue ) (NP (NNS label1))))";
+
+		String sentenceString = "(S (NP (NNP Administrator)) (VP (VBZ continue) (NP (NN view) (CD 1))))";
 		//String sentenceString = "(S (NP (NNP Administrator)) (VP (VBZ sends ) (NP (NNS messages))))";
 		
 		UsecaseFactory ucfactory = UsecaseFactory.eINSTANCE;		

@@ -43,6 +43,9 @@
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="Condition" eSuperTypes="#//usecase/ParseableElement"/>
     <eClassifiers xsi:type="ecore:EClass" name="UseCaseStep" eSuperTypes="#//usecase/ParseableElement #//usecase/LabelledElement">
+      <eOperations name="getTextNodeAt" eType="#//linguistic/actionpart/TextRange">
+        <eParameters name="index" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      </eOperations>
       <eStructuralFeatures xsi:type="ecore:EReference" name="extensions" upperBound="-1"
           eType="#//usecase/Scenario" containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="variations" upperBound="-1"

@@ -30,4 +30,7 @@ Export-Package: reprotool.fm.nusmv.lang,
  reprotool.fm.nusmv.lang.parseTreeConstruction,
  reprotool.fm.nusmv.lang.parser.antlr,
  reprotool.fm.nusmv.lang.parser.antlr.internal,
- reprotool.fm.nusmv.lang.validation
+ reprotool.fm.nusmv.lang.validation,
+ reprotool.fm.nusmv.lang.scoping,
+ reprotool.fm.nusmv.lang.generator,
+ reprotool.fm.nusmv.lang.formatting

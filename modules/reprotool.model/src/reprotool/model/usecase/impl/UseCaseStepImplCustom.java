@@ -1,7 +1,9 @@
 package reprotool.model.usecase.impl;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 
+import reprotool.model.linguistic.actionpart.TextRange;
 import reprotool.model.swproj.SoftwareProject;
 import reprotool.model.usecase.Scenario;
 import reprotool.model.usecase.UseCase;
@@ -63,4 +65,26 @@ public class UseCaseStepImplCustom extends UseCaseStepImpl {
 	public String getLabelWithContent() {
 		return getLabel() + ". " + getContent();
 	}
+	
+
+	/**
+	 * Is any TextRange at index position
+	 * 
+	 * @param index - character position in current UCS content
+	 * @return TextRange - surrounding index position / null
+	 */
+	@Override
+	public TextRange getTextNodeAt(int index) {
+		EList<TextRange> trs = getTextNodes();
+		TextRange tr = null; 
+		for (TextRange act : trs) {
+			int start = act.getStartPosition();
+			int end = act.getStartPosition() + act.getLength();
+			if((start <= index)&&(end >= index)) {
+				tr = act;
+			}
+		}
+		
+		return tr;
+	}	
 }
