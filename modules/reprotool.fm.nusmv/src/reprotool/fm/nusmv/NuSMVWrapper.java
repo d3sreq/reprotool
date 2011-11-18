@@ -154,7 +154,8 @@ public class NuSMVWrapper {
 			reader.close();
 			origFile.delete();
 			if(tmpFile.length() > 0) {
-				displayCounterExampleFile( "file://" + tmpFile.getAbsolutePath() );
+				String str = tmpFile.toURI().toString();
+				displayCounterExampleFile(str);
 			} else
 				out.println("empty counterexample generated");
 			tmpFile.delete();
