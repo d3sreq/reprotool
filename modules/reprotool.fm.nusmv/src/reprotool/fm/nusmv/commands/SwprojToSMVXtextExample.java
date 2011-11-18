@@ -17,7 +17,6 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.eclipse.xtext.resource.SaveOptions;
-import org.eclipse.xtext.resource.SaveOptions.Builder;
 
 import reprotool.fm.nusmv.lang.NuSmvLangStandaloneSetup;
 import reprotool.fm.nusmv.lang.nuSmvLang.Model;
@@ -81,7 +80,7 @@ public class SwprojToSMVXtextExample implements IHandler {
 
 		try {
 			// we need to setup options that enable formatting of the result code
-			Builder builder = SaveOptions.newBuilder();
+			org.eclipse.xtext.resource.SaveOptions.Builder builder = SaveOptions.newBuilder();
 			builder.format();
 			
 			// serializing the code into a file and formatting
