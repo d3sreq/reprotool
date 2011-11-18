@@ -1,7 +1,6 @@
 module reprotool.model
 
 import org.eclipse.emf.mwe.utils.*
-import org.eclipse.emf.mwe2.ecore.*
 
 var projectName = "reprotool.model"
 var runtimeProject = "../${projectName}"
@@ -14,7 +13,7 @@ Workflow {
 	component = DirectoryCleaner {
 		directory = "${runtimeProject}/src-gen"
 	}
-	
+
 	component = DirectoryCleaner {
 		directory = "${runtimeProject}.edit/src"
 	}
@@ -22,8 +21,8 @@ Workflow {
 	component = DirectoryCleaner {
 		directory = "${runtimeProject}.editor/src"
 	}
-	
-	component = EcoreGenerator {
+
+	component = org.eclipse.emf.mwe2.ecore.EcoreGenerator {
 		srcPath = "platform:/resource/${projectName}/src"
 		genModel = "platform:/resource/${projectName}/model/${projectName}.genmodel"
 		generateEdit = true

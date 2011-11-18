@@ -12,13 +12,6 @@
 
    <extension point="org.eclipse.emf.ecore.generated_package">
       <package
-            uri="http://d3s.mff.cuni.cz/reprotool/model/lts"
-            class="reprotool.model.lts.LtsPackage"
-            genModel="model/reprotool.model.genmodel"/>
-   </extension>
-
-   <extension point="org.eclipse.emf.ecore.generated_package">
-      <package
             uri="http://d3s.mff.cuni.cz/reprotool/model/usecase"
             class="reprotool.model.usecase.UsecasePackage"
             genModel="model/reprotool.model.genmodel"/>
@@ -30,35 +23,5 @@
             class="reprotool.model.swproj.SwprojPackage"
             genModel="model/reprotool.model.genmodel"/>
    </extension>
-
-   <extension point="org.eclipse.emf.ecore.generated_package">
-      <package
-            uri="http://d3s.mff.cuni.cz/reprotool/model/traceability"
-            class="reprotool.model.traceability.TraceabilityPackage"
-            genModel="model/reprotool.model.genmodel"/>
-   </extension>
-
-
-   <extension point="org.eclipse.emf.ecore.generated_package">
-      <package
-            uri="http://d3s.mff.cuni.cz/reprotool/model/structure/ast"
-            class="reprotool.model.ast.AstPackage"
-            genModel="model/reprotool.model.genmodel"/>
-   </extension>
-
-   <extension point="org.eclipse.emf.ecore.generated_package">
-      <package
-            uri="http://d3s.mff.cuni.cz/reprotool/model/comp"
-            class="reprotool.model.comp.CompPackage"
-            genModel="model/reprotool.model.genmodel"/>
-   </extension>
-
-   <extension point="org.eclipse.emf.ecore.generated_package">
-      <package
-            uri="http://d3s.mff.cuni.cz/reprotool/model/structure/doc"
-            class="reprotool.model.doc.DocPackage"
-            genModel="model/reprotool.model.genmodel"/>
-   </extension>
-
 
 </plugin>
