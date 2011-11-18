@@ -13,10 +13,10 @@ import com.google.inject.Inject;
  * 
  * see http://www.eclipse.org/Xtext/documentation/latest/xtext.html#labelProvider
  */
-public class NuSmvInputLanguageLabelProvider extends DefaultEObjectLabelProvider {
+public class NuSmvLangLabelProvider extends DefaultEObjectLabelProvider {
 
 	@Inject
-	public NuSmvInputLanguageLabelProvider(AdapterFactoryLabelProvider delegate) {
+	public NuSmvLangLabelProvider(AdapterFactoryLabelProvider delegate) {
 		super(delegate);
 	}
 

@@ -6,7 +6,7 @@ package reprotool.fm.nusmv.lang.formatting;
 import org.eclipse.xtext.formatting.impl.AbstractDeclarativeFormatter;
 import org.eclipse.xtext.formatting.impl.FormattingConfig;
 
-import reprotool.fm.nusmv.lang.services.NuSmvInputLanguageGrammarAccess;
+import reprotool.fm.nusmv.lang.services.NuSmvLangGrammarAccess;
 
 /**
  * This class contains custom formatting description.
@@ -16,11 +16,11 @@ import reprotool.fm.nusmv.lang.services.NuSmvInputLanguageGrammarAccess;
  * 
  * Also see {@link org.eclipse.xtext.xtext.XtextFormattingTokenSerializer} as an example
  */
-public class NuSmvInputLanguageFormatter extends AbstractDeclarativeFormatter {
+public class NuSmvLangFormatter extends AbstractDeclarativeFormatter {
 	
 	@Override
 	protected void configureFormatting(FormattingConfig c) {
-		NuSmvInputLanguageGrammarAccess g = (NuSmvInputLanguageGrammarAccess) getGrammarAccess();
+		NuSmvLangGrammarAccess g = (NuSmvLangGrammarAccess) getGrammarAccess();
 		
 		// It's usually a good idea to activate the following three statements.
 		// They will add and preserve newlines around comments
@@ -33,7 +33,7 @@ public class NuSmvInputLanguageFormatter extends AbstractDeclarativeFormatter {
 		c.setLinewrap().before(g.getModuleElementRule());
 
 		// newline after every 'case'
-		c.setLinewrap().before(g.getCaseSimpleExpressionRule());
+		c.setLinewrap().before(g.getCaseExpressionRule());
 		
 		// newline after 'case'..'esac'
 		c.setLinewrap().after(g.getCaseExpressionRule());
@@ -45,11 +45,7 @@ public class NuSmvInputLanguageFormatter extends AbstractDeclarativeFormatter {
 		// every module element is indented
 		c.setIndentationIncrement().before(g.getModuleElementRule());
 		c.setIndentationDecrement().after(g.getModuleElementRule());
-		
-		// expressions within 'case'..'esac' are be indented
-		c.setIndentationIncrement().before(g.getCaseSimpleExpressionRule());
-		c.setIndentationIncrement().after(g.getCaseSimpleExpressionRule());
-		
+				
 		System.out.println("configuring nusmv code formatter");
-	}
+	}	
 }

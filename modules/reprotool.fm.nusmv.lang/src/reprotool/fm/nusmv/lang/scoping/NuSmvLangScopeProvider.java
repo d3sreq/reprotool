@@ -12,6 +12,6 @@ import org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider;
  * on how and when to use it 
  *
  */
-public class NuSmvInputLanguageScopeProvider extends AbstractDeclarativeScopeProvider {
+public class NuSmvLangScopeProvider extends AbstractDeclarativeScopeProvider {
 
 }

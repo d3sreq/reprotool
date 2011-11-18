@@ -12,15 +12,15 @@ import org.eclipse.xtext.ui.editor.quickfix.Fix;
 import org.eclipse.xtext.ui.editor.quickfix.IssueResolutionAcceptor;
 import org.eclipse.xtext.validation.Issue;
 
-import reprotool.fm.nusmv.lang.nuSmvInputLanguage.MainModule;
-import reprotool.fm.nusmv.lang.nuSmvInputLanguage.Model;
-import reprotool.fm.nusmv.lang.nuSmvInputLanguage.Module;
-import reprotool.fm.nusmv.lang.nuSmvInputLanguage.NuSmvInputLanguageFactory;
-import reprotool.fm.nusmv.lang.validation.NuSmvInputLanguageJavaValidator;
+import reprotool.fm.nusmv.lang.nuSmvLang.MainModule;
+import reprotool.fm.nusmv.lang.nuSmvLang.Model;
+import reprotool.fm.nusmv.lang.nuSmvLang.Module;
+import reprotool.fm.nusmv.lang.nuSmvLang.NuSmvLangFactory;
+import reprotool.fm.nusmv.lang.validation.NuSmvLangJavaValidator;
 
-public class NuSmvInputLanguageQuickfixProvider extends DefaultQuickfixProvider {
+public class NuSmvLangQuickfixProvider extends DefaultQuickfixProvider {
 
-	@Fix(NuSmvInputLanguageJavaValidator.MISSING_MAIN_MODULE)
+	@Fix(NuSmvLangJavaValidator.MISSING_MAIN_MODULE)
 	public void addMainModule(final Issue issue, IssueResolutionAcceptor acceptor) {
 		acceptor.accept(
 			issue,
@@ -36,7 +36,7 @@ public class NuSmvInputLanguageQuickfixProvider extends DefaultQuickfixProvider 
 		);
 	}
 
-	@Fix(NuSmvInputLanguageJavaValidator.MISSING_MAIN_MODULE)
+	@Fix(NuSmvLangJavaValidator.MISSING_MAIN_MODULE)
 	public void renameFirstModule(final Issue issue, IssueResolutionAcceptor acceptor) {
 		acceptor.accept(
 			issue,
@@ -48,7 +48,7 @@ public class NuSmvInputLanguageQuickfixProvider extends DefaultQuickfixProvider 
 						throws Exception {
 					
 					Model model = (Model) element;
-					MainModule newMainModule = NuSmvInputLanguageFactory.eINSTANCE.createMainModule();
+					MainModule newMainModule = NuSmvLangFactory.eINSTANCE.createMainModule();
 					newMainModule.setName("main"); // todo
 					Module oldModule = model.getModules().get(0);
 					
@@ -59,4 +59,5 @@ public class NuSmvInputLanguageQuickfixProvider extends DefaultQuickfixProvider 
 			}
 		);
 	}
+
 }

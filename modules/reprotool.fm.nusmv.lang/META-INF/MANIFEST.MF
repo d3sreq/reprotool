@@ -5,7 +5,8 @@ Bundle-Vendor: My Company
 Bundle-Version: 1.0.0
 Bundle-SymbolicName: reprotool.fm.nusmv.lang; singleton:=true
 Bundle-ActivationPolicy: lazy
-Require-Bundle: org.eclipse.xtext;bundle-version="2.0.0";visibility:=reexport,
+Require-Bundle: org.eclipse.xtext;bundle-version="2.1.0";visibility:=reexport,
+ org.eclipse.xtext.xbase;bundle-version="2.1.0";resolution:=optional;visibility:=reexport,
  org.apache.log4j;bundle-version="1.2.15";visibility:=reexport,
  org.apache.commons.logging;bundle-version="1.0.4";resolution:=optional;visibility:=reexport,
  org.eclipse.xtext.generator;resolution:=optional,
@@ -24,10 +25,10 @@ Import-Package: org.apache.log4j,
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: reprotool.fm.nusmv.lang,
  reprotool.fm.nusmv.lang.services,
- reprotool.fm.nusmv.lang.nuSmvInputLanguage,
- reprotool.fm.nusmv.lang.nuSmvInputLanguage.impl,
- reprotool.fm.nusmv.lang.nuSmvInputLanguage.util,
- reprotool.fm.nusmv.lang.parseTreeConstruction,
+ reprotool.fm.nusmv.lang.nuSmvLang,
+ reprotool.fm.nusmv.lang.nuSmvLang.impl,
+ reprotool.fm.nusmv.lang.nuSmvLang.util,
+ reprotool.fm.nusmv.lang.serializer,
  reprotool.fm.nusmv.lang.parser.antlr,
  reprotool.fm.nusmv.lang.parser.antlr.internal,
  reprotool.fm.nusmv.lang.validation,

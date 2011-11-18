@@ -5,9 +5,9 @@
 
   <extension point="org.eclipse.emf.ecore.generated_package">
     <package 
-       uri = "http://www.fm.reprotool/nusmv/lang/NuSmvInputLanguage" 
-       class = "reprotool.fm.nusmv.lang.nuSmvInputLanguage.NuSmvInputLanguagePackage"
-       genModel = "reprotool/fm/nusmv/lang/NuSmvInputLanguage.genmodel" /> 
+       uri = "http://d3s.mff.cuni.cz/reprotool/nusmv/lang" 
+       class = "reprotool.fm.nusmv.lang.nuSmvLang.NuSmvLangPackage"
+       genModel = "reprotool/fm/nusmv/lang/NuSmvLang.genmodel" /> 
 	
   </extension>
 

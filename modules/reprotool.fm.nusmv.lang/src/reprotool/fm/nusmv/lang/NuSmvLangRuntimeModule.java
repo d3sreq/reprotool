@@ -6,6 +6,6 @@ package reprotool.fm.nusmv.lang;
 /**
  * Use this class to register components to be used at runtime / without the Equinox extension registry.
  */
-public class NuSmvInputLanguageRuntimeModule extends reprotool.fm.nusmv.lang.AbstractNuSmvInputLanguageRuntimeModule {
+public class NuSmvLangRuntimeModule extends reprotool.fm.nusmv.lang.AbstractNuSmvLangRuntimeModule {
 
 }

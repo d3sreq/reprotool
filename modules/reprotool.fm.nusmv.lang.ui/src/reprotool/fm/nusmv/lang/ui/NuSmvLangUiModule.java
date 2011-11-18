@@ -8,8 +8,8 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 /**
  * Use this class to register components to be used within the IDE.
  */
-public class NuSmvInputLanguageUiModule extends reprotool.fm.nusmv.lang.ui.AbstractNuSmvInputLanguageUiModule {
-	public NuSmvInputLanguageUiModule(AbstractUIPlugin plugin) {
+public class NuSmvLangUiModule extends reprotool.fm.nusmv.lang.ui.AbstractNuSmvLangUiModule {
+	public NuSmvLangUiModule(AbstractUIPlugin plugin) {
 		super(plugin);
 	}
 }

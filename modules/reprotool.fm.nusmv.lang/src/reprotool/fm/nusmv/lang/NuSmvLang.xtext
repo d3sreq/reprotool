@@ -1,0 +1,205 @@
+grammar reprotool.fm.nusmv.lang.NuSmvLang with org.eclipse.xtext.common.Terminals
+
+generate nuSmvLang "http://d3s.mff.cuni.cz/reprotool/nusmv/lang"
+import "http://www.eclipse.org/emf/2002/Ecore" as ecore
+
+Model hidden(WS, SL_COMMENT):
+	(modules+=Module)*;
+
+Module:
+	"MODULE" (MainModule | OtherModule)
+	(moduleElement+=ModuleElement)*;
+
+MainModule:
+	name='main';
+
+OtherModule:
+	name=ID ("(" (params+=FormalParameter) ("," params+=FormalParameter)* ")")?;
+
+ModuleElement hidden(WS, SL_COMMENT):
+	  VariableDeclaration
+	| IVariableDeclaration
+	| FrozenVariableDeclaration
+	| DefineDeclaration
+	| ConstantsDeclaration
+	| AssignConstraint
+	| TransConstraint
+	| InitConstraint
+	| InvarConstraint
+	| FairnessConstraint
+	| CtlSpecification
+	| LtlSpecification
+	| InvarSpecification
+	//| IsaDeclaration
+;
+
+// ISA is deprecated in NuSMV 2.5
+//IsaDeclaration hidden(WS, SL_COMMENT):
+//	"ISA" id=ID;
+
+VariableDeclaration hidden(WS, SL_COMMENT):
+	"VAR" (vars+=VarBody)+;
+
+IVariableDeclaration hidden(WS, SL_COMMENT):
+	"IVAR" (vars+=VarBody)+;
+
+FrozenVariableDeclaration hidden(WS, SL_COMMENT):
+	"FROZENVAR" (vars+=VarBody)+;
+
+VarBody hidden(WS, SL_COMMENT):
+	varId=ID ":" type=TypeSpecifier ";";
+
+DefineDeclaration hidden(WS, SL_COMMENT):
+	"DEFINE" (defineBodies+=DefineBody)+;
+
+DefineBody hidden(WS, SL_COMMENT):
+	varId=ID ":=" assignment=SimpleExpression ";";
+
+ConstantsDeclaration hidden(WS, SL_COMMENT):
+	"CONSTANTS" constants+=ID ("," constants+=ID)* ";";
+
+AssignConstraint hidden(WS, SL_COMMENT):
+	"ASSIGN" (bodies+=AssignBody)+;
+
+AssignBody hidden(WS, SL_COMMENT):
+	VarBodyAssign | InitBody | NextBody;
+
+VarBodyAssign hidden(WS, SL_COMMENT):
+	varId=VariableIdentifier ":=" assignment=SimpleExpression ";";
+
+InitBody hidden(WS, SL_COMMENT):
+	"init" "(" varId=VariableIdentifier ")" ":=" initExpr=SimpleExpression ";";
+
+NextBody hidden(WS, SL_COMMENT):
+	"next" "(" varId=VariableIdentifier ")" ":=" nextExpr=SimpleExpression ";";
+
+TransConstraint hidden(WS, SL_COMMENT):
+	"TRANS" transExpr=SimpleExpression ";"?;
+
+InitConstraint hidden(WS, SL_COMMENT):
+	"INIT" initExpr=SimpleExpression ";"?;
+
+InvarConstraint hidden(WS, SL_COMMENT):
+	"INVAR" invarExpr=SimpleExpression ";"?;
+
+FairnessConstraint hidden(WS, SL_COMMENT):
+	FairnessExpression | JusticeExpression | CompassionExpression;
+
+FairnessExpression hidden(WS, SL_COMMENT):
+	"FAIRNESS" fairnessExpr=SimpleExpression ";"?;
+
+JusticeExpression hidden(WS, SL_COMMENT):
+	"JUSTICE" justiceExpr=SimpleExpression ";"?;
+
+CompassionExpression hidden(WS, SL_COMMENT):
+	"COMPASSION (" firstCompassionExpr=SimpleExpression "," secondCompassionExpr=SimpleExpression ")" ";"?;
+
+InvarSpecification hidden(WS, SL_COMMENT):
+	"INVARSPEC" (name=ID ":=")? invarExpr=SimpleExpression ";"?;
+
+CtlSpecification hidden(WS, SL_COMMENT):
+	("CTLSPEC" | "SPEC") (nameKeyWord?="NAME" name=ID ":=")? ctlExpr=SimpleExpression ";"?;
+
+LtlSpecification hidden(WS, SL_COMMENT):
+	"LTLSPEC" (nameId?="NAME" name=ID ":=")? ltlExpr=SimpleExpression ";"?;
+
+TypeSpecifier hidden(WS, SL_COMMENT):
+	SimpleType | ModuleType;
+
+SimpleType hidden(WS, SL_COMMENT):
+	  {BooleanType} "boolean"
+	| {WordType} ("word" "[" wordNumber=NUMBER "]")
+	| {UnsignedWordType} ("unsigned" "word" "[" uWordNumber=NUMBER "]")
+	| {SignedWordType} ("signed word" "[" signedNumber=NUMBER "]")
+	| {EnumType} "{" val+=Val ("," val+=Val)* "}"
+	| {RangeType} low=NUMBER '..' high=NUMBER
+	| {ArrayType} "array" bounds=Range "of" type=SimpleType;
+
+ModuleType hidden(WS, SL_COMMENT):
+	  {AsyncrProcessType} ("process" module=[Module | ID] ("(" params+=SimpleExpression ("," params+=SimpleExpression)* ")")?)
+	| {SyncrProcessType} (module=[Module| ID] ("(" params+=SimpleExpression ("," params+=SimpleExpression)* ")")?)
+;
+
+FormalParameter:
+	paramId=ID;
+
+SimpleExpression hidden(WS, SL_COMMENT):
+	BinaryExpression;
+
+BinaryExpression:
+	TerminalSimpleExpression ( BinaryOperator TerminalSimpleExpression)*;
+
+TerminalSimpleExpression:
+	  Literal
+	| Range
+	| NextExpression
+	| BracketExpression
+	| UnaryExpression
+    | CaseExpression
+	| SetExpression
+	| EAExpression
+	| BoolWordConvertExpression
+;
+
+NextExpression:
+	'next' '(' SimpleExpression ')';
+
+BracketExpression:
+	'(' SimpleExpression ')';
+
+UnaryExpression:
+	UnaryOperator SimpleExpression;
+	
+CaseExpression:
+	'case' ( SimpleExpression ':' SimpleExpression ';')+ 'esac';
+
+SetExpression:
+	'{' SimpleExpression (',' SimpleExpression)* '}';
+
+EAExpression:
+	('E' | 'A') '[' SimpleExpression ']';
+
+BoolWordConvertExpression:
+	('word1' | 'bool') '(' SimpleExpression ')';
+
+BooleanConstant:
+	'TRUE' | 'FALSE';
+
+BinaryOperator:
+	'U' | 'V' | 'S' | 'T' |
+	'->' | '<->' | '&' | '|' | 'xor' | 'xnor' |
+	'=' | '!=' | '<' | '>' | '<=' | '>=' |
+	'+' | '-' | '*' | '/' |
+	'::' | '<<' | '>>' | 'union' | 'in' | 'mod';
+
+UnaryOperator:
+	'!' | '-' | '+' |
+	'X' | 'G' | 'F' | 'Y' | 'Z' | 'H' | 'O' |
+	'EG' | 'EX' | 'EF' | 'AG' | 'AX' | 'AF' ;
+
+Range:
+	NUMBER '..' NUMBER;
+
+Val hidden(WS, SL_COMMENT):
+	ID | NUMBER | BooleanConstant;
+
+Literal:
+	NUMBER | 'self' | BooleanConstant | VariableIdentifier;
+
+
+VariableIdentifier:
+	ID ('.' ID)*
+	| ID ('.' ID)* ('[' (NUMBER | ID) ']')+
+	| ID ('.' ID)* '[' NUMBER ':' NUMBER ']';
+
+terminal NUMBER:
+	INT;
+
+terminal SL_COMMENT:
+	'--' SL_COMMENT_BODY;
+
+terminal fragment SL_COMMENT_BODY:
+	!('\n' | '\r')* ('\r'? '\n')?;
+
+terminal ID:
+	('A'..'Z' | 'a'..'z' | '_') ('A'..'Z' | 'a'..'z' | '_' | '0'..'9' | '$' | '#' | '-' | '.')*;
