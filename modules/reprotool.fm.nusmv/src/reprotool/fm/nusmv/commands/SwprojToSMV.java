@@ -1,6 +1,7 @@
 package reprotool.fm.nusmv.commands;
 
 import java.io.IOException;
+
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.IHandler;
@@ -22,7 +23,7 @@ import org.eclipse.xtext.resource.SaveOptions.Builder;
 
 import reprotool.fm.nusmv.Activator;
 import reprotool.fm.nusmv.NuSMVProject;
-import reprotool.fm.nusmv.lang.NuSmvInputLanguageStandaloneSetup;
+import reprotool.fm.nusmv.lang.NuSmvLangStandaloneSetup;
 import reprotool.model.swproj.SoftwareProject;
 
 
@@ -83,7 +84,7 @@ public class SwprojToSMV implements IHandler {
 		System.out.println("Will be saved to : " + CommonPlugin.resolve(outputUri).path());
 		
 		// serialization of the model
-		NuSmvInputLanguageStandaloneSetup.doSetup(); // activates the correct parser/serializer
+		NuSmvLangStandaloneSetup.doSetup(); // activates the correct parser/serializer
 		ResourceSet resourceSet = new ResourceSetImpl();
 		Resource res = resourceSet.createResource(outputUri);
 		

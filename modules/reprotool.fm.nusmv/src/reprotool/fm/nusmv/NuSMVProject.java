@@ -3,22 +3,21 @@ package reprotool.fm.nusmv;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
 import org.eclipse.core.runtime.Assert;
 
-import reprotool.fm.nusmv.lang.nuSmvInputLanguage.AssignConstraint;
-import reprotool.fm.nusmv.lang.nuSmvInputLanguage.BooleanType;
-import reprotool.fm.nusmv.lang.nuSmvInputLanguage.CTLExpression;
-import reprotool.fm.nusmv.lang.nuSmvInputLanguage.CtlSpecification;
-import reprotool.fm.nusmv.lang.nuSmvInputLanguage.EnumType;
-import reprotool.fm.nusmv.lang.nuSmvInputLanguage.FairnessExpression;
-import reprotool.fm.nusmv.lang.nuSmvInputLanguage.InitConstraint;
-import reprotool.fm.nusmv.lang.nuSmvInputLanguage.MainModule;
-import reprotool.fm.nusmv.lang.nuSmvInputLanguage.Model;
-import reprotool.fm.nusmv.lang.nuSmvInputLanguage.NextBody;
-import reprotool.fm.nusmv.lang.nuSmvInputLanguage.NextExpression;
-import reprotool.fm.nusmv.lang.nuSmvInputLanguage.NuSmvInputLanguageFactory;
-import reprotool.fm.nusmv.lang.nuSmvInputLanguage.VarBody;
-import reprotool.fm.nusmv.lang.nuSmvInputLanguage.VariableDeclaration;
+import reprotool.fm.nusmv.lang.nuSmvLang.AssignConstraint;
+import reprotool.fm.nusmv.lang.nuSmvLang.BooleanType;
+import reprotool.fm.nusmv.lang.nuSmvLang.CtlSpecification;
+import reprotool.fm.nusmv.lang.nuSmvLang.EnumType;
+import reprotool.fm.nusmv.lang.nuSmvLang.FairnessExpression;
+import reprotool.fm.nusmv.lang.nuSmvLang.InitConstraint;
+import reprotool.fm.nusmv.lang.nuSmvLang.MainModule;
+import reprotool.fm.nusmv.lang.nuSmvLang.Model;
+import reprotool.fm.nusmv.lang.nuSmvLang.NextBody;
+import reprotool.fm.nusmv.lang.nuSmvLang.NuSmvLangFactory;
+import reprotool.fm.nusmv.lang.nuSmvLang.VarBody;
+import reprotool.fm.nusmv.lang.nuSmvLang.VariableDeclaration;
 import reprotool.model.swproj.SoftwareProject;
 import reprotool.model.usecase.UseCase;
 import reprotool.model.usecase.annotate.AnnotationGroup;
@@ -28,7 +27,7 @@ import reprotool.model.usecase.annotate.TemporalLogicFormula;
 
 public class NuSMVProject {
 	private List<NuSMVGenerator> generators;
-	private NuSmvInputLanguageFactory factory;
+	private NuSmvLangFactory factory;
 	private SoftwareProject swproj;
 	
 	/**
@@ -69,10 +68,8 @@ public class NuSMVProject {
 		}
 		
 		VariableDeclaration pVar = factory.createVariableDeclaration();
-		pVar.setVar("VAR");
-		
 		VarBody pBody = factory.createVarBody();
-		pBody.setId("p");
+		pBody.setVarId("p");
 		
 		EnumType pType = factory.createEnumType();
 		pType.getVal().add("none");
@@ -85,38 +82,36 @@ public class NuSMVProject {
 		module.getModuleElement().add(pVar);
 		
 		InitConstraint initConstraint = factory.createInitConstraint();
-		initConstraint.setInitExpression("p in none");
+		initConstraint.setInitExpr("p in none");
 		module.getModuleElement().add(initConstraint);
 		
 		AssignConstraint assignConstraint = factory.createAssignConstraint();
 		NextBody nextBody = factory.createNextBody();
-		nextBody.setVar("p");
+		nextBody.setVarId("p");
+		nextBody.setNextExpr(
+			"case p=none : {" +
+			varList +
+			"}; TRUE : none; esac"
+		);
 		
-		NextExpression nextExpression = factory.createNextExpression();
-		nextExpression.setSimpleExpression("case\n\t\tp=none : {" +
-			varList + "};\n\t\tTRUE : none;\n\tesac");
-		nextBody.setNext(nextExpression);
 		assignConstraint.getBodies().add(nextBody);
 		module.getModuleElement().add(assignConstraint);
 		
 		VariableDeclaration idleVar = factory.createVariableDeclaration();
-		idleVar.setVar("VAR");
-		
-		
 		VarBody idleBody = factory.createVarBody();
-		idleBody.setId("idle");
+		idleBody.setVarId("idle");
 		BooleanType idleType = factory.createBooleanType();
 		idleBody.setType(idleType);
 		idleVar.getVars().add(idleBody);
 		module.getModuleElement().add(idleVar);
 		InitConstraint idleInit = factory.createInitConstraint();
-		idleInit.setInitExpression("idle in TRUE");
+		idleInit.setInitExpr("idle in TRUE");
 		module.getModuleElement().add(idleInit);
 		
 		AssignConstraint idleAssign = factory.createAssignConstraint();
 		NextBody idleNextBody = factory.createNextBody();
-		idleNextBody.setVar("idle");
-		NextExpression idleNextExpression = factory.createNextExpression();
+		idleNextBody.setVarId("idle");
+		
 		StringBuffer idleNext = new StringBuffer();
 		c = 0;
 		idleNext.append("case\n\t\t");
@@ -128,8 +123,8 @@ public class NuSMVProject {
 			c++;
 		}
 		idleNext.append(" : FALSE;\n\t\tTRUE : TRUE;\n\tesac");
-		idleNextExpression.setSimpleExpression(idleNext.toString());
-		idleNextBody.setNext(idleNextExpression);
+		
+		idleNextBody.setNextExpr(idleNext.toString());
 		idleAssign.getBodies().add(idleNextBody);
 		module.getModuleElement().add(idleAssign);
 	}
@@ -153,7 +148,7 @@ public class NuSMVProject {
 	}
 	
 	public NuSMVProject (SoftwareProject swproj) {
-		factory = NuSmvInputLanguageFactory.eINSTANCE;
+		factory = NuSmvLangFactory.eINSTANCE;
 		
 		List<NuSMVGenerator> generators = new ArrayList<NuSMVGenerator>();
 
@@ -310,25 +305,22 @@ public class NuSMVProject {
 	public void addCTLFormulas(MainModule module) {		
 		for (String formula: expandedFormulas) {
 			CtlSpecification ctlSpec = factory.createCtlSpecification();
-			CTLExpression ctlExpr = factory.createCTLExpression();
-			ctlExpr.setSimpleExpression(formula);
-			ctlSpec.setCtlExpression(ctlExpr);
+			ctlSpec.setCtlExpr(formula);
 			module.getModuleElement().add(ctlSpec);			
 		}
 	}
 		
 	private void addTraceAnnotation(String tag, MainModule module) {
 		VariableDeclaration tagVar = factory.createVariableDeclaration();
-		tagVar.setVar("VAR");	
 		VarBody tagBody = factory.createVarBody();
-		tagBody.setId(tag);
+		tagBody.setVarId(tag);
 		BooleanType tagType = factory.createBooleanType();
 		tagBody.setType(tagType);
 		tagVar.getVars().add(tagBody);
 		module.getModuleElement().add(tagVar);
 					
 		InitConstraint initConstraint = factory.createInitConstraint();
-		initConstraint.setInitExpression(tag + " in FALSE");
+		initConstraint.setInitExpr(tag + " in FALSE");
 		module.getModuleElement().add(initConstraint);
 		
 		StringBuffer nextExpr = new StringBuffer();
@@ -343,10 +335,8 @@ public class NuSMVProject {
 		
 		AssignConstraint assignConstraint = factory.createAssignConstraint();
 		NextBody nextBody = factory.createNextBody();
-		nextBody.setVar(tag);
-		NextExpression nextExpression = factory.createNextExpression();
-		nextExpression.setSimpleExpression(nextExpr.toString());
-		nextBody.setNext(nextExpression);
+		nextBody.setVarId(tag);
+		nextBody.setNextExpr(nextExpr.toString());
 		assignConstraint.getBodies().add(nextBody);
 		module.getModuleElement().add(assignConstraint);
 	}
@@ -363,16 +353,15 @@ public class NuSMVProject {
 			}
 				
 			VariableDeclaration tagVar = factory.createVariableDeclaration();
-			tagVar.setVar("VAR");	
 			VarBody tagBody = factory.createVarBody();
-			tagBody.setId(tag);
+			tagBody.setVarId(tag);
 			BooleanType tagType = factory.createBooleanType();
 			tagBody.setType(tagType);
 			tagVar.getVars().add(tagBody);
 			module.getModuleElement().add(tagVar);
 						
 			InitConstraint initConstraint = factory.createInitConstraint();
-			initConstraint.setInitExpression(tag + " in FALSE");
+			initConstraint.setInitExpr(tag + " in FALSE");
 			module.getModuleElement().add(initConstraint);
 			
 			StringBuffer nextExpr = new StringBuffer();
@@ -393,10 +382,8 @@ public class NuSMVProject {
 			
 			AssignConstraint assignConstraint = factory.createAssignConstraint();
 			NextBody nextBody = factory.createNextBody();
-			nextBody.setVar(tag);
-			NextExpression nextExpression = factory.createNextExpression();
-			nextExpression.setSimpleExpression(nextExpr.toString());
-			nextBody.setNext(nextExpression);
+			nextBody.setVarId(tag);
+			nextBody.setNextExpr(nextExpr.toString());
 			assignConstraint.getBodies().add(nextBody);
 			module.getModuleElement().add(assignConstraint);
 		}
