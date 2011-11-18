@@ -121,7 +121,6 @@ public class ParseTest {
 		
 		assertEquals("User_NNP uses_VBZ top_JJ view_NN in_IN a_DT client_NN ._.", Tagger.getMXPOST(sentence));
 	}
-
 	
 	@Test
 	public final void testTaggerLisp2() {
@@ -138,6 +137,29 @@ public class ParseTest {
 		
 		assertEquals("(S (NP (NNP User)) (VP (VBZ uses) (NP (JJ top) (NN view)) (PP (IN in) (NP (DT a) (NN client)))) (. .))", Parser.getString(sentence));
 	}
+
+	// complex label like 3a1
+	@Test
+	public final void testTokenizerLabel1() {
+		String sentence = "Continue to 3a1";
+		
+		assertEquals("Continue to 3 a 1", Tokenizer.getTokens(sentence));
+	}
 	
+	@Test
+	public final void testTaggerLispLabel1() {
+		String sentence = "Continue to 3 a 1";
+		String lisp = "";
+		lisp = Tagger.mxposToLisp(Tagger.getMXPOST(sentence));
+		
+		assertEquals("((Continue (NNP)) (to (TO)) (3 (CD)) (a (DT)) (1 (CD)) )", lisp);
+	}		
+	
+	@Test
+	public final void testParserStringLabel1() {
+		String sentence = "((Continue (NNP)) (to (TO)) (3 (CD)) (a (DT)) (1 (CD)) )";
+		
+		assertEquals("(NP (NP (NNP Continue)) (PP (TO to) (NP (NP (CD 3)) (NP (QP (DT a) (CD 1))))))", Parser.getString(sentence));
+	}
 	
 }

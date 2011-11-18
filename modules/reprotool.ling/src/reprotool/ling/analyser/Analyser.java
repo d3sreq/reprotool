@@ -1,8 +1,5 @@
 package reprotool.ling.analyser;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import org.eclipse.emf.common.command.CompoundCommand;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.edit.command.AddCommand;
@@ -50,7 +47,6 @@ public class Analyser {
 */		
 	
 		CompoundCommand compoundCommand = new CompoundCommand();
-
 		
 		// tree analyse
 		boolean subject = true;
@@ -102,7 +98,7 @@ public class Analyser {
 			
 			//System.out.println("Goto");
 			Goto action = afactory.createGoto();
-			int targetNumber = 0;
+			String targetLabel = "";
 			
 			//ucs.setAction(action);
 			SetCommand setCommand = new SetCommand(editingDomain, ucs, UsecasePackage.Literals.USE_CASE_STEP__ACTION, action);
@@ -111,14 +107,17 @@ public class Analyser {
 			//System.out.print("Goto target ");
 			
 			// finding target
-			for (int i = gotoVerbIndex; i < sentence.getWords().size() - 1; i++){
+			for (int i = gotoVerbIndex; i < sentence.getWords().size(); i++){
 				Word word = sentence.getWords().get(i);
-				Word nextword = sentence.getWords().get(i + 1);
-				if(nextword.isNumeral() && word.getPOS().toString().substring(0,2).equals("NN")){
-					labelIndex = i+1;
-					targetNumber = Integer.parseInt(nextword.getText().toString()) - 1;
+				//Word nextword = sentence.getWords().get(i + 1);
+				// first number after verb
+				if(word.isNumeral()){
+				//if(nextword.isNumeral() && word.getPOS().toString().substring(0,2).equals("NN")){
+					labelIndex = i;
+					targetLabel = word.getText();
 					
-					System.out.print("Goto target " + word.getText() + nextword.getText() + " -> " + targetNumber);
+					System.out.print("Goto target :" + targetLabel + " labelIndex :" + labelIndex);
+					break;
 					/* TODO remove
 					Matcher match = Pattern.compile("\\d").matcher(word.getText());
 					if (match.find()) {
@@ -130,31 +129,35 @@ public class Analyser {
 				}
 			}
 			
-
 			try{
 				EList<UseCaseStep> lucs = ucs.getUseCaseShortcut().getAllUseCaseStepsShortcut();
 				
-				if(lucs.size() >= targetNumber){
-					//action.setGotoTarget(lucs.);
-					// set target of GOTO action (UseCaseStep)
-					setCommand = new SetCommand(editingDomain, action, ActionPackage.Literals.GOTO__GOTO_TARGET, lucs.get(targetNumber));
-					compoundCommand.append(setCommand);
+				if(!targetLabel.isEmpty()){
+					// set target of GOTO action (UseCaseStep) by label
+					for(UseCaseStep actucs : lucs) {
+						if(targetLabel.equals(actucs.getLabel())) {
+							setCommand = new SetCommand(editingDomain, action, ActionPackage.Literals.GOTO__GOTO_TARGET, actucs);
+							compoundCommand.append(setCommand);
+						}
+					}				
 					
-					// show target to user
-					TextRange tr = apfactory.createTextRange();
-					// TODO vypocet aktualni pozice
-					tr.setStartPosition(5);
-					tr.setLength(sentence.getWords().get(labelIndex).getText().length());
-					
-					// removing TextRange at current position
-					TextRange blockingtr = ucs.getTextNodeAt(5);
-					if (blockingtr != null) {
-						ucs.getTextNodes().remove(blockingtr);
+					// set and show target to user
+					if(labelIndex > 0){
+						TextRange tr = apfactory.createTextRange();
+						tr.setStartPosition(sentence.getWords().get(labelIndex).getContentStart());
+						tr.setLength(sentence.getWords().get(labelIndex).getContentLength());						
+						
+						// removing TextRange at current position
+						TextRange blockingtr = ucs.getTextNodeAt(tr.getStartPosition());
+						if (blockingtr != null) {
+							ucs.getTextNodes().remove(blockingtr);
+						}
+						
+						AddCommand addCommand = new AddCommand(editingDomain, ucs, UsecasePackage.Literals.PARSEABLE_ELEMENT__TEXT_NODES, tr);
+						compoundCommand.append(addCommand);
 					}
 					
-					AddCommand addCommand = new AddCommand(editingDomain, ucs, UsecasePackage.Literals.PARSEABLE_ELEMENT__TEXT_NODES, tr);
-					compoundCommand.append(addCommand);
-					
+					definedAction = true;					
 				}
 				
 			} catch (NullPointerException e){
@@ -194,6 +197,14 @@ public class Analyser {
 			}
 		} // end ABORT
 
+		// INTERNAL ACTION
+		if (!definedAction){
+			/*
+			InternalAction action = afactory.createInternalAction();
+			SetCommand setCommand = new SetCommand(editingDomain, ucs, UsecasePackage.Literals.USE_CASE_STEP__ACTION, action);
+			compoundCommand.append(setCommand);	
+			*/	
+		}	
 		
 		// THE REST
 		if (!definedAction){
@@ -205,7 +216,9 @@ public class Analyser {
 			// text range settings
 			TextRange tr = apfactory.createTextRange();
 			tr.setStartPosition(0);
-			tr.setLength(sentence.getWords().get(0).getText().length());
+			tr.setStartPosition(sentence.getWords().get(0).getContentStart());
+			tr.setLength(sentence.getWords().get(0).getContentLength());
+
 			
 			AddCommand addCommand = new AddCommand(editingDomain, ucs, UsecasePackage.Literals.PARSEABLE_ELEMENT__TEXT_NODES, tr);
 			compoundCommand.append(addCommand);

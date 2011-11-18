@@ -20,6 +20,8 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//WordType"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="interpunction" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="numeral" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="contentStart" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="contentLength" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="SentenceNode" eSuperTypes="#//ParseTreeNode">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//SentenceType"/>
@@ -36,8 +38,10 @@
     <eLiterals name="NP"/>
     <eLiterals name="VP" value="1"/>
     <eLiterals name="PP" value="2"/>
-    <eLiterals name="FRAG" value="3"/>
-    <eLiterals name="X" value="4"/>
+    <eLiterals name="FRAG" value="5"/>
+    <eLiterals name="X" value="6"/>
+    <eLiterals name="S" value="3"/>
+    <eLiterals name="QP" value="4"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="WordType">
     <eLiterals name="SUBJECT"/>

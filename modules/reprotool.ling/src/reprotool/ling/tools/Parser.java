@@ -119,7 +119,7 @@ public class Parser extends Tool {
 
     	
 		try {
-			//parser = new danbikel.parser.Parser("D:\\Projects\\ReProTool\\dbparser\\wsj-02-21.obj.gz");
+			//parser = new danbikel.parser.Parser("D:\\Projects\\ReProTool\\dbparser\\wsj-02-21.obj.gz");			
 			parser = new danbikel.parser.Parser(modelFile);
 			runs = true;
 		} catch (Exception e) {
@@ -295,10 +295,19 @@ public class Parser extends Tool {
 	    			curNode.getChildren().add(prepositionalPhrase);
 	    			prepositionalPhrase.setParent(curNode);
 	    			curNode = prepositionalPhrase;
-	    			break;	
-	    		case FRAG:
-	    			
 	    			break;
+	    			
+	    		case S:
+	    			// new sentence approaching
+	    			// TODO complex sentences
+	    			break;	    			
+	    		case QP:
+	    			// Quantifier Phrase - within NP - stay in parent node
+	    			break;
+	    		case FRAG:
+	    			// sentence fragment
+	    			break;
+	    			
 	    		default:
 	    			// preparation for new WORD (at POS)
 	    			curWord = factory.createWord();
