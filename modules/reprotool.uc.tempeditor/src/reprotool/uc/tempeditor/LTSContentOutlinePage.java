@@ -99,6 +99,9 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 		
 		while (!ucQueue.isEmpty()) {
 			UseCase u = ucQueue.poll();
+			if ((u == null) || (u == useCase)) {
+				continue;
+			}
 			if (!includedUseCases.contains(u)) {
 				includedUseCases.add(u);
 				LTSGeneratorImpl g = new LTSGeneratorImpl();
@@ -228,29 +231,32 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 		) {
 			UseCaseInclude inc = (UseCaseInclude) transition.getRelatedStep().getAction();
 			UseCase uc = inc.getIncludeTarget();
-			StateMachine mach = useCase2Machine.get(uc);
-			State st1 = mach.getInitialState();
-			State st2 = mach.getFinalState();
-			Assert.isNotNull(st1);
-			Assert.isNotNull(st2);
-			Assert.isNotNull(state2Node.get(st1));
-			Assert.isNotNull(state2Node.get(st2));
-			GraphConnection c1 =
-				new GraphConnection(viewer.getGraphControl(),
-					ZestStyles.CONNECTIONS_DIRECTED, state2Node.get(transition.getSourceState()), state2Node.get(st1));
-			GraphConnection c2 =
-				new GraphConnection(viewer.getGraphControl(),
-					ZestStyles.CONNECTIONS_DIRECTED, state2Node.get(st2), state2Node.get(transition.getTargetState()));
-			
-			Shape shape = (Shape) c1.getConnectionFigure();
-			shape.setAntialias(SWT.ON);
-			shape.setLineStyle(SWT.LINE_CUSTOM);
-			shape.setLineDash(new float[] {7.0f, 5.0f});
-			
-			shape = (Shape) c2.getConnectionFigure();
-			shape.setAntialias(SWT.ON);
-			shape.setLineStyle(SWT.LINE_CUSTOM);
-			shape.setLineDash(new float[] {7.0f, 5.0f});				
+			if (uc != null) {
+				StateMachine mach = useCase2Machine.get(uc);
+				Assert.isNotNull(mach);
+				State st1 = mach.getInitialState();
+				State st2 = mach.getFinalState();
+				Assert.isNotNull(st1);
+				Assert.isNotNull(st2);
+				Assert.isNotNull(state2Node.get(st1));
+				Assert.isNotNull(state2Node.get(st2));
+				GraphConnection c1 =
+					new GraphConnection(viewer.getGraphControl(),
+						ZestStyles.CONNECTIONS_DIRECTED, state2Node.get(transition.getSourceState()), state2Node.get(st1));
+				GraphConnection c2 =
+					new GraphConnection(viewer.getGraphControl(),
+						ZestStyles.CONNECTIONS_DIRECTED, state2Node.get(st2), state2Node.get(transition.getTargetState()));
+				
+				Shape shape = (Shape) c1.getConnectionFigure();
+				shape.setAntialias(SWT.ON);
+				shape.setLineStyle(SWT.LINE_CUSTOM);
+				shape.setLineDash(new float[] {7.0f, 5.0f});
+				
+				shape = (Shape) c2.getConnectionFigure();
+				shape.setAntialias(SWT.ON);
+				shape.setLineStyle(SWT.LINE_CUSTOM);
+				shape.setLineDash(new float[] {7.0f, 5.0f});
+			}
 		}
 		
 		GraphConnection con = null;
@@ -334,7 +340,7 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 		for (StateMachine m: includedMachines) {
 			generateGraphEdges(m);
 		}
-		
+
 		includedMachines.add(0, machine);
 
 		// layout algorithm

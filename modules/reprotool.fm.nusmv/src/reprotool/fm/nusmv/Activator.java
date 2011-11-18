@@ -1,6 +1,10 @@
 package reprotool.fm.nusmv;
 
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.ui.console.ConsolePlugin;
+import org.eclipse.ui.console.IConsole;
+import org.eclipse.ui.console.IConsoleManager;
+import org.eclipse.ui.console.MessageConsole;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
@@ -31,6 +35,27 @@ public class Activator extends AbstractUIPlugin {
 	
 	public void setNuSMVProject(NuSMVProject nusmvProject) {
 		this.nusmvProject = nusmvProject;
+	}
+	
+	/**
+	 * Creating a new console within the running Eclipse instance.
+	 * @param name
+	 * @return 
+	 */
+	public MessageConsole findConsole() {
+		ConsolePlugin plugin = ConsolePlugin.getDefault();
+		IConsoleManager consoleManager = plugin.getConsoleManager();
+
+		for (IConsole console : consoleManager.getConsoles()) {
+			if (PLUGIN_ID.equals(console.getName())) {
+				return (MessageConsole) console;
+			}
+		}
+
+		MessageConsole console = new MessageConsole(PLUGIN_ID, null);
+		consoleManager.addConsoles(new IConsole[] { console });
+
+		return console;
 	}
 	
 	/**

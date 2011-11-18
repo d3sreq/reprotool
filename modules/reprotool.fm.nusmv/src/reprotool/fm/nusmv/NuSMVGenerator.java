@@ -69,6 +69,9 @@ public class NuSMVGenerator {
 	 * @return The derived identifier 
 	 */
 	private String uc2id(UseCase useCase) {
+		if (useCase.getName() == null) {
+			throw new NullPointerException("Use-case name parameter is not set");
+		}
 		return useCase.getName().replaceAll(" +", "_");
 	}
 	
@@ -85,13 +88,15 @@ public class NuSMVGenerator {
 					(ucStep != null) &&
 					(!(ucStep.getAction() instanceof Goto))
 			) {
+				String label = "s" + t.getRelatedStep().getLabel();
+				
 				if (ucStep.getAction() instanceof UseCaseInclude) {
 					UseCaseInclude ui = (UseCaseInclude) ucStep.getAction();
 					includedUseCases.add(ui.getIncludeTarget());
-					useCase2Label.put(ui.getIncludeTarget(), "s0");
+					useCase2Label.put(ui.getIncludeTarget(), label + "__");
+					states.add(label + "__");
 				}
 				
-				String label = "s" + t.getRelatedStep().getLabel();
 				states.add(label);
 				states.add(label + "_");
 				label2Trans.put(label, t);
@@ -123,20 +128,24 @@ public class NuSMVGenerator {
 		for (TransitionalState tState: machine.getTransitionalStates()) {
 			for (Transition t: tState.getTransitions()) {
 				if (t.getTargetState() == machine.getFinalState()) {
-					finalTransition = t;
+					if (t.getRelatedStep() != null) {
+						finalTransition = t;
+					}
 				}
 				UseCaseStep ucStep = t.getRelatedStep();
 				if (
 						(ucStep != null) &&
 						(!(ucStep.getAction() instanceof Goto))
 				) {
+					String label = "s" + t.getRelatedStep().getLabel();
+
 					if (ucStep.getAction() instanceof UseCaseInclude) {
 						UseCaseInclude ui = (UseCaseInclude) ucStep.getAction();
 						includedUseCases.add(ui.getIncludeTarget());
-						useCase2Label.put(ui.getIncludeTarget(), state2Label.get(tState));
+						useCase2Label.put(ui.getIncludeTarget(), label + "__");
+						states.add(label + "__");
 					}
 					
-					String label = "s" + t.getRelatedStep().getLabel();
 					states.add(label);
 					states.add(label + "_");
 					label2Trans.put(label, t);
@@ -239,16 +248,16 @@ public class NuSMVGenerator {
 				(useCase.getPrecedingUseCases() == null) ||
 				(useCase.getPrecedingUseCases().isEmpty())
 		) {
-			nextExpr.append("case\n\t\tp=p" + useCaseId + " : TRUE;\n");
+			nextExpr.append("case\n\t\tp=p" + useCaseId + " & idle & x" + useCaseId + ".s = s0: TRUE;\n");
 		
 		} else {
-			nextExpr.append("case\n\t\tp=p" + useCaseId);
+			nextExpr.append("case\n\t\tp=p" + useCaseId + " & idle & x" + useCaseId + ".s = s0");
 			for (UseCase pred: useCase.getPrecedingUseCases()) {
 				nextExpr.append(" & x" + uc2id(pred) + ".s = sFin");
 			}
 			nextExpr.append(" : TRUE;\n");
 		}		
-		nextExpr.append("\t\tTRUE : x" + useCaseId + "run;\n\tesac");
+		nextExpr.append("\t\tTRUE : x" + useCaseId + "run & x" + useCaseId + ".s != sFin;\n\tesac");
 		
 		AssignConstraint assignConstraint = factory.createAssignConstraint();
 		NextBody nextBody = factory.createNextBody();
@@ -355,6 +364,9 @@ public class NuSMVGenerator {
 		nextExpr.append("};\n");
 		
 		for(String state: states) {
+			if (state.matches(".*__")) {
+				continue;
+			}
 			if (state.matches(".*_")) {
 				nextExpr.append("\t\ts=" + state + " : " + 
 						state.substring(0, state.length() - 1) + ";\n");
@@ -365,22 +377,23 @@ public class NuSMVGenerator {
 			if (tgt instanceof TransitionalState) {
 				TransitionalState tgtTransitional = (TransitionalState) tgt;
 				EList<Transition> transitions = tgtTransitional.getTransitions();
-				if (
-						(!transitions.isEmpty()) &&
-						(transitions.get(0).getRelatedStep() != null) &&
-						(transitions.get(0).getRelatedStep().getAction() instanceof UseCaseInclude)
-				) {
-					Transition tr = transitions.get(0);
-					String label = trans2Label.get(tr);
-					if (label == null) {
-						label = state2Label.get(tr.getTargetState());
+								
+				for (Transition tr: transitions) {
+				
+					if (
+						(tr.getRelatedStep() != null) &&
+						(tr.getRelatedStep().getAction() instanceof UseCaseInclude)
+					) {
+						String label = trans2Label.get(tr);
+						if (label == null) {
+							label = state2Label.get(tr.getTargetState());
+						}
+						UseCaseInclude ui = (UseCaseInclude)tr.getRelatedStep().getAction();
+						int i = includedUseCases.indexOf(ui.getIncludeTarget()) + 1;
+						String tag = Integer.toString(i);
+						nextExpr.append("		s=" + label + "__ & y" + tag +  ".s != sFin : " + label + "__;\n");
+						nextExpr.append("		s=" + label + "__ & y" + tag +  ".s  = sFin : " + label + "_;\n");
 					}
-					UseCaseInclude ui = (UseCaseInclude)tr.getRelatedStep().getAction();
-					int i = includedUseCases.indexOf(ui.getIncludeTarget()) + 1;
-					String tag = Integer.toString(i);
-					nextExpr.append("		s=" + state + " & y" + tag +  ".s != sFin : " + state + ";\n");
-					nextExpr.append("		s=" + state + " & y" + tag +  ".s = sFin : " + label + "_;\n");
-					continue;
 				}
 				
 				boolean onAnnotation = false;
@@ -410,6 +423,10 @@ public class NuSMVGenerator {
 						String label = trans2Label.get(tr);
 						if (label != null) {
 							label = label + "_";
+							UseCaseStep step = tr.getRelatedStep();
+							if ((step != null) && (step.getAction() instanceof UseCaseInclude)) {
+								label = label + "_";
+							}
 						}
 						if (label == null) {
 							label = state2Label.get(tr.getTargetState());
@@ -428,6 +445,10 @@ public class NuSMVGenerator {
 						String label = trans2Label.get(tr);
 						if (label != null) {
 							label = label + "_";
+							UseCaseStep step = tr.getRelatedStep();
+							if ((step != null) && (step.getAction() instanceof UseCaseInclude)) {
+								label = label + "_";
+							}
 						}
 						if (label == null) {
 							label = state2Label.get(tr.getTargetState());
@@ -446,6 +467,10 @@ public class NuSMVGenerator {
 						String label = trans2Label.get(tr);
 						if (label != null) {
 							label = label + "_";
+							UseCaseStep step = tr.getRelatedStep();
+							if ((step != null) && (step.getAction() instanceof UseCaseInclude)) {
+								label = label + "_";
+							}
 						}
 						if (label == null) {
 							label = state2Label.get(tr.getTargetState());

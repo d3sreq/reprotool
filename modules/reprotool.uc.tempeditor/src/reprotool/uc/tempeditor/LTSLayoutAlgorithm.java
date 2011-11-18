@@ -44,6 +44,7 @@ public class LTSLayoutAlgorithm extends AbstractLayoutAlgorithm {
 	
 	private StateMachine workingMachine;
 	private List<StateMachine> includedMachines;
+	private List<StateMachine> includeTargets = new ArrayList<StateMachine>();
 	private HashMap<StateMachine, UseCase> machine2UseCase;
 	private HashMap<UseCase, StateMachine> useCase2Machine;
 	
@@ -155,7 +156,11 @@ public class LTSLayoutAlgorithm extends AbstractLayoutAlgorithm {
 			
 			if (step.getAction() instanceof UseCaseInclude) {
 				UseCase uc = ((UseCaseInclude) step.getAction()).getIncludeTarget();
-				ltsIncludes.add(new MachineInclude(x, y, workingMachine, useCase2Machine.get(uc)));
+				StateMachine m = useCase2Machine.get(uc);
+				if (!includeTargets.contains(m)) {
+					ltsIncludes.add(new MachineInclude(x, y, workingMachine, m));
+					includeTargets.add(m);
+				}
 			}
 			
 			internal2Board.get(node).setLocation(x, y);
@@ -186,6 +191,9 @@ public class LTSLayoutAlgorithm extends AbstractLayoutAlgorithm {
 	}
 	
 	private boolean stateIsActive(State s) {
+		if (workingMachine == null) {
+			return false;
+		}
 		return (
 			workingMachine.getTransitionalStates().contains(s)	||
 			(workingMachine.getInitialState() == s)				||
@@ -296,6 +304,7 @@ public class LTSLayoutAlgorithm extends AbstractLayoutAlgorithm {
 		workingMachine = includedMachines.remove(0);
 		UseCase u = machine2UseCase.get(workingMachine);
 		
+		includeTargets.add(workingMachine);
 		mainScenario = u.getMainScenario();
 		this.ucStep2Trans = ucStep2Trans;
 		this.trans2Node = trans2Node;
@@ -304,7 +313,7 @@ public class LTSLayoutAlgorithm extends AbstractLayoutAlgorithm {
 		this.machine2UseCase = machine2UseCase;
 		this.useCase2Machine = useCase2Machine;
 		abortStates.add(workingMachine.getAbortState());
-		
+				
 		for (StateMachine mach: includedMachines) {
 			abortStates.add(mach.getAbortState());
 		}

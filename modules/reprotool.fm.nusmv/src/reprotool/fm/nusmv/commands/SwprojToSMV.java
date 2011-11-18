@@ -14,6 +14,8 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.TreeSelection;
+import org.eclipse.ui.console.MessageConsole;
+import org.eclipse.ui.console.MessageConsoleStream;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.eclipse.xtext.resource.SaveOptions;
 import org.eclipse.xtext.resource.SaveOptions.Builder;
@@ -62,12 +64,23 @@ public class SwprojToSMV implements IHandler {
 
 		SoftwareProject swproj = (SoftwareProject) rootEObj;
 		System.out.println("FOUND SWPROJ : " + swproj);
+		MessageConsole con = Activator.getDefault().findConsole();
+
+		NuSMVProject nusmvProj = null;
+		try {
+			nusmvProj = new NuSMVProject(swproj);
+		} catch (RuntimeException e) {
+			MessageConsoleStream out = con.newMessageStream();
+			con.activate();
+			out.println("Error: " + e.getMessage());
+			return null;
+		}
+		
+		con.clearConsole();
+		Activator.getDefault().setNuSMVProject(nusmvProj);
 		
 		URI outputUri = uri.appendFileExtension("nusmv");
 		System.out.println("Will be saved to : " + CommonPlugin.resolve(outputUri).path());
-		
-		NuSMVProject nusmvProj = new NuSMVProject(swproj);
-		Activator.getDefault().setNuSMVProject(nusmvProj);
 		
 		// serialization of the model
 		NuSmvInputLanguageStandaloneSetup.doSetup(); // activates the correct parser/serializer

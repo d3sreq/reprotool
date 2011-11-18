@@ -98,6 +98,40 @@ public class NuSMVProject {
 		nextBody.setNext(nextExpression);
 		assignConstraint.getBodies().add(nextBody);
 		module.getModuleElement().add(assignConstraint);
+		
+		VariableDeclaration idleVar = factory.createVariableDeclaration();
+		idleVar.setVar("VAR");
+		
+		
+		VarBody idleBody = factory.createVarBody();
+		idleBody.setId("idle");
+		BooleanType idleType = factory.createBooleanType();
+		idleBody.setType(idleType);
+		idleVar.getVars().add(idleBody);
+		module.getModuleElement().add(idleVar);
+		InitConstraint idleInit = factory.createInitConstraint();
+		idleInit.setInitExpression("idle in TRUE");
+		module.getModuleElement().add(idleInit);
+		
+		AssignConstraint idleAssign = factory.createAssignConstraint();
+		NextBody idleNextBody = factory.createNextBody();
+		idleNextBody.setVar("idle");
+		NextExpression idleNextExpression = factory.createNextExpression();
+		StringBuffer idleNext = new StringBuffer();
+		c = 0;
+		idleNext.append("case\n\t\t");
+		for (NuSMVGenerator nusmv: generators) {
+			idleNext.append("x" + nusmv.getUseCaseId() + "run");
+			if ((c >= 0) && (c < generators.size() - 1)) {
+				idleNext.append(" | ");
+			}
+			c++;
+		}
+		idleNext.append(" : FALSE;\n\t\tTRUE : TRUE;\n\tesac");
+		idleNextExpression.setSimpleExpression(idleNext.toString());
+		idleNextBody.setNext(idleNextExpression);
+		idleAssign.getBodies().add(idleNextBody);
+		module.getModuleElement().add(idleAssign);
 	}
 	
 	private MainModule getMainModule() {
@@ -161,12 +195,14 @@ public class NuSMVProject {
 				c++;
 				String label = Integer.toString(c);
 				NuSMVGenerator g = uc2gen.get(uc);
-				addPath(g, nusvm.getUseCaseId() + ".y" + label);
+				List<UseCase> ucList = new ArrayList<UseCase>();
+				ucList.add(uc);
+				addPath(g, nusvm.getUseCaseId() + ".y" + label, ucList);
 			}
 		}
 	}
 	
-	private void addPath(NuSMVGenerator g, String id) {
+	private void addPath(NuSMVGenerator g, String id, List<UseCase> ucList) {
 		HashMap<String, AnnotationEntry> annotationTracker = g.getAnnotationsTracker();
 		for (String tag: annotationTracker.keySet()) {
 			List<AnnotationEntry> list = globalTracker.get(tag);
@@ -182,10 +218,15 @@ public class NuSMVProject {
 		
 		int c = 0;
 		for (UseCase uc: g.getIncludedUseCases()) {
-			c++;
-			String label = Integer.toString(c);
-			NuSMVGenerator gen = uc2gen.get(uc);
-			addPath(gen, id + ".y" + label);
+			if (!ucList.contains(uc)) {
+				c++;
+				String label = Integer.toString(c);
+				NuSMVGenerator gen = uc2gen.get(uc);
+				ucList.add(uc);
+				addPath(gen, id + ".y" + label, ucList);
+			} else {
+				throw new RuntimeException("UseCases are recursively defined.");
+			}
 		}
 	}
 	
@@ -250,7 +291,12 @@ public class NuSMVProject {
 				String f = formula.getFormula();
 				for (TemporalAnnotation annot: tGrp.getMembers()) {
 					if (f.contains(annot.getName())) {
-						f = f.replaceAll(annot.getName(), annot.getName() + "_" + var);
+						String varName = annot.getName() + "_" + var;
+						f = f.replaceAll(annot.getName(), varName);
+						if (!globalTracker.containsKey(varName)) {
+							List<AnnotationEntry> dummy = new ArrayList<AnnotationEntry>();
+							globalTracker.put(varName, dummy);
+						}
 					}
 				}
 				String normalised = f.replaceAll("\\s+", "");

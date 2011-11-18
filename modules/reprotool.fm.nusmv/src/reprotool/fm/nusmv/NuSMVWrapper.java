@@ -48,7 +48,7 @@ public class NuSMVWrapper {
 	
 	private NusmvLibrary nusmvLib;
 
-	private MessageConsole con = findConsole(Activator.PLUGIN_ID);
+	private MessageConsole con = Activator.getDefault().findConsole();
 	private MessageConsoleStream out = con.newMessageStream();
 	private NuSMVProject nusmvProject;
 	private CounterExample counterExample;
@@ -70,27 +70,6 @@ public class NuSMVWrapper {
 		out.println("------------------------------------------------------");
 	}
 	
-	/**
-	 * Creating a new console within the running Eclipse instance.
-	 * @param name
-	 * @return 
-	 */
-	private MessageConsole findConsole(String name) {
-		ConsolePlugin plugin = ConsolePlugin.getDefault();
-		IConsoleManager consoleManager = plugin.getConsoleManager();
-
-		for (IConsole console : consoleManager.getConsoles()) {
-			if (name.equals(console.getName())) {
-				return (MessageConsole) console;
-			}
-		}
-
-		MessageConsole console = new MessageConsole(name, null);
-		consoleManager.addConsoles(new IConsole[] { console });
-
-		return console;
-	}
-
 	/**
 	 * Loads the SMV code from given IFile
 	 * 
