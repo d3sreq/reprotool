@@ -49,6 +49,7 @@ import reprotool.model.linguistic.action.InternalAction;
 import reprotool.model.linguistic.action.ToSystem;
 import reprotool.model.linguistic.action.Unknown;
 import reprotool.model.linguistic.action.UseCaseInclude;
+import reprotool.model.linguistic.actionpart.ActionpartFactory;
 import reprotool.model.linguistic.actionpart.ActionpartPackage;
 import reprotool.model.swproj.SwprojPackage;
 import reprotool.model.usecase.UseCaseStep;
@@ -92,92 +93,17 @@ public class SentenceAnalysisSheetPage extends Page implements ISentenceAnalysis
 		bindActionTypeList();
 		bindActionSelection(bindingContext, emfValue);
 		
-		// sender
-		// @formatter:off
-		bindBoxVisibility(bindingContext, emfValue, boxContainer.getSenderBox(), "sender");
-		bindMarkedText(bindingContext, 
-				boxContainer.getSenderBox().getLblMarkedText(),
-				FeaturePath.fromList(
-					UsecasePackage.Literals.USE_CASE_STEP__ACTION, 
-					ActionPackage.Literals.TO_SYSTEM__SENDER, 
-					ActionpartPackage.Literals.ACTION_PART__TEXT, 
-					ActionpartPackage.Literals.TEXT_RANGE__CONTENT
-				)				
-		);
-		bindActorList(bindingContext, boxContainer.getSenderBox().getComboViewer());
-		bindComboSelection(bindingContext, 
-				boxContainer.getSenderBox().getComboViewer(), 
-				FeaturePath.fromList(new EReference[] {
-					UsecasePackage.Literals.USE_CASE_STEP__ACTION, 
-					ActionPackage.Literals.TO_SYSTEM__SENDER, 
-					ActionpartPackage.Literals.SENTENCE_ACTOR__ACTOR
-				} 
-		));
-		// @formatter:on
+		bindSender(bindingContext, emfValue);
+		bindSentenceActivity(bindingContext, emfValue);
+		bindReceiver(bindingContext, emfValue);
+		bindGoto(bindingContext, emfValue);
+		bindInclude(bindingContext, emfValue);
+		bindActionParams(bindingContext, emfValue);
 		
-		// sentence activity
-		// @formatter:off
-		bindBoxVisibility(bindingContext, emfValue, boxContainer.getSentenceActivityBox(), "sentenceActivity");
-		bindMarkedText(bindingContext, 
-				boxContainer.getSentenceActivityBox().getLblMarkedText(),
-				FeaturePath.fromList(
-					UsecasePackage.Literals.USE_CASE_STEP__ACTION, 
-					ActionPackage.Literals.COMMUNICATION__SENTENCE_ACTIVITY, 
-					ActionpartPackage.Literals.ACTION_PART__TEXT, 
-					ActionpartPackage.Literals.TEXT_RANGE__CONTENT
-				)
-		);
-		// @formatter:on
-		
-		// receiver
-		// @formatter:off
-		bindBoxVisibility(bindingContext, emfValue, boxContainer.getReceiverBox(), "receiver");
-		bindActorList(bindingContext, boxContainer.getReceiverBox().getComboViewer());
-		bindMarkedText(bindingContext, 
-				boxContainer.getReceiverBox().getLblMarkedText(),
-				FeaturePath.fromList(
-					UsecasePackage.Literals.USE_CASE_STEP__ACTION, 
-					ActionPackage.Literals.FROM_SYSTEM__RECEIVER, 
-					ActionpartPackage.Literals.ACTION_PART__TEXT, 
-					ActionpartPackage.Literals.TEXT_RANGE__CONTENT
-				)
-		);
-		bindComboSelection(bindingContext, 
-				boxContainer.getReceiverBox().getComboViewer(), 
-				FeaturePath.fromList(new EReference[] {
-					UsecasePackage.Literals.USE_CASE_STEP__ACTION, 
-					ActionPackage.Literals.FROM_SYSTEM__RECEIVER, 
-					ActionpartPackage.Literals.SENTENCE_ACTOR__ACTOR
-				} 
-		));
-		// @formatter:on
-		
-		// action param
-		bindBoxVisibility(bindingContext, emfValue, boxContainer.getActionParamBox(), "actionParam");
-		bindActionParams(bindingContext);
-		
-		// goto
-		bindBoxVisibility(bindingContext, emfValue, boxContainer.getGotoUseCaseStepBox(), "gotoTarget");
-		// TODO - jvinarek - filter out selected use case step ?
-		bindGotoList(bindingContext);
-		// @formatter:off
-		bindMarkedText(bindingContext,
-				boxContainer.getGotoUseCaseStepBox().getLblMarkedText(), 
-				FeaturePath.fromList(
-					UsecasePackage.Literals.USE_CASE_STEP__ACTION, 
-					ActionpartPackage.Literals.ACTION_PART__TEXT, 
-					ActionpartPackage.Literals.TEXT_RANGE__CONTENT
-				)
-		);		
-		bindComboSelection(bindingContext, 
-				boxContainer.getGotoUseCaseStepBox().getComboViewer(), 
-				FeaturePath.fromList(new EReference[] {
-					UsecasePackage.Literals.USE_CASE_STEP__ACTION, 
-					ActionPackage.Literals.GOTO__GOTO_TARGET
-				} 
-		));
-		// @formatter:on
-		
+		return bindingContext;
+	}
+
+	private void bindInclude(DataBindingContext bindingContext, IObservableValue emfValue) {
 		// use case include
 		bindBoxVisibility(bindingContext, emfValue, boxContainer.getIncludeUseCaseBox(), "includeTarget");
 		// TODO - jvinarek - filter out selected use case step ?
@@ -199,11 +125,97 @@ public class SentenceAnalysisSheetPage extends Page implements ISentenceAnalysis
 				} 
 		));
 		// @formatter:on
-		
-		return bindingContext;
 	}
 
-	private void bindActionParams(DataBindingContext bindingContext) {
+	private void bindGoto(DataBindingContext bindingContext, IObservableValue emfValue) {
+		bindBoxVisibility(bindingContext, emfValue, boxContainer.getGotoUseCaseStepBox(), "gotoTarget");
+		// TODO - jvinarek - filter out selected use case step ?
+		bindGotoList(bindingContext);
+		// @formatter:off
+		bindMarkedText(bindingContext,
+				boxContainer.getGotoUseCaseStepBox().getLblMarkedText(), 
+				FeaturePath.fromList(
+					UsecasePackage.Literals.USE_CASE_STEP__ACTION, 
+					ActionpartPackage.Literals.ACTION_PART__TEXT, 
+					ActionpartPackage.Literals.TEXT_RANGE__CONTENT
+				)
+		);		
+		bindComboSelection(bindingContext, 
+				boxContainer.getGotoUseCaseStepBox().getComboViewer(), 
+				FeaturePath.fromList(new EReference[] {
+					UsecasePackage.Literals.USE_CASE_STEP__ACTION, 
+					ActionPackage.Literals.GOTO__GOTO_TARGET
+				} 
+		));
+		// @formatter:on
+	}
+
+	private void bindReceiver(DataBindingContext bindingContext, IObservableValue emfValue) {
+		// @formatter:off
+		bindBoxVisibility(bindingContext, emfValue, boxContainer.getReceiverBox(), "receiver");
+		bindActorList(bindingContext, boxContainer.getReceiverBox().getComboViewer());
+		bindMarkedText(bindingContext, 
+				boxContainer.getReceiverBox().getLblMarkedText(),
+				FeaturePath.fromList(
+					UsecasePackage.Literals.USE_CASE_STEP__ACTION, 
+					ActionPackage.Literals.FROM_SYSTEM__RECEIVER, 
+					ActionpartPackage.Literals.ACTION_PART__TEXT, 
+					ActionpartPackage.Literals.TEXT_RANGE__CONTENT
+				)
+		);
+		bindComboSelection(bindingContext, 
+				boxContainer.getReceiverBox().getComboViewer(), 
+				FeaturePath.fromList(new EReference[] {
+					UsecasePackage.Literals.USE_CASE_STEP__ACTION, 
+					ActionPackage.Literals.FROM_SYSTEM__RECEIVER, 
+					ActionpartPackage.Literals.SENTENCE_ACTOR__ACTOR
+				} 
+		));
+		// @formatter:on
+	}
+
+	private void bindSentenceActivity(DataBindingContext bindingContext, IObservableValue emfValue) {
+		// @formatter:off
+		bindBoxVisibility(bindingContext, emfValue, boxContainer.getSentenceActivityBox(), "sentenceActivity");
+		bindMarkedText(bindingContext, 
+				boxContainer.getSentenceActivityBox().getLblMarkedText(),
+				FeaturePath.fromList(
+					UsecasePackage.Literals.USE_CASE_STEP__ACTION, 
+					ActionPackage.Literals.COMMUNICATION__SENTENCE_ACTIVITY, 
+					ActionpartPackage.Literals.ACTION_PART__TEXT, 
+					ActionpartPackage.Literals.TEXT_RANGE__CONTENT
+				)
+		);
+		// @formatter:on
+	}
+
+	private void bindSender(DataBindingContext bindingContext, IObservableValue emfValue) {
+		// @formatter:off
+		bindBoxVisibility(bindingContext, emfValue, boxContainer.getSenderBox(), "sender");
+		bindMarkedText(bindingContext, 
+				boxContainer.getSenderBox().getLblMarkedText(),
+				FeaturePath.fromList(
+					UsecasePackage.Literals.USE_CASE_STEP__ACTION, 
+					ActionPackage.Literals.TO_SYSTEM__SENDER, 
+					ActionpartPackage.Literals.ACTION_PART__TEXT, 
+					ActionpartPackage.Literals.TEXT_RANGE__CONTENT
+				)				
+		);
+		bindActorList(bindingContext, boxContainer.getSenderBox().getComboViewer());
+		bindComboSelection(bindingContext, 
+				boxContainer.getSenderBox().getComboViewer(), 
+				FeaturePath.fromList(new EReference[] {
+					UsecasePackage.Literals.USE_CASE_STEP__ACTION, 
+					ActionPackage.Literals.TO_SYSTEM__SENDER, 
+					ActionpartPackage.Literals.SENTENCE_ACTOR__ACTOR
+				} 
+		));
+		// @formatter:on
+	}
+
+	private void bindActionParams(DataBindingContext bindingContext, IObservableValue emfValue) {
+		bindBoxVisibility(bindingContext, emfValue, boxContainer.getActionParamBox(), "actionParam");
+		
 		TableViewer tableViewer = boxContainer.getActionParamBox().getTableViewer();
 
 		// @formatter:off
@@ -246,13 +258,14 @@ public class SentenceAnalysisSheetPage extends Page implements ISentenceAnalysis
 	private void bindActionSelection(DataBindingContext bindingContext, IObservableValue emfValue) {
 		//
 		// binds value to action box combo
-		IObservableValue comboValue = ViewersObservables.observeSingleSelection(boxContainer.getActionTypeBox().getComboViewer());
+		final ComboViewer comboViewer = boxContainer.getActionTypeBox().getComboViewer();
+		IObservableValue comboValue = ViewersObservables.observeSingleSelection(comboViewer);
 
 		UpdateValueStrategy comboToEmfStrategy = new UpdateValueStrategy();
 		comboToEmfStrategy.setConverter(new ComboToActionConverter());
 		UpdateValueStrategy emfToComboStrategy = new UpdateValueStrategy();
 		emfToComboStrategy.setConverter(new ActionToComboConverter());
-
+		
 		bindingContext.bindValue(comboValue, emfValue, comboToEmfStrategy, emfToComboStrategy);
 	}
 
@@ -482,7 +495,10 @@ public class SentenceAnalysisSheetPage extends Page implements ISentenceAnalysis
 		TO_SYSTEM {
 			@Override
 			Action createAction() {
-				return ActionFactory.eINSTANCE.createToSystem();
+				ToSystem toSystem = ActionFactory.eINSTANCE.createToSystem();
+				toSystem.setSender(ActionpartFactory.eINSTANCE.createSentenceActor());
+				toSystem.setSentenceActivity(ActionpartFactory.eINSTANCE.createSentenceActivity());
+				return toSystem;
 			}
 
 			@Override
@@ -493,7 +509,10 @@ public class SentenceAnalysisSheetPage extends Page implements ISentenceAnalysis
 		FROM_SYSTEM {
 			@Override
 			Action createAction() {
-				return ActionFactory.eINSTANCE.createFromSystem();
+				FromSystem fromSystem = ActionFactory.eINSTANCE.createFromSystem();
+				fromSystem.setReceiver(ActionpartFactory.eINSTANCE.createSentenceActor());
+				fromSystem.setSentenceActivity(ActionpartFactory.eINSTANCE.createSentenceActivity());
+				return fromSystem;
 			}
 
 			@Override
@@ -504,7 +523,9 @@ public class SentenceAnalysisSheetPage extends Page implements ISentenceAnalysis
 		INTERNAL {
 			@Override
 			Action createAction() {
-				return ActionFactory.eINSTANCE.createInternalAction();
+				InternalAction internalAction = ActionFactory.eINSTANCE.createInternalAction();
+				internalAction.setSentenceActivity(ActionpartFactory.eINSTANCE.createSentenceActivity());
+				return internalAction;
 			}
 
 			@Override

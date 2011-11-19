@@ -43,7 +43,7 @@ import reprotool.ide.editors.usecase.action.AutomaticAnalysisAction;
 import reprotool.ide.editors.usecase.action.ParamAction;
 import reprotool.ide.editors.usecase.action.GotoAction;
 import reprotool.ide.editors.usecase.action.IncludeUseCaseAction;
-import reprotool.ide.editors.usecase.action.PlainTextAction;
+import reprotool.ide.editors.usecase.action.EraseAction;
 import reprotool.ide.editors.usecase.action.ReceiverAction;
 import reprotool.ide.editors.usecase.action.SenderAction;
 import reprotool.model.usecase.presentation.ReprotoolEditorPlugin;
@@ -183,7 +183,7 @@ public class UsecaseEMFActionBarContributor
 		toolBarManager.add(new ParamAction("action-param-action"));
 		toolBarManager.add(new GotoAction("goto-action"));
 		toolBarManager.add(new IncludeUseCaseAction("include-use-case-action"));
-		toolBarManager.add(new PlainTextAction("plain-text-action"));
+		toolBarManager.add(new EraseAction("plain-text-action"));
 		
 		toolBarManager.add(new Separator("usecase-automatic-tools"));
 		

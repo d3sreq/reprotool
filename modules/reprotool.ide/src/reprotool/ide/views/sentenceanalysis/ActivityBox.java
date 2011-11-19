@@ -41,7 +41,7 @@ public class ActivityBox extends Composite {
 		fd_lblMarkedText.top = new FormAttachment(0, 13);
 		fd_lblMarkedText.left = new FormAttachment(0, 10);
 		lblMarkedText.setLayoutData(fd_lblMarkedText);
-		lblMarkedText.setText("Marked activity");
+		lblMarkedText.setText("<Marked text>");
 
 		// TODO - jvinarek - comment
 		rowData = new RowData();

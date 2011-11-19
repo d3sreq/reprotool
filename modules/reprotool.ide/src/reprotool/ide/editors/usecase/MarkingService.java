@@ -1,5 +1,10 @@
 package reprotool.ide.editors.usecase;
 
+import org.eclipse.emf.common.command.CompoundCommand;
+import org.eclipse.emf.edit.domain.EditingDomain;
+
+import reprotool.model.linguistic.actionpart.TextRange;
+
 /**
  * Serves as mediator between Actions and editor content.
  * <p>
@@ -52,6 +57,10 @@ public class MarkingService {
 	public void markIncludeUseCase() {
 		markCommon(EMarkAction.INCLUDE_USE_CASE);
 	}
+	
+	public void erase() {
+		markCommon(EMarkAction.ERASE);
+	}
 
 	private void markCommon(EMarkAction markAction) {
 		// get information about selection from editor
@@ -69,44 +78,76 @@ public class MarkingService {
 		markAction.mark(start, length, textContent);
 	}
 
-	private enum EMarkAction {
+	enum EMarkAction {
 		SENDER {
+			
 			@Override
-			void mark(int start, int length, UseCaseStepStyledTextContent textContent) {
-				textContent.markSender(start, length);
+			void markSpecific(UseCaseStepStyledTextContent useCaseStepStyledTextContent, EditingDomain editingDomain,
+					CompoundCommand compoundCommand, TextRange textRange) {
+				useCaseStepStyledTextContent.markSender(editingDomain, compoundCommand, textRange);
 			}
 		},
 		ACTIVITY {
+
 			@Override
-			void mark(int start, int length, UseCaseStepStyledTextContent textContent) {
-				textContent.markActivity(start, length);
+			void markSpecific(UseCaseStepStyledTextContent useCaseStepStyledTextContent, EditingDomain editingDomain,
+					CompoundCommand compoundCommand, TextRange textRange) {
+				useCaseStepStyledTextContent.markActivity(editingDomain, compoundCommand, textRange);
 			}
 		},
 		RECEIVER {
+
 			@Override
-			void mark(int start, int length, UseCaseStepStyledTextContent textContent) {
-				textContent.markReceiver(start, length);
+			void markSpecific(UseCaseStepStyledTextContent useCaseStepStyledTextContent, EditingDomain editingDomain,
+					CompoundCommand compoundCommand, TextRange textRange) {
+				useCaseStepStyledTextContent.markReceiver(editingDomain, compoundCommand, textRange);
 			}
+			
 		},
 		PARAM {
+
 			@Override
-			void mark(int start, int length, UseCaseStepStyledTextContent textContent) {
-				textContent.markActionParam(start, length);
+			void markSpecific(UseCaseStepStyledTextContent useCaseStepStyledTextContent, EditingDomain editingDomain,
+					CompoundCommand compoundCommand, TextRange textRange) {
+				useCaseStepStyledTextContent.markParam(editingDomain, compoundCommand, textRange);
 			}
+			
 		},
 		INCLUDE_USE_CASE {
+
 			@Override
-			void mark(int start, int length, UseCaseStepStyledTextContent textContent) {
-				textContent.markIncludeUseCase(start, length);
+			void markSpecific(UseCaseStepStyledTextContent useCaseStepStyledTextContent, EditingDomain editingDomain,
+					CompoundCommand compoundCommand, TextRange textRange) {
+				useCaseStepStyledTextContent.markIncludeUseCase(editingDomain, compoundCommand, textRange);
 			}
+			
 		},
 		GOTO {
+
+			@Override
+			void markSpecific(UseCaseStepStyledTextContent useCaseStepStyledTextContent, EditingDomain editingDomain,
+					CompoundCommand compoundCommand, TextRange textRange) {
+				useCaseStepStyledTextContent.markGoto(editingDomain, compoundCommand, textRange);
+			}
+			
+		},
+		ERASE {
 			@Override
 			void mark(int start, int length, UseCaseStepStyledTextContent textContent) {
-				textContent.markGoto(start, length);
+				textContent.erase(start, length);
+			}
+
+			@Override
+			void markSpecific(UseCaseStepStyledTextContent useCaseStepStyledTextContent, EditingDomain editingDomain,
+					CompoundCommand compoundCommand, TextRange textRange) {
+				// empty, will not be called becouse #mark method is overriden 
 			}
 		};
 
-		abstract void mark(int start, int length, UseCaseStepStyledTextContent textContent);
+		void mark(int start, int length, UseCaseStepStyledTextContent textContent) {
+			textContent.markCommon(start, length, this);
+		}
+		
+		abstract void markSpecific(UseCaseStepStyledTextContent useCaseStepStyledTextContent, EditingDomain editingDomain, CompoundCommand compoundCommand, TextRange textRange);
 	}
 }

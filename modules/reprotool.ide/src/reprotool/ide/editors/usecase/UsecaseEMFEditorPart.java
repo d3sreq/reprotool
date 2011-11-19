@@ -162,15 +162,16 @@ public class UsecaseEMFEditorPart extends EditorPart implements IMenuListener, I
 			public void commandStackChanged(final EventObject event) {
 				
 				// prevent refresh during writing of the text in cell editor
-				Command mostRecentCommand = getCommandStack().getMostRecentCommand();				
-				if (!isContentSetting(mostRecentCommand)) {
-					parentEditor.getContainer().getDisplay().asyncExec(new Runnable() {
-						public void run() {
-							UsecaseEMFEditorPart.this.composite.getTreeViewer().refresh();
-
-						}
-					});
-				}
+				// FIXME jvinarek
+//				Command mostRecentCommand = getCommandStack().getMostRecentCommand();				
+//				if (!isContentSetting(mostRecentCommand)) {
+//					parentEditor.getContainer().getDisplay().asyncExec(new Runnable() {
+//						public void run() {
+//							UsecaseEMFEditorPart.this.composite.getTreeViewer().refresh();
+//
+//						}
+//					});
+//				}
 			}
 
 			private boolean isContentSetting(Command command) {
