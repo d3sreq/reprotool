@@ -43,6 +43,9 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 				"tools" + File.separator + "parser" + File.separator + "wsj-02-21.obj.gz");
 		store.setDefault(PreferenceConstants.PARSER_SETTINGS, rootPath + File.separator +
 				"tools" + File.separator + "parser" + File.separator + "collins.properties");
+		// lemmatizer settings
+		store.setDefault(PreferenceConstants.LEMMATIZER_MODEL, rootPath + File.separator +
+				"tools" + File.separator + "mate-tools" + File.separator + "lemma-eng.model");
 	}
 	
 	/**

@@ -21,16 +21,16 @@ public class Tokenizer extends Tool{
 	 * @return List<String> tokens 
 	 */	
     public static String getTokens(String originalText) {	
-    	//	public static List<String> getTokens(String originalText) {		
-		//List<String> tokens = new ArrayList<String>();
     	String tokens = "";
 		String text = originalText;
 		
+		// running at blank data
+    	if(originalText.isEmpty()) {
+    		return originalText;
+    	}
+		
 		//separate alphabetical tokens
 		text = Pattern.compile("([a-zA-Z]+)").matcher(text).replaceAll(" $1 ");
-		/*Pattern p = Pattern.compile("([a-zA-Z]+)");
-		Matcher m = p.matcher(text);
-		text = m.replaceAll(" $1 ");*/
 		
 		// separate punctation
 		text = Pattern.compile("([^ !])(!+)").matcher(text).replaceAll("$1 $2");

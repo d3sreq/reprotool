@@ -37,7 +37,7 @@ import danbikel.parser.Settings;
  *
  */
 public class Parser extends Tool {
-	
+
 	static boolean runs = false;
 	static danbikel.parser.Parser parser = null;
 	
@@ -46,15 +46,24 @@ public class Parser extends Tool {
 	 *
 	 * @return String parsed_tree 
 	 */	
-	
-
 	public String run(String text) {
 		return getString(text);
 	}
 	
-	// main method
+    /**
+     * Parse sentence into tree in string format
+     * 
+     * @param originalText Sentence from linguistics tagger
+     * @return Sentence whole Sentence object with tree and array
+     */
     public static String getString(String originalText) {
     	String parsedText = "";
+    	
+    	// running at blank data
+    	if(originalText.isEmpty()) {
+    		return parsedText;
+    	}
+    	
     	if (runs){ // get response from tool
     		
     		// validation of state
@@ -83,34 +92,53 @@ public class Parser extends Tool {
         return parsedText;
     }   
     
+	/**
+	 * Is still running?
+	 * 
+	 * @return
+	 */
 	public static boolean isReady(){
 		try {
 			return parser.alive();
+		} catch (NullPointerException e) {
+			// parser is not initialized
+			return false;
 		} catch (RemoteException e) {
-			e.printStackTrace();
+			IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, "Parser is not responding", e);
+			StatusManager.getManager().handle(status, StatusManager.LOG);
 			return false;
 		}
 	}
+	
+	/**
+	 * Was running?
+	 * 
+	 * @return
+	 */
+	public static boolean isInicialized(){
+		return runs;
+	}
+	
 	
 	public static synchronized boolean start () {
     	String settingsFile = "";
     	String modelFile = "";
     	
 		// locating external model
-		try{
+    	try{
 			modelFile = Platform.getPreferencesService().getString("reprotool.ide", "parserModel", "/wsj-02-21.obj.gz", null);
 		} catch (NullPointerException e){
-			String rootPath = new java.io.File(Tagger.class.getResource("/").getPath()).getParentFile().getParent();
+			String rootPath = new java.io.File(Parser.class.getResource("/").getPath()).getParentFile().getParent();
 			modelFile = rootPath + "/../tools/parser/wsj-02-21.obj.gz";
-		}
- 
+		}   
+			
 		// locating external settings
-		try{
-			settingsFile = Platform.getPreferencesService().getString("reprotool.ide", "parserSettings", "/collins.properties", null);
+    	try{
+    		settingsFile = Platform.getPreferencesService().getString("reprotool.ide", "parserSettings", "/collins.properties", null);
 		} catch (NullPointerException e){
-			String rootPath = new java.io.File(Tagger.class.getResource("/").getPath()).getParentFile().getParent();
+			String rootPath = new java.io.File(Parser.class.getResource("/").getPath()).getParentFile().getParent();
 			settingsFile = rootPath + "/../tools/parser/collins.properties";
-		}
+		} 
 
 
     	try {
@@ -125,6 +153,9 @@ public class Parser extends Tool {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+		parse("((Inicialize (NNP)) (parser (NN)) )");
+		
 		return runs;		
 	}
 
@@ -155,20 +186,20 @@ public class Parser extends Tool {
     	String modelFile = "";
     	
 		// locating external model
-		try{
+    	try{
 			modelFile = Platform.getPreferencesService().getString("reprotool.ide", "parserModel", "/wsj-02-21.obj.gz", null);
 		} catch (NullPointerException e){
-			String rootPath = new java.io.File(Tagger.class.getResource("/").getPath()).getParentFile().getParent();
+			String rootPath = new java.io.File(Parser.class.getResource("/").getPath()).getParentFile().getParent();
 			modelFile = rootPath + "/../tools/parser/wsj-02-21.obj.gz";
-		}
- 
+		}   
+			
 		// locating external settings
-		try{
-			settingsFile = Platform.getPreferencesService().getString("reprotool.ide", "parserSettings", "/collins.properties", null);
+    	try{
+    		settingsFile = Platform.getPreferencesService().getString("reprotool.ide", "parserSettings", "/collins.properties", null);
 		} catch (NullPointerException e){
-			String rootPath = new java.io.File(Tagger.class.getResource("/").getPath()).getParentFile().getParent();
+			String rootPath = new java.io.File(Parser.class.getResource("/").getPath()).getParentFile().getParent();
 			settingsFile = rootPath + "/../tools/parser/collins.properties";
-		}
+		}   
 		
     	/* CMD LINE LIKE EXECUTION
     	String[] args = new String[6];

@@ -22,4 +22,6 @@ public class PreferenceConstants {
 
 	public static final String PARSER_MODEL = "parserModel";
 	public static final String PARSER_SETTINGS = "parserSettings";	
+
+	public static final String LEMMATIZER_MODEL = "lemmatizerModel";
 }

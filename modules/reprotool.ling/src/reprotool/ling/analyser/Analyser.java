@@ -6,9 +6,11 @@ import org.eclipse.emf.edit.command.AddCommand;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
 
+import reprotool.ling.POSType;
 import reprotool.ling.ParseTreeNode;
 import reprotool.ling.Sentence;
 import reprotool.ling.SentenceNode;
+import reprotool.ling.SentenceType;
 import reprotool.ling.Word;
 import reprotool.ling.WordType;
 import reprotool.model.linguistic.action.*;
@@ -49,29 +51,43 @@ public class Analyser {
 		CompoundCommand compoundCommand = new CompoundCommand();
 		
 		// tree analyse
-		boolean subject = true;
-		ParseTreeNode node = null;
+		boolean subject = false;
+		//ParseTreeNode node = null;
 
-		// TODO zatim nastrel ohodnoceni vsech NP
-		for (ParseTreeNode pnode : curNode.getChildren()) {
-			//node = (SentenceNode) pnode;
-			node = pnode;
-			if (node.eClass().getName().equals("NounPhrase")) {
-				if (subject) {
-					if (node.getChildren().get(0).getClass().getName() == "Word") {
-						((Word) node.getChildren().get(0))
-								.setType(WordType.SUBJECT);
-						subject = false;
+		// find subject
+		// is there any determiner?
+		for (Word word : sentence.getWords()) {	
+			if (word.getPOS() == POSType.DETERMINER) {
+				word.setType(WordType.SUBJECT);
+				System.out.println("Subject: " + word.getLemma());
+				subject = true;
+			}
+		}	
+		
+		// find determiner in head NP
+		if (!subject) {
+			for (ParseTreeNode node : curNode.getChildren()) {
+				// need for noun phrase
+				//  ().getName().equals("SentenceNode")
+				if (!subject && node instanceof SentenceNode && ((SentenceNode)node).getType() == SentenceType.NOUN_PHRASE) {
+					// find deepest NP 
+					while (node.getChildren().get(0) instanceof SentenceNode && ((SentenceNode)node.getChildren().get(0)).getType() == SentenceType.NOUN_PHRASE) {
+						// TODO first
+						node = node.getChildren().get(0);
 					}
-				} else {
-					if (node.getChildren().get(0).getClass().getName() == "Word") {
-						((Word) node.getChildren().get(0))
-								.setType(WordType.REPRESENTATIVE_OBJECT);
+					for(ParseTreeNode npnode : node.getChildren()) {
+						// we need noun
+						if (npnode instanceof Word && ((Word)npnode).getPOS().getLiteral().startsWith("NN")) {
+							((Word)npnode).setType(WordType.SUBJECT);
+							System.out.println("Subject: " + ((Word)npnode).getLemma());
+							subject = true;
+							break;
+						}
 					}
 				}
+				// System.out.print(node.eClass().eClass().getName());
+				// if(node.toString());
 			}
-			// System.out.print(node.eClass().eClass().getName());
-			// if(node.toString());
 		}
 
 		// action type
@@ -145,7 +161,9 @@ public class Analyser {
 					if(labelIndex > 0){
 						TextRange tr = apfactory.createTextRange();
 						tr.setStartPosition(sentence.getWords().get(labelIndex).getContentStart());
-						tr.setLength(sentence.getWords().get(labelIndex).getContentLength());						
+						tr.setLength(sentence.getWords().get(labelIndex).getContentLength());
+						// for labels is lemma form allways same as text
+						tr.setLemmaForm(sentence.getWords().get(labelIndex).getLemma());
 						
 						// removing TextRange at current position
 						TextRange blockingtr = ucs.getTextNodeAt(tr.getStartPosition());
@@ -215,10 +233,15 @@ public class Analyser {
 
 			// text range settings
 			TextRange tr = apfactory.createTextRange();
-			tr.setStartPosition(0);
 			tr.setStartPosition(sentence.getWords().get(0).getContentStart());
 			tr.setLength(sentence.getWords().get(0).getContentLength());
+			tr.setLemmaForm(sentence.getWords().get(0).getLemma());
 
+			// removing TextRange at current position
+			TextRange blockingtr = ucs.getTextNodeAt(tr.getStartPosition());
+			if (blockingtr != null) {
+				ucs.getTextNodes().remove(blockingtr);
+			}
 			
 			AddCommand addCommand = new AddCommand(editingDomain, ucs, UsecasePackage.Literals.PARSEABLE_ELEMENT__TEXT_NODES, tr);
 			compoundCommand.append(addCommand);

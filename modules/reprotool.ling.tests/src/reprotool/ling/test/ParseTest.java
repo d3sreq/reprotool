@@ -13,12 +13,30 @@ import reprotool.ling.LingFactory;
 import reprotool.ling.POSType;
 import reprotool.ling.SentenceNode;
 import reprotool.ling.Word;
+import reprotool.ling.tools.Lemmatizer;
 import reprotool.ling.tools.Parser;
 import reprotool.ling.tools.Tagger;
 import reprotool.ling.tools.Tokenizer;
 
 public class ParseTest {
 
+	// testing threads
+	@Test
+	public final void testTaggerStreams() {
+		String sentence = "Administrator opens view 1 .";
+		String lisp = "";
+		
+		System.out.println("Tagger streams test 1");
+
+		lisp = Tagger.getMXPOST(sentence);
+
+		System.out.println("Tagger streams test 2");
+		lisp = Tagger.getMXPOST(sentence + "huh");
+		System.out.println("Tagger streams test 3");
+		
+		assertEquals("((Administrator (NNP)) (opens (VBZ)) (view (NN)) (1 (CD)) (.huh (.)) )", Tagger.mxposToLisp(lisp));
+	}
+	
 	// testing goto
 	@Test
 	public final void testTaggerLispNumeral() {
@@ -35,7 +53,7 @@ public class ParseTest {
 		
 		assertEquals("(S (NP (NNP Administrator)) (VP (VBZ opens) (NP (NN view) (CD 1))) (. .))", Parser.getString(sentence));
 	}
-	
+
 	// first sentence
 	@Test
 	public final void testTokenizer1() {
@@ -43,7 +61,7 @@ public class ParseTest {
 		
 		assertEquals("Administrator sends messages .", Tokenizer.getTokens(sentence));
 	}
-		
+
 	@Test
 	public final void testTagger1() {
 		String sentence = "Administrator sends messages .";
@@ -160,6 +178,14 @@ public class ParseTest {
 		String sentence = "((Continue (NNP)) (to (TO)) (3 (CD)) (a (DT)) (1 (CD)) )";
 		
 		assertEquals("(NP (NP (NNP Continue)) (PP (TO to) (NP (NP (CD 3)) (NP (QP (DT a) (CD 1))))))", Parser.getString(sentence));
+	}
+	
+	// lemmata
+	@Test
+	public final void testLemmatizer1() {
+		String sentence = "Administrator sends messages .";
+		
+		assertEquals("administrator send message .", Lemmatizer.getString(sentence));
 	}
 	
 }

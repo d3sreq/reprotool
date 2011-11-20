@@ -9,7 +9,6 @@ import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.progress.IProgressConstants;
@@ -17,6 +16,7 @@ import org.eclipse.ui.statushandlers.StatusManager;
 
 import reprotool.ling.analyser.Analyser;
 import reprotool.ling.analyser.MatchSentence;
+import reprotool.ling.tools.Lemmatizer;
 import reprotool.ling.tools.Parser;
 import reprotool.ling.tools.Tagger;
 import reprotool.ling.tools.Tokenizer;
@@ -29,10 +29,6 @@ import reprotool.model.usecase.UseCaseStep;
 public class LingTools {
 	
 	
-	public static void init() {
-		Parser.start();		
-	}
-
 	/**
 	 * Ling tools pipeline
 	 * 
@@ -64,15 +60,22 @@ public class LingTools {
 	public static Sentence parseSentence(String originalSentence) {
 		
  		String tokenizedSentence = "";
-		String taggedSentence = "";
+ 		String lemmatizedSentence = "";
+ 		String taggedSentence = "";
 		String parsedSentence = "";
 		
 		// calling tokenizer 
 		tokenizedSentence = Tokenizer.getTokens(originalSentence.trim());
 		System.out.println("Tokenizer: " + tokenizedSentence);
+
+		// calling lemmatizer 
+		lemmatizedSentence = Lemmatizer.getString(originalSentence);
+		System.out.println("Tokenizer: " + tokenizedSentence);
+		
 		// calling tagger 
-		taggedSentence = Tagger.mxposToLisp(Tagger.getMXPOST(tokenizedSentence));
+		taggedSentence = Tagger.mxposToLisp(Tagger.getMXPOST(lemmatizedSentence));
 		System.out.println("Tagger: " + taggedSentence);
+		
 		// calling parser 
 		parsedSentence = Parser.getString(taggedSentence);
 		System.out.println("Parser: " + parsedSentence);
@@ -93,20 +96,31 @@ public class LingTools {
 	public static CompoundCommand analyseUseCaseStep(EditingDomain editingDomain, UseCaseStep ucs) {
 		// gets UseCaseStep string 
 		String sentenceString = ucs.getContent();
+		// empty sentence - some problems?
+		if(sentenceString.isEmpty()) {
+			return new CompoundCommand();
+		}
+		
 		// gets sentence object
-		Sentence sentence = LingTools.parseSentence(sentenceString);
-		/*
-		LingJob job = new LingJob("Linguistics tools", sentenceString);
+		//Sentence sentence = LingTools.parseSentence(sentenceString);
+		
+		LingJob job = new LingJob("Linguistics analyse", sentenceString);
 		//job.setProperty(IProgressConstants.ACTION_PROPERTY, gotoAction);		
 		job.schedule();	
 
-		while(!job.getResult().isOK()){
-			System.out.println(job.getResult().isOK());
+		while(job.getState() != Job.NONE){
+			//System.out.println(job.getState());
+			try {
+				//Thread.currentThread();
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+
+				e.printStackTrace();
+			}
 		}
+		System.out.println("LingJob final state: " + job.getState());
 		
-		System.out.println(job.getState());
-		
-		Sentence sentence = job.getSentence();	*/	
+		Sentence sentence = job.getSentence();		
 		
 		if(!MatchSentence.matchSentence(sentenceString, sentence)){
 			IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, "Error during matching UseCaseStep.content to Sentence object", null);
@@ -119,23 +133,29 @@ public class LingTools {
 		return command;
 	}	
 	
-	
-	
+	// TODO non job inicialization
 	public static void initJob() {
 		Job job = new Job("Linguistics tools initialization") {
 		    @Override
 		    public IStatus run(IProgressMonitor monitor) {
 		    	setProperty(IProgressConstants.KEEP_PROPERTY, Boolean.TRUE);
 		    	try{
-		    		monitor.beginTask("MXPost tagger initialization....", 100);
-		    		monitor.worked(1);
-		    		Tagger.getMXPOST("Open application");	
+		    		monitor.beginTask("External tools", 100);
+		    		monitor.worked(1);	
+		    		
+		    		// tools subtasks
+		    		monitor.subTask("Anna lemmatizer initialization....");	
+		    		Lemmatizer.start();
+		    		monitor.worked(5);
+		    		
+		    		monitor.subTask("MXPost tagger initialization....");
+		    		Tagger.start();	
 		    		monitor.worked(5);		    		
 		    		
-		    		monitor.beginTask("Parser initialization....", 100);
+		    		monitor.subTask("Parser initialization....");
 		    		monitor.worked(10);
 		    		Parser.start();	
-		    		
+
 			    	if(monitor.isCanceled()){
 			    		return Status.CANCEL_STATUS;
 			    	}
@@ -152,7 +172,11 @@ public class LingTools {
 				// all tools 
 				MessageBox mb = new MessageBox( PlatformUI.getWorkbench().getDisplay().getActiveShell(), SWT.ICON_INFORMATION | SWT.OK);
 				mb.setText("Linguistics tools initialization");
-				mb.setMessage("Parser inicialization: " + (Parser.isReady() ? "OK" : "Error" ) + "\n");
+				mb.setMessage(
+						"Tagger - inicialization: " + (Tagger.isInicialized() ? "OK" : "Error" ) + " | running: " + (Tagger.isReady() ? "OK" : "Error" ) + "\n" +
+						"Parser - inicialization: " + (Parser.isInicialized() ? "OK" : "Error" ) + " | running: " + (Parser.isReady() ? "OK" : "Error" ) + "\n" +
+						"Lemmatizer - inicialization: " + (Lemmatizer.isInicialized() ? "OK" : "Error" ) + "\n"
+						);
 				mb.open();
 			}
 		};
