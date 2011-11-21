@@ -30,6 +30,7 @@ import org.eclipselabs.nusmvtools.nusmv4j.NusmvLibrary.PropDb_TAG;
 import org.eclipselabs.nusmvtools.nusmv4j.NusmvLibrary.Prop_TAG;
 import org.eclipselabs.nusmvtools.nusmv4j.NusmvLibraryUtil;
 
+import reprotool.fm.nusmv.mapping.NuSMVProj;
 import reprotool.model.swproj.CounterExample;
 import reprotool.model.swproj.Step;
 import reprotool.model.swproj.SwprojFactory;
@@ -47,7 +48,7 @@ public class NuSMVWrapper {
 
 	private MessageConsole con = Activator.getDefault().findConsole();
 	private MessageConsoleStream out = con.newMessageStream();
-	private NuSMVProject nusmvProject;
+	private NuSMVProj nusmvProject;
 	private CounterExample counterExample;
 	private HashMap<UseCaseTransition, Step> branchingStep = new HashMap<UseCaseTransition, Step>();
 	

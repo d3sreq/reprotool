@@ -8,6 +8,8 @@ import org.eclipse.ui.console.MessageConsole;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
+import reprotool.fm.nusmv.mapping.NuSMVProj;
+
 /**
  * The activator class controls the plug-in life cycle
  */
@@ -20,7 +22,7 @@ public class Activator extends AbstractUIPlugin {
 	private static Activator plugin;
 	
 	NuSMVWrapper nusmvWrapper;
-	NuSMVProject nusmvProject;
+	NuSMVProj nusmvProject;
 	
 	final public NuSMVWrapper getNuSMVWrapper() {
 		if(nusmvWrapper == null)
@@ -29,11 +31,11 @@ public class Activator extends AbstractUIPlugin {
 		return nusmvWrapper;
 	}
 	
-	public NuSMVProject getNuSMVProject() {
+	public NuSMVProj getNuSMVProject() {
 		return nusmvProject;
 	}
 	
-	public void setNuSMVProject(NuSMVProject nusmvProject) {
+	public void setNuSMVProject(NuSMVProj nusmvProject) {
 		this.nusmvProject = nusmvProject;
 	}
 	

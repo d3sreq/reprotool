@@ -11,6 +11,7 @@ import lts2.TransitionalState;
 
 import org.eclipse.core.runtime.Assert;
 
+import reprotool.fm.nusmv.mapping.NuSMVProj;
 import reprotool.model.swproj.CounterExample;
 import reprotool.model.swproj.Step;
 import reprotool.model.swproj.SwprojFactory;
@@ -61,7 +62,7 @@ public class NuSMVParser {
 		return useCase.getName().replaceAll(" +", "_");
 	}
 	
-	static void processVariable(String name, String value, NuSMVProject nusmvProject,
+	static void processVariable(String name, String value, NuSMVProj nusmvProject,
 			CounterExample counterExample, HashMap<UseCaseTransition, Step> branchingStep)
 	{
 		if (("s0".equals(value)) || ("sFin".equals(value)) || ("sAbort".equals(value))) {
@@ -170,7 +171,7 @@ public class NuSMVParser {
 		ucTrans.getSteps().add(step);
 	}
 	
-	private static void processIncludedUseCase(String varName, String value, NuSMVProject nusmvProject,
+	private static void processIncludedUseCase(String varName, String value, NuSMVProj nusmvProject,
 			CounterExample counterExample, HashMap<UseCaseTransition, Step> branchingStep) {		
 		String baseId = getFirstId(varName);
 		String nextId = getNextId(varName);

@@ -22,8 +22,8 @@ import org.eclipse.xtext.resource.SaveOptions;
 import org.eclipse.xtext.resource.SaveOptions.Builder;
 
 import reprotool.fm.nusmv.Activator;
-import reprotool.fm.nusmv.NuSMVProject;
 import reprotool.fm.nusmv.lang.NuSmvLangStandaloneSetup;
+import reprotool.fm.nusmv.mapping.NuSMVProj;
 import reprotool.model.swproj.SoftwareProject;
 
 
@@ -67,9 +67,10 @@ public class SwprojToSMV implements IHandler {
 		System.out.println("FOUND SWPROJ : " + swproj);
 		MessageConsole con = Activator.getDefault().findConsole();
 
-		NuSMVProject nusmvProj = null;
+		NuSMVProj nusmvProj = null;
 		try {
-			nusmvProj = new NuSMVProject(swproj);
+			nusmvProj = new NuSMVProj();
+			nusmvProj.NuSMVProj_init(swproj);
 		} catch (RuntimeException e) {
 			MessageConsoleStream out = con.newMessageStream();
 			con.activate();
@@ -120,5 +121,4 @@ public class SwprojToSMV implements IHandler {
 		// TODO Auto-generated method stub
 
 	}
-
 }

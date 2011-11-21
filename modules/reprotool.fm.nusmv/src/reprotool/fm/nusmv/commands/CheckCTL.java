@@ -18,7 +18,7 @@ import org.eclipse.ui.handlers.HandlerUtil;
 
 import reprotool.fm.nusmv.Activator;
 import reprotool.fm.nusmv.NuSMVWrapper;
-import reprotool.fm.nusmv.NuSMVProject;
+import reprotool.fm.nusmv.mapping.NuSMVProj;
 import reprotool.model.swproj.CounterExample;
 import reprotool.model.swproj.SoftwareProject;
 
@@ -44,7 +44,8 @@ public class CheckCTL implements IHandler {
 		SoftwareProject swproj = (SoftwareProject) rootEObj;
 		System.out.println("FOUND SWPROJ : " + swproj);
 				
-		NuSMVProject nusmvProj = new NuSMVProject(swproj);
+		NuSMVProj nusmvProj = new NuSMVProj();
+		nusmvProj.NuSMVProj_init(swproj);
 		Activator.getDefault().setNuSMVProject(nusmvProj);
 	}
 

@@ -17,7 +17,6 @@ import reprotool.fm.nusmv.lang.nuSmvLang.BooleanType;
 import reprotool.fm.nusmv.lang.nuSmvLang.EnumType;
 import reprotool.fm.nusmv.lang.nuSmvLang.FormalParameter;
 import reprotool.fm.nusmv.lang.nuSmvLang.InitConstraint;
-import reprotool.fm.nusmv.lang.nuSmvLang.MainModule;
 import reprotool.fm.nusmv.lang.nuSmvLang.NextBody;
 import reprotool.fm.nusmv.lang.nuSmvLang.NuSmvLangFactory;
 import reprotool.fm.nusmv.lang.nuSmvLang.OtherModule;
@@ -67,7 +66,7 @@ public class NuSMVGenerator {
 	 * @param useCase
 	 * @return The derived identifier 
 	 */
-	private String uc2id(UseCase useCase) {
+	public String uc2id(UseCase useCase) {
 		if (useCase.getName() == null) {
 			throw new NullPointerException("Use-case name parameter is not set");
 		}
@@ -214,56 +213,7 @@ public class NuSMVGenerator {
 	public HashMap<String, Transition> getLabel2Trans() {
 		return label2Trans;
 	}
-	
-	public void addProcess(MainModule module) {
-		VariableDeclaration xVar = factory.createVariableDeclaration();
-		VarBody xBody = factory.createVarBody();
-		xBody.setVarId("x" + useCaseId);
-		SyncrProcessType xType = factory.createSyncrProcessType();
-		xType.setModule(getModule());
-		xType.getParams().add("self");
-		xType.getParams().add("x" + uc2id(useCase) + "run");
-		xBody.setType(xType);
-		xVar.getVars().add(xBody);
-		module.getModuleElement().add(xVar);
-				
-		VariableDeclaration runVar = factory.createVariableDeclaration();
-		VarBody runBody = factory.createVarBody();
-		runBody.setVarId("x" + useCaseId + "run");
-		BooleanType runType = factory.createBooleanType();
-		runBody.setType(runType);
-		runVar.getVars().add(runBody);
-		module.getModuleElement().add(runVar);
 		
-		InitConstraint initConstraint = factory.createInitConstraint();
-		initConstraint.setInitExpr("x" + useCaseId + "run in FALSE");
-		module.getModuleElement().add(initConstraint);
-		
-		StringBuffer nextExpr = new StringBuffer();
-		
-		if (
-				(useCase.getPrecedingUseCases() == null) ||
-				(useCase.getPrecedingUseCases().isEmpty())
-		) {
-			nextExpr.append("case\n\t\tp=p" + useCaseId + " & idle & x" + useCaseId + ".s = s0: TRUE;\n");
-		
-		} else {
-			nextExpr.append("case\n\t\tp=p" + useCaseId + " & idle & x" + useCaseId + ".s = s0");
-			for (UseCase pred: useCase.getPrecedingUseCases()) {
-				nextExpr.append(" & x" + uc2id(pred) + ".s = sFin");
-			}
-			nextExpr.append(" : TRUE;\n");
-		}		
-		nextExpr.append("\t\tTRUE : x" + useCaseId + "run & x" + useCaseId + ".s != sFin;\n\tesac");
-		
-		AssignConstraint assignConstraint = factory.createAssignConstraint();
-		NextBody nextBody = factory.createNextBody();
-		nextBody.setVarId("x" + useCaseId + "run");
-		nextBody.setNextExpr(nextExpr.toString());
-		assignConstraint.getBodies().add(nextBody);
-		module.getModuleElement().add(assignConstraint);
-	}
-	
 	public List<UseCase> getIncludedUseCases() {
 		return includedUseCases;
 	}
@@ -506,16 +456,4 @@ public class NuSMVGenerator {
 		p2.setParamId("run");
 		module.getParams().add(p2);
 	}
-}
-
-class AnnotationEntry {
-	String automatonID;
-	List<String> states = new ArrayList<String>();
-	
-	AnnotationEntry(AnnotationEntry a) {
-		automatonID = a.automatonID;
-		states = a.states;
-	}
-	
-	AnnotationEntry() {}
 }
