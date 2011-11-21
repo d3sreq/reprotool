@@ -10,7 +10,6 @@ import reprotool.ling.POSType;
 import reprotool.ling.ParseTreeNode;
 import reprotool.ling.Sentence;
 import reprotool.ling.SentenceNode;
-import reprotool.ling.SentenceType;
 import reprotool.ling.Word;
 import reprotool.ling.WordType;
 import reprotool.model.linguistic.action.*;
@@ -40,56 +39,33 @@ public class Analyser {
 	 * @return UseCaseStep analysed_tree
 	 */
 	public static CompoundCommand analyseTree(EditingDomain editingDomain, UseCaseStep ucs, Sentence sentence) {
-		// ParsetreeFactory factory = ParsetreeFactory.eINSTANCE;
-		SentenceNode curNode = sentence.getSentenceTree();
+		// current node
+		SentenceNode curNode = null;
 		Boolean definedAction = false;
-/*
-		Sentence sentence = LingFactoryImpl.eINSTANCE.createSentence();
-		sentence.parseString(text);
-*/		
 	
 		CompoundCommand compoundCommand = new CompoundCommand();
-		
-		// tree analyse
-		boolean subject = false;
-		//ParseTreeNode node = null;
 
 		// find subject
-		// is there any determiner?
-		for (Word word : sentence.getWords()) {	
-			if (word.getPOS() == POSType.DETERMINER) {
-				word.setType(WordType.SUBJECT);
-				System.out.println("Subject: " + word.getLemma());
-				subject = true;
-			}
-		}	
+		boolean subject = false;
+		// find objects
+		boolean object = false;
+		boolean indirectobject = false;
 		
-		// find determiner in head NP
-		if (!subject) {
-			for (ParseTreeNode node : curNode.getChildren()) {
-				// need for noun phrase
-				//  ().getName().equals("SentenceNode")
-				if (!subject && node instanceof SentenceNode && ((SentenceNode)node).getType() == SentenceType.NOUN_PHRASE) {
-					// find deepest NP 
-					while (node.getChildren().get(0) instanceof SentenceNode && ((SentenceNode)node.getChildren().get(0)).getType() == SentenceType.NOUN_PHRASE) {
-						// TODO first
-						node = node.getChildren().get(0);
-					}
-					for(ParseTreeNode npnode : node.getChildren()) {
-						// we need noun
-						if (npnode instanceof Word && ((Word)npnode).getPOS().getLiteral().startsWith("NN")) {
-							((Word)npnode).setType(WordType.SUBJECT);
-							System.out.println("Subject: " + ((Word)npnode).getLemma());
-							subject = true;
-							break;
-						}
-					}
-				}
-				// System.out.print(node.eClass().eClass().getName());
-				// if(node.toString());
-			}
+		// check input variables
+		if (sentence.getSentenceTree() == null) {
+			// wrong input - do nothing
+			return compoundCommand;
 		}
 
+		// FIND ALL IMPORTANT WORDS
+		// find subject
+		subject = Analyser.findSubject(sentence);
+		// find objects
+		object = Analyser.findObject(sentence);
+		indirectobject = Analyser.findIndirectObject(sentence);		
+		
+		
+		// FIND ACTION
 		// action type
 		ActionFactory afactory = ActionFactory.eINSTANCE;
 		ActionpartFactory apfactory = ActionpartFactory.eINSTANCE;
@@ -250,6 +226,73 @@ public class Analyser {
 		}
  
 		return compoundCommand;		
+	}
+	
+	private static boolean findIndirectObject(Sentence sentence) {
+		// result
+		boolean indirectobject = false;		
+		// current node
+		ParseTreeNode curNode = null;
+		
+		// TODO Auto-generated method stub
+		return indirectobject;
+	}
+
+	private static boolean findObject(Sentence sentence) {
+		// result
+		boolean object = false;		
+		// current node
+		ParseTreeNode curNode = null;
+		
+		// TODO Auto-generated method stub
+		return object;
+	}
+
+	private static boolean findSubject (Sentence sentence) {
+		// result
+		boolean subject = false;		
+		// current node
+		SentenceNode curNode = null;
+		
+		// is there any determiner?
+		for (Word word : sentence.getWords()) {	
+			if (word.getPOS() == POSType.DETERMINER) {
+				word.setType(WordType.SUBJECT);
+				System.out.println("Subject: " + word.getLemma());
+				subject = true;
+			}
+		}	
+		
+		// find determiner in head NP
+		if (!subject) {
+			curNode = (SentenceNode)FindNode.mainNounPhrase(sentence.getSentenceTree());
+			// NounPhrase not found - try harder to find
+			if(curNode == null) {
+				curNode = sentence.getSentenceTree();
+				// get higher noun in a tree
+				// better - get all noun and their high
+				for (ParseTreeNode node : curNode.getChildren()) {
+					if(node instanceof Word && ((Word)node).getPOS().getLiteral().startsWith("NN")) {
+						((Word)node).setType(WordType.SUBJECT);
+						System.out.println("Subject: " + ((Word)node).getLemma());
+						subject = true;
+						break;
+					}
+				}
+			} else {
+				// easier way - find main noun
+				for(ParseTreeNode node : curNode.getChildren()) {
+					// we need noun
+					if (node instanceof Word && ((Word)node).getPOS().getLiteral().startsWith("NN")) {
+						((Word)node).setType(WordType.SUBJECT);
+						System.out.println("Subject: " + ((Word)node).getLemma());
+						subject = true;
+						break;
+					}
+				}
+			}
+		}
+		return subject;
 	}
 
 }

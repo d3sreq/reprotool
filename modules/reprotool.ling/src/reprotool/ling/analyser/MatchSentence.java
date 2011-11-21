@@ -6,6 +6,10 @@ import java.util.regex.Pattern;
 import reprotool.ling.Sentence;
 import reprotool.ling.Word;
 
+/**
+ * @author ofiala
+ *
+ */
 public class MatchSentence {
 
 	/**
