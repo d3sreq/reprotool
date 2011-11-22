@@ -11,7 +11,6 @@ import reprotool.fm.nusmv.NuSMVGenerator
 import reprotool.fm.nusmv.AnnotationEntry
 
 import reprotool.fm.nusmv.lang.nuSmvLang.NuSmvLangFactory
-import reprotool.fm.nusmv.lang.nuSmvLang.MainModule
 import reprotool.fm.nusmv.lang.nuSmvLang.Model
 import reprotool.fm.nusmv.lang.nuSmvLang.ModuleElement
 
@@ -202,9 +201,11 @@ public class NuSMVProj {
 			moduleElement += $(factory.createAssignConstraint) [
 				bodies += $(factory.createNextBody) [
 					varId = "p"
-					nextExpr = "case p=none : {"
-						+ generators.join(", ", [g|g.useCaseId] )
-						+ "}; TRUE : none; esac"
+					nextExpr = "case\n" + 
+						"		p=none : {" +
+						generators.join(", ", [g|"p" + g.useCaseId] ) + "};\n" +
+						"		TRUE : none;\n" +
+						"	esac"
 				];	
 			];
 			
@@ -225,11 +226,10 @@ public class NuSMVProj {
 			moduleElement += $(factory.createAssignConstraint) [
 				bodies += $(factory.createNextBody) [
 					varId = "idle"
-					nextExpr = "case\n"
-						+ generators.join(" | ", [g|"x" + g.useCaseId + "run"])
-						+ " : FALSE;"
-						+ "TRUE : TRUE;"
-						+ "esac";
+					nextExpr = "case\n" +
+						"		" + generators.join(" | ", [g|"x" + g.useCaseId + "run"]) + " : FALSE;\n" +
+						"		TRUE : TRUE;\n" +
+						"	esac";
 				]
 			];
 			
@@ -265,38 +265,31 @@ public class NuSMVProj {
 				initExpr = "x" + nusmv.useCaseId + "run in FALSE"
 			]
 			
-			
-			var StringBuffer nextStr = new StringBuffer();
-			if (
-					(nusmv.useCase.precedingUseCases == null) ||
-					(nusmv.useCase.precedingUseCases.isEmpty())
-			) {
-				nextStr.append("case\n\t\tp=p" + nusmv.useCaseId + " & idle & x" +
-					nusmv.useCaseId + ".s = s0: TRUE;\n"
-				);
-				
-			} else {
-				nextStr.append("case\n\t\tp=p" + nusmv.useCaseId + " & idle & x" + nusmv.useCaseId +
-					".s = s0"
-				);
-					
-				for (UseCase pred: nusmv.useCase.precedingUseCases) {
-					nextStr.append(" & x" + nusmv.uc2id(pred) + ".s = sFin");
-				}
-				nextStr.append(" : TRUE;\n");
-			}				
-			nextStr.append("\t\tTRUE : x" + nusmv.useCaseId + "run & x" +
-				nusmv.useCaseId + ".s != sFin;\n\tesac"
-			);
-			val nextStr_final = nextStr.toString();
-			
-			
 			moduleElement += $(factory.createAssignConstraint) [
 				bodies += $(factory.createNextBody) [
 					varId = "x" + nusmv.useCaseId + "run"
-					nextExpr = nextStr_final
+					if (
+						(nusmv.useCase.precedingUseCases == null) ||
+						(nusmv.useCase.precedingUseCases.isEmpty())
+					) {
+						nextExpr = "case\n" +
+							"		p=p" + nusmv.useCaseId + " & idle & x" + nusmv.useCaseId +
+							".s = s0 : TRUE;\n" +
+							"		TRUE : x" + nusmv.useCaseId + "run & x" + nusmv.useCaseId +
+							".s != sFin;\n" +
+							"	esac"													
+					} else {
+						nextExpr = "case\n" +
+							"		p=p" + nusmv.useCaseId + " & idle & x" + nusmv.useCaseId +
+							".s = s0 & " +
+							nusmv.useCase.precedingUseCases.join(" & ",
+								[u|"x" + nusmv.uc2id(u) + ".s = sFin"]) + " : TRUE;\n" +
+							"		TRUE : x" + nusmv.useCaseId + "run & x" + nusmv.useCaseId +
+							".s != sFin;\n" +
+							"	esac"											
+					}
 				]
-			];					
+			];			
 		}
 	}
 

@@ -77,8 +77,8 @@
       </editor>
       <editor
             class="reprotool.ide.editors.counterExample.CExmpEditor"
-            contributorClass="reprotool.ide.editors.counterExample.CExmpActionBarContributor"
-            default="false"
+            contributorClass="reprotool.model.swproj.presentation.SwprojActionBarContributor"
+            default="true"
             extensions="cexmp"
             filenames="cexmp"
             id="reprotool.ide.counterExampleEditorId"
