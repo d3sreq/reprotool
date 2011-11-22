@@ -27,7 +27,8 @@ public class MatchSentence {
 		int restLength = 0;		
 		
 		for(Word word : sentence.getWords()){
-
+			// skip damaged words
+			if(word.getText() == null) continue;
 			// working strings
 			String rest = sentenceString.substring(position + restLength);
 			// length of word in original string

@@ -93,10 +93,11 @@ public class Lemmatizer extends Tool {
 		try{
 			modelFile = Platform.getPreferencesService().getString("reprotool.ide", "lemmatizerModel", "/lemma-eng.model", null);
     	} catch (NullPointerException e){
-			IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, "Wrong location of lemmatizer model file", e);
-			StatusManager.getManager().handle(status, StatusManager.LOG);
 			String rootPath = new java.io.File(Parser.class.getResource("/").getPath()).getParentFile().getParent();
 			modelFile = rootPath + "/../tools/mate-tools/lemma-eng.model";
+			// TODO better monitor
+			//IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, "Wrong location of lemmatizer model file", e);
+			//StatusManager.getManager().handle(status, StatusManager.LOG);
     	}   	
     	
         // location of the model - options
@@ -144,18 +145,30 @@ public class Lemmatizer extends Tool {
         // create a data container for a sentence
     	SentenceData09 sentenceData = new SentenceData09();
 		forms.add("<root>");
-    	for(Word word : sentence.getWords()) forms.add(word.getText());
+    	for(Word word : sentence.getWords()) {
+    		// remove all null words (errors)
+    		if (word.getText() != null)
+    			forms.add(word.getText());
+    	}
+    	
         sentenceData.init(forms.toArray(new String[0]));
         // lemmatize a sentence
         lemmatizer.lemmatize(optionsLemmatizer, sentenceData);
+        // in case of null words in sentence object
+        int delay = 0;
         // output the lemmata
         for (int i = 1; i < sentenceData.length(); i++) {
+        	// skip null words in sentence
+        	while((i - 1 + delay) < sentence.getWords().size() && sentence.getWords().get(i - 1 + delay).getText() == null) delay++;
         	// are arrays still corresponding?
         	// beware of <root> node
-        	if(sentenceData.forms[i].contentEquals(sentence.getWords().get(i - 1).getText())) {
+        	if(sentence.getWords().get(i - 1 + delay).getText() != null && sentenceData.forms[i].contentEquals(sentence.getWords().get(i - 1 + delay).getText())) {
         		// fill word lemma form
-        		sentence.getWords().get(i - 1).setLemma(sentenceData.lemmas[i]);
+        		System.out.println(sentence.getWords().get(i - 1 + delay).getText() + " " + sentenceData.lemmas[i]);
+        		sentence.getWords().get(i - 1 + delay).setLemma(sentenceData.lemmas[i]);
         	} else {
+        		// C++ rulez
+        		//delay++;
     			IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, "Lemmatizer error - words not corresponding: " + sentence.getWords().get(i).getText() + " " + sentenceData.forms[i], null);
     			StatusManager.getManager().handle(status, StatusManager.LOG);
         	}        	

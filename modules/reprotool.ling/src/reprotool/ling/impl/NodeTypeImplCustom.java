@@ -1,4 +1,4 @@
-package reprotool.ling;
+package reprotool.ling.impl;
 /*
 public class NodeTypeImplCustom implements NodeType {
 	

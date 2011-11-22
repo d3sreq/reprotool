@@ -279,7 +279,6 @@ public class Parser extends Tool {
 
     	Word curWord = null;
     	ParseTreeNode curNode = rootNode;
-	   	//TODO spravny STROM - zleva uzly a uzavorkovani
 				
     	// removing head S (sentence) node
     	if(parsedText.startsWith("(S") && parsedText.endsWith(")")) {
@@ -332,6 +331,14 @@ public class Parser extends Tool {
 	    			// new sentence approaching
 	    			// TODO complex sentences
 	    			break;	    			
+	    		case ADJP:
+	    			// Adjective Phrase - usually within VP or NP - stay in parent node?
+	    			SentenceNode adjectivePhrase = factory.createSentenceNode();
+	    			adjectivePhrase.setType(SentenceType.ADJECTIVE_PHRASE);
+	    			curNode.getChildren().add(adjectivePhrase);
+	    			adjectivePhrase.setParent(curNode);
+	    			curNode = adjectivePhrase;
+	    			break;
 	    		case QP:
 	    			// Quantifier Phrase - within NP - stay in parent node
 	    			break;
@@ -370,7 +377,12 @@ public class Parser extends Tool {
 	    	}  		
 	    }
 	    	
+	    // connect sentence and tree
 	    sentence.setSentenceTree(rootNode);
+	    
+	    // verification
+	    System.out.println("ParsedTree: " + treeToString(rootNode));
+	    
     	return sentence;
     }
     
@@ -380,8 +392,26 @@ public class Parser extends Tool {
 	 * @param parsedText Result of this.getString method
 	 * @return SentenceNode parsed_tree 
 	 */	
-    public static SentenceNode parseTree(String parsedText) {	
+    public static SentenceNode parseTree(String parsedText) {
     	Sentence sentence = Parser.parseSentence(parsedText);
     	return sentence.getSentenceTree();    	
+    }
+    
+    public static String treeToString(SentenceNode rootNode) {
+    	// result
+    	String result = "";
+    	
+    	if (rootNode != null) {
+    		result += " (" + rootNode.getType().getLiteral() + " ";
+    		for(ParseTreeNode node : rootNode.getChildren()) {
+    			if (node instanceof SentenceNode)
+    				result += treeToString((SentenceNode)node);
+    			else 
+    				result += (((Word)node).getText());
+    		}
+    		result += ") ";
+    	}
+    	
+    	return result;
     }
 }

@@ -32,6 +32,43 @@ public class WordImplCustom extends WordImpl {
     }
 	
 	/**
+	 * Is this word a noun?
+	 *
+	 * @return Boolean result
+	 */	
+	@Override
+	public boolean isNoun()
+	{
+		POSType pos = this.getPOS();
+		// determiner excluded
+		if (pos.getLiteral().startsWith("NN")) {
+			return true;
+		} else {
+			return false;
+		}
+		
+	}
+	
+	/**
+	 * Is this word a verb?
+	 * including modal verbs
+	 * 
+	 * @return Boolean result
+	 */	
+	@Override
+	public boolean isVerb()
+	{
+		POSType pos = this.getPOS();
+		// include MD - modal
+		if (pos.getLiteral().startsWith("VB") || pos == POSType.MODAL) {
+			return true;
+		} else {
+			return false;
+		}
+		
+	}
+	
+	/**
 	 * Switch text and negation
 	 *
 	 * @return Boolean success

@@ -1,5 +1,7 @@
 package reprotool.ling.analyser;
 
+import java.util.ArrayList;
+
 import org.eclipse.emf.common.command.CompoundCommand;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.edit.command.AddCommand;
@@ -48,8 +50,8 @@ public class Analyser {
 		// find subject
 		boolean subject = false;
 		// find objects
+		SentenceNode indirectobject = null;
 		boolean object = false;
-		boolean indirectobject = false;
 		
 		// check input variables
 		if (sentence.getSentenceTree() == null) {
@@ -61,9 +63,8 @@ public class Analyser {
 		// find subject
 		subject = Analyser.findSubject(sentence);
 		// find objects
-		object = Analyser.findObject(sentence);
 		indirectobject = Analyser.findIndirectObject(sentence);		
-		
+		object = Analyser.findRepresentativeObject(sentence, indirectobject);		
 		
 		// FIND ACTION
 		// action type
@@ -73,10 +74,11 @@ public class Analyser {
 		// detection GOTO action
 		int gotoVerbIndex = -1;
 		int labelIndex = -1;
+		// check all goto verbs
 		for (int i = 0; i < sentence.getWords().size(); i++) {
 			Word word = sentence.getWords().get(i);
 			for (int g = 0; g < gotoVerbs.length; g++) {
-				if (word.getText().equalsIgnoreCase(gotoVerbs[g])) {
+				if (word.getText() != null && word.getText().equalsIgnoreCase(gotoVerbs[g])) {
 					gotoVerbIndex = i;
 					break;
 				}
@@ -166,7 +168,7 @@ public class Analyser {
 			if (sentence.getWords().size() > 0) {
 				for (int i = 0; i < sentence.getWords().size(); i++) {
 					for (int t = 0; t < terminateVerbs.length; t++) {
-						if (sentence.getWords().get(i).getText().equalsIgnoreCase(terminateVerbs[t])) {
+						if (sentence.getWords().get(i).getText() != null && sentence.getWords().get(i).getText().equalsIgnoreCase(terminateVerbs[t])) {
 							// ABORT vs TERMINATION
 							AbortUseCase action = afactory.createAbortUseCase();
 							//ucs.setAction(action);
@@ -178,7 +180,7 @@ public class Analyser {
 						}
 					}
 					for (int a = 0; a < abortVerbs.length; a++) {
-						if (sentence.getWords().get(i).getText().equalsIgnoreCase(abortVerbs[a])) {
+						if (sentence.getWords().get(i).getText() != null && sentence.getWords().get(i).getText().equalsIgnoreCase(abortVerbs[a])) {
 							AbortUseCase action = afactory.createAbortUseCase();
 							//ucs.setAction(action);
 							SetCommand setCommand = new SetCommand(editingDomain, ucs, UsecasePackage.Literals.USE_CASE_STEP__ACTION, action);
@@ -228,23 +230,52 @@ public class Analyser {
 		return compoundCommand;		
 	}
 	
-	private static boolean findIndirectObject(Sentence sentence) {
-		// result
+	private static SentenceNode findIndirectObject(Sentence sentence) {
+		// have we one?
 		boolean indirectobject = false;		
-		// current node
-		ParseTreeNode curNode = null;
+		// result
+		SentenceNode ionode = null;	
+		// indirect object must be in NP that is in VP
+		ArrayList<SentenceNode> nounNodes = FindNode.getNounPhrases(FindNode.mainVerbPhrase(sentence.getSentenceTree()));
 		
-		// TODO Auto-generated method stub
-		return indirectobject;
+		for (SentenceNode curNode : nounNodes) {
+			// get nouns
+			ArrayList<Word> nouns = FindWord.getNouns(curNode);
+			// mark all non possessive nouns as indirect object
+			for (Word word : nouns) {
+				if (word.getPOS() != POSType.POSSESSIVE_ENDING) {
+					// must be a noun
+					word.setType(WordType.INDIRECT_OBJECT);
+					if (!indirectobject) {
+						// return node where is first indirect object
+						ionode = curNode;
+					}
+					indirectobject = true;
+				}
+			}
+		}
+
+		return ionode;
 	}
 
-	private static boolean findObject(Sentence sentence) {
+	private static boolean findRepresentativeObject(Sentence sentence, SentenceNode indirectobject) {
 		// result
 		boolean object = false;		
-		// current node
-		ParseTreeNode curNode = null;
-		
-		// TODO Auto-generated method stub
+		// representative object must be in NP that is not indirect object NP
+		ArrayList<SentenceNode> nounNodes = FindNode.getAllNounPhrases(FindNode.mainVerbPhrase(sentence.getSentenceTree()));
+		// remove indirect object node
+		// TODO warning if its not there
+		boolean removed = nounNodes.remove(indirectobject);
+		for(SentenceNode node : nounNodes) {
+			// find all noun phrases
+			ArrayList<Word> nouns = FindWord.getNouns(node);
+			for (Word word : nouns) {
+				// mark node
+				word.setType(WordType.REPRESENTATIVE_OBJECT);
+				object = true;
+			}
+		}
+
 		return object;
 	}
 
@@ -272,7 +303,7 @@ public class Analyser {
 				// get higher noun in a tree
 				// better - get all noun and their high
 				for (ParseTreeNode node : curNode.getChildren()) {
-					if(node instanceof Word && ((Word)node).getPOS().getLiteral().startsWith("NN")) {
+					if(node instanceof Word && ((Word)node).isNoun()) {
 						((Word)node).setType(WordType.SUBJECT);
 						System.out.println("Subject: " + ((Word)node).getLemma());
 						subject = true;

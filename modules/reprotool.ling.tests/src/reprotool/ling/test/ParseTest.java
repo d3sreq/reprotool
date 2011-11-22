@@ -188,4 +188,11 @@ public class ParseTest {
 		assertEquals("administrator send message .", Lemmatizer.getString(sentence));
 	}
 	
+	@Test
+	public final void testLemmatizer2() {
+		String sentence = "Administrators are numb";
+		
+		assertEquals("administrator be numb", Lemmatizer.getString(sentence));
+	}
+		
 }

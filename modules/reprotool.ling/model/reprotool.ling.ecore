@@ -13,6 +13,8 @@
     <eOperations name="parseString" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
       <eParameters name="wordString" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eOperations>
+    <eOperations name="isNoun" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eOperations name="isVerb" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="text" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="lemma" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="POS" eType="#//POSType"/>
@@ -28,20 +30,24 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="word" eType="#//Word"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="SentenceType">
-    <eLiterals name="NounPhrase" value="1"/>
-    <eLiterals name="VerbPhrase" value="2"/>
-    <eLiterals name="PrepositionPhrase" value="3"/>
-    <eLiterals name="Undefined" value="4"/>
-    <eLiterals name="SentencePhrase"/>
+    <eLiterals name="SentencePhrase" literal="S"/>
+    <eLiterals name="NounPhrase" value="1" literal="NP"/>
+    <eLiterals name="VerbPhrase" value="2" literal="VP"/>
+    <eLiterals name="PrepositionPhrase" value="3" literal="PP"/>
+    <eLiterals name="Undefined" value="5" literal="X"/>
+    <eLiterals name="AdjectivePhrase" value="4" literal="ADJP"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="NodeType">
     <eLiterals name="NP"/>
     <eLiterals name="VP" value="1"/>
     <eLiterals name="PP" value="2"/>
-    <eLiterals name="FRAG" value="5"/>
-    <eLiterals name="X" value="6"/>
+    <eLiterals name="FRAG" value="8"/>
+    <eLiterals name="X" value="9"/>
     <eLiterals name="S" value="3"/>
-    <eLiterals name="QP" value="4"/>
+    <eLiterals name="QP" value="7"/>
+    <eLiterals name="ADJP" value="4"/>
+    <eLiterals name="ADVP" value="5" literal="ADVP"/>
+    <eLiterals name="CONJP" value="6"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="WordType">
     <eLiterals name="SUBJECT"/>
