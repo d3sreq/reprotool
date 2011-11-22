@@ -78,7 +78,7 @@ public class NuSMVProj {
 			}
 		];
 		
-		return nusmvModel; 
+		return nusmvModel;
 	}
 	
 	def private addTraceAnnotation(String tag, EList<ModuleElement> moduleElement) {
@@ -161,45 +161,34 @@ public class NuSMVProj {
 					]
 				];
 			}
-		}			
+		}
 	}
 	
 	def private getMainModule() {
-		var MainModule mainModule = $(factory.createMainModule) [
+		$(factory.createMainModule) [
 			name = "main"
 			
 			// Create CTL formulas
-			for (String formula: expandedFormulas) {
-				moduleElement += $(factory.createCtlSpecification) [
+			moduleElement += expandedFormulas.map( formula |
+				$(factory.createCtlSpecification) [
 					ctlExpr = formula
-				];
-			}
+				]
+			);
 			
-			var StringBuffer varList = new StringBuffer();
-		
 			// Create fairness expressions
-			var int c = 0;
-			for (NuSMVGenerator nusmv: generators) {
-				moduleElement += $(factory.createFairnessExpression) [
-					fairnessExpr = "p=p" + nusmv.useCaseId;
-				];
-				if (c > 0) {
-					varList.append(",");
-				}
-				c = c + 1;
-				varList.append("p" + nusmv.useCaseId);
-			}
-			val varList_final = varList;
-		
+			moduleElement += generators.map( g |
+				$(factory.createFairnessExpression) [
+					fairnessExpr = "p=p" + g.useCaseId;
+				]
+			);
+			
 			// Create p variable declaration
 			moduleElement += $(factory.createVariableDeclaration) [
 				vars += $(factory.createVarBody) [
 					varId = "p"
 					type = $(factory.createEnumType) [
-						^val += "none"
-						for (NuSMVGenerator nusmv: generators) {
-							^val += "p" + nusmv.useCaseId;
-						}
+						value += "none"
+						value += generators.map(g|"p" + g.useCaseId);
 					];
 				];
 			];
@@ -213,7 +202,9 @@ public class NuSMVProj {
 			moduleElement += $(factory.createAssignConstraint) [
 				bodies += $(factory.createNextBody) [
 					varId = "p"
-					nextExpr = "case\n\t\tp=none : {" + varList_final + "};\n\t\tTRUE : none;\n\tesac"
+					nextExpr = "case p=none : {"
+						+ generators.join(", ", [g|g.useCaseId] )
+						+ "}; TRUE : none; esac"
 				];	
 			];
 			
@@ -221,7 +212,7 @@ public class NuSMVProj {
 			moduleElement += $(factory.createVariableDeclaration) [
 				vars += $(factory.createVarBody) [
 					varId = "idle"
-					type = factory.createBooleanType()
+					type = factory.createBooleanType
 				]
 			];
 			
@@ -234,20 +225,11 @@ public class NuSMVProj {
 			moduleElement += $(factory.createAssignConstraint) [
 				bodies += $(factory.createNextBody) [
 					varId = "idle"
-						
-					var StringBuffer idleNext = new StringBuffer();
-					var c2 = 0;
-					idleNext.append("case\n\t\t");
-					for (NuSMVGenerator nusmv: generators) {
-						idleNext.append("x" + nusmv.useCaseId + "run");
-						if ((c2 >= 0) && (c2 < generators.size() - 1)) {
-							idleNext.append(" | ");
-						}
-						c2 = c2 + 1;
-					}
-					idleNext.append(" : FALSE;\n\t\tTRUE : TRUE;\n\tesac");
-					
-					nextExpr = idleNext.toString();
+					nextExpr = "case\n"
+						+ generators.join(" | ", [g|"x" + g.useCaseId + "run"])
+						+ " : FALSE;"
+						+ "TRUE : TRUE;"
+						+ "esac";
 				]
 			];
 			
@@ -257,11 +239,9 @@ public class NuSMVProj {
 			// Create annotations
 			addAnnotations(moduleElement);
 		];
-		
-		return mainModule;
 	}	
 
-	def private addProcesses(EList<ModuleElement> moduleElement) {		
+	def private addProcesses(EList<ModuleElement> moduleElement) {
 		for (NuSMVGenerator nusmv: generators) {
 			moduleElement += $(factory.createVariableDeclaration) [
 				vars += $(factory.createVarBody) [

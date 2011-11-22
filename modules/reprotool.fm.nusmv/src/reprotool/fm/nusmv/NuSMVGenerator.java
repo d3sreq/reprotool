@@ -264,14 +264,14 @@ public class NuSMVGenerator {
 		sBody.setVarId("s");
 		
 		EnumType sType = factory.createEnumType();
-		sType.getVal().add("s0");
+		sType.getValue().add("s0");
 		for (String s: states) {
-			sType.getVal().add(s);
+			sType.getValue().add(s);
 		}
 		if (hasAbort) {
-			sType.getVal().add("sAbort");
+			sType.getValue().add("sAbort");
 		}
-		sType.getVal().add("sFin");
+		sType.getValue().add("sFin");
 		
 		sBody.setType(sType);
 		

@@ -111,7 +111,7 @@ SimpleType hidden(WS, SL_COMMENT):
 	| {WordType} ("word" "[" wordNumber=NUMBER "]")
 	| {UnsignedWordType} ("unsigned" "word" "[" uWordNumber=NUMBER "]")
 	| {SignedWordType} ("signed word" "[" signedNumber=NUMBER "]")
-	| {EnumType} "{" val+=Val ("," val+=Val)* "}"
+	| {EnumType} "{" value+=Val ("," value+=Val)* "}"
 	| {RangeType} low=NUMBER '..' high=NUMBER
 	| {ArrayType} "array" bounds=Range "of" type=SimpleType;
 
