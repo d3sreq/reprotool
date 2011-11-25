@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Anna
+Bundle-SymbolicName: reprotool.tools.anna
+Bundle-Version: 1.0.0
+Bundle-ClassPath: anna-2.jar
+Export-Package: examples,
+ is2.data,
+ is2.io,
+ is2.lemmatizer,
+ is2.mtag,
+ is2.parser,
+ is2.tag3,
+ is2.util
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
