@@ -17,7 +17,12 @@ import reprotool.ling.WordType;
 import reprotool.model.linguistic.action.*;
 import reprotool.model.linguistic.actionpart.ActionpartFactory;
 import reprotool.model.linguistic.actionpart.TextRange;
+import reprotool.model.swproj.Actor;
+import reprotool.model.swproj.SoftwareProject;
+import reprotool.model.swproj.SwprojFactory;
+import reprotool.model.swproj.SwprojPackage;
 import reprotool.model.usecase.UseCaseStep;
+import reprotool.model.usecase.UsecaseFactory;
 import reprotool.model.usecase.UsecasePackage;
 
 
@@ -48,7 +53,7 @@ public class Analyser {
 		CompoundCommand compoundCommand = new CompoundCommand();
 
 		// find subject
-		boolean subject = false;
+		Word subject = null;
 		// find objects
 		SentenceNode indirectobject = null;
 		boolean object = false;
@@ -66,11 +71,27 @@ public class Analyser {
 		indirectobject = Analyser.findIndirectObject(sentence);		
 		object = Analyser.findRepresentativeObject(sentence, indirectobject);		
 		
+		// ACTORS
+		// factory for creating
+		SwprojFactory swfactory = SwprojFactory.eINSTANCE;
+		// add subject as a new actor
+		if(subject != null){
+			EList<Actor> actors = ucs.getSoftwareProjectShortcut().getActors();
+			Actor actor = swfactory.createActor();
+			actor.setName(subject.getLemma());
+			actor.setDescription(subject.getText());
+			// add
+			//actors.add(actor);
+			// add command
+			AddCommand addCommand = new AddCommand(editingDomain, ucs.getSoftwareProjectShortcut(), SwprojPackage.Literals.SOFTWARE_PROJECT__ACTORS, actor);
+			compoundCommand.append(addCommand);	
+		}
+		
 		// FIND ACTION
 		// action type
 		ActionFactory afactory = ActionFactory.eINSTANCE;
 		ActionpartFactory apfactory = ActionpartFactory.eINSTANCE;
-		
+
 		// detection GOTO action
 		int gotoVerbIndex = -1;
 		int labelIndex = -1;
@@ -194,12 +215,29 @@ public class Analyser {
 		} // end ABORT
 
 		// INTERNAL ACTION
+		// also TO and FROM
 		if (!definedAction){
-			/*
-			InternalAction action = afactory.createInternalAction();
-			SetCommand setCommand = new SetCommand(editingDomain, ucs, UsecasePackage.Literals.USE_CASE_STEP__ACTION, action);
-			compoundCommand.append(setCommand);	
-			*/	
+			if (indirectobject == null) {				
+				InternalAction action = afactory.createInternalAction();
+				SetCommand setCommand = new SetCommand(editingDomain, ucs, UsecasePackage.Literals.USE_CASE_STEP__ACTION, action);
+				compoundCommand.append(setCommand);										
+			} else {
+				// system actions?
+				if (object) {
+					// now we have both objects
+					if (indirectobject.getWord().getLemma() == "system") {
+						ToSystem action = afactory.createToSystem();
+						SetCommand setCommand = new SetCommand(editingDomain, ucs, UsecasePackage.Literals.USE_CASE_STEP__ACTION, action);
+						compoundCommand.append(setCommand);	
+					} else {
+						FromSystem action = afactory.createFromSystem();
+						SetCommand setCommand = new SetCommand(editingDomain, ucs, UsecasePackage.Literals.USE_CASE_STEP__ACTION, action);
+						compoundCommand.append(setCommand);	
+					}
+				}
+				
+			}
+
 		}	
 		
 		// THE REST
@@ -279,9 +317,9 @@ public class Analyser {
 		return object;
 	}
 
-	private static boolean findSubject (Sentence sentence) {
+	private static Word findSubject (Sentence sentence) {
 		// result
-		boolean subject = false;		
+		Word subject = null;		
 		// current node
 		SentenceNode curNode = null;
 		
@@ -290,12 +328,12 @@ public class Analyser {
 			if (word.getPOS() == POSType.DETERMINER) {
 				word.setType(WordType.SUBJECT);
 				System.out.println("Subject: " + word.getLemma());
-				subject = true;
+				subject = word;
 			}
 		}	
 		
 		// find determiner in head NP
-		if (!subject) {
+		if (subject == null) {
 			curNode = (SentenceNode)FindNode.mainNounPhrase(sentence.getSentenceTree());
 			// NounPhrase not found - try harder to find
 			if(curNode == null) {
@@ -306,7 +344,7 @@ public class Analyser {
 					if(node instanceof Word && ((Word)node).isNoun()) {
 						((Word)node).setType(WordType.SUBJECT);
 						System.out.println("Subject: " + ((Word)node).getLemma());
-						subject = true;
+						subject = (Word)node;
 						break;
 					}
 				}
@@ -317,7 +355,7 @@ public class Analyser {
 					if (node instanceof Word && ((Word)node).getPOS().getLiteral().startsWith("NN")) {
 						((Word)node).setType(WordType.SUBJECT);
 						System.out.println("Subject: " + ((Word)node).getLemma());
-						subject = true;
+						subject = (Word)node;
 						break;
 					}
 				}
