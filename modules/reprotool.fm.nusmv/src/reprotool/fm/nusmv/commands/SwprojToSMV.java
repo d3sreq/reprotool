@@ -75,6 +75,7 @@ public class SwprojToSMV implements IHandler {
 			MessageConsoleStream out = con.newMessageStream();
 			con.activate();
 			out.println("Error: " + e.getMessage());
+			e.printStackTrace(); // TODO: just for debugging
 			return null;
 		}
 		

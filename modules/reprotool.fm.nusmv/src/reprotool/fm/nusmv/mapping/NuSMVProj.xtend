@@ -1,26 +1,19 @@
 package reprotool.fm.nusmv.mapping
 
-import java.util.List
 import java.util.ArrayList
 import java.util.HashMap
-
+import java.util.List
 import org.eclipse.core.runtime.Assert
 import org.eclipse.emf.common.util.EList
-
-import reprotool.fm.nusmv.NuSMVGenerator
 import reprotool.fm.nusmv.AnnotationEntry
-
-import reprotool.fm.nusmv.lang.nuSmvLang.NuSmvLangFactory
-import reprotool.fm.nusmv.lang.nuSmvLang.Model
+import reprotool.fm.nusmv.NuSMVGenerator
 import reprotool.fm.nusmv.lang.nuSmvLang.ModuleElement
-
+import reprotool.fm.nusmv.lang.nuSmvLang.NuSmvLangFactory
 import reprotool.model.swproj.SoftwareProject
-
 import reprotool.model.usecase.UseCase
-import reprotool.model.usecase.annotate.TemporalLogicFormula
 import reprotool.model.usecase.annotate.AnnotationGroup
 import reprotool.model.usecase.annotate.TemporalAnnotationGroup
-import reprotool.model.usecase.annotate.TemporalAnnotation
+import reprotool.model.usecase.annotate.TemporalLogicFormula
 
 
 public class NuSMVProj {
@@ -44,40 +37,23 @@ public class NuSMVProj {
 	}
 	
 	def public getFormula(String f) {
-		return expanded2Formula.get(f);
+		expanded2Formula.get(f);
 	}
 		
 	def public getUseCaseById(String id) {
-		for (NuSMVGenerator nusmv: generators) {
-			if (nusmv.useCaseId.equals(id)) {
-				return nusmv.useCase;
-			}
-		}
-		
-		return null;
+		generators.findFirst([useCaseId.equals(id)]).useCase;
 	}
 	
 	def public getGeneratorById(String id) {
-		for (NuSMVGenerator nusmv: generators) {
-			if (nusmv.useCaseId.equals(id)) {
-				return nusmv;
-			}
-		}
-		
-		return null;
+		generators.findFirst([useCaseId.equals(id)]);
 	}
 		
 	def public getModel() {
-		var Model nusmvModel = $(factory.createModel) [
+		$(factory.createModel) [
 			modules += getMainModule()
 			
-			for (NuSMVGenerator nusmv: generators) {
-				nusmv.fillAutomaton(uc2gen);
-				modules += nusmv.module;
-			}
+			modules += generators.map([fillAutomaton(uc2gen); module]);
 		];
-		
-		return nusmvModel;
 	}
 	
 	def private addTraceAnnotation(String tag, EList<ModuleElement> moduleElement) {
@@ -95,17 +71,13 @@ public class NuSMVProj {
 		moduleElement += $(factory.createAssignConstraint) [
 			bodies += $(factory.createNextBody) [
 				varId = tag
-				
-				var StringBuffer nextStr = new StringBuffer();
-				nextStr.append("case\n");		
-				for (AnnotationEntry aEntry : globalTracker.get(tag)) {
-					for (String state: aEntry.states) {
-						nextStr.append("\t\tx" + aEntry.automatonID + ".s=" + state + "_ : TRUE;\n");
-					}
-				}
-				nextStr.append("\t\tTRUE : " + tag + ";\n\tesac");
-		
-				nextExpr = nextStr.toString()
+				nextExpr = "case\n" +
+					globalTracker.get(tag).map([aEntry |
+						aEntry.states.map([
+							"\t\tx" + aEntry.automatonID + ".s=" + it + "_ : TRUE;"
+						]).join("\n")
+					]).join("\n") +
+					"\t\tTRUE : " + tag + ";\n\tesac"
 			]
 		];
 	}
@@ -140,29 +112,17 @@ public class NuSMVProj {
 				moduleElement += $(factory.createAssignConstraint) [
 					bodies += $(factory.createNextBody) [
 						varId = tag
-						
-						var StringBuffer nextStr = new StringBuffer();
-						nextStr.append("FALSE\n");
-						for (AnnotationEntry aEntry: globalTracker.get(tag)) {
-							nextStr.append("\t\t| x" + aEntry.automatonID + ".s in {" );
-							var int c3 = 0;
-							for (String state: aEntry.states) {
-								if (c3 > 0) {
-									nextStr.append(",");
-								}
-								c3 = c3 + 1;
-								nextStr.append(state + "_");
-							}
-							nextStr.append("}\n");
-						}
-				
-						nextExpr = nextStr.toString()
+						nextExpr = "FALSE\n" +
+							globalTracker.get(tag).map( aEntry |
+								"\t\t| x" + aEntry.automatonID + ".s in {" +
+								aEntry.states.join(",", [ it + "_"]) +
+								"}\n"
+							).join;
 					]
 				];
 			}
 		}
 	}
-	
 	def private getMainModule() {
 		$(factory.createMainModule) [
 			name = "main"
@@ -242,7 +202,7 @@ public class NuSMVProj {
 	}	
 
 	def private addProcesses(EList<ModuleElement> moduleElement) {
-		for (NuSMVGenerator nusmv: generators) {
+		for (nusmv: generators) {
 			moduleElement += $(factory.createVariableDeclaration) [
 				vars += $(factory.createVarBody) [
 					varId = "x" + nusmv.useCaseId
@@ -283,7 +243,7 @@ public class NuSMVProj {
 							"		p=p" + nusmv.useCaseId + " & idle & x" + nusmv.useCaseId +
 							".s = s0 & " +
 							nusmv.useCase.precedingUseCases.join(" & ",
-								[u|"x" + nusmv.uc2id(u) + ".s = sFin"]) + " : TRUE;\n" +
+								["x" + nusmv.uc2id(it) + ".s = sFin"]) + " : TRUE;\n" +
 							"		TRUE : x" + nusmv.useCaseId + "run & x" + nusmv.useCaseId +
 							".s != sFin;\n" +
 							"	esac"											
@@ -296,13 +256,11 @@ public class NuSMVProj {
 	def public NuSMVProj_init(SoftwareProject swproj) {
 		factory = NuSmvLangFactory::eINSTANCE;
 				
-		var List<NuSMVGenerator> generators = new ArrayList<NuSMVGenerator>();
-
-		for (UseCase useCase : swproj.useCases) {
-			println("Found usecase " + useCase.name);
-			var NuSMVGenerator nusmv = new NuSMVGenerator(useCase);
-			generators.add(nusmv);
-		}
+		generators = new ArrayList<NuSMVGenerator>();
+		generators += swproj.useCases.map([
+			println("Found usecase " + name)
+			new NuSMVGenerator(it)
+		])
 		
 		var List<TemporalLogicFormula> formulas = new ArrayList<TemporalLogicFormula>();
 		
@@ -314,7 +272,6 @@ public class NuSMVProj {
 		}
 		
 		this.swproj = swproj;
-		this.generators = generators;
 		this.formulas = formulas;
 		
 		globalTracker = new HashMap<String, List<AnnotationEntry>>();
@@ -323,41 +280,41 @@ public class NuSMVProj {
 		expandedFormulas = new ArrayList<String>();
 		
 		processAnnotations();
-		for (NuSMVGenerator nusmv: generators) {
-			uc2gen.put(nusmv.useCase, nusmv);
-		}
+		generators.forEach([
+			uc2gen.put(it.useCase, it);
+		]);
 		
 		loadIncludedAnnotations();
 		loadCTLFormulas();
 	}
 	
 	def private loadIncludedAnnotations() {
-		for (NuSMVGenerator nusmv: generators) {
-			var int c = 0;
-			for (UseCase uc: nusmv.includedUseCases) {
-				c = c + 1;
-				val String label = Integer::toString(c);
-				val NuSMVGenerator g = uc2gen.get(uc);
-				val List<UseCase> ucList = new ArrayList<UseCase>();
-				ucList.add(uc);
-				addPath(g, nusmv.useCaseId + ".y" + label, ucList);
+		for (nusmv: generators) {
+			var c = 0
+			for (uc: nusmv.includedUseCases) {
+				c = c + 1
+				val String label = Integer::toString(c)
+				val NuSMVGenerator g = uc2gen.get(uc)
+				
+				val ucList = new ArrayList<UseCase>()
+				ucList.add(uc)
+				addPath(g, nusmv.useCaseId + ".y" + label, ucList)
 			}
 		}
 	}
 	
 	def private addPath(NuSMVGenerator g, String id, List<UseCase> ucList) {
-		val HashMap<String, AnnotationEntry> annotationTracker = g.annotationsTracker;
+		val annotationTracker = g.annotationsTracker;
+		
 		for (String tag: annotationTracker.keySet()) {
-			var List<AnnotationEntry> list = globalTracker.get(tag);
-			if (list == null) {
-				Assert::isTrue(false);
-				list = new ArrayList<AnnotationEntry>();
-				globalTracker.put(tag, list);
-			}
+			val list = globalTracker.get(tag);
+			Assert::isNotNull(list);
+			
 			val AnnotationEntry a = new AnnotationEntry(annotationTracker.get(tag));
 			a.automatonID = id;
-			list.add(a);
+			list += a;
 		}
+		
 		var int c = 0;
 		for (UseCase uc: g.includedUseCases) {
 			if (!ucList.contains(uc)) {
@@ -373,30 +330,29 @@ public class NuSMVProj {
 	}
 	
 	def private loadCTLFormulas() {
-		for (TemporalLogicFormula formula: formulas) {
+		for (formula: formulas) {
 			Assert::isTrue(formula.eContainer() instanceof TemporalAnnotationGroup);
-			val TemporalAnnotationGroup tGrp = formula.eContainer() as TemporalAnnotationGroup;
-			val List<String> annotations = new ArrayList<String>();
-			for (TemporalAnnotation annot: tGrp.members) {
-				annotations.add(annot.name);
-			}
+			val tGrp = formula.eContainer() as TemporalAnnotationGroup;
 			
-			val List<String> annotatedVars = getAnnotatedVars(annotations);
+			val annotations = new ArrayList<String>();
+			annotations += tGrp.members.map([name]);
 			
-			for (String variable: annotatedVars) {
-				var String f = formula.getFormula();
-				for (TemporalAnnotation annot: tGrp.members) {
+			val annotatedVars = getAnnotatedVars(annotations);
+			
+			for (variable: annotatedVars) {
+				var f = formula.getFormula();
+				for (annot: tGrp.members) {
 					if (f.contains(annot.name)) {
-						val String varName = annot.name + "_" + variable;
+						val varName = annot.name + "_" + variable;
 						f = f.replaceAll(annot.name, varName);
 						if (!globalTracker.containsKey(varName)) {
-							val List<AnnotationEntry> dummy = new ArrayList<AnnotationEntry>();
+							val dummy = new ArrayList<AnnotationEntry>();
 							globalTracker.put(varName, dummy);
 						}
 					}
 				}
-				var String normalised = f.replaceAll("\\s+", "");
-				normalised = normalised.replaceAll("[()]", "");
+				
+				val normalised = f.replaceAll("[()\\s]+", "");
 				expanded2Formula.put(normalised, formula);
 				expandedFormulas.add(f);
 			}	
@@ -404,13 +360,13 @@ public class NuSMVProj {
 	}	
 	
 	def private List<String> getAnnotatedVars(List<String> annotations) {
-		val List<String> vars = new ArrayList<String>();	
-		for (String tag: globalTracker.keySet()) {
-			for (String annotName: annotations) {
+		val vars = new ArrayList<String>();
+		for (tag: globalTracker.keySet()) {
+			for (annotName: annotations) {
 				if (tag.startsWith(annotName)) {
-					val String variable = tag.substring(annotName.length() + 1);
+					val variable = tag.substring(annotName.length() + 1);
 					if (!vars.contains(variable)) {
-						vars.add(variable);
+						vars += variable;
 					}
 				}
 			}
@@ -420,11 +376,11 @@ public class NuSMVProj {
 	}
 
 	def private processAnnotations() {
-		for (NuSMVGenerator nusmv: generators) {
-			val HashMap<String, AnnotationEntry> localTracker = nusmv.annotationsTracker;
+		for (nusmv: generators) {
+			val localTracker = nusmv.annotationsTracker;
 			if (localTracker != null) {
-				for (String tag: localTracker.keySet()) {
-					var List<AnnotationEntry> list = globalTracker.get(tag);
+				for (tag: localTracker.keySet()) {
+					var list = globalTracker.get(tag);
 					if (list == null) {
 						list = new ArrayList<AnnotationEntry>();
 						globalTracker.put(tag, list);
