@@ -194,6 +194,8 @@
         <eStructuralFeatures xsi:type="ecore:EAttribute" name="summary" lowerBound="1"
             eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
             changeable="false" volatile="true" transient="true" derived="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="actionParam" upperBound="-1"
+            eType="#//linguistic/actionpart/SentenceActionParam" containment="true"/>
       </eClassifiers>
       <eClassifiers xsi:type="ecore:EClass" name="FromSystem" eSuperTypes="#//linguistic/action/Communication">
         <eStructuralFeatures xsi:type="ecore:EReference" name="receiver" lowerBound="1"
@@ -216,8 +218,6 @@
       </eClassifiers>
       <eClassifiers xsi:type="ecore:EClass" name="Communication" abstract="true" interface="true"
           eSuperTypes="#//linguistic/action/Action">
-        <eStructuralFeatures xsi:type="ecore:EReference" name="actionParam" upperBound="-1"
-            eType="#//linguistic/actionpart/SentenceActionParam" containment="true"/>
         <eStructuralFeatures xsi:type="ecore:EReference" name="sentenceActivity" lowerBound="1"
             eType="#//linguistic/actionpart/SentenceActivity" containment="true"/>
       </eClassifiers>

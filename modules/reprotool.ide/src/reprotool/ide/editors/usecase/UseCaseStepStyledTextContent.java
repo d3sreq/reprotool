@@ -395,7 +395,9 @@ public class UseCaseStepStyledTextContent implements StyledTextContent {
 		SentenceActionParam actionParam = ActionpartFactory.eINSTANCE.createSentenceActionParam();
 		actionParam.setText(textRange);
 		
-		compoundCommand.append(new AddCommand(editingDomain, communication, ActionPackage.Literals.COMMUNICATION__ACTION_PARAM, actionParam));		
+		// FIXME - jvinarek - this is BAD! Params should be only in communication. workaround for table
+//		compoundCommand.append(new AddCommand(editingDomain, communication, ActionPackage.Literals.COMMUNICATION__ACTION_PARAM, actionParam));
+		compoundCommand.append(new AddCommand(editingDomain, communication, ActionPackage.Literals.ACTION__ACTION_PARAM, actionParam));
 	}
 
 	void markIncludeUseCase(EditingDomain editingDomain, CompoundCommand compoundCommand, TextRange textRange) {

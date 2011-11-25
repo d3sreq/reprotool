@@ -1437,7 +1437,7 @@
       </children>
       <styles xmi:type="notation:ConnectorStyle" xmi:id="_HkUvMdOlEeC2DsylnBoSvA" routing="Rectilinear" lineColor="4210752"/>
       <styles xmi:type="notation:FontStyle" xmi:id="_HkUvMtOlEeC2DsylnBoSvA" fontColor="4210752" fontHeight="10"/>
-      <element xmi:type="ecore:EReference" href="reprotool.model.ecore#//linguistic/action/Communication/actionParam"/>
+      <element xmi:type="ecore:EReference" href="reprotool.model.ecore#//linguistic/action/Action/actionParam"/>
       <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_HkUvM9OlEeC2DsylnBoSvA" points="[69, -50, 6, 91]$[69, -112, 6, 29]"/>
       <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_HkUvONOlEeC2DsylnBoSvA" id="(0.16535433070866143,0.4186046511627907)"/>
     </edges>

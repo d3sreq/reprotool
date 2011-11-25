@@ -8,6 +8,7 @@ import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.UpdateValueStrategy;
 import org.eclipse.core.databinding.beans.PojoProperties;
 import org.eclipse.core.databinding.conversion.Converter;
+import org.eclipse.core.databinding.observable.Realm;
 import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.list.WritableList;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
@@ -15,6 +16,7 @@ import org.eclipse.core.databinding.observable.value.WritableValue;
 import org.eclipse.core.databinding.property.value.IValueProperty;
 import org.eclipse.emf.databinding.FeaturePath;
 import org.eclipse.emf.databinding.IEMFValueProperty;
+import org.eclipse.emf.databinding.edit.EMFEditObservables;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -43,6 +45,7 @@ import reprotool.model.linguistic.action.AbortUseCase;
 import reprotool.model.linguistic.action.Action;
 import reprotool.model.linguistic.action.ActionFactory;
 import reprotool.model.linguistic.action.ActionPackage;
+import reprotool.model.linguistic.action.Communication;
 import reprotool.model.linguistic.action.FromSystem;
 import reprotool.model.linguistic.action.Goto;
 import reprotool.model.linguistic.action.InternalAction;
@@ -214,18 +217,39 @@ public class SentenceAnalysisSheetPage extends Page implements ISentenceAnalysis
 	}
 
 	private void bindActionParams(DataBindingContext bindingContext, IObservableValue emfValue) {
-		bindBoxVisibility(bindingContext, emfValue, boxContainer.getActionParamBox(), "actionParam");
+//		bindBoxVisibility(bindingContext, emfValue, boxContainer.getActionParamBox(), "actionParam");
+		bindActionParamBoxVisibility(bindingContext, emfValue, boxContainer.getActionParamBox());
 		
 		TableViewer tableViewer = boxContainer.getActionParamBox().getTableViewer();
 
 		// @formatter:off
 		// prepare list of "SentenceActionParam" instances for actual "UseCaseStep" 
-		FeaturePath featurePathToActionParamList = FeaturePath.fromList(new EReference[] {
-			UsecasePackage.Literals.USE_CASE_STEP__ACTION, 
-			ActionPackage.Literals.COMMUNICATION__ACTION_PARAM
-		});
-		IObservableList emfList = EMFEditProperties.list(editingDomain, featurePathToActionParamList)				
-				.observeDetail(writableValue);
+//		FeaturePath featurePathToActionParamList = FeaturePath.fromList(
+//			UsecasePackage.Literals.USE_CASE_STEP__ACTION, 
+//			ActionPackage.Literals.COMMUNICATION__ACTION_PARAM
+//		);
+//		IObservableList emfList = EMFEditProperties.list(editingDomain, featurePathToActionParamList)				
+//				.observeDetail(writableValue);
+
+		// TODO jvinarek - need multiple master detail
+		// 1st master = use case step (can change)
+		// 1st detail 2nd master = action (from system, goto, abort, ...) (can also change)
+		// 2nd detail = sentence param list
+		// observe text of the param (not sure if that is 3rd detail)
+//		IEMFEditValueProperty stepActionProperty = EMFEditProperties.value(editingDomain, UsecasePackage.Literals.USE_CASE_STEP__ACTION);
+		
+		// get action from use case step
+		IObservableValue actionValue = EMFEditObservables.observeDetailValue(Realm.getDefault(), editingDomain, writableValue, UsecasePackage.Literals.USE_CASE_STEP__ACTION);
+		
+		// TODO - THIS causes problems - when action without params is selected
+//		IObservableList emfList = EMFEditObservables.observeDetailList(Realm.getDefault(), editingDomain, actionValue, ActionPackage.Literals.COMMUNICATION__ACTION_PARAM);
+		// FIXME - jvinarek - this is BAD! Params should be only in communication. workaround for table
+		IObservableList emfList = EMFEditObservables.observeDetailList(Realm.getDefault(), editingDomain, actionValue, ActionPackage.Literals.ACTION__ACTION_PARAM);
+		
+		// TODO - former
+//		IObservableList emfList = EMFEditProperties.value(editingDomain, UsecasePackage.Literals.USE_CASE_STEP__ACTION)
+//				.list(ActionPackage.Literals.COMMUNICATION__ACTION_PARAM)
+//				.observeDetail(writableValue);
 
 		// prepare value from "SentenceActionParam" to the "Content" property of the "TextRange" 
 		FeaturePath featurePathTextRangeContent = FeaturePath.fromList(new EStructuralFeature[] {
@@ -253,6 +277,13 @@ public class SentenceAnalysisSheetPage extends Page implements ISentenceAnalysis
 		
 		// bind items - values from which user selects
 		bindConceptualObjectsList(bindingContext, cellEditor.getViewer());
+	}
+
+	private void bindActionParamBoxVisibility(DataBindingContext bindingContext, IObservableValue emfValue, ParamBox paramBox) {
+		IObservableValue widgetValue = PojoProperties.value("visibleAndInclude").observe(paramBox);
+		UpdateValueStrategy strategy = new UpdateValueStrategy();
+		strategy.setConverter(new ActionParamBoxVisibleConverter());
+		bindingContext.bindValue(widgetValue, emfValue, null, strategy);
 	}
 
 	private void bindActionSelection(DataBindingContext bindingContext, IObservableValue emfValue) {
@@ -488,6 +519,19 @@ public class SentenceAnalysisSheetPage extends Page implements ISentenceAnalysis
 			}
 			
 			return false;
+		}
+	}
+	
+	public static class ActionParamBoxVisibleConverter extends Converter {
+
+		public ActionParamBoxVisibleConverter() {
+			super(Action.class, Boolean.class);
+		}
+
+		@Override
+		public Object convert(Object fromObject) {
+			Action action = (Action) fromObject;
+			return action instanceof Communication;
 		}
 	}
 	
