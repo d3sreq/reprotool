@@ -25,7 +25,6 @@ import reprotool.model.usecase.UsecaseFactory;
  * @author ofiala
  * 
  */
-
 public class AnalyseTest {
 
 	// first sentence

@@ -70,10 +70,11 @@ public class LingTools {
 
 		// calling lemmatizer 
 		lemmatizedSentence = Lemmatizer.getString(originalSentence);
-		System.out.println("Tokenizer: " + tokenizedSentence);
+		System.out.println("Lemmatizer: " + lemmatizedSentence);
 		
+		// lemmatized sentence is not used in pipeline
 		// calling tagger 
-		taggedSentence = Tagger.mxposToLisp(Tagger.getMXPOST(lemmatizedSentence));
+		taggedSentence = Tagger.mxposToLisp(Tagger.getMXPOST(tokenizedSentence));
 		System.out.println("Tagger: " + taggedSentence);
 		
 		// calling parser 
