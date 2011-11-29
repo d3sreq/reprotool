@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            defaultHandler="reprotool.uml.export.commands.Swproj2UML"
+            id="reprotool.uml.export.umlExport"
+            name="Convert swproj to UML">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="popup:org.eclipse.ui.navigator.ProjectExplorer#PopupMenu">
+         <command
+               commandId="reprotool.uml.export.umlExport"
+               label="Convert swproj to UML"
+               style="push">
+         </command>
+      </menuContribution>
+   </extension>
+
+</plugin>

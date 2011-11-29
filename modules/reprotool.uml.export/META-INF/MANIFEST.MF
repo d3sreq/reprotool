@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: UmlExport
+Bundle-SymbolicName: reprotool.uml.export;singleton:=true
+Bundle-Version: 1.0.1
+Bundle-Activator: reprotool.uml.export.Activator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.uml2.uml;bundle-version="3.2.100",
+ org.eclipse.core.resources;bundle-version="3.7.100",
+ reprotool.model;bundle-version="1.0.0"
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
