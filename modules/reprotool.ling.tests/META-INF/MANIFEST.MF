@@ -1,11 +1,12 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Tests
+Bundle-Name: Tests - Linguistic tools for Procasor
 Bundle-SymbolicName: reprotool.ling.tests
-Bundle-Version: 1.0.0.qualifier
+Bundle-Version: 1.0.0
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Require-Bundle: org.junit;bundle-version="4.8.1",
  reprotool.ling;bundle-version="1.0.0"
 Import-Package: org.eclipse.emf.edit.domain,
  reprotool.model.linguistic.action,
  reprotool.model.usecase
+Bundle-Vendor: Reprotool

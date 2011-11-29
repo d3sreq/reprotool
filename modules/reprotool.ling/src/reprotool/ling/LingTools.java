@@ -15,6 +15,7 @@ import org.eclipse.ui.progress.IProgressConstants;
 import org.eclipse.ui.statushandlers.StatusManager;
 
 import reprotool.ling.analyser.Analyser;
+import reprotool.ling.analyser.FindConstituent;
 import reprotool.ling.analyser.MatchSentence;
 import reprotool.ling.tools.Lemmatizer;
 import reprotool.ling.tools.Parser;
@@ -87,7 +88,10 @@ public class LingTools {
 		}
 		System.out.println("Lemmatizer: " + lemmatizedSentence);
  		
-		
+	    // set passive - better to do here
+	    sentence.setPassive(FindConstituent.getPassive(sentence));   
+		System.out.println("isPassive: " + sentence.isPassive());
+	    
 		return sentence;
 	}
 	

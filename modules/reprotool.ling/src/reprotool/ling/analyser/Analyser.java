@@ -1,5 +1,7 @@
 package reprotool.ling.analyser;
 
+import java.util.ArrayList;
+
 import org.eclipse.emf.common.command.CompoundCommand;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.edit.command.AddCommand;
@@ -33,7 +35,7 @@ public class Analyser {
 	static Word subject = null;
 	// find objects
 	static SentenceNode indirectobject = null;
-	static boolean object = false;
+	static ArrayList<Word> objects = null;
 	
 	// factories
 	// action type
@@ -71,7 +73,7 @@ public class Analyser {
 		subject = FindConstituent.findSubject(sentence);
 		// find objects
 		indirectobject = FindConstituent.findIndirectObject(sentence);		
-		object = FindConstituent.findRepresentativeObject(sentence, indirectobject);		
+		objects = FindConstituent.findRepresentativeObject(sentence, indirectobject);		
 		
 		// ACTORS
 		// add subject as a new actor
@@ -99,7 +101,7 @@ public class Analyser {
 				compoundCommand.append(setCommand);										
 			} else {
 				// system actions?
-				if (object) {
+				if (objects.size() > 0) {
 					// now we have both objects
 					if (indirectobject.getWord().getLemma() == "system") {
 						ToSystem action = afactory.createToSystem();

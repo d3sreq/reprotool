@@ -1,9 +1,11 @@
 package reprotool.ling.benchmark;
 
+import java.util.ArrayList;
+
 import reprotool.ling.LingTools;
 import reprotool.ling.Sentence;
+import reprotool.ling.SentenceNode;
 import reprotool.ling.Word;
-import reprotool.ling.analyser.Analyser;
 import reprotool.ling.analyser.FindConstituent;
 import reprotool.ling.benchmark.AnalyseBenchmark.ActionCode;
 import reprotool.ling.impl.SentenceImpl;
@@ -33,7 +35,7 @@ public class BenchmarkSentence extends SentenceImpl {
 	private boolean parsed = false;
 	// is it analysed?
 	private boolean analysed = false;
-
+	
 	public BenchmarkSentence(String line) {
 		// parse csv line
 		String[] fields = line.split(";");
@@ -46,17 +48,38 @@ public class BenchmarkSentence extends SentenceImpl {
 			inResults.verbLemma = fields[3];
 			// we have more
 			if (fields.length >= 5) {
-				inResults.objectNumber = Integer.parseInt(fields[4]);
+				try {
+					inResults.objectNumber = Integer.parseInt(fields[4]);
+				} catch (NumberFormatException e) {
+					inResults.objectNumber = 0;
+				}
 				if (fields.length >= 6) {
-					inResults.indirectObjectNumber = Integer.parseInt(fields[5]);
+					try {
+						inResults.indirectObjectNumber = Integer.parseInt(fields[5]);
+					} catch (NumberFormatException e) {
+						inResults.indirectObjectNumber = 0;
+					}
 					if (fields.length == 7)
-						inResults.actionCode = ActionCode.valueOf(fields[6]);
+						try {
+							inResults.actionCode = ActionCode.valueOf(fields[6]);
+						} catch (IllegalArgumentException e) {
+							inResults.actionCode = ActionCode.X;
+						}
 				}
 			}
 	
 		}
 	}
 
+	/**
+	 * Get ID string of current sentence
+	 * 
+	 * @return id string
+	 */
+	public String getId() {
+		return this.id;
+	}
+	
 	/**
 	 * Was this sentence analysed?
 	 * 
@@ -90,6 +113,7 @@ public class BenchmarkSentence extends SentenceImpl {
 			// move created structures
 			words = sentenceObject.getWords();
 			sentenceTree = sentenceObject.getSentenceTree();
+			passive = sentenceObject.isPassive();
 			// set stat variable
 			parsed = true;
 			return true;
@@ -116,20 +140,44 @@ public class BenchmarkSentence extends SentenceImpl {
 	 * @return boolean analyse success
 	 */
 	public boolean analyse() {
-		// sucess
-		boolean result = false;
+		// success - just in case of crash
+		boolean result = true;
 		// yet not parsed
 		if (this.getSentenceTree() == null)
 			return false;
-		// find subject
+		// find subjects
 		Word word = FindConstituent.findSubject(this);
-		int i = this.getWords().indexOf(word);
-		if(i >= 0) {
-			result = true;
-			// data words counting from 1
-			this.outResults.objectNumber = i + 1;
+		if (word != null) {
+			int i = this.getWords().indexOf(word);
+			if (i >= 0) {
+				// data words counting from 1
+				this.outResults.subjectNumber = i + 1;
+			}
 		}
-		// TODO constituents
+		// find verbs
+		word = FindConstituent.findMainVerb(this);
+		if (word != null) {
+			int i = this.getWords().indexOf(word);
+			if (i >= 0) {
+				// ignore case just for wrong data input
+				this.outResults.verbLemma = word.getLemma();
+			}
+		}
+		// find objects
+		// find indirect object
+		ArrayList<Word> words = FindConstituent.findIndirectObject(this);
+		// TODO indirect object
+		words = FindConstituent.findRepresentativeObject(this, null);
+		if (words.size() > 0) {
+			// first object
+			word = words.get(0);
+			int i = this.getWords().indexOf(word);
+			if (i >= 0) {
+				// ignore case just for wrong data input
+				this.outResults.objectNumber = i + 1;
+			}
+		}
+		// TODO indirect objects
 		return result;
 	}
 }

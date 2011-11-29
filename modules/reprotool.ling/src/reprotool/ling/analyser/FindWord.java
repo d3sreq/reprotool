@@ -61,14 +61,23 @@ public class FindWord {
 		}
 		return resultWords;
 	}
-
-	public static boolean contains(String lemma, ParseTreeNode rootNode) {
+	
+	/**
+	 * Search direct node children for given lemma
+	 * 
+	 * @param rootNode SentenceNode object to analyze
+	 * @return boolean found
+	 */
+	public static boolean containsLemma(String lemma, ParseTreeNode rootNode) {
+		// invalid input
 		if (lemma.isEmpty() || rootNode == null)
 			return false;
-
+		
 		for(ParseTreeNode node : rootNode.getChildren()) {
-			if (node instanceof Word && ((Word) node).getLemma() == lemma)
+			// Word and same strings
+			if (node instanceof Word && ((Word) node).getLemma() != null && ((Word) node).getLemma().equals(lemma)) {
 				return true;
+			}
 		}
 		return false;
 	}

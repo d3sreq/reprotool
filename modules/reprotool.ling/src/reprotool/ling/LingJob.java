@@ -14,6 +14,7 @@ import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.ui.progress.IProgressConstants;
 import org.eclipse.ui.PlatformUI;
 
+import reprotool.ling.analyser.FindConstituent;
 import reprotool.ling.tools.Lemmatizer;
 import reprotool.ling.tools.Parser;
 import reprotool.ling.tools.Tagger;
@@ -102,6 +103,9 @@ public class LingJob extends Job {
     		}
     		System.out.println("Lemmatizer (" + (System.currentTimeMillis() - start) + "ms): " + lemmatizedSentence);
 	 		
+    	    // set passive - better to do here
+    	    sentence.setPassive(FindConstituent.getPassive(sentence));   
+    		
     	} catch (Exception e){
 			e.printStackTrace();  		    		
     	}

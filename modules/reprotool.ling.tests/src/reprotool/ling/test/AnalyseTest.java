@@ -2,6 +2,8 @@ package reprotool.ling.test;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 
@@ -16,6 +18,7 @@ import reprotool.ling.Sentence;
 import reprotool.ling.SentenceNode;
 import reprotool.ling.Word;
 import reprotool.ling.analyser.Analyser;
+import reprotool.ling.analyser.FindConstituent;
 import reprotool.ling.analyser.MatchSentence;
 import reprotool.ling.tools.Parser;
 import reprotool.model.usecase.UseCaseStep;
@@ -27,6 +30,93 @@ import reprotool.model.usecase.UsecaseFactory;
  */
 public class AnalyseTest {
 
+	// whole sentence
+	@Test
+	public final void testAnalyse1() {
+		// input
+		String sentenceString = "System provides the seller with a prise assessment.";
+		// result
+		String result = "";
+
+		// parse
+		Sentence sentence = LingTools.parseSentence(sentenceString);
+		// analyse
+		Word word = FindConstituent.findSubject(sentence);
+		if (word != null) 
+			result += "SUBJECT: " + word.getLemma() + " ";
+
+		word = FindConstituent.findMainVerb(sentence);
+		if (word != null) 
+			result += "VERB: " + word.getLemma() + " ";
+
+		ArrayList<Word> inobjs = FindConstituent.findIndirectObject(sentence);
+		ArrayList<Word> words = null;
+		// found indirect objects
+		if (inobjs.size() > 0)
+			words = FindConstituent.findRepresentativeObject(sentence, (SentenceNode)inobjs.get(0).getParent());			
+		else
+			words = FindConstituent.findRepresentativeObject(sentence, null);
+		
+		if(words.size() > 0){
+			result += "OBJECT: ";
+			for (Word iword : words) 
+				result += iword.getLemma() + " ";
+		}
+		
+		if(inobjs.size() > 0){
+			result += "INDIRECT_OBJECT: ";
+			for (Word iword : inobjs) 
+				result += iword.getLemma() + " ";
+		}		
+		
+		System.out.println(result);
+		
+		assertTrue(result.length() > 15);
+	}
+	
+	@Test
+	public final void testAnalyse2() {
+		// input
+		String sentenceString = "System provides a prise assessment to the seller. ";
+		// result
+		String result = "";
+
+		// parse
+		Sentence sentence = LingTools.parseSentence(sentenceString);
+		// analyse
+		Word word = FindConstituent.findSubject(sentence);
+		if (word != null) 
+			result += "SUBJECT: " + word.getLemma() + " ";
+
+		word = FindConstituent.findMainVerb(sentence);
+		if (word != null) 
+			result += "VERB: " + word.getLemma() + " ";
+
+		ArrayList<Word> inobjs = FindConstituent.findIndirectObject(sentence);
+		ArrayList<Word> words = null;
+		// found indirect objects
+		if (inobjs.size() > 0)
+			words = FindConstituent.findRepresentativeObject(sentence, (SentenceNode)inobjs.get(0).getParent());			
+		else
+			words = FindConstituent.findRepresentativeObject(sentence, null);
+		
+		if(words.size() > 0){
+			result += "OBJECT: ";
+			for (Word iword : words) 
+				result += iword.getLemma() + " ";
+		}
+		
+		if(inobjs.size() > 0){
+			result += "INDIRECT_OBJECT: ";
+			for (Word iword : inobjs) 
+				result += iword.getLemma() + " ";
+		}		
+		
+		System.out.println(result);
+		
+		assertTrue(result.length() > 15);
+	}
+	
 	// first sentence
 	@Test
 	public final void testAnalyseTree() {
@@ -257,12 +347,6 @@ public class AnalyseTest {
 				
 		EList<Word> words = sentence.getWords();
 		Word word = factory.createWord();
-/*		word.setText("Continue");
-		words.add(word);
-		word = factory.createWord();
-		word.setText("to");
-		words.add(word);
-		word = factory.createWord();*/
 		word.setText("3");
 		words.add(word);
 		word = factory.createWord();

@@ -21,7 +21,7 @@ public class FindNode {
 	 * @return found SentenceNode or null
 	 */
 	public static SentenceNode mainNounPhrase(SentenceNode rootNode) {	
-		return mainPhrase(rootNode, SentenceType.NOUN_PHRASE);
+		return mainPhrase(rootNode, SentenceType.NOUN_PHRASE , true);
 	}
 	
 	/**
@@ -31,7 +31,17 @@ public class FindNode {
 	 * @return found SentenceNode or null
 	 */
 	public static SentenceNode mainVerbPhrase(SentenceNode rootNode) {	
-		return mainPhrase(rootNode, SentenceType.VERB_PHRASE);
+		return mainPhrase(rootNode, SentenceType.VERB_PHRASE, true);
+	}
+	
+	/**
+	 * Find main child VerbPhrase in a Sentence (couldn't be rootNode)
+	 * Could be the highest VerbPhrase in a tree or its child
+	 * @param rootNode SentenceNode object to analyze
+	 * @return found SentenceNode or null
+	 */
+	public static SentenceNode mainChildVerbPhrase(SentenceNode rootNode) {	
+		return mainPhrase(rootNode, SentenceType.VERB_PHRASE, false);
 	}
 	
 	/**
@@ -40,12 +50,12 @@ public class FindNode {
 	 * @param type SentenceType of wanted node
 	 * @return found SentenceNode or null
 	 */
-	private static SentenceNode mainPhrase(SentenceNode rootNode, SentenceType type) {		
+	private static SentenceNode mainPhrase(SentenceNode rootNode, SentenceType type, boolean self) {		
 		// result
 		SentenceNode resultNode = null;
 		
 		// find first Phrase (highest = biggest)		
-		if(rootNode.getType() == type) {
+		if(self && rootNode.getType() == type) {
 			// its the root
 			resultNode = rootNode;
 		} else {
@@ -60,7 +70,7 @@ public class FindNode {
 		}
 		
 		// sometimes can Phrase have only one child - again Phrase of same type
-		if(resultNode.getChildren().size() == 1 && resultNode.getChildren().get(0) instanceof SentenceNode &&((SentenceNode) resultNode.getChildren().get(0)).getType() == type) {
+		if(resultNode != null && resultNode.getChildren().size() == 1 && resultNode.getChildren().get(0) != null && resultNode.getChildren().get(0) instanceof SentenceNode &&((SentenceNode) resultNode.getChildren().get(0)).getType() == type) {
 			resultNode = (SentenceNode)resultNode.getChildren().get(0);
 		} else {
 			resultNode = (SentenceNode)resultNode;
@@ -75,6 +85,15 @@ public class FindNode {
 	 */
 	public static ArrayList<SentenceNode> getNounPhrases(SentenceNode rootNode) {	
 		return getPhrases(rootNode, SentenceType.NOUN_PHRASE);
+	}
+
+	/**
+	 * Find direct child PrepositionPhrases
+	 * @param rootNode SentenceNode object to analyze
+	 * @return found ArrayList<SentenceNode> or null
+	 */
+	public static ArrayList<SentenceNode> getPrepositionPhrases(SentenceNode rootNode) {	
+		return getPhrases(rootNode, SentenceType.PREPOSITION_PHRASE);
 	}
 	
 	/**
@@ -136,5 +155,5 @@ public class FindNode {
 		}
 		return resultNodes;
 	}
-	
+
 }

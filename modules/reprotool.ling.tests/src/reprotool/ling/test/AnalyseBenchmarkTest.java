@@ -73,9 +73,12 @@ public class AnalyseBenchmarkTest {
 		
 		AnalyseBenchmark ab = new AnalyseBenchmark();
 		ab.loadData();
-		if(ab.analyseAll())
+		// parse first
+		if(ab.parseAll()) {
+			ab.analyseAll();
 			stats = ab.getResults();
-		
+		}
+		System.out.println(stats);
 		assertTrue(stats.length() > 10);
 	}
 }

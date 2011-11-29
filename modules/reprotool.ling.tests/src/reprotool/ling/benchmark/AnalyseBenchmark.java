@@ -58,18 +58,69 @@ public class AnalyseBenchmark {
 	public String getResults () {
 		// result
 		String result;
-		// objects stats
-		int objects = 0;
-		int foundObjects = 0;
+		// errors
+		String error = "";
+		// subjects stats
+		int subjects = 0;
+		int foundSubjects = 0;
+		for (BenchmarkSentence bs : sentences) {
+			if (bs.inResults.subjectNumber > 0) {
+				subjects++;
+				if (bs.outResults.subjectNumber == bs.inResults.subjectNumber)
+					foundSubjects++;
+				else
+					error += bs.getId() + ": input subjectNumber: "
+							+ bs.inResults.subjectNumber
+							+ " output subjectNumber: "
+							+ bs.outResults.subjectNumber + "\n";
+			}
+
+		}
+		result = "SUBJECTS: " + "Count: " + subjects + " Found: "
+				+ foundSubjects + " | "
+				+ (int) ((foundSubjects * 100) / subjects) + "%\n";
+		result += error;
+
+		// verbs stats
+		int verbs = 0;
+		int foundVerbs = 0;
+		error = "";
 		for (BenchmarkSentence bs : sentences) {
 			if(bs.inResults.subjectNumber > 0) {
-				objects++;
-				if (bs.outResults.subjectNumber == bs.inResults.subjectNumber)
-					foundObjects++;
+				verbs++;
+				if (bs.inResults.verbLemma.equalsIgnoreCase(bs.outResults.verbLemma))
+					foundVerbs++;
+				else
+					error += bs.getId() + ": input verbLemma: \""
+							+ bs.inResults.verbLemma
+							+ "\" output verbLemma: \""
+							+ bs.outResults.verbLemma + "\"\n";
 			}
 
 		}		
-		result = "Objects:\n" + "Count: " + objects + " Found: " + foundObjects + " | " + (int)((foundObjects/objects)*100) + "%\n";
+		result += "VERBS: " + "Count: " + verbs + " Found: " + foundVerbs
+				+ " | " + (int) ((foundVerbs * 100) / verbs) + "%\n";
+		result += error;
+		
+		// objects stats
+		int objects = 0;
+		int foundObjects = 0;
+		error = "";
+		for (BenchmarkSentence bs : sentences) {
+			if(bs.inResults.objectNumber > 0) {
+				objects++;
+				if (bs.outResults.objectNumber == bs.inResults.objectNumber)
+					foundObjects++;
+				else
+					error += bs.getId() + ": input objectNumber: "
+							+ bs.inResults.objectNumber
+							+ " output objectNumber: "
+							+ bs.outResults.objectNumber + "\n";
+			}
+
+		}		
+		result += "OBJECTS: " + "Count: " + objects + " Found: " + foundObjects + " | " + (int)((foundObjects * 100)/objects) + "%\n";
+		result += error;
 		
 		return result;
 	}
