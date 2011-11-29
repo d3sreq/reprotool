@@ -58,6 +58,7 @@ import reprotool.model.usecase.Condition;
 import reprotool.model.usecase.Scenario;
 import reprotool.model.usecase.UseCase;
 import reprotool.model.usecase.UseCaseStep;
+import reprotool.model.usecase.annotate.StepAnnotation;
 
 
 public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
@@ -286,6 +287,21 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 			stringBuffer.append("Label: " + transition.getRelatedStep().getLabel());
 			stringBuffer.append("\n");
 			stringBuffer.append("Text: " + WordUtils.wrap( transition.getRelatedStep().getContent(), 40) );
+			
+			List<StepAnnotation> annots = transition.getRelatedStep().getAnnotations();
+			if (!annots.isEmpty()) {
+				con.setImage(figureProvider.getStarImage());
+				stringBuffer.append("\n");
+				stringBuffer.append("Annots: ");
+				int c = 0;
+				for (StepAnnotation a : annots) {
+					c++;
+					stringBuffer.append(a.getAnnotationType().getName() + "_" + a.getId());
+					if (c < annots.size()) {
+						stringBuffer.append(", ");
+					}
+				}
+			}
 			
 			Scenario scenario = (Scenario) transition.getRelatedStep().eContainer();
 			EList<Condition> preconditions = scenario.getPreconditions();

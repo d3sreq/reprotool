@@ -15,6 +15,7 @@ import lts2.StateMachine;
 
 public class FigureProvider {
 	private static final int STATE_NODE_DIAMETER = 16;
+	private static final int STAR_SIZE = 8;
 	private StateMachine machine;
 	
 	private ImageFigure drawInitialStateFigure() {
@@ -112,6 +113,27 @@ public class FigureProvider {
 	
 	public void setMachine(StateMachine m) {
 		machine = m;
+	}
+	
+	public Image getStarImage() {
+		PaletteData pData = new PaletteData(255, 255, 255);
+		ImageData sourceData = new ImageData(STAR_SIZE, STAR_SIZE, 8, pData);
+		sourceData.transparentPixel = 0xFFFFFF;
+
+		Image image = new Image(Display.getDefault(), sourceData);
+		GC gc = new GC(image);
+		gc.setAdvanced(true);
+		gc.setAntialias(SWT.ON);
+		
+		gc.setBackground(new Color(Display.getDefault(), 255, 255, 255));
+		gc.fillRectangle(0, 0, image.getBounds().width, image.getBounds().height);
+
+		gc.setForeground(new Color(Display.getDefault(), 255, 0, 0));
+		gc.drawLine(0, STAR_SIZE, STAR_SIZE, 0);
+		gc.drawLine(0, 0, STAR_SIZE, STAR_SIZE);
+		gc.dispose();
+		
+		return image;
 	}
 	
 	public IFigure getFigure(State s) {

@@ -5,9 +5,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import lts2.AbortState;
 import lts2.State;
 import lts2.StateMachine;
@@ -50,7 +47,6 @@ import reprotool.model.usecase.Scenario;
 import reprotool.model.usecase.UseCase;
 import reprotool.model.usecase.UseCaseStep;
 import reprotool.model.usecase.annotate.StepAnnotation;
-import reprotool.model.usecase.annotate.TemporalLogicFormula;
 import reprotool.uc.tempeditor.FigureProvider;
 
 
@@ -79,12 +75,10 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 	
 	private HashMap<UseCaseTransition, HashMap<UseCaseStep, GraphConnection>> connectionTracker =
 			new HashMap<UseCaseTransition, HashMap<UseCaseStep, GraphConnection>>();
-	private TemporalLogicFormula formula;
 	
 	public LTSContentOutlinePage(CounterExample cexmp) {
 		super();
 		transitions = cexmp.getUseCaseTransitions();
-		formula = cexmp.getFormula();
 		figureProvider = new FigureProvider();
 	}
 	
@@ -286,21 +280,24 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 		}
 		for (Step step: trans.getSteps()) {
 			UseCaseStep ucStep = step.getUcStep();
-			boolean annotated = false;
-			for (StepAnnotation annot: ucStep.getAnnotations()) {
-				Pattern p = Pattern.compile("[^a-zA-Z]+" + annot.getAnnotationType().getName() + "[^a-zA-Z]+");
-				Matcher m = p.matcher(formula.getFormula());
-				if (m.find()) {
-					annotated = true;
-				}
-			}
 			GraphConnection con = connectionTracker.get(ref).get(ucStep);
-			if (annotated) {
-				con.setLineColor(ColorConstants.red);
-				con.setHighlightColor(ColorConstants.red);
-			} else {
-				con.setLineColor(ColorConstants.darkBlue);
+			con.setLineColor(ColorConstants.red);
+			con.setHighlightColor(ColorConstants.red);
+			
+			List<StepAnnotation> annots = ucStep.getAnnotations();
+			if (!annots.isEmpty()) {
+				StringBuffer annotationLabel = new StringBuffer();
+				int c = 0;
+				for (StepAnnotation a : annots) {
+					c++;
+					annotationLabel.append(a.getAnnotationType().getName() + "_" + a.getId());
+					if (c < annots.size()) {
+						annotationLabel.append(", ");
+					}
+				}
+				con.setText(annotationLabel.toString());
 			}
+			
 			if (step.getUseCaseTransition() != null) {
 				selectUCTransition(step.getUseCaseTransition(), ref);
 			}
