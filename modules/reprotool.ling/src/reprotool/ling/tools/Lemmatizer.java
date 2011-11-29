@@ -164,7 +164,6 @@ public class Lemmatizer extends Tool {
         	// beware of <root> node
         	if(sentence.getWords().get(i - 1 + delay).getText() != null && sentenceData.forms[i].contentEquals(sentence.getWords().get(i - 1 + delay).getText())) {
         		// fill word lemma form
-        		System.out.println(sentence.getWords().get(i - 1 + delay).getText() + " " + sentenceData.lemmas[i]);
         		sentence.getWords().get(i - 1 + delay).setLemma(sentenceData.lemmas[i]);
         	} else {
         		// C++ rulez

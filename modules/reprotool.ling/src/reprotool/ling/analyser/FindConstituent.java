@@ -2,10 +2,12 @@ package reprotool.ling.analyser;
 
 import java.util.ArrayList;
 
+import reprotool.ling.NodeType;
 import reprotool.ling.POSType;
 import reprotool.ling.ParseTreeNode;
 import reprotool.ling.Sentence;
 import reprotool.ling.SentenceNode;
+import reprotool.ling.SentenceType;
 import reprotool.ling.Word;
 import reprotool.ling.WordType;
 
@@ -91,14 +93,21 @@ public class FindConstituent {
 		// current node
 		SentenceNode curNode = null;
 		
+		boolean passive = isPassive(sentence);
+		if (passive) {
+
+			
+		}
+		
 		// is there any determiner?
+		/*
 		for (Word word : sentence.getWords()) {	
 			if (word.getPOS() == POSType.DETERMINER) {
 				word.setType(WordType.SUBJECT);
 				System.out.println("Subject: " + word.getLemma());
 				subject = word;
 			}
-		}	
+		}	*/
 		
 		// find determiner in head NP
 		if (subject == null) {
@@ -130,5 +139,26 @@ public class FindConstituent {
 			}
 		}
 		return subject;
+	}
+
+	private static boolean isPassive(Sentence sentence) {
+		// current node
+		SentenceNode curNode = null;
+		// NP in PP (with (IN by)) whole in VP
+		curNode = FindNode.mainVerbPhrase(sentence.getSentenceTree());
+		if (curNode != null) {
+			curNode = FindNode.mainVerbPhrase(curNode);
+			// children - PP
+			if (curNode != null && curNode instanceof SentenceNode) {
+				for(ParseTreeNode node : ((SentenceNode)curNode).getChildren()) {
+					if (node instanceof SentenceNode && ((SentenceNode)curNode).getType() == SentenceType.PREPOSITION_PHRASE) {
+						if (FindWord.contains("by", node))
+							return true;
+					}
+				}
+			}
+		}
+
+		return false;
 	}
 }

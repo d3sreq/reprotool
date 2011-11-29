@@ -280,7 +280,7 @@ public class Parser extends Tool {
     	Word curWord = null;
     	ParseTreeNode curNode = rootNode;
 				
-    	// removing head S (sentence) node
+    	// removing head S (sentence) node - it is already root node
     	if(parsedText.startsWith("(S") && parsedText.endsWith(")")) {
     		parsedText = parsedText.substring(2, parsedText.length()-1).trim();
     	}    	
@@ -301,7 +301,10 @@ public class Parser extends Tool {
 	    		// converting to ENUM
 	    		NodeType node = NodeType.get(symbol);
 	    		if(node == null){
-	    			node = NodeType.X;
+	    			if (symbol.startsWith("S")) 
+	    				node = NodeType.S;
+	    			else
+	    				node = NodeType.X;
 	    		}
 
 	    		switch(node){
@@ -329,8 +332,12 @@ public class Parser extends Tool {
 	    			
 	    		case S:
 	    			// new sentence approaching
-	    			// TODO complex sentences
-	    			break;	    			
+	    			SentenceNode sentencePhrase = factory.createSentenceNode();
+	    			sentencePhrase.setType(SentenceType.SENTENCE_PHRASE);
+	    			curNode.getChildren().add(sentencePhrase);
+	    			sentencePhrase.setParent(curNode);
+	    			curNode = sentencePhrase;
+	    			break;	   			
 	    		case ADJP:
 	    			// Adjective Phrase - usually within VP or NP - stay in parent node?
 	    			SentenceNode adjectivePhrase = factory.createSentenceNode();
@@ -356,6 +363,10 @@ public class Parser extends Tool {
 	    				curWord.setPOS(POSType.UNDEFINED); 
 	    			}
     			
+	    			//there are no parent roots -> finish sentence
+	    			if(curNode == null) {
+	    				break;
+	    			}
 	    			curNode.getChildren().add(curWord);	
 	    			sentence.getWords().add(curWord);
 	    			atWord = true;
@@ -366,6 +377,10 @@ public class Parser extends Tool {
 	    		
 	    		if(!atWord){	//    			
 	    			curNode = curNode.getParent();
+	    			//there are no parent roots -> finish sentence
+	    			if(curNode == null) {
+	    				break;
+	    			}
 	    		} else {
 	    			atWord = false;
 	    		}
@@ -407,11 +422,11 @@ public class Parser extends Tool {
     			if (node instanceof SentenceNode)
     				result += treeToString((SentenceNode)node);
     			else 
-    				result += (((Word)node).getText());
+    				result += "(" + ((Word)node).getPOS().getLiteral() + " " + ((Word)node).getText() + ") ";
     		}
     		result += ") ";
     	}
     	
-    	return result;
+    	return result.trim();
     }
 }

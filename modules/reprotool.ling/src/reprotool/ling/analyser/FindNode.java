@@ -43,7 +43,7 @@ public class FindNode {
 	private static SentenceNode mainPhrase(SentenceNode rootNode, SentenceType type) {		
 		// result
 		SentenceNode resultNode = null;
-			
+		
 		// find first Phrase (highest = biggest)		
 		if(rootNode.getType() == type) {
 			// its the root

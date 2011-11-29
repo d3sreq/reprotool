@@ -94,7 +94,6 @@ public class LingJob extends Job {
     		// parsing into a Sentence object
     		sentence = Parser.parseSentence(parsedSentence);   
     		
-    		// TODO redo into method
     		// calling lemmatizer 
     		sentence = Lemmatizer.getSentence(sentence);
     		for(Word word : sentence.getWords()) {

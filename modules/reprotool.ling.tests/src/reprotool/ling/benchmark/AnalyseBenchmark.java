@@ -31,6 +31,58 @@ public class AnalyseBenchmark {
 		X;
 	}
 
+
+	/**
+	 * Analyse selected loaded sentence
+	 * 
+	 * @return boolean success at sentence
+	 */
+	public boolean analyse (int i) {
+		return sentences.get(i).analyse();
+	}
+	
+	/**
+	 * Analyse all loaded sentences
+	 * 
+	 * @return boolean success at all sentences
+	 */
+	public boolean analyseAll() {
+		// result
+		boolean result = true;
+		for (BenchmarkSentence bs : sentences) {
+			result = result && bs.analyse();
+		}
+		return result;
+	}
+	
+	public String getResults () {
+		// result
+		String result;
+		// objects stats
+		int objects = 0;
+		int foundObjects = 0;
+		for (BenchmarkSentence bs : sentences) {
+			if(bs.inResults.subjectNumber > 0) {
+				objects++;
+				if (bs.outResults.subjectNumber == bs.inResults.subjectNumber)
+					foundObjects++;
+			}
+
+		}		
+		result = "Objects:\n" + "Count: " + objects + " Found: " + foundObjects + " | " + (int)((foundObjects/objects)*100) + "%\n";
+		
+		return result;
+	}
+	
+	/**
+	 * Number of loaded sentences
+	 * 
+	 * @return int number of loaded sentences
+	 */
+	public int getSentenceCount() {
+		return sentences.size();
+	}
+	
 	public boolean loadData () {
 		return loadData("");
 	}	
@@ -79,15 +131,6 @@ public class AnalyseBenchmark {
 	}
 
 	/**
-	 * Number of loaded sentences
-	 * 
-	 * @return int number of loaded sentences
-	 */
-	public int getSentenceCount() {
-		return sentences.size();
-	}
-	
-	/**
 	 * Parse all loaded sentences
 	 * 
 	 * @return boolean success at all sentences
@@ -99,6 +142,15 @@ public class AnalyseBenchmark {
 			result = result && bs.parse();
 		}
 		return result;
+	}
+
+	/**
+	 * Parse selected loaded sentence
+	 * 
+	 * @return boolean success at sentence
+	 */
+	public boolean parse(int i) {
+		return sentences.get(i).parse();
 	}
 	
 }

@@ -61,5 +61,16 @@ public class FindWord {
 		}
 		return resultWords;
 	}
+
+	public static boolean contains(String lemma, ParseTreeNode rootNode) {
+		if (lemma.isEmpty() || rootNode == null)
+			return false;
+
+		for(ParseTreeNode node : rootNode.getChildren()) {
+			if (node instanceof Word && ((Word) node).getLemma() == lemma)
+				return true;
+		}
+		return false;
+	}
 	
 }
