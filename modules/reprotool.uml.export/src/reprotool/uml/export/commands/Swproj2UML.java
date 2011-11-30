@@ -1,7 +1,5 @@
 package reprotool.uml.export.commands;
 
-import java.util.HashMap;
-
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.IHandler;
@@ -19,21 +17,11 @@ import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.resource.UMLResource;
 
-import reprotool.model.linguistic.action.FromSystem;
-import reprotool.model.linguistic.action.ToSystem;
-import reprotool.model.linguistic.actionpart.TextRange;
-import reprotool.model.swproj.Actor;
 import reprotool.model.swproj.SoftwareProject;
-import reprotool.model.usecase.Scenario;
-import reprotool.model.usecase.UseCase;
-import reprotool.model.usecase.UseCaseStep;
+import reprotool.uml.export.mapping.UMLGen;
 
 public class Swproj2UML implements IHandler {
-	private HashMap<Actor, org.eclipse.uml2.uml.Class> actor2UML =
-			new HashMap<Actor, org.eclipse.uml2.uml.Class>();
-	
-	private org.eclipse.uml2.uml.Class umlSystem;
-	
+		
 	@Override
 	public void addHandlerListener(IHandlerListener handlerListener) {
 		// TODO Auto-generated method stub
@@ -46,53 +34,6 @@ public class Swproj2UML implements IHandler {
 
 	}
 	
-	private void loadActors(SoftwareProject swproj, Model model) {
-		umlSystem = model.createOwnedClass("system", false);
-		for (Actor actor : swproj.getActors()) {
-			org.eclipse.uml2.uml.Class umlClass = 
-				model.createOwnedClass(actor.getName(), false);
-			actor2UML.put(actor, umlClass);
-		}
-	}
-	
-	private void processUseCaseStep(UseCaseStep step) {
-		if (step.getAction() instanceof ToSystem) {
-			ToSystem action = (ToSystem) step.getAction();
-			if (action.getSentenceActivity() != null) {
-				TextRange text = action.getSentenceActivity().getText();
-				if (text != null) {
-					umlSystem.createOwnedOperation(text.getContent(), null, null);
-				}
-			}
-			return;
-		}
-		if (step.getAction() instanceof FromSystem) {
-			FromSystem action = (FromSystem) step.getAction();
-			if (action.getSentenceActivity() != null) {
-				Actor actor = action.getReceiver().getActor();
-				actor2UML.get(actor).createOwnedOperation(action.getSentenceActivity().getText().getContent(),
-						null, null);
-			}
-			return;
-		}
-	}
-	
-	private void processScenario(Scenario scenario) {
-		for (UseCaseStep step: scenario.getSteps()) {
-			processUseCaseStep(step);
-			for (Scenario ext: step.getExtensions()) {
-				processScenario(ext);
-			}
-			for (Scenario var: step.getVariations()) {
-				processScenario(var);
-			}
-		}
-	}
-	
-	private void processUseCase(UseCase uc) {
-		processScenario(uc.getMainScenario());
-	}
-
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		ISelection sel = HandlerUtil.getCurrentSelection(event);
@@ -119,11 +60,9 @@ public class Swproj2UML implements IHandler {
 		
 		UMLFactory factory = UMLFactory.eINSTANCE;
 		Model model = factory.createModel();
-		
-		loadActors(swproj, model);
-		for (UseCase uc: swproj.getUseCases()) {
-			processUseCase(uc);
-		}
+				
+		UMLGen umlGenerator = new UMLGen();
+		umlGenerator.generateUMLModel(swproj, model);
 		
 		final URI umlUri = URI.createPlatformResourceURI(
 			ifile.getFullPath().addFileExtension(UMLResource.FILE_EXTENSION).toString(),
@@ -158,5 +97,4 @@ public class Swproj2UML implements IHandler {
 		// TODO Auto-generated method stub
 
 	}
-
 }
