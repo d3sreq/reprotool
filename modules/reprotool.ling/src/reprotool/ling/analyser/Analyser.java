@@ -34,7 +34,7 @@ public class Analyser {
 	// find subject
 	static Word subject = null;
 	// find objects
-	static SentenceNode indirectobject = null;
+	static ArrayList<Word> indirectobjects = null;
 	static ArrayList<Word> objects = null;
 	
 	// factories
@@ -72,8 +72,12 @@ public class Analyser {
 		// find subject
 		subject = FindConstituent.findSubject(sentence);
 		// find objects
-		indirectobject = FindConstituent.findIndirectObject(sentence);		
-		objects = FindConstituent.findRepresentativeObject(sentence, indirectobject);		
+		indirectobjects = FindConstituent.findIndirectObject(sentence, null);	
+		if (indirectobjects != null) {
+			objects = FindConstituent.findRepresentativeObject(sentence, (SentenceNode)indirectobjects.get(0).getParent());			
+		} else {
+			objects = FindConstituent.findRepresentativeObject(sentence, null);				
+		}
 		
 		// ACTORS
 		// add subject as a new actor
@@ -95,7 +99,7 @@ public class Analyser {
 		// INTERNAL ACTION
 		// also TO and FROM
 		if (!definedAction){
-			if (indirectobject == null) {				
+			if (indirectobjects == null) {				
 				InternalAction action = afactory.createInternalAction();
 				SetCommand setCommand = new SetCommand(editingDomain, ucs, UsecasePackage.Literals.USE_CASE_STEP__ACTION, action);
 				compoundCommand.append(setCommand);										
@@ -103,7 +107,7 @@ public class Analyser {
 				// system actions?
 				if (objects.size() > 0) {
 					// now we have both objects
-					if (indirectobject.getWord().getLemma() == "system") {
+					if (((Word)indirectobjects.get(0)).getLemma() == "system") {
 						ToSystem action = afactory.createToSystem();
 						SetCommand setCommand = new SetCommand(editingDomain, ucs, UsecasePackage.Literals.USE_CASE_STEP__ACTION, action);
 						compoundCommand.append(setCommand);	

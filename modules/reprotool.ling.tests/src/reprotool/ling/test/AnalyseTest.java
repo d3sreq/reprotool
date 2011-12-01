@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 
+import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 
@@ -21,6 +22,8 @@ import reprotool.ling.analyser.Analyser;
 import reprotool.ling.analyser.FindConstituent;
 import reprotool.ling.analyser.MatchSentence;
 import reprotool.ling.tools.Parser;
+import reprotool.model.swproj.Actor;
+import reprotool.model.swproj.SwprojFactory;
 import reprotool.model.usecase.UseCaseStep;
 import reprotool.model.usecase.UsecaseFactory;
 
@@ -37,7 +40,12 @@ public class AnalyseTest {
 		String sentenceString = "System provides the seller with a prise assessment.";
 		// result
 		String result = "";
-
+		// actors
+		EList<Actor> actors = new BasicEList<Actor>();
+		Actor ac = SwprojFactory.eINSTANCE.createActor();
+		ac.setName("seller");
+		actors.add(ac);
+		
 		// parse
 		Sentence sentence = LingTools.parseSentence(sentenceString);
 		// analyse
@@ -49,7 +57,7 @@ public class AnalyseTest {
 		if (word != null) 
 			result += "VERB: " + word.getLemma() + " ";
 
-		ArrayList<Word> inobjs = FindConstituent.findIndirectObject(sentence);
+		ArrayList<Word> inobjs = FindConstituent.findIndirectObject(sentence, actors);
 		ArrayList<Word> words = null;
 		// found indirect objects
 		if (inobjs.size() > 0)
@@ -80,7 +88,12 @@ public class AnalyseTest {
 		String sentenceString = "System provides a prise assessment to the seller. ";
 		// result
 		String result = "";
-
+		// actors
+		EList<Actor> actors = new BasicEList<Actor>();
+		Actor ac = SwprojFactory.eINSTANCE.createActor();
+		ac.setName("seller");
+		actors.add(ac);
+		
 		// parse
 		Sentence sentence = LingTools.parseSentence(sentenceString);
 		// analyse
@@ -92,7 +105,7 @@ public class AnalyseTest {
 		if (word != null) 
 			result += "VERB: " + word.getLemma() + " ";
 
-		ArrayList<Word> inobjs = FindConstituent.findIndirectObject(sentence);
+		ArrayList<Word> inobjs = FindConstituent.findIndirectObject(sentence, actors);
 		ArrayList<Word> words = null;
 		// found indirect objects
 		if (inobjs.size() > 0)

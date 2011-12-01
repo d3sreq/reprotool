@@ -9,6 +9,11 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.ui.statushandlers.StatusManager;
+
+import reprotool.ling.Activator;
 import reprotool.ling.tools.Parser;
 
 /**
@@ -101,6 +106,26 @@ public class AnalyseBenchmark {
 		result += "VERBS: " + "Count: " + verbs + " Found: " + foundVerbs
 				+ " | " + (int) ((foundVerbs * 100) / verbs) + "%\n";
 		result += error;
+
+		//indirects objects stats
+		int iobjects = 0;
+		int ifoundObjects = 0;
+		error = "";
+		for (BenchmarkSentence bs : sentences) {
+			if(bs.inResults.indirectObjectNumber > 0) {
+				iobjects++;
+				if (bs.outResults.indirectObjectNumber == bs.inResults.indirectObjectNumber)
+					ifoundObjects++;
+				else
+					error += bs.getId() + ": input indirectObjectNumber: "
+							+ bs.inResults.indirectObjectNumber
+							+ " output indirectObjectNumber: "
+							+ bs.outResults.indirectObjectNumber + "\n";
+			}
+
+		}		
+		result += "INDIRECT_OBJECTS: " + "Count: " + iobjects + " Found: " + ifoundObjects + " | " + (int)((ifoundObjects * 100)/iobjects) + "%\n";
+		result += error;
 		
 		// objects stats
 		int objects = 0;
@@ -122,6 +147,11 @@ public class AnalyseBenchmark {
 		result += "OBJECTS: " + "Count: " + objects + " Found: " + foundObjects + " | " + (int)((foundObjects * 100)/objects) + "%\n";
 		result += error;
 		
+		// sum
+		int count = subjects + verbs + iobjects + objects;
+		int found = foundSubjects + foundVerbs + ifoundObjects + foundObjects; 
+		result += "SUM: " + "Count: " + count + " Found: " + found + " | " + (int)((found * 100)/count) + "%\n";
+	
 		return result;
 	}
 	
@@ -171,11 +201,11 @@ public class AnalyseBenchmark {
 			br.close();
 
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, "Benchmark data file not found", e);
+			StatusManager.getManager().handle(status, StatusManager.LOG);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, "Benchmark data file I/O error", e);
+			StatusManager.getManager().handle(status, StatusManager.LOG);
 		}
 		
 		return result;

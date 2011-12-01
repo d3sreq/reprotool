@@ -2,13 +2,17 @@ package reprotool.ling.benchmark;
 
 import java.util.ArrayList;
 
+import org.eclipse.emf.common.util.BasicEList;
+import org.eclipse.emf.common.util.EList;
+
 import reprotool.ling.LingTools;
 import reprotool.ling.Sentence;
-import reprotool.ling.SentenceNode;
 import reprotool.ling.Word;
 import reprotool.ling.analyser.FindConstituent;
 import reprotool.ling.benchmark.AnalyseBenchmark.ActionCode;
 import reprotool.ling.impl.SentenceImpl;
+import reprotool.model.swproj.Actor;
+import reprotool.model.swproj.SwprojFactory;
 
 /**
  * @author ofiala
@@ -18,6 +22,7 @@ public class BenchmarkSentence extends SentenceImpl {
 	// basic parameters
 	private String id = "";
 	private String sentence = "";
+	private EList<Actor> actors = new BasicEList<Actor>();
 	
 	// same object for given and analysed results
 	class BenchmarkResults {
@@ -37,31 +42,44 @@ public class BenchmarkSentence extends SentenceImpl {
 	private boolean analysed = false;
 	
 	public BenchmarkSentence(String line) {
+		// default actors
+		Actor ac = SwprojFactory.eINSTANCE.createActor();
+		ac.setName("system");
+		actors.add(ac);
+		ac = SwprojFactory.eINSTANCE.createActor();
+		ac.setName("user");
+		actors.add(ac);
 		// parse csv line
 		String[] fields = line.split(";");
 		// minimum arguments we need
-		if (fields.length >= 4) {
+		if (fields.length >= 5) {
 
 			id = fields[0];
 			sentence = fields[1];
-			inResults.subjectNumber = Integer.parseInt(fields[2]);
-			inResults.verbLemma = fields[3];
+			// add all new actors
+			for(String acstr : fields[2].split(",")) {
+				ac = SwprojFactory.eINSTANCE.createActor();
+				ac.setName(acstr);
+				actors.add(ac);
+			}
+			inResults.subjectNumber = Integer.parseInt(fields[3]);
+			inResults.verbLemma = fields[4];
 			// we have more
-			if (fields.length >= 5) {
+			if (fields.length >= 6) {
 				try {
-					inResults.objectNumber = Integer.parseInt(fields[4]);
+					inResults.objectNumber = Integer.parseInt(fields[5]);
 				} catch (NumberFormatException e) {
 					inResults.objectNumber = 0;
 				}
-				if (fields.length >= 6) {
+				if (fields.length >= 7) {
 					try {
-						inResults.indirectObjectNumber = Integer.parseInt(fields[5]);
+						inResults.indirectObjectNumber = Integer.parseInt(fields[6]);
 					} catch (NumberFormatException e) {
 						inResults.indirectObjectNumber = 0;
 					}
-					if (fields.length == 7)
+					if (fields.length == 8)
 						try {
-							inResults.actionCode = ActionCode.valueOf(fields[6]);
+							inResults.actionCode = ActionCode.valueOf(fields[7]);
 						} catch (IllegalArgumentException e) {
 							inResults.actionCode = ActionCode.X;
 						}
@@ -165,7 +183,7 @@ public class BenchmarkSentence extends SentenceImpl {
 		}
 		// find objects
 		// find indirect object
-		ArrayList<Word> words = FindConstituent.findIndirectObject(this);
+		ArrayList<Word> words = FindConstituent.findIndirectObject(this, actors);
 		// TODO indirect object
 		words = FindConstituent.findRepresentativeObject(this, null);
 		if (words.size() > 0) {

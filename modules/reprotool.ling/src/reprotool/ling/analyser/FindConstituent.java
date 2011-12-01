@@ -2,12 +2,15 @@ package reprotool.ling.analyser;
 
 import java.util.ArrayList;
 
+import org.eclipse.emf.common.util.EList;
+
 import reprotool.ling.POSType;
 import reprotool.ling.ParseTreeNode;
 import reprotool.ling.Sentence;
 import reprotool.ling.SentenceNode;
 import reprotool.ling.Word;
 import reprotool.ling.WordType;
+import reprotool.model.swproj.Actor;
 
 /**
  * @author ofiala
@@ -21,7 +24,7 @@ public class FindConstituent {
 	 * @param sentence sentence object to analyse
 	 * @return SentenceNode / null if not found
 	 */
-	public static ArrayList<Word> findIndirectObject(Sentence sentence) {
+	public static ArrayList<Word> findIndirectObject(Sentence sentence, EList<Actor> actors) {
 		// have we one?
 		boolean indirectobject = false;		
 		// result
