@@ -56,6 +56,7 @@ public class AnalyseBenchmark {
 		boolean result = true;
 		for (BenchmarkSentence bs : sentences) {
 			result = result && bs.analyse();
+			System.out.println(bs.toString());
 		}
 		return result;
 	}
@@ -69,17 +70,14 @@ public class AnalyseBenchmark {
 		int subjects = 0;
 		int foundSubjects = 0;
 		for (BenchmarkSentence bs : sentences) {
-			if (bs.inResults.subjectNumber > 0) {
-				subjects++;
-				if (bs.outResults.subjectNumber == bs.inResults.subjectNumber)
-					foundSubjects++;
-				else
-					error += bs.getId() + ": input subjectNumber: "
-							+ bs.inResults.subjectNumber
-							+ " output subjectNumber: "
-							+ bs.outResults.subjectNumber + "\n";
-			}
-
+			subjects++;
+			if (bs.outResults.subjectNumber == bs.inResults.subjectNumber)
+				foundSubjects++;
+			else
+				error += bs.getId() + ": input subjectNumber: "
+						+ bs.inResults.subjectNumber
+						+ " output subjectNumber: "
+						+ bs.outResults.subjectNumber + "\n";
 		}
 		result = "SUBJECTS: " + "Count: " + subjects + " Found: "
 				+ foundSubjects + " | "
@@ -91,17 +89,14 @@ public class AnalyseBenchmark {
 		int foundVerbs = 0;
 		error = "";
 		for (BenchmarkSentence bs : sentences) {
-			if(bs.inResults.subjectNumber > 0) {
-				verbs++;
-				if (bs.inResults.verbLemma.equalsIgnoreCase(bs.outResults.verbLemma))
-					foundVerbs++;
-				else
-					error += bs.getId() + ": input verbLemma: \""
-							+ bs.inResults.verbLemma
-							+ "\" output verbLemma: \""
-							+ bs.outResults.verbLemma + "\"\n";
-			}
-
+			verbs++;
+			if (bs.inResults.verbLemma
+					.equalsIgnoreCase(bs.outResults.verbLemma))
+				foundVerbs++;
+			else
+				error += bs.getId() + ": input verbLemma: \""
+						+ bs.inResults.verbLemma + "\" output verbLemma: \""
+						+ bs.outResults.verbLemma + "\"\n";
 		}		
 		result += "VERBS: " + "Count: " + verbs + " Found: " + foundVerbs
 				+ " | " + (int) ((foundVerbs * 100) / verbs) + "%\n";
@@ -112,18 +107,15 @@ public class AnalyseBenchmark {
 		int ifoundObjects = 0;
 		error = "";
 		for (BenchmarkSentence bs : sentences) {
-			if(bs.inResults.indirectObjectNumber > 0) {
-				iobjects++;
-				if (bs.outResults.indirectObjectNumber == bs.inResults.indirectObjectNumber)
-					ifoundObjects++;
-				else
-					error += bs.getId() + ": input indirectObjectNumber: "
-							+ bs.inResults.indirectObjectNumber
-							+ " output indirectObjectNumber: "
-							+ bs.outResults.indirectObjectNumber + "\n";
-			}
-
-		}		
+			iobjects++;
+			if (bs.outResults.indirectObjectNumber == bs.inResults.indirectObjectNumber)
+				ifoundObjects++;
+			else
+				error += bs.getId() + ": input indirectObjectNumber: "
+						+ bs.inResults.indirectObjectNumber
+						+ " output indirectObjectNumber: "
+						+ bs.outResults.indirectObjectNumber + "\n";
+		}	
 		result += "INDIRECT_OBJECTS: " + "Count: " + iobjects + " Found: " + ifoundObjects + " | " + (int)((ifoundObjects * 100)/iobjects) + "%\n";
 		result += error;
 		
@@ -132,18 +124,14 @@ public class AnalyseBenchmark {
 		int foundObjects = 0;
 		error = "";
 		for (BenchmarkSentence bs : sentences) {
-			if(bs.inResults.objectNumber > 0) {
-				objects++;
-				if (bs.outResults.objectNumber == bs.inResults.objectNumber)
-					foundObjects++;
-				else
-					error += bs.getId() + ": input objectNumber: "
-							+ bs.inResults.objectNumber
-							+ " output objectNumber: "
-							+ bs.outResults.objectNumber + "\n";
-			}
-
-		}		
+			objects++;
+			if (bs.outResults.objectNumber == bs.inResults.objectNumber)
+				foundObjects++;
+			else
+				error += bs.getId() + ": input objectNumber: "
+						+ bs.inResults.objectNumber + " output objectNumber: "
+						+ bs.outResults.objectNumber + "\n";
+		}	
 		result += "OBJECTS: " + "Count: " + objects + " Found: " + foundObjects + " | " + (int)((foundObjects * 100)/objects) + "%\n";
 		result += error;
 		

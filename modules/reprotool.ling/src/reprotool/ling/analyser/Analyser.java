@@ -8,6 +8,7 @@ import org.eclipse.emf.edit.command.AddCommand;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
 
+import reprotool.ling.LingConfig;
 import reprotool.ling.Sentence;
 import reprotool.ling.SentenceNode;
 import reprotool.ling.Word;
@@ -26,11 +27,6 @@ import reprotool.model.usecase.UsecasePackage;
  * 
  */
 public class Analyser {
-	// action verbs
-	private static String[] gotoVerbs = { "continue", "repeat", "resume", "retry" };
-	private static String[] terminateVerbs = {"terminate", "end"};
-	private static String[] abortVerbs = {"abort"};
-	
 	// find subject
 	static Word subject = null;
 	// find objects
@@ -158,37 +154,18 @@ public class Analyser {
 		if (sentence.getWords().size() <= 0) {
 			return found;
 		}
-		for (int i = 0; i < sentence.getWords().size(); i++) {
-			// termination verbs
-			for (int t = 0; t < terminateVerbs.length; t++) {
-				if (sentence.getWords().get(i).getText() != null
-						&& sentence.getWords().get(i).getText()
-								.equalsIgnoreCase(terminateVerbs[t])) {
-					// ABORT vs TERMINATION
-					AbortUseCase action = afactory.createAbortUseCase();
-					SetCommand setCommand = new SetCommand(editingDomain, ucs,
-							UsecasePackage.Literals.USE_CASE_STEP__ACTION,
-							action);
-					compoundCommand.append(setCommand);
-
-					found = true;
-					break;
-				}
-			}
+		for (Word word : sentence.getWords()) {
 			// abort verbs
-			for (int a = 0; a < abortVerbs.length; a++) {
-				if (sentence.getWords().get(i).getText() != null
-						&& sentence.getWords().get(i).getText()
-								.equalsIgnoreCase(abortVerbs[a])) {
-					AbortUseCase action = afactory.createAbortUseCase();
-					SetCommand setCommand = new SetCommand(editingDomain, ucs,
-							UsecasePackage.Literals.USE_CASE_STEP__ACTION,
-							action);
-					compoundCommand.append(setCommand);
-					found = true;
-					break;
-				}
+			if (word.getLemma() != null	&& LingConfig.abortVerbs.contains(word.getLemma())) {
+				// set abort action
+				AbortUseCase action = afactory.createAbortUseCase();
+				SetCommand setCommand = new SetCommand(editingDomain, ucs,
+						UsecasePackage.Literals.USE_CASE_STEP__ACTION, action);
+				compoundCommand.append(setCommand);
+				found = true;
+				break;
 			}
+
 		}
 		// set result
 		return found;
@@ -206,12 +183,16 @@ public class Analyser {
 		// check all goto verbs
 		for (int i = 0; i < sentence.getWords().size(); i++) {
 			Word word = sentence.getWords().get(i);
-			for (int g = 0; g < gotoVerbs.length; g++) {
-				if (word.getText() != null && word.getText().equalsIgnoreCase(gotoVerbs[g])) {
+			if (LingConfig.gotoVerbs.contains(word.getLemma())) {
+				gotoVerbIndex = i;
+				break;
+			}// TODO test jeslti to prochazi stejne
+			/*for (String verb : LingConfig.gotoVerbs) {
+				if (word.getText() != null && word.getText().equalsIgnoreCase(verb) {
 					gotoVerbIndex = i;
 					break;
 				}
-			}
+			}*/
 		}
 
 		// setting of the target

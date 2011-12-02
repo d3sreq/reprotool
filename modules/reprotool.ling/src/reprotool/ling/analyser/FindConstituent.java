@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.eclipse.emf.common.util.EList;
 
+import reprotool.ling.LingConfig;
 import reprotool.ling.POSType;
 import reprotool.ling.ParseTreeNode;
 import reprotool.ling.Sentence;
@@ -26,7 +27,7 @@ public class FindConstituent {
 	 */
 	public static ArrayList<Word> findIndirectObject(Sentence sentence, EList<Actor> actors) {
 		// have we one?
-		boolean indirectobject = false;		
+		//boolean indirectobject = false;		
 		// result
 		ArrayList<Word> words = new ArrayList<Word>();	
 		// indirect object must be in NP that is in VP
@@ -38,14 +39,20 @@ public class FindConstituent {
 			// mark all non possessive nouns as indirect object
 			for (Word word : nouns) {
 				if (word.getPOS() != POSType.POSSESSIVE_ENDING) {
-					// must be a noun
-					word.setType(WordType.INDIRECT_OBJECT);
-					words.add(word);
-					/*if (!indirectobject) {
-						// return node where is first indirect object
-						ionode = curNode;
-					}*/
-					indirectobject = true;
+					// must be already actor
+					for (Actor ac : actors) {
+						// TODO objects have same parent ?
+						if (ac.getName().equalsIgnoreCase(word.getLemma())) {
+							// must be a noun
+							word.setType(WordType.INDIRECT_OBJECT);
+							words.add(word);
+							/*if (!indirectobject) {
+								// return node where is first indirect object
+								ionode = curNode;
+							}*/
+							//indirectobject = true;
+						}
+					}
 				}
 			}
 		}
@@ -183,7 +190,15 @@ public class FindConstituent {
 				}
 			}
 		}
-		
+		// try special action verbs
+		if(verb == null) {
+			for (Word word : sentence.getWords()) {
+				if (LingConfig.gotoVerbs.contains(word.getLemma()) || LingConfig.abortVerbs.contains(word.getLemma())) {
+					verb = word;
+					break;
+				}
+			}
+		}
 		return verb;
 	}
 	

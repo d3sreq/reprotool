@@ -5,8 +5,10 @@ import java.util.ArrayList;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 
+import reprotool.ling.LingConfig;
 import reprotool.ling.LingTools;
 import reprotool.ling.Sentence;
+import reprotool.ling.SentenceNode;
 import reprotool.ling.Word;
 import reprotool.ling.analyser.FindConstituent;
 import reprotool.ling.benchmark.AnalyseBenchmark.ActionCode;
@@ -22,7 +24,7 @@ public class BenchmarkSentence extends SentenceImpl {
 	// basic parameters
 	private String id = "";
 	private String sentence = "";
-	private EList<Actor> actors = new BasicEList<Actor>();
+	private EList<Actor> actors = new BasicEList<Actor>(LingConfig.actors);
 	
 	// same object for given and analysed results
 	class BenchmarkResults {
@@ -42,13 +44,6 @@ public class BenchmarkSentence extends SentenceImpl {
 	private boolean analysed = false;
 	
 	public BenchmarkSentence(String line) {
-		// default actors
-		Actor ac = SwprojFactory.eINSTANCE.createActor();
-		ac.setName("system");
-		actors.add(ac);
-		ac = SwprojFactory.eINSTANCE.createActor();
-		ac.setName("user");
-		actors.add(ac);
 		// parse csv line
 		String[] fields = line.split(";");
 		// minimum arguments we need
@@ -58,7 +53,7 @@ public class BenchmarkSentence extends SentenceImpl {
 			sentence = fields[1];
 			// add all new actors
 			for(String acstr : fields[2].split(",")) {
-				ac = SwprojFactory.eINSTANCE.createActor();
+				Actor ac = SwprojFactory.eINSTANCE.createActor();
 				ac.setName(acstr);
 				actors.add(ac);
 			}
@@ -184,8 +179,21 @@ public class BenchmarkSentence extends SentenceImpl {
 		// find objects
 		// find indirect object
 		ArrayList<Word> words = FindConstituent.findIndirectObject(this, actors);
-		// TODO indirect object
-		words = FindConstituent.findRepresentativeObject(this, null);
+		// mark indirect object
+		if (words.size() > 0) {
+			// first object
+			word = words.get(0);
+			int i = this.getWords().indexOf(word);
+			if (i >= 0) {
+				// ignore case just for wrong data input
+				this.outResults.indirectObjectNumber = i + 1;
+			}
+			// find representative objects
+			words = FindConstituent.findRepresentativeObject(this, (SentenceNode)words.get(0).getParent());
+		} else {
+			words = FindConstituent.findRepresentativeObject(this, null);
+		}
+		// add representative objects
 		if (words.size() > 0) {
 			// first object
 			word = words.get(0);
@@ -195,7 +203,7 @@ public class BenchmarkSentence extends SentenceImpl {
 				this.outResults.objectNumber = i + 1;
 			}
 		}
-		// TODO indirect objects
+
 		return result;
 	}
 }

@@ -21,7 +21,7 @@ public class AnalyseBenchmarkTest {
 		ab.loadData();
 		sentences = ab.getSentenceCount();
 			
-		assertTrue(sentences > 1);
+		assertTrue(sentences > 17);
 	}
 
 	// parsing selected sentence
