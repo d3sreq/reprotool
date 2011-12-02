@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<plugin>
+
+    <extension
+            point="org.eclipse.ui.editors">
+        <editor
+            class="reprotool.txtspec.ui.TxtSpecExecutableExtensionFactory:org.eclipse.xtext.ui.editor.XtextEditor"
+            contributorClass="org.eclipse.ui.editors.text.TextEditorActionContributor"
+            default="true"
+            extensions="txtspec"
+            id="reprotool.txtspec.TxtSpec"
+            name="TxtSpec Editor">
+        </editor>
+    </extension>
+    <extension
+        point="org.eclipse.ui.handlers">
+        <handler
+            class="reprotool.txtspec.ui.TxtSpecExecutableExtensionFactory:org.eclipse.xtext.ui.editor.hyperlinking.OpenDeclarationHandler"
+            commandId="org.eclipse.xtext.ui.editor.hyperlinking.OpenDeclaration">
+            <activeWhen>
+                <reference
+                    definitionId="reprotool.txtspec.TxtSpec.Editor.opened">
+                </reference>
+            </activeWhen>
+        </handler>
+        <handler
+            class="reprotool.txtspec.ui.TxtSpecExecutableExtensionFactory:org.eclipse.xtext.ui.editor.handler.ValidateActionHandler"
+            commandId="reprotool.txtspec.TxtSpec.validate">
+         <activeWhen>
+            <reference
+                    definitionId="reprotool.txtspec.TxtSpec.Editor.opened">
+            </reference>
+         </activeWhen>
+      </handler>
+    </extension>
+    <extension point="org.eclipse.core.expressions.definitions">
+        <definition id="reprotool.txtspec.TxtSpec.Editor.opened">
+            <and>
+                <reference definitionId="isActiveEditorAnInstanceOfXtextEditor"/>
+                <with variable="activeEditor">
+                    <test property="org.eclipse.xtext.ui.editor.XtextEditor.languageName" 
+                        value="reprotool.txtspec.TxtSpec" 
+                        forcePluginActivation="true"/>
+                </with>        
+            </and>
+        </definition>
+    </extension>
+    <extension
+            point="org.eclipse.ui.preferencePages">
+        <page
+            class="reprotool.txtspec.ui.TxtSpecExecutableExtensionFactory:org.eclipse.xtext.ui.editor.preferences.LanguageRootPreferencePage"
+            id="reprotool.txtspec.TxtSpec"
+            name="TxtSpec">
+            <keywordReference id="reprotool.txtspec.ui.keyword_TxtSpec"/>
+        </page>
+        <page
+            category="reprotool.txtspec.TxtSpec"
+            class="reprotool.txtspec.ui.TxtSpecExecutableExtensionFactory:org.eclipse.xtext.ui.editor.syntaxcoloring.SyntaxColoringPreferencePage"
+            id="reprotool.txtspec.TxtSpec.coloring"
+            name="Syntax Coloring">
+            <keywordReference id="reprotool.txtspec.ui.keyword_TxtSpec"/>
+        </page>
+        <page
+            category="reprotool.txtspec.TxtSpec"
+            class="reprotool.txtspec.ui.TxtSpecExecutableExtensionFactory:org.eclipse.xtext.ui.editor.templates.XtextTemplatePreferencePage"
+            id="reprotool.txtspec.TxtSpec.templates"
+            name="Templates">
+            <keywordReference id="reprotool.txtspec.ui.keyword_TxtSpec"/>
+        </page>
+    </extension>
+    <extension
+            point="org.eclipse.ui.propertyPages">
+        <page
+            class="reprotool.txtspec.ui.TxtSpecExecutableExtensionFactory:org.eclipse.xtext.ui.editor.preferences.LanguageRootPreferencePage"
+            id="reprotool.txtspec.TxtSpec"
+            name="TxtSpec">
+            <keywordReference id="reprotool.txtspec.ui.keyword_TxtSpec"/>
+            <enabledWhen>
+	            <adapt type="org.eclipse.core.resources.IProject"/>
+			</enabledWhen>
+	        <filter name="projectNature" value="org.eclipse.xtext.ui.shared.xtextNature"/>
+        </page>
+    </extension>
+    <extension
+        point="org.eclipse.ui.keywords">
+        <keyword
+            id="reprotool.txtspec.ui.keyword_TxtSpec"
+            label="TxtSpec"/>
+    </extension>
+    <extension
+         point="org.eclipse.ui.commands">
+      <command
+            description="Trigger expensive validation"
+            id="reprotool.txtspec.TxtSpec.validate"
+            name="Validate">
+      </command>
+    </extension>
+    <extension point="org.eclipse.ui.menus">
+        <menuContribution
+            locationURI="popup:#TextEditorContext?after=group.edit">
+             <command
+                 commandId="reprotool.txtspec.TxtSpec.validate"
+                 style="push"
+                 tooltip="Trigger expensive validation">
+            <visibleWhen checkEnabled="false">
+                <reference
+                    definitionId="reprotool.txtspec.TxtSpec.Editor.opened">
+                </reference>
+            </visibleWhen>
+         </command>  
+         </menuContribution>
+    </extension>
+    <extension point="org.eclipse.ui.menus">
+		<menuContribution locationURI="popup:#TextEditorContext?endof=group.find">
+			<command commandId="org.eclipse.xtext.ui.editor.FindReferences">
+				<visibleWhen checkEnabled="false">
+                	<reference definitionId="reprotool.txtspec.TxtSpec.Editor.opened">
+                	</reference>
+            	</visibleWhen>
+			</command>
+		</menuContribution>
+	</extension>
+	<extension point="org.eclipse.ui.handlers">
+	    <handler
+            class="reprotool.txtspec.ui.TxtSpecExecutableExtensionFactory:org.eclipse.xtext.ui.editor.findrefs.FindReferencesHandler"
+            commandId="org.eclipse.xtext.ui.editor.FindReferences">
+            <activeWhen>
+                <reference
+                    definitionId="reprotool.txtspec.TxtSpec.Editor.opened">
+                </reference>
+            </activeWhen>
+        </handler>
+    </extension>   
+
+<!-- adding resource factories -->
+
+	<extension
+		point="org.eclipse.emf.ecore.extension_parser">
+		<parser
+			class="reprotool.txtspec.ui.TxtSpecExecutableExtensionFactory:org.eclipse.xtext.resource.IResourceFactory"
+			type="txtspec">
+		</parser>
+	</extension>
+	<extension point="org.eclipse.xtext.extension_resourceServiceProvider">
+        <resourceServiceProvider
+            class="reprotool.txtspec.ui.TxtSpecExecutableExtensionFactory:org.eclipse.xtext.ui.resource.IResourceUIServiceProvider"
+            uriExtension="txtspec">
+        </resourceServiceProvider>
+    </extension>
+
+
+
+   <extension
+         point="org.eclipse.xtext.builder.participant">
+      <participant
+            class="reprotool.txtspec.ui.TxtSpecExecutableExtensionFactory:org.eclipse.xtext.builder.IXtextBuilderParticipant">
+      </participant>
+   </extension>
+   <extension
+            point="org.eclipse.ui.preferencePages">
+        <page
+            category="reprotool.txtspec.TxtSpec"
+            class="reprotool.txtspec.ui.TxtSpecExecutableExtensionFactory:org.eclipse.xtext.builder.preferences.BuilderPreferencePage"
+            id="reprotool.txtspec.TxtSpec.compiler.preferencePage"
+            name="Compiler">
+            <keywordReference id="reprotool.txtspec.ui.keyword_TxtSpec"/>
+        </page>
+    </extension>
+    <extension
+            point="org.eclipse.ui.propertyPages">
+        <page
+            category="reprotool.txtspec.TxtSpec"
+            class="reprotool.txtspec.ui.TxtSpecExecutableExtensionFactory:org.eclipse.xtext.builder.preferences.BuilderPreferencePage"
+            id="reprotool.txtspec.TxtSpec.compiler.propertyPage"
+            name="Compiler">
+            <keywordReference id="reprotool.txtspec.ui.keyword_TxtSpec"/>
+            <enabledWhen>
+	            <adapt type="org.eclipse.core.resources.IProject"/>
+			</enabledWhen>
+	        <filter name="projectNature" value="org.eclipse.xtext.ui.shared.xtextNature"/>
+        </page>
+    </extension>
+
+	<!-- Quick Outline -->
+	<extension
+		point="org.eclipse.ui.handlers">
+		<handler 
+			class="reprotool.txtspec.ui.TxtSpecExecutableExtensionFactory:org.eclipse.xtext.ui.editor.outline.quickoutline.ShowQuickOutlineActionHandler"
+			commandId="org.eclipse.xtext.ui.editor.outline.QuickOutline">
+			<activeWhen>
+				<reference
+					definitionId="reprotool.txtspec.TxtSpec.Editor.opened">
+				</reference>
+			</activeWhen>
+		</handler>
+	</extension>
+	<extension
+		point="org.eclipse.ui.commands">
+		<command
+			description="Open the quick outline."
+			id="org.eclipse.xtext.ui.editor.outline.QuickOutline"
+			name="Quick Outline">
+		</command>
+	</extension>
+	<extension point="org.eclipse.ui.menus">
+		<menuContribution
+			locationURI="popup:#TextEditorContext?after=group.open">
+			<command commandId="org.eclipse.xtext.ui.editor.outline.QuickOutline"
+				style="push"
+				tooltip="Open Quick Outline">
+				<visibleWhen checkEnabled="false">
+					<reference definitionId="reprotool.txtspec.TxtSpec.Editor.opened"/>
+				</visibleWhen>
+			</command>
+		</menuContribution>
+	</extension>
+   <!-- quickfix marker resolution generator -->
+   <extension
+         point="org.eclipse.ui.ide.markerResolution">
+      <markerResolutionGenerator
+            class="reprotool.txtspec.ui.TxtSpecExecutableExtensionFactory:org.eclipse.xtext.ui.editor.quickfix.MarkerResolutionGenerator">
+      </markerResolutionGenerator>
+   </extension>
+   	<!-- Rename Refactoring -->
+	<extension point="org.eclipse.ui.handlers">
+		<handler 
+			class="reprotool.txtspec.ui.TxtSpecExecutableExtensionFactory:org.eclipse.xtext.ui.refactoring.ui.IRenameElementHandler"
+			commandId="org.eclipse.xtext.ui.refactoring.RenameElement">
+			<activeWhen>
+				<reference
+					definitionId="reprotool.txtspec.TxtSpec.Editor.opened">
+				</reference>
+			</activeWhen>
+		</handler>
+	</extension>
+    <extension point="org.eclipse.ui.menus">
+         <menuContribution
+            locationURI="popup:#TextEditorContext?after=group.edit">
+         <command commandId="org.eclipse.xtext.ui.refactoring.RenameElement"
+               style="push">
+            <visibleWhen checkEnabled="false">
+               <reference
+                     definitionId="reprotool.txtspec.TxtSpec.Editor.opened">
+               </reference>
+            </visibleWhen>
+         </command>
+      </menuContribution>
+   </extension>
+   <extension point="org.eclipse.ui.preferencePages">
+	    <page
+	        category="reprotool.txtspec.TxtSpec"
+	        class="reprotool.txtspec.ui.TxtSpecExecutableExtensionFactory:org.eclipse.xtext.ui.refactoring.ui.RefactoringPreferencePage"
+	        id="reprotool.txtspec.TxtSpec.refactoring"
+	        name="Refactoring">
+	        <keywordReference id="reprotool.txtspec.ui.keyword_TxtSpec"/>
+	    </page>
+	</extension>
+
+
+  <extension point="org.eclipse.compare.contentViewers">
+    <viewer id="reprotool.txtspec.TxtSpec.compare.contentViewers"
+            class="reprotool.txtspec.ui.TxtSpecExecutableExtensionFactory:org.eclipse.xtext.ui.compare.InjectableViewerCreator"
+            extensions="txtspec">
+    </viewer>
+  </extension>
+  <extension point="org.eclipse.compare.contentMergeViewers">
+    <viewer id="reprotool.txtspec.TxtSpec.compare.contentMergeViewers"
+            class="reprotool.txtspec.ui.TxtSpecExecutableExtensionFactory:org.eclipse.xtext.ui.compare.InjectableViewerCreator"
+            extensions="txtspec" label="TxtSpec Compare">
+     </viewer>
+  </extension>
+  <extension point="org.eclipse.ui.editors.documentProviders">
+    <provider id="reprotool.txtspec.TxtSpec.editors.documentProviders"
+            class="reprotool.txtspec.ui.TxtSpecExecutableExtensionFactory:org.eclipse.xtext.ui.editor.model.XtextDocumentProvider"
+            extensions="txtspec">
+    </provider>
+  </extension>
+
+</plugin>

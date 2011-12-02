@@ -1,0 +1,26 @@
+grammar reprotool.txtspec.TxtSpec hidden(WS)
+
+generate txtSpec "http://d3s.mff.cuni.cz/reprotool/txtspec"
+
+import "http://www.eclipse.org/emf/2002/Ecore" as ecore
+
+Document:
+	blocks += Block*;
+
+Block:
+	 TextBlock | ModelElementBlock;
+
+ModelElementBlock:
+	'(' url=UrlParam content=ModelElementBlockContent ')';
+
+ModelElementBlockContent: // we need this because of indentation
+	{ModelElementBlockContent}
+	(blocks += Block)*;
+
+UrlParam: WORD;
+	
+TextBlock:
+	( => words += WORD)+;
+
+terminal WS : (' '|'\t'|'\r'|'\n')+;
+terminal WORD : ('a'..'z'|'A'..'Z'|'0'..'9'|','|'@'|'.'|'&'|':'|'/'|'?'|'%'|';'|'-')+;
