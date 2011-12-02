@@ -1,24 +1,28 @@
 package reprotool.fm.nusmv.mapping
 
+import com.google.inject.Inject
 import java.util.ArrayList
 import java.util.HashMap
 import java.util.List
 import org.eclipse.core.runtime.Assert
 import org.eclipse.emf.common.util.EList
+import org.eclipse.ui.console.MessageConsoleStream
 import reprotool.fm.nusmv.AnnotationEntry
 import reprotool.fm.nusmv.NuSMVGenerator
 import reprotool.fm.nusmv.lang.nuSmvLang.ModuleElement
 import reprotool.fm.nusmv.lang.nuSmvLang.NuSmvLangFactory
 import reprotool.model.swproj.SoftwareProject
 import reprotool.model.usecase.UseCase
-import reprotool.model.usecase.annotate.AnnotationGroup
 import reprotool.model.usecase.annotate.TemporalAnnotationGroup
 import reprotool.model.usecase.annotate.TemporalLogicFormula
 
-
 public class NuSMVProj {
-	private NuSmvLangFactory factory
-	private SoftwareProject swproj
+	
+	@Inject extension ReprotoolMappingExtensions
+	@Inject private MessageConsoleStream consoleOut
+	@Inject private NuSmvLangFactory factory
+	@Inject private SoftwareProject swproj
+		
 	private List<NuSMVGenerator> generators
 	private List<TemporalLogicFormula> formulas
 	private HashMap<String, TemporalLogicFormula> expanded2Formula
@@ -26,34 +30,64 @@ public class NuSMVProj {
 	
 	private HashMap<String, List<AnnotationEntry>> globalTracker
 	private HashMap<UseCase, NuSMVGenerator> uc2gen
+	
+	/**
+	 * Starts the transformation
+	 */
+	def public void transformSoftwareProject() {
 		
-	def private <T> T $(T m, (T)=>void init ) {
-		init.apply(m)
-		return m
+		Assert::isNotNull(factory)
+		Assert::isNotNull(swproj)
+		
+		// prepare generators
+		generators = new ArrayList<NuSMVGenerator>();
+		generators += swproj.useCases.map([
+			consoleOut.println("Found usecase " + name)
+			new NuSMVGenerator(it)
+		])
+		
+		// prepare formulas
+		formulas = new ArrayList<TemporalLogicFormula>();
+		formulas += swproj.annotationGroups
+			.filter( typeof(TemporalAnnotationGroup) )
+			.map( annotGroup | annotGroup.formulas )
+			.flatten
+		
+		// cleanup helper structures
+		globalTracker = new HashMap<String, List<AnnotationEntry>>()
+		uc2gen = new HashMap<UseCase, NuSMVGenerator>()
+		expanded2Formula = new HashMap<String, TemporalLogicFormula>()
+		expandedFormulas = new ArrayList<String>()
+		
+		processAnnotations()
+		
+		uc2gen += generators.map([ it.useCase -> it ]);
+		
+		loadIncludedAnnotations()
+		loadCTLFormulas()
 	}
 	
 	def public getSoftwareProject() {
-		return swproj;
+		return swproj
 	}
-	
+
 	def public getFormula(String f) {
-		expanded2Formula.get(f);
+		expanded2Formula.get(f)
 	}
 		
 	def public getUseCaseById(String id) {
-		generators.findFirst([useCaseId.equals(id)]).useCase;
+		generators.findFirst([useCaseId.equals(id)]).useCase
 	}
 	
 	def public getGeneratorById(String id) {
-		generators.findFirst([useCaseId.equals(id)]);
+		generators.findFirst([useCaseId.equals(id)])
 	}
 		
 	def public getModel() {
 		$(factory.createModel) [
 			modules += getMainModule()
-			
-			modules += generators.map([fillAutomaton(uc2gen); module]);
-		];
+			modules += generators.map([ fillAutomaton(uc2gen); module ])
+		]
 	}
 	
 	def private addTraceAnnotation(String tag, EList<ModuleElement> moduleElement) {
@@ -79,19 +113,19 @@ public class NuSMVProj {
 					]).join("\n") +
 					"\t\tTRUE : " + tag + ";\n\tesac"
 			]
-		];
+		]
 	}
 	
 	def private addAnnotations(EList<ModuleElement> moduleElement) {
-		var boolean cont = false;
-		for (String tag: globalTracker.keySet()) {
+		var boolean cont = false
+		for (tag: globalTracker.keySet()) {
 			if (tag.matches("trace_.*")) {
 				addTraceAnnotation(tag, moduleElement);
-				cont = true;
+				cont = true
 			}
 			
 			if (tag.matches("on_.*")) {
-				cont = true;
+				cont = true
 			}
 		
 			if (!cont) {
@@ -101,12 +135,12 @@ public class NuSMVProj {
 						varId = tag
 						type = factory.createBooleanType()
 					]
-				];
+				]
 				
 				// Initialize annotation variable
 				moduleElement += $(factory.createInitConstraint) [
 					initExpr = tag + " in FALSE"
-				];
+				]
 
 				// Create assignment for annotation variable
 				moduleElement += $(factory.createAssignConstraint) [
@@ -119,7 +153,7 @@ public class NuSMVProj {
 								"}\n"
 							).join;
 					]
-				];
+				]
 			}
 		}
 	}
@@ -132,14 +166,14 @@ public class NuSMVProj {
 				$(factory.createCtlSpecification) [
 					ctlExpr = formula
 				]
-			);
+			)
 			
 			// Create fairness expressions
 			moduleElement += generators.map( g |
 				$(factory.createFairnessExpression) [
 					fairnessExpr = "p=p" + g.useCaseId;
 				]
-			);
+			)
 			
 			// Create p variable declaration
 			moduleElement += $(factory.createVariableDeclaration) [
@@ -148,14 +182,14 @@ public class NuSMVProj {
 					type = $(factory.createEnumType) [
 						value += "none"
 						value += generators.map(g|"p" + g.useCaseId);
-					];
-				];
-			];
+					]
+				]
+			]
 		
 			// Create initialization for the p variable
 			moduleElement += $(factory.createInitConstraint) [
 				initExpr = "p in none"
-			];	
+			]
 
 			// Create assignment for the p variable
 			moduleElement += $(factory.createAssignConstraint) [
@@ -163,11 +197,11 @@ public class NuSMVProj {
 					varId = "p"
 					nextExpr = "case\n" + 
 						"		p=none : {" +
-						generators.join(", ", [g|"p" + g.useCaseId] ) + "};\n" +
+						generators.join(", ", ["p" + useCaseId] ) + "};\n" +
 						"		TRUE : none;\n" +
 						"	esac"
-				];	
-			];
+				]
+			]
 			
 			// Create idle variable declaration
 			moduleElement += $(factory.createVariableDeclaration) [
@@ -175,12 +209,12 @@ public class NuSMVProj {
 					varId = "idle"
 					type = factory.createBooleanType
 				]
-			];
+			]
 			
 			// Create idle variable initialization
 			moduleElement += $(factory.createInitConstraint) [
 				initExpr = "idle in TRUE"
-			];
+			]
 			
 			// Create idle variable assignment
 			moduleElement += $(factory.createAssignConstraint) [
@@ -191,17 +225,18 @@ public class NuSMVProj {
 						"		TRUE : TRUE;\n" +
 						"	esac";
 				]
-			];
+			]
 			
 			// Create processes
 			addProcesses(moduleElement);
 			
 			// Create annotations
 			addAnnotations(moduleElement);
-		];
+		]
 	}	
 
 	def private addProcesses(EList<ModuleElement> moduleElement) {
+		
 		for (nusmv: generators) {
 			moduleElement += $(factory.createVariableDeclaration) [
 				vars += $(factory.createVarBody) [
@@ -249,82 +284,48 @@ public class NuSMVProj {
 							"	esac"											
 					}
 				]
-			];			
+			];
 		}
 	}
 
-	def public NuSMVProj_init(SoftwareProject swproj) {
-		factory = NuSmvLangFactory::eINSTANCE;
-				
-		generators = new ArrayList<NuSMVGenerator>();
-		generators += swproj.useCases.map([
-			println("Found usecase " + name)
-			new NuSMVGenerator(it)
-		])
-		
-		var List<TemporalLogicFormula> formulas = new ArrayList<TemporalLogicFormula>();
-		
-		for (AnnotationGroup aGrp: swproj.annotationGroups) {
-			if (aGrp instanceof TemporalAnnotationGroup) {
-				var TemporalAnnotationGroup tGrp = aGrp as TemporalAnnotationGroup;
-				formulas.addAll(tGrp.formulas);
-			}
-		}
-		
-		this.swproj = swproj;
-		this.formulas = formulas;
-		
-		globalTracker = new HashMap<String, List<AnnotationEntry>>();
-		uc2gen = new HashMap<UseCase, NuSMVGenerator>();
-		expanded2Formula = new HashMap<String, TemporalLogicFormula>();
-		expandedFormulas = new ArrayList<String>();
-		
-		processAnnotations();
-		generators.forEach([
-			uc2gen.put(it.useCase, it);
-		]);
-		
-		loadIncludedAnnotations();
-		loadCTLFormulas();
-	}
-	
 	def private loadIncludedAnnotations() {
+		
 		for (nusmv: generators) {
 			var c = 0
 			for (uc: nusmv.includedUseCases) {
 				c = c + 1
-				val String label = Integer::toString(c)
+				val label = Integer::toString(c)
 				val NuSMVGenerator g = uc2gen.get(uc)
 				
 				val ucList = new ArrayList<UseCase>()
-				ucList.add(uc)
+				ucList += uc
 				addPath(g, nusmv.useCaseId + ".y" + label, ucList)
 			}
 		}
 	}
 	
 	def private addPath(NuSMVGenerator g, String id, List<UseCase> ucList) {
-		val annotationTracker = g.annotationsTracker;
+		val annotationTracker = g.annotationsTracker
 		
-		for (String tag: annotationTracker.keySet()) {
-			val list = globalTracker.get(tag);
-			Assert::isNotNull(list);
+		for (tag: annotationTracker.keySet()) {
+			val list = globalTracker.get(tag)
+			Assert::isNotNull(list)
 			
 			val AnnotationEntry a = new AnnotationEntry(annotationTracker.get(tag));
-			a.automatonID = id;
-			list += a;
+			a.automatonID = id
+			list += a
 		}
 		
 		var int c = 0;
-		for (UseCase uc: g.includedUseCases) {
+		for (uc: g.includedUseCases) {
 			if (!ucList.contains(uc)) {
-				c = c + 1;
-				val String label = Integer::toString(c);
-				val NuSMVGenerator gen = uc2gen.get(uc);
-				ucList.add(uc);
-				addPath(gen, id + ".y" + label, ucList);
+				c = c + 1
+				val label = Integer::toString(c)
+				val gen = uc2gen.get(uc)
+				ucList += uc
+				addPath(gen, id + ".y" + label, ucList)
 			} else {
-				throw new RuntimeException("UseCases are recursively defined.");
+				throw new RuntimeException("UseCases are recursively defined.")
 			}
 		}
 	}
@@ -334,60 +335,54 @@ public class NuSMVProj {
 			Assert::isTrue(formula.eContainer() instanceof TemporalAnnotationGroup);
 			val tGrp = formula.eContainer() as TemporalAnnotationGroup;
 			
-			val annotations = new ArrayList<String>();
-			annotations += tGrp.members.map([name]);
+			val annotations = new ArrayList<String>()
+			annotations += tGrp.members.map([name])
 			
 			val annotatedVars = getAnnotatedVars(annotations);
 			
 			for (variable: annotatedVars) {
-				var f = formula.getFormula();
+				var f = formula.getFormula()
 				for (annot: tGrp.members) {
 					if (f.contains(annot.name)) {
-						val varName = annot.name + "_" + variable;
-						f = f.replaceAll(annot.name, varName);
+						val varName = annot.name + "_" + variable
+						f = f.replaceAll(annot.name, varName)
 						if (!globalTracker.containsKey(varName)) {
-							val dummy = new ArrayList<AnnotationEntry>();
-							globalTracker.put(varName, dummy);
+							val List<AnnotationEntry> dummy = new ArrayList<AnnotationEntry>()
+							globalTracker += varName -> dummy
 						}
 					}
 				}
 				
-				val normalised = f.replaceAll("[()\\s]+", "");
-				expanded2Formula.put(normalised, formula);
-				expandedFormulas.add(f);
+				val normalised = f.replaceAll("[()\\s]+", "")
+				expanded2Formula += normalised -> formula
+				expandedFormulas += f
 			}	
 		}
 	}	
-	
-	def private List<String> getAnnotatedVars(List<String> annotations) {
-		val vars = new ArrayList<String>();
-		for (tag: globalTracker.keySet()) {
-			for (annotName: annotations) {
-				if (tag.startsWith(annotName)) {
-					val variable = tag.substring(annotName.length() + 1);
-					if (!vars.contains(variable)) {
-						vars += variable;
-					}
-				}
-			}
-		}
 		
-		return vars;
+	def private List<String> getAnnotatedVars(List<String> annotations) {
+		globalTracker.keySet.map([ tag |
+			annotations
+				.filter([ tag.startsWith(it) ])
+				.map([ tag.substring( length + 1) ])
+		])
+		.flatten
+		.toSet.toList // remove duplicates
 	}
 
 	def private processAnnotations() {
-		for (nusmv: generators) {
-			val localTracker = nusmv.annotationsTracker;
-			if (localTracker != null) {
-				for (tag: localTracker.keySet()) {
-					var list = globalTracker.get(tag);
+		generators
+			.map([ annotationsTracker ]) // local trackers
+			.filterNull
+			.forEach( localTracker |
+				localTracker.keySet().forEach([
+					var list = globalTracker.get(it)
 					if (list == null) {
-						list = new ArrayList<AnnotationEntry>();
-						globalTracker.put(tag, list);
+						list = new ArrayList<AnnotationEntry>()
+						globalTracker += it -> list
 					}
-					list.add(localTracker.get(tag));
-				}
-			}	
-		}
+					list += localTracker.get(it)
+				])
+			)
 	}
 }

@@ -1,6 +1,7 @@
 package reprotool.fm.nusmv.commands;
 
 import java.io.IOException;
+
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.IHandler;
@@ -14,16 +15,24 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.TreeSelection;
+import org.eclipse.ui.console.MessageConsoleStream;
 import org.eclipse.ui.handlers.HandlerUtil;
 
 import reprotool.fm.nusmv.Activator;
 import reprotool.fm.nusmv.NuSMVWrapper;
+import reprotool.fm.nusmv.lang.nuSmvLang.NuSmvLangFactory;
 import reprotool.fm.nusmv.mapping.NuSMVProj;
 import reprotool.model.swproj.CounterExample;
 import reprotool.model.swproj.SoftwareProject;
 
+import com.google.inject.AbstractModule;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+
 public class CheckCTL implements IHandler {
 	
+	final private MessageConsoleStream consoleOut = Activator.getDefault().findConsole().newMessageStream();
+
 	private void loadNuSMVProject(IPath projectFile) {
 		final ResourceSet rs = new ResourceSetImpl();
 		
@@ -34,19 +43,33 @@ public class CheckCTL implements IHandler {
 		if(resource.getContents().size() == 0)
 			return;
 		
+		// show the console
+		consoleOut.getConsole().clearConsole();
+		consoleOut.getConsole().activate();
+		
 		EObject rootEObj = resource.getContents().get(0);
 		
 		if( ! (rootEObj instanceof SoftwareProject) ) {
-			System.out.println("NOT a SWPROJ : " + rootEObj);
+			consoleOut.println("Not a Software Project : " + rootEObj);
 			return;
 		}
 
-		SoftwareProject swproj = (SoftwareProject) rootEObj;
-		System.out.println("FOUND SWPROJ : " + swproj);
-				
-		NuSMVProj nusmvProj = new NuSMVProj();
-		nusmvProj.NuSMVProj_init(swproj);
-		Activator.getDefault().setNuSMVProject(nusmvProj);
+		final SoftwareProject swproj = (SoftwareProject) rootEObj;
+		consoleOut.println("FOUND Software Project : " + swproj);
+		
+		// configuring injector
+		Injector injector = Guice.createInjector( new AbstractModule() {
+			@Override
+			protected void configure() {
+				bind(NuSmvLangFactory.class).toInstance(NuSmvLangFactory.eINSTANCE);
+				bind(SoftwareProject.class).toInstance(swproj);
+				bind(MessageConsoleStream.class).toInstance(consoleOut);
+			}
+		});
+		
+		NuSMVProj nusmvProj = injector.getInstance(NuSMVProj.class);
+		nusmvProj.transformSoftwareProject();
+		Activator.getDefault().setNuSMVProject(nusmvProj); //TODO: why do we use the Activator to keep the nusmvProj reference ?
 	}
 
 	@Override

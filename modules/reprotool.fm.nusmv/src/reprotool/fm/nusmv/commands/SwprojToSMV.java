@@ -15,7 +15,6 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.TreeSelection;
-import org.eclipse.ui.console.MessageConsole;
 import org.eclipse.ui.console.MessageConsoleStream;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.eclipse.xtext.resource.SaveOptions;
@@ -23,12 +22,19 @@ import org.eclipse.xtext.resource.SaveOptions.Builder;
 
 import reprotool.fm.nusmv.Activator;
 import reprotool.fm.nusmv.lang.NuSmvLangStandaloneSetup;
+import reprotool.fm.nusmv.lang.nuSmvLang.NuSmvLangFactory;
 import reprotool.fm.nusmv.mapping.NuSMVProj;
 import reprotool.model.swproj.SoftwareProject;
+
+import com.google.inject.AbstractModule;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 
 
 public class SwprojToSMV implements IHandler {
 
+	final private MessageConsoleStream consoleOut = Activator.getDefault().findConsole().newMessageStream();
+	
 	@Override
 	public void addHandlerListener(IHandlerListener handlerListener) {
 		// TODO Auto-generated method stub
@@ -56,34 +62,36 @@ public class SwprojToSMV implements IHandler {
 		if(resource.getContents().size() == 0)
 			return null;
 		
+		// show the console
+		consoleOut.getConsole().clearConsole();
+		consoleOut.getConsole().activate();
+
 		EObject rootEObj = resource.getContents().get(0);
 		
 		if( ! (rootEObj instanceof SoftwareProject) ) {
-			System.out.println("NOT a SWPROJ : " + rootEObj);
+			consoleOut.println("NOT a Software Project : " + rootEObj);
 			return null;
 		}
 
-		SoftwareProject swproj = (SoftwareProject) rootEObj;
-		System.out.println("FOUND SWPROJ : " + swproj);
-		MessageConsole con = Activator.getDefault().findConsole();
+		final SoftwareProject swproj = (SoftwareProject) rootEObj;
+		consoleOut.println("FOUND Software Project : " + swproj);
 
-		NuSMVProj nusmvProj = null;
-		try {
-			nusmvProj = new NuSMVProj();
-			nusmvProj.NuSMVProj_init(swproj);
-		} catch (RuntimeException e) {
-			MessageConsoleStream out = con.newMessageStream();
-			con.activate();
-			out.println("Error: " + e.getMessage());
-			e.printStackTrace(); // TODO: just for debugging
-			return null;
-		}
+		// configuring injector
+		Injector injector = Guice.createInjector( new AbstractModule() {
+			@Override
+			protected void configure() {
+				bind(NuSmvLangFactory.class).toInstance(NuSmvLangFactory.eINSTANCE);
+				bind(SoftwareProject.class).toInstance(swproj);
+				bind(MessageConsoleStream.class).toInstance(consoleOut);
+			}
+		});
 		
-		con.clearConsole();
-		Activator.getDefault().setNuSMVProject(nusmvProj);
+		NuSMVProj nusmvProj = injector.getInstance(NuSMVProj.class);
+		nusmvProj.transformSoftwareProject();
+		Activator.getDefault().setNuSMVProject(nusmvProj); //TODO: why do we use the Activator to keep the nusmvProj reference ?
 		
 		URI outputUri = uri.appendFileExtension("nusmv");
-		System.out.println("Will be saved to : " + CommonPlugin.resolve(outputUri).path());
+		consoleOut.println("Will be saved to : " + CommonPlugin.resolve(outputUri).path());
 		
 		// serialization of the model
 		NuSmvLangStandaloneSetup.doSetup(); // activates the correct parser/serializer

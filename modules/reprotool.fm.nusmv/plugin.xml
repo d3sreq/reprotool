@@ -36,8 +36,8 @@
             name="SW Project To SMV">
       </command>
       <command
-            defaultHandler="reprotool.fm.nusmv.commands.SwprojToSMVXtextExample"
-            id="reprotool.commands.SwprojToSmvXtext"
+            defaultHandler="reprotool.fm.nusmv.commands.MySampleCommand"
+            id="reprotool.commands.MySampleCommand"
             name="SW Project To SMV (Xtext Example)">
       </command>
    </extension>
@@ -65,9 +65,8 @@
                style="push">
          </command>
          <command
-               commandId="reprotool.commands.SwprojToSmvXtext"
-               icon="icons/swproj2smv.gif"
-               label="Convert SW Project To SMV (Xtext Example)"
+               commandId="reprotool.commands.MySampleCommand"
+               label="My Sample Command"
                style="push">
          </command>
       </menuContribution>

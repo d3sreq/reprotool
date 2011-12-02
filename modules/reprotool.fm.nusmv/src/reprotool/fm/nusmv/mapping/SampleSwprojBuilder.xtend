@@ -1,20 +1,16 @@
 package reprotool.fm.nusmv.mapping
 
-import reprotool.fm.nusmv.lang.nuSmvLang.NuSmvLangFactory
+import com.google.inject.Inject
+import java.util.HashMap
 import reprotool.fm.nusmv.lang.nuSmvLang.Model
+import reprotool.fm.nusmv.lang.nuSmvLang.NuSmvLangFactory
 
 class SampleSwprojBuilder {
 
-	def private <T> T $(T m, (T)=>void init ) {
-		init.apply(m)
-		return m
-	}
-	
-	private NuSmvLangFactory factory
+	@Inject extension ReprotoolMappingExtensions
+	@Inject private NuSmvLangFactory factory
 	
 	def Model createSampleModel() {
-		
-		factory = NuSmvLangFactory::eINSTANCE;
 		
 		val X1 = $(factory.createOtherModule) [
 				name = "UC1"
@@ -31,7 +27,7 @@ class SampleSwprojBuilder {
 						nextExpr = "case s=1 : {2,3}; esac"
 					]
 				]
-			];
+			]
 			
 		val X2 = $(factory.createOtherModule) [
 				name = "UC2"
@@ -45,7 +41,7 @@ class SampleSwprojBuilder {
 				moduleElement += $(factory.createInitConstraint) [
 					initExpr = "s=1"
 				]
-			];
+			]
 		
 		return $(factory.createModel) [
 			modules += $(factory.createMainModule)[
@@ -76,6 +72,9 @@ class SampleSwprojBuilder {
 			]
 			modules += X1
 			modules += X2
+
+			val x = new HashMap<String, String>()
+			x += "key" -> "value"
 		]
 	}
 }
