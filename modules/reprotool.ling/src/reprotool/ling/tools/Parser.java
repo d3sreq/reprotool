@@ -1,7 +1,6 @@
 package reprotool.ling.tools;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.rmi.RemoteException;
 import java.util.regex.Pattern;
 
@@ -58,6 +57,10 @@ public class Parser extends Tool {
      */
     public static String getString(String originalText) {
     	String parsedText = "";
+    	
+    	// bad input
+    	if (originalText == null || originalText.isEmpty() || originalText.equals("(( ()) )"))
+    		return "";
     	
     	// running at blank data
     	if(originalText.isEmpty()) {
@@ -143,123 +146,56 @@ public class Parser extends Tool {
 
     	try {
 			Settings.load(settingsFile);
-		} catch (IOException e) {}		
+		} catch (IOException e) {
+			IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, "Parser error during loading settings file", e);
+			StatusManager.getManager().handle(status, StatusManager.LOG);
+		}		
 
     	
 		try {
-			//parser = new danbikel.parser.Parser("D:\\Projects\\ReProTool\\dbparser\\wsj-02-21.obj.gz");			
 			parser = new danbikel.parser.Parser(modelFile);
 			runs = true;
 		} catch (Exception e) {
-			e.printStackTrace();
+			IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, "Parser error during loading model file", e);
+			StatusManager.getManager().handle(status, StatusManager.LOG);
 		}
 		
-		parse("((Inicialize (NNP)) (parser (NN)) )");
+		//parse("((Inicialize (NNP)) (parser (NN)) )");
 		
 		return runs;		
 	}
 
 	
+	/**
+	 * Main parsing function
+	 * 
+	 * @param originalText test to parse
+	 * @return parsed string
+	 */
 	private static String parse(String originalText) {
     	Sexp result = null;
 
+    	// remove bad parenthesis
+    	originalText.replaceAll("\\(\\( \\(NN\\)\\)", "");
+    	originalText.replaceAll("\\(\\) \\(NN\\)\\)", "");
+    
 		// parsing sentence
 		try {
 			result = parser.parse(Sexp.read(originalText).list());
 		} catch (Exception e) {
-			System.err.print("Invalid input string!");
+			IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, "Parser error during parsing sentence", e);
+			StatusManager.getManager().handle(status, StatusManager.LOG);
+			return "";
 		}
 		
-    	return result.toString();	
+		// internal parser error
+		if (result == null)
+			return "";
+		else
+			return result.toString();	
 	}
 	
-    
-    /**
-     * Parse sentence into tree in string format
-     * 
-     * @param originalText Sentence from linguistics tagger
-     * @return Sentence whole Sentence object with tree and array
-     */
-    public static String getStringOld(String originalText) {	
-    	String settingsFile = "";
-    	Sexp result = null;
-    	String modelFile = "";
-    	
-		// locating external model
-    	try{
-			modelFile = Platform.getPreferencesService().getString("reprotool.ide", "parserModel", "/wsj-02-21.obj.gz", null);
-		} catch (NullPointerException e){
-			String rootPath = new java.io.File(Parser.class.getResource("/").getPath()).getParentFile().getParent();
-			modelFile = rootPath + "/../tools/parser/wsj-02-21.obj.gz";
-		}   
-			
-		// locating external settings
-    	try{
-    		settingsFile = Platform.getPreferencesService().getString("reprotool.ide", "parserSettings", "/collins.properties", null);
-		} catch (NullPointerException e){
-			String rootPath = new java.io.File(Parser.class.getResource("/").getPath()).getParentFile().getParent();
-			settingsFile = rootPath + "/../tools/parser/collins.properties";
-		}   
-		
-    	/* CMD LINE LIKE EXECUTION
-    	String[] args = new String[6];
-    	 	
-    	
-    	args[0] = "-sf";
-    	args[1] = "D:\\Projects\\ReProTool\\dbparser\\collins.properties";
-    	args[2] = "-is";
-    	args[3] = "D:\\Projects\\ReProTool\\dbparser\\wsj-02-21.obj.gz";
-    	args[4] = "-sa";
-    	args[5] = "D:\\Projects\\ReProTool\\dbparser\\test.txt";
-    	
-		// set output stream
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		PrintStream ps = new PrintStream(baos);
-		System.setErr(ps);
-
-    	// run parser
-    	danbikel.parser.Parser.main(args);  
-    	
-    	try{
-			parsedTree = baos.toString("UTF-8");
-		} catch (UnsupportedEncodingException e){}
-    	*/
-
-    	try {
-			Settings.load(settingsFile);
-		} catch (IOException e) {}
-		
-    	danbikel.parser.Parser parser = null;
-
-		try {
-			//parser = new danbikel.parser.Parser("D:\\Projects\\ReProTool\\dbparser\\wsj-02-21.obj.gz");
-			parser = new danbikel.parser.Parser(modelFile);
-			
-		} catch (RemoteException e2) {
-			e2.printStackTrace();
-		} catch (ClassNotFoundException e2) {
-			e2.printStackTrace();
-		} catch (NoSuchMethodException e2) {
-			e2.printStackTrace();
-		} catch (InvocationTargetException e2) {
-			e2.printStackTrace();
-		} catch (IllegalAccessException e2) {
-			e2.printStackTrace();
-		} catch (InstantiationException e2) {
-			e2.printStackTrace();
-		}
-			
-		// parsing sentence
-		try {
-			result = parser.parse(Sexp.read(originalText).list());
-		} catch (Exception e) {
-			System.err.print("Invalid input string!");
-		}
-		
-    	return result.toString();
-    }
-    
-	/**
+ 	/**
 	 * Parse trees of each sentence
 	 *
 	 * @param parsedText Result of this.getString method
@@ -412,6 +348,13 @@ public class Parser extends Tool {
     	return sentence.getSentenceTree();    	
     }
     
+    /**
+     * Function for converting tree to string
+     * mainly for verification purpose
+     * 
+     * @param rootNode input tree
+     * @return output string in parser output string format
+     */
     public static String treeToString(SentenceNode rootNode) {
     	// result
     	String result = "";

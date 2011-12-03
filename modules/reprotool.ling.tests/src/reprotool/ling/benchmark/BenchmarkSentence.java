@@ -47,8 +47,7 @@ public class BenchmarkSentence extends SentenceImpl {
 		// parse csv line
 		String[] fields = line.split(";");
 		// minimum arguments we need
-		if (fields.length >= 5) {
-
+		if (fields.length >= 3) {
 			id = fields[0];
 			sentence = fields[1];
 			// add all new actors
@@ -57,21 +56,22 @@ public class BenchmarkSentence extends SentenceImpl {
 				ac.setName(acstr);
 				actors.add(ac);
 			}
-			inResults.subjectNumber = Integer.parseInt(fields[3]);
-			inResults.verbLemma = fields[4];
+			if (fields.length >= 4) {
+				try {
+					inResults.subjectNumber = Integer.parseInt(fields[3]);
+				} catch (NumberFormatException e) {}
+			}
+			if (fields.length >= 5) 
+				inResults.verbLemma = fields[4];
 			// we have more
 			if (fields.length >= 6) {
 				try {
 					inResults.objectNumber = Integer.parseInt(fields[5]);
-				} catch (NumberFormatException e) {
-					inResults.objectNumber = 0;
-				}
+				} catch (NumberFormatException e) {}
 				if (fields.length >= 7) {
 					try {
 						inResults.indirectObjectNumber = Integer.parseInt(fields[6]);
-					} catch (NumberFormatException e) {
-						inResults.indirectObjectNumber = 0;
-					}
+					} catch (NumberFormatException e) {}
 					if (fields.length == 8)
 						try {
 							inResults.actionCode = ActionCode.valueOf(fields[7]);
@@ -80,7 +80,6 @@ public class BenchmarkSentence extends SentenceImpl {
 						}
 				}
 			}
-	
 		}
 	}
 
@@ -117,6 +116,10 @@ public class BenchmarkSentence extends SentenceImpl {
 	 * @return boolean parsing success
 	 */
 	public boolean parse() {
+		// empty string
+		if (sentence.isEmpty()) 
+			return false;
+
 		// parent object
 		Sentence sentenceObject = LingTools.parseSentence(sentence);
 		

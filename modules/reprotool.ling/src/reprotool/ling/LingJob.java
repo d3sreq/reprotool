@@ -12,6 +12,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.MessageBox;
 
 import org.eclipse.ui.progress.IProgressConstants;
+import org.eclipse.ui.statushandlers.StatusManager;
 import org.eclipse.ui.PlatformUI;
 
 import reprotool.ling.analyser.FindConstituent;
@@ -79,35 +80,37 @@ public class LingJob extends Job {
 
     	try{
     		long start = System.currentTimeMillis();
-    		
-    		// calling tokenizer 
-    		tokenizedSentence = Tokenizer.getTokens(originalSentence.trim());
-    		System.out.println("Tokenizer (" + (System.currentTimeMillis() - start) + "ms): " + tokenizedSentence);
-    		
-    		// calling tagger 
-    		taggedSentence = Tagger.mxposToLisp(Tagger.getMXPOST(tokenizedSentence));
-    		System.out.println("Tagger (" + (System.currentTimeMillis() - start) + "ms): " + taggedSentence);
-    		
-    		// calling parser 
-    		parsedSentence = Parser.getString(taggedSentence);
-    		System.out.println("Parser (" + (System.currentTimeMillis() - start) + "ms): " + parsedSentence);
-    		
-    		// parsing into a Sentence object
-    		sentence = Parser.parseSentence(parsedSentence);   
-    		
-    		// calling lemmatizer 
-    		sentence = Lemmatizer.getSentence(sentence);
-    		for(Word word : sentence.getWords()) {
-    			lemmatizedSentence += " " + word.getLemma();
-    			lemmatizedSentence = lemmatizedSentence.trim();
+    		// bad input
+    		if (!originalSentence.isEmpty()) {
+	    		// calling tokenizer 
+	    		tokenizedSentence = Tokenizer.getTokens(originalSentence.trim());
+	    		System.out.println("Tokenizer (" + (System.currentTimeMillis() - start) + "ms): " + tokenizedSentence);
+	    		
+	    		// calling tagger 
+	    		taggedSentence = Tagger.mxposToLisp(Tagger.getMXPOST(tokenizedSentence));
+	    		System.out.println("Tagger (" + (System.currentTimeMillis() - start) + "ms): " + taggedSentence);
+	    		
+	    		// calling parser 
+	    		parsedSentence = Parser.getString(taggedSentence);
+	    		System.out.println("Parser (" + (System.currentTimeMillis() - start) + "ms): " + parsedSentence);
+	    		
+	    		// parsing into a Sentence object
+	    		sentence = Parser.parseSentence(parsedSentence);   
+	    		
+	    		// calling lemmatizer 
+	    		sentence = Lemmatizer.getSentence(sentence);
+	    		for(Word word : sentence.getWords()) {
+	    			lemmatizedSentence += " " + word.getLemma();
+	    			lemmatizedSentence = lemmatizedSentence.trim();
+	    		}
+	    		System.out.println("Lemmatizer (" + (System.currentTimeMillis() - start) + "ms): " + lemmatizedSentence);
+	    		
+	    	    // set passive - better to do here
+	    	    sentence.setPassive(FindConstituent.getPassive(sentence));   
     		}
-    		System.out.println("Lemmatizer (" + (System.currentTimeMillis() - start) + "ms): " + lemmatizedSentence);
-	 		
-    	    // set passive - better to do here
-    	    sentence.setPassive(FindConstituent.getPassive(sentence));   
-    		
     	} catch (Exception e){
-			e.printStackTrace();  		    		
+			IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, "LingJob error during running tools", e);
+			StatusManager.getManager().handle(status, StatusManager.LOG);		    		
     	}
     	finally{
     		monitor.done();

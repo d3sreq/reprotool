@@ -56,7 +56,6 @@ public class AnalyseBenchmark {
 		boolean result = true;
 		for (BenchmarkSentence bs : sentences) {
 			result = result && bs.analyse();
-			System.out.println(bs.toString());
 		}
 		return result;
 	}
