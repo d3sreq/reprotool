@@ -1,4 +1,4 @@
-package reprotool.ide.views.sentenceanalysis;
+package reprotool.ide.views.sentenceanalysis.step;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -41,6 +41,7 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.part.IPageSite;
 import org.eclipse.ui.part.Page;
 
+import reprotool.ide.views.sentenceanalysis.ISentenceAnalysisSheetPage;
 import reprotool.model.linguistic.action.AbortUseCase;
 import reprotool.model.linguistic.action.Action;
 import reprotool.model.linguistic.action.ActionFactory;

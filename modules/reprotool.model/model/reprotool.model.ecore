@@ -19,6 +19,8 @@
           <details key="documentation" value="Shortcut reference implemented in java to simplify EMF binding."/>
         </eAnnotations>
       </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="softwareProjectShortcut"
+          lowerBound="1" eType="#//swproj/SoftwareProject" eOpposite="#//swproj/SoftwareProject/useCases"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="ParseableElement" abstract="true"
         interface="true">
@@ -118,7 +120,7 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="actors" upperBound="-1"
           eType="#//swproj/Actor" containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="useCases" upperBound="-1"
-          eType="#//usecase/UseCase" containment="true"/>
+          eType="#//usecase/UseCase" containment="true" eOpposite="#//usecase/UseCase/softwareProjectShortcut"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="annotationGroups" upperBound="-1"
           eType="#//usecase/annotate/AnnotationGroup" containment="true">
         <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">

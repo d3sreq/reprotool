@@ -11,7 +11,6 @@ import org.eclipse.ui.actions.BaseSelectionListenerAction;
 
 import reprotool.ide.Activator;
 import reprotool.ling.LingTools;
-import reprotool.ling.analyser.Analyser;
 import reprotool.model.usecase.UseCaseStep;
 
 /**

@@ -1,8 +1,11 @@
-package reprotool.ide.views.sentenceanalysis;
+package reprotool.ide.views.sentenceanalysis.step;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.ui.forms.widgets.FormToolkit;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.forms.widgets.Form;
 
 /**
  * Groups parts of the one action (use case step).
@@ -18,6 +21,7 @@ public class BoxContainer extends Composite {
 	private TextWithComboBox receiverBox;
 	private ParamBox actionParamBox;
 	private TextWithComboBox senderBox;
+	private final FormToolkit formToolkit = new FormToolkit(Display.getDefault());
 
 	/**
 	 * Create the composite.

@@ -1,4 +1,4 @@
-package reprotool.ide.views.sentenceanalysis;
+package reprotool.ide.views.sentenceanalysis.step;
 
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.ui.IWorkbenchPage;
@@ -9,6 +9,8 @@ import org.eclipse.ui.part.IPageBookViewPage;
 import org.eclipse.ui.part.MessagePage;
 import org.eclipse.ui.part.PageBook;
 import org.eclipse.ui.part.PageBookView;
+
+import reprotool.ide.views.sentenceanalysis.ISentenceAnalysisSheetPage;
 
 /**
  * Enables user to set details of the use case step (action).

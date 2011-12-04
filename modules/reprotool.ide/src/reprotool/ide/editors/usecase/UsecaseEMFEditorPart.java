@@ -3,7 +3,10 @@ package reprotool.ide.editors.usecase;
 import java.util.EventObject;
 
 import org.eclipse.core.databinding.DataBindingContext;
+import org.eclipse.core.databinding.beans.PojoObservables;
+import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
+import org.eclipse.core.databinding.property.value.IValueProperty;
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.command.BasicCommandStack;
@@ -11,8 +14,10 @@ import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CommandStackListener;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.ui.URIEditorInput;
+import org.eclipse.emf.databinding.FeaturePath;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.change.FeatureChange;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
@@ -25,13 +30,17 @@ import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
-import org.eclipse.jface.databinding.swt.ISWTObservableValue;
 import org.eclipse.jface.databinding.swt.WidgetProperties;
+import org.eclipse.jface.databinding.viewers.ViewerSupport;
+import org.eclipse.jface.databinding.viewers.ViewersObservables;
+import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.StructuredViewer;
+import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.Transfer;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.ui.IEditorInput;
@@ -187,26 +196,77 @@ public class UsecaseEMFEditorPart extends EditorPart implements IMenuListener, I
 	private DataBindingContext initDataBindings(UseCase useCase) {
 		DataBindingContext bindingContext = new DataBindingContext();
 
-		// bind use case name (title under "Use case" label)
+		bindName(bindingContext, useCase);
+		bindDescription(bindingContext, useCase);
+		bindTitle(bindingContext, useCase);
+		bindPrimaryActorComboContent(bindingContext, useCase);
+		bindPrimaryActorComboSelection(bindingContext, useCase);
+		bindPrecedingUseCasesList(bindingContext, useCase);
+		
+		return bindingContext;
+	}
+
+	private void bindName(DataBindingContext bindingContext, UseCase useCase) {
 		IObservableValue emfValue = EMFEditProperties.value(getEditingDomain(),
 				SwprojPackage.Literals.DESCRIBED_ELEMENT__NAME).observe(useCase);
-		ISWTObservableValue textValue = WidgetProperties.text(SWT.Modify).observe(composite.getTxtUseCaseName());
+		IObservableValue textValue = WidgetProperties.text(SWT.Modify).observe(composite.getUseCasePropertiesSectionPart().getTxtName());
 		bindingContext.bindValue(textValue, emfValue);
+	}
+	
+	private void bindDescription(DataBindingContext bindingContext, UseCase useCase) {
+		IObservableValue emfValue = EMFEditProperties.value(getEditingDomain(),
+				SwprojPackage.Literals.DESCRIBED_ELEMENT__DESCRIPTION).observe(useCase);
+		IObservableValue textValue = WidgetProperties.text(SWT.Modify).observe(composite.getUseCasePropertiesSectionPart().getTxtDescription());
+		bindingContext.bindValue(textValue, emfValue);
+	}
 
-		return bindingContext;
+	private void bindTitle(DataBindingContext bindingContext, UseCase useCase) {
+		IObservableValue emfValue = EMFEditProperties.value(getEditingDomain(),
+				SwprojPackage.Literals.DESCRIBED_ELEMENT__NAME).observe(useCase);
+		IObservableValue titleValue = PojoObservables.observeValue(composite.getForm(), "text");
+		bindingContext.bindValue(titleValue, emfValue);
+	}
+
+	private void bindPrimaryActorComboContent(DataBindingContext bindingContext, UseCase useCase) {
+		ComboViewer actorsCombo = composite.getUseCasePropertiesSectionPart().getComboViewer();
+		
+		FeaturePath actorsPath = FeaturePath.fromList(UsecasePackage.Literals.USE_CASE__SOFTWARE_PROJECT_SHORTCUT, SwprojPackage.Literals.SOFTWARE_PROJECT__ACTORS);
+		IObservableList emfList = EMFEditProperties.list(getEditingDomain(), actorsPath).observe(useCase);
+		
+		IValueProperty labelProperty = EMFEditProperties.value(getEditingDomain(), SwprojPackage.Literals.DESCRIBED_ELEMENT__NAME);
+
+		ViewerSupport.bind(actorsCombo, emfList, labelProperty);
+	}
+
+	private void bindPrimaryActorComboSelection(DataBindingContext bindingContext, UseCase useCase) {
+		ComboViewer actorsCombo = composite.getUseCasePropertiesSectionPart().getComboViewer();
+		
+		IObservableValue comboSelectionValue = ViewersObservables.observeSingleSelection(actorsCombo);
+		IObservableValue emfValue = EMFEditProperties.value(getEditingDomain(), UsecasePackage.Literals.USE_CASE__PRIMARY_ACTOR).observe(useCase);
+		
+		bindingContext.bindValue(comboSelectionValue, emfValue);
+	}
+	
+	private void bindPrecedingUseCasesList(DataBindingContext bindingContext, UseCase useCase) {
+		TableViewer tableViewer = composite.getPrecedingUseCasesPart().getTableViewer();
+		
+		IObservableList emfList = EMFEditProperties.list(getEditingDomain(), UsecasePackage.Literals.USE_CASE__PRECEDING_USE_CASES).observe(useCase);
+		IValueProperty labelProperty = EMFEditProperties.value(getEditingDomain(), SwprojPackage.Literals.DESCRIBED_ELEMENT__NAME);
+
+		ViewerSupport.bind(tableViewer, emfList, labelProperty);
 	}
 
 	private UseCase getInputUseCase() {
 		IEditorInput input = getEditorInput();
 		if (input instanceof URIEditorInput) {
 			URIEditorInput uriEditorInput = (URIEditorInput) input;
-
+	
 			EObject object = getEditingDomain().getResourceSet().getEObject(uriEditorInput.getURI(), true);
 			if (object instanceof UseCase) {
 				return (UseCase) object;
 			}
 		}
-
+	
 		return null;
 	}
 

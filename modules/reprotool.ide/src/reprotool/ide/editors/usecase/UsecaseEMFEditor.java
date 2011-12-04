@@ -111,7 +111,7 @@ import org.eclipse.ui.views.properties.PropertySheet;
 import org.eclipse.ui.views.properties.PropertySheetPage;
 
 import reprotool.ide.views.sentenceanalysis.ISentenceAnalysisSheetPage;
-import reprotool.ide.views.sentenceanalysis.SentenceAnalysisSheetPage;
+import reprotool.ide.views.sentenceanalysis.step.SentenceAnalysisSheetPage;
 import reprotool.model.edit.ext.factory.UsecaseEMFEditorAdapterFactory;
 import reprotool.model.usecase.UseCase;
 import reprotool.model.usecase.UseCaseStep;

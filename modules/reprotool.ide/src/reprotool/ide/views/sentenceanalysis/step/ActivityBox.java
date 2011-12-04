@@ -1,4 +1,4 @@
-package reprotool.ide.views.sentenceanalysis;
+package reprotool.ide.views.sentenceanalysis.step;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;

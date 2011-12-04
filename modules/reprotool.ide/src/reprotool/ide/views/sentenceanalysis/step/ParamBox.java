@@ -1,4 +1,4 @@
-package reprotool.ide.views.sentenceanalysis;
+package reprotool.ide.views.sentenceanalysis.step;
 
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
