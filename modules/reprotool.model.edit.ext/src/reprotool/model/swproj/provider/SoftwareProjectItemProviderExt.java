@@ -47,6 +47,7 @@ public class SoftwareProjectItemProviderExt extends SoftwareProjectItemProvider 
 
 	private static final int ACTORS_INDEX = 0;
 	private static final int USE_CASES_INDEX = 1;
+	private static final int CONCEPTUAL_OBJECTS_INDEX = 2;
 
 	protected List<ItemProviderAdapter> children = null;
 
@@ -63,6 +64,7 @@ public class SoftwareProjectItemProviderExt extends SoftwareProjectItemProvider 
 			children = new ArrayList<ItemProviderAdapter>();
 			children.add(new ActorsItemProvider(adapterFactory, softwareProject));
 			children.add(new UseCasesItemProvider(adapterFactory, softwareProject));			
+			children.add(new ConceptualObjectsItemProvider(adapterFactory, softwareProject));
 		}
 		return children;
 	}
@@ -74,6 +76,10 @@ public class SoftwareProjectItemProviderExt extends SoftwareProjectItemProvider 
 	public Object getUseCases() {
 		return children.get(USE_CASES_INDEX);
 	}
+	
+	public Object getConceptualObjects() {
+		return children.get(CONCEPTUAL_OBJECTS_INDEX);
+	}
 
 	/**
 	 * Disposes the non-modeled children.
@@ -84,6 +90,7 @@ public class SoftwareProjectItemProviderExt extends SoftwareProjectItemProvider 
 		if (children != null) {
 			((IDisposable) children.get(ACTORS_INDEX)).dispose();
 			((IDisposable) children.get(USE_CASES_INDEX)).dispose();
+			((IDisposable) children.get(CONCEPTUAL_OBJECTS_INDEX)).dispose();
 		}
 	}
 
@@ -101,7 +108,8 @@ public class SoftwareProjectItemProviderExt extends SoftwareProjectItemProvider 
 
 	protected Command createWrappedCommand(Command command, final EObject owner, final EStructuralFeature feature) {
 		if (feature == SwprojPackage.eINSTANCE.getSoftwareProject_Actors()
-				|| feature == SwprojPackage.eINSTANCE.getSoftwareProject_UseCases()) {
+				|| feature == SwprojPackage.eINSTANCE.getSoftwareProject_UseCases()
+				|| feature == SwprojPackage.eINSTANCE.getSoftwareProject_ConceptualObjects()) {
 			
 			Command wrapper = new CommandWrapper(command) {
 				
@@ -111,8 +119,10 @@ public class SoftwareProjectItemProviderExt extends SoftwareProjectItemProvider 
 					if (affected.contains(owner)) {
 						if (feature == SwprojPackage.eINSTANCE.getSoftwareProject_Actors()) {
 							affected = Collections.singleton(getActors());
-						} else {
+						} else if (feature == SwprojPackage.eINSTANCE.getSoftwareProject_UseCases()) {
 							affected = Collections.singleton(getUseCases());
+						} else {
+							affected = Collections.singleton(getConceptualObjects());
 						}
 					}
 					return affected;
@@ -241,6 +251,54 @@ public class SoftwareProjectItemProviderExt extends SoftwareProjectItemProvider 
 		protected Command createDragAndDropCommand(EditingDomain domain, Object owner, float location, int operations,
 				int operation, Collection<?> collection) {
 			if (new AddCommand(domain, (EObject) owner, SwprojPackage.Literals.SOFTWARE_PROJECT__ACTORS, collection)
+					.canExecute()) {
+				return super.createDragAndDropCommand(domain, owner, location, operations, operation, collection);
+			}
+			return UnexecutableCommand.INSTANCE;
+		}
+	}
+	
+	/**
+	 * Non-model "Conceptual objects" node.
+	 * 
+	 * @author jvinarek
+	 *
+	 */
+	public class ConceptualObjectsItemProvider extends TransientSoftwareProjectItemProvider {
+		public ConceptualObjectsItemProvider(AdapterFactory adapterFactory, SoftwareProject softwareProject) {
+			super(adapterFactory, softwareProject);
+		}
+
+		@Override
+		public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
+			if (childrenFeatures == null) {
+				super.getChildrenFeatures(object);
+				childrenFeatures.add(SwprojPackage.Literals.SOFTWARE_PROJECT__CONCEPTUAL_OBJECTS);
+			}
+			return childrenFeatures;
+		}
+
+		@Override
+		public String getText(Object object) {
+			return ReprotoolEditExtPlugin.INSTANCE.getString("SoftwareProjectItemProviderExt_ConceptualObjects"); //$NON-NLS-1$
+		}
+		
+		@Override
+		public Object getImage(Object object) {
+			return ReprotoolEditExtPlugin.INSTANCE.getImage("full/obj16/ConceptualObjects.gif");
+		}
+
+		@Override
+		protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
+			super.collectNewChildDescriptors(newChildDescriptors, object);
+			newChildDescriptors.add(createChildParameter(SwprojPackage.Literals.SOFTWARE_PROJECT__CONCEPTUAL_OBJECTS,
+					SwprojFactory.eINSTANCE.createConceptualObject()));
+		}
+
+		@Override
+		protected Command createDragAndDropCommand(EditingDomain domain, Object owner, float location, int operations,
+				int operation, Collection<?> collection) {
+			if (new AddCommand(domain, (EObject) owner, SwprojPackage.Literals.SOFTWARE_PROJECT__CONCEPTUAL_OBJECTS, collection)
 					.canExecute()) {
 				return super.createDragAndDropCommand(domain, owner, location, operations, operation, collection);
 			}

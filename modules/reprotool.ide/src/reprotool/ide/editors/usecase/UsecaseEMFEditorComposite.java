@@ -29,7 +29,7 @@ public class UsecaseEMFEditorComposite extends Composite {
 
 	private final TreeViewerColumn labelColumn;
 	private final TreeViewerColumn textColumn;
-	private final FormToolkit formToolkit = new FormToolkit(Display.getDefault());
+	private final FormToolkit formToolkit;
 	private final Form form;
 	private final UseCasePropertiesSectionPart useCasePropertiesSectionPart;
 	private final ItemsSectionPart precedingUseCasesPart;
@@ -44,6 +44,8 @@ public class UsecaseEMFEditorComposite extends Composite {
 		super(parent, style);
 		setLayout(new FillLayout(SWT.HORIZONTAL));
 
+		formToolkit = new FormToolkit(Display.getDefault());
+		
 		form = formToolkit.createForm(this);
 		formToolkit.paintBordersFor(form);
 		formToolkit.decorateFormHeading(form);
