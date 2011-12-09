@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            adaptable="false"
+            id="reprotool.lts.export.ltsContribution"
+            nameFilter="*.swproj"
+            objectClass="org.eclipse.core.resources.IFile">
+         <action
+               class="reprotool.lts.export.actions.Swproj2LTS"
+               id="reprotool.lts.export.action3"
+               label="Generate Label Transition Systems">
+         </action>
+      </objectContribution>
+   </extension>
+
+</plugin>
