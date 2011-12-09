@@ -2,24 +2,18 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension
-         point="org.eclipse.ui.commands">
-      <command
-            defaultHandler="reprotool.uml.export.commands.Swproj2UML"
-            id="reprotool.uml.export.umlExport"
-            name="Convert swproj to UML">
-      </command>
-   </extension>
-   <extension
-         point="org.eclipse.ui.menus">
-      <menuContribution
-            allPopups="false"
-            locationURI="popup:org.eclipse.ui.navigator.ProjectExplorer#PopupMenu">
-         <command
-               commandId="reprotool.uml.export.umlExport"
-               label="Convert swproj to UML"
-               style="push">
-         </command>
-      </menuContribution>
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            adaptable="false"
+            id="reprotool.uml.export.umlContribution"
+            nameFilter="*.swproj"
+            objectClass="org.eclipse.core.resources.IFile">
+         <action
+               class="reprotool.uml.export.actions.Swproj2UML"
+               id="reprotool.uml.export.action2"
+               label="Convert SW project to UML">
+         </action>
+      </objectContribution>
    </extension>
 
 </plugin>

@@ -1,18 +1,16 @@
-package reprotool.uml.export.commands;
+package reprotool.uml.export.actions;
 
-import org.eclipse.core.commands.ExecutionEvent;
-import org.eclipse.core.commands.ExecutionException;
-import org.eclipse.core.commands.IHandler;
-import org.eclipse.core.commands.IHandlerListener;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.TreeSelection;
-import org.eclipse.ui.handlers.HandlerUtil;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.resource.UMLResource;
@@ -20,25 +18,13 @@ import org.eclipse.uml2.uml.resource.UMLResource;
 import reprotool.model.swproj.SoftwareProject;
 import reprotool.uml.export.mapping.UMLGen;
 
-public class Swproj2UML implements IHandler {
-		
-	@Override
-	public void addHandlerListener(IHandlerListener handlerListener) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void dispose() {
-		// TODO Auto-generated method stub
-
-	}
+public class Swproj2UML implements IWorkbenchWindowActionDelegate {
+	private ISelection sel;
 	
 	@Override
-	public Object execute(ExecutionEvent event) throws ExecutionException {
-		ISelection sel = HandlerUtil.getCurrentSelection(event);
+	public void run(IAction action) {
 		if( ! (sel instanceof TreeSelection) )
-			return null;
+			return;
 		
 		TreeSelection tsel = (TreeSelection) sel;
 		IFile ifile = (IFile) tsel.getFirstElement();			
@@ -48,13 +34,13 @@ public class Swproj2UML implements IHandler {
 		final Resource resource = rs.getResource(uri, true);
 		
 		if(resource.getContents().size() == 0)
-			return null;
+			return;
 		
 		EObject rootEObj = resource.getContents().get(0);
 		
 		if( ! (rootEObj instanceof SoftwareProject) ) {
 			System.out.println("NOT a SWPROJ : " + rootEObj);
-			return null;
+			return;
 		}
 		SoftwareProject swproj = (SoftwareProject) rootEObj;
 		
@@ -76,25 +62,24 @@ public class Swproj2UML implements IHandler {
 			res.save(null);
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
-		
-		return null;
+		}		
 	}
 
 	@Override
-	public boolean isEnabled() {
-		return true;
+	public void selectionChanged(IAction action, ISelection selection) {
+		sel = selection;
 	}
 
 	@Override
-	public boolean isHandled() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void removeHandlerListener(IHandlerListener handlerListener) {
+	public void dispose() {
 		// TODO Auto-generated method stub
 
 	}
+
+	@Override
+	public void init(IWorkbenchWindow window) {
+		// TODO Auto-generated method stub
+
+	}
+
 }
