@@ -1,11 +1,7 @@
-package reprotool.fm.nusmv.commands;
+package reprotool.fm.nusmv.actions;
 
 import java.io.IOException;
 
-import org.eclipse.core.commands.ExecutionEvent;
-import org.eclipse.core.commands.ExecutionException;
-import org.eclipse.core.commands.IHandler;
-import org.eclipse.core.commands.IHandlerListener;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.emf.common.util.URI;
@@ -13,10 +9,16 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.TreeSelection;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 import org.eclipse.ui.console.MessageConsoleStream;
-import org.eclipse.ui.handlers.HandlerUtil;
+
+import com.google.inject.AbstractModule;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 
 import reprotool.fm.nusmv.Activator;
 import reprotool.fm.nusmv.NuSMVWrapper;
@@ -25,14 +27,11 @@ import reprotool.fm.nusmv.mapping.NuSMVProj;
 import reprotool.model.swproj.CounterExample;
 import reprotool.model.swproj.SoftwareProject;
 
-import com.google.inject.AbstractModule;
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-
-public class CheckCTL implements IHandler {
-	
-	final private MessageConsoleStream consoleOut = Activator.getDefault().findConsole().newMessageStream();
-
+public class CheckCTL implements IWorkbenchWindowActionDelegate {
+	final private MessageConsoleStream consoleOut = Activator.getDefault().findConsole().newMessageStream();	
+	private ISelection sel;
+	private NuSMVProj nusmvProj;
+		
 	private void loadNuSMVProject(IPath projectFile) {
 		final ResourceSet rs = new ResourceSetImpl();
 		
@@ -67,26 +66,19 @@ public class CheckCTL implements IHandler {
 			}
 		});
 		
-		NuSMVProj nusmvProj = injector.getInstance(NuSMVProj.class);
+		nusmvProj = injector.getInstance(NuSMVProj.class);
 		nusmvProj.transformSoftwareProject();
-		Activator.getDefault().setNuSMVProject(nusmvProj); //TODO: why do we use the Activator to keep the nusmvProj reference ?
 	}
-
+	
 	@Override
-	public Object execute(ExecutionEvent event) throws ExecutionException {
-		ISelection sel = HandlerUtil.getCurrentSelection(event);
+	public void run(IAction action) {
 		if(sel instanceof TreeSelection) {
 			TreeSelection tsel = (TreeSelection) sel;
 			IFile file = (IFile) tsel.getFirstElement();
-			
-			if (Activator.getDefault().getNuSMVProject() == null) {
-				loadNuSMVProject(file.getFullPath().removeFileExtension());
-			}
-			
+			loadNuSMVProject(file.getFullPath().removeFileExtension());
 			NuSMVWrapper nusmv = Activator.getDefault().getNuSMVWrapper();
-			nusmv.clearConsole();
 			nusmv.loadModelFile( file );
-			nusmv.checkInlineCTLSpec();
+			nusmv.checkInlineCTLSpec(nusmvProj);
 			
 			CounterExample counterExample = nusmv.getCounterExample();
 			
@@ -103,17 +95,11 @@ public class CheckCTL implements IHandler {
 				e.printStackTrace();
 			}
 		}
-		return null;
 	}
 
 	@Override
-	public boolean isEnabled() {
-		return true;
-	}
-
-	@Override
-	public boolean isHandled() {
-		return true;
+	public void selectionChanged(IAction action, ISelection selection) {
+		sel = selection;
 	}
 
 	@Override
@@ -123,14 +109,8 @@ public class CheckCTL implements IHandler {
 	}
 
 	@Override
-	public void addHandlerListener(IHandlerListener handlerListener) {
+	public void init(IWorkbenchWindow window) {
 		// TODO Auto-generated method stub
 
 	}
-	@Override
-	public void removeHandlerListener(IHandlerListener handlerListener) {
-		// TODO Auto-generated method stub
-
-	}
-
 }

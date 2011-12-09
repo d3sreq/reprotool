@@ -1,11 +1,7 @@
-package reprotool.fm.nusmv.commands;
+package reprotool.fm.nusmv.actions;
 
 import java.io.IOException;
 
-import org.eclipse.core.commands.ExecutionEvent;
-import org.eclipse.core.commands.ExecutionException;
-import org.eclipse.core.commands.IHandler;
-import org.eclipse.core.commands.IHandlerListener;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.emf.common.CommonPlugin;
 import org.eclipse.emf.common.util.URI;
@@ -13,10 +9,12 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.TreeSelection;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 import org.eclipse.ui.console.MessageConsoleStream;
-import org.eclipse.ui.handlers.HandlerUtil;
 import org.eclipse.xtext.resource.SaveOptions;
 import org.eclipse.xtext.resource.SaveOptions.Builder;
 
@@ -30,26 +28,14 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
-
-public class SwprojToSMV implements IHandler {
-
+public class SwprojToSMV implements IWorkbenchWindowActionDelegate {
 	final private MessageConsoleStream consoleOut = Activator.getDefault().findConsole().newMessageStream();
-	
-	@Override
-	public void addHandlerListener(IHandlerListener handlerListener) {
-		// TODO Auto-generated method stub
-	}
+	private ISelection sel;
 
 	@Override
-	public void dispose() {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public Object execute(ExecutionEvent event) throws ExecutionException {
-		ISelection sel = HandlerUtil.getCurrentSelection(event);
+	public void run(IAction action) {
 		if( ! (sel instanceof TreeSelection) )
-			return null;
+			return;
 		
 		TreeSelection tsel = (TreeSelection) sel;
 		IFile ifile = (IFile) tsel.getFirstElement();			
@@ -60,7 +46,7 @@ public class SwprojToSMV implements IHandler {
 		final Resource resource = rs.getResource(uri, true);
 		
 		if(resource.getContents().size() == 0)
-			return null;
+			return;
 		
 		// show the console
 		consoleOut.getConsole().clearConsole();
@@ -70,7 +56,7 @@ public class SwprojToSMV implements IHandler {
 		
 		if( ! (rootEObj instanceof SoftwareProject) ) {
 			consoleOut.println("NOT a Software Project : " + rootEObj);
-			return null;
+			return;
 		}
 
 		final SoftwareProject swproj = (SoftwareProject) rootEObj;
@@ -88,7 +74,6 @@ public class SwprojToSMV implements IHandler {
 		
 		NuSMVProj nusmvProj = injector.getInstance(NuSMVProj.class);
 		nusmvProj.transformSoftwareProject();
-		Activator.getDefault().setNuSMVProject(nusmvProj); //TODO: why do we use the Activator to keep the nusmvProj reference ?
 		
 		URI outputUri = uri.appendFileExtension("nusmv");
 		consoleOut.println("Will be saved to : " + CommonPlugin.resolve(outputUri).path());
@@ -110,24 +95,24 @@ public class SwprojToSMV implements IHandler {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-				
-		return null;
-	}
-	
-	@Override
-	public boolean isEnabled() {
-		return true;
+		}				
 	}
 
 	@Override
-	public boolean isHandled() {
-		return true;
+	public void selectionChanged(IAction action, ISelection selection) {
+		sel = selection;
 	}
 
 	@Override
-	public void removeHandlerListener(IHandlerListener handlerListener) {
+	public void dispose() {
 		// TODO Auto-generated method stub
 
 	}
+
+	@Override
+	public void init(IWorkbenchWindow window) {
+		// TODO Auto-generated method stub
+
+	}
+
 }

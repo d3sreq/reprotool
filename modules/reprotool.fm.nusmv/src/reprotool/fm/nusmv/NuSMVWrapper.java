@@ -100,10 +100,10 @@ public class NuSMVWrapper {
 	/**
 	 * Checks all CTL formulae written within the SMV code as CTLSPEC.
 	 */
-	final public void checkInlineCTLSpec() {
+	final public void checkInlineCTLSpec(NuSMVProj nusmvProj) {
 		
 	    out.println("Checking all inline CTLSPEC");
-	    nusmvProject = Activator.getDefault().getNuSMVProject();
+	    nusmvProject = nusmvProj;
 	    counterExample.getUseCaseTransitions().clear();
 	    counterExample.setFormula(null);
 	    counterExample.setProject(nusmvProject.getSoftwareProject());

@@ -3,73 +3,29 @@
 <plugin>
 
    <extension
-         point="org.eclipse.ui.actionSets">
-      <actionSet
-            id="reprotool.fm.nusmv.actionSet"
-            label="Sample Action Set"
-            visible="true">
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            adaptable="false"
+            id="reprotool.fm.nusmv.swprojContribution"
+            nameFilter="*.swproj"
+            objectClass="org.eclipse.core.resources.IFile">
          <action
-               class="reprotool.fm.nusmv.actions.NuSMVTest"
-               icon="icons/sample.gif"
-               id="reprotool.fm.nusmv.actions.NuSMVTest"
-               label="&amp;Test NuSMV"
-               menubarPath="project/additions"
-               tooltip="Test NuSMV">
+               class="reprotool.fm.nusmv.actions.SwprojToSMV"
+               id="reprotool.fm.nusmv.action2"
+               label="Convert SW project to SMV">
          </action>
-      </actionSet>
-   </extension>
-   <extension
-         point="org.eclipse.ui.commands">
-      <command
-            defaultHandler="reprotool.fm.nusmv.commands.CheckCTL"
-            id="reprotool.commands.CheckCTL"
-            name="Check CTL using NuSMV">
-      </command>
-      <command
-            defaultHandler="reprotool.fm.nusmv.commands.SimulateSMV"
-            id="reprotool.commands.SimulateSMV"
-            name="Simulate SMV model using NuSMV">
-      </command>
-      <command
-            defaultHandler="reprotool.fm.nusmv.commands.SwprojToSMV"
-            id="reprotool.commands.SwprojToSMV"
-            name="SW Project To SMV">
-      </command>
-      <command
-            defaultHandler="reprotool.fm.nusmv.commands.MySampleCommand"
-            id="reprotool.commands.MySampleCommand"
-            name="SW Project To SMV (Xtext Example)">
-      </command>
-   </extension>
-   <extension
-         point="org.eclipse.ui.menus">
-      <menuContribution
-            allPopups="false"
-            locationURI="popup:org.eclipse.ui.navigator.ProjectExplorer#PopupMenu">
-         <command
-               commandId="reprotool.commands.CheckCTL"
-               icon="icons/tick.png"
-               label="Check CTL using NuSMV"
-               style="push">
-         </command>
-         <command
-               commandId="reprotool.commands.SimulateSMV"
-               icon="icons/tick.png"
-               label="Simulate SMV model using NuSMV"
-               style="push">
-         </command>
-         <command
-               commandId="reprotool.commands.SwprojToSMV"
-               icon="icons/swproj2smv.gif"
-               label="Convert SW Project To SMV"
-               style="push">
-         </command>
-         <command
-               commandId="reprotool.commands.MySampleCommand"
-               label="My Sample Command"
-               style="push">
-         </command>
-      </menuContribution>
+      </objectContribution>
+      <objectContribution
+            adaptable="false"
+            id="reprotool.fm.nusmv.nusmvContribution"
+            nameFilter="*.nusmv"
+            objectClass="org.eclipse.core.resources.IFile">
+         <action
+               class="reprotool.fm.nusmv.actions.CheckCTL"
+               id="reprotool.fm.nusmv.action1"
+               label="Check CTL using NuSMV">
+         </action>
+      </objectContribution>
    </extension>
 
 </plugin>
