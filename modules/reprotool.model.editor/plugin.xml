@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+ <copyright>
+ </copyright>
+
+ $Id$
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="reprotool.model.usecase.presentation.UsecaseModelWizardID"
+            name="%_UI_UsecaseModelWizard_label"
+            class="reprotool.model.usecase.presentation.UsecaseModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/UsecaseModelFile.gif">
+         <description>%_UI_UsecaseModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <editor
+            id="reprotool.model.usecase.presentation.UsecaseEditorID"
+            name="%_UI_UsecaseEditor_label"
+            icon="icons/full/obj16/UsecaseModelFile.gif"
+            extensions="usecase"
+            class="reprotool.model.usecase.presentation.UsecaseEditor"
+            contributorClass="reprotool.model.usecase.presentation.UsecaseActionBarContributor">
+      </editor>
+   </extension>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="reprotool.model.usecase.annotate.presentation.AnnotateModelWizardID"
+            name="%_UI_AnnotateModelWizard_label"
+            class="reprotool.model.usecase.annotate.presentation.AnnotateModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/AnnotateModelFile.gif">
+         <description>%_UI_AnnotateModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <editor
+            id="reprotool.model.usecase.annotate.presentation.AnnotateEditorID"
+            name="%_UI_AnnotateEditor_label"
+            icon="icons/full/obj16/AnnotateModelFile.gif"
+            extensions="annotate"
+            class="reprotool.model.usecase.annotate.presentation.AnnotateEditor"
+            contributorClass="reprotool.model.usecase.annotate.presentation.AnnotateActionBarContributor">
+      </editor>
+   </extension>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="reprotool.model.swproj.presentation.SwprojModelWizardID"
+            name="%_UI_SwprojModelWizard_label"
+            class="reprotool.model.swproj.presentation.SwprojModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/SwprojModelFile.gif">
+         <description>%_UI_SwprojModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <editor
+            id="reprotool.model.swproj.presentation.SwprojEditorID"
+            name="%_UI_SwprojEditor_label"
+            icon="icons/full/obj16/SwprojModelFile.gif"
+            extensions="swproj"
+            class="reprotool.model.swproj.presentation.SwprojEditor"
+            contributorClass="reprotool.model.swproj.presentation.SwprojActionBarContributor">
+      </editor>
+   </extension>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="reprotool.model.linguistic.actionpart.presentation.ActionpartModelWizardID"
+            name="%_UI_ActionpartModelWizard_label"
+            class="reprotool.model.linguistic.actionpart.presentation.ActionpartModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/ActionpartModelFile.gif">
+         <description>%_UI_ActionpartModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <editor
+            id="reprotool.model.linguistic.actionpart.presentation.ActionpartEditorID"
+            name="%_UI_ActionpartEditor_label"
+            icon="icons/full/obj16/ActionpartModelFile.gif"
+            extensions="actionpart"
+            class="reprotool.model.linguistic.actionpart.presentation.ActionpartEditor"
+            contributorClass="reprotool.model.linguistic.actionpart.presentation.ActionpartActionBarContributor">
+      </editor>
+   </extension>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="reprotool.model.linguistic.action.presentation.ActionModelWizardID"
+            name="%_UI_ActionModelWizard_label"
+            class="reprotool.model.linguistic.action.presentation.ActionModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/ActionModelFile.gif">
+         <description>%_UI_ActionModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <editor
+            id="reprotool.model.linguistic.action.presentation.ActionEditorID"
+            name="%_UI_ActionEditor_label"
+            icon="icons/full/obj16/ActionModelFile.gif"
+            extensions="action"
+            class="reprotool.model.linguistic.action.presentation.ActionEditor"
+            contributorClass="reprotool.model.linguistic.action.presentation.ActionActionBarContributor">
+      </editor>
+   </extension>
+
+</plugin>
