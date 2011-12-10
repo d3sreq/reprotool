@@ -16,10 +16,12 @@ import org.eclipse.emf.edit.ui.dnd.EditingDomainViewerDropAdapter;
 import org.eclipse.emf.edit.ui.dnd.LocalTransfer;
 import org.eclipse.emf.edit.ui.dnd.ViewerDragAdapter;
 import org.eclipse.emf.edit.ui.provider.UnwrappingSelectionProvider;
+import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
+import org.eclipse.jface.action.ToolBarManager;
 import org.eclipse.jface.databinding.swt.WidgetProperties;
 import org.eclipse.jface.databinding.viewers.ViewerSupport;
 import org.eclipse.jface.viewers.StructuredViewer;
@@ -34,6 +36,8 @@ import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.EditorPart;
 
+import reprotool.ide.editors.project.action.AddActorAction;
+import reprotool.ide.editors.project.action.AddConceptualObjectAction;
 import reprotool.model.swproj.SoftwareProject;
 import reprotool.model.swproj.SwprojPackage;
 import reprotool.model.usecase.presentation.ReprotoolEditorPlugin;
@@ -118,63 +122,33 @@ public class ProjectEditorPart extends EditorPart implements IMenuListener, IEdi
 	@Override
 	public void createPartControl(final Composite parent) {
 		composite = new ProjectEditorComposite(parent, SWT.NONE);
-//		TreeViewer viewer = composite.getTreeViewer();
-//
-//		viewer.setColumnProperties(new String[] { "a", "b" });
-//		viewer.setContentProvider(new AdapterFactoryContentProvider(getAdapterFactory()));
-//
-//		// set custom provider instead of AdapterFactoryLabelProvider
-//		composite.getLabelColumn().setLabelProvider(new UsecaseEMFLabelProvider.LabelColumnProvider());
-//
-//		composite.getTextColumn().setLabelProvider(new UsecaseEMFLabelProvider.TextColumnProvider());
-//		composite.getTextColumn().setEditingSupport(new UseCaseStepEditingSupport(composite.getTreeViewer()));
-//
-//		createContextMenuFor(viewer);
-//		getEditorSite().setSelectionProvider(viewer);
-//
-		// try to get use case from the input and set it into viewer
-		SoftwareProject softwareProject = getSoftwareProject();
-		if (softwareProject != null) {
-			// set use case to viewer
-//			this.setInput(useCase);
 
-			// add binding
-			m_bindingContext = initDataBindings(softwareProject);
-		}
-//
-//		// add command stack listener to refresh tree
-//		// TODO - jvinarek - add somewhere remove listener ?
-//		getCommandStack().addCommandStackListener(new CommandStackListener() {
-//			
-//			public void commandStackChanged(final EventObject event) {
-//				
-//				// prevent refresh during writing of the text in cell editor
-//				// FIXME jvinarek
-////				Command mostRecentCommand = getCommandStack().getMostRecentCommand();				
-////				if (!isContentSetting(mostRecentCommand)) {
-////					parentEditor.getContainer().getDisplay().asyncExec(new Runnable() {
-////						public void run() {
-////							UsecaseEMFEditorPart.this.composite.getTreeViewer().refresh();
-////
-////						}
-////					});
-////				}
-//			}
-//
-//			private boolean isContentSetting(Command command) {
-//				return (command instanceof SetCommand)
-//						&& ((SetCommand) command).getFeature() == UsecasePackage.Literals.PARSEABLE_ELEMENT__CONTENT;
-//			}
-//			
-//		});
-//
-//		composite.getTreeViewer().expandAll();
+		// get project and use it in bindings
+		SoftwareProject softwareProject = getSoftwareProject();
+		m_bindingContext = initDataBindings(softwareProject);
+		
+		// add actions to the section toolbars
+		addActorsActions(softwareProject);
+		addConceptualObjectsActions(softwareProject);
 	}
 
 	@Override
 	public void setFocus() {
 		// TODO Auto-generated method stub
-		
+	}
+
+	private void addActorsActions(SoftwareProject softwareProject) {
+		Action action = new AddActorAction(getEditingDomain(), softwareProject);
+		ToolBarManager toolBarManager = composite.getSctnActors().getToolBarManager(); 
+		toolBarManager.add(action);
+		toolBarManager.update(true);
+	}
+	
+	private void addConceptualObjectsActions(SoftwareProject softwareProject) {
+		Action action = new AddConceptualObjectAction(getEditingDomain(), softwareProject);
+		ToolBarManager toolBarManager = composite.getSctnConceptualObjects().getToolBarManager(); 
+		toolBarManager.add(action);
+		toolBarManager.update(true);
 	}
 
 	private SoftwareProject getSoftwareProject() {
