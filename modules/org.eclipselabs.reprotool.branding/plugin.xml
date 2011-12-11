@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         id="ReprotoolIDEProduct"
+         point="org.eclipse.core.runtime.products">
+      <product
+            application="org.eclipse.ui.ide.workbench"
+            name="Reprotool IDE">
+         <property
+               name="appName"
+               value="Reprotool IDE">
+         </property>
+         <property
+               name="startupForegroundColor"
+               value="000000">
+         </property>
+         <property
+               name="startupMessageRect"
+               value="7,275,510,20">
+         </property>
+         <property
+               name="startupProgressRect"
+               value="5,295,510,15">
+         </property>
+         <property
+               name="preferenceCustomization"
+               value="plugin_customization.ini">
+         </property>
+         <property
+               name="aboutImage"
+               value="icons/reprotool-about-icon.png">
+         </property>
+         <property
+               name="aboutText"
+               value="Requirements Processing Tool&#x0A;&#x0A;Project Leader:&#x0A; - Viliam Simko, simko@d3s.mff.cuni.cz&#x0A;&#x0A;Team Members:&#x0A; - Jiri Vinarek, jiri.vinarek@gmail.com&#x0A; - Ondrej Fiala, ofiala@mujmail.cz&#x0A; - Rudo Tomori, rudotx@gmail.com&#x0A;&#x0A;Department of Distributed and Dependable Systems&#x0A;Faculty of Mathematics and Physics&#x0A;Charles University in Prague">
+         </property>
+         <property
+               name="windowImages"
+               value="icons/appwin/reprotool-16x16.png,icons/appwin/reprotool-32x32.png,icons/appwin/reprotool-48x48.png,icons/appwin/reprotool-64x64.png,icons/appwin/reprotool-128x128.png">
+         </property>
+      </product>
+   </extension>
+
+</plugin>
