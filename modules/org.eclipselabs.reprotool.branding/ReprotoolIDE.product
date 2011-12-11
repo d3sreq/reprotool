@@ -50,10 +50,8 @@ Charles University in Prague
       </win>
    </launcher>
 
-
    <vm>
    </vm>
-
 
    <plugins>
       <plugin id="com.google.collect"/>
@@ -168,6 +166,7 @@ Charles University in Prague
       <plugin id="org.eclipselabs.nusmvtools.counterexample"/>
       <plugin id="org.eclipselabs.nusmvtools.nusmv4j"/>
       <plugin id="org.eclipselabs.reprotool.branding"/>
+      <plugin id="org.eclipselabs.reprotool.txtspec.ui" fragment=""/>
       <plugin id="reprotool.fm.nusmv"/>
       <plugin id="reprotool.fm.nusmv.lang"/>
       <plugin id="reprotool.fm.nusmv.lang.ui"/>
