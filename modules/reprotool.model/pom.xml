@@ -50,14 +50,53 @@
 				<artifactId>maven-clean-plugin</artifactId>
 				<configuration>
 					<filesets>
+						<!-- clean model -->
 						<fileset>
 							<directory>src-gen</directory>
 							<includes>
 								<include>**</include>
 							</includes>
 							<excludes>
-								<exclude>.svn</exclude>
+								<exclude>.svn/**</exclude>
 							</excludes>
+						</fileset>
+						<!-- clean model.edit -->
+						<fileset>
+							<directory>../reprotool.model.edit/src</directory>
+							<includes>
+								<include>**</include>
+							</includes>
+							<excludes>
+								<exclude>.svn/**</exclude>
+							</excludes>
+						</fileset>
+						<fileset>
+							<directory>../reprotool.model.edit/icons</directory>
+						</fileset>
+						<fileset>
+							<directory>../reprotool.model.edit</directory>
+							<includes>
+								<include>plugin.properties</include>
+							</includes>
+						</fileset>
+						<!-- clean model.editor -->
+						<fileset>
+							<directory>../reprotool.model.editor/src</directory>
+							<includes>
+								<include>**</include>
+							</includes>
+							<excludes>
+								<exclude>.svn/**</exclude>
+							</excludes>
+						</fileset>
+						<fileset>
+							<directory>../reprotool.model.editor/icons</directory>
+						</fileset>
+						<fileset>
+							<directory>../reprotool.model.editor</directory>
+							<includes>
+								<include>plugin.properties</include>
+							</includes>
 						</fileset>
 					</filesets>
 				</configuration>
@@ -76,15 +115,9 @@
 							<workflowEngine>mwe2</workflowEngine>
 							<workflowDescriptor>reprotool.model</workflowDescriptor>
 							<timestampFileName>emf-generator.timestamp</timestampFileName>
-							<!-- <jvmSettings>
-								<fork>true</fork>
-								<jvmArgs>
-									<jvmArg>-Xms100m</jvmArg>
-									<jvmArg>-Xmx700m</jvmArg>
-									<jvmArg>-XX:MaxPermSize=128m</jvmArg>
-									<jvmArg>-Dlog4j.configuration=file:${basedir}/log4j.properties</jvmArg>
-								</jvmArgs>
-							</jvmSettings> -->
+							<!-- <jvmSettings> <fork>true</fork> <jvmArgs> <jvmArg>-Xms100m</jvmArg> 
+								<jvmArg>-Xmx700m</jvmArg> <jvmArg>-XX:MaxPermSize=128m</jvmArg> <jvmArg>-Dlog4j.configuration=file:${basedir}/log4j.properties</jvmArg> 
+								</jvmArgs> </jvmSettings> -->
 						</configuration>
 					</execution>
 				</executions>
