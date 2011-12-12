@@ -9,9 +9,14 @@
             nameFilter="*.swproj"
             objectClass="org.eclipse.core.resources.IFile">
          <action
-               class="reprotool.uml.export.actions.Swproj2UML"
+               class="reprotool.uml.export.actions.Swproj2UMLClass"
                id="reprotool.uml.export.action2"
-               label="Convert SW project to UML">
+               label="Convert SW project to UML class diagram">
+         </action>
+         <action
+               class="reprotool.uml.export.actions.Swproj2UMLUseCase"
+               id="reprotool.uml.export.action1"
+               label="Convert SW project to UML use case diagram">
          </action>
       </objectContribution>
    </extension>

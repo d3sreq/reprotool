@@ -12,13 +12,12 @@ import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 import org.eclipse.uml2.uml.Model;
-import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.resource.UMLResource;
 
 import reprotool.model.swproj.SoftwareProject;
-import reprotool.uml.export.mapping.UMLGen;
+import reprotool.uml.export.mapping.UMLUCGen;
 
-public class Swproj2UML implements IWorkbenchWindowActionDelegate {
+public class Swproj2UMLUseCase implements IWorkbenchWindowActionDelegate {
 	private ISelection sel;
 	
 	@Override
@@ -44,14 +43,11 @@ public class Swproj2UML implements IWorkbenchWindowActionDelegate {
 		}
 		SoftwareProject swproj = (SoftwareProject) rootEObj;
 		
-		UMLFactory factory = UMLFactory.eINSTANCE;
-		Model model = factory.createModel();
-				
-		UMLGen umlGenerator = new UMLGen();
-		umlGenerator.generateUMLModel(swproj, model);
+		UMLUCGen umlGen = new UMLUCGen();
+		Model model = umlGen.generateUMLUCModel(swproj);
 		
 		final URI umlUri = URI.createPlatformResourceURI(
-			ifile.getFullPath().addFileExtension(UMLResource.FILE_EXTENSION).toString(),
+			ifile.getFullPath().addFileExtension("uc").addFileExtension(UMLResource.FILE_EXTENSION).toString(),
 			true
 		);
 		
