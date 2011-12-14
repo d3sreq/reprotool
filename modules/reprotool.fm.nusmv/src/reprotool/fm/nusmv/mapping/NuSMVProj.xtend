@@ -363,7 +363,7 @@ public class NuSMVProj {
 		globalTracker.keySet.map([ tag |
 			annotations
 				.filter([ tag.startsWith(it) ])
-				.map([ tag.substring( length + 1) ])
+				.map([it2 | tag.substring( it2.length + 1) ])
 		])
 		.flatten
 		.toSet.toList // remove duplicates
