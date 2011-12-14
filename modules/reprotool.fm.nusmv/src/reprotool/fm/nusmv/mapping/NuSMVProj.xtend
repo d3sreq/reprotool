@@ -17,7 +17,7 @@ import reprotool.model.usecase.annotate.TemporalAnnotationGroup
 import reprotool.model.usecase.annotate.TemporalLogicFormula
 
 public class NuSMVProj {
-	
+
 	@Inject extension ReprotoolMappingExtensions
 	@Inject private MessageConsoleStream consoleOut
 	@Inject private NuSmvLangFactory factory
@@ -58,11 +58,10 @@ public class NuSMVProj {
 		uc2gen = new HashMap<UseCase, NuSMVGenerator>()
 		expanded2Formula = new HashMap<String, TemporalLogicFormula>()
 		expandedFormulas = new ArrayList<String>()
-		
-		processAnnotations()
-		
+
 		uc2gen += generators.map([ it.useCase -> it ]);
 		
+		processAnnotations()
 		loadIncludedAnnotations()
 		loadCTLFormulas()
 	}
@@ -181,7 +180,7 @@ public class NuSMVProj {
 					varId = "p"
 					type = $(factory.createEnumType) [
 						value += "none"
-						value += generators.map(g|"p" + g.useCaseId);
+						value += generators.map(g|"p" + g.useCaseId)
 					]
 				]
 			]
