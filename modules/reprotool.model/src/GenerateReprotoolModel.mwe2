@@ -1,12 +1,13 @@
-module reprotool.model
+module reprotool.model.GenerateReprotoolModel
 
 import org.eclipse.emf.mwe.utils.*
 
-var projectName = "reprotool.model"
-var runtimeProject = "../${projectName}"
+//var projectName = "reprotool.model"
+//var runtimeProject = "../${projectName}"
 
 Workflow {
 	bean = StandaloneSetup {
+		scanClassPath = true
 		platformUri = ".."
 		uriMap = {
 			from = "platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore"
@@ -20,20 +21,20 @@ Workflow {
 	}
 
 	component = DirectoryCleaner {
-		directory = "${runtimeProject}/src-gen"
+		directory = "src-gen"
 	}
+//
+//	component = DirectoryCleaner {
+//		directory = "../reprotool.model.edit/src"
+//	}
 
-	component = DirectoryCleaner {
-		directory = "${runtimeProject}.edit/src"
-	}
-
-	component = DirectoryCleaner {
-		directory = "${runtimeProject}.editor/src"
-	}
+//	component = DirectoryCleaner {
+//		directory = "../reprotool.model.editor/src"
+//	}
 
 	component = org.eclipse.emf.mwe2.ecore.EcoreGenerator {
-		srcPath = "platform:/resource/${projectName}/src"
-		genModel = "platform:/resource/${projectName}/model/${projectName}.genmodel"
+		genModel = "platform:/resource/reprotool.model/model/reprotool.model.genmodel"
+		srcPath = "platform:/resource/reprotool.model/src"		
 		generateEdit = true
 		generateEditor = true
 	}
