@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="org.eclipselabs.reprotool.features.verification"
+      label="Reprotool - Verification"
+      version="0.1.0"
+      os="linux,win32"
+      arch="x86,x86_64">
+
+   <description url="http://www.example.com/description">
+      [Enter Feature Description here.]
+   </description>
+
+   <copyright url="http://www.example.com/copyright">
+      [Enter Copyright Description here.]
+   </copyright>
+
+   <license url="http://www.example.com/license">
+      [Enter License Description here.]
+   </license>
+
+   <url>
+      <discovery label="nusmv-tools" url="http://metrikforge.informatik.hu-berlin.de/p2-repositories/nusmv-tools/release/"/>
+   </url>
+
+   <requires>
+      <import plugin="org.eclipse.ui"/>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.eclipselabs.nusmvtools.nusmv4j" version="4.0.1" match="greaterOrEqual"/>
+      <import plugin="org.eclipselabs.nusmvtools.counterexample" version="0.0.2" match="greaterOrEqual"/>
+      <import plugin="reprotool.model"/>
+      <import plugin="org.eclipse.ui.console" version="3.5.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.core.resources" version="3.6.1" match="greaterOrEqual"/>
+      <import plugin="reprotool.fm.nusmv.lang" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.xtext.xtend2.lib" version="2.1.1" match="greaterOrEqual"/>
+      <import plugin="reprotool.uc.tempeditor"/>
+      <import plugin="org.eclipse.xtext" version="2.1.0" match="greaterOrEqual"/>
+      <import plugin="org.apache.log4j" version="1.2.15" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.xtext.util"/>
+      <import plugin="org.eclipse.emf.ecore" version="2.6.1" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.emf.common"/>
+      <import plugin="org.eclipse.xtext.common.types"/>
+      <import plugin="org.antlr.runtime"/>
+      <import plugin="org.eclipse.xtext.xbase.lib"/>
+      <import plugin="org.eclipse.xtext.ui"/>
+      <import plugin="org.eclipse.ui.editors" version="3.5.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.ui.ide" version="3.5.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.xtext.ui.shared"/>
+      <import plugin="org.eclipse.xtext.builder"/>
+      <import plugin="org.eclipse.xtext.common.types.ui"/>
+      <import plugin="org.eclipse.xtext.ui.codetemplates.ui"/>
+      <import plugin="org.eclipse.compare"/>
+      <import plugin="org.apache.commons.logging"/>
+   </requires>
+
+   <plugin
+         id="reprotool.fm.nusmv"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="reprotool.fm.nusmv.lang"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="reprotool.fm.nusmv.lang.ui"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+</feature>
