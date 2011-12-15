@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import org.eclipse.core.runtime.IStatus;
@@ -66,8 +67,9 @@ public class AnalyseBenchmark {
 		// errors
 		String error = "";
 		// subjects stats
+		DecimalFormat formatter = new DecimalFormat(".0");
 		int subjects = 0;
-		int foundSubjects = 0;
+		float foundSubjects = 0;
 		for (BenchmarkSentence bs : sentences) {
 			subjects++;
 			if (bs.outResults.subjectNumber == bs.inResults.subjectNumber)
@@ -79,13 +81,13 @@ public class AnalyseBenchmark {
 						+ bs.outResults.subjectNumber + "\n";
 		}
 		result = "SUBJECTS: " + "Count: " + subjects + " Found: "
-				+ foundSubjects + " | "
-				+ (int) ((foundSubjects * 100) / subjects) + "%\n";
+				+ (int)foundSubjects + " | "
+				+ formatter.format((foundSubjects * 100) / subjects) + "%\n";
 		result += error;
 
 		// verbs stats
 		int verbs = 0;
-		int foundVerbs = 0;
+		float foundVerbs = 0;
 		error = "";
 		for (BenchmarkSentence bs : sentences) {
 			verbs++;
@@ -97,13 +99,13 @@ public class AnalyseBenchmark {
 						+ bs.inResults.verbLemma + "\" output verbLemma: \""
 						+ bs.outResults.verbLemma + "\"\n";
 		}		
-		result += "VERBS: " + "Count: " + verbs + " Found: " + foundVerbs
-				+ " | " + (int) ((foundVerbs * 100) / verbs) + "%\n";
+		result += "VERBS: " + "Count: " + verbs + " Found: " + (int)foundVerbs
+				+ " | " + formatter.format((foundVerbs * 100) / verbs) + "%\n";
 		result += error;
 
 		//indirects objects stats
 		int iobjects = 0;
-		int ifoundObjects = 0;
+		float ifoundObjects = 0;
 		error = "";
 		for (BenchmarkSentence bs : sentences) {
 			iobjects++;
@@ -115,12 +117,12 @@ public class AnalyseBenchmark {
 						+ " output indirectObjectNumber: "
 						+ bs.outResults.indirectObjectNumber + "\n";
 		}	
-		result += "INDIRECT_OBJECTS: " + "Count: " + iobjects + " Found: " + ifoundObjects + " | " + (int)((ifoundObjects * 100)/iobjects) + "%\n";
+		result += "INDIRECT_OBJECTS: " + "Count: " + iobjects + " Found: " + (int)ifoundObjects + " | " + formatter.format((ifoundObjects * 100)/iobjects) + "%\n";
 		result += error;
 		
 		// objects stats
 		int objects = 0;
-		int foundObjects = 0;
+		float foundObjects = 0;
 		error = "";
 		for (BenchmarkSentence bs : sentences) {
 			objects++;
@@ -131,13 +133,12 @@ public class AnalyseBenchmark {
 						+ bs.inResults.objectNumber + " output objectNumber: "
 						+ bs.outResults.objectNumber + "\n";
 		}	
-		result += "OBJECTS: " + "Count: " + objects + " Found: " + foundObjects + " | " + (int)((foundObjects * 100)/objects) + "%\n";
+		result += "OBJECTS: " + "Count: " + objects + " Found: " + (int)foundObjects + " | " + formatter.format((foundObjects * 100)/objects) + "%\n";
 		result += error;
-		
 		// sum
 		int count = subjects + verbs + iobjects + objects;
-		int found = foundSubjects + foundVerbs + ifoundObjects + foundObjects; 
-		result += "SUM: " + "Count: " + count + " Found: " + found + " | " + (int)((found * 100)/count) + "%\n";
+		float found = foundSubjects + foundVerbs + ifoundObjects + foundObjects; 
+		result += "TOTAL: " + "Count: " + count + " Found: " + (int)found + " | " + formatter.format((found * 100)/count) + "%\n";
 	
 		return result;
 	}
@@ -163,6 +164,10 @@ public class AnalyseBenchmark {
 		if (path.isEmpty()) {
 				String rootPath = new java.io.File(Parser.class.getResource("/").getPath()).getParentFile().getParent();
 				path = rootPath + "/../tools/benchmark/" + fileName;
+		} else if (!path.contains("/")) {
+			fileName = path;
+			String rootPath = new java.io.File(Parser.class.getResource("/").getPath()).getParentFile().getParent();
+			path = rootPath + "/../tools/benchmark/" + fileName;			
 		}
 		
 		File dataFile = new File(path);

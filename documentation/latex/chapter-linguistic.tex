@@ -1,2 +1,80 @@
 \section{Linguistic tools}
-% TODO: add more information
+
+\subsection{Introduction}
+
+\subsection{Linguistics background}
+
+\subsection{External tools}
+
+\begin{itemize}
+\item MXPOST tagger \href{http://www.inf.ed.ac.uk/resources/nlp/local_doc/MXPOST.html}{Java implementation of MXPOST tagger}
+\item Dan Bikel's Multilingual Statistical Parsing Engine \href{http://www.cis.upenn.edu/~dbikel/software.html#stat-parser}{Dan Bikel’s Home Page}
+\item Mate-tools lemmatizer \href{http://code.google.com/p/mate-tools/}{Tools for Natural Language Analysis}
+\end{itemize}
+
+\subsection{Analysis}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[height=300pt]{images/LinguisticsAnalyse}
+  \caption{Process of sentence analysis}
+  \label{fig:LinguisticsAnalyse}
+\end{figure}
+
+\subsection{Benchmark}
+
+Main usecase benchmark dataset:
+
+\href{http://www2.put.poznan.pl/en}{Poznan University of Technology}
+
+\href{http://www.se.cs.put.poznan.pl/knowledge-base/software-projects-database/use-cases-database-ucdb/use-cases-database-ucdb}{Use Cases Database (UCDB)}
+
+\href{http://ucdb.cs.put.poznan.pl/benchmark/2.f.n/srs/index.html}{Admission System version 2.0F (quantitative)}
+
+
+\subsubsection{Implementation}
+
+\begin{table}[ht]   % or b
+\begin{center}
+    \begin{verbatim}
+SUBJECTS: Count: 21 Found: 19 | 90,5%
+RPT6: input subjectNumber: 6 output subjectNumber: 1
+MOD1_UC1_7: input subjectNumber: 0 output subjectNumber: 3
+VERBS: Count: 21 Found: 20 | 95,2%
+MOD1_UC1_5: input verbLemma: "verify" output verbLemma: "be"
+INDIRECT_OBJECTS: Count: 21 Found: 20 | 95,2%
+LING2: input indirectObjectNumber: 8 output indirectObjectNumber: 0
+OBJECTS: Count: 21 Found: 11 | 52,4%
+RPT8: input objectNumber: 2 output objectNumber: 0
+LING1: input objectNumber: 8 output objectNumber: 4
+MOD1_UC1_7: input objectNumber: 3 output objectNumber: 0
+MOD1_UC1_8: input objectNumber: 0 output objectNumber: 5
+TOTAL: Count: 84 Found: 70 | 83,3%
+    \end{verbatim}
+  \caption{Example output from benchmark plugin}
+  \label{tab.benchmarkexample}
+\end{center}
+\end{table}   
+      
+\subsubsection{Results}
+                        
+\begin{table}[ht]   % or b
+\begin{center}
+    \begin{tabular}{|l|c|}
+      \hline
+      {\bf Section} & {\bf Accuracy} \\
+      \hline
+      Subjects               & 91.5\% \\
+      Verbs                  & 80.1\% \\
+      Representative objects & 70.3\% \\
+      Indirects objects      & 70.5\% \\
+      Actions                & 20.8\% \\
+      \hline
+      {\bf Total} & {\bf 80.2\%} \\
+      \hline
+    \end{tabular}
+ \caption{Overall results of analyse benchmark on dataset data.csv (269 sentences)}
+ \label{tab.benchmark}
+\end{center}
+\end{table}
+
