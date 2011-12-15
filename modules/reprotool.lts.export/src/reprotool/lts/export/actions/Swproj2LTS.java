@@ -22,47 +22,59 @@ import reprotool.model.usecase.UseCase;
 
 public class Swproj2LTS implements IWorkbenchWindowActionDelegate {
 	ISelection sel;
-	
+
 	@Override
 	public void run(IAction action) {
-		if( ! (sel instanceof TreeSelection) )
+		if (!(sel instanceof TreeSelection))
 			return;
-		
-		TreeSelection tsel = (TreeSelection) sel;
-		IFile ifile = (IFile) tsel.getFirstElement();			
-		ResourceSet rs = new ResourceSetImpl();
-		
-		URI uri = URI.createPlatformResourceURI(ifile.getFullPath().toString(), true);
-		Resource resource = rs.getResource(uri, true);
-		
-		if(resource.getContents().size() == 0)
-			return;
-		
-		EObject rootEObj = resource.getContents().get(0);
-		
-		if( ! (rootEObj instanceof SoftwareProject) ) {
-			System.out.println("NOT a SWPROJ : " + rootEObj);
-			return;
-		}
-		SoftwareProject swproj = (SoftwareProject) rootEObj;
 
-		rs = new ResourceSetImpl();
-		URI fileURI = URI.createPlatformResourceURI(
-				ifile.getFullPath().addFileExtension("lts").toString(), true);
-		resource = rs.createResource(fileURI);
-		
-		for (UseCase uc : swproj.getUseCases()) {
-			LTSGeneratorImpl g = new LTSGeneratorImpl();
-			g.processUseCase(uc);
-			StateMachine machine = g.getLabelTransitionSystem();
-			resource.getContents().add(machine);
+		// selected file
+		final IFile selectedFile;
+		{
+			final TreeSelection tsel = (TreeSelection) sel;
+			selectedFile = (IFile) tsel.getFirstElement();
 		}
 
-		try {
-			resource.save(null);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}		
+		// input resource containing a software project
+		final SoftwareProject swproj;
+		{
+			final ResourceSet rs = new ResourceSetImpl();
+			final URI uri = URI.createPlatformResourceURI(
+					selectedFile.getFullPath().toString(), true);
+			final Resource resource = rs.getResource(uri, true);
+
+			if (resource.getContents().size() == 0)
+				return;
+
+			// root element inside the resource must be a SoftwareProject
+			EObject rootEObj = resource.getContents().get(0);
+			if (!(rootEObj instanceof SoftwareProject)) {
+				System.out.println("NOT a SWPROJ : " + rootEObj);
+				return;
+			}
+			swproj = (SoftwareProject) rootEObj;
+		}
+
+		// output resource representing the *.lts file
+		{
+			final ResourceSet rs = new ResourceSetImpl();
+			final URI fileURI = URI.createPlatformResourceURI(selectedFile
+					.getFullPath().addFileExtension("lts").toString(), true);
+			final Resource resource = rs.createResource(fileURI);
+
+			for (UseCase uc : swproj.getUseCases()) {
+				LTSGeneratorImpl g = new LTSGeneratorImpl();
+				g.processUseCase(uc);
+				StateMachine machine = g.getLabelTransitionSystem();
+				resource.getContents().add(machine);
+			}
+
+			try {
+				resource.save(null);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	@Override
