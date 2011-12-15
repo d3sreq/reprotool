@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>reprotool</groupId>
+	<artifactId>reprotool.maven.aggregator</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<modules>
+		<module>../reprotool.maven.parent</module>
+		<!-- <module>../org.eclipselabs.reprotool.branding</module> -->
+		
+		<!-- formal analysis -->
+		<module>../reprotool.fm.nusmv</module>
+		<module>../reprotool.fm.nusmv.lang</module>
+		<!-- <module>../reprotool.fm.nusmv.lang.tests</module> -->
+		<module>../reprotool.fm.nusmv.lang.ui</module>
+		
+		<module>../reprotool.ide</module>
+		<!-- ide.txtspec not included -->
+		
+		<!-- linguistic analysis -->
+		<module>../reprotool.ling</module>
+		<!-- <module>../reprotool.ling.tests</module> -->
+		
+		<module>../reprotool.lts.export</module>
+		
+		<!-- model, gui -->
+		<module>../reprotool.model</module>
+		<module>../reprotool.model.edit</module>
+		<module>../reprotool.model.edit.ext</module>
+		<module>../reprotool.model.editor</module>
+
+		<!-- ling. analysis tools -->
+		<module>../reprotool.tools.anna</module>
+		<module>../reprotool.tools.dbparser</module>
+		<module>../reprotool.tools.mxpost</module>
+		
+		<!-- import from text documents -->
+		<module>../reprotool.txtspec</module>
+		<!-- <module>../reprotool.tools.txtspec.tests</module> -->
+		<module>../reprotool.txtspec.ui</module>
+		
+		<!-- LTS model + gui -->
+		<module>../reprotool.uc.tempeditor</module>
+		
+		<!-- reprotool model export to UML -->
+		<module>../reprotool.uml.export</module>
+	</modules>
+
+</project>

@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Dbparser
 Bundle-SymbolicName: reprotool.tools.dbparser
-Bundle-Version: 1.0.0
+Bundle-Version: 1.0.0.qualifier
 Bundle-ClassPath: dbparser.jar
 Export-Package: danbikel.lisp,
  danbikel.parser,

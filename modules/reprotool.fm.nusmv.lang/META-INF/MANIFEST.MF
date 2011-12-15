@@ -18,7 +18,8 @@ Require-Bundle: org.eclipse.xtext;bundle-version="2.1.0";visibility:=reexport,
  org.antlr.runtime
 Import-Package: org.eclipse.xtext.xbase.lib,
  org.eclipse.xtext.xtend2.lib,
- org.apache.log4j
+ org.apache.log4j,
+ org.eclipse.xtend2.lib
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: reprotool.fm.nusmv.lang,
  reprotool.fm.nusmv.lang.services,

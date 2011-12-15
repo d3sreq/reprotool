@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: reprotool.txtspec
 Bundle-Vendor: My Company
-Bundle-Version: 1.0.0
+Bundle-Version: 1.0.0.qualifier
 Bundle-SymbolicName: reprotool.txtspec; singleton:=true
 Bundle-ActivationPolicy: lazy
 Require-Bundle: org.eclipse.xtext;bundle-version="2.1.0";visibility:=reexport,
@@ -21,7 +21,8 @@ Require-Bundle: org.eclipse.xtext;bundle-version="2.1.0";visibility:=reexport,
 Import-Package: org.apache.log4j,
  org.apache.commons.logging,
  org.eclipse.xtext.xbase.lib,
- org.eclipse.xtext.xtend2.lib
+ org.eclipse.xtext.xtend2.lib,
+ org.eclipse.xtend2.lib
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: reprotool.txtspec,
  reprotool.txtspec.services,

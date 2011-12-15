@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: reprotool.txtspec.ui
 Bundle-Vendor: My Company
-Bundle-Version: 1.0.0
+Bundle-Version: 1.0.0.qualifier
 Bundle-SymbolicName: reprotool.txtspec.ui; singleton:=true
 Bundle-ActivationPolicy: lazy
 Require-Bundle: reprotool.txtspec;visibility:=reexport,
@@ -20,5 +20,6 @@ Import-Package: org.apache.log4j,
  org.apache.commons.logging
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: reprotool.txtspec.ui.contentassist.antlr,
- reprotool.txtspec.ui.internal
+ reprotool.txtspec.ui.internal,
+ reprotool.txtspec.ui.contentassist
 Bundle-Activator: reprotool.txtspec.ui.internal.TxtSpecActivator

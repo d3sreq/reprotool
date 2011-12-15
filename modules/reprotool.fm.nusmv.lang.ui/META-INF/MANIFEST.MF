@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: reprotool.fm.nusmv.lang.ui
 Bundle-Vendor: My Company
-Bundle-Version: 1.0.0
+Bundle-Version: 1.0.0.qualifier
 Bundle-SymbolicName: reprotool.fm.nusmv.lang.ui; singleton:=true
 Bundle-ActivationPolicy: lazy
 Require-Bundle: reprotool.fm.nusmv.lang;visibility:=reexport,
@@ -20,5 +20,6 @@ Import-Package: org.apache.log4j,
  org.apache.commons.logging
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: reprotool.fm.nusmv.lang.ui.contentassist.antlr,
- reprotool.fm.nusmv.lang.ui.internal
+ reprotool.fm.nusmv.lang.ui.internal,
+ reprotool.fm.nusmv.lang.ui.contentassist
 Bundle-Activator: reprotool.fm.nusmv.lang.ui.internal.NuSmvLangActivator

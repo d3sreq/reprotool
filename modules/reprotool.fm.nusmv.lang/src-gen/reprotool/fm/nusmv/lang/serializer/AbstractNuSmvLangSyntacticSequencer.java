@@ -90,7 +90,7 @@ public class AbstractNuSmvLangSyntacticSequencer extends AbstractSyntacticSequen
 	
 	/**
 	 * Syntax:
-	 *     'SPEC' | 'CTLSPEC'
+	 *     'CTLSPEC' | 'SPEC'
 	 */
 	protected void emit_CtlSpecification_CTLSPECKeyword_0_0_or_SPECKeyword_0_1(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
 		acceptNodes(transition, nodes);

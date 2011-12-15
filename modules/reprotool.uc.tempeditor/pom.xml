@@ -75,7 +75,7 @@
 						</goals>
 						<configuration>
 							<workflowEngine>mwe2</workflowEngine>
-							<workflowDescriptor>reprotool.ling</workflowDescriptor>
+							<workflowDescriptor>reprotool.tempeditor</workflowDescriptor>
 							<timestampFileName>emf-generator.timestamp</timestampFileName>
 							<!-- <jvmSettings> <fork>true</fork> <jvmArgs> <jvmArg>-Xms100m</jvmArg> 
 								<jvmArg>-Xmx700m</jvmArg> <jvmArg>-XX:MaxPermSize=128m</jvmArg> <jvmArg>-Dlog4j.configuration=file:${basedir}/log4j.properties</jvmArg> 

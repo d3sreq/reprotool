@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Anna
 Bundle-SymbolicName: reprotool.tools.anna
-Bundle-Version: 1.0.0
+Bundle-Version: 1.0.0.qualifier
 Bundle-ClassPath: anna-2.jar
 Export-Package: examples,
  is2.data,

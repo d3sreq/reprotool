@@ -258,7 +258,6 @@
 	    </page>
 	</extension>
 
-
   <extension point="org.eclipse.compare.contentViewers">
     <viewer id="reprotool.txtspec.TxtSpec.compare.contentViewers"
             class="reprotool.txtspec.ui.TxtSpecExecutableExtensionFactory:org.eclipse.xtext.ui.compare.InjectableViewerCreator"
