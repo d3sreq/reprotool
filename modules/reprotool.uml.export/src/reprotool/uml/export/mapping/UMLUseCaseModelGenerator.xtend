@@ -1,8 +1,5 @@
 package reprotool.uml.export.mapping
 
-import org.eclipse.xtext.xbase.lib.Pair
-
-import java.util.Map
 import java.util.HashMap
 import reprotool.model.swproj.SoftwareProject
 import reprotool.model.usecase.UseCaseStep
@@ -16,25 +13,39 @@ import org.eclipse.uml2.uml.UseCase
 import org.eclipse.uml2.uml.Association
 import org.eclipse.uml2.uml.Include
 import org.eclipse.uml2.uml.Property
+import com.google.inject.Inject
+import reprotool.model.utils.xtend.ReprotoolMappingExtensions
 
 
-public class UMLUCGen {
+public class UMLUseCaseModelGenerator {
+	
+	@Inject extension ReprotoolMappingExtensions
+	
 	private HashMap<reprotool.model.swproj.Actor, Actor> actorMap
 	private HashMap<reprotool.model.usecase.UseCase, UseCase> useCaseMap
 	UMLFactory factory
 	Model model
 	
-	def <K,V> boolean operator_add(Map<K,V> map, Pair<K,V> pair) {
-		map.put(pair.key, pair.value)
-		return true
+	def public generateUMLUCModel(SoftwareProject swproj) {
+		actorMap = new HashMap<reprotool.model.swproj.Actor, Actor>();
+		useCaseMap = new HashMap<reprotool.model.usecase.UseCase, UseCase>();
+		factory = UMLFactory::eINSTANCE;
+		model = factory.createModel();
+		
+		loadActors(swproj);
+		swproj.useCases.forEach([useCase|processUseCase(useCase)]);
+		swproj.useCases.forEach([useCase|processUseCaseInclude(useCase)]);
+		
+		return model;		
 	}
-	
+
 	def private loadActors(SoftwareProject swproj) {
-		swproj.actors.forEach([actor|
-			val Actor a = factory.createActor();
-			a.setPackage(model);
-			a.setName(actor.getName());
-			actorMap += actor -> a;
+		swproj.actors.forEach([ swprojactor |
+			$(factory.createActor)[
+				setPackage(model)
+				name = swprojactor.name
+				actorMap += swprojactor -> it;
+			]
 		]);
 	}
 	
@@ -43,15 +54,14 @@ public class UMLUCGen {
 		useCaseMap.put(u, uc);
 		uc.setName(u.getName());
 		uc.setPackage(model);
-		val Actor a = actorMap.get(u.getPrimaryActor());
 		
-		if (a == null) {
-			return;
-		}
+		val Actor a = actorMap.get( u.primaryActor );
+		if (a == null) return
 		
-		val Association link = factory.createAssociation();
+		val Association link = factory.createAssociation;
 		
-		val Property p1 = factory.createProperty();
+		
+		val Property p1 = factory.createProperty;
 		p1.setName("src");
 		p1.setType(a);
 		link.getNavigableOwnedEnds().add(p1);
@@ -86,18 +96,5 @@ public class UMLUCGen {
 		
 	def private processUseCaseInclude(reprotool.model.usecase.UseCase u) {
 		processScenario(u.mainScenario, useCaseMap.get(u));
-	}
-	
-	def public generateUMLUCModel(SoftwareProject swproj) {
-		actorMap = new HashMap<reprotool.model.swproj.Actor, Actor>();
-		useCaseMap = new HashMap<reprotool.model.usecase.UseCase, UseCase>();
-		factory = UMLFactory::eINSTANCE;
-		model = factory.createModel();
-		
-		loadActors(swproj);
-		swproj.useCases.forEach([useCase|processUseCase(useCase)]);
-		swproj.useCases.forEach([useCase|processUseCaseInclude(useCase)]);
-		
-		return model;		
 	}
 }

@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Nusmv Interface
+Bundle-Name: API to the NuSMV Model Checker
 Bundle-SymbolicName: reprotool.fm.nusmv; singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: reprotool.fm.nusmv.Activator
@@ -9,6 +9,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipselabs.nusmvtools.nusmv4j;bundle-version="4.0.1",
  org.eclipselabs.nusmvtools.counterexample;bundle-version="0.0.2",
  reprotool.model,
+ reprotool.model.utils;bundle-version="0.1.0",
  org.eclipse.ui.console;bundle-version="3.5.0",
  org.eclipse.core.resources;bundle-version="3.6.1",
  reprotool.fm.nusmv.lang;bundle-version="1.0.0",

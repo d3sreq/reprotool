@@ -3185,10 +3185,10 @@ public class InternalNuSmvLangLexer extends Lexer {
 
     protected DFA11 dfa11 = new DFA11(this);
     static final String DFA11_eotS =
-        "\1\uffff\1\76\1\100\1\104\1\111\2\76\1\115\1\120\1\121\1\123\1"+
-        "\126\1\132\2\uffff\1\76\1\uffff\1\141\1\144\2\uffff\1\150\1\153"+
-        "\3\76\1\160\1\161\1\162\1\163\1\164\1\165\2\76\3\uffff\1\76\1\uffff"+
-        "\4\76\4\uffff\1\u0088\6\76\1\u008f\1\uffff\2\73\2\uffff\2\76\1\uffff"+
+        "\1\uffff\1\76\1\100\1\104\1\111\2\76\1\115\1\120\1\121\1\123\1\126"+
+        "\1\132\2\uffff\1\76\1\uffff\1\141\1\144\2\uffff\1\150\1\153\3\76"+
+        "\1\160\1\161\1\162\1\163\1\164\1\165\2\76\3\uffff\1\76\1\uffff\4"+
+        "\76\4\uffff\1\u0088\6\76\1\u008f\1\uffff\2\73\2\uffff\2\76\1\uffff"+
         "\1\76\1\uffff\1\u0097\1\u0098\1\u0099\1\uffff\1\u009a\1\u009b\1"+
         "\u009c\1\76\1\uffff\3\76\1\uffff\2\76\2\uffff\1\76\12\uffff\2\76"+
         "\15\uffff\1\76\1\u00ab\2\76\6\uffff\3\76\3\uffff\2\76\1\uffff\4"+
@@ -3293,8 +3293,8 @@ public class InternalNuSmvLangLexer extends Lexer {
             "\4\uffff\1\76\1\uffff\32\76",
             "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\1\116\20\76\1\117"+
             "\10\76\4\uffff\1\76\1\uffff\32\76",
-            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1"+
-            "\76\1\uffff\32\76",
+            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1\76"+
+            "\1\uffff\32\76",
             "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\1\122\31\76\4\uffff"+
             "\1\76\1\uffff\32\76",
             "\1\125\20\uffff\1\124",
@@ -3312,18 +3312,18 @@ public class InternalNuSmvLangLexer extends Lexer {
             "\1\154",
             "\1\155",
             "\1\157\15\uffff\1\156",
-            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1"+
-            "\76\1\uffff\32\76",
-            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1"+
-            "\76\1\uffff\32\76",
-            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1"+
-            "\76\1\uffff\32\76",
-            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1"+
-            "\76\1\uffff\32\76",
-            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1"+
-            "\76\1\uffff\32\76",
-            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1"+
-            "\76\1\uffff\32\76",
+            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1\76"+
+            "\1\uffff\32\76",
+            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1\76"+
+            "\1\uffff\32\76",
+            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1\76"+
+            "\1\uffff\32\76",
+            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1\76"+
+            "\1\uffff\32\76",
+            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1\76"+
+            "\1\uffff\32\76",
+            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1\76"+
+            "\1\uffff\32\76",
             "\1\166\3\uffff\1\167",
             "\1\170",
             "",
@@ -3357,19 +3357,19 @@ public class InternalNuSmvLangLexer extends Lexer {
             "",
             "\1\u0096",
             "",
-            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1"+
-            "\76\1\uffff\32\76",
-            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1"+
-            "\76\1\uffff\32\76",
-            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1"+
-            "\76\1\uffff\32\76",
+            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1\76"+
+            "\1\uffff\32\76",
+            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1\76"+
+            "\1\uffff\32\76",
+            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1\76"+
+            "\1\uffff\32\76",
             "",
-            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1"+
-            "\76\1\uffff\32\76",
-            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1"+
-            "\76\1\uffff\32\76",
-            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1"+
-            "\76\1\uffff\32\76",
+            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1\76"+
+            "\1\uffff\32\76",
+            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1\76"+
+            "\1\uffff\32\76",
+            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1\76"+
+            "\1\uffff\32\76",
             "\1\u009d",
             "",
             "\1\u009e",
@@ -3407,8 +3407,8 @@ public class InternalNuSmvLangLexer extends Lexer {
             "",
             "",
             "\1\u00a8\11\uffff\1\u00a9",
-            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1"+
-            "\76\1\uffff\10\76\1\u00aa\21\76",
+            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1\76"+
+            "\1\uffff\10\76\1\u00aa\21\76",
             "\1\u00ac",
             "\1\u00ad",
             "",
@@ -3437,8 +3437,8 @@ public class InternalNuSmvLangLexer extends Lexer {
             "",
             "",
             "\1\u00b8",
-            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1"+
-            "\76\1\uffff\32\76",
+            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1\76"+
+            "\1\uffff\32\76",
             "\1\u00ba",
             "\1\u00bb",
             "\1\u00bc",
@@ -3465,17 +3465,17 @@ public class InternalNuSmvLangLexer extends Lexer {
             "\1\u00c7",
             "\1\u00c8",
             "\1\u00c9",
-            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1"+
-            "\76\1\uffff\32\76",
-            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1"+
-            "\76\1\uffff\32\76",
+            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1\76"+
+            "\1\uffff\32\76",
+            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1\76"+
+            "\1\uffff\32\76",
             "\1\u00cc",
             "\1\u00cd",
             "\1\u00ce",
             "\1\u00cf",
             "",
-            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1"+
-            "\76\1\uffff\32\76",
+            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1\76"+
+            "\1\uffff\32\76",
             "\1\u00d1",
             "\1\u00d2",
             "\1\u00d3",
@@ -3496,72 +3496,72 @@ public class InternalNuSmvLangLexer extends Lexer {
             "\1\u00e1",
             "\1\u00e2",
             "\1\u00e3",
-            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1"+
-            "\76\1\uffff\32\76",
+            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1\76"+
+            "\1\uffff\32\76",
             "\1\u00e5",
-            "\2\76\10\uffff\2\76\1\uffff\1\76\1\u00e6\10\76\7\uffff\32"+
-            "\76\4\uffff\1\76\1\uffff\32\76",
-            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1"+
-            "\76\1\uffff\4\76\1\u00e8\25\76",
-            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1"+
-            "\76\1\uffff\32\76",
+            "\2\76\10\uffff\2\76\1\uffff\1\76\1\u00e6\10\76\7\uffff\32\76"+
+            "\4\uffff\1\76\1\uffff\32\76",
+            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1\76"+
+            "\1\uffff\4\76\1\u00e8\25\76",
+            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1\76"+
+            "\1\uffff\32\76",
             "\1\u00eb",
             "\1\u00ec",
             "\1\u00ed",
             "\1\u00ee",
             "",
             "",
-            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1"+
-            "\76\1\uffff\32\76",
+            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1\76"+
+            "\1\uffff\32\76",
             "\1\u00f0",
             "\1\u00f1",
-            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1"+
-            "\76\1\uffff\32\76",
+            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1\76"+
+            "\1\uffff\32\76",
             "",
-            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1"+
-            "\76\1\uffff\32\76",
-            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1"+
-            "\76\1\uffff\32\76",
+            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1\76"+
+            "\1\uffff\32\76",
+            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1\76"+
+            "\1\uffff\32\76",
             "\1\u00f5",
             "\1\u00f6",
-            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1"+
-            "\76\1\uffff\32\76",
-            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1"+
-            "\76\1\uffff\32\76",
+            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1\76"+
+            "\1\uffff\32\76",
+            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1\76"+
+            "\1\uffff\32\76",
             "\1\u00f9",
             "\1\u00fa",
-            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1"+
-            "\76\1\uffff\32\76",
+            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1\76"+
+            "\1\uffff\32\76",
             "\1\u00fc",
             "\1\u00fd",
             "\1\u00fe",
             "\1\u00ff",
-            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1"+
-            "\76\1\uffff\32\76",
-            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1"+
-            "\76\1\uffff\32\76",
-            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1"+
-            "\76\1\uffff\32\76",
+            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1\76"+
+            "\1\uffff\32\76",
+            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1\76"+
+            "\1\uffff\32\76",
+            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1\76"+
+            "\1\uffff\32\76",
             "\1\u0103",
             "\1\u0104",
             "\1\u0105",
             "",
             "\1\u0106",
-            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1"+
-            "\76\1\uffff\32\76",
+            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1\76"+
+            "\1\uffff\32\76",
             "",
             "\1\u0108",
             "",
             "",
-            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1"+
-            "\76\1\uffff\32\76",
-            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1"+
-            "\76\1\uffff\32\76",
+            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1\76"+
+            "\1\uffff\32\76",
+            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1\76"+
+            "\1\uffff\32\76",
             "\1\u010b",
             "\1\u010c",
             "",
-            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1"+
-            "\76\1\uffff\32\76",
+            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1\76"+
+            "\1\uffff\32\76",
             "\1\u010e",
             "",
             "",
@@ -3570,14 +3570,14 @@ public class InternalNuSmvLangLexer extends Lexer {
             "\1\u0110",
             "",
             "",
-            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\22\76\1\u0111\7"+
-            "\76\4\uffff\1\76\1\uffff\32\76",
+            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\22\76\1\u0111\7\76"+
+            "\4\uffff\1\76\1\uffff\32\76",
             "\1\u0113",
             "",
             "\1\u0114",
             "\1\u0115",
-            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1"+
-            "\76\1\uffff\32\76",
+            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1\76"+
+            "\1\uffff\32\76",
             "\1\u0117",
             "",
             "",
@@ -3585,8 +3585,8 @@ public class InternalNuSmvLangLexer extends Lexer {
             "\1\u0118",
             "\1\u0119",
             "\1\u011a",
-            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1"+
-            "\76\1\uffff\32\76",
+            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1\76"+
+            "\1\uffff\32\76",
             "",
             "\1\u011c",
             "",
@@ -3596,23 +3596,23 @@ public class InternalNuSmvLangLexer extends Lexer {
             "",
             "\1\u011f",
             "\1\u0120",
-            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1"+
-            "\76\1\uffff\32\76",
+            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1\76"+
+            "\1\uffff\32\76",
             "\1\u0122",
             "",
-            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1"+
-            "\76\1\uffff\32\76",
+            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1\76"+
+            "\1\uffff\32\76",
             "\1\u0124",
             "\1\u0125",
             "",
             "\1\u0126",
-            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1"+
-            "\76\1\uffff\32\76",
+            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1\76"+
+            "\1\uffff\32\76",
             "\1\u0128",
             "\1\u0129",
             "",
-            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1"+
-            "\76\1\uffff\32\76",
+            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1\76"+
+            "\1\uffff\32\76",
             "\1\u012b",
             "\1\u012c",
             "\1\u012d",
@@ -3620,34 +3620,34 @@ public class InternalNuSmvLangLexer extends Lexer {
             "",
             "\1\u012e",
             "",
-            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1"+
-            "\76\1\uffff\32\76",
-            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1"+
-            "\76\1\uffff\32\76",
-            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1"+
-            "\76\1\uffff\32\76",
+            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1\76"+
+            "\1\uffff\32\76",
+            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1\76"+
+            "\1\uffff\32\76",
+            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1\76"+
+            "\1\uffff\32\76",
             "",
             "\1\u0132",
             "\1\u0133",
             "",
-            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1"+
-            "\76\1\uffff\32\76",
+            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1\76"+
+            "\1\uffff\32\76",
             "\1\u0135",
-            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1"+
-            "\76\1\uffff\32\76",
+            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1\76"+
+            "\1\uffff\32\76",
             "\1\u0137",
             "",
             "",
             "",
-            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1"+
-            "\76\1\uffff\32\76",
+            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1\76"+
+            "\1\uffff\32\76",
             "\1\u0139",
             "",
-            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1"+
-            "\76\1\uffff\32\76",
+            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1\76"+
+            "\1\uffff\32\76",
             "",
-            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1"+
-            "\76\1\uffff\32\76",
+            "\2\76\10\uffff\2\76\1\uffff\12\76\7\uffff\32\76\4\uffff\1\76"+
+            "\1\uffff\32\76",
             "",
             "\1\u013c",
             "",

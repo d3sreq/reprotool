@@ -13,57 +13,44 @@ import org.osgi.framework.BundleContext;
 
 import com.google.inject.Injector;
 import com.google.inject.Module;
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.CacheLoader;
 
-import java.util.concurrent.ExecutionException;
-
-import org.eclipse.xtext.ui.shared.SharedStateModule;
+import java.util.Map;
+import java.util.HashMap;
 
 /**
  * This class was generated. Customizations should only happen in a newly
  * introduced subclass. 
  */
 public class NuSmvLangActivator extends AbstractUIPlugin {
-	
-	private static final Logger logger = Logger.getLogger(NuSmvLangActivator.class);
-	
-	private Cache<String, Injector> injectors = CacheBuilder.newBuilder().build(new CacheLoader<String, Injector>() {
-		@Override
-		public Injector load(String language) throws Exception {
-			Module runtimeModule = getRuntimeModule(language);
-			Module sharedStateModule = getSharedStateModule();
-			Module uiModule = getUiModule(language);
-			Module mergedModule = override(override(runtimeModule).with(sharedStateModule)).with(uiModule);
-			return createInjector(mergedModule);
-		}
-	});
-	
+
+	private Map<String,Injector> injectors = new HashMap<String,Injector>();
 	private static NuSmvLangActivator INSTANCE;
-	
-	public static final String REPROTOOL_FM_NUSMV_LANG_NUSMVLANG = "reprotool.fm.nusmv.lang.NuSmvLang";
-	
+
 	public Injector getInjector(String languageName) {
-		try {
-			return injectors.get(languageName);
-		} catch(ExecutionException e) {
-			logger.error("Failed to create injector for " + languageName);
-			logger.error(e.getMessage(), e);
-			throw new RuntimeException("Failed to create injector for " + languageName, e);
-		}
+		return injectors.get(languageName);
 	}
 	
 	@Override
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		INSTANCE = this;
+		try {
+			registerInjectorFor("reprotool.fm.nusmv.lang.NuSmvLang");
+			
+		} catch (Exception e) {
+			Logger.getLogger(getClass()).error(e.getMessage(), e);
+			throw e;
+		}
+	}
+	
+	protected void registerInjectorFor(String language) throws Exception {
+		injectors.put(language, createInjector(
+		  override(override(getRuntimeModule(language)).with(getSharedStateModule())).with(getUiModule(language))));
 	}
 	
 	@Override
 	public void stop(BundleContext context) throws Exception {
-		injectors.invalidateAll();
-		injectors.cleanUp();
+		injectors.clear();
 		INSTANCE = null;
 		super.stop(context);
 	}
@@ -73,23 +60,23 @@ public class NuSmvLangActivator extends AbstractUIPlugin {
 	}
 	
 	protected Module getRuntimeModule(String grammar) {
-		if (REPROTOOL_FM_NUSMV_LANG_NUSMVLANG.equals(grammar)) {
-			return new reprotool.fm.nusmv.lang.NuSmvLangRuntimeModule();
+		if ("reprotool.fm.nusmv.lang.NuSmvLang".equals(grammar)) {
+		  return new reprotool.fm.nusmv.lang.NuSmvLangRuntimeModule();
 		}
 		
 		throw new IllegalArgumentException(grammar);
 	}
 	
 	protected Module getUiModule(String grammar) {
-		if (REPROTOOL_FM_NUSMV_LANG_NUSMVLANG.equals(grammar)) {
-			return new reprotool.fm.nusmv.lang.ui.NuSmvLangUiModule(this);
+		if ("reprotool.fm.nusmv.lang.NuSmvLang".equals(grammar)) {
+		  return new reprotool.fm.nusmv.lang.ui.NuSmvLangUiModule(this);
 		}
 		
 		throw new IllegalArgumentException(grammar);
 	}
 	
 	protected Module getSharedStateModule() {
-		return new SharedStateModule();
+		return new org.eclipse.xtext.ui.shared.SharedStateModule();
 	}
 	
 }

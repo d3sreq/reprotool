@@ -26124,10 +26124,10 @@ public class InternalNuSmvLangParser extends AbstractInternalContentAssistParser
     static final String DFA10_specialS =
         "\13\uffff}>";
     static final String[] DFA10_transitionS = {
-            "\1\2\1\1\11\uffff\2\10\2\11\2\2\20\uffff\2\5\10\uffff\16\5"+
-            "\1\2\1\uffff\1\4\14\uffff\1\3\16\uffff\1\7\5\uffff\1\6",
-            "\2\2\6\uffff\32\2\17\uffff\1\2\1\uffff\10\2\1\uffff\2\2\2"+
-            "\uffff\10\2\3\uffff\1\2\3\uffff\1\2\1\12",
+            "\1\2\1\1\11\uffff\2\10\2\11\2\2\20\uffff\2\5\10\uffff\16\5\1"+
+            "\2\1\uffff\1\4\14\uffff\1\3\16\uffff\1\7\5\uffff\1\6",
+            "\2\2\6\uffff\32\2\17\uffff\1\2\1\uffff\10\2\1\uffff\2\2\2\uffff"+
+            "\10\2\3\uffff\1\2\3\uffff\1\2\1\12",
             "",
             "",
             "",
@@ -26244,9 +26244,9 @@ public class InternalNuSmvLangParser extends AbstractInternalContentAssistParser
     static final String DFA46_specialS =
         "\34\uffff}>";
     static final String[] DFA46_transitionS = {
-            "\2\1\6\uffff\1\2\1\3\1\4\1\5\1\6\1\7\1\10\1\11\1\12\1\13\1"+
-            "\14\1\15\1\16\1\17\1\20\1\21\1\22\1\23\1\24\1\25\1\26\1\27\1"+
-            "\30\1\31\1\32\1\33\17\uffff\1\1\1\uffff\10\1\1\uffff\2\1\2\uffff"+
+            "\2\1\6\uffff\1\2\1\3\1\4\1\5\1\6\1\7\1\10\1\11\1\12\1\13\1\14"+
+            "\1\15\1\16\1\17\1\20\1\21\1\22\1\23\1\24\1\25\1\26\1\27\1\30"+
+            "\1\31\1\32\1\33\17\uffff\1\1\1\uffff\10\1\1\uffff\2\1\2\uffff"+
             "\10\1\3\uffff\1\1\3\uffff\1\1",
             "",
             "",

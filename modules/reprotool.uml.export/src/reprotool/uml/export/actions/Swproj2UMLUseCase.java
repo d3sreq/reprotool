@@ -15,7 +15,7 @@ import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.resource.UMLResource;
 
 import reprotool.model.swproj.SoftwareProject;
-import reprotool.uml.export.mapping.UMLUCGen;
+import reprotool.uml.export.mapping.UMLUseCaseModelGenerator;
 
 public class Swproj2UMLUseCase implements IWorkbenchWindowActionDelegate {
 	private ISelection sel;
@@ -43,7 +43,7 @@ public class Swproj2UMLUseCase implements IWorkbenchWindowActionDelegate {
 		}
 		SoftwareProject swproj = (SoftwareProject) rootEObj;
 		
-		UMLUCGen umlGen = new UMLUCGen();
+		UMLUseCaseModelGenerator umlGen = new UMLUseCaseModelGenerator();
 		Model model = umlGen.generateUMLUCModel(swproj);
 		
 		final URI umlUri = URI.createPlatformResourceURI(

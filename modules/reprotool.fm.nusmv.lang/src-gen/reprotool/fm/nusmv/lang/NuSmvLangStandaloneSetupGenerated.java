@@ -39,5 +39,6 @@ public class NuSmvLangStandaloneSetupGenerated implements ISetup {
 
 
 
+
 	}
 }

@@ -2,7 +2,6 @@
  * <copyright>
  * </copyright>
  *
-
  */
 package reprotool.fm.nusmv.lang.nuSmvLang.util;
 

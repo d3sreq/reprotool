@@ -15,6 +15,7 @@ import reprotool.model.swproj.SoftwareProject
 import reprotool.model.usecase.UseCase
 import reprotool.model.usecase.annotate.TemporalAnnotationGroup
 import reprotool.model.usecase.annotate.TemporalLogicFormula
+import reprotool.model.utils.xtend.ReprotoolMappingExtensions
 
 public class NuSMVProj {
 
