@@ -3,7 +3,6 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Tempeditor
 Bundle-SymbolicName: reprotool.uc.tempeditor;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: reprotool.uc.tempeditor.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  reprotool.model.editor;bundle-version="1.0.0",
