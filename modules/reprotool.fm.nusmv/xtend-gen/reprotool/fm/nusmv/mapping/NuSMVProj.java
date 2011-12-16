@@ -38,13 +38,13 @@ import reprotool.fm.nusmv.lang.nuSmvLang.OtherModule;
 import reprotool.fm.nusmv.lang.nuSmvLang.SyncrProcessType;
 import reprotool.fm.nusmv.lang.nuSmvLang.VarBody;
 import reprotool.fm.nusmv.lang.nuSmvLang.VariableDeclaration;
-import reprotool.fm.nusmv.mapping.ReprotoolMappingExtensions;
 import reprotool.model.swproj.SoftwareProject;
 import reprotool.model.usecase.UseCase;
 import reprotool.model.usecase.annotate.AnnotationGroup;
 import reprotool.model.usecase.annotate.TemporalAnnotation;
 import reprotool.model.usecase.annotate.TemporalAnnotationGroup;
 import reprotool.model.usecase.annotate.TemporalLogicFormula;
+import reprotool.model.utils.xtend.ReprotoolMappingExtensions;
 
 @SuppressWarnings("all")
 public class NuSMVProj {
