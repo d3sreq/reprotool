@@ -9,6 +9,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -67,7 +68,7 @@ public class AnalyseBenchmark {
 		// errors
 		String error = "";
 		// subjects stats
-		DecimalFormat formatter = new DecimalFormat(".0");
+		DecimalFormat formatter = new DecimalFormat(".00");
 		int subjects = 0;
 		float foundSubjects = 0;
 		for (BenchmarkSentence bs : sentences) {
@@ -126,12 +127,24 @@ public class AnalyseBenchmark {
 		error = "";
 		for (BenchmarkSentence bs : sentences) {
 			objects++;
-			if (bs.outResults.objectNumber == bs.inResults.objectNumber)
+			if (Arrays.equals(bs.outResults.objectNumbers,bs.inResults.objectNumbers))
 				foundObjects++;
-			else
-				error += bs.getId() + ": input objectNumber: "
-						+ bs.inResults.objectNumber + " output objectNumber: "
-						+ bs.outResults.objectNumber + "\n";
+			else {
+				// string operations for better output
+				String inOb = "";
+				for (int a : bs.inResults.objectNumbers){
+					inOb = inOb + a + ",";
+				}
+				if (inOb.endsWith(",")) inOb = inOb.substring(0, inOb.length()-1);
+				String outOb = "";
+				for (int a : bs.outResults.objectNumbers){
+					outOb = outOb + a + ",";
+				}
+				if (outOb.endsWith(",")) outOb = outOb.substring(0, outOb.length()-1);
+				error += bs.getId() + ": input objectNumbers: "
+						+ inOb + " output objectNumbers: "
+						+ outOb + "\n";
+			}
 		}	
 		result += "OBJECTS: " + "Count: " + objects + " Found: " + (int)foundObjects + " | " + formatter.format((foundObjects * 100)/objects) + "%\n";
 		result += error;

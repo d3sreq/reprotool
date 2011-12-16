@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 
-import com.google.common.collect.Lists;
-
 import reprotool.model.swproj.Actor;
 import reprotool.model.swproj.SwprojFactory;
 
@@ -26,33 +24,62 @@ import reprotool.model.swproj.SwprojFactory;
 public class LingConfig {
 	// special actions verb lists
 	// GOTO ACTION
-	public static ArrayList<String> gotoVerbs = Lists.newArrayList("continue", "repeat", "resume", "retry");
+	public static ArrayList<String> gotoVerbs = defaultGotoVerbs();
 	// ABORT ACTION
-	public static ArrayList<String> abortVerbs = Lists.newArrayList("abort", "terminate", "end");
-			//new ArrayList<String>();
+	public static ArrayList<String> abortVerbs = defaultAbortVerbs();
 	
 	// default actors
-	public static EList<Actor> actors = new BasicEList<Actor>();
+	public static EList<Actor> actors = defaultActors();
 	
-	public LingConfig() {
+	// must be aSubject in actors list?
+	public static final boolean isSubjectActor = true;
+	
+	/**
+	 * Static method for setting Goto action verbs
+	 * "continue", "repeat", "resume", "retry"
+	 *  
+	 * @return filled list
+	 */
+	private static ArrayList<String> defaultGotoVerbs() {
+		ArrayList<String> result = new ArrayList<String>();
 		// continue verbs
-		gotoVerbs.add("continue");
-		gotoVerbs.add("repeat");
-		gotoVerbs.add("resume");
-		gotoVerbs.add("retry");
-		
+		result.add("continue");
+		result.add("repeat");
+		result.add("resume");
+		result.add("retry");
+		return result;
+	}
+	
+	/**
+	 * Static method for setting Abort action verbs
+	 * "abort", "terminate", "end"
+	 *  
+	 * @return filled list
+	 */
+	private static ArrayList<String> defaultAbortVerbs() {
+		ArrayList<String> result = new ArrayList<String>();
 		// abort verbs
-		abortVerbs.add("abort");
-		abortVerbs.add("terminate");		
-		abortVerbs.add("end");
-		
+		result.add("abort");
+		result.add("terminate");		
+		result.add("end");
+		return result;
+	}
+	
+	/**
+	 * Static method for filling predefined basic actors
+	 * "system", "user"
+	 *  
+	 * @return filled list
+	 */
+	private static EList<Actor> defaultActors() {
+		EList<Actor> result = new BasicEList<Actor>();
 		// default actors
 		Actor ac = SwprojFactory.eINSTANCE.createActor();
 		ac.setName("system");
-		actors.add(ac);
+		result.add(ac);
 		ac = SwprojFactory.eINSTANCE.createActor();
 		ac.setName("user");
-		actors.add(ac);
+		result.add(ac);
+		return result;
 	}
-
 }

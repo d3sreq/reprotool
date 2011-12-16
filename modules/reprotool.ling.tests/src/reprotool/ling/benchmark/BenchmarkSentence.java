@@ -30,7 +30,7 @@ public class BenchmarkSentence extends SentenceImpl {
 	class BenchmarkResults {
 		public int subjectNumber = 0;
 		public String verbLemma = "";
-		public int objectNumber = 0;
+		public int objectNumbers [] = new int [1];
 		public int indirectObjectNumber = 0;
 		public ActionCode actionCode = ActionCode.X;
 	}
@@ -66,7 +66,11 @@ public class BenchmarkSentence extends SentenceImpl {
 			// we have more
 			if (fields.length >= 6) {
 				try {
-					inResults.objectNumber = Integer.parseInt(fields[5]);
+					String[] ints = fields[5].split(",");
+					inResults.objectNumbers = new int [ints.length];
+					for (int i = 0; i < ints.length; i++) {
+						inResults.objectNumbers[i] = Integer.parseInt(ints[i]);
+					}
 				} catch (NumberFormatException e) {}
 				if (fields.length >= 7) {
 					try {
@@ -145,7 +149,7 @@ public class BenchmarkSentence extends SentenceImpl {
 		// result
 		String result = "ID: " + id + " SENTENCE: " + sentence + " SUBJECT: "
 				+ inResults.subjectNumber + " VERB: " + inResults.verbLemma + " OBJECT: "
-				+ inResults.objectNumber + " INDIRECT_OBJECT: " + inResults.indirectObjectNumber
+				+ inResults.objectNumbers + " INDIRECT_OBJECT: " + inResults.indirectObjectNumber
 				+ " ACTION: " + inResults.actionCode;
 		return result;
 	}
@@ -162,9 +166,9 @@ public class BenchmarkSentence extends SentenceImpl {
 		if (this.getSentenceTree() == null)
 			return false;
 		// find subjects
-		Word word = FindConstituent.findSubject(this);
+		Word word = FindConstituent.findSubject(this, this.actors);
 		if (word != null) {
-			int i = this.getWords().indexOf(word);
+			int i = this.getIndexOf(word);
 			if (i >= 0) {
 				// data words counting from 1
 				this.outResults.subjectNumber = i + 1;
@@ -173,7 +177,7 @@ public class BenchmarkSentence extends SentenceImpl {
 		// find verbs
 		word = FindConstituent.findMainVerb(this);
 		if (word != null) {
-			int i = this.getWords().indexOf(word);
+			int i = this.getIndexOf(word);
 			if (i >= 0) {
 				// ignore case just for wrong data input
 				this.outResults.verbLemma = word.getLemma();
@@ -186,7 +190,7 @@ public class BenchmarkSentence extends SentenceImpl {
 		if (words.size() > 0) {
 			// first object
 			word = words.get(0);
-			int i = this.getWords().indexOf(word);
+			int i = this.getIndexOf(word);
 			if (i >= 0) {
 				// ignore case just for wrong data input
 				this.outResults.indirectObjectNumber = i + 1;
@@ -197,16 +201,42 @@ public class BenchmarkSentence extends SentenceImpl {
 			words = FindConstituent.findRepresentativeObject(this, null);
 		}
 		// add representative objects
-		if (words.size() > 0) {
-			// first object
-			word = words.get(0);
-			int i = this.getWords().indexOf(word);
+		this.outResults.objectNumbers = new int [words.size()];
+		for(int k = 0; k < words.size() ; k++){
+			// all objects
+			int i = this.getIndexOf(words.get(k));
 			if (i >= 0) {
 				// ignore case just for wrong data input
-				this.outResults.objectNumber = i + 1;
+				this.outResults.objectNumbers[k] = i + 1;
+			} else {
+				this.outResults.objectNumbers[k] = 0;			
 			}
 		}
 
 		return result;
+	}
+
+	/**
+	 * Gets index of a word in sentence, strips interpunction
+	 * substitution for this.getWords().indexOf(word)
+	 * 
+	 * @param word to find
+	 * @return index or -1 when word isn't in sentence
+	 */
+	private int getIndexOf(Word word) {
+		// resutl
+		int x = this.getWords().indexOf(word);
+		// how many interpunction to jump
+		int jump = 0;
+		
+		// remove all non word elements
+		if (x != -1) {
+			for (int i = 0; i < x ; i++){
+				if(this.getWords().get(i).isInterpunction())
+					jump++;
+			}
+		}
+
+		return (x - jump);
 	}
 }

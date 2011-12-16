@@ -27,36 +27,43 @@ public class FindConstituent {
 	 */
 	public static ArrayList<Word> findIndirectObject(Sentence sentence, EList<Actor> actors) {
 		// have we one?
-		//boolean indirectobject = false;		
+		//boolean indirectobject = false;	
+		// count objects
+		int count = 0;
 		// result
 		ArrayList<Word> words = new ArrayList<Word>();	
 		// indirect object must be in NP that is in VP
-		ArrayList<SentenceNode> nounNodes = FindNode.getNounPhrases(FindNode.mainVerbPhrase(sentence.getSentenceTree()));
+		ArrayList<SentenceNode> nounNodes = FindNode.getAllNounPhrases(FindNode.mainVerbPhrase(sentence.getSentenceTree()));
 		
+		// count all predicted objects
 		for (SentenceNode curNode : nounNodes) {
 			// get nouns
 			ArrayList<Word> nouns = FindWord.getNouns(curNode);
-			// mark all non possessive nouns as indirect object
-			for (Word word : nouns) {
-				if (word.getPOS() != POSType.POSSESSIVE_ENDING) {
-					// must be already actor
-					for (Actor ac : actors) {
-						// TODO objects have same parent ?
-						if (ac.getName().equalsIgnoreCase(word.getLemma())) {
-							// must be a noun
-							word.setType(WordType.INDIRECT_OBJECT);
-							words.add(word);
-							/*if (!indirectobject) {
-								// return node where is first indirect object
-								ionode = curNode;
-							}*/
-							//indirectobject = true;
+			if (nouns.size() > 0)
+				count++;
+		}
+		
+		if (count > 1) {
+			for (SentenceNode curNode : nounNodes) {
+				// get nouns
+				ArrayList<Word> nouns = FindWord.getNouns(curNode);
+				// there must be more than one object to have representative
+				for (Word word : nouns) {
+					// mark all non possessive nouns as indirect object
+					if (word.getPOS() != POSType.POSSESSIVE_ENDING) {
+						// must be already actor
+						for (Actor ac : actors) {
+							// TODO objects have same parent ?
+							if (ac.getName().equalsIgnoreCase(word.getLemma())) {
+								// must be a noun
+								word.setType(WordType.INDIRECT_OBJECT);
+								words.add(word);
+							}
 						}
 					}
 				}
 			}
 		}
-
 		return words;
 	}
 
@@ -80,11 +87,25 @@ public class FindConstituent {
 		for(SentenceNode node : nounNodes) {
 			// find all noun phrases
 			ArrayList<Word> nouns = FindWord.getNouns(node);
-			for (Word word : nouns) {
-				// mark node
-				word.setType(WordType.REPRESENTATIVE_OBJECT);
-				System.out.println("Object: " + word.getLemma());
-				objects.add(word);
+			// get last noun in one node (rest should be wrong adjectives)
+			if (nouns.size() > 0) {
+				// try conjunctions (noun just before conjunction)
+				for (Word noun : nouns) {
+					int index = sentence.getWords().indexOf(noun);
+					if ((index >= 0)
+							&& (index < sentence.getWords().size() - 1)
+							&& (sentence.getWords().get(index + 1).getPOS() == POSType.COORDINATING_CONJUNCTION)) {
+						noun.setType(WordType.REPRESENTATIVE_OBJECT);
+						objects.add(noun);	
+					}
+				}
+				// try last
+				Word word = nouns.get(nouns.size()-1);
+				if(!objects.contains(word)) {
+					word.setType(WordType.REPRESENTATIVE_OBJECT);
+					//System.out.println("Object: " + word.getLemma());
+					objects.add(word);	
+				}
 			}
 		}
 
@@ -97,15 +118,20 @@ public class FindConstituent {
 	 * @param sentence sentence object to analyse
 	 * @return SentenceNode / null if not found
 	 */
-	public static Word findSubject (Sentence sentence) {
+	public static Word findSubject (Sentence sentence, EList<Actor> actors) {
 		// result
 		Word subject = null;		
 		// current node
 		SentenceNode curNode = null;
+		// must be an actor?
+		boolean isActor = LingConfig.isSubjectActor;
 		
+		// try to switch  object and subject in passive
 		if (sentence.isPassive()) {
-			System.out.println("passive");
-			//findRepresentativeObject(sentence, curNode);
+			ArrayList<Word> objects = findRepresentativeObject(sentence, null);
+			if(objects.size() == 1) {
+				subject = objects.get(0);				
+			}
 		}
 		
 		// is there any determiner?
@@ -128,8 +154,6 @@ public class FindConstituent {
 				// better - get all noun and their high
 				for (ParseTreeNode node : curNode.getChildren()) {
 					if(node instanceof Word && ((Word)node).isNoun()) {
-						((Word)node).setType(WordType.SUBJECT);
-						System.out.println("Subject: " + ((Word)node).getLemma());
 						subject = (Word)node;
 						break;
 					}
@@ -139,15 +163,30 @@ public class FindConstituent {
 				for(ParseTreeNode node : curNode.getChildren()) {
 					// we need noun
 					if (node instanceof Word && ((Word)node).getPOS().getLiteral().startsWith("NN")) {
-						((Word)node).setType(WordType.SUBJECT);
-						System.out.println("Subject: " + ((Word)node).getLemma());
 						subject = (Word)node;
 						break;
 					}
 				}
 			}
 		}
-		return subject;
+		
+		if (subject != null) {
+			if(isActor) {
+				for (Actor ac : actors) {
+					if (ac.getName().equalsIgnoreCase((subject).getLemma())) {
+						subject.setType(WordType.SUBJECT);
+						return subject;
+					}
+				}
+			} else {
+//				System.out.println("Subject: " + subject.getLemma());	
+				subject.setType(WordType.SUBJECT);
+				return subject;
+			}
+		}
+		
+		// was already set?
+		return null;
 	}
 
 	

@@ -19,7 +19,7 @@ public class FindWord {
 	 * @param rootNode SentenceNode object to analyze
 	 * @return found ArrayList<Word> or null
 	 */
-	public static ArrayList<Word> getNouns(SentenceNode rootNode) {
+	public static ArrayList<Word> getAllNouns(SentenceNode rootNode) {
 		// result list
 		ArrayList<Word> resultWords = new ArrayList<Word>();
 		// go through all children
@@ -30,13 +30,33 @@ public class FindWord {
 					resultWords.add((Word)pnode);
 			} else { // node - go deeper
 				// recursion is there - add all of them
-				for (Word word : getNouns((SentenceNode)pnode)) {
+				for (Word word : getAllNouns((SentenceNode)pnode)) {
 					resultWords.add(word);
 				}
 			}
 		}
 		return resultWords;
 	}
+	
+	/**
+	 * Find all nouns (direct children) in given node
+	 * @param rootNode SentenceNode object to analyze
+	 * @return found ArrayList<Word> or null
+	 */
+	public static ArrayList<Word> getNouns(SentenceNode rootNode) {
+		// result list
+		ArrayList<Word> resultWords = new ArrayList<Word>();
+		// go through all children
+		for(ParseTreeNode pnode : rootNode.getChildren()) {
+			if (pnode instanceof Word) {
+				// need noun
+				if (((Word) pnode).isNoun())
+					resultWords.add((Word)pnode);
+			}
+		}
+		return resultWords;
+	}
+	
 
 	/**
 	 * Find all verbs in given tree
@@ -61,6 +81,24 @@ public class FindWord {
 		}
 		return resultWords;
 	}
+	
+	/**
+	 * Find all words (direct children) in given node
+	 * @param rootNode SentenceNode object to analyze
+	 * @return found ArrayList<Word> or null
+	 */
+	public static ArrayList<Word> getWords(SentenceNode rootNode) {
+		// result list
+		ArrayList<Word> resultWords = new ArrayList<Word>();
+		// go through all children
+		for(ParseTreeNode pnode : rootNode.getChildren()) {
+			if (pnode instanceof Word) {
+				resultWords.add((Word)pnode);
+			}
+		}
+		return resultWords;
+	}
+	
 	
 	/**
 	 * Search direct node children for given lemma

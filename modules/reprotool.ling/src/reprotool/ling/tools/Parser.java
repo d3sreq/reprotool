@@ -303,6 +303,7 @@ public class Parser extends Tool {
 	    			if(curNode == null) {
 	    				break;
 	    			}
+	    			curWord.setParent(curNode);
 	    			curNode.getChildren().add(curWord);	
 	    			sentence.getWords().add(curWord);
 	    			atWord = true;
@@ -322,7 +323,7 @@ public class Parser extends Tool {
 	    		}
 	    	} else { // parsing WORD
     			curWord.setText(symbol);
-    			curWord.setInterpunction(Pattern.matches("[,.!?]", symbol));
+    			curWord.setInterpunction(Pattern.matches("[,.!?\\-\"';]", symbol));
     			// finding digits - all from Label1 to 99IMG
     			curWord.setNumeral(Pattern.matches("([a-zA-Z]*\\d+)|(\\d+[a-zA-Z]*)", symbol));
 	    	}  		
