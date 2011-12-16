@@ -37,10 +37,11 @@ public class LTSLayoutAlgorithm extends AbstractLayoutAlgorithm {
 	private State initialState;
 	private Set<State> abortStates = new HashSet<State>();
 	
-	private HashMap<Integer, Integer> occupiedCols = new HashMap<Integer, Integer>();
+	private HashMap<Integer, Set<Integer>> occupiedCols = new HashMap<Integer, Set<Integer>>();
 	private HashMap<State, InternalNode> state2Node = new HashMap<State, InternalNode>();
 	private HashMap<Transition, GraphNode> trans2Node = new HashMap<Transition, GraphNode>();
-	private HashMap<UseCaseStep, Transition> ucStep2Trans = new HashMap<UseCaseStep, Transition>();
+	private HashMap<UseCaseStep, Transition> ucStep2TransLayout = new HashMap<UseCaseStep, Transition>();
+	private HashMap<UseCaseStep, Transition> ucStep2TransOriginal = new HashMap<UseCaseStep, Transition>();
 	private HashMap<GraphNode, InternalNode> graph2Internal = new HashMap<GraphNode, InternalNode>();
 	
 	private StateMachine workingMachine;
@@ -74,7 +75,7 @@ public class LTSLayoutAlgorithm extends AbstractLayoutAlgorithm {
 	}
 	
 	private InternalNode findMappedNode(UseCaseStep step) {
-		return state2Node.get(ucStep2Trans.get(step).getTargetState());
+		return state2Node.get(ucStep2TransLayout.get(step).getTargetState());
 	}
 	
 	private int stepForward(int pos, SpanDirection dir) {
@@ -88,22 +89,32 @@ public class LTSLayoutAlgorithm extends AbstractLayoutAlgorithm {
 		throw new RuntimeException("API misuse");
 	}
 	
-	private int findFreeColumn(int row, int size, SpanDirection dir) {
-		int col = 0;
-		int nextCol = stepForward(col, dir);
+	private boolean isFreeColumn(int column, int y, int size) {
+		boolean found = false;
 		
-		if (row == -1) {
-			return nextCol;
+		Set<Integer> col = occupiedCols.get(column);
+		if ((col == null) || (col.isEmpty())) {
+			return true;
 		}
 		
-		while (
-				occupiedCols.containsKey(nextCol) && 
-				((row - size) < occupiedCols.get(nextCol))
-		) {
-			nextCol = stepForward(nextCol, dir);
+		for (int c = 0; c < size; c++) {
+			if (col.contains(y + c)) {
+				found = true;
+				break;
+			}
 		}
 		
-		return nextCol;
+		return (!found);
+	}
+	
+	private int findFreeColumn(int x0, int y0, int size, SpanDirection dir) {
+		int col = x0;
+		
+		while ((col == 0) || (!isFreeColumn(col, y0, size))) {
+			col = stepForward(col, dir);
+		}
+		
+		return col;
 	}
 	
 	/*
@@ -114,12 +125,29 @@ public class LTSLayoutAlgorithm extends AbstractLayoutAlgorithm {
 		if ((s == null) || s.getSteps().isEmpty()) {
 			return 0;
 		}
-		UseCaseStep lastStep = s.getSteps().get(s.getSteps().size() - 1);
-		if (lastStep.getAction() instanceof Goto) {
-			return s.getSteps().size() - 1;
+		
+		int prolong = 0; 
+		
+		for (UseCaseStep step: s.getSteps()) {
+			
+			for (Scenario ext: step.getExtensions()) {
+				UseCaseStep lastExtStep = ext.getSteps().get(ext.getSteps().size() - 1);
+				if (
+						(!(lastExtStep.getAction() instanceof Goto)) &&
+						(!(lastExtStep.getAction() instanceof AbortUseCase))
+				) {
+					prolong++;
+					break;
+				}
+			}
 		}
 		
-		return s.getSteps().size();
+		UseCaseStep lastStep = s.getSteps().get(s.getSteps().size() - 1);
+		if (lastStep.getAction() instanceof Goto) {
+			return s.getSteps().size() - 1 + prolong;
+		}
+		
+		return s.getSteps().size() + prolong;		
 	}
 	
 	private void processScenario(Scenario s, int x0, int y0, SpanDirection span) {
@@ -138,7 +166,7 @@ public class LTSLayoutAlgorithm extends AbstractLayoutAlgorithm {
 			variationSpan = SpanDirection.LEFT;
 		}
 		
-		int c = -1;
+		State prediction = null;
 		for (int i = s.getSteps().size() - 1; i >= 0; --i) {
 			UseCaseStep step = s.getSteps().get(i);
 			
@@ -148,8 +176,21 @@ public class LTSLayoutAlgorithm extends AbstractLayoutAlgorithm {
 			
 			InternalNode node = findMappedNode(step);
 			
+			if ((prediction != null)) {
+				InternalNode missing = state2Node.get(prediction);
+				Assert.isNotNull(missing);
+				internal2Board.get(missing).setLocation(x, y);
+				y--;
+			}
+			
+			if (ucStep2TransLayout.get(step) != ucStep2TransOriginal.get(step)) {
+				prediction = ucStep2TransLayout.get(step).getSourceState();
+			} else {
+				prediction = null;
+			}
+						
 			if (step.getAction() instanceof AbortUseCase) {
-				Transition t = ucStep2Trans.get(step);
+				Transition t = ucStep2TransOriginal.get(step);
 				Assert.isNotNull(t);
 				GraphNode gNode = trans2Node.get(t);
 				Assert.isNotNull(gNode);
@@ -170,29 +211,72 @@ public class LTSLayoutAlgorithm extends AbstractLayoutAlgorithm {
 						
 			if (!step.getExtensions().isEmpty()) {
 				int yy = y + 1;
+				for (Scenario sc: step.getExtensions()) {
+					UseCaseStep lStep = sc.getSteps().get(sc.getSteps().size() - 1);
+					if (
+							(!(lStep.getAction() instanceof Goto)) &&
+							(!(lStep.getAction() instanceof AbortUseCase))
+						) {
+						yy--;
+						break;
+					}
+				}
 				for (Scenario scenario: step.getExtensions()) {
-					int k = findFreeColumn(c, countEffectiveSize(scenario), extensionSpan);
-					int xx = k;
-					occupiedCols.put(k, c);
-					processScenario(scenario, xx, yy, extensionSpan);
+					int xx = findFreeColumn(x0, yy, countEffectiveSize(scenario), extensionSpan);					
+					occupyColumns(scenario, xx, yy);
+					processScenario(scenario, xx, yy, extensionSpan);				
 				}
 			}
 			
 			y--;
-			c++;
 			
 			if (!step.getVariations().isEmpty()) {
 				int yy = y + 1;
+				for (Scenario sc: step.getExtensions()) {
+					UseCaseStep lStep = sc.getSteps().get(sc.getSteps().size() - 1);
+					if (
+							(!(lStep.getAction() instanceof Goto)) &&
+							(!(lStep.getAction() instanceof AbortUseCase))
+						) {
+						yy--;
+						break;
+					}
+				}				
 				for (Scenario scenario: step.getVariations()) {
-					int k = findFreeColumn(c, countEffectiveSize(scenario), variationSpan);
-					int xx = k;
-					occupiedCols.put(k, c);
+					int xx = findFreeColumn(x0, yy, countEffectiveSize(scenario), variationSpan);
+					occupyColumns(scenario, xx, yy);
 					processScenario(scenario, xx, yy, variationSpan);
 				}
 			}
 		}
+		
+		if ((prediction != null)) {
+			InternalNode missing = state2Node.get(prediction);
+			Assert.isNotNull(missing);
+			internal2Board.get(missing).setLocation(x, y);
+		}		
 	}
 	
+	private void occupyColumns(Scenario s, int x0, int y0) {
+		Set<Integer> col = null;
+		col = occupiedCols.get(x0);
+		if (col == null) {
+			col = new HashSet<Integer>();
+			occupiedCols.put(x0, col);
+		}
+		
+		int c = 0;
+
+		for (UseCaseStep step: s.getSteps()) {
+			col.add(y0 + c);
+			if (!step.getExtensions().isEmpty()) {
+				c++;
+				col.add(y0 + c);
+			}
+			c++;
+		}
+	}
+		
 	private boolean stateIsActive(State s) {
 		if (workingMachine == null) {
 			return false;
@@ -340,7 +424,8 @@ public class LTSLayoutAlgorithm extends AbstractLayoutAlgorithm {
 			drawnMachines.clear();
 			occupiedCols.clear();
 			
-			this.ucStep2Trans = box.getUcStep2Trans();
+			this.ucStep2TransLayout = box.getUcStep2TransLayout();
+			this.ucStep2TransOriginal = box.getUcStep2TransOriginal();
 			this.trans2Node = box.getTrans2Node();
 			this.includedMachines = box.getIncludedMachines();
 			this.machine2UseCase = box.getMachine2UseCase();

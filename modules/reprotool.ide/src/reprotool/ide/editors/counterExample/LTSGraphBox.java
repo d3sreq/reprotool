@@ -14,7 +14,8 @@ import reprotool.model.usecase.UseCaseStep;
 
 public class LTSGraphBox {
 	private HashMap<Transition, GraphNode> trans2Node;
-	private HashMap<UseCaseStep, Transition> ucStep2Trans;
+	private HashMap<UseCaseStep, Transition> ucStep2TransLayout;
+	private HashMap<UseCaseStep, Transition> ucStep2TransOriginal;
 	private List<StateMachine> includedMachines;
 	private HashMap<StateMachine, UseCase> machine2UseCase;
 	private HashMap<UseCase, StateMachine> useCase2Machine;
@@ -27,12 +28,20 @@ public class LTSGraphBox {
 		this.trans2Node = new HashMap<Transition, GraphNode> (trans2Node);
 	}
 	
-	public HashMap<UseCaseStep, Transition> getUcStep2Trans() {
-		return ucStep2Trans;
+	public HashMap<UseCaseStep, Transition> getUcStep2TransLayout() {
+		return ucStep2TransLayout;
 	}
 	
-	public void setUcStep2Trans(HashMap<UseCaseStep, Transition> ucStep2Trans) {
-		this.ucStep2Trans = new HashMap<UseCaseStep, Transition> (ucStep2Trans);
+	public void setUcStep2TransLayout(HashMap<UseCaseStep, Transition> ucStep2TransLayout) {
+		this.ucStep2TransLayout = new HashMap<UseCaseStep, Transition> (ucStep2TransLayout);
+	}
+
+	public HashMap<UseCaseStep, Transition> getUcStep2TransOriginal() {
+		return ucStep2TransOriginal;
+	}
+	
+	public void setUcStep2TransOriginal(HashMap<UseCaseStep, Transition> ucStep2TransOriginal) {
+		this.ucStep2TransOriginal = new HashMap<UseCaseStep, Transition> (ucStep2TransOriginal);
 	}
 	
 	public List<StateMachine> getIncludedMachines() {

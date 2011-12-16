@@ -16,6 +16,7 @@ public class LTSCache {
 	private List<UseCase> includedUseCases = new ArrayList<UseCase>();
 	private List<UseCaseStep> gotoSteps = new ArrayList<UseCaseStep>();
 	private HashMap<UseCaseStep, Transition> ucStep2Trans = new HashMap<UseCaseStep, Transition>();
+	private HashMap<UseCaseStep, Transition> ucStep2TransLayout = new HashMap<UseCaseStep, Transition>();
 	private HashMap<UseCaseStep, State> ucStep2SrcState = new HashMap<UseCaseStep, State>();
 	private HashMap<State, List<TransitionalState>> extClosures = 
 			new HashMap<State, List<TransitionalState>>();
@@ -35,6 +36,10 @@ public class LTSCache {
 	
 	public HashMap<UseCaseStep, Transition> getUCStep2Trans() {
 		return ucStep2Trans;
+	}
+	
+	public HashMap<UseCaseStep, Transition> getUCStep2TransLayout() {
+		return ucStep2TransLayout;
 	}
 	
 	public HashMap<UseCaseStep, State> getUCStep2TSrcState() {

@@ -79,6 +79,7 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 	private HashMap<UseCase, StateMachine> useCase2Machine = new HashMap<UseCase, StateMachine>();
 	
 	private HashMap<UseCaseStep, Transition> ucStep2Trans = null;
+	private HashMap<UseCaseStep, Transition> ucStep2TransLayout = null;
 	private HashMap<Transition, GraphNode> trans2Node = new HashMap<Transition, GraphNode>();
 	private List<Transition> gotoTransitions = null;	
 	private HashMap<Transition, GraphConnection> trans2Edge = new HashMap<Transition, GraphConnection>();
@@ -110,6 +111,7 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 				includedMachines.add(g.getLabelTransitionSystem());
 				ucQueue.addAll(g.getLtsCache().getIncludedUseCases());
 				ucStep2Trans.putAll(g.getLtsCache().getUCStep2Trans());
+				ucStep2TransLayout.putAll(g.getLtsCache().getUCStep2TransLayout());
 				gotoTransitions.addAll(g.getLtsCache().getGotoTransitions());
 				machine2UseCase.put(g.getLabelTransitionSystem(), u);
 				useCase2Machine.put(u, g.getLabelTransitionSystem());
@@ -122,6 +124,7 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 		generator.processUseCase(useCase);
 		machine = generator.getLabelTransitionSystem();
 		ucStep2Trans = generator.getLtsCache().getUCStep2Trans();
+		ucStep2TransLayout = generator.getLtsCache().getUCStep2TransLayout();
 		gotoTransitions = generator.getLtsCache().getGotoTransitions();
 		generateIncludedMachines(generator.getLtsCache().getIncludedUseCases());
 	}
@@ -176,6 +179,7 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 			}
 		}
 		ucStep2Trans.clear();
+		ucStep2TransLayout.clear();
 		gotoTransitions.clear();
 		trans2Node.clear();
 		trans2Edge.clear();
@@ -186,21 +190,7 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 		regenerateLTS();
 		
 		// Create a new graph.
-		createLtsGraph(graphParent, machine);
-		
-		// TODO: saving LTS to file
-//		ResourceSet rs = new ResourceSetImpl();
-//		URI fileURI = URI.createPlatformResourceURI("repro1/testik.lts", true);
-//		Resource resource = rs.createResource(fileURI);
-//		resource.getContents().add(machine);
-//
-//		try {
-//			resource.save(null);
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-		
+		createLtsGraph(graphParent, machine);		
 	}
 	
 	private void generateGraphNodes(StateMachine m) {
@@ -290,7 +280,7 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 			
 			List<StepAnnotation> annots = transition.getRelatedStep().getAnnotations();
 			if (!annots.isEmpty()) {
-				con.setImage(figureProvider.getStarImage());
+				con.setImage(figureProvider.getSignImage());
 				stringBuffer.append("\n");
 				stringBuffer.append("Annots: ");
 				int c = 0;
@@ -304,10 +294,12 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 			}
 			
 			Scenario scenario = (Scenario) transition.getRelatedStep().eContainer();
-			EList<Condition> preconditions = scenario.getPreconditions();
-			if (!preconditions.isEmpty()) {
-				stringBuffer.append("\n");
-				stringBuffer.append("Cond: " + preconditions.get(0).getContent());
+			if (scenario != null) {
+				EList<Condition> preconditions = scenario.getPreconditions();
+				if (!preconditions.isEmpty()) {
+					stringBuffer.append("\n");
+					stringBuffer.append("Cond: " + preconditions.get(0).getContent());
+				}
 			}
 			((Label) toolTip).setText(stringBuffer.toString());
 			con.setTooltip(toolTip);
@@ -361,7 +353,7 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 
 		// layout algorithm
 		LayoutAlgorithm ltsLayout = new LTSLayoutAlgorithm(trans2Node,
-			ucStep2Trans, includedMachines, machine2UseCase, useCase2Machine);
+			ucStep2TransLayout, ucStep2Trans, includedMachines, machine2UseCase, useCase2Machine);
 		
 		viewer.setLayoutAlgorithm(ltsLayout, false);
 		

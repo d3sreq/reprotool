@@ -140,17 +140,17 @@ public class NuSMVParser {
 			return;
 		}
 		
-		if (!continuous) {
-			t = gen.findTransition(prevTarget, t.getTargetState());
-			Assert.isNotNull(t);
-			UseCaseStep s = t.getRelatedStep();
-			if (s != null) {
-				String label = "s" + s.getLabel();
-				if (!gen.getLabel2Trans().containsKey(label)) {
-					gen.getLabel2Trans().put(label, t);
-				}
-			}
-		}
+//		if (!continuous) {
+//			t = gen.findTransition(prevTarget, t.getTargetState());
+//			Assert.isNotNull(t);
+//			UseCaseStep s = t.getRelatedStep();
+//			if (s != null) {
+//				String label = "s" + s.getLabel();
+//				if (!gen.getLabel2Trans().containsKey(label)) {
+//					gen.getLabel2Trans().put(label, t);
+//				}
+//			}
+//		}
 		
 		Step step = null;
 
@@ -168,7 +168,8 @@ public class NuSMVParser {
 			step.setContent(t.getRelatedStep().getContent());
 		}
 		
-		ucTrans.getSteps().add(step);
+		if (!"".equals(step.getLabel()))
+			ucTrans.getSteps().add(step);
 	}
 	
 	private static void processIncludedUseCase(String varName, String value, NuSMVProj nusmvProject,

@@ -122,7 +122,6 @@ public class LTSGeneratorImpl extends EObjectImpl implements LTSGenerator {
 		labelTransitionSystem = Lts2Factory.eINSTANCE.createStateMachine();
 		InitialState init = Lts2Factory.eINSTANCE.createInitialState();
 		FinalState fin = Lts2Factory.eINSTANCE.createFinalState();
-		// labelTransitionSystem.getTransitionalStates().add(init);
 		labelTransitionSystem.setInitialState(init);
 		labelTransitionSystem.setFinalState(fin);
 		processScenario(useCase.getMainScenario(), labelTransitionSystem.getInitialState(), null, true);
@@ -155,6 +154,7 @@ public class LTSGeneratorImpl extends EObjectImpl implements LTSGenerator {
 			srcTransitional.getTransitions().add(t);
 			ltsCache.getGotoTransitions().add(t);
 			ltsCache.getUCStep2Trans().put(ucStep, t);
+			ltsCache.getUCStep2TransLayout().put(ucStep, t);
 		}
 	}
 	
@@ -174,6 +174,7 @@ public class LTSGeneratorImpl extends EObjectImpl implements LTSGenerator {
 		State srcState = init;
 		UseCaseStep lastStep = scen.getSteps().get(scen.getSteps().size() - 1);
 		
+		UseCaseStep prevStep = null;
 		for(UseCaseStep ucStep: scen.getSteps()) {
 			if (ucStep.getAction() instanceof UseCaseInclude) {
 				UseCaseInclude include = (UseCaseInclude) ucStep.getAction();
@@ -182,21 +183,45 @@ public class LTSGeneratorImpl extends EObjectImpl implements LTSGenerator {
 			
 			ltsCache.getUCStep2TSrcState().put(ucStep, srcState);
 			State tgtState;
-			if (mainScenario && (ucStep == lastStep)) {
+			if (mainScenario && (ucStep == lastStep) && (lastStep.getExtensions().isEmpty())) {
 				tgtState = labelTransitionSystem.getFinalState();
 			} else {
 				tgtState = Lts2Factory.eINSTANCE.createTransitionalState();
 			}
 			
-			if (srcState != init && ltsCache.getExtClosures().containsKey(srcState) ) {
+			if (
+					(srcState != init) &&
+					(ltsCache.getExtClosures().containsKey(srcState)) &&
+					(!ltsCache.getExtClosures().get(srcState).isEmpty())
+			) {
+				TransitionalState extHolder = Lts2Factory.eINSTANCE.createTransitionalState();
+				labelTransitionSystem.getTransitionalStates().add(extHolder);
+
 				for (TransitionalState src: ltsCache.getExtClosures().get(srcState)) {
 					Transition t = Lts2Factory.eINSTANCE.createTransition();
-					t.setRelatedStep(null);
+					UseCaseStep dummy = reprotool.model.usecase.UsecaseFactory.eINSTANCE.createUseCaseStep();
+					dummy.setContent("_ext_" + prevStep.getLabel());
+					t.setRelatedStep(dummy);
 					src.getTransitions().add(t);
 					t.setSourceState(src);
-					t.setTargetState(tgtState);
+					t.setTargetState(extHolder);
 				}
 				ltsCache.getExtClosures().remove(srcState);
+				
+				Transition t = Lts2Factory.eINSTANCE.createTransition();
+				((TransitionalState) srcState).getTransitions().add(t);
+				UseCaseStep dummy = reprotool.model.usecase.UsecaseFactory.eINSTANCE.createUseCaseStep();
+				dummy.setContent("_ext_" + prevStep.getLabel());
+				t.setRelatedStep(dummy);
+				t.setSourceState((TransitionalState) srcState);
+				t.setTargetState(extHolder);
+				ltsCache.getUCStep2TransLayout().put(prevStep, t);
+				
+				if ("3".equals(ucStep.getLabel())) {
+					System.out.println("ExtHolder is " + extHolder.hashCode());
+				}
+				
+				srcState = extHolder;
 			}
 
 			// Variations are attached to the source state.
@@ -220,6 +245,7 @@ public class LTSGeneratorImpl extends EObjectImpl implements LTSGenerator {
 				t.setTargetState(labelTransitionSystem.getAbortState());				
 				srcTransitional.getTransitions().add(t);
 				ltsCache.getUCStep2Trans().put(ucStep, t);
+				ltsCache.getUCStep2TransLayout().put(ucStep, t);
 				continue;
 			}
 			
@@ -227,12 +253,15 @@ public class LTSGeneratorImpl extends EObjectImpl implements LTSGenerator {
 				ltsCache.getGotoSteps().add(ucStep);
 				continue;
 			}
-			
-			
+				
 			Transition t = Lts2Factory.eINSTANCE.createTransition();
 			t.setRelatedStep(ucStep);
 
 			ltsCache.getUCStep2Trans().put(ucStep, t);
+			if (!ltsCache.getUCStep2TransLayout().containsKey(ucStep)) {
+				ltsCache.getUCStep2TransLayout().put(ucStep, t);
+			}
+			
 			Assert.isTrue(srcState instanceof TransitionalState);
 			TransitionalState srcTransitional = (TransitionalState) srcState;
 			t.setSourceState(srcTransitional);
@@ -266,8 +295,68 @@ public class LTSGeneratorImpl extends EObjectImpl implements LTSGenerator {
 			
 			// iterate.
 			srcState = tgtState;
-		}
+			prevStep = ucStep;
+		}	
 		
+		if (
+				(srcState != init) &&
+				(mainScenario) &&
+				(ltsCache.getExtClosures().containsKey(srcState)) &&
+				(!ltsCache.getExtClosures().get(srcState).isEmpty())
+		) {
+			for (TransitionalState src: ltsCache.getExtClosures().get(srcState)) {
+				Transition t = Lts2Factory.eINSTANCE.createTransition();
+				t.setRelatedStep(null);
+				src.getTransitions().add(t);
+				t.setSourceState(src);
+				t.setTargetState(labelTransitionSystem.getFinalState());
+			}
+			ltsCache.getExtClosures().remove(srcState);
+			
+			State tgtState = labelTransitionSystem.getFinalState();
+			
+			Transition t = Lts2Factory.eINSTANCE.createTransition();
+			t.setRelatedStep(null);
+			ltsCache.getUCStep2TransLayout().put(lastStep, t);
+			Assert.isTrue(srcState instanceof TransitionalState);
+			TransitionalState srcTransitional = (TransitionalState) srcState;
+			t.setSourceState(srcTransitional);
+			t.setTargetState(tgtState);
+			srcTransitional.getTransitions().add(t);
+		}
+				
+		if (
+				(srcState != init) &&
+				(!mainScenario) &&
+				(ltsCache.getExtClosures().containsKey(srcState)) &&
+				(!ltsCache.getExtClosures().get(srcState).isEmpty())
+		) {
+
+			TransitionalState extHolder = Lts2Factory.eINSTANCE.createTransitionalState();
+			labelTransitionSystem.getTransitionalStates().add(extHolder);
+
+			for (TransitionalState src: ltsCache.getExtClosures().get(srcState)) {
+				Transition t = Lts2Factory.eINSTANCE.createTransition();
+				UseCaseStep dummy = reprotool.model.usecase.UsecaseFactory.eINSTANCE.createUseCaseStep();
+				dummy.setContent("_ext_" + prevStep.getLabel());
+				t.setRelatedStep(dummy);
+				src.getTransitions().add(t);
+				t.setSourceState(src);
+				t.setTargetState(extHolder);
+			}
+			ltsCache.getExtClosures().remove(srcState);
+			
+			Transition t = Lts2Factory.eINSTANCE.createTransition();
+			((TransitionalState) srcState).getTransitions().add(t);
+			UseCaseStep dummy = reprotool.model.usecase.UsecaseFactory.eINSTANCE.createUseCaseStep();
+			dummy.setContent("_ext_" + prevStep.getLabel());
+			t.setRelatedStep(dummy);
+			t.setSourceState((TransitionalState) srcState);
+			t.setTargetState(extHolder);
+			ltsCache.getUCStep2TransLayout().put(prevStep, t);
+			
+			srcState = extHolder;
+		}		
 		
 		if (
 				(!(lastStep.getAction() instanceof Goto)) &&

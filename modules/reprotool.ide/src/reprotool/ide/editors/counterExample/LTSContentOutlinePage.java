@@ -67,8 +67,11 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 	private List<UseCase> includedUseCases = new ArrayList<UseCase>();
 	private HashMap<StateMachine, UseCase> machine2UseCase = new HashMap<StateMachine, UseCase>();
 	private HashMap<UseCase, StateMachine> useCase2Machine = new HashMap<UseCase, StateMachine>();
+	private HashMap<GraphNode, GraphConnection> strayConnections =
+			new HashMap<GraphNode, GraphConnection>();
 	
-	private HashMap<UseCaseStep, Transition> ucStep2Trans = null;
+	private HashMap<UseCaseStep, Transition> ucStep2TransLayout = null;
+	private HashMap<UseCaseStep, Transition> ucStep2TransOriginal = null;
 	private HashMap<Transition, GraphNode> trans2Node = new HashMap<Transition, GraphNode>();
 	private List<Transition> gotoTransitions = null;	
 	private HashMap<Transition, GraphConnection> trans2Edge = new HashMap<Transition, GraphConnection>();
@@ -101,7 +104,8 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 				g.processUseCase(u);
 				includedMachines.add(g.getLabelTransitionSystem());
 				ucQueue.addAll(g.getLtsCache().getIncludedUseCases());
-				ucStep2Trans.putAll(g.getLtsCache().getUCStep2Trans());
+				ucStep2TransLayout.putAll(g.getLtsCache().getUCStep2TransLayout());
+				ucStep2TransOriginal.putAll(g.getLtsCache().getUCStep2Trans());
 				gotoTransitions.addAll(g.getLtsCache().getGotoTransitions());
 				machine2UseCase.put(g.getLabelTransitionSystem(), u);
 				useCase2Machine.put(u, g.getLabelTransitionSystem());
@@ -115,7 +119,8 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 		generator.processUseCase(useCase);
 		machine = generator.getLabelTransitionSystem();
 		
-		ucStep2Trans = generator.getLtsCache().getUCStep2Trans();
+		ucStep2TransOriginal = generator.getLtsCache().getUCStep2Trans();
+		ucStep2TransLayout = generator.getLtsCache().getUCStep2TransLayout();
 		gotoTransitions = generator.getLtsCache().getGotoTransitions();
 
 		generateIncludedMachines(generator.getLtsCache().getIncludedUseCases());
@@ -249,10 +254,15 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 			}
 			
 			Scenario scenario = (Scenario) transition.getRelatedStep().eContainer();
-			EList<Condition> preconditions = scenario.getPreconditions();
-			if (!preconditions.isEmpty()) {
-				stringBuffer.append("\n");
-				stringBuffer.append("Cond: " + preconditions.get(0).getContent());
+			if (scenario != null) {
+				EList<Condition> preconditions = scenario.getPreconditions();
+				if (!preconditions.isEmpty()) {
+					stringBuffer.append("\n");
+					stringBuffer.append("Cond: " + preconditions.get(0).getContent());
+				}
+			} else {
+				Assert.isTrue(!strayConnections.containsKey(con.getSource()));
+				strayConnections.put(con.getSource(), con);
 			}
 			((Label) toolTip).setText(stringBuffer.toString());
 			con.setTooltip(toolTip);
@@ -278,9 +288,22 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 		if (ref == null) {
 			ref = trans;
 		}
+		GraphNode prevNode = null;
 		for (Step step: trans.getSteps()) {
 			UseCaseStep ucStep = step.getUcStep();
 			GraphConnection con = connectionTracker.get(ref).get(ucStep);
+			if (con == null) {
+				continue;
+			}
+			if ((prevNode != null) && (con.getSource() != prevNode)) {
+				GraphConnection c = strayConnections.get(prevNode);
+				c.setLineColor(ColorConstants.red);
+				while (c.getDestination() != con.getSource()) {
+					c = strayConnections.get(c);
+					c.setLineColor(ColorConstants.red);
+					c.setHighlightColor(ColorConstants.red);
+				}
+			}
 			con.setLineColor(ColorConstants.red);
 			con.setHighlightColor(ColorConstants.red);
 			
@@ -301,6 +324,7 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 			if (step.getUseCaseTransition() != null) {
 				selectUCTransition(step.getUseCaseTransition(), ref);
 			}
+			prevNode = con.getDestination();
 		}
 	}
 	
@@ -337,7 +361,8 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 			}
 			
 			box.setTrans2Node(trans2Node);
-			box.setUcStep2Trans(ucStep2Trans);
+			box.setUcStep2TransLayout(ucStep2TransLayout);
+			box.setUcStep2TransOriginal(ucStep2TransOriginal);
 			box.setUseCase2Machine(useCase2Machine);
 			box.setMachine2UseCase(machine2UseCase);
 			box.setIncludedMachines(includedMachines);
@@ -346,7 +371,8 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 			ltsParams.add(box);
 			
 			trans2Node.clear();
-			ucStep2Trans.clear();
+			ucStep2TransLayout.clear();
+			ucStep2TransOriginal.clear();
 			useCase2Machine.clear();
 			machine2UseCase.clear();
 			includedMachines.clear();			

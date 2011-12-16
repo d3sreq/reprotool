@@ -2,7 +2,9 @@ package reprotool.fm.nusmv;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import lts2.State;
 import lts2.StateMachine;
@@ -39,7 +41,8 @@ public class NuSMVGenerator {
 	private NuSmvLangFactory factory;
 	private OtherModule module;
 	
-	private List<String> states = new ArrayList<String>();
+	private Set<String> states = new HashSet<String>();
+	private List<String> annotatedLabels = new ArrayList<String>();
 	private List<UseCase> includedUseCases = new ArrayList<UseCase>();
 	private HashMap<String, Transition> label2Trans = new HashMap<String, Transition>();
 	private HashMap<Transition, String> trans2Label = new HashMap<Transition, String>();
@@ -86,9 +89,20 @@ public class NuSMVGenerator {
 					(ucStep != null) &&
 					(!(ucStep.getAction() instanceof Goto))
 			) {
-				String label = "s" + t.getRelatedStep().getLabel();
+				String label;
+				boolean skipDouble = false;
+				if ("".equals(t.getRelatedStep().getLabel())) {
+					label = "s" + t.getRelatedStep().getContent();
+				} else {
+					label = "s" + t.getRelatedStep().getLabel();
+				}
+				
+				if (ucStep.getAnnotations().isEmpty()) {
+					skipDouble = true;
+				}
 				
 				if (ucStep.getAction() instanceof UseCaseInclude) {
+					skipDouble = false;
 					UseCaseInclude ui = (UseCaseInclude) ucStep.getAction();
 					includedUseCases.add(ui.getIncludeTarget());
 					useCase2Label.put(ui.getIncludeTarget(), label + "__");
@@ -96,7 +110,10 @@ public class NuSMVGenerator {
 				}
 				
 				states.add(label);
-				states.add(label + "_");
+				if (!skipDouble) {
+					states.add(label + "_");
+					annotatedLabels.add(label);
+				}
 				label2Trans.put(label, t);
 				trans2Label.put(t, label);
 				state2Label.put(t.getTargetState(), label);
@@ -135,9 +152,20 @@ public class NuSMVGenerator {
 						(ucStep != null) &&
 						(!(ucStep.getAction() instanceof Goto))
 				) {
-					String label = "s" + t.getRelatedStep().getLabel();
+					String label;
+					boolean skipDouble = false;
+					if ("".equals(ucStep.getLabel())) {
+						label = "s" + ucStep.getContent();
+					} else {
+						label = "s" + ucStep.getLabel();
+					}
+					
+					if (ucStep.getAnnotations().isEmpty()) {
+						skipDouble = true;
+					}
 
 					if (ucStep.getAction() instanceof UseCaseInclude) {
+						skipDouble = false;
 						UseCaseInclude ui = (UseCaseInclude) ucStep.getAction();
 						includedUseCases.add(ui.getIncludeTarget());
 						useCase2Label.put(ui.getIncludeTarget(), label + "__");
@@ -145,7 +173,10 @@ public class NuSMVGenerator {
 					}
 					
 					states.add(label);
-					states.add(label + "_");
+					if (!skipDouble) {
+						states.add(label + "_");
+						annotatedLabels.add(label);
+					}
 					label2Trans.put(label, t);
 					trans2Label.put(t, label);
 					state2Label.put(t.getTargetState(), label);
@@ -298,7 +329,11 @@ public class NuSMVGenerator {
 				nextExpr.append(",");
 			}
 			c++;
-			nextExpr.append(label + "_");
+			if (annotatedLabels.contains(label)) {
+				nextExpr.append(label + "_");
+			} else {
+				nextExpr.append(label);				
+			}
 		}
 		nextExpr.append("};\n");
 		
@@ -405,7 +440,9 @@ public class NuSMVGenerator {
 					for (Transition tr: transitions) {
 						String label = trans2Label.get(tr);
 						if (label != null) {
-							label = label + "_";
+							if (annotatedLabels.contains(label)) {
+								label = label + "_";
+							}
 							UseCaseStep step = tr.getRelatedStep();
 							if ((step != null) && (step.getAction() instanceof UseCaseInclude)) {
 								label = label + "_";
