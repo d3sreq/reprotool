@@ -18,6 +18,7 @@
 		<!-- <module>../reprotool.fm.nusmv.lang.tests</module> -->
 		<module>../reprotool.fm.nusmv.lang.ui</module>
 		
+		
 		<module>../reprotool.ide</module>
 		<!-- ide.txtspec not included -->
 		
@@ -32,6 +33,7 @@
 		<module>../reprotool.model.edit</module>
 		<module>../reprotool.model.edit.ext</module>
 		<module>../reprotool.model.editor</module>
+		<module>../reprotool.model.utils</module>
 
 		<!-- ling. analysis tools -->
 		<module>../reprotool.tools.anna</module>
