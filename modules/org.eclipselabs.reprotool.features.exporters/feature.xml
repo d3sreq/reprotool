@@ -21,10 +21,10 @@
       <import plugin="org.eclipse.core.runtime"/>
       <import plugin="org.eclipse.uml2.uml" version="3.2.100" match="greaterOrEqual"/>
       <import plugin="org.eclipse.core.resources" version="3.7.100" match="greaterOrEqual"/>
-      <import plugin="reprotool.model" version="1.0.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.xtext.xtend2.lib" version="2.1.1" match="greaterOrEqual"/>
-      <import plugin="reprotool.fm.nusmv" version="1.0.0" match="greaterOrEqual"/>
       <import plugin="reprotool.uc.tempeditor" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="reprotool.model" version="0.1.0" match="greaterOrEqual"/>
+      <import plugin="reprotool.model.utils" version="0.1.0" match="greaterOrEqual"/>
    </requires>
 
    <plugin

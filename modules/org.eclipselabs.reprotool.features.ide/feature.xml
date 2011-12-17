@@ -32,7 +32,6 @@
       <import plugin="org.eclipse.emf.databinding.edit" version="1.2.0" match="greaterOrEqual"/>
       <import plugin="reprotool.uc.tempeditor" version="1.0.0" match="greaterOrEqual"/>
       <import plugin="reprotool.ling" version="1.0.0" match="greaterOrEqual"/>
-      <import plugin="org.apache.commons.lang"/>
       <import plugin="org.eclipse.jface.text" version="3.7.1" match="greaterOrEqual"/>
       <import plugin="org.eclipse.ui.editors" version="3.7.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.xtext" version="2.1.0" match="greaterOrEqual"/>
@@ -44,7 +43,6 @@
       <import plugin="org.eclipse.xtext.common.types"/>
       <import plugin="org.apache.commons.logging"/>
       <import plugin="org.eclipse.xtext.xbase.lib"/>
-      <import plugin="org.eclipse.xtext.xtend2.lib"/>
       <import plugin="org.eclipse.xtext.ui"/>
       <import plugin="org.eclipse.ui.editors" version="3.5.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.ui.ide" version="3.5.0" match="greaterOrEqual"/>
@@ -62,6 +60,9 @@
       <import plugin="org.eclipse.emf.edit"/>
       <import plugin="reprotool.model.edit" version="1.0.0" match="greaterOrEqual"/>
       <import plugin="com.google.inject" version="2.0.0" match="greaterOrEqual"/>
+      <import plugin="com.ibm.icu"/>
+      <import plugin="org.apache.commons.lang" version="2.4.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.emf.mwe2.launch"/>
    </requires>
 
    <plugin

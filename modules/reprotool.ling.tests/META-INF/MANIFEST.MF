@@ -3,11 +3,11 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Tests - Linguistic tools for Procasor
 Bundle-SymbolicName: reprotool.ling.tests
 Bundle-Version: 1.0.0
+Fragment-Host: reprotool.ling
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.edit,
- org.junit,
- reprotool.ling,
+ org.junit;bundle-version="4.0.0",
  reprotool.model,
  org.eclipse.ui
 Bundle-Vendor: Reprotool

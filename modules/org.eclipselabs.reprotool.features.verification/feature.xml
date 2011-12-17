@@ -50,6 +50,7 @@
       <import plugin="org.eclipse.xtext.ui.codetemplates.ui"/>
       <import plugin="org.eclipse.compare"/>
       <import plugin="org.apache.commons.logging"/>
+      <import plugin="reprotool.model.utils" version="0.1.0" match="greaterOrEqual"/>
    </requires>
 
    <plugin

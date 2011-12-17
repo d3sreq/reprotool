@@ -12,9 +12,16 @@
 		<module>../reprotool.maven.parent</module>
 		<!-- <module>../org.eclipselabs.reprotool.branding</module> -->
 		
+		<module>../org.eclipselabs.reprotool.features.common</module>
+		<module>../org.eclipselabs.reprotool.features.exporters</module>
+		<module>../org.eclipselabs.reprotool.features.ide</module>
+		<module>../org.eclipselabs.reprotool.features.nlp</module>
+		<module>../org.eclipselabs.reprotool.features.verification</module>		
+		
 		<!-- formal analysis -->
 		<module>../reprotool.fm.nusmv</module>
 		<module>../reprotool.fm.nusmv.lang</module>
+		<!-- not included - contains no tests -->
 		<!-- <module>../reprotool.fm.nusmv.lang.tests</module> -->
 		<module>../reprotool.fm.nusmv.lang.ui</module>
 		
@@ -42,6 +49,7 @@
 		
 		<!-- import from text documents -->
 		<module>../reprotool.txtspec</module>
+		<!-- not included - contains no tests -->
 		<!-- <module>../reprotool.tools.txtspec.tests</module> -->
 		<module>../reprotool.txtspec.ui</module>
 		
