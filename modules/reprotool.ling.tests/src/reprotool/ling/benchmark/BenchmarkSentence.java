@@ -67,7 +67,7 @@ public class BenchmarkSentence extends SentenceImpl {
 			if (fields.length >= 6) {
 				try {
 					String[] ints = fields[5].split(",");
-					inResults.objectNumbers = new int [ints.length];
+					inResults.objectNumbers = new int[ints.length];
 					for (int i = 0; i < ints.length; i++) {
 						inResults.objectNumbers[i] = Integer.parseInt(ints[i]);
 					}
@@ -212,6 +212,9 @@ public class BenchmarkSentence extends SentenceImpl {
 				this.outResults.objectNumbers[k] = 0;			
 			}
 		}
+		if(words.size() == 0)
+			this.outResults.objectNumbers = new int [] {0};
+//			this.outResults.objectNumbers = new int [] {0,2};
 
 		return result;
 	}

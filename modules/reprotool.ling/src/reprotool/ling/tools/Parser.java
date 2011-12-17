@@ -285,6 +285,9 @@ public class Parser extends Tool {
 	    		case QP:
 	    			// Quantifier Phrase - within NP - stay in parent node
 	    			break;
+	    		case ADVP:
+	    			// Adverb Phrase - stay in parent node
+	    			break;	    			
 	    		case FRAG:
 	    			// sentence fragment
 	    			break;
