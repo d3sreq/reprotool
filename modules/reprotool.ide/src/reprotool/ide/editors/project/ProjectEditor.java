@@ -1351,7 +1351,7 @@ public class ProjectEditor
 
 		IWorkbenchPage page = getSite().getPage();
 		IEditorDescriptor desc = PlatformUI.getWorkbench().getEditorRegistry()
-				.findEditor("cz.cuni.mff.reprotool.ide.UseCaseEmfEditor");
+				.findEditor("org.eclipselabs.reprotool.ide.UseCaseEmfEditor");
 
 		try {
 			// TODO jvinarek - workaround, resource is saved before use case editor opens

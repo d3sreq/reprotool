@@ -58,7 +58,7 @@
             contributorClass="reprotool.ide.editors.usecase.UsecaseEMFActionBarContributor"
             default="false"
             extensions="usecase"
-            id="cz.cuni.mff.reprotool.ide.UseCaseEmfEditor"
+            id="org.eclipselabs.reprotool.ide.UseCaseEmfEditor"
             name="Use case EMF Editor">
       </editor>
       <editor
