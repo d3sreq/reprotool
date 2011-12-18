@@ -75,7 +75,16 @@ public class CheckCTL implements IWorkbenchWindowActionDelegate {
 		if(sel instanceof TreeSelection) {
 			TreeSelection tsel = (TreeSelection) sel;
 			IFile file = (IFile) tsel.getFirstElement();
-			loadNuSMVProject(file.getFullPath().removeFileExtension());
+			
+			// remove additional file extensions until swproj extension is found
+			{
+				IPath filePath = file.getFullPath();
+				while( ! "swproj".equals(filePath.getFileExtension()) ) {
+					filePath = filePath.removeFileExtension();
+				}
+				loadNuSMVProject(filePath);
+			}
+			
 			NuSMVWrapper nusmv = Activator.getDefault().getNuSMVWrapper();
 			nusmv.loadModelFile( file );
 			nusmv.checkInlineCTLSpec(nusmvProj);
