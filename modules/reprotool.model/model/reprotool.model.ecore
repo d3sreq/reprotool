@@ -147,6 +147,7 @@
           eType="#//usecase/annotate/TemporalLogicFormula" containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="useCaseTransitions" upperBound="-1"
           eType="#//swproj/UseCaseTransition" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="Cause" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="UseCaseTransition">
       <eStructuralFeatures xsi:type="ecore:EReference" name="useCase" lowerBound="1"

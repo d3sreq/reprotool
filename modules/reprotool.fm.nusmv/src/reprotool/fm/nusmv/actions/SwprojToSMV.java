@@ -73,7 +73,12 @@ public class SwprojToSMV implements IWorkbenchWindowActionDelegate {
 		});
 		
 		NuSMVProj nusmvProj = injector.getInstance(NuSMVProj.class);
-		nusmvProj.transformSoftwareProject();
+		try {
+			nusmvProj.initializeSoftwareProject();
+		} catch (RuntimeException e) {
+			consoleOut.println("Error: " + e.getMessage());
+			return;
+		}
 		
 		URI outputUri = uri.appendFileExtension("nusmv");
 		consoleOut.println("Will be saved to : " + CommonPlugin.resolve(outputUri).path());

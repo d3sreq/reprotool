@@ -32,11 +32,7 @@ public class NuSMVProj {
 	private HashMap<String, List<AnnotationEntry>> globalTracker
 	private HashMap<UseCase, NuSMVGenerator> uc2gen
 	
-	/**
-	 * Starts the transformation
-	 */
-	def public void transformSoftwareProject() {
-		
+	def public initializeSoftwareProject() {
 		Assert::isNotNull(factory)
 		Assert::isNotNull(swproj)
 		
@@ -60,8 +56,8 @@ public class NuSMVProj {
 		expanded2Formula = new HashMap<String, TemporalLogicFormula>()
 		expandedFormulas = new ArrayList<String>()
 
-		uc2gen += generators.map([ it.useCase -> it ]);
-		
+		uc2gen += generators.map([ it.useCase -> it ])
+				
 		processAnnotations()
 		loadIncludedAnnotations()
 		loadCTLFormulas()
@@ -117,8 +113,10 @@ public class NuSMVProj {
 	}
 	
 	def private addAnnotations(EList<ModuleElement> moduleElement) {
-		var boolean cont = false
+		var boolean cont;
 		for (tag: globalTracker.keySet()) {
+			cont = false;
+			
 			if (tag.matches("trace_.*")) {
 				addTraceAnnotation(tag, moduleElement);
 				cont = true
@@ -128,7 +126,7 @@ public class NuSMVProj {
 				cont = true
 			}
 		
-			if (!cont) {
+			if (!cont) {				
 				// Create declaration for annotation variable
 				moduleElement += $(factory.createVariableDeclaration) [
 					vars += $(factory.createVarBody) [
@@ -297,6 +295,10 @@ public class NuSMVProj {
 				val label = Integer::toString(c)
 				val NuSMVGenerator g = uc2gen.get(uc)
 				
+				if (g == null) {
+					throw new RuntimeException("Include of unknown use case found.")
+				}
+							
 				val ucList = new ArrayList<UseCase>()
 				ucList += uc
 				addPath(g, nusmv.useCaseId + ".y" + label, ucList)

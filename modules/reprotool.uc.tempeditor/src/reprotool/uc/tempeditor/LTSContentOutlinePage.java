@@ -300,9 +300,9 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 					stringBuffer.append("\n");
 					stringBuffer.append("Cond: " + preconditions.get(0).getContent());
 				}
+				((Label) toolTip).setText(stringBuffer.toString());
+				con.setTooltip(toolTip);
 			}
-			((Label) toolTip).setText(stringBuffer.toString());
-			con.setTooltip(toolTip);
 		}
 	}
 	

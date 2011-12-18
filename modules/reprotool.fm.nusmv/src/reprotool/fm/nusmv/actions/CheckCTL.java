@@ -1,7 +1,6 @@
 package reprotool.fm.nusmv.actions;
 
 import java.io.IOException;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.emf.common.util.URI;
@@ -32,7 +31,7 @@ public class CheckCTL implements IWorkbenchWindowActionDelegate {
 	private ISelection sel;
 	private NuSMVProj nusmvProj;
 		
-	private void loadNuSMVProject(IPath projectFile) {
+	private boolean loadNuSMVProject(IPath projectFile) {
 		final ResourceSet rs = new ResourceSetImpl();
 		
 		// Converting IFile to URI: see http://wiki.eclipse.org/index.php/EMF/FAQ#How_do_I_map_between_an_EMF_Resource_and_an_Eclipse_IFile.3F
@@ -40,7 +39,7 @@ public class CheckCTL implements IWorkbenchWindowActionDelegate {
 		final Resource resource = rs.getResource(uri, true);
 		
 		if(resource.getContents().size() == 0)
-			return;
+			return false;
 		
 		// show the console
 		consoleOut.getConsole().clearConsole();
@@ -50,7 +49,7 @@ public class CheckCTL implements IWorkbenchWindowActionDelegate {
 		
 		if( ! (rootEObj instanceof SoftwareProject) ) {
 			consoleOut.println("Not a Software Project : " + rootEObj);
-			return;
+			return false;
 		}
 
 		final SoftwareProject swproj = (SoftwareProject) rootEObj;
@@ -67,7 +66,15 @@ public class CheckCTL implements IWorkbenchWindowActionDelegate {
 		});
 		
 		nusmvProj = injector.getInstance(NuSMVProj.class);
-		nusmvProj.transformSoftwareProject();
+		
+		try {
+			nusmvProj.initializeSoftwareProject();
+		} catch (RuntimeException e) {
+			consoleOut.println("Error: " + e.getMessage());
+			return false;
+		}
+		
+		return true;
 	}
 	
 	@Override
@@ -75,19 +82,21 @@ public class CheckCTL implements IWorkbenchWindowActionDelegate {
 		if(sel instanceof TreeSelection) {
 			TreeSelection tsel = (TreeSelection) sel;
 			IFile file = (IFile) tsel.getFirstElement();
-			
-			// remove additional file extensions until swproj extension is found
-			{
-				IPath filePath = file.getFullPath();
-				while( ! "swproj".equals(filePath.getFileExtension()) ) {
-					filePath = filePath.removeFileExtension();
-				}
-				loadNuSMVProject(filePath);
+			IPath filePath = file.getFullPath();
+			while( ! "swproj".equals(filePath.getFileExtension()) ) {
+				filePath = filePath.removeFileExtension();
+			}
+			if (!loadNuSMVProject(filePath)) {
+				return;
 			}
 			
 			NuSMVWrapper nusmv = Activator.getDefault().getNuSMVWrapper();
 			nusmv.loadModelFile( file );
-			nusmv.checkInlineCTLSpec(nusmvProj);
+			boolean counterExampleGenerated = nusmv.checkInlineCTLSpec(nusmvProj);
+			
+			if (!counterExampleGenerated) {
+				return;
+			}
 			
 			CounterExample counterExample = nusmv.getCounterExample();
 			

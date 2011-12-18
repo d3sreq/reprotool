@@ -217,10 +217,6 @@ public class LTSGeneratorImpl extends EObjectImpl implements LTSGenerator {
 				t.setTargetState(extHolder);
 				ltsCache.getUCStep2TransLayout().put(prevStep, t);
 				
-				if ("3".equals(ucStep.getLabel())) {
-					System.out.println("ExtHolder is " + extHolder.hashCode());
-				}
-				
 				srcState = extHolder;
 			}
 
@@ -306,7 +302,9 @@ public class LTSGeneratorImpl extends EObjectImpl implements LTSGenerator {
 		) {
 			for (TransitionalState src: ltsCache.getExtClosures().get(srcState)) {
 				Transition t = Lts2Factory.eINSTANCE.createTransition();
-				t.setRelatedStep(null);
+				UseCaseStep dummy = reprotool.model.usecase.UsecaseFactory.eINSTANCE.createUseCaseStep();
+				dummy.setContent("_ext_" + prevStep.getLabel());
+				t.setRelatedStep(dummy);
 				src.getTransitions().add(t);
 				t.setSourceState(src);
 				t.setTargetState(labelTransitionSystem.getFinalState());
@@ -316,7 +314,9 @@ public class LTSGeneratorImpl extends EObjectImpl implements LTSGenerator {
 			State tgtState = labelTransitionSystem.getFinalState();
 			
 			Transition t = Lts2Factory.eINSTANCE.createTransition();
-			t.setRelatedStep(null);
+			UseCaseStep dummy = reprotool.model.usecase.UsecaseFactory.eINSTANCE.createUseCaseStep();
+			dummy.setContent("_ext_" + prevStep.getLabel());
+			t.setRelatedStep(dummy);
 			ltsCache.getUCStep2TransLayout().put(lastStep, t);
 			Assert.isTrue(srcState instanceof TransitionalState);
 			TransitionalState srcTransitional = (TransitionalState) srcState;

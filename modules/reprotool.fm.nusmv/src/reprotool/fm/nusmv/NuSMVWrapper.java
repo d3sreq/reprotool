@@ -7,6 +7,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -24,12 +26,12 @@ import org.eclipselabs.nusmvtools.counterexample.NodeType;
 import org.eclipselabs.nusmvtools.counterexample.StateType;
 import org.eclipselabs.nusmvtools.counterexample.ValueType;
 import org.eclipselabs.nusmvtools.counterexample.util.CounterexampleResourceFactoryImpl;
+import org.eclipselabs.nusmvtools.nusmv4j.CLibrary;
 import org.eclipselabs.nusmvtools.nusmv4j.NuSMV4J;
 import org.eclipselabs.nusmvtools.nusmv4j.NusmvLibrary;
 import org.eclipselabs.nusmvtools.nusmv4j.NusmvLibrary.PropDb_TAG;
 import org.eclipselabs.nusmvtools.nusmv4j.NusmvLibrary.Prop_TAG;
 import org.eclipselabs.nusmvtools.nusmv4j.NusmvLibraryUtil;
-
 import reprotool.fm.nusmv.mapping.NuSMVProj;
 import reprotool.model.swproj.CounterExample;
 import reprotool.model.swproj.Step;
@@ -51,14 +53,12 @@ public class NuSMVWrapper {
 	private NuSMVProj nusmvProject;
 	private CounterExample counterExample;
 	private HashMap<UseCaseTransition, Step> branchingStep = new HashMap<UseCaseTransition, Step>();
+	private File errFile;
 	
-	public NuSMVWrapper() {
+	public NuSMVWrapper() {		
 		nusmvLib = NuSMV4J.INSTANCE().getNusmvLibrary();
 		counterExample = SwprojFactory.eINSTANCE.createCounterExample();
-		
-		// disable console output from NuSMV
-	    //NusmvLibrary.nusmv_stdout.set(nusmvLib.CmdOpenFile( new File("/dev/null").getAbsolutePath() ));
-		
+				
 		out.println("NuSMV native library build date : " + nusmvLib.NuSMVCore_get_build_date().getString(0));
 		out.println("NuSMV native library version    : " + nusmvLib.NuSMVCore_get_library_version().getString(0));
 		out.println("Generated JNA interface version : " + NusmvLibrary.NUSMV_LIBRARY_VERSION);
@@ -100,13 +100,19 @@ public class NuSMVWrapper {
 	/**
 	 * Checks all CTL formulae written within the SMV code as CTLSPEC.
 	 */
-	final public void checkInlineCTLSpec(NuSMVProj nusmvProj) {
-		
+	final public boolean checkInlineCTLSpec(NuSMVProj nusmvProj) {
 	    out.println("Checking all inline CTLSPEC");
+	    
+		errFile = new File("reprotool_nusmv_stderr.txt");
+        
+        NusmvLibrary.nusmv_stderr.set(nusmvLib.CmdOpenFile(errFile.getName()));
 	    nusmvProject = nusmvProj;
 	    counterExample.getUseCaseTransitions().clear();
 	    counterExample.setFormula(null);
 	    counterExample.setProject(nusmvProject.getSoftwareProject());
+	    branchingStep.clear();
+	    
+	    boolean counterExampleGenerated = true;
 	    
 		execCommand("reset");
 		execCommand("go");
@@ -115,8 +121,20 @@ public class NuSMVWrapper {
 			File origFile = new File(COUNTER_EXAMPLE_FILE);
 			
 			if( ! origFile.exists() ) {
-				out.println("no counterexample generated, perhaps syntax error");
-				return;
+				out.println("no counterexample generated");
+				CLibrary.INSTANCE.fflush(NusmvLibrary.nusmv_stderr.get());
+				
+				if (errFile.length() > 0) {
+					BufferedReader in = new BufferedReader(new FileReader(errFile));
+					String line;
+					out.println("\nERROR(S) FOUND IN THE INPUT NUSMV FILE !!!");
+					while ((line = in.readLine()) != null) {
+						out.println(line);
+					}
+				}
+				
+				errFile.delete();
+				return false;
 			}
 			
 			BufferedReader reader = new BufferedReader( new FileReader(origFile));
@@ -140,9 +158,11 @@ public class NuSMVWrapper {
 						Matcher m = myPattern.matcher(line);
 						if (m.find()) {
 							String expandedFormula = m.group(1);
+							counterExample.setCause(expandedFormula);
 							expandedFormula = expandedFormula.replaceAll("\\s+", "");
 							expandedFormula = expandedFormula.replaceAll("[()]", "");
 							TemporalLogicFormula tf = nusmvProject.getFormula(expandedFormula);
+							Assert.isNotNull(tf);
 							counterExample.setFormula(tf);
 						}
 					}
@@ -151,15 +171,21 @@ public class NuSMVWrapper {
 			writer.close();
 			reader.close();
 			origFile.delete();
+			
 			if(tmpFile.length() > 0) {
 				String str = tmpFile.toURI().toString();
 				displayCounterExampleFile(str);
-			} else
+			} else {
 				out.println("empty counterexample generated");
+				counterExampleGenerated = false;
+			}
 			tmpFile.delete();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+		errFile.delete();
+		return counterExampleGenerated;
 	}
 
 	/**
@@ -244,22 +270,35 @@ public class NuSMVWrapper {
 			for (UseCaseTransition ucTrans : branchingStep.keySet()) {
 				Step step = branchingStep.get(ucTrans);
 				Step pred = null;
-				for (Step s: ucTrans.getSteps()) {
-					if (s == step) {
-						break;
+				Assert.isNotNull(ucTrans);
+				
+				if (ucTrans.getSteps().isEmpty()) {
+					Scenario s = (Scenario) ucTrans.getUseCase().getMainScenario();
+					UseCaseStep missingStep = s.getSteps().get(0);
+					Assert.isNotNull(missingStep);
+					step.setLabel(missingStep.getLabel());
+					step.setContent(missingStep.getContent());
+					step.setUcStep(missingStep);
+					ucTrans.getSteps().add(step);
+					
+				} else {
+					for (Step s: ucTrans.getSteps()) {
+						if (s == step) {
+							break;
+						}
+						pred = s;
 					}
-					pred = s;
+					Assert.isNotNull(pred);
+					Assert.isTrue(pred.getUcStep().eContainer() instanceof Scenario);
+					Scenario s = (Scenario) pred.getUcStep().eContainer();
+					int i = s.getSteps().indexOf(pred.getUcStep());
+					UseCaseStep missingStep = s.getSteps().get(i + 1);
+					Assert.isNotNull(missingStep);
+					step.setLabel(missingStep.getLabel());
+					step.setContent(missingStep.getContent());
+					step.setUcStep(missingStep);
+					ucTrans.getSteps().add(step);
 				}
-				Assert.isNotNull(pred);
-				Assert.isTrue(pred.getUcStep().eContainer() instanceof Scenario);
-				Scenario s = (Scenario) pred.getUcStep().eContainer();
-				int i = s.getSteps().indexOf(pred.getUcStep());
-				UseCaseStep missingStep = s.getSteps().get(i + 1);
-				Assert.isNotNull(missingStep);
-				step.setLabel(missingStep.getLabel());
-				step.setContent(missingStep.getContent());
-				step.setUcStep(missingStep);
-				ucTrans.getSteps().add(step);
 			}
 		}
 		

@@ -72,7 +72,7 @@ public class NuSMVParser {
 		if (value.matches(".*_")) {
 			return;
 		}
-				
+						
 		Pattern myPattern = Pattern.compile("x(.*)\\.s");
 		Matcher m = myPattern.matcher(name);
 		
@@ -109,8 +109,9 @@ public class NuSMVParser {
 		
 		Assert.isNotNull(t);
 		
-		TransitionalState srcState = t.getSourceState();
 		String prevLabel = null;
+		
+		TransitionalState srcState = t.getSourceState();
 		boolean continuous = false;
 		
 		State prevTarget = null;
@@ -134,23 +135,27 @@ public class NuSMVParser {
 		} else {
 			continuous = true;
 		}
-		
+
 		if (("s" + prevLabel).equals(value)) {
 			// We wait until included use case ends.
 			return;
 		}
 		
-//		if (!continuous) {
-//			t = gen.findTransition(prevTarget, t.getTargetState());
-//			Assert.isNotNull(t);
-//			UseCaseStep s = t.getRelatedStep();
-//			if (s != null) {
-//				String label = "s" + s.getLabel();
-//				if (!gen.getLabel2Trans().containsKey(label)) {
-//					gen.getLabel2Trans().put(label, t);
-//				}
-//			}
-//		}
+		Transition old_t = t;
+		if (!continuous) {
+			t = gen.findTransition(prevTarget, t.getTargetState());
+			if (t != null) {
+				UseCaseStep s = t.getRelatedStep();
+				if (s != null) {
+					String label = "s" + s.getLabel();
+					if (!gen.getLabel2Trans().containsKey(label)) {
+						gen.getLabel2Trans().put(label, t);
+					}
+				}
+			} else {
+				t = old_t;
+			}
+		}
 		
 		Step step = null;
 
@@ -184,12 +189,20 @@ public class NuSMVParser {
 		NuSMVGenerator baseGen = nusmvProject.getGeneratorById(baseId);		
 		UseCase includedUc = baseGen.getIncludedUseCases().get(getFirstNumber(nextId) - 1);
 		UseCaseTransition ucTrans = null;
+		
 		for (UseCaseTransition t: counterExample.getUseCaseTransitions()) {
 			if (baseUc == t.getUseCase()) {
 				ucTrans = t;
 			}
 		}
 		
+		if (ucTrans == null) {
+			ucTrans = SwprojFactory.eINSTANCE.createUseCaseTransition();
+			ucTrans.setUseCase(baseUc);
+			counterExample.getUseCaseTransitions().add(ucTrans);
+		}
+		
+
 		Step premadeStep = branchingStep.get(ucTrans);
 		
 		while (hasIncludedIds(nextId)) {
@@ -208,7 +221,9 @@ public class NuSMVParser {
 			UseCaseTransition newTrans = SwprojFactory.eINSTANCE.createUseCaseTransition();
 			newTrans.setUseCase(includedUc);
 			premadeStep.setUseCaseTransition(newTrans);
-			branchingStep.put(ucTrans, premadeStep);
+			if (ucTrans != null) {
+				branchingStep.put(ucTrans, premadeStep);
+			}
 		}
 		
 		ucTrans = premadeStep.getUseCaseTransition();
@@ -246,15 +261,19 @@ public class NuSMVParser {
 			return;
 		}
 		
+		Transition old_t = t;
 		if (!continuous) {
 			t = gen.findTransition(prevTarget, t.getTargetState());
-			Assert.isNotNull(t);
-			UseCaseStep s = t.getRelatedStep();
-			if (s != null) {
-				String label = "s" + s.getLabel();
-				if (!gen.getLabel2Trans().containsKey(label)) {
-					gen.getLabel2Trans().put(label, t);
+			if (t != null) {
+				UseCaseStep s = t.getRelatedStep();
+				if (s != null) {
+					String label = "s" + s.getLabel();
+					if (!gen.getLabel2Trans().containsKey(label)) {
+						gen.getLabel2Trans().put(label, t);
+					}
 				}
+			} else {
+				t = old_t;
 			}
 		}
 
@@ -274,7 +293,8 @@ public class NuSMVParser {
 			step.setContent(t.getRelatedStep().getContent());
 		}
 		
-		ucTrans.getSteps().add(step);
+		if (!"".equals(step.getLabel()))
+			ucTrans.getSteps().add(step);
 	}
 
 }

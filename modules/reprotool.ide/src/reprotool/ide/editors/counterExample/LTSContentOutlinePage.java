@@ -260,12 +260,12 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 					stringBuffer.append("\n");
 					stringBuffer.append("Cond: " + preconditions.get(0).getContent());
 				}
+				((Label) toolTip).setText(stringBuffer.toString());
+				con.setTooltip(toolTip);
 			} else {
 				Assert.isTrue(!strayConnections.containsKey(con.getSource()));
 				strayConnections.put(con.getSource(), con);
 			}
-			((Label) toolTip).setText(stringBuffer.toString());
-			con.setTooltip(toolTip);
 			
 			connectionTracker.get(trans).put(transition.getRelatedStep(), con);
 		}
@@ -289,19 +289,28 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 			ref = trans;
 		}
 		GraphNode prevNode = null;
+		
+		int i = trans.getUseCase().getMainScenario().getSteps().size() - 1;
+		UseCaseStep lastStepMain = trans.getUseCase().getMainScenario().getSteps().get(i);
+		UseCaseStep ucStep = null;
 		for (Step step: trans.getSteps()) {
-			UseCaseStep ucStep = step.getUcStep();
+			ucStep = step.getUcStep();
 			GraphConnection con = connectionTracker.get(ref).get(ucStep);
 			if (con == null) {
 				continue;
 			}
 			if ((prevNode != null) && (con.getSource() != prevNode)) {
 				GraphConnection c = strayConnections.get(prevNode);
-				c.setLineColor(ColorConstants.red);
-				while (c.getDestination() != con.getSource()) {
-					c = strayConnections.get(c);
+				if (c != null) {
 					c.setLineColor(ColorConstants.red);
-					c.setHighlightColor(ColorConstants.red);
+					while (c.getDestination() != con.getSource()) {
+						c = strayConnections.get(c.getDestination());
+						if (c == null) {
+							break;
+						}
+						c.setLineColor(ColorConstants.red);
+						c.setHighlightColor(ColorConstants.red);
+					}
 				}
 			}
 			con.setLineColor(ColorConstants.red);
@@ -325,6 +334,16 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 				selectUCTransition(step.getUseCaseTransition(), ref);
 			}
 			prevNode = con.getDestination();
+		}
+		if (ucStep == lastStepMain) {
+			GraphConnection con = connectionTracker.get(ref).get(ucStep);
+			if (con != null) {
+				if (strayConnections.containsKey(con.getDestination())) {
+					GraphConnection c = strayConnections.get(prevNode);
+					c.setLineColor(ColorConstants.red);
+					c.setHighlightColor(ColorConstants.red);
+				}
+			}
 		}
 	}
 	

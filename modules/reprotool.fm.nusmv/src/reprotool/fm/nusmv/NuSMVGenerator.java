@@ -330,12 +330,33 @@ public class NuSMVGenerator {
 			}
 			c++;
 			if (annotatedLabels.contains(label)) {
-				nextExpr.append(label + "_");
-			} else {
-				nextExpr.append(label);				
+				label = label + "_";
 			}
+			UseCaseStep step = t.getRelatedStep();
+			if ((step != null) && (step.getAction() instanceof UseCaseInclude)) {
+				label = label + "_";
+			}
+			nextExpr.append(label);				
 		}
 		nextExpr.append("};\n");
+		
+		for (Transition tr: machine.getInitialState().getTransitions()) {
+			
+			if (
+				(tr.getRelatedStep() != null) &&
+				(tr.getRelatedStep().getAction() instanceof UseCaseInclude)
+			) {
+				String label = trans2Label.get(tr);
+				if (label == null) {
+					label = state2Label.get(tr.getTargetState());
+				}
+				UseCaseInclude ui = (UseCaseInclude)tr.getRelatedStep().getAction();
+				int i = includedUseCases.indexOf(ui.getIncludeTarget()) + 1;
+				String tag = Integer.toString(i);
+				nextExpr.append("		s=" + label + "__ & y" + tag +  ".s != sFin : " + label + "__;\n");
+				nextExpr.append("		s=" + label + "__ & y" + tag +  ".s  = sFin : " + label + "_;\n");
+			}
+		}
 		
 		for(String state: states) {
 			if (state.matches(".*__")) {
@@ -396,7 +417,9 @@ public class NuSMVGenerator {
 						}
 						String label = trans2Label.get(tr);
 						if (label != null) {
-							label = label + "_";
+							if (annotatedLabels.contains(label)) {
+								label = label + "_";
+							}
 							UseCaseStep step = tr.getRelatedStep();
 							if ((step != null) && (step.getAction() instanceof UseCaseInclude)) {
 								label = label + "_";
@@ -418,7 +441,9 @@ public class NuSMVGenerator {
 					for (Transition tr: skips) {
 						String label = trans2Label.get(tr);
 						if (label != null) {
-							label = label + "_";
+							if (annotatedLabels.contains(label)) {
+								label = label + "_";
+							}
 							UseCaseStep step = tr.getRelatedStep();
 							if ((step != null) && (step.getAction() instanceof UseCaseInclude)) {
 								label = label + "_";
@@ -469,7 +494,7 @@ public class NuSMVGenerator {
 		nextExpr.append("		s=" + trans2Label.get(finalTransition) + " : sFin;\n");
 		nextExpr.append("		s=sFin : sFin;\n");
 		if (hasAbort) {
-			nextExpr.append("		s=sAbort : sAbort;\n");			
+			nextExpr.append("		s=sAbort : sFin;\n");			
 		}
 		nextExpr.append("	esac");
 			
