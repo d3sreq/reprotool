@@ -55,12 +55,13 @@ Charles University in Prague
 
    <plugins>
       <plugin id="com.google.collect"/>
+      <plugin id="com.google.guava"/>
       <plugin id="com.google.inject"/>
       <plugin id="com.ibm.icu"/>
       <plugin id="com.ochafik.lang.jnaeratorruntime"/>
       <plugin id="com.sun.jna"/>
+      <plugin id="javax.inject"/>
       <plugin id="org.antlr.runtime"/>
-      <plugin id="org.aopalliance"/>
       <plugin id="org.apache.commons.cli"/>
       <plugin id="org.apache.commons.lang"/>
       <plugin id="org.apache.commons.logging"/>
@@ -149,6 +150,7 @@ Charles University in Prague
       <plugin id="org.eclipse.uml2.common"/>
       <plugin id="org.eclipse.uml2.uml"/>
       <plugin id="org.eclipse.wb.jdt.fragment" fragment="true"/>
+      <plugin id="org.eclipse.xtend2.lib"/>
       <plugin id="org.eclipse.xtext"/>
       <plugin id="org.eclipse.xtext.builder"/>
       <plugin id="org.eclipse.xtext.common.types"/>
@@ -167,16 +169,20 @@ Charles University in Prague
       <plugin id="org.eclipselabs.nusmvtools.nusmv4j"/>
       <plugin id="org.eclipselabs.reprotool.branding"/>
       <plugin id="org.eclipselabs.reprotool.txtspec.ui" fragment=""/>
+      <plugin id="org.hamcrest.core"/>
+      <plugin id="org.junit"/>
       <plugin id="reprotool.fm.nusmv"/>
       <plugin id="reprotool.fm.nusmv.lang"/>
       <plugin id="reprotool.fm.nusmv.lang.ui"/>
       <plugin id="reprotool.ide"/>
       <plugin id="reprotool.ling"/>
+      <plugin id="reprotool.ling.tests" fragment="true"/>
       <plugin id="reprotool.lts.export"/>
       <plugin id="reprotool.model"/>
       <plugin id="reprotool.model.edit"/>
       <plugin id="reprotool.model.edit.ext"/>
       <plugin id="reprotool.model.editor"/>
+      <plugin id="reprotool.model.utils"/>
       <plugin id="reprotool.tools.anna"/>
       <plugin id="reprotool.tools.dbparser"/>
       <plugin id="reprotool.tools.mxpost"/>
