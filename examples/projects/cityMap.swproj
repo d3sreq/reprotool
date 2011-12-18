@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="ASCII"?>
+<swproj:SoftwareProject xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:action="http://d3s.mff.cuni.cz/reprotool/model/linguistic/action" xmlns:annotate="http://d3s.mff.cuni.cz/reprotool/model/usecase/annotate" xmlns:swproj="http://d3s.mff.cuni.cz/reprotool/model/swproj" name="City Map Example">
+  <actors name="User"/>
+  <actors/>
+  <useCases name="Select city on map" primaryActor="//@actors.0">
+    <mainScenario>
+      <steps content="The user opens the map web page."/>
+      <steps content="The system generates a map with available cities.">
+        <variations>
+          <steps content="System displays an empty map with message."/>
+          <steps content="Use-case aborts">
+            <annotations id="abort1" annotationType="//@annotationGroups.0/@members.0"/>
+            <action xsi:type="action:AbortUseCase"/>
+          </steps>
+          <scenarioGuard content="No cities available."/>
+        </variations>
+      </steps>
+      <steps content="The user selects a city on the map.">
+        <annotations id="city" annotationType="//@annotationGroups.2/@members.0"/>
+      </steps>
+    </mainScenario>
+  </useCases>
+  <useCases name="Generate restaurant map for city" primaryActor="//@actors.0" precedingUseCases="//@useCases.0">
+    <mainScenario>
+      <steps content="Include use-case &quot;Generate city&quot;.">
+        <extensions>
+          <steps content="Use-case aborts.">
+            <action xsi:type="action:AbortUseCase"/>
+          </steps>
+          <scenarioGuard content="There was an abort in &#x201c;Generate city&#x201d;.">
+            <annotations id="abort2" annotationType="//@annotationGroups.0/@members.1"/>
+          </scenarioGuard>
+        </extensions>
+        <variations comment="">
+          <steps content="Use-case aborts.">
+            <action xsi:type="action:AbortUseCase"/>
+          </steps>
+          <scenarioGuard content="There was an abort in &#x201c;Select city on map&#x201d;">
+            <annotations id="abort1" annotationType="//@annotationGroups.0/@members.1"/>
+          </scenarioGuard>
+        </variations>
+        <action xsi:type="action:UseCaseInclude" includeTarget="//@useCases.2"/>
+      </steps>
+      <steps content="System validates the zoom settings.">
+        <annotations id="zoom" annotationType="//@annotationGroups.2/@members.1"/>
+        <extensions>
+          <steps content="System display an error message to the user."/>
+          <steps content="Goto step 1.">
+            <action xsi:type="action:Goto" gotoTarget="//@useCases.1/@mainScenario/@steps.0"/>
+          </steps>
+          <scenarioGuard content="Zoom settings are invalid"/>
+        </extensions>
+      </steps>
+      <steps content="System asks RestaurantServer for restaurants.">
+        <annotations id="zoom" annotationType="//@annotationGroups.2/@members.1"/>
+        <annotations id="city" annotationType="//@annotationGroups.2/@members.1"/>
+      </steps>
+      <steps content="RestaurantServer generates the restaurant layer information."/>
+      <steps content="System generates restaurant map."/>
+    </mainScenario>
+  </useCases>
+  <useCases name="Generate city" precedingUseCases="//@useCases.0">
+    <mainScenario>
+      <steps content="The system asks MapServer to provide city information.">
+        <annotations id="city" annotationType="//@annotationGroups.2/@members.1"/>
+        <variations>
+          <steps content="Abort">
+            <action xsi:type="action:AbortUseCase"/>
+          </steps>
+          <scenarioGuard content=" There was an abort in &#x201c;Select city on map&#x201d;.">
+            <annotations id="" annotationType="//@annotationGroups.0/@members.1"/>
+          </scenarioGuard>
+        </variations>
+      </steps>
+      <steps content="MapServer provides the requested information.">
+        <variations comment="">
+          <steps content="Abort.">
+            <annotations id="abort2" annotationType="//@annotationGroups.0/@members.0"/>
+            <action xsi:type="action:AbortUseCase"/>
+          </steps>
+          <scenarioGuard content="MapServer error occurred."/>
+        </variations>
+      </steps>
+      <steps content="The system generates the map with default zoom settings.">
+        <annotations id="zoom" annotationType="//@annotationGroups.2/@members.0"/>
+      </steps>
+      <steps content="User adjusts zoom settings."/>
+    </mainScenario>
+  </useCases>
+  <annotationGroups xsi:type="annotate:SpecialAnnotationGroup">
+    <members name="trace"/>
+    <members name="on"/>
+  </annotationGroups>
+  <annotationGroups xsi:type="annotate:TemporalAnnotationGroup">
+    <formulas xsi:type="annotate:CTLFormula" formula="AG(open -> AF(close))" description="After 'open' there should always be 'close'"/>
+    <formulas xsi:type="annotate:CTLFormula" formula="AG(open -> AX(A[!open U close]))" description="No multi-open without close"/>
+    <formulas xsi:type="annotate:CTLFormula" formula="AG(close -> AX(A[!close U open | !AF(close) ]))" description="No multi-close without open"/>
+    <formulas xsi:type="annotate:CTLFormula" formula="A[!close U open | !AF(close)]" description="First 'open' then 'close'"/>
+    <members name="open"/>
+    <members name="close"/>
+  </annotationGroups>
+  <annotationGroups xsi:type="annotate:TemporalAnnotationGroup">
+    <formulas xsi:type="annotate:CTLFormula" formula="AG( create -> EF(use) )" description="After 'create' there must be some branch containing 'use'"/>
+    <formulas xsi:type="annotate:CTLFormula" formula="AG( create -> AX(AG(!create)) )" description="Only one 'create'"/>
+    <formulas xsi:type="annotate:CTLFormula" formula="A[ !use U create | !AF(use)]" description="No 'use' before 'create'"/>
+    <members name="create"/>
+    <members name="use"/>
+  </annotationGroups>
+</swproj:SoftwareProject>

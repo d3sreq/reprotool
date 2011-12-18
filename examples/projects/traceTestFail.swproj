@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="ASCII"?>
+<swproj:SoftwareProject xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:action="http://d3s.mff.cuni.cz/reprotool/model/linguistic/action" xmlns:annotate="http://d3s.mff.cuni.cz/reprotool/model/usecase/annotate" xmlns:swproj="http://d3s.mff.cuni.cz/reprotool/model/swproj">
+  <useCases name="TraceDemonstration">
+    <mainScenario>
+      <steps>
+        <extensions>
+          <steps>
+            <annotations id="A" annotationType="//@annotationGroups.0/@members.0"/>
+          </steps>
+          <steps>
+            <annotations id="file" annotationType="//@annotationGroups.2/@members.0"/>
+          </steps>
+          <scenarioGuard/>
+        </extensions>
+      </steps>
+      <steps/>
+      <steps/>
+      <steps>
+        <variations>
+          <steps>
+            <annotations id="file" annotationType="//@annotationGroups.2/@members.0"/>
+          </steps>
+          <steps>
+            <annotations id="file" annotationType="//@annotationGroups.2/@members.1"/>
+          </steps>
+          <steps>
+            <action xsi:type="action:Goto" gotoTarget="//@useCases.0/@mainScenario/@steps.5"/>
+          </steps>
+          <scenarioGuard/>
+        </variations>
+        <variations>
+          <steps>
+            <annotations id="file" annotationType="//@annotationGroups.2/@members.0"/>
+          </steps>
+          <steps>
+            <annotations id="file" annotationType="//@annotationGroups.2/@members.1"/>
+          </steps>
+          <steps>
+            <action xsi:type="action:Goto" gotoTarget="//@useCases.0/@mainScenario/@steps.5"/>
+          </steps>
+          <scenarioGuard/>
+        </variations>
+      </steps>
+      <steps>
+        <annotations id="file" annotationType="//@annotationGroups.2/@members.1"/>
+      </steps>
+      <steps/>
+    </mainScenario>
+  </useCases>
+  <annotationGroups xsi:type="annotate:SpecialAnnotationGroup">
+    <members name="trace"/>
+    <members name="on"/>
+  </annotationGroups>
+  <annotationGroups xsi:type="annotate:TemporalAnnotationGroup">
+    <formulas xsi:type="annotate:CTLFormula" formula="AG(open -> AF(close))" description="After 'open' there should always be 'close'"/>
+    <formulas xsi:type="annotate:CTLFormula" formula="AG(open -> AX(A[!open U close]))" description="No multi-open without close"/>
+    <formulas xsi:type="annotate:CTLFormula" formula="AG(close -> AX(A[!close U open | !AF(close) ]))" description="No multi-close without open"/>
+    <formulas xsi:type="annotate:CTLFormula" formula="A[!close U open | !AF(close)]" description="First 'open' then 'close'"/>
+    <members name="open"/>
+    <members name="close"/>
+  </annotationGroups>
+  <annotationGroups xsi:type="annotate:TemporalAnnotationGroup">
+    <formulas xsi:type="annotate:CTLFormula" formula="AG( create -> EF(use) )" description="After 'create' there must be some branch containing 'use'"/>
+    <formulas xsi:type="annotate:CTLFormula" formula="AG( create -> AX(AG(!create)) )" description="Only one 'create'"/>
+    <formulas xsi:type="annotate:CTLFormula" formula="A[ !use U create | !AF(use)]" description="No 'use' before 'create'"/>
+    <members name="create"/>
+    <members name="use"/>
+  </annotationGroups>
+</swproj:SoftwareProject>
