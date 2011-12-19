@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="ASCII"?>
+<swproj:SoftwareProject xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:action="http://d3s.mff.cuni.cz/reprotool/model/linguistic/action" xmlns:annotate="http://d3s.mff.cuni.cz/reprotool/model/usecase/annotate" xmlns:swproj="http://d3s.mff.cuni.cz/reprotool/model/swproj">
+  <actors name="Actor_A"/>
+  <actors name="Actor_B"/>
+  <actors name="Actor_C"/>
+  <useCases name="UseCase 1" primaryActor="//@actors.0">
+    <mainScenario>
+      <steps content="Step forward">
+        <annotations id="file" annotationType="//@annotationGroups.1/@members.0"/>
+        <extensions>
+          <steps content="Step right">
+            <action xsi:type="action:ToSystem">
+              <sentenceActivity text="//@useCases.2/@mainScenario/@steps.0/@textNodes.1"/>
+              <sender actor="//@actors.0"/>
+            </action>
+          </steps>
+          <steps content="Step forward">
+            <action xsi:type="action:FromSystem">
+              <sentenceActivity text="//@useCases.2/@mainScenario/@steps.0/@textNodes.0"/>
+              <receiver actor="//@actors.1"/>
+            </action>
+          </steps>
+        </extensions>
+        <variations>
+          <steps content="Step left">
+            <annotations id="file" annotationType="//@annotationGroups.1/@members.0"/>
+          </steps>
+          <steps content="Step back right">
+            <action xsi:type="action:Goto" gotoTarget="//@useCases.0/@mainScenario/@steps.1"/>
+          </steps>
+        </variations>
+      </steps>
+      <steps content="Step forward"/>
+      <steps content="Step forward">
+        <annotations id="file" annotationType="//@annotationGroups.1/@members.1"/>
+      </steps>
+    </mainScenario>
+  </useCases>
+  <useCases name="UseCase 2" primaryActor="//@actors.1" precedingUseCases="//@useCases.0">
+    <mainScenario>
+      <steps>
+        <extensions>
+          <steps/>
+          <steps>
+            <action xsi:type="action:UseCaseInclude" includeTarget="//@useCases.0"/>
+          </steps>
+        </extensions>
+      </steps>
+      <steps/>
+      <steps/>
+    </mainScenario>
+  </useCases>
+  <useCases name="UseCase 3" primaryActor="//@actors.2" precedingUseCases="//@useCases.1 //@useCases.0">
+    <mainScenario>
+      <steps content="Seller submits item description">
+        <textNodes length="6" actionPart="//@useCases.0/@mainScenario/@steps.0/@extensions.0/@steps.1/@action/@sentenceActivity"/>
+        <textNodes startPosition="7" length="7" actionPart="//@useCases.0/@mainScenario/@steps.0/@extensions.0/@steps.0/@action/@sentenceActivity"/>
+        <annotations id="file" annotationType="//@annotationGroups.1/@members.0"/>
+        <action xsi:type="action:ToSystem"/>
+      </steps>
+      <steps>
+        <extensions>
+          <steps/>
+          <steps>
+            <action xsi:type="action:AbortUseCase"/>
+          </steps>
+        </extensions>
+        <action xsi:type="action:UseCaseInclude" includeTarget="//@useCases.1"/>
+      </steps>
+      <steps>
+        <annotations id="file" annotationType="//@annotationGroups.1/@members.1"/>
+      </steps>
+    </mainScenario>
+  </useCases>
+  <annotationGroups xsi:type="annotate:SpecialAnnotationGroup">
+    <members name="trace"/>
+    <members name="on"/>
+  </annotationGroups>
+  <annotationGroups xsi:type="annotate:TemporalAnnotationGroup">
+    <formulas xsi:type="annotate:CTLFormula" formula="AG(close -> AX(A[!close U open | !AF(close) ]))" description="No multi-close without open"/>
+    <formulas xsi:type="annotate:CTLFormula" formula="A[!close U open | !AF(close)]" description="First 'open' then 'close'"/>
+    <formulas xsi:type="annotate:LTLFormula" formula="G(open -> F(close))" description="After 'open' there should always be 'close'"/>
+    <formulas xsi:type="annotate:LTLFormula" formula="G(open -> X(!open U close))" description="No multi-open without close"/>
+    <members name="open"/>
+    <members name="close"/>
+  </annotationGroups>
+  <annotationGroups xsi:type="annotate:TemporalAnnotationGroup">
+    <formulas xsi:type="annotate:CTLFormula" formula="AG( create -> EF(use) )" description="After 'create' there must be some branch containing 'use'"/>
+    <formulas xsi:type="annotate:CTLFormula" formula="AG( create -> AX(AG(!create)) )" description="Only one 'create'"/>
+    <formulas xsi:type="annotate:CTLFormula" formula="A[ !use U create | !AF(use)]" description="No 'use' before 'create'"/>
+    <members name="create"/>
+    <members name="use"/>
+  </annotationGroups>
+</swproj:SoftwareProject>
