@@ -79,10 +79,10 @@
     <eSubpackages name="annotate" nsURI="http://d3s.mff.cuni.cz/reprotool/model/usecase/annotate"
         nsPrefix="annotate">
       <eClassifiers xsi:type="ecore:EClass" name="StepAnnotation">
-        <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1"
-            eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
         <eStructuralFeatures xsi:type="ecore:EReference" name="annotationType" lowerBound="1"
             eType="#//usecase/annotate/StepAnnotationType"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1"
+            eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
         <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" lowerBound="1"
             eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
             changeable="false" volatile="true" transient="true" derived="true"/>
