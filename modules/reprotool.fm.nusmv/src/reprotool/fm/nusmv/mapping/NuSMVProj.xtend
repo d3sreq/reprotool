@@ -16,6 +16,8 @@ import reprotool.model.usecase.UseCase
 import reprotool.model.usecase.annotate.TemporalAnnotationGroup
 import reprotool.model.usecase.annotate.TemporalLogicFormula
 import reprotool.model.utils.xtend.ReprotoolMappingExtensions
+import reprotool.model.usecase.annotate.CTLFormula
+import reprotool.model.usecase.annotate.LTLFormula
 
 public class NuSMVProj {
 
@@ -27,7 +29,8 @@ public class NuSMVProj {
 	private List<NuSMVGenerator> generators
 	private List<TemporalLogicFormula> formulas
 	private HashMap<String, TemporalLogicFormula> expanded2Formula
-	private List<String> expandedFormulas
+	private List<String> expandedCTLFormulas
+	private List<String> expandedLTLFormulas
 	
 	private HashMap<String, List<AnnotationEntry>> globalTracker
 	private HashMap<UseCase, NuSMVGenerator> uc2gen
@@ -54,13 +57,14 @@ public class NuSMVProj {
 		globalTracker = new HashMap<String, List<AnnotationEntry>>()
 		uc2gen = new HashMap<UseCase, NuSMVGenerator>()
 		expanded2Formula = new HashMap<String, TemporalLogicFormula>()
-		expandedFormulas = new ArrayList<String>()
+		expandedCTLFormulas = new ArrayList<String>()
+		expandedLTLFormulas = new ArrayList<String>()
 
 		uc2gen += generators.map([ it.useCase -> it ])
 				
 		processAnnotations()
 		loadIncludedAnnotations()
-		loadCTLFormulas()
+		loadTLFormulas()
 	}
 	
 	def public getSoftwareProject() {
@@ -77,6 +81,14 @@ public class NuSMVProj {
 	
 	def public getGeneratorById(String id) {
 		generators.findFirst([useCaseId.equals(id)])
+	}
+	
+	def public containsCTLFormulas() {
+		return (!expandedCTLFormulas.empty)		
+	}
+	
+	def public containsLTLFormulas() {
+		return (!expandedLTLFormulas.empty)
 	}
 		
 	def public getModel() {
@@ -160,9 +172,16 @@ public class NuSMVProj {
 			name = "main"
 			
 			// Create CTL formulas
-			moduleElement += expandedFormulas.map( formula |
+			moduleElement += expandedCTLFormulas.map( formula |
 				$(factory.createCtlSpecification) [
 					ctlExpr = formula
+				]
+			)
+			
+			// Create LTL formulas
+			moduleElement += expandedLTLFormulas.map( formula |
+				$(factory.createLtlSpecification) [
+					ltlExpr = formula
 				]
 			)
 			
@@ -332,7 +351,7 @@ public class NuSMVProj {
 		}
 	}
 	
-	def private loadCTLFormulas() {
+	def private loadTLFormulas() {
 		for (formula: formulas) {
 			Assert::isTrue(formula.eContainer() instanceof TemporalAnnotationGroup);
 			val tGrp = formula.eContainer() as TemporalAnnotationGroup;
@@ -357,7 +376,12 @@ public class NuSMVProj {
 				
 				val normalised = f.replaceAll("[()\\s]+", "")
 				expanded2Formula += normalised -> formula
-				expandedFormulas += f
+				
+				if (formula instanceof CTLFormula) {
+					expandedCTLFormulas += f
+				} else if (formula instanceof LTLFormula) {
+					expandedLTLFormulas += f
+				}
 			}	
 		}
 	}	

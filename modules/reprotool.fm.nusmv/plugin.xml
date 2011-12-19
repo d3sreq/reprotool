@@ -21,9 +21,9 @@
             nameFilter="*.nusmv"
             objectClass="org.eclipse.core.resources.IFile">
          <action
-               class="reprotool.fm.nusmv.actions.CheckCTL"
+               class="reprotool.fm.nusmv.actions.RunNuSMV"
                id="reprotool.fm.nusmv.action1"
-               label="Check CTL using NuSMV">
+               label="Run NuSMV Verification">
          </action>
       </objectContribution>
    </extension>

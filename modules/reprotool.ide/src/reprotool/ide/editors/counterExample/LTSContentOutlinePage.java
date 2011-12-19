@@ -427,6 +427,11 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 					public void dispatchMouseMoved(org.eclipse.swt.events.MouseEvent me) {
 						// Do nothing. This disables nodes replacing with mouse.
 					}
+					
+					@Override
+					public void dispatchMousePressed(org.eclipse.swt.events.MouseEvent me) {
+						// Do nothing.
+					}
 				}
 		);
 		

@@ -334,6 +334,11 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 					public void dispatchMouseMoved(org.eclipse.swt.events.MouseEvent me) {
 						// Do nothing. This disables nodes replacing with mouse.
 					}
+					
+					@Override
+					public void dispatchMousePressed(org.eclipse.swt.events.MouseEvent me) {
+						// Do nothing.
+					}
 				}
 		);
 		
@@ -398,7 +403,7 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 			
 			public void mouseDown(MouseEvent e) {
 				if (e.button == 1) {
-					viewer.getGraphControl().setSelection(null);
+//					viewer.getGraphControl().setSelection(null);
 				}
 				if (e.button == 3) {
 					menu.setVisible(true);

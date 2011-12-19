@@ -20,13 +20,14 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 
 import reprotool.fm.nusmv.Activator;
+import reprotool.fm.nusmv.LogicFormulaType;
 import reprotool.fm.nusmv.NuSMVWrapper;
 import reprotool.fm.nusmv.lang.nuSmvLang.NuSmvLangFactory;
 import reprotool.fm.nusmv.mapping.NuSMVProj;
 import reprotool.model.swproj.CounterExample;
 import reprotool.model.swproj.SoftwareProject;
 
-public class CheckCTL implements IWorkbenchWindowActionDelegate {
+public class RunNuSMV implements IWorkbenchWindowActionDelegate {
 	final private MessageConsoleStream consoleOut = Activator.getDefault().findConsole().newMessageStream();	
 	private ISelection sel;
 	private NuSMVProj nusmvProj;
@@ -92,7 +93,15 @@ public class CheckCTL implements IWorkbenchWindowActionDelegate {
 			
 			NuSMVWrapper nusmv = Activator.getDefault().getNuSMVWrapper();
 			nusmv.loadModelFile( file );
-			boolean counterExampleGenerated = nusmv.checkInlineCTLSpec(nusmvProj);
+			boolean counterExampleGenerated = false;
+			
+			if (nusmvProj.containsCTLFormulas()) {
+				counterExampleGenerated = nusmv.checkInlineSpec(nusmvProj, LogicFormulaType.CTL);
+			}
+			
+			if ((!counterExampleGenerated) && (nusmvProj.containsLTLFormulas())) {
+				counterExampleGenerated = nusmv.checkInlineSpec(nusmvProj, LogicFormulaType.LTL);
+			}
 			
 			if (!counterExampleGenerated) {
 				return;
