@@ -53,6 +53,7 @@ import org.eclipse.zest.core.widgets.GraphNode;
 import org.eclipse.zest.core.widgets.ZestStyles;
 import org.eclipse.zest.layouts.LayoutAlgorithm;
 
+import reprotool.model.linguistic.action.AbortUseCase;
 import reprotool.model.linguistic.action.UseCaseInclude;
 import reprotool.model.usecase.Condition;
 import reprotool.model.usecase.Scenario;
@@ -193,7 +194,7 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 		createLtsGraph(graphParent, machine);		
 	}
 	
-	private void generateGraphNodes(StateMachine m) {
+	private void generateGraphNodes(StateMachine m, UseCase u) {
 		figureProvider.setMachine(m);
 		for (State s: m.getTransitionalStates()) {
 			GraphNode node = new CGraphNode(viewer.getGraphControl(), SWT.NONE,
@@ -208,11 +209,16 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 		node.setData(s);
 		state2Node.put(s, node);
 		
-		s = m.getFinalState();
-		node = new CGraphNode(viewer.getGraphControl(), SWT.NONE,
-			figureProvider.getFigure(s));
-		node.setData(s);
-		state2Node.put(s, node);
+		int n = u.getMainScenario().getSteps().size();
+		UseCaseStep lastStep = u.getMainScenario().getSteps().get(n - 1);
+		
+		if (!(lastStep.getAction() instanceof AbortUseCase)) {
+			s = m.getFinalState();
+			node = new CGraphNode(viewer.getGraphControl(), SWT.NONE,
+				figureProvider.getFigure(s));
+			node.setData(s);
+			state2Node.put(s, node);
+		}
 	}
 	
 	private void processTransition(Transition transition, AbortState abort) {
@@ -343,9 +349,9 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 		);
 		
 		// Firstly we need to generate all nodes
-		generateGraphNodes(machine);
+		generateGraphNodes(machine, useCase);
 		for (StateMachine m: includedMachines) {
-			generateGraphNodes(m);
+			generateGraphNodes(m, machine2UseCase.get(m));
 		}
 		
 		// Only after nodes are ready we can create edges.

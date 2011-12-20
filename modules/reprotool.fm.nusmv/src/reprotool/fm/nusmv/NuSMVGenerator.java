@@ -491,7 +491,9 @@ public class NuSMVGenerator {
 			}
 		}
 		
-		nextExpr.append("		s=" + trans2Label.get(finalTransition) + " : sFin;\n");
+		if (trans2Label.get(finalTransition) != null) {
+			nextExpr.append("		s=" + trans2Label.get(finalTransition) + " : sFin;\n");
+		}
 		nextExpr.append("		s=sFin : sFin;\n");
 		if (hasAbort) {
 			nextExpr.append("		s=sAbort : sFin;\n");			

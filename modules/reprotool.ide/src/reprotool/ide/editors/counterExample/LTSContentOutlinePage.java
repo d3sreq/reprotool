@@ -25,6 +25,7 @@ import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.IActionBars;
@@ -78,6 +79,13 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 	
 	private HashMap<UseCaseTransition, HashMap<UseCaseStep, GraphConnection>> connectionTracker =
 			new HashMap<UseCaseTransition, HashMap<UseCaseStep, GraphConnection>>();
+	
+	private HashMap<UseCaseTransition, GraphNode> transition2LastNode =
+			new HashMap<UseCaseTransition, GraphNode>();
+	private HashMap<UseCaseTransition, GraphNode> transition2FirstNode =
+			new HashMap<UseCaseTransition, GraphNode>();
+	private HashMap<UseCase, UseCaseTransition> useCase2Transition =
+			new HashMap<UseCase, UseCaseTransition>();
 	
 	public LTSContentOutlinePage(CounterExample cexmp) {
 		super();
@@ -177,7 +185,19 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 		state2Node.put(s, node);
 	}
 	
-	private void processTransition(Transition transition, AbortState abort, UseCaseTransition trans) {
+	private boolean transitionHasStep(UseCaseTransition t, UseCaseStep s) {		
+		for (Step step: t.getSteps()) {
+			if (step.getUcStep() == s) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	private void processTransition(Transition transition, AbortState abort, UseCaseTransition trans,
+			UseCase u
+	) {
 		if (
 				(transition.getRelatedStep() != null) &&
 				(transition.getRelatedStep().getAction() instanceof UseCaseInclude)
@@ -235,12 +255,17 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 			IFigure toolTip = new Label();
 			
 			StringBuffer stringBuffer = new StringBuffer();
+			stringBuffer.append("UseCase: " + u.getName());
+			stringBuffer.append("\n");
 			stringBuffer.append("Label: " + transition.getRelatedStep().getLabel());
 			stringBuffer.append("\n");
 			stringBuffer.append("Text: " + WordUtils.wrap( transition.getRelatedStep().getContent(), 40) );
 			
 			List<StepAnnotation> annots = transition.getRelatedStep().getAnnotations();
 			if (!annots.isEmpty()) {
+				if (!transitionHasStep(useCase2Transition.get(u), transition.getRelatedStep())) {
+					con.setImage(figureProvider.getSignImage());
+				}
 				stringBuffer.append("\n");
 				stringBuffer.append("Annots: ");
 				int c = 0;
@@ -265,21 +290,27 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 			} else {
 				Assert.isTrue(!strayConnections.containsKey(con.getSource()));
 				strayConnections.put(con.getSource(), con);
+				((Label) toolTip).setText("UseCase: " + u.getName());
+				con.setTooltip(toolTip);
 			}
 			
 			connectionTracker.get(trans).put(transition.getRelatedStep(), con);
+		} else if (trans.getUseCase() != null) {
+			IFigure toolTip = new Label();
+			((Label) toolTip).setText("UseCase: " + u.getName());
+			con.setTooltip(toolTip);
 		}
 	}
 	
 	private void generateGraphEdges(StateMachine m, UseCaseTransition trans) {
 		figureProvider.setMachine(m);
 		for (Transition t: m.getInitialState().getTransitions()) {
-			processTransition(t, m.getAbortState(), trans);
+			processTransition(t, m.getAbortState(), trans, machine2UseCase.get(m));
 		}
 		
 		for (TransitionalState tState: m.getTransitionalStates()) {
 			for (Transition t: tState.getTransitions()) {
-				processTransition(t, m.getAbortState(), trans);
+				processTransition(t, m.getAbortState(), trans, machine2UseCase.get(m));
 			}
 		}
 	}
@@ -299,6 +330,11 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 			if (con == null) {
 				continue;
 			}
+			
+			if (!transition2FirstNode.containsKey(ref)) {
+				transition2FirstNode.put(ref, con.getSource());
+			}
+			
 			if ((prevNode != null) && (con.getSource() != prevNode)) {
 				GraphConnection c = strayConnections.get(prevNode);
 				if (c != null) {
@@ -335,6 +371,7 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 			}
 			prevNode = con.getDestination();
 		}
+		transition2LastNode.put(ref, prevNode);
 		if (ucStep == lastStepMain) {
 			GraphConnection con = connectionTracker.get(ref).get(ucStep);
 			if (con != null) {
@@ -350,6 +387,24 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 	private void selectCounterExamplePath() {
 		for (UseCaseTransition trans: transitions) {
 			selectUCTransition(trans, null);
+			UseCase uc = trans.getUseCase();
+			for (UseCase pred: uc.getPrecedingUseCases()) {
+				GraphConnection c = new GraphConnection(viewer.getGraphControl(),
+						ZestStyles.CONNECTIONS_DIRECTED,
+						transition2LastNode.get(useCase2Transition.get(pred)),
+						transition2FirstNode.get(trans)
+				);
+				IFigure toolTip = new Label();
+				((Label) toolTip).setText("Precedence relation: " +
+						pred.getName() + " preceeds " + uc.getName());
+				c.setTooltip(toolTip);
+				c.setCurveDepth(20);
+				c.setLineColor(ColorConstants.lightBlue);
+				Shape shape = (Shape) c.getConnectionFigure();
+				shape.setAntialias(SWT.ON);
+				shape.setLineStyle(SWT.LINE_CUSTOM);
+				shape.setLineDash(new float[] {7.0f, 5.0f});
+			}
 		}
 	}
 	
@@ -362,6 +417,7 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 	private void createLtsGraph(final Composite graphParent) {
 		List<LTSGraphBox> ltsParams = new ArrayList<LTSGraphBox>();		
 		for (UseCaseTransition trans: transitions) {
+			useCase2Transition.put(trans.getUseCase(), trans);
 			LTSGraphBox box = new LTSGraphBox();
 			
 			regenerateLTS(trans);

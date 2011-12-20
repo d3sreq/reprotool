@@ -173,12 +173,13 @@ public class NuSMVWrapper {
 						Matcher m = myPattern.matcher(line);
 						if (m.find()) {
 							String expandedFormula = m.group(1);
-							counterExample.setCause(expandedFormula);
+							String s = expandedFormula;
 							expandedFormula = expandedFormula.replaceAll("\\s+", "");
 							expandedFormula = expandedFormula.replaceAll("[()]", "");
 							TemporalLogicFormula tf = nusmvProject.getFormula(expandedFormula);
 							Assert.isNotNull(tf);
 							counterExample.setFormula(tf);
+							counterExample.setCause(tf.getDescription() + " [" + s + "]");
 						}
 					}
 				}

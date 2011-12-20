@@ -441,7 +441,7 @@ public class LTSLayoutAlgorithm extends AbstractLayoutAlgorithm {
 			processScenario(mainScenario, 0, 1, SpanDirection.BOTH);
 			int y0 = freeStartingPosition(nextStart);
 			layoutBoard(0, y0);
-			nextStart = y0 + countEffectiveSize(mainScenario) + 1;
+			nextStart = y0 + countEffectiveSize(mainScenario) + 2;
 			drawnMachines.add(workingMachine);
 			
 			for (StateMachine m: includedMachines) {
