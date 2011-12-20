@@ -13,6 +13,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.junit.Test;
 
+import reprotool.ling.LingConfig;
 import reprotool.ling.LingFactory;
 import reprotool.ling.LingTools;
 import reprotool.ling.Sentence;
@@ -49,7 +50,7 @@ public class AnalyseTest {
 		// parse
 		Sentence sentence = LingTools.parseSentence(sentenceString);
 		// analyse
-		Word word = FindConstituent.findSubject(sentence);
+		Word word = FindConstituent.findSubject(sentence, LingConfig.actors);
 		if (word != null) 
 			result += "SUBJECT: " + word.getLemma() + " ";
 
@@ -97,7 +98,7 @@ public class AnalyseTest {
 		// parse
 		Sentence sentence = LingTools.parseSentence(sentenceString);
 		// analyse
-		Word word = FindConstituent.findSubject(sentence);
+		Word word = FindConstituent.findSubject(sentence, LingConfig.actors);
 		if (word != null) 
 			result += "SUBJECT: " + word.getLemma() + " ";
 

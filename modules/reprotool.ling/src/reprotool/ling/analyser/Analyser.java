@@ -66,7 +66,7 @@ public class Analyser {
 
 		// FIND ALL IMPORTANT WORDS
 		// find subject
-		subject = FindConstituent.findSubject(sentence);
+		subject = FindConstituent.findSubject(sentence, LingConfig.actors);
 		// find objects
 		indirectobjects = FindConstituent.findIndirectObject(sentence, null);	
 		if (indirectobjects != null) {
