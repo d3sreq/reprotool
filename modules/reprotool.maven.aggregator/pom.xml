@@ -10,7 +10,9 @@
 
 	<modules>
 		<module>../reprotool.maven.parent</module>
-		<!-- <module>../org.eclipselabs.reprotool.branding</module> -->
+		<module>../org.eclipselabs.reprotool.branding</module>
+		<module>../org.eclipselabs.reprotool.product</module>
+		<module>../org.eclipselabs.reprotool.target</module>
 		
 		<module>../org.eclipselabs.reprotool.features.common</module>
 		<module>../org.eclipselabs.reprotool.features.exporters</module>

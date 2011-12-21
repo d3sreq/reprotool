@@ -16,32 +16,13 @@
 		<tycho-version>0.13.0</tycho-version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
-	<repositories>
-		<!-- configure p2 repository to resolve against -->
-		<repository>
-			<id>indigo</id>
-			<layout>p2</layout>
-			<url>http://download.eclipse.org/releases/indigo/</url>
-		</repository>
-		<repository>
-			<id>eclipse-modeling</id>
-			<layout>p2</layout>
-			<url>http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases/</url>
-		</repository>
-		<repository>
-			<id>nusmv</id>
-			<layout>p2</layout>
-			<url>http://metrikforge.informatik.hu-berlin.de/p2-repositories/nusmv-tools/release/</url>
-		</repository>
-		<repository>
-			<id>maven.eclipse.org</id>
-			<url>http://maven.eclipse.org/nexus/content/groups/public/</url>
-		</repository>
-		<repository>
-			<id>xtend</id>
-			<url>http://build.eclipse.org/common/xtend/maven/</url>
-		</repository>
-	</repositories>
+	<!-- <repositories> <repository> <id>indigo</id> <layout>p2</layout> <url>http://download.eclipse.org/releases/indigo/</url> 
+		</repository> <repository> <id>eclipse-modeling</id> <layout>p2</layout> 
+		<url>http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases/</url> 
+		</repository> <repository> <id>nusmv</id> <layout>p2</layout> <url>http://metrikforge.informatik.hu-berlin.de/p2-repositories/nusmv-tools/release/</url> 
+		</repository> <repository> <id>maven.eclipse.org</id> <url>http://maven.eclipse.org/nexus/content/groups/public/</url> 
+		</repository> <repository> <id>xtend</id> <url>http://build.eclipse.org/common/xtend/maven/</url> 
+		</repository> </repositories> -->
 	<build>
 		<plugins>
 			<plugin>
@@ -56,6 +37,14 @@
 				<artifactId>target-platform-configuration</artifactId>
 				<version>${tycho-version}</version>
 				<configuration>
+					<target>
+						<artifact>
+							<groupId>reprotool</groupId>
+							<artifactId>reprotool.target</artifactId>
+							<version>1.0.0-SNAPSHOT</version>
+							<classifier>indigo</classifier>
+						</artifact>
+					</target>
 					<!-- configure the p2 target environments for multi-platform build -->
 					<environments>
 						<environment>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?pde version="3.5"?>
+
+<product name="Reprotool IDE" uid="reprotoolIDE.product" id="org.eclipselabs.reprotool.branding.ReprotoolIDEProduct" application="org.eclipse.ui.ide.workbench" useFeatures="true" includeLaunchers="true">
+
+   <aboutInfo>
+      <image path="icons/reprotool-about-icon.png"/>
+      <text>
+         Requirements Processing Tool
+
+Project Leader:
+ - Viliam Simko, simko@d3s.mff.cuni.cz
+
+Team Members:
+ - Jiri Vinarek, jiri.vinarek@gmail.com
+ - Ondrej Fiala, ofiala@mujmail.cz
+ - Rudo Tomori, rudotx@gmail.com
+
+Department of Distributed and Dependable Systems
+Faculty of Mathematics and Physics
+Charles University in Prague
+      </text>
+   </aboutInfo>
+
+   <configIni use="default">
+   </configIni>
+
+   <launcherArgs>
+      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
+   </launcherArgs>
+
+   <windowImages i16="icons/appwin/reprotool-16x16.png" i32="icons/appwin/reprotool-32x32.png" i48="icons/appwin/reprotool-48x48.png" i64="icons/appwin/reprotool-64x64.png" i128="icons/appwin/reprotool-128x128.png"/>
+
+   <splash
+      location="org.eclipselabs.reprotool.branding"
+      startupProgressRect="5,295,510,15"
+      startupMessageRect="7,275,510,20"
+      startupForegroundColor="000000" />
+   <launcher>
+      <linux icon="icons/reprotool.xpm"/>
+      <solaris/>
+      <win useIco="false">
+         <bmp
+            winSmallHigh="icons/reprotool-16x16_32.bmp"
+            winSmallLow="icons/reprotool-16x16_8.bmp"
+            winMediumHigh="icons/reprotool-32x32_32.bmp"
+            winMediumLow="icons/reprotool-32x32_8.bmp"
+            winLargeHigh="icons/reprotool-48x48_32.bmp"
+            winLargeLow="icons/reprotool-48x48_8.bmp"/>
+      </win>
+   </launcher>
+
+   <vm>
+   </vm>
+
+   <plugins>
+   </plugins>
+
+   <features>
+      <feature id="org.eclipselabs.reprotool.features.common" version="0.1.0"/>
+      <feature id="org.eclipselabs.reprotool.features.exporters" version="0.1.0"/>
+      <feature id="org.eclipselabs.reprotool.features.ide" version="0.1.0"/>
+      <feature id="org.eclipselabs.reprotool.features.nlp" version="0.1.0"/>
+      <feature id="org.eclipselabs.reprotool.features.verification" version="0.1.0"/>
+      <feature id="org.eclipse.rcp" version="3.7.1.r37x_v20110729-9DB5FmNFnFLSFCtLxnRfMqt15A4A"/>
+      <feature id="org.eclipse.platform" version="3.7.1.r37x_v20110729-9gF7UHOxFtniV7mI3T556iZN9AU8bEZ1lHMcVK"/>
+   </features>
+
+   <configurations>
+      <plugin id="org.eclipse.core.runtime" autoStart="true" startLevel="0" />
+   </configurations>
+
+</product>
