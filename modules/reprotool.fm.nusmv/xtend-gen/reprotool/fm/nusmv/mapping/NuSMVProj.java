@@ -28,6 +28,7 @@ import reprotool.fm.nusmv.lang.nuSmvLang.CtlSpecification;
 import reprotool.fm.nusmv.lang.nuSmvLang.EnumType;
 import reprotool.fm.nusmv.lang.nuSmvLang.FairnessExpression;
 import reprotool.fm.nusmv.lang.nuSmvLang.InitConstraint;
+import reprotool.fm.nusmv.lang.nuSmvLang.LtlSpecification;
 import reprotool.fm.nusmv.lang.nuSmvLang.MainModule;
 import reprotool.fm.nusmv.lang.nuSmvLang.Model;
 import reprotool.fm.nusmv.lang.nuSmvLang.Module;
@@ -41,6 +42,8 @@ import reprotool.fm.nusmv.lang.nuSmvLang.VariableDeclaration;
 import reprotool.model.swproj.SoftwareProject;
 import reprotool.model.usecase.UseCase;
 import reprotool.model.usecase.annotate.AnnotationGroup;
+import reprotool.model.usecase.annotate.CTLFormula;
+import reprotool.model.usecase.annotate.LTLFormula;
 import reprotool.model.usecase.annotate.TemporalAnnotation;
 import reprotool.model.usecase.annotate.TemporalAnnotationGroup;
 import reprotool.model.usecase.annotate.TemporalLogicFormula;
@@ -66,16 +69,15 @@ public class NuSMVProj {
   
   private HashMap<String,TemporalLogicFormula> expanded2Formula;
   
-  private List<String> expandedFormulas;
+  private List<String> expandedCTLFormulas;
+  
+  private List<String> expandedLTLFormulas;
   
   private HashMap<String,List<AnnotationEntry>> globalTracker;
   
   private HashMap<UseCase,NuSMVGenerator> uc2gen;
   
-  /**
-   * Starts the transformation
-   */
-  public void transformSoftwareProject() {
+  public void initializeSoftwareProject() {
       Assert.isNotNull(this.factory);
       Assert.isNotNull(this.swproj);
       ArrayList<NuSMVGenerator> _arrayList = new ArrayList<NuSMVGenerator>();
@@ -116,7 +118,9 @@ public class NuSMVProj {
       HashMap<String,TemporalLogicFormula> _hashMap_2 = new HashMap<String,TemporalLogicFormula>();
       this.expanded2Formula = _hashMap_2;
       ArrayList<String> _arrayList_2 = new ArrayList<String>();
-      this.expandedFormulas = _arrayList_2;
+      this.expandedCTLFormulas = _arrayList_2;
+      ArrayList<String> _arrayList_3 = new ArrayList<String>();
+      this.expandedLTLFormulas = _arrayList_3;
       final Function1<NuSMVGenerator,Pair<UseCase,NuSMVGenerator>> _function_2 = new Function1<NuSMVGenerator,Pair<UseCase,NuSMVGenerator>>() {
           public Pair<UseCase,NuSMVGenerator> apply(final NuSMVGenerator it) {
             UseCase _useCase = it.getUseCase();
@@ -128,7 +132,7 @@ public class NuSMVProj {
       this._reprotoolMappingExtensions.<UseCase, NuSMVGenerator>operator_add(this.uc2gen, _map_2);
       this.processAnnotations();
       this.loadIncludedAnnotations();
-      this.loadCTLFormulas();
+      this.loadTLFormulas();
   }
   
   public SoftwareProject getSoftwareProject() {
@@ -163,6 +167,18 @@ public class NuSMVProj {
       };
     NuSMVGenerator _findFirst = IterableExtensions.<NuSMVGenerator>findFirst(this.generators, _function);
     return _findFirst;
+  }
+  
+  public boolean containsCTLFormulas() {
+    boolean _isEmpty = this.expandedCTLFormulas.isEmpty();
+    boolean _operator_not = BooleanExtensions.operator_not(_isEmpty);
+    return _operator_not;
+  }
+  
+  public boolean containsLTLFormulas() {
+    boolean _isEmpty = this.expandedLTLFormulas.isEmpty();
+    boolean _operator_not = BooleanExtensions.operator_not(_isEmpty);
+    return _operator_not;
   }
   
   public Model getModel() {
@@ -280,6 +296,7 @@ public class NuSMVProj {
       Set<String> _keySet = this.globalTracker.keySet();
       for (final String tag : _keySet) {
         {
+          cont = false;
           boolean _matches = tag.matches("trace_.*");
           if (_matches) {
             {
@@ -389,10 +406,25 @@ public class NuSMVProj {
                   return _$;
                 }
               };
-            List<CtlSpecification> _map = ListExtensions.<String, CtlSpecification>map(NuSMVProj.this.expandedFormulas, _function);
+            List<CtlSpecification> _map = ListExtensions.<String, CtlSpecification>map(NuSMVProj.this.expandedCTLFormulas, _function);
             CollectionExtensions.<ModuleElement>operator_add(_moduleElement, _map);
             EList<ModuleElement> _moduleElement_1 = it.getModuleElement();
-            final Function1<NuSMVGenerator,FairnessExpression> _function_1 = new Function1<NuSMVGenerator,FairnessExpression>() {
+            final Function1<String,LtlSpecification> _function_1 = new Function1<String,LtlSpecification>() {
+                public LtlSpecification apply(final String formula) {
+                  LtlSpecification _createLtlSpecification = NuSMVProj.this.factory.createLtlSpecification();
+                  final Procedure1<LtlSpecification> _function = new Procedure1<LtlSpecification>() {
+                      public void apply(final LtlSpecification it) {
+                        it.setLtlExpr(formula);
+                      }
+                    };
+                  LtlSpecification _$ = NuSMVProj.this._reprotoolMappingExtensions.<LtlSpecification>$(_createLtlSpecification, _function);
+                  return _$;
+                }
+              };
+            List<LtlSpecification> _map_1 = ListExtensions.<String, LtlSpecification>map(NuSMVProj.this.expandedLTLFormulas, _function_1);
+            CollectionExtensions.<ModuleElement>operator_add(_moduleElement_1, _map_1);
+            EList<ModuleElement> _moduleElement_2 = it.getModuleElement();
+            final Function1<NuSMVGenerator,FairnessExpression> _function_2 = new Function1<NuSMVGenerator,FairnessExpression>() {
                 public FairnessExpression apply(final NuSMVGenerator g) {
                   FairnessExpression _createFairnessExpression = NuSMVProj.this.factory.createFairnessExpression();
                   final Procedure1<FairnessExpression> _function = new Procedure1<FairnessExpression>() {
@@ -406,11 +438,11 @@ public class NuSMVProj {
                   return _$;
                 }
               };
-            List<FairnessExpression> _map_1 = ListExtensions.<NuSMVGenerator, FairnessExpression>map(NuSMVProj.this.generators, _function_1);
-            CollectionExtensions.<ModuleElement>operator_add(_moduleElement_1, _map_1);
-            EList<ModuleElement> _moduleElement_2 = it.getModuleElement();
+            List<FairnessExpression> _map_2 = ListExtensions.<NuSMVGenerator, FairnessExpression>map(NuSMVProj.this.generators, _function_2);
+            CollectionExtensions.<ModuleElement>operator_add(_moduleElement_2, _map_2);
+            EList<ModuleElement> _moduleElement_3 = it.getModuleElement();
             VariableDeclaration _createVariableDeclaration = NuSMVProj.this.factory.createVariableDeclaration();
-            final Procedure1<VariableDeclaration> _function_2 = new Procedure1<VariableDeclaration>() {
+            final Procedure1<VariableDeclaration> _function_3 = new Procedure1<VariableDeclaration>() {
                 public void apply(final VariableDeclaration it) {
                   EList<VarBody> _vars = it.getVars();
                   VarBody _createVarBody = NuSMVProj.this.factory.createVarBody();
@@ -446,20 +478,20 @@ public class NuSMVProj {
                   CollectionExtensions.<VarBody>operator_add(_vars, _$);
                 }
               };
-            VariableDeclaration _$ = NuSMVProj.this._reprotoolMappingExtensions.<VariableDeclaration>$(_createVariableDeclaration, _function_2);
-            CollectionExtensions.<VariableDeclaration>operator_add(_moduleElement_2, _$);
-            EList<ModuleElement> _moduleElement_3 = it.getModuleElement();
+            VariableDeclaration _$ = NuSMVProj.this._reprotoolMappingExtensions.<VariableDeclaration>$(_createVariableDeclaration, _function_3);
+            CollectionExtensions.<VariableDeclaration>operator_add(_moduleElement_3, _$);
+            EList<ModuleElement> _moduleElement_4 = it.getModuleElement();
             InitConstraint _createInitConstraint = NuSMVProj.this.factory.createInitConstraint();
-            final Procedure1<InitConstraint> _function_3 = new Procedure1<InitConstraint>() {
+            final Procedure1<InitConstraint> _function_4 = new Procedure1<InitConstraint>() {
                 public void apply(final InitConstraint it) {
                   it.setInitExpr("p in none");
                 }
               };
-            InitConstraint _$_1 = NuSMVProj.this._reprotoolMappingExtensions.<InitConstraint>$(_createInitConstraint, _function_3);
-            CollectionExtensions.<InitConstraint>operator_add(_moduleElement_3, _$_1);
-            EList<ModuleElement> _moduleElement_4 = it.getModuleElement();
+            InitConstraint _$_1 = NuSMVProj.this._reprotoolMappingExtensions.<InitConstraint>$(_createInitConstraint, _function_4);
+            CollectionExtensions.<InitConstraint>operator_add(_moduleElement_4, _$_1);
+            EList<ModuleElement> _moduleElement_5 = it.getModuleElement();
             AssignConstraint _createAssignConstraint = NuSMVProj.this.factory.createAssignConstraint();
-            final Procedure1<AssignConstraint> _function_4 = new Procedure1<AssignConstraint>() {
+            final Procedure1<AssignConstraint> _function_5 = new Procedure1<AssignConstraint>() {
                 public void apply(final AssignConstraint it) {
                   EList<AssignBody> _bodies = it.getBodies();
                   NextBody _createNextBody = NuSMVProj.this.factory.createNextBody();
@@ -488,11 +520,11 @@ public class NuSMVProj {
                   CollectionExtensions.<NextBody>operator_add(_bodies, _$);
                 }
               };
-            AssignConstraint _$_2 = NuSMVProj.this._reprotoolMappingExtensions.<AssignConstraint>$(_createAssignConstraint, _function_4);
-            CollectionExtensions.<AssignConstraint>operator_add(_moduleElement_4, _$_2);
-            EList<ModuleElement> _moduleElement_5 = it.getModuleElement();
+            AssignConstraint _$_2 = NuSMVProj.this._reprotoolMappingExtensions.<AssignConstraint>$(_createAssignConstraint, _function_5);
+            CollectionExtensions.<AssignConstraint>operator_add(_moduleElement_5, _$_2);
+            EList<ModuleElement> _moduleElement_6 = it.getModuleElement();
             VariableDeclaration _createVariableDeclaration_1 = NuSMVProj.this.factory.createVariableDeclaration();
-            final Procedure1<VariableDeclaration> _function_5 = new Procedure1<VariableDeclaration>() {
+            final Procedure1<VariableDeclaration> _function_6 = new Procedure1<VariableDeclaration>() {
                 public void apply(final VariableDeclaration it) {
                   EList<VarBody> _vars = it.getVars();
                   VarBody _createVarBody = NuSMVProj.this.factory.createVarBody();
@@ -509,20 +541,20 @@ public class NuSMVProj {
                   CollectionExtensions.<VarBody>operator_add(_vars, _$);
                 }
               };
-            VariableDeclaration _$_3 = NuSMVProj.this._reprotoolMappingExtensions.<VariableDeclaration>$(_createVariableDeclaration_1, _function_5);
-            CollectionExtensions.<VariableDeclaration>operator_add(_moduleElement_5, _$_3);
-            EList<ModuleElement> _moduleElement_6 = it.getModuleElement();
+            VariableDeclaration _$_3 = NuSMVProj.this._reprotoolMappingExtensions.<VariableDeclaration>$(_createVariableDeclaration_1, _function_6);
+            CollectionExtensions.<VariableDeclaration>operator_add(_moduleElement_6, _$_3);
+            EList<ModuleElement> _moduleElement_7 = it.getModuleElement();
             InitConstraint _createInitConstraint_1 = NuSMVProj.this.factory.createInitConstraint();
-            final Procedure1<InitConstraint> _function_6 = new Procedure1<InitConstraint>() {
+            final Procedure1<InitConstraint> _function_7 = new Procedure1<InitConstraint>() {
                 public void apply(final InitConstraint it) {
                   it.setInitExpr("idle in TRUE");
                 }
               };
-            InitConstraint _$_4 = NuSMVProj.this._reprotoolMappingExtensions.<InitConstraint>$(_createInitConstraint_1, _function_6);
-            CollectionExtensions.<InitConstraint>operator_add(_moduleElement_6, _$_4);
-            EList<ModuleElement> _moduleElement_7 = it.getModuleElement();
+            InitConstraint _$_4 = NuSMVProj.this._reprotoolMappingExtensions.<InitConstraint>$(_createInitConstraint_1, _function_7);
+            CollectionExtensions.<InitConstraint>operator_add(_moduleElement_7, _$_4);
+            EList<ModuleElement> _moduleElement_8 = it.getModuleElement();
             AssignConstraint _createAssignConstraint_1 = NuSMVProj.this.factory.createAssignConstraint();
-            final Procedure1<AssignConstraint> _function_7 = new Procedure1<AssignConstraint>() {
+            final Procedure1<AssignConstraint> _function_8 = new Procedure1<AssignConstraint>() {
                 public void apply(final AssignConstraint it) {
                   EList<AssignBody> _bodies = it.getBodies();
                   NextBody _createNextBody = NuSMVProj.this.factory.createNextBody();
@@ -552,12 +584,12 @@ public class NuSMVProj {
                   CollectionExtensions.<NextBody>operator_add(_bodies, _$);
                 }
               };
-            AssignConstraint _$_5 = NuSMVProj.this._reprotoolMappingExtensions.<AssignConstraint>$(_createAssignConstraint_1, _function_7);
-            CollectionExtensions.<AssignConstraint>operator_add(_moduleElement_7, _$_5);
-            EList<ModuleElement> _moduleElement_8 = it.getModuleElement();
-            NuSMVProj.this.addProcesses(_moduleElement_8);
+            AssignConstraint _$_5 = NuSMVProj.this._reprotoolMappingExtensions.<AssignConstraint>$(_createAssignConstraint_1, _function_8);
+            CollectionExtensions.<AssignConstraint>operator_add(_moduleElement_8, _$_5);
             EList<ModuleElement> _moduleElement_9 = it.getModuleElement();
-            NuSMVProj.this.addAnnotations(_moduleElement_9);
+            NuSMVProj.this.addProcesses(_moduleElement_9);
+            EList<ModuleElement> _moduleElement_10 = it.getModuleElement();
+            NuSMVProj.this.addAnnotations(_moduleElement_10);
           }
         }
       };
@@ -738,6 +770,11 @@ public class NuSMVProj {
             final String label = _string;
             NuSMVGenerator _get = this.uc2gen.get(uc);
             final NuSMVGenerator g = _get;
+            boolean _operator_equals = ObjectExtensions.operator_equals(g, null);
+            if (_operator_equals) {
+              RuntimeException _runtimeException = new RuntimeException("Include of unknown use case found.");
+              throw _runtimeException;
+            }
             ArrayList<UseCase> _arrayList = new ArrayList<UseCase>();
             final ArrayList<UseCase> ucList = _arrayList;
             CollectionExtensions.<UseCase>operator_add(ucList, uc);
@@ -792,7 +829,7 @@ public class NuSMVProj {
       }
   }
   
-  private void loadCTLFormulas() {
+  private void loadTLFormulas() {
     for (final TemporalLogicFormula formula : this.formulas) {
       {
         EObject _eContainer = formula.eContainer();
@@ -846,7 +883,13 @@ public class NuSMVProj {
             final String normalised = _replaceAll_1;
             Pair<String,TemporalLogicFormula> _operator_mappedTo_1 = ObjectExtensions.<String, TemporalLogicFormula>operator_mappedTo(normalised, formula);
             this._reprotoolMappingExtensions.<String, TemporalLogicFormula>operator_add(this.expanded2Formula, _operator_mappedTo_1);
-            CollectionExtensions.<String>operator_add(this.expandedFormulas, f);
+            if ((formula instanceof CTLFormula)) {
+              CollectionExtensions.<String>operator_add(this.expandedCTLFormulas, f);
+            } else {
+              if ((formula instanceof LTLFormula)) {
+                CollectionExtensions.<String>operator_add(this.expandedLTLFormulas, f);
+              }
+            }
           }
         }
       }
