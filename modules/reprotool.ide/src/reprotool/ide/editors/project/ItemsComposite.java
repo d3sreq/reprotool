@@ -31,7 +31,7 @@ public class ItemsComposite extends Composite {
 	 * @param parent
 	 * @param style
 	 */
-	public ItemsComposite(Composite parent, int style) {
+	public ItemsComposite(Composite parent, int style, int sectionStyle) {
 		super(parent, style);
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
@@ -42,7 +42,8 @@ public class ItemsComposite extends Composite {
 		toolkit.paintBordersFor(this);
 		setLayout(new FillLayout(SWT.HORIZONTAL));
 		
-		section = toolkit.createSection(this, Section.TITLE_BAR);
+//		section = toolkit.createSection(this, Section.TITLE_BAR);
+		section = toolkit.createSection(this, sectionStyle);
 		toolkit.paintBordersFor(section);
 		section.setText("New Section");
 		section.setExpanded(true);

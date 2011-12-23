@@ -9,6 +9,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
+import org.eclipse.ui.forms.widgets.Section;
 
 public class ProjectEditorComposite extends Composite {
 	private final FormToolkit formToolkit;
@@ -48,7 +49,7 @@ public class ProjectEditorComposite extends Composite {
 		formToolkit.adapt(nameDescriptionComposite);
 		formToolkit.paintBordersFor(nameDescriptionComposite);
 		
-		useCasesComposite = new ItemsComposite(leftComposite, SWT.NONE);
+		useCasesComposite = new ItemsComposite(leftComposite, SWT.NONE, Section.TITLE_BAR);
 		useCasesComposite.getSection().setText("Use cases");
 		useCasesComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		formToolkit.adapt(useCasesComposite);
@@ -58,13 +59,13 @@ public class ProjectEditorComposite extends Composite {
 		formToolkit.paintBordersFor(rightComposite);
 		rightComposite.setLayout(new GridLayout(1, true));
 		
-		actorsComposite = new ItemsComposite(rightComposite, SWT.NONE);
+		actorsComposite = new ItemsComposite(rightComposite, SWT.NONE, Section.TITLE_BAR);
 		actorsComposite.getSection().setText("Actors");
 		actorsComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		formToolkit.adapt(actorsComposite);
 		formToolkit.paintBordersFor(actorsComposite);
 		
-		conceptualObjectsComposite = new ItemsComposite(rightComposite, SWT.NONE);
+		conceptualObjectsComposite = new ItemsComposite(rightComposite, SWT.NONE, Section.TITLE_BAR);
 		conceptualObjectsComposite.getSection().setText("Conceptual objects");
 		conceptualObjectsComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		formToolkit.adapt(conceptualObjectsComposite);

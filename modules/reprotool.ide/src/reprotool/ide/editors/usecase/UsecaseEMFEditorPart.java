@@ -207,14 +207,14 @@ public class UsecaseEMFEditorPart extends EditorPart implements IMenuListener, I
 	private void bindName(DataBindingContext bindingContext, UseCase useCase) {
 		IObservableValue emfValue = EMFEditProperties.value(getEditingDomain(),
 				SwprojPackage.Literals.DESCRIBED_ELEMENT__NAME).observe(useCase);
-		IObservableValue textValue = WidgetProperties.text(SWT.Modify).observe(composite.getUseCasePropertiesSectionPart().getTxtName());
+		IObservableValue textValue = WidgetProperties.text(SWT.Modify).observe(composite.getUseCasePropertiesComposite().getTxtName());
 		bindingContext.bindValue(textValue, emfValue);
 	}
 	
 	private void bindDescription(DataBindingContext bindingContext, UseCase useCase) {
 		IObservableValue emfValue = EMFEditProperties.value(getEditingDomain(),
 				SwprojPackage.Literals.DESCRIBED_ELEMENT__DESCRIPTION).observe(useCase);
-		IObservableValue textValue = WidgetProperties.text(SWT.Modify).observe(composite.getUseCasePropertiesSectionPart().getTxtDescription());
+		IObservableValue textValue = WidgetProperties.text(SWT.Modify).observe(composite.getUseCasePropertiesComposite().getTxtDescription());
 		bindingContext.bindValue(textValue, emfValue);
 	}
 
@@ -226,7 +226,7 @@ public class UsecaseEMFEditorPart extends EditorPart implements IMenuListener, I
 	}
 
 	private void bindPrimaryActorComboContent(DataBindingContext bindingContext, UseCase useCase) {
-		ComboViewer actorsCombo = composite.getUseCasePropertiesSectionPart().getComboViewer();
+		ComboViewer actorsCombo = composite.getUseCasePropertiesComposite().getComboViewer();
 		
 		FeaturePath actorsPath = FeaturePath.fromList(UsecasePackage.Literals.USE_CASE__SOFTWARE_PROJECT_SHORTCUT, SwprojPackage.Literals.SOFTWARE_PROJECT__ACTORS);
 		IObservableList emfList = EMFEditProperties.list(getEditingDomain(), actorsPath).observe(useCase);
@@ -237,7 +237,7 @@ public class UsecaseEMFEditorPart extends EditorPart implements IMenuListener, I
 	}
 
 	private void bindPrimaryActorComboSelection(DataBindingContext bindingContext, UseCase useCase) {
-		ComboViewer actorsCombo = composite.getUseCasePropertiesSectionPart().getComboViewer();
+		ComboViewer actorsCombo = composite.getUseCasePropertiesComposite().getComboViewer();
 		
 		IObservableValue comboSelectionValue = ViewersObservables.observeSingleSelection(actorsCombo);
 		IObservableValue emfValue = EMFEditProperties.value(getEditingDomain(), UsecasePackage.Literals.USE_CASE__PRIMARY_ACTOR).observe(useCase);

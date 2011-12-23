@@ -1,40 +1,51 @@
 package reprotool.ide.editors.usecase;
 
+import org.eclipse.jface.viewers.ComboViewer;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.ui.forms.SectionPart;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
-import org.eclipse.swt.widgets.Text;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.widgets.Combo;
-import org.eclipse.jface.viewers.ComboViewer;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.SWT;
 
-class UseCasePropertiesSectionPart extends SectionPart {
-	private Text txtName;
-	private Text txtDescription;
-	private Label lblName;
-	private Label lblDescription;
-	private Label lblNewLabel;
-	private ComboViewer comboViewer;
+public class UseCasePropertiesComposite extends Composite {
 
+	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
+
+	private final Text txtName;
+	private final Text txtDescription;
+	private final Label lblName;
+	private final Label lblDescription;
+	private final Label lblNewLabel;
+	private final ComboViewer comboViewer;
+	
 	/**
-	 * Create the SectionPart.
+	 * Create the composite.
 	 * @param parent
-	 * @param toolkit
 	 * @param style
 	 */
-	public UseCasePropertiesSectionPart(Composite parent, FormToolkit toolkit, int style) {
-		super(parent, toolkit, style);
-		createClient(getSection(), toolkit);
-	}
+	public UseCasePropertiesComposite(Composite parent, int style) {
+		super(parent, style);
+		addDisposeListener(new DisposeListener() {
+			public void widgetDisposed(DisposeEvent e) {
+				toolkit.dispose();
+			}
+		});
+		toolkit.adapt(this);
+		toolkit.paintBordersFor(this);
+		setLayout(new FillLayout(SWT.HORIZONTAL));
+		
+		Section section = toolkit.createSection(this, Section.TWISTIE | Section.TITLE_BAR);
+		toolkit.paintBordersFor(section);
+		section.setExpanded(true);
 
-	/**
-	 * Fill the section.
-	 */
-	private void createClient(Section section, FormToolkit toolkit) {
 		section.setText("Use case properties");
 		Composite container = toolkit.createComposite(section);
 
@@ -65,7 +76,7 @@ class UseCasePropertiesSectionPart extends SectionPart {
 		combo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		toolkit.paintBordersFor(combo);
 	}
-
+	
 	public Text getTxtName() {
 		return txtName;
 	}
@@ -77,5 +88,4 @@ class UseCasePropertiesSectionPart extends SectionPart {
 	public ComboViewer getComboViewer() {
 		return comboViewer;
 	}
-
 }

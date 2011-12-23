@@ -31,7 +31,7 @@ public class UsecaseEMFEditorComposite extends Composite {
 	private final TreeViewerColumn textColumn;
 	private final FormToolkit formToolkit;
 	private final Form form;
-	private final UseCasePropertiesSectionPart useCasePropertiesSectionPart;
+	private final UseCasePropertiesComposite useCasePropertiesComposite;
 	private final ItemsComposite precedingUseCasesComposite;
 	
 	/**
@@ -56,20 +56,23 @@ public class UsecaseEMFEditorComposite extends Composite {
 		formToolkit.paintBordersFor(composite);
 		composite.setLayout(new GridLayout(2, false));
 		
-		useCasePropertiesSectionPart = new UseCasePropertiesSectionPart(composite, formToolkit, Section.TITLE_BAR | Section.TWISTIE | Section.EXPANDED);
-		Section sctnUseCaseProperties = useCasePropertiesSectionPart.getSection();
-		sctnUseCaseProperties.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1));
-		formToolkit.paintBordersFor(sctnUseCaseProperties);
+		useCasePropertiesComposite = new UseCasePropertiesComposite(composite, SWT.NONE);
+		GridData gd_useCasePropertiesComposite = new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1);
+		gd_useCasePropertiesComposite.widthHint = 360;
+		useCasePropertiesComposite.setLayoutData(gd_useCasePropertiesComposite);
+		formToolkit.adapt(useCasePropertiesComposite);
+		formToolkit.paintBordersFor(useCasePropertiesComposite);
 		
-		precedingUseCasesComposite = new ItemsComposite(composite, Section.TITLE_BAR | Section.TWISTIE | Section.EXPANDED);
-		Section sctnNewSectionpart = precedingUseCasesComposite.getSection();
-		sctnNewSectionpart.setText("Preceding use cases");
-		sctnNewSectionpart.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1));
-		formToolkit.paintBordersFor(sctnNewSectionpart);
-
+		precedingUseCasesComposite = new ItemsComposite(composite, SWT.NONE, Section.TITLE_BAR | Section.TWISTIE);
+		
+		precedingUseCasesComposite.getSection().setText("Preceding use cases");
+		precedingUseCasesComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1));
+		formToolkit.adapt(precedingUseCasesComposite);
+		formToolkit.paintBordersFor(precedingUseCasesComposite);
+		
 		treeViewer = new TreeViewer(composite, SWT.BORDER);
 		Tree tree = treeViewer.getTree();
-		tree.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
+		tree.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true, 2, 1));
 		tree.setFont(SWTResourceManager.getFont("Tahoma", 10, SWT.NORMAL));
 		tree.setLinesVisible(true);
 		tree.setHeaderVisible(true);
@@ -77,10 +80,19 @@ public class UsecaseEMFEditorComposite extends Composite {
 		labelColumn = new TreeViewerColumn(treeViewer, SWT.NONE);
 		labelColumn.getColumn().setWidth(130);
 		labelColumn.getColumn().setText("Label");
-
+				
 		textColumn = new TreeViewerColumn(treeViewer, SWT.NONE);
 		textColumn.getColumn().setWidth(400);
 		textColumn.getColumn().setText("Text");
+	}
+
+	@Override
+	protected void checkSubclass() {
+		// Disable the check that prevents subclassing of SWT components
+	}
+
+	public Form getForm() {
+		return form;
 	}
 
 	public TreeViewer getTreeViewer() {
@@ -94,22 +106,11 @@ public class UsecaseEMFEditorComposite extends Composite {
 	public TreeViewerColumn getTextColumn() {
 		return textColumn;
 	}
-	
-	public Form getForm() {
-		return form;
-	}
 
-	public UseCasePropertiesSectionPart getUseCasePropertiesSectionPart() {
-		return useCasePropertiesSectionPart;
+	public UseCasePropertiesComposite getUseCasePropertiesComposite() {
+		return useCasePropertiesComposite;
 	}
-
 	public ItemsComposite getPrecedingUseCasesComposite() {
 		return precedingUseCasesComposite;
 	}
-
-	@Override
-	protected void checkSubclass() {
-		// Disable the check that prevents subclassing of SWT components
-	}
-
 }
