@@ -1,24 +1,22 @@
 package reprotool.ide.editors.project;
 
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.ui.forms.widgets.Form;
-import org.eclipse.ui.forms.widgets.FormToolkit;
-import org.eclipse.ui.forms.widgets.Section;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.forms.widgets.Form;
+import org.eclipse.ui.forms.widgets.FormToolkit;
 
 public class ProjectEditorComposite extends Composite {
 	private final FormToolkit formToolkit;
 	private final Form form;
-	
-	private final ItemsSectionPart sctnConceptualObjects;
-	private final ItemsSectionPart sctnActors;
-	private final ItemsSectionPart sctnUseCases;
-	private final NameDescriptionSectionPart scntNameAndDescription;
+	private NameDescriptionComposite nameDescriptionComposite;
+	private ItemsComposite useCasesComposite;
+	private ItemsComposite conceptualObjectsComposite;
+	private ItemsComposite actorsComposite;
 	
 	/**
 	 * Create the composite.
@@ -45,32 +43,33 @@ public class ProjectEditorComposite extends Composite {
 		formToolkit.paintBordersFor(leftComposite);
 		leftComposite.setLayout(new GridLayout(1, false));
 		
-		scntNameAndDescription = new NameDescriptionSectionPart(leftComposite, formToolkit, Section.TITLE_BAR | Section.TWISTIE | Section.EXPANDED);
-		Section sctnNewSectionpart_0 = scntNameAndDescription.getSection();
-		sctnNewSectionpart_0.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-		formToolkit.paintBordersFor(sctnNewSectionpart_0);
+		nameDescriptionComposite = new NameDescriptionComposite(leftComposite, SWT.NONE);
+		nameDescriptionComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1));
+		formToolkit.adapt(nameDescriptionComposite);
+		formToolkit.paintBordersFor(nameDescriptionComposite);
 		
-		sctnUseCases = new ItemsSectionPart(leftComposite, formToolkit, Section.TITLE_BAR | Section.EXPANDED);
-		Section sctnNewSectionpart_2 = sctnUseCases.getSection();
-		sctnNewSectionpart_2.setText("Use cases");
-		sctnNewSectionpart_2.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
-		formToolkit.paintBordersFor(sctnNewSectionpart_2);
+		useCasesComposite = new ItemsComposite(leftComposite, SWT.NONE);
+		useCasesComposite.getSection().setText("Use cases");
+		useCasesComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+		formToolkit.adapt(useCasesComposite);
+		formToolkit.paintBordersFor(useCasesComposite);
 		
 		Composite rightComposite = formToolkit.createComposite(sashForm, SWT.NONE);
 		formToolkit.paintBordersFor(rightComposite);
 		rightComposite.setLayout(new GridLayout(1, true));
 		
-		sctnActors = new ItemsSectionPart(rightComposite, formToolkit, Section.TITLE_BAR | Section.EXPANDED);
-		Section sctnNewSectionpart = sctnActors.getSection();
-		sctnNewSectionpart.setText("Actors");
-		sctnNewSectionpart.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
-		formToolkit.paintBordersFor(sctnNewSectionpart);
+		actorsComposite = new ItemsComposite(rightComposite, SWT.NONE);
+		actorsComposite.getSection().setText("Actors");
+		actorsComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+		formToolkit.adapt(actorsComposite);
+		formToolkit.paintBordersFor(actorsComposite);
 		
-		sctnConceptualObjects = new ItemsSectionPart(rightComposite, formToolkit, Section.TITLE_BAR | Section.EXPANDED);
-		Section sctnNewSectionpart_1 = sctnConceptualObjects.getSection();
-		sctnNewSectionpart_1.setText("Conceptual objects");
-		sctnNewSectionpart_1.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
-		formToolkit.paintBordersFor(sctnNewSectionpart_1);
+		conceptualObjectsComposite = new ItemsComposite(rightComposite, SWT.NONE);
+		conceptualObjectsComposite.getSection().setText("Conceptual objects");
+		conceptualObjectsComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+		formToolkit.adapt(conceptualObjectsComposite);
+		formToolkit.paintBordersFor(conceptualObjectsComposite);
+		
 		sashForm.setWeights(new int[] {373, 218});
 	}
 
@@ -79,24 +78,20 @@ public class ProjectEditorComposite extends Composite {
 		// Disable the check that prevents subclassing of SWT components
 	}
 
-	public ItemsSectionPart getSctnConceptualObjects() {
-		return sctnConceptualObjects;
-	}
-
-	public ItemsSectionPart getSctnActors() {
-		return sctnActors;
-	}
-
-	public ItemsSectionPart getSctnUseCases() {
-		return sctnUseCases;
-	}
-
-	public NameDescriptionSectionPart getScntNameAndDescription() {
-		return scntNameAndDescription;
-	}
-
 	public Form getForm() {
 		return form;
 	}
 	
+	public NameDescriptionComposite getNameDescriptionComposite() {
+		return nameDescriptionComposite;
+	}
+	public ItemsComposite getUseCasesComposite() {
+		return useCasesComposite;
+	}
+	public ItemsComposite getConceptualObjectsComposite() {
+		return conceptualObjectsComposite;
+	}
+	public ItemsComposite getActorsComposite() {
+		return actorsComposite;
+	}
 }

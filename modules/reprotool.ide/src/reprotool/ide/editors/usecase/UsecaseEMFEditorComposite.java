@@ -14,7 +14,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.wb.swt.SWTResourceManager;
 
-import reprotool.ide.editors.project.ItemsSectionPart;
+import reprotool.ide.editors.project.ItemsComposite;
 
 /**
  * Composite containing TreeViewer with use case steps. Class is expected to be
@@ -32,7 +32,7 @@ public class UsecaseEMFEditorComposite extends Composite {
 	private final FormToolkit formToolkit;
 	private final Form form;
 	private final UseCasePropertiesSectionPart useCasePropertiesSectionPart;
-	private final ItemsSectionPart precedingUseCasesPart;
+	private final ItemsComposite precedingUseCasesComposite;
 	
 	/**
 	 * Create the composite.
@@ -61,8 +61,8 @@ public class UsecaseEMFEditorComposite extends Composite {
 		sctnUseCaseProperties.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1));
 		formToolkit.paintBordersFor(sctnUseCaseProperties);
 		
-		precedingUseCasesPart = new ItemsSectionPart(composite, formToolkit, Section.TITLE_BAR | Section.TWISTIE | Section.EXPANDED);
-		Section sctnNewSectionpart = precedingUseCasesPart.getSection();
+		precedingUseCasesComposite = new ItemsComposite(composite, Section.TITLE_BAR | Section.TWISTIE | Section.EXPANDED);
+		Section sctnNewSectionpart = precedingUseCasesComposite.getSection();
 		sctnNewSectionpart.setText("Preceding use cases");
 		sctnNewSectionpart.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1));
 		formToolkit.paintBordersFor(sctnNewSectionpart);
@@ -103,8 +103,8 @@ public class UsecaseEMFEditorComposite extends Composite {
 		return useCasePropertiesSectionPart;
 	}
 
-	public ItemsSectionPart getPrecedingUseCasesPart() {
-		return precedingUseCasesPart;
+	public ItemsComposite getPrecedingUseCasesComposite() {
+		return precedingUseCasesComposite;
 	}
 
 	@Override

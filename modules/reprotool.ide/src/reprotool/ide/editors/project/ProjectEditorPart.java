@@ -139,14 +139,14 @@ public class ProjectEditorPart extends EditorPart implements IMenuListener, IEdi
 
 	private void addActorsActions(SoftwareProject softwareProject) {
 		Action action = new AddActorAction(getEditingDomain(), softwareProject);
-		ToolBarManager toolBarManager = composite.getSctnActors().getToolBarManager(); 
+		ToolBarManager toolBarManager = composite.getActorsComposite().getToolBarManager(); 
 		toolBarManager.add(action);
 		toolBarManager.update(true);
 	}
 	
 	private void addConceptualObjectsActions(SoftwareProject softwareProject) {
 		Action action = new AddConceptualObjectAction(getEditingDomain(), softwareProject);
-		ToolBarManager toolBarManager = composite.getSctnConceptualObjects().getToolBarManager(); 
+		ToolBarManager toolBarManager = composite.getConceptualObjectsComposite().getToolBarManager(); 
 		toolBarManager.add(action);
 		toolBarManager.update(true);
 	}
@@ -174,14 +174,14 @@ public class ProjectEditorPart extends EditorPart implements IMenuListener, IEdi
 	private void bindName(DataBindingContext bindingContext, SoftwareProject project) {
 		IObservableValue emfValue = EMFEditProperties.value(getEditingDomain(),
 				SwprojPackage.Literals.DESCRIBED_ELEMENT__NAME).observe(project);
-		IObservableValue textValue = WidgetProperties.text(SWT.Modify).observe(composite.getScntNameAndDescription().getTxtName());
+		IObservableValue textValue = WidgetProperties.text(SWT.Modify).observe(composite.getNameDescriptionComposite().getTxtName());
 		bindingContext.bindValue(textValue, emfValue);
 	}
 	
 	private void bindDescription(DataBindingContext bindingContext, SoftwareProject project) {
 		IObservableValue emfValue = EMFEditProperties.value(getEditingDomain(),
 				SwprojPackage.Literals.DESCRIBED_ELEMENT__DESCRIPTION).observe(project);
-		IObservableValue textValue = WidgetProperties.text(SWT.Modify).observe(composite.getScntNameAndDescription().getTxtDescription());
+		IObservableValue textValue = WidgetProperties.text(SWT.Modify).observe(composite.getNameDescriptionComposite().getTxtDescription());
 		bindingContext.bindValue(textValue, emfValue);
 	}
 
@@ -193,7 +193,7 @@ public class ProjectEditorPart extends EditorPart implements IMenuListener, IEdi
 	}
 	
 	private void bindUseCases(DataBindingContext bindingContext, SoftwareProject softwareProject) {
-		TableViewer tableViewer = composite.getSctnUseCases().getTableViewer();
+		TableViewer tableViewer = composite.getUseCasesComposite().getTableViewer();
 		
 		IObservableList emfList = EMFEditProperties.list(getEditingDomain(), SwprojPackage.Literals.SOFTWARE_PROJECT__USE_CASES).observe(softwareProject);
 		IValueProperty labelProperty = EMFEditProperties.value(getEditingDomain(), SwprojPackage.Literals.DESCRIBED_ELEMENT__NAME);
@@ -202,7 +202,7 @@ public class ProjectEditorPart extends EditorPart implements IMenuListener, IEdi
 	}
 
 	private void bindActors(DataBindingContext bindingContext, SoftwareProject softwareProject) {
-		TableViewer tableViewer = composite.getSctnActors().getTableViewer();
+		TableViewer tableViewer = composite.getActorsComposite().getTableViewer();
 		
 		IObservableList emfList = EMFEditProperties.list(getEditingDomain(), SwprojPackage.Literals.SOFTWARE_PROJECT__ACTORS).observe(softwareProject);
 		IValueProperty labelProperty = EMFEditProperties.value(getEditingDomain(), SwprojPackage.Literals.DESCRIBED_ELEMENT__NAME);
@@ -211,7 +211,7 @@ public class ProjectEditorPart extends EditorPart implements IMenuListener, IEdi
 	}
 
 	private void bindConceptualObjects(DataBindingContext bindingContext, SoftwareProject softwareProject) {
-		TableViewer tableViewer = composite.getSctnConceptualObjects().getTableViewer();
+		TableViewer tableViewer = composite.getConceptualObjectsComposite().getTableViewer();
 		
 		IObservableList emfList = EMFEditProperties.list(getEditingDomain(), SwprojPackage.Literals.SOFTWARE_PROJECT__CONCEPTUAL_OBJECTS).observe(softwareProject);
 		IValueProperty labelProperty = EMFEditProperties.value(getEditingDomain(), SwprojPackage.Literals.DESCRIBED_ELEMENT__NAME);

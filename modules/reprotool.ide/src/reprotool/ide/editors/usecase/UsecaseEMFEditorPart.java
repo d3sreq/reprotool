@@ -17,7 +17,6 @@ import org.eclipse.emf.common.ui.URIEditorInput;
 import org.eclipse.emf.databinding.FeaturePath;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.change.FeatureChange;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
@@ -40,7 +39,6 @@ import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.Transfer;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.ui.IEditorInput;
@@ -248,7 +246,7 @@ public class UsecaseEMFEditorPart extends EditorPart implements IMenuListener, I
 	}
 	
 	private void bindPrecedingUseCasesList(DataBindingContext bindingContext, UseCase useCase) {
-		TableViewer tableViewer = composite.getPrecedingUseCasesPart().getTableViewer();
+		TableViewer tableViewer = composite.getPrecedingUseCasesComposite().getTableViewer();
 		
 		IObservableList emfList = EMFEditProperties.list(getEditingDomain(), UsecasePackage.Literals.USE_CASE__PRECEDING_USE_CASES).observe(useCase);
 		IValueProperty labelProperty = EMFEditProperties.value(getEditingDomain(), SwprojPackage.Literals.DESCRIBED_ELEMENT__NAME);
