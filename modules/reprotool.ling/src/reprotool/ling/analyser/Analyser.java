@@ -90,7 +90,17 @@ public class Analyser {
 		// detection of GOTO action
 		if (!definedAction) definedAction = definedAction && detectGoto(ucs, sentence);
 		// detection of ABORT/TERMINATION action
-		if (!definedAction) definedAction = definedAction && detectAbort(ucs, sentence);
+		if (!definedAction) {
+			boolean abort = detectAbort(sentence);
+			if(abort) {
+				// set abort action
+				AbortUseCase action = afactory.createAbortUseCase();
+				SetCommand setCommand = new SetCommand(editingDomain, ucs,
+						UsecasePackage.Literals.USE_CASE_STEP__ACTION, action);
+				compoundCommand.append(setCommand);
+				definedAction = true;
+			}
+		}
 
 		// INTERNAL ACTION
 		// also TO and FROM
@@ -100,15 +110,23 @@ public class Analyser {
 				SetCommand setCommand = new SetCommand(editingDomain, ucs, UsecasePackage.Literals.USE_CASE_STEP__ACTION, action);
 				compoundCommand.append(setCommand);										
 			} else {
-				// system actions?
+				// system actions
+				if(subject.getLemma() == "system") {
+					if (((Word)indirectobjects.get(0)).getLemma() == "system") {
+						InternalAction action = afactory.createInternalAction();
+						SetCommand setCommand = new SetCommand(editingDomain, ucs, UsecasePackage.Literals.USE_CASE_STEP__ACTION, action);
+						compoundCommand.append(setCommand);	
+					} else {						
+						FromSystem action = afactory.createFromSystem();
+						SetCommand setCommand = new SetCommand(editingDomain, ucs, UsecasePackage.Literals.USE_CASE_STEP__ACTION, action);
+						compoundCommand.append(setCommand);	
+					}
+				}
+				
 				if (objects.size() > 0) {
 					// now we have both objects
 					if (((Word)indirectobjects.get(0)).getLemma() == "system") {
 						ToSystem action = afactory.createToSystem();
-						SetCommand setCommand = new SetCommand(editingDomain, ucs, UsecasePackage.Literals.USE_CASE_STEP__ACTION, action);
-						compoundCommand.append(setCommand);	
-					} else {
-						FromSystem action = afactory.createFromSystem();
 						SetCommand setCommand = new SetCommand(editingDomain, ucs, UsecasePackage.Literals.USE_CASE_STEP__ACTION, action);
 						compoundCommand.append(setCommand);	
 					}
@@ -120,7 +138,8 @@ public class Analyser {
 		
 		// THE REST
 		if (!definedAction){
-			ToSystem action = afactory.createToSystem();
+			// default set to InternalAction
+			InternalAction action = afactory.createInternalAction();
 			//ucs.setAction(action);
 			SetCommand setCommand = new SetCommand(editingDomain, ucs, UsecasePackage.Literals.USE_CASE_STEP__ACTION, action);
 			compoundCommand.append(setCommand);	
@@ -139,14 +158,13 @@ public class Analyser {
 			
 			AddCommand addCommand = new AddCommand(editingDomain, ucs, UsecasePackage.Literals.PARSEABLE_ELEMENT__TEXT_NODES, tr);
 			compoundCommand.append(addCommand);
-			//ucs.getTextNodes().add(tr);			
-			
+			//ucs.getTextNodes().add(tr);						
 		}
  
 		return compoundCommand;		
 	}	
 	
-	private static boolean detectAbort(UseCaseStep ucs, Sentence sentence) {
+	public static boolean detectAbort(Sentence sentence) {
 		// result
 		boolean found = false;
 		
@@ -157,15 +175,9 @@ public class Analyser {
 		for (Word word : sentence.getWords()) {
 			// abort verbs
 			if (word.getLemma() != null	&& LingConfig.abortVerbs.contains(word.getLemma())) {
-				// set abort action
-				AbortUseCase action = afactory.createAbortUseCase();
-				SetCommand setCommand = new SetCommand(editingDomain, ucs,
-						UsecasePackage.Literals.USE_CASE_STEP__ACTION, action);
-				compoundCommand.append(setCommand);
 				found = true;
 				break;
 			}
-
 		}
 		// set result
 		return found;

@@ -148,6 +148,19 @@ public class AnalyseBenchmark {
 		}	
 		result += "OBJECTS: " + "Count: " + objects + " Found: " + (int)foundObjects + " | " + formatter.format((foundObjects * 100)/objects) + "%\n";
 		result += error;
+		
+		//indirects objects stats
+		int actions = 0;
+		float foundActions = 0;
+		error = "";
+		for (BenchmarkSentence bs : sentences) {
+			actions++;
+			if (bs.outResults.actionCode == bs.inResults.actionCode)
+				foundActions++;
+		}
+		result += "ACTIONS: " + "Count: " + actions + " Found: " + (int)foundActions + " | " + formatter.format((foundActions * 100)/actions) + "%\n";
+		//result += error;
+		
 		// sum
 		int count = subjects + verbs + iobjects + objects;
 		float found = foundSubjects + foundVerbs + ifoundObjects + foundObjects; 

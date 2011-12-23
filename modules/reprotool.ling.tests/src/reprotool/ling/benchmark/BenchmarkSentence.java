@@ -10,6 +10,7 @@ import reprotool.ling.LingTools;
 import reprotool.ling.Sentence;
 import reprotool.ling.SentenceNode;
 import reprotool.ling.Word;
+import reprotool.ling.analyser.Analyser;
 import reprotool.ling.analyser.FindConstituent;
 import reprotool.ling.benchmark.AnalyseBenchmark.ActionCode;
 import reprotool.ling.impl.SentenceImpl;
@@ -216,6 +217,10 @@ public class BenchmarkSentence extends SentenceImpl {
 			this.outResults.objectNumbers = new int [] {0};
 //			this.outResults.objectNumbers = new int [] {0,2};
 
+		
+		boolean abort = Analyser.detectAbort(this);
+		if (abort) outResults.actionCode = ActionCode.ABORT;
+		
 		return result;
 	}
 
