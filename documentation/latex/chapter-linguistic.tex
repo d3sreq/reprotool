@@ -7,7 +7,7 @@ Process of linguistics analyse gets natural language sentences as an input and r
 
 Each implementation of any analyse brings problem of measuring success. We have put together a dataset of nearly tree hundred of sentences. These sentences contain the most commom use cases operations. All these sentences were manually anotated and analysed. In section \ref{sec:benchmark} is described our benchmark solution with actual results.
 
-\begin{figure}[h]
+\begin{figure}[ht]
   \centering
   \includegraphics[height=30pt]{images/LinguisticsAnalyseSmall}
   \caption{Process of sentence analysis}
@@ -39,25 +39,25 @@ Main goal of linguistic analyse in our porject is to identify important words in
 \subsection{Analysis}
 \label{sec:analysis}
 
-\begin{figure}[h]
+\begin{figure}[ht]
   \centering
-  \includegraphics[height=300pt]{images/LinguisticsAnalyse}
+  \includegraphics[width=300pt]{images/LinguisticsAnalyse}
   \caption{Process of sentence analysis}
   \label{fig:LinguisticsAnalyse}
 \end{figure}
 
 \subsubsection{Parsing}
 
-\begin{figure}[h]
+\begin{figure}[ht]
   \centering
-  \includegraphics[height=300pt]{images/ParsedTree}
+  \includegraphics[width=200pt]{images/ParsedTree}
   \caption{Parsed tree of sentence "Administrator sends messages".}
   \label{fig:ParsedTree}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[ht]
   \centering
-  \includegraphics[width=400pt]{images/InternalActionExample}
+  \includegraphics[width=250pt]{images/InternalActionExample}
   \caption{Example of internal action analyse result.}
   \label{fig:InternalActionExample}
 \end{figure}
@@ -81,17 +81,17 @@ Main usecase benchmark dataset:
 \begin{center}
     \begin{verbatim}
 SUBJECTS: Count: 21 Found: 19 | 90,5%
-RPT6: input subjectNumber: 6 output subjectNumber: 1
-MOD1_UC1_7: input subjectNumber: 0 output subjectNumber: 3
+RPT6: in-subjectNumber: 6 out-subjectNumber: 1
+MOD1_UC1_7: in-subjectNumber: 0 out-esubjectNumber: 3
 VERBS: Count: 21 Found: 20 | 95,2%
-MOD1_UC1_5: input verbLemma: "verify" output verbLemma: "be"
+MOD1_UC1_5: in-verbLemma: "verify" out-verbLemma: "be"
 INDIRECT_OBJECTS: Count: 21 Found: 20 | 95,2%
-LING2: input indirectObjectNumber: 8 output indirectObjectNumber: 0
+LING2: in-indirectObjectNumber: 8 out-indirectObjectNumber: 0
 OBJECTS: Count: 21 Found: 11 | 52,4%
-RPT8: input objectNumber: 2 output objectNumber: 0
-LING1: input objectNumber: 8 output objectNumber: 4
-MOD1_UC1_7: input objectNumber: 3 output objectNumber: 0
-MOD1_UC1_8: input objectNumber: 0 output objectNumber: 5
+RPT8: in-objectNumber: 2 out-objectNumber: 0
+LING1: in-objectNumber: 8 out-objectNumber: 4
+MOD1_UC1_7: in-objectNumber: 3 out-objectNumber: 0
+MOD1_UC1_8: in-objectNumber: 0 out-objectNumber: 5
 TOTAL: Count: 84 Found: 70 | 83,3%
     \end{verbatim}
   \caption{Example output from benchmark plugin}

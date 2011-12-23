@@ -16,9 +16,9 @@ In order to convert our UC model into NuSMV input language, we use the model-to-
 We traverse the UC model and during that traversal we collect the neccesary information to build a new EMF memory structure based on the generaetd NuSMV model.
 The generated serializer then produces a valid NuSMV code from the NuSMV model.
 
-\begin{figure}[h]
+\begin{figure}[ht]
   \centering
-  \includegraphics[height=200pt]{images/XtextWorkflow}
+  \includegraphics[height=280pt]{images/XtextWorkflow}
   \caption{Transformation of a SW Project into the input language of a model checker}
   \label{fig:XtextWorkflow}
 \end{figure}
@@ -60,15 +60,14 @@ ModuleElement hidden(WS, SL_COMMENT):
 \end{lstlisting}
 
 The XText generates an EMF model from the specified grammar. You can have a hierarchical view of the generated model by displaying the
-NuSMVLang.ecore file in the reprotool.fm.nusmv.lang plugin. To better visualise the model, right-click on the NuSMVLang.ecore file in
-the package explorer of the eclipse IDE and click the option ``Initialize Ecore Diagram file...''. This will create the
-NuSMVLang.ecorediag file that you can view with the provided eclipse editor.
+\emph{NuSMVLang.ecore} file in the \emph{reprotool.fm.nusmv.lang} plugin. To better visualise the model, right-click on the \emph{NuSMVLang.ecore} file in
+the package explorer of the eclipse IDE and click the option ``Initialize Ecore Diagram file...''. This will create the \emph{NuSMVLang.ecorediag} file that you can view with the provided eclipse editor.
 
-\begin{figure}[h]
+\begin{figure}[ht]
   \centering
   \includegraphics[width=0.8\textwidth]{images/NuSmvLang}
   \caption{An excerpt from the NuSMV model diagram}
-  \label{fig:XtextWorkflow}
+  \label{fig:NuSmvLang}
 \end{figure}
 
 \subsection{Model to model transformation}
@@ -76,11 +75,11 @@ NuSMVLang.ecorediag file that you can view with the provided eclipse editor.
 Here we present an overview of the transformation of our UC model into the generated NuSMV model. The objective of this process is to
 take a reprotool project as input and transform it into the generated NuSMV model.
 
-This transformation is implemented in the reprotool.fm.nusmv plugin in the reprotool.fm.nusmv.mapping package.
-The transformation itself is quite straight-forward and is defined in an XTend class NuSMVProj.xtend.
+This transformation is implemented in the \emph{reprotool.fm.nusmv} plugin in the \emph{reprotool.fm.nusmv.mapping} package.
+The transformation itself is quite straight-forward and is defined in an XTend class \emph{NuSMVProj.xtend}.
 For every use-case we create a definition of a non-deterministic state machine.
 The state machine's steps are directly related to the steps of the related use case.
-The use cases in the reprotool project can have precedence prelations specified. Theses relations are considered in the
+The use cases in the reprotool project can have precedence relations specified. Theses relations are considered in the
 transformation process. The use case state machines are instantiated with a parameter that triggers the execution of the machine.
 With this parameter we ensure that the precedence relations are fulfilled. By means of this parameter we also avoid parallel execution
 of multiple use-cases.
