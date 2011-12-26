@@ -67,7 +67,7 @@ public class UsecaseEMFEditorAdapterFactory extends ComposedAdapterFactory {
 		}
 		
 		private void bindUseCaseStepItemProvider() {
-			bind(AdapterFactory.class).annotatedWith(Names.named(UseCaseItemProviderExt.USE_CASE_ITEM_PROVIDER_ANNOTATION)).to(UsecaseItemProviderAdapterFactoryExt.class).in(Scopes.SINGLETON);
+			bind(AdapterFactory.class).annotatedWith(Names.named(UseCaseStepItemProviderExt.USE_CASE_STEP_ITEM_PROVIDER_ANNOTATION)).to(UsecaseItemProviderAdapterFactoryExt.class).in(Scopes.SINGLETON);
 			
 			List<EReference> customUseCaseStepChildren = new ArrayList<EReference>();
 			customUseCaseStepChildren.add(UsecasePackage.Literals.USE_CASE_STEP__EXTENSIONS);
