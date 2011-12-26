@@ -7,24 +7,24 @@ import com.google.inject.Inject;
 import com.google.inject.name.Named;
 
 /**
- * Extension of generated ActorItemProvider class.
+ * Extension of generated ConceptualObjectItemProvider class.
  * 
  * @author jvinarek
  * 
  */
-public class ActorItemProviderExt extends ActorItemProvider {
+public class ConceptualObjectItemProviderExt extends ConceptualObjectItemProvider {
 
-	public static final String ACTOR_ITEM_PROVIDER_ANNOTATION = "ACTOR_ITEM_PROVIDER_ANNOTATION";
+	public static final String CONCEPTUAL_OBJECT_ITEM_PROVIDER_ANNOTATION = "CONCEPTUAL_OBJECT_ITEM_PROVIDER_ANNOTATION";
 	
 	@Inject
-	public ActorItemProviderExt(@Named(ACTOR_ITEM_PROVIDER_ANNOTATION) AdapterFactory adapterFactory) {
+	public ConceptualObjectItemProviderExt(@Named(CONCEPTUAL_OBJECT_ITEM_PROVIDER_ANNOTATION) AdapterFactory adapterFactory) {
 		super(adapterFactory);
 	}
 
 	/**
 	 * Returns parent node.
 	 * 
-	 * @return Non-model "Actors" node
+	 * @return Non-model "Conceptual Objects" node
 	 */
 	@Override
 	public Object getParent(Object object) {
@@ -32,7 +32,7 @@ public class ActorItemProviderExt extends ActorItemProvider {
 		SoftwareProjectItemProviderExt softwareProjectItemProviderExt = (SoftwareProjectItemProviderExt) adapterFactory
 				.adapt(softwareProject, IEditingDomainItemProvider.class);
 
-		return softwareProjectItemProviderExt != null ? softwareProjectItemProviderExt.getActors() : null;
+		return softwareProjectItemProviderExt != null ? softwareProjectItemProviderExt.getConceptualObjects() : null;
 	}
 
 }

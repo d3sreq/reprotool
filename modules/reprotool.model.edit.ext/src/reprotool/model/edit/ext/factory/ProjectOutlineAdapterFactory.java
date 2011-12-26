@@ -9,11 +9,10 @@ import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.provider.ReflectiveItemProviderAdapterFactory;
 import org.eclipse.emf.edit.provider.resource.ResourceItemProviderAdapterFactory;
 
-import reprotool.model.edit.ext.annotation.ActorItemProviderAnnotation;
-import reprotool.model.edit.ext.annotation.SoftwareProjectItemProviderAnnotation;
-import reprotool.model.edit.ext.annotation.UseCaseItemProviderAnnotation;
 import reprotool.model.swproj.provider.ActorItemProvider;
 import reprotool.model.swproj.provider.ActorItemProviderExt;
+import reprotool.model.swproj.provider.ConceptualObjectItemProvider;
+import reprotool.model.swproj.provider.ConceptualObjectItemProviderExt;
 import reprotool.model.swproj.provider.SoftwareProjectItemProvider;
 import reprotool.model.swproj.provider.SoftwareProjectItemProviderExt;
 import reprotool.model.swproj.provider.SwprojItemProviderAdapterFactory;
@@ -39,6 +38,8 @@ import com.google.inject.name.Names;
  */
 public class ProjectOutlineAdapterFactory extends ComposedAdapterFactory {
 
+	public static final String SOFTWARE_PROJECT_ITEM_PROVIDER_ANNOTATION = "SOFTWARE_PROJECT_ITEM_PROVIDER_ANNOTATION";
+	
 	public ProjectOutlineAdapterFactory() {
 		Injector injector = Guice.createInjector(new ProjectOutlineModule());
 
@@ -67,13 +68,15 @@ public class ProjectOutlineAdapterFactory extends ComposedAdapterFactory {
 			// factory item providers
 			//
 			bind(ActorItemProvider.class).to(ActorItemProviderExt.class).in(Scopes.SINGLETON);
+			bind(ConceptualObjectItemProvider.class).to(ConceptualObjectItemProviderExt.class).in(Scopes.SINGLETON);
 			// factory, because SoftwareProjectItemProviderExt is stateful
 			bind(FactorySoftwareProject.class).to(FactorySoftwareProjectImpl.class).in(Scopes.SINGLETON);
 			
 			// item providers dependencies
 			//
-			bind(AdapterFactory.class).annotatedWith(SoftwareProjectItemProviderAnnotation.class).to(SwprojItemProviderAdapterFactoryExt.class).in(Scopes.SINGLETON);
-			bind(AdapterFactory.class).annotatedWith(ActorItemProviderAnnotation.class).to(SwprojItemProviderAdapterFactoryExt.class).in(Scopes.SINGLETON);
+			bind(AdapterFactory.class).annotatedWith(Names.named(SoftwareProjectItemProviderExt.SOFTWARE_PROJECT_ITEM_PROVIDER_ANNOTATION)).to(SwprojItemProviderAdapterFactoryExt.class).in(Scopes.SINGLETON);
+			bind(AdapterFactory.class).annotatedWith(Names.named(ActorItemProviderExt.ACTOR_ITEM_PROVIDER_ANNOTATION)).to(SwprojItemProviderAdapterFactoryExt.class).in(Scopes.SINGLETON);
+			bind(AdapterFactory.class).annotatedWith(Names.named(ConceptualObjectItemProviderExt.CONCEPTUAL_OBJECT_ITEM_PROVIDER_ANNOTATION)).to(SwprojItemProviderAdapterFactoryExt.class).in(Scopes.SINGLETON);
 		}
 
 		private void bindUsecaseFactoryDependencies() {
@@ -94,7 +97,7 @@ public class ProjectOutlineAdapterFactory extends ComposedAdapterFactory {
 			// factory in item provider
 			//
 			// use case item provider needs SwprojItemProviderAdapterFactoryExt as parent factory 
-			bind(AdapterFactory.class).annotatedWith(UseCaseItemProviderAnnotation.class).to(SwprojItemProviderAdapterFactoryExt.class).in(Scopes.SINGLETON);
+			bind(AdapterFactory.class).annotatedWith(Names.named(UseCaseItemProviderExt.USE_CASE_ITEM_PROVIDER_ANNOTATION)).to(SwprojItemProviderAdapterFactoryExt.class).in(Scopes.SINGLETON);
 		
 			// item provider children features
 			//

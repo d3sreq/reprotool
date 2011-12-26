@@ -9,7 +9,6 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 
-import reprotool.model.edit.ext.annotation.UseCaseStepItemProviderAnnotation;
 import reprotool.model.usecase.Condition;
 import reprotool.model.usecase.Scenario;
 import reprotool.model.usecase.UseCaseStep;
@@ -26,12 +25,13 @@ import com.google.inject.name.Named;
  */
 public class UseCaseStepItemProviderExt extends UseCaseStepItemProvider {
 
+	public static final String USE_CASE_STEP_ITEM_PROVIDER_ANNOTATION = "USE_CASE_STEP_ITEM_PROVIDER_ANNOTATION";
 	public static final String CUSTOM_CHILDREN_FEATURES_KEY = "CUSTOM_CHILDREN_FEATURES_UseCaseStepItemProvider";
 	
 	private List<EReference> customChildrenFeatures = null;
 	
 	@Inject
-	public UseCaseStepItemProviderExt(@UseCaseStepItemProviderAnnotation AdapterFactory adapterFactory) {
+	public UseCaseStepItemProviderExt(@Named(USE_CASE_STEP_ITEM_PROVIDER_ANNOTATION) AdapterFactory adapterFactory) {
 		super(adapterFactory);
 	}
 	

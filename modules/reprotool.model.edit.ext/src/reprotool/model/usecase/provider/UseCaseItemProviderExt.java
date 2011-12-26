@@ -8,7 +8,6 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 
-import reprotool.model.edit.ext.annotation.UseCaseItemProviderAnnotation;
 import reprotool.model.swproj.provider.SoftwareProjectItemProviderExt;
 
 import com.google.inject.Inject;
@@ -22,12 +21,13 @@ import com.google.inject.name.Named;
  */
 public class UseCaseItemProviderExt extends UseCaseItemProvider {
 
+	public static final String USE_CASE_ITEM_PROVIDER_ANNOTATION = "USE_CASE_ITEM_PROVIDER_ANNOTATION";
 	public static final String CUSTOM_CHILDREN_FEATURES_KEY = "CUSTOM_CHILDREN_FEATURES_UseCaseItemProvider";
 	
 	private List<EReference> customChildrenFeatures = null;
 	
 	@Inject
-	public UseCaseItemProviderExt(@UseCaseItemProviderAnnotation AdapterFactory adapterFactory) {
+	public UseCaseItemProviderExt(@Named(USE_CASE_ITEM_PROVIDER_ANNOTATION) AdapterFactory adapterFactory) {
 		super(adapterFactory);
 	}
 	

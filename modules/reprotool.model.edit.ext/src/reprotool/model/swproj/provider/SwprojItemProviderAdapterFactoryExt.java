@@ -33,6 +33,11 @@ public class SwprojItemProviderAdapterFactoryExt extends SwprojItemProviderAdapt
 	public void setActorItemProvider(ActorItemProvider actorItemProvider) {
 		this.actorItemProvider = actorItemProvider;
 	}
+	
+	@Inject(optional=true)
+	public void setActorItemProvider(ConceptualObjectItemProvider conceptualObjectItemProvider) {
+		this.conceptualObjectItemProvider = conceptualObjectItemProvider;
+	}
 
 	public interface FactorySoftwareProject {
 		SoftwareProjectItemProvider create(SwprojItemProviderAdapterFactory adapterFactory);

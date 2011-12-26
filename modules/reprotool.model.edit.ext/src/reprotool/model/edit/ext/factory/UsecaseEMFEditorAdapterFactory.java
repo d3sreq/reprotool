@@ -9,9 +9,6 @@ import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.provider.ReflectiveItemProviderAdapterFactory;
 import org.eclipse.emf.edit.provider.resource.ResourceItemProviderAdapterFactory;
 
-import reprotool.model.edit.ext.annotation.ScenarioItemProviderAnnotation;
-import reprotool.model.edit.ext.annotation.UseCaseItemProviderAnnotation;
-import reprotool.model.edit.ext.annotation.UseCaseStepItemProviderAnnotation;
 import reprotool.model.usecase.UsecasePackage;
 import reprotool.model.usecase.provider.ScenarioItemProvider;
 import reprotool.model.usecase.provider.ScenarioItemProviderExt;
@@ -64,13 +61,13 @@ public class UsecaseEMFEditorAdapterFactory extends ComposedAdapterFactory {
 			// item providers dependencies
 			//
 			// use case item provider needs SwprojItemProviderAdapterFactoryExt as parent factory 
-			bind(AdapterFactory.class).annotatedWith(UseCaseItemProviderAnnotation.class).to(UsecaseItemProviderAdapterFactoryExt.class).in(Scopes.SINGLETON);
+			bind(AdapterFactory.class).annotatedWith(Names.named(UseCaseItemProviderExt.USE_CASE_ITEM_PROVIDER_ANNOTATION)).to(UsecaseItemProviderAdapterFactoryExt.class).in(Scopes.SINGLETON);
 			bindUseCaseStepItemProvider();
 			bindScenarioItemProvider();
 		}
 		
 		private void bindUseCaseStepItemProvider() {
-			bind(AdapterFactory.class).annotatedWith(UseCaseStepItemProviderAnnotation.class).to(UsecaseItemProviderAdapterFactoryExt.class).in(Scopes.SINGLETON);
+			bind(AdapterFactory.class).annotatedWith(Names.named(UseCaseItemProviderExt.USE_CASE_ITEM_PROVIDER_ANNOTATION)).to(UsecaseItemProviderAdapterFactoryExt.class).in(Scopes.SINGLETON);
 			
 			List<EReference> customUseCaseStepChildren = new ArrayList<EReference>();
 			customUseCaseStepChildren.add(UsecasePackage.Literals.USE_CASE_STEP__EXTENSIONS);
@@ -80,7 +77,7 @@ public class UsecaseEMFEditorAdapterFactory extends ComposedAdapterFactory {
 		}
 
 		private void bindScenarioItemProvider() {
-			bind(AdapterFactory.class).annotatedWith(ScenarioItemProviderAnnotation.class).to(UsecaseItemProviderAdapterFactoryExt.class).in(Scopes.SINGLETON);
+			bind(AdapterFactory.class).annotatedWith(Names.named(ScenarioItemProviderExt.SCENARIO_ITEM_PROVIDER_ANNOTATION)).to(UsecaseItemProviderAdapterFactoryExt.class).in(Scopes.SINGLETON);
 
 			List<EReference> customUseCaseStepChildren = new ArrayList<EReference>();
 			customUseCaseStepChildren.add(UsecasePackage.Literals.SCENARIO__STEPS);

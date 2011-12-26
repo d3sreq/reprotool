@@ -23,7 +23,6 @@ import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 
-import reprotool.model.edit.ext.annotation.SoftwareProjectItemProviderAnnotation;
 import reprotool.model.edit.ext.common.ReprotoolEditExtPlugin;
 import reprotool.model.swproj.SoftwareProject;
 import reprotool.model.swproj.SwprojFactory;
@@ -36,6 +35,7 @@ import reprotool.model.usecase.provider.ReprotoolEditPlugin;
 import utils.Utils;
 
 import com.google.inject.Inject;
+import com.google.inject.name.Named;
 
 /**
  * Extension of generated {@link SoftwareProjectItemProvider} class.
@@ -45,6 +45,8 @@ import com.google.inject.Inject;
  */
 public class SoftwareProjectItemProviderExt extends SoftwareProjectItemProvider {
 
+	public static final String SOFTWARE_PROJECT_ITEM_PROVIDER_ANNOTATION = "SOFTWARE_PROJECT_ITEM_PROVIDER_ANNOTATION";
+	
 	private static final int ACTORS_INDEX = 0;
 	private static final int USE_CASES_INDEX = 1;
 	private static final int CONCEPTUAL_OBJECTS_INDEX = 2;
@@ -52,7 +54,7 @@ public class SoftwareProjectItemProviderExt extends SoftwareProjectItemProvider 
 	protected List<ItemProviderAdapter> children = null;
 
 	@Inject
-	public SoftwareProjectItemProviderExt(@SoftwareProjectItemProviderAnnotation AdapterFactory adapterFactory) {
+	public SoftwareProjectItemProviderExt(@Named(SOFTWARE_PROJECT_ITEM_PROVIDER_ANNOTATION) AdapterFactory adapterFactory) {
 		super(adapterFactory);
 	}
 
@@ -146,7 +148,7 @@ public class SoftwareProjectItemProviderExt extends SoftwareProjectItemProvider 
 	 * @author jvinarek
 	 *
 	 */
-	public class TransientSoftwareProjectItemProvider extends ItemProviderAdapter implements
+	public static class TransientSoftwareProjectItemProvider extends ItemProviderAdapter implements
 			IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider, IItemLabelProvider,
 			IItemPropertySource {
 
@@ -216,7 +218,7 @@ public class SoftwareProjectItemProviderExt extends SoftwareProjectItemProvider 
 	 * @author jvinarek
 	 *
 	 */
-	public class ActorsItemProvider extends TransientSoftwareProjectItemProvider {
+	public static class ActorsItemProvider extends TransientSoftwareProjectItemProvider {
 		public ActorsItemProvider(AdapterFactory adapterFactory, SoftwareProject softwareProject) {
 			super(adapterFactory, softwareProject);
 		}
@@ -264,7 +266,7 @@ public class SoftwareProjectItemProviderExt extends SoftwareProjectItemProvider 
 	 * @author jvinarek
 	 *
 	 */
-	public class ConceptualObjectsItemProvider extends TransientSoftwareProjectItemProvider {
+	public static class ConceptualObjectsItemProvider extends TransientSoftwareProjectItemProvider {
 		public ConceptualObjectsItemProvider(AdapterFactory adapterFactory, SoftwareProject softwareProject) {
 			super(adapterFactory, softwareProject);
 		}
@@ -312,7 +314,7 @@ public class SoftwareProjectItemProviderExt extends SoftwareProjectItemProvider 
 	 * @author jvinarek
 	 *
 	 */
-	public class UseCasesItemProvider extends TransientSoftwareProjectItemProvider {
+	public static class UseCasesItemProvider extends TransientSoftwareProjectItemProvider {
 		public UseCasesItemProvider(AdapterFactory adapterFactory, SoftwareProject softwareProject) {
 			super(adapterFactory, softwareProject);
 		}

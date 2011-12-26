@@ -13,7 +13,6 @@ import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 
-import reprotool.model.edit.ext.annotation.ScenarioItemProviderAnnotation;
 import reprotool.model.usecase.Scenario;
 import reprotool.model.usecase.UsecasePackage;
 
@@ -28,12 +27,13 @@ import com.google.inject.name.Named;
  */
 public class ScenarioItemProviderExt extends ScenarioItemProvider {
 
+	public static final String SCENARIO_ITEM_PROVIDER_ANNOTATION = "SCENARIO_ITEM_PROVIDER_ANNOTATION";
 	public static final String CUSTOM_CHILDREN_FEATURES_KEY = "CUSTOM_CHILDREN_FEATURES_ScenarioItemProvider";
 	
 	private List<EReference> customChildrenFeatures = null;
 	
 	@Inject
-	public ScenarioItemProviderExt(@ScenarioItemProviderAnnotation AdapterFactory adapterFactory) {
+	public ScenarioItemProviderExt(@Named(SCENARIO_ITEM_PROVIDER_ANNOTATION) AdapterFactory adapterFactory) {
 		super(adapterFactory);
 	}
 
