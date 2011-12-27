@@ -130,6 +130,15 @@ public class ProjectEditorPart extends EditorPart implements IMenuListener, IEdi
 		// add actions to the section toolbars
 		addActorsActions(softwareProject);
 		addConceptualObjectsActions(softwareProject);
+		
+		// add context menus + drag & drop
+		addConctextMenus();
+	}
+
+	private void addConctextMenus() {
+		createContextMenuFor(composite.getActorsComposite().getTableViewer());
+		createContextMenuFor(composite.getConceptualObjectsComposite().getTableViewer());
+		createContextMenuFor(composite.getUseCasesComposite().getTableViewer());
 	}
 
 	@Override
