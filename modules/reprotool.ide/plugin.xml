@@ -38,26 +38,20 @@
    <extension
          point="org.eclipse.ui.editors">
       <editor
-            class="reprotool.ide.editors.UseCaseEditor"
-            default="true"
-            extensions="usecase"
-            icon="icons/use-case-icon-16x16.png"
-            id="cz.cuni.mff.reprotool.ide.UseCaseEditor"
-            name="Use case">
-      </editor>
-      <editor
             class="reprotool.ide.editors.project.ProjectEditor"
             contributorClass="reprotool.ide.editors.project.ProjectActionBarContributor"
-            default="false"
+            default="true"
             extensions="swproj"
+            filenames="swproj"
             id="cz.cuni.mff.reprotool.ide.editors.ProjectEditor"
-            name="My Project Editor">
+            name="Project editor">
       </editor>
       <editor
             class="reprotool.ide.editors.usecase.UsecaseEMFEditor"
             contributorClass="reprotool.ide.editors.usecase.UsecaseEMFActionBarContributor"
             default="false"
             extensions="usecase"
+            icon="icons/use-case-icon-16x16.png"
             id="org.eclipselabs.reprotool.ide.UseCaseEmfEditor"
             name="Use case EMF Editor">
       </editor>
@@ -87,12 +81,6 @@
             name="Reprotool Project"
             project="true">
       </wizard>
-      <wizard
-            category="reprotool.ide.category1"
-            class="reprotool.ide.wizards.UsecaseWizard"
-            id="reprotool.ide.UseCaseWizard"
-            name="Use case">
-      </wizard>
    </extension>
    <extension
          point="org.eclipse.ui.preferencePages">
@@ -120,9 +108,6 @@
          </viewShortcut>
          <viewShortcut
                id="cz.cuni.mff.reprotool.ide.view_project">
-         </viewShortcut>
-         <viewShortcut
-               id="cz.cuni.mff.reprotool.ide.view_parsed_tree">
          </viewShortcut>
          <view
                closeable="true"
@@ -187,30 +172,6 @@
       </perspectiveExtension>
    </extension>
    <extension
-         point="org.eclipse.ui.navigator.navigatorContent">
-      <navigatorContent
-            activeByDefault="true"
-            contentProvider="reprotool.ide.views.ActorsContentProvider"
-            id="reprotool.ide.navigator.actorsContent"
-            labelProvider="reprotool.ide.views.ActorsLabelProvider"
-            name="Actors included in project">
-         <triggerPoints>
-            <instanceof
-                  value="org.eclipse.core.resources.IProject">
-            </instanceof></triggerPoints>
-         <possibleChildren>
-            <or>
-               <instanceof
-                     value="java.lang.String">
-               </instanceof>
-            </or>
-         </possibleChildren>
-      </navigatorContent>
-   </extension>
-   <extension
-         point="org.eclipse.ui.navigator.viewer">
-   </extension>
-   <extension
          id="reprotool.ide.natures.ReprotoolProjectNature"
          name="Reprotool Nature"
          point="org.eclipse.core.resources.natures">
@@ -237,84 +198,6 @@
                type="org.eclipse.ui.views.contentoutline.IContentOutlinePage">
          </adapter>
       </factory>
-   </extension>
-   <extension
-         point="org.eclipse.ui.editors.markerAnnotationSpecification">
-      <specification
-            annotationType="reprotool.ide.stepLabel"
-            colorPreferenceKey="tagColor"
-            colorPreferenceValue="255,255,0"
-            highlightPreferenceKey="tagHighlight"
-            highlightPreferenceValue="true"
-            includeOnPreferencePage="true"
-            label="Reprotool use case step reference annotation"
-            overviewRulerPreferenceKey="x"
-            overviewRulerPreferenceValue="false"
-            textPreferenceKey="tagText"
-            textPreferenceValue="false"
-            verticalRulerPreferenceKey="x"
-            verticalRulerPreferenceValue="false">
-      </specification>
-      <specification
-            annotationType="reprotool.ide.actorLabel"
-            colorPreferenceKey="actorTagColor"
-            colorPreferenceValue="200,180,255"
-            highlightPreferenceKey="actorTagHighlight"
-            highlightPreferenceValue="true"
-            includeOnPreferencePage="true"
-            label="Reprotool actor reference annotation"
-            overviewRulerPreferenceKey="x"
-            overviewRulerPreferenceValue="false"
-            textPreferenceKey="actorTagText"
-            textPreferenceValue="false"
-            verticalRulerPreferenceKey="x"
-            verticalRulerPreferenceValue="false">
-      </specification>
-   </extension>
-   <extension
-         point="org.eclipse.ui.editors.annotationTypes">
-      <type
-            name="reprotool.ide.stepLabel">
-      </type>
-      <type
-            name="reprotool.ide.actorLabel">
-      </type>
-   </extension>
-   <extension
-         point="org.eclipse.ui.views.properties.tabbed.propertyContributor">
-      <propertyContributor
-            contributorId="cz.cuni.mff.reprotool.ide.UseCaseEditor">
-         <propertyCategory category="main"/>
-      </propertyContributor>
-   </extension>
-   <extension
-         point="org.eclipse.ui.views.properties.tabbed.propertyTabs">
-      <propertyTabs
-            contributorId="cz.cuni.mff.reprotool.ide.UseCaseEditor">
-         <propertyTab
-               category="main"
-               id="reprotool.ide.properties.uc"
-               label="Item">
-         </propertyTab>
-      </propertyTabs>
-   </extension>
-   <extension
-         point="org.eclipse.ui.views.properties.tabbed.propertySections">
-      <propertySections
-            contributorId="cz.cuni.mff.reprotool.ide.UseCaseEditor">
-         <propertySection
-               class="reprotool.ide.adapter.UseCaseStepPropertySource"
-               id="reprotool.ide.properties.uc.UseCaseSection"
-               tab="reprotool.ide.properties.uc">
-               <input type="reprotool.model.usecase.UseCaseStep"/>
-         </propertySection>
-         <propertySection
-               class="reprotool.ide.adapter.ScenarioPropertySource"
-               id="reprotool.ide.properties.uc.ScenarioSection"
-               tab="reprotool.ide.properties.uc">
-               <input type="reprotool.model.usecase.Scenario"/>
-         </propertySection>
-      </propertySections>
    </extension>
 
 </plugin>
