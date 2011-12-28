@@ -1,8 +1,9 @@
 #!/bin/bash
 
 # created by Viliam Simko 2007-01-12
-# 2011-05-05 : Viliam Simko : added system_check
+# 2011-12-23 : Viliam Simko : fixed error message if *.svg or *.odg files do not exist
 # 2011-12-19 : Viliam Simko : added SVG->PDF using Inkscape
+# 2011-05-05 : Viliam Simko : added system_check
 
 cd `dirname "$0"`
 
@@ -62,7 +63,8 @@ function convert_odg_to_pdf()
 # $1 = SVG NAME, $2 = PDF NAME
 function convert_svg_to_pdf()
 {
-	inkscape --export-pdf="$2" "$1" 2> /dev/null
+	# unfortunately, SVG filters such as Duotone will resterized
+	inkscape --export-dpi=300 --export-pdf="$2" "$1" 2> /dev/null
 	echo "done."
 }
 
@@ -88,7 +90,7 @@ write_separator
 # ---------------------------- 
 system_check
 
-ls -1 *.odg *.svg | while read INPUTNAME
+find . -name '*.odg' -or -name '*.svg' | while read INPUTNAME
 do
 	BASENAME="${INPUTNAME%.*}"
 	SUFFIX="${INPUTNAME##*.}"
