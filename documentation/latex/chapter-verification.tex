@@ -3,7 +3,7 @@ This section describes how we verify the consistency of the system. The system's
 in the project. The use-cases and the relations between them are stored in a memory strucure we refer to as use-case model.
 This model is based on the EMF framework so that it integrates well within the eclipse environment.
 
-\begin{figure}[h]
+\begin{figure}[ht]
   \centering
   \includegraphics[width=260pt]{images/ReprotoolUCModel}
   \caption{Use-case model}
@@ -69,8 +69,12 @@ This model describes the classes that build up the AST (Abstract Syntax Tree) of
 Here we present an excerpt from the NuSMV language grammar. You can find the whole grammar in th
 \emph{reprotool.fm.nusmv.lang} plugin in the \emph{NuSMVLang.xtext} file.
 
-\begin{lstlisting}
- Module:
+\begin{lstlisting}[language=XtextGrammar]
+grammar reprotool.fm.nusmv.lang.NuSmvLang with org.eclipse.xtext.common.Terminals
+generate nuSmvLang "http://d3s.mff.cuni.cz/reprotool/nusmv/lang"
+import "http://www.eclipse.org/emf/2002/Ecore" as ecore
+
+Module:
 	"MODULE" (MainModule | OtherModule)
 	(moduleElement+=ModuleElement)*;
 MainModule:
@@ -100,7 +104,7 @@ The XText generates an EMF model from the specified grammar. You can have a hier
 \emph{NuSMVLang.ecore} file in the \emph{reprotool.fm.nusmv.lang} plugin. To better visualise the model, right-click on the \emph{NuSMVLang.ecore} file in
 the package explorer of the eclipse IDE and click the option ``Initialize Ecore Diagram file...''. This will create the \emph{NuSMVLang.ecorediag} file that you can view with the provided eclipse editor.
 
-\begin{figure}
+\begin{figure}[ht]
   \centering
   \includegraphics[width=260pt]{images/ReprotoolActionsModel}
   \caption{Model of derived action}
@@ -155,13 +159,13 @@ variable s. The biggest part of the module UC\_U1 specification takes up a case 
 of the machine based on the current state. Becuase use-case U1 includes another use-case U2 (which is represented by the module
 UC\_U2), the module UC\_U1 also contains a variable y1 that is an instantiation of the module UC\_U2 included in the module UC\_U1.
 \begin{lstlisting}
- MODULE UC_U1 ( top , run )
+MODULE UC_U1 ( top , run )
 	VAR y1run : boolean ;
 	INIT y1run in FALSE
 	VAR y1 : UC_U2 ( top , y1run ) ;
 	ASSIGN next ( y1run ) := (s=s3__) ;
 	VAR s : { s0 , s_ext_3 , s_ext_2 , s2 , s1 , s3__ , s2a2 , s3_ , s2_ , s2b1 ,
-			s3a1 , s1_ , s2a1 , s3 , sFin } ;
+		s3a1 , s1_ , s2a1 , s3 , sFin } ;
 	INIT s in s0
 	ASSIGN next ( s ) := case
 		s=s0 & !run : s0;
@@ -186,7 +190,7 @@ UC\_U2), the module UC\_U1 also contains a variable y1 that is an instantiation 
 
 Here we present the machine M2 that represents the included use-case U2.
 \begin{lstlisting}
- MODULE UC_U2 ( top , run )
+MODULE UC_U2 ( top , run )
 	VAR s : { s0 , s1 , sFin } ;
 	INIT s in s0
 	ASSIGN next ( s ) := case
@@ -208,16 +212,14 @@ open annotation (annotation id is file1) and step two annotated with the close a
 step annotations in the use-case U1 of our project yield the following annotation variable definitions:
 
 \begin{lstlisting}
- 	VAR open_file1 : boolean ;
-	INIT open_file1 in FALSE
-	ASSIGN next ( open_file1 ) := FALSE
-		| xU1.s in {s1_}
-	;
-	VAR close_file1 : boolean ;
-	INIT close_file1 in FALSE
-	ASSIGN next ( close_file1 ) := FALSE
-		| xU1.s in {s2_}
-	;
+VAR open_file1 : boolean ;
+INIT open_file1 in FALSE
+ASSIGN next ( open_file1 ) := FALSE
+	| xU1.s in {s1_} ;
+VAR close_file1 : boolean ;
+INIT close_file1 in FALSE
+ASSIGN next ( close_file1 ) := FALSE
+	| xU1.s in {s2_} ;
 \end{lstlisting}
 
 Now we will describe the variable named \emph{p} which has the function of a steering wheel of whole simulation performed by the \emph{NuSMV} tool
@@ -226,12 +228,12 @@ map directly to the n use-cases present in our project. The \emph{p} variable is
 steps in our system which are basicly transitions in the state machines of our use-cases, the value of the \emph{p} variable alternates between
 the \emph{none} value and any other value from the set of possible values. Thus, the \emph{p} variable definition looks like this:
 \begin{lstlisting}
- 	VAR p : { none , pU1 , pU2} ;
-	INIT p in none
-	ASSIGN next ( p ) := case
-		p=none : {pU1, pU2};
-		TRUE : none;
-	esac ;
+VAR p : { none , pU1 , pU2} ;
+INIT p in none
+ASSIGN next ( p ) := case
+	p=none : {pU1, pU2};
+	TRUE : none;
+esac ;
 \end{lstlisting}
 
 The \emph{p} variable helps us to decide which state machine could be executed in the next steps. We also generate definition for the
@@ -239,12 +241,12 @@ boolean variable \emph{idle} that tells us if any of the use-case state machines
 by the means of a set of boolean variables from which every variable tells us if the machine to which it maps is currently
 being executed. This is how it looks in the \emph{NuSMV} syntax:
 \begin{lstlisting}
- 	VAR idle : boolean ;
-	INIT idle in TRUE
-	ASSIGN next ( idle ) := case
-		xU1run | xU2run : FALSE;
-		TRUE : TRUE;
-	esac ;
+VAR idle : boolean ;
+INIT idle in TRUE
+ASSIGN next ( idle ) := case
+	xU1run | xU2run : FALSE;
+	TRUE : TRUE;
+esac ;
 \end{lstlisting}
 
 Next we need to define for every use-case \emph{UN} a boolean variable \emph{xUNrun} that triggers the execution of the respective state machine
@@ -253,13 +255,13 @@ initialised with logical zero. It is assigned the logical one only if all other 
 machine N. For every use-case UN we also need to define a variable \emph{xUN} that is the actual instantiation of the state machine N.
 Of course this variable is of type \emph{UC\_UN}. This is how the definitions of the variables \emph{xUN} and \emph{xUNrun} look in practice:
 \begin{lstlisting}
- 	VAR xU1 : UC_U1 ( self , xU1run ) ;
-	VAR xU1run : boolean ;
-	INIT xU1run in FALSE
-	ASSIGN next ( xU1run ) := case
-		p=pU1 & idle & xU1.s = s0 : TRUE;
-		TRUE : xU1run & xU1.s != sFin;
-	esac ;
+VAR xU1 : UC_U1 ( self , xU1run ) ;
+VAR xU1run : boolean ;
+INIT xU1run in FALSE
+ASSIGN next ( xU1run ) := case
+	p=pU1 & idle & xU1.s = s0 : TRUE;
+	TRUE : xU1run & xU1.s != sFin;
+esac ;
 \end{lstlisting}
 
 Now we are going to describe how the \emph{CTL} and \emph{LTL} specifications are generated. When a new empty reprotool project is generated in the
@@ -277,16 +279,16 @@ We can see that these logical formulas specify properties for the open and close
 use annotation \emph{open\_file1} and \emph{close\_file1}. Now we simply expand the predefined \emph{CTL} and \emph{LTL} formulas. This is what we get in our
 example:
 \begin{lstlisting}
- 	CTLSPEC AG(open_file1 -> AF(close_file1))
-	CTLSPEC AG(open_file1 -> AX(A[!open_file1 U close_file1]))
-	CTLSPEC AG(close_file1 -> AX(A[!close_file1 U open_file1 | !AF(close_file1) ]))
-	CTLSPEC A[!close_file1 U open_file1 | !AF(close_file1)]
+CTLSPEC AG(open_file1 -> AF(close_file1))
+CTLSPEC AG(open_file1 -> AX(A[!open_file1 U close_file1]))
+CTLSPEC AG(close_file1 -> AX(A[!close_file1 U open_file1 | !AF(close_file1) ]))
+CTLSPEC A[!close_file1 U open_file1 | !AF(close_file1)]
 \end{lstlisting}
 
 And this is what the \emph{NuSMV} file looks like:
 \begin{lstlisting}
- MODULE main
- 	CTLSPEC AG(open_file1 -> AF(close_file1))
+MODULE main
+	CTLSPEC AG(open_file1 -> AF(close_file1))
 	CTLSPEC AG(open_file1 -> AX(A[!open_file1 U close_file1]))
 	CTLSPEC AG(close_file1 -> AX(A[!close_file1 U open_file1 | !AF(close_file1) ]))
 	CTLSPEC A[!close_file1 U open_file1 | !AF(close_file1)]
@@ -337,7 +339,7 @@ And this is what the \emph{NuSMV} file looks like:
 		| xU1.s in {s2_}
 	;
 
- MODULE UC_U1 ( top , run )
+MODULE UC_U1 ( top , run )
 	VAR y1run : boolean ;
 	INIT y1run in FALSE
 	VAR y1 : UC_U2 ( top , y1run ) ;

@@ -43,7 +43,7 @@
 \definecolor{DarkGray}{rgb}{0.3,0.3,0.3}
 \definecolor{LightGray}{rgb}{0.6,0.6,0.6}
 \definecolor{Green}{rgb}{0,0.6,0}
-\definecolor{Purple}{rgb}{0.8,0,0.8}
+\definecolor{Purple}{rgb}{0.6,0,0.6}
 \definecolor{Blue}{rgb}{0,0,1}
 
 \hypersetup{colorlinks=true, linkcolor=black, urlcolor=black, citecolor=black}
@@ -51,27 +51,45 @@
 \usepackage{pslatex} % times + courier monospace
 \usepackage{indentfirst}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% NuSMV Input Language
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \usepackage{multicol}
-\lstdefinelanguage{PseudoCode}{
- keywords={X, var, while, foreach, in, do, done, if, then, else, endif, true, false, function, endfunc, return, null, X}
- keywordstyle=\color{Green}\textbf,
- ndkeywords={class, export, boolean, throw, implements, import, this},
- ndkeywordstyle=\bfseries,
+\lstdefinelanguage{NuSMVLang}{
+ ndkeywords={MODULE, VAR, INIT, ASSIGN, TRUE, FALSE, CTLSPEC, LTLSPEC, FAIRNESS, AX, A, AG, AF, U, boolean, next, case, esac, in},
+ ndkeywordstyle=\color{Purple}\bfseries,
  identifierstyle=\color{black},
- sensitive=false,
+ sensitive=true,
+ comment=[l]{--},
+ morecomment=[s]{/*}{*/},
+ commentstyle=\color{Green}\textit
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Xtext Grammar
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\lstdefinelanguage{XtextGrammar}{
+ ndkeywords={hidden, grammar, with, import, generate, as, terminal, fragment},
+ ndkeywordstyle=\color{Purple}\bfseries,
+ identifierstyle=\color{black},
+ sensitive=true,
  comment=[l]{//},
  morecomment=[s]{/*}{*/},
  commentstyle=\color{Green}\textit,
- stringstyle=\color{DarkGray}\textit,
+ stringstyle=\color{Blue},
  morestring=[b]',
- morestring=[b]"
+ morestring=[b]" 
 }
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Common design for all source codes
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \lstset{
- language=PseudoCode,
- basicstyle=\sffamily,
+ language=NuSMVLang,
+ basicstyle=\scriptsize\sffamily,
+ tabsize = 4,
  columns=fullflexible,
- numberstyle=\normalsize,
+ numberstyle=\tiny\sffamily,
  %extendedchars=true,
  breaklines=true,
  %frame=bt,
@@ -80,8 +98,8 @@
  %xrightmargin=3pt,
 % framextopmargin=40pt,
 % framexbottommargin=4pt,
- xleftmargin=8pt,
- framexleftmargin=8pt,
+ xleftmargin=16pt,
+ framexleftmargin=16pt,
  morecomment=[l]{//},
 % belowskip=15pt,
 % aboveskip=10pt,
