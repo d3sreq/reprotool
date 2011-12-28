@@ -1,7 +1,11 @@
 \section{Verification of consistency}
-This section describes how we verify the consistency of the system. The system's behaviour is specified by the use-cases contained
-in the project. The use-cases and the relations between them are stored in a memory strucure we refer to as use-case model.
-This model is based on the EMF framework so that it integrates well within the eclipse environment.
+
+A software project specification can be verified for consistency within Reprotool.
+This section provides details about the verification process.
+
+The system's behaviour is specified by the set of use-cases contained within the project.
+Use-cases and their relations are stored in a memory structure we refer to as a use-case model (Figure~\ref{fig:ReprotoolUCModel}).
+The model is based on the EMF framework so that it integrates well within the eclipse environment.
 
 \begin{figure}[ht]
   \centering
@@ -12,24 +16,15 @@ This model is based on the EMF framework so that it integrates well within the e
 
 \subsection{Annotations model}
 
-When we refer to verifying the consistency of the system, we actually verify the consistency of annotations in the project. Every
-reprotool project can contain a set of constraints imposed upon annotations in the project. Annotations are added to the individual
-use-case steps of the use-cases in the project. An intuitive example of annotations are \emph{open}/\emph{close}
-annotations. For such annotations we could describe constraints like \emph{After open there should always be close}, or \emph
-{No multi open without close}.
+When we refer to verifying the consistency of a system, we actually consider the consistency of temporal properties implied by the annotations used within the project.
 
-Every use-case step can contain an annotation that is specified by its \emph{type} and \emph{id}. Every annotation has a description
-that is derived by concatenating the name of the \emph{annotation type} and \emph{annotation id} by an underscore delimiter.
-An example of an annotation type we use in \emph{reprotool} is \emph{open}. A suitable \emph{id} for annotation of this type could be
-\emph{file1}. So the description of this annotation reads \emph{open\_file1}.
+Every reprotool project contains a set of temporal constraints imposed upon annotations in the project.
+Annotations\footnote{An intuitive example of annotations is the annotation pair \emph{open-close}. For such annotations we could describe constraints like \emph{After open there should always be close}, or \emph{No multi open without close}.} can be attached to individual use-case steps (see \emph{StepAnnotation} element depicted in Figure~\ref{fig:ModelOfAnnotations}).
 
-There are two groups of annotation types. They are either temporal or special. We will cover special annotations later. For now, it
-suffices to say they are for special purposes. Every reprotool project specifies what annotation types it might contain. Those
-annotation types are organized in sets called \emph{AnnotationGroup}. Again, annotation group can be either \emph
-{SpecialAnnotationGroup} or \emph{TemporalAnnotationGroup} depending on the type of the group members. Annotation group contains
-logically grouped annotations. A simple annotation group could contain annotation types \emph{open} and \emph{close}.
-An annotation group can contain zero or more \emph{TemporalLogicFormula}s. A formula has a String description and an actual formula
-string in a special format that the NuSMV tool understands. We will describe later the format of these formulas.
+
+An annotation attached to a use-case step consists of two parts\footnote{An example of an annotation type we use in Reprotool is \emph{open}.
+A suitable \emph{id} for annotation of this type could be \emph{file1}, thus the description of this annotation reads \textcolor{Blue}{\emph{open\_file1}}.}
+-- \emph{type} and \emph{id}.
 
 \begin{figure}[ht]
   \centering
@@ -38,12 +33,23 @@ string in a special format that the NuSMV tool understands. We will describe lat
   \label{fig:ModelOfAnnotations}
 \end{figure}
 
+Every reprotool project specifies a "vocabulary" of annotations (i.e. types of annotations) that users can use to annotate use-case steps. When assigning a \emph{StepAnnotation} to a given step, users would combine \emph{StepAnnotationType} with an arbitrary \emph{id}.
+
+Annotations are organized in groups as depicted in Figure~\ref{fig:ModelOfAnnotations}. Currently, Reprotool supports two kinds of annotations:
+\begin{description}
+
+	\item[Temporal annotations] organized in \emph{TemporalAnnotationGroup}s, whose semantics is specified by a set of temporal logic formulae; their format will be described later on.
+	
+	\item[Special annotations] organized in \emph{SpecialAnnotationGroup}s, whose semantics is hard-coded in Reprotool.
+\end{description}
+
+
 \subsection{NuSMV symbolic model checker}
 
-We use NuSMV symbolic model-checker to verify consistency of use-cases with regard to their temporal annotations.
-Although NuSMV supports both BDD-based\footnote{Using binary decision diagrams} and BMC-based\footnote{Bounded model-checking using a SAT solver} model-checking techniques, in our project we use just the BDD-based approach.
+We use NuSMV~\cite{NuSMV-CAV02,NuSMV-frocos02} symbolic model-checker to verify consistency of use-cases with regard to their temporal annotations.
+Although NuSMV support BDD-based\footnote{Using binary decision diagrams} and BMC-based\footnote{Bounded model-checking using a SAT solver} model-checking techniques, in our project we use just the BDD-based approach.
 NuSMV supports analysis of synchronous and asynchronous systems using Computation Tree Logic (CTL) and Linear Temporal Logic (LTL).
-Our framework supports both CTL and LTL, however CTL is preferred because NuSMV would convert LTL formulae into CTL internally.
+Our framework supports both CTL and LTL, however CTL is preferred because NuSMV would converts LTL formulae into CTL internally (as described in \cite{NuSMV-ltl-fmsd97}).
 
 All use-cases from our UC model have to be converted into NuSMV input language.
 We use XText as a tool for handling DSLs (domain specifica languages) which in this case is the NuSMV input language.
