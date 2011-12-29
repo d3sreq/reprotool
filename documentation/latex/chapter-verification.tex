@@ -52,8 +52,14 @@ NuSMV supports analysis of synchronous and asynchronous systems using Computatio
 Our framework supports both CTL and LTL, however CTL is preferred because NuSMV would converts LTL formulae into CTL internally (as described in \cite{NuSMV-ltl-fmsd97}).
 
 All use-cases from our UC model have to be converted into NuSMV input language.
-We use XText as a tool for handling DSLs (domain specifica languages) which in this case is the NuSMV input language.
-NuSMV input language is described using EBNF grammar and XText generates EMF-based model (in-memory representation), language parser and serializer from the grammar.
+We use Xtext\cite{Xtext-website} as a tool for handling DSLs (Domain Specific Languages) which in this case is the NuSMV input language.
+
+NuSMV input language is described using EBNF grammar (inspired by \cite{googlecode-nusmv-tools}) and Xtext generates:
+\begin{itemize}
+  \item an in-memory representation of the parse tree, sometimes being referred to as an Abstract Syntax Tree (AST),
+  \item a text-to-AST parser and
+  \item a AST-to-text serializer
+\end{itemize}
 
 In order to convert our UC model into NuSMV input language, we use the model-to-model (M2M) approach.
 We traverse the UC model and during that traversal we collect the neccesary information to build a new EMF memory structure based on the generaetd NuSMV model.
@@ -106,7 +112,7 @@ ModuleElement hidden(WS, SL_COMMENT):
 ;
 \end{lstlisting}
 
-The XText generates an EMF model from the specified grammar. You can have a hierarchical view of the generated model by displaying the
+The Xtext generates an EMF model from the specified grammar. You can have a hierarchical view of the generated model by displaying the
 \emph{NuSMVLang.ecore} file in the \emph{reprotool.fm.nusmv.lang} plugin. To better visualise the model, right-click on the \emph{NuSMVLang.ecore} file in
 the package explorer of the eclipse IDE and click the option ``Initialize Ecore Diagram file...''. This will create the \emph{NuSMVLang.ecorediag} file that you can view with the provided eclipse editor.
 
@@ -119,11 +125,25 @@ the package explorer of the eclipse IDE and click the option ``Initialize Ecore 
 
 \subsection{Model to model transformation}
 
-Here we present an overview of the transformation of our UC model into the generated NuSMV model. The objective of this process is to
-take a reprotool project as input and transform it into the generated NuSMV model.
+Here we present an overview of the transformation of our UC model into the generated NuSMV model. The objective of this process is to take a reprotool project as input and transform it into the generated NuSMV model.
+
+All transformations are implemented using the Xtend~\cite{Xtend-website} language.
+Xtend is a statically-typed programming language which is compiled to Java and therefore integrates well and runs on JVM. It brings many concepts simplifying model-to-model and model-to-text transformation. We have leveraged on the following Xtend features: 
+\begin{itemize}
+	\item Advanced type inference
+	\item Extension methods - enhance closed types with new functionality.
+	\item Closures - concise syntax for anonymous function literals.
+		These features are used for implementing the builder design pattern.
+	
+		\verb|$(...factory code...)[...initialization code...]|
+	
+	\item Multiple dispatch a.k.a. polymorphic method invocation.
+	\item Operator overloading (e.g. \verb|map += key -> value|)
+	\item Property access syntax - shorthands for getter and setter access.
+\end{itemize}
 
 This transformation is implemented in the \emph{reprotool.fm.nusmv} plugin in the \emph{reprotool.fm.nusmv.mapping} package.
-The transformation itself is quite straight-forward and is defined in an XTend class \emph{NuSMVProj.xtend}.
+The transformation itself is quite straight-forward and is defined in an Xtend class \emph{NuSMVProj.xtend}.
 For every use-case we create a definition of a non-deterministic state machine.
 The state machine's states are directly related to the steps of the related use-case.
 The use-cases in the reprotool project can have precedence relations specified. Theses relations are considered in the
