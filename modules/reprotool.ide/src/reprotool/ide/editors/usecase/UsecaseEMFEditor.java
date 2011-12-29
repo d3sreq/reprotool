@@ -6,7 +6,6 @@
  */
 package reprotool.ide.editors.usecase;
 
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -89,7 +88,6 @@ import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.events.ControlAdapter;
 import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IEditorInput;
@@ -118,7 +116,6 @@ import reprotool.model.usecase.UseCaseStep;
 import reprotool.model.usecase.presentation.ReprotoolEditorPlugin;
 import reprotool.uc.tempeditor.LTSContentOutlinePage;
 
-
 /**
  * This is an example of a Usecase model editor.
  * Modifications of the generated editor are based on article 
@@ -127,12 +124,11 @@ import reprotool.uc.tempeditor.LTSContentOutlinePage;
  * <!-- end-user-doc -->
  * @generated NOT
  */
-public class UsecaseEMFEditor
-	extends MultiPageEditorPart
-	implements IEditingDomainProvider, IMenuListener, IViewerProvider, IGotoMarker {
-	
+public class UsecaseEMFEditor extends MultiPageEditorPart implements IEditingDomainProvider, IMenuListener,
+		IViewerProvider, IGotoMarker {
+
 	private MultiPageSelectionProvider selectionProvider;
-	
+
 	/**
 	 * This keeps track of the editing domain that is used to track all changes to the model.
 	 * <!-- begin-user-doc -->
@@ -255,39 +251,40 @@ public class UsecaseEMFEditor
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected IPartListener partListener =
-		new IPartListener() {
-			public void partActivated(IWorkbenchPart p) {
-				if (p instanceof ContentOutline) {
-					if (((ContentOutline)p).getCurrentPage() == contentOutlinePage) {
-						getActionBarContributor().setActiveEditor(UsecaseEMFEditor.this);
+	protected IPartListener partListener = new IPartListener() {
+		public void partActivated(IWorkbenchPart p) {
+			if (p instanceof ContentOutline) {
+				if (((ContentOutline) p).getCurrentPage() == contentOutlinePage) {
+					getActionBarContributor().setActiveEditor(UsecaseEMFEditor.this);
 
-						setCurrentViewer(contentOutlineViewer);
-					}
+					setCurrentViewer(contentOutlineViewer);
 				}
-				else if (p instanceof PropertySheet) {
-					if (((PropertySheet)p).getCurrentPage() == propertySheetPage) {
-						getActionBarContributor().setActiveEditor(UsecaseEMFEditor.this);
-						handleActivate();
-					}
-				}
-				else if (p == UsecaseEMFEditor.this) {
+			} else if (p instanceof PropertySheet) {
+				if (((PropertySheet) p).getCurrentPage() == propertySheetPage) {
+					getActionBarContributor().setActiveEditor(UsecaseEMFEditor.this);
 					handleActivate();
 				}
+			} else if (p == UsecaseEMFEditor.this) {
+				handleActivate();
 			}
-			public void partBroughtToTop(IWorkbenchPart p) {
-				// Ignore.
-			}
-			public void partClosed(IWorkbenchPart p) {
-				// Ignore.
-			}
-			public void partDeactivated(IWorkbenchPart p) {
-				// Ignore.
-			}
-			public void partOpened(IWorkbenchPart p) {
-				// Ignore.
-			}
-		};
+		}
+
+		public void partBroughtToTop(IWorkbenchPart p) {
+			// Ignore.
+		}
+
+		public void partClosed(IWorkbenchPart p) {
+			// Ignore.
+		}
+
+		public void partDeactivated(IWorkbenchPart p) {
+			// Ignore.
+		}
+
+		public void partOpened(IWorkbenchPart p) {
+			// Ignore.
+		}
+	};
 
 	/**
 	 * Resources that have been removed since last activation.
@@ -335,51 +332,47 @@ public class UsecaseEMFEditor
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected EContentAdapter problemIndicationAdapter = 
-		new EContentAdapter() {
-			@Override
-			public void notifyChanged(Notification notification) {
-				if (notification.getNotifier() instanceof Resource) {
-					switch (notification.getFeatureID(Resource.class)) {
-						case Resource.RESOURCE__IS_LOADED:
-						case Resource.RESOURCE__ERRORS:
-						case Resource.RESOURCE__WARNINGS: {
-							Resource resource = (Resource)notification.getNotifier();
-							Diagnostic diagnostic = analyzeResourceProblems(resource, null);
-							if (diagnostic.getSeverity() != Diagnostic.OK) {
-								resourceToDiagnosticMap.put(resource, diagnostic);
-							}
-							else {
-								resourceToDiagnosticMap.remove(resource);
-							}
-
-							if (updateProblemIndication) {
-								getSite().getShell().getDisplay().asyncExec
-									(new Runnable() {
-										 public void run() {
-											 updateProblemIndication();
-										 }
-									 });
-							}
-							break;
-						}
+	protected EContentAdapter problemIndicationAdapter = new EContentAdapter() {
+		@Override
+		public void notifyChanged(Notification notification) {
+			if (notification.getNotifier() instanceof Resource) {
+				switch (notification.getFeatureID(Resource.class)) {
+				case Resource.RESOURCE__IS_LOADED:
+				case Resource.RESOURCE__ERRORS:
+				case Resource.RESOURCE__WARNINGS: {
+					Resource resource = (Resource) notification.getNotifier();
+					Diagnostic diagnostic = analyzeResourceProblems(resource, null);
+					if (diagnostic.getSeverity() != Diagnostic.OK) {
+						resourceToDiagnosticMap.put(resource, diagnostic);
+					} else {
+						resourceToDiagnosticMap.remove(resource);
 					}
-				}
-				else {
-					super.notifyChanged(notification);
-				}
-			}
 
-			@Override
-			protected void setTarget(Resource target) {
-				basicSetTarget(target);
+					if (updateProblemIndication) {
+						getSite().getShell().getDisplay().asyncExec(new Runnable() {
+							public void run() {
+								updateProblemIndication();
+							}
+						});
+					}
+					break;
+				}
+				}
+			} else {
+				super.notifyChanged(notification);
 			}
+		}
 
-			@Override
-			protected void unsetTarget(Resource target) {
-				basicUnsetTarget(target);
-			}
-		};
+		@Override
+		protected void setTarget(Resource target) {
+			basicSetTarget(target);
+		}
+
+		@Override
+		protected void unsetTarget(Resource target) {
+			basicUnsetTarget(target);
+		}
+	};
 
 	/**
 	 * This listens for workspace changes.
@@ -387,76 +380,72 @@ public class UsecaseEMFEditor
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected IResourceChangeListener resourceChangeListener =
-		new IResourceChangeListener() {
-			public void resourceChanged(IResourceChangeEvent event) {
-				IResourceDelta delta = event.getDelta();
-				try {
-					class ResourceDeltaVisitor implements IResourceDeltaVisitor {
-						protected ResourceSet resourceSet = editingDomain.getResourceSet();
-						protected Collection<Resource> changedResources = new ArrayList<Resource>();
-						protected Collection<Resource> removedResources = new ArrayList<Resource>();
+	protected IResourceChangeListener resourceChangeListener = new IResourceChangeListener() {
+		public void resourceChanged(IResourceChangeEvent event) {
+			IResourceDelta delta = event.getDelta();
+			try {
+				class ResourceDeltaVisitor implements IResourceDeltaVisitor {
+					protected ResourceSet resourceSet = editingDomain.getResourceSet();
+					protected Collection<Resource> changedResources = new ArrayList<Resource>();
+					protected Collection<Resource> removedResources = new ArrayList<Resource>();
 
-						public boolean visit(IResourceDelta delta) {
-							if (delta.getResource().getType() == IResource.FILE) {
-								if (delta.getKind() == IResourceDelta.REMOVED ||
-								    delta.getKind() == IResourceDelta.CHANGED && delta.getFlags() != IResourceDelta.MARKERS) {
-									Resource resource = resourceSet.getResource(URI.createPlatformResourceURI(delta.getFullPath().toString(), true), false);
-									if (resource != null) {
-										if (delta.getKind() == IResourceDelta.REMOVED) {
-											removedResources.add(resource);
-										}
-										else if (!savedResources.remove(resource)) {
-											changedResources.add(resource);
-										}
+					public boolean visit(IResourceDelta delta) {
+						if (delta.getResource().getType() == IResource.FILE) {
+							if (delta.getKind() == IResourceDelta.REMOVED || delta.getKind() == IResourceDelta.CHANGED
+									&& delta.getFlags() != IResourceDelta.MARKERS) {
+								Resource resource = resourceSet.getResource(
+										URI.createPlatformResourceURI(delta.getFullPath().toString(), true), false);
+								if (resource != null) {
+									if (delta.getKind() == IResourceDelta.REMOVED) {
+										removedResources.add(resource);
+									} else if (!savedResources.remove(resource)) {
+										changedResources.add(resource);
 									}
 								}
 							}
-
-							return true;
 						}
 
-						public Collection<Resource> getChangedResources() {
-							return changedResources;
-						}
-
-						public Collection<Resource> getRemovedResources() {
-							return removedResources;
-						}
+						return true;
 					}
 
-					final ResourceDeltaVisitor visitor = new ResourceDeltaVisitor();
-					delta.accept(visitor);
-
-					if (!visitor.getRemovedResources().isEmpty()) {
-						getSite().getShell().getDisplay().asyncExec
-							(new Runnable() {
-								 public void run() {
-									 removedResources.addAll(visitor.getRemovedResources());
-									 if (!isDirty()) {
-										 getSite().getPage().closeEditor(UsecaseEMFEditor.this, false);
-									 }
-								 }
-							 });
+					public Collection<Resource> getChangedResources() {
+						return changedResources;
 					}
 
-					if (!visitor.getChangedResources().isEmpty()) {
-						getSite().getShell().getDisplay().asyncExec
-							(new Runnable() {
-								 public void run() {
-									 changedResources.addAll(visitor.getChangedResources());
-									 if (getSite().getPage().getActiveEditor() == UsecaseEMFEditor.this) {
-										 handleActivate();
-									 }
-								 }
-							 });
+					public Collection<Resource> getRemovedResources() {
+						return removedResources;
 					}
 				}
-				catch (CoreException exception) {
-					ReprotoolEditorPlugin.INSTANCE.log(exception);
+
+				final ResourceDeltaVisitor visitor = new ResourceDeltaVisitor();
+				delta.accept(visitor);
+
+				if (!visitor.getRemovedResources().isEmpty()) {
+					getSite().getShell().getDisplay().asyncExec(new Runnable() {
+						public void run() {
+							removedResources.addAll(visitor.getRemovedResources());
+							if (!isDirty()) {
+								getSite().getPage().closeEditor(UsecaseEMFEditor.this, false);
+							}
+						}
+					});
 				}
+
+				if (!visitor.getChangedResources().isEmpty()) {
+					getSite().getShell().getDisplay().asyncExec(new Runnable() {
+						public void run() {
+							changedResources.addAll(visitor.getChangedResources());
+							if (getSite().getPage().getActiveEditor() == UsecaseEMFEditor.this) {
+								handleActivate();
+							}
+						}
+					});
+				}
+			} catch (CoreException exception) {
+				ReprotoolEditorPlugin.INSTANCE.log(exception);
 			}
-		};
+		}
+	};
 
 	/**
 	 * Handles activation of the editor or it's associated views.
@@ -468,32 +457,30 @@ public class UsecaseEMFEditor
 		// Recompute the read only state.
 		//
 		if (editingDomain.getResourceToReadOnlyMap() != null) {
-		  editingDomain.getResourceToReadOnlyMap().clear();
+			editingDomain.getResourceToReadOnlyMap().clear();
 
-		  // Refresh any actions that may become enabled or disabled.
-		  //
-		  // Change from generated editor
-		  selectionProvider.setSelection(selectionProvider.getSelection());
+			// Refresh any actions that may become enabled or disabled.
+			//
+			// Change from generated editor
+			selectionProvider.setSelection(selectionProvider.getSelection());
 		}
 
 		if (!removedResources.isEmpty()) {
 			if (handleDirtyConflict()) {
 				getSite().getPage().closeEditor(UsecaseEMFEditor.this, false);
-			}
-			else {
+			} else {
 				removedResources.clear();
 				changedResources.clear();
 				savedResources.clear();
 			}
-		}
-		else if (!changedResources.isEmpty()) {
+		} else if (!changedResources.isEmpty()) {
 			changedResources.removeAll(savedResources);
 			handleChangedResources();
 			changedResources.clear();
 			savedResources.clear();
 		}
 	}
-	
+
 	private UsecaseEMFEditorPart usecaseEditorPart;
 
 	/**
@@ -515,8 +502,7 @@ public class UsecaseEMFEditor
 					resource.unload();
 					try {
 						resource.load(Collections.EMPTY_MAP);
-					}
-					catch (IOException exception) {
+					} catch (IOException exception) {
 						if (!resourceToDiagnosticMap.containsKey(resource)) {
 							resourceToDiagnosticMap.put(resource, analyzeResourceProblems(resource, exception));
 						}
@@ -534,7 +520,7 @@ public class UsecaseEMFEditor
 			updateProblemIndication();
 		}
 	}
-  
+
 	/**
 	 * Updates the problems indication with the information described in the specified diagnostic.
 	 * <!-- begin-user-doc -->
@@ -543,13 +529,8 @@ public class UsecaseEMFEditor
 	 */
 	protected void updateProblemIndication() {
 		if (updateProblemIndication) {
-			BasicDiagnostic diagnostic =
-				new BasicDiagnostic
-					(Diagnostic.OK,
-					 "reprotool.model.editor",
-					 0,
-					 null,
-					 new Object [] { editingDomain.getResourceSet() });
+			BasicDiagnostic diagnostic = new BasicDiagnostic(Diagnostic.OK, "reprotool.model.editor", 0, null,
+					new Object[] { editingDomain.getResourceSet() });
 			for (Diagnostic childDiagnostic : resourceToDiagnosticMap.values()) {
 				if (childDiagnostic.getSeverity() != Diagnostic.OK) {
 					diagnostic.add(childDiagnostic);
@@ -558,12 +539,11 @@ public class UsecaseEMFEditor
 
 			int lastEditorPage = getPageCount() - 1;
 			if (lastEditorPage >= 0 && getEditor(lastEditorPage) instanceof ProblemEditorPart) {
-				((ProblemEditorPart)getEditor(lastEditorPage)).setDiagnostic(diagnostic);
+				((ProblemEditorPart) getEditor(lastEditorPage)).setDiagnostic(diagnostic);
 				if (diagnostic.getSeverity() != Diagnostic.OK) {
 					setActivePage(lastEditorPage);
 				}
-			}
-			else if (diagnostic.getSeverity() != Diagnostic.OK) {
+			} else if (diagnostic.getSeverity() != Diagnostic.OK) {
 				ProblemEditorPart problemEditorPart = new ProblemEditorPart();
 				problemEditorPart.setDiagnostic(diagnostic);
 				problemEditorPart.setMarkerHelper(markerHelper);
@@ -572,8 +552,7 @@ public class UsecaseEMFEditor
 					setPageText(lastEditorPage, problemEditorPart.getPartName());
 					setActivePage(lastEditorPage);
 					showTabs();
-				}
-				catch (PartInitException exception) {
+				} catch (PartInitException exception) {
 					ReprotoolEditorPlugin.INSTANCE.log(exception);
 				}
 			}
@@ -583,8 +562,7 @@ public class UsecaseEMFEditor
 				if (diagnostic.getSeverity() != Diagnostic.OK) {
 					try {
 						markerHelper.createMarkers(diagnostic);
-					}
-					catch (CoreException exception) {
+					} catch (CoreException exception) {
 						ReprotoolEditorPlugin.INSTANCE.log(exception);
 					}
 				}
@@ -599,11 +577,8 @@ public class UsecaseEMFEditor
 	 * @generated
 	 */
 	protected boolean handleDirtyConflict() {
-		return
-			MessageDialog.openQuestion
-				(getSite().getShell(),
-				 getString("_UI_FileConflict_label"),
-				 getString("_WARN_FileConflict"));
+		return MessageDialog.openQuestion(getSite().getShell(), getString("_UI_FileConflict_label"),
+				getString("_WARN_FileConflict"));
 	}
 
 	/**
@@ -616,11 +591,11 @@ public class UsecaseEMFEditor
 		super();
 		initializeEditingDomain();
 		selectionProvider = new MultiPageSelectionProvider(this);
-	    selectionProvider.addSelectionChangedListener(new ISelectionChangedListener() {
-	      public void selectionChanged(SelectionChangedEvent event) {
-	        setStatusLineManager(event.getSelection());
-	      }
-	    }); 
+		selectionProvider.addSelectionChangedListener(new ISelectionChangedListener() {
+			public void selectionChanged(SelectionChangedEvent event) {
+				setStatusLineManager(event.getSelection());
+			}
+		});
 	}
 
 	/**
@@ -632,58 +607,74 @@ public class UsecaseEMFEditor
 	protected void initializeEditingDomain() {
 		// Create an adapter factory that yields item providers.
 		//
-//		adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
+		// adapterFactory = new
+		// ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
 		adapterFactory = new UsecaseEMFEditorAdapterFactory();
 
-//		adapterFactory.addAdapterFactory(new ResourceItemProviderAdapterFactory());
-//		adapterFactory.addAdapterFactory(new LtsItemProviderAdapterFactory());
-//		adapterFactory.addAdapterFactory(new UsecaseItemProviderAdapterFactory());
-//		adapterFactory.addAdapterFactory(new SwprojItemProviderAdapterFactory());
-//		adapterFactory.addAdapterFactory(new TraceabilityItemProviderAdapterFactory());
-//		adapterFactory.addAdapterFactory(new ParsetreeItemProviderAdapterFactory());
-//		adapterFactory.addAdapterFactory(new ActionpartItemProviderAdapterFactory());
-//		adapterFactory.addAdapterFactory(new ActionItemProviderAdapterFactory());
-//		adapterFactory.addAdapterFactory(new AstItemProviderAdapterFactory());
-//		adapterFactory.addAdapterFactory(new CompItemProviderAdapterFactory());
-//		adapterFactory.addAdapterFactory(new DocItemProviderAdapterFactory());
-//		adapterFactory.addAdapterFactory(new ProcasesItemProviderAdapterFactory());
-//		adapterFactory.addAdapterFactory(new ReflectiveItemProviderAdapterFactory());
-		
+		// adapterFactory.addAdapterFactory(new
+		// ResourceItemProviderAdapterFactory());
+		// adapterFactory.addAdapterFactory(new
+		// LtsItemProviderAdapterFactory());
+		// adapterFactory.addAdapterFactory(new
+		// UsecaseItemProviderAdapterFactory());
+		// adapterFactory.addAdapterFactory(new
+		// SwprojItemProviderAdapterFactory());
+		// adapterFactory.addAdapterFactory(new
+		// TraceabilityItemProviderAdapterFactory());
+		// adapterFactory.addAdapterFactory(new
+		// ParsetreeItemProviderAdapterFactory());
+		// adapterFactory.addAdapterFactory(new
+		// ActionpartItemProviderAdapterFactory());
+		// adapterFactory.addAdapterFactory(new
+		// ActionItemProviderAdapterFactory());
+		// adapterFactory.addAdapterFactory(new
+		// AstItemProviderAdapterFactory());
+		// adapterFactory.addAdapterFactory(new
+		// CompItemProviderAdapterFactory());
+		// adapterFactory.addAdapterFactory(new
+		// DocItemProviderAdapterFactory());
+		// adapterFactory.addAdapterFactory(new
+		// ProcasesItemProviderAdapterFactory());
+		// adapterFactory.addAdapterFactory(new
+		// ReflectiveItemProviderAdapterFactory());
+
 		// TODO - jvinarek - add more item provider factories ?
 		// TODO - is UsecaseItemProviderAdapterFactoryExt "stateful" ?
-//		SwprojItemProviderAdapterFactoryExt swprojItemProviderAdapterFactoryExt = new SwprojItemProviderAdapterFactoryExt();
-//		adapterFactory.addAdapterFactory(swprojItemProviderAdapterFactoryExt);
-//		adapterFactory.addAdapterFactory(new UsecaseItemProviderAdapterFactoryExt(swprojItemProviderAdapterFactoryExt));
-		
-		
-		// Create the command stack that will notify this editor as commands are executed.
+		// SwprojItemProviderAdapterFactoryExt
+		// swprojItemProviderAdapterFactoryExt = new
+		// SwprojItemProviderAdapterFactoryExt();
+		// adapterFactory.addAdapterFactory(swprojItemProviderAdapterFactoryExt);
+		// adapterFactory.addAdapterFactory(new
+		// UsecaseItemProviderAdapterFactoryExt(swprojItemProviderAdapterFactoryExt));
+
+		// Create the command stack that will notify this editor as commands are
+		// executed.
 		//
 		BasicCommandStack commandStack = new BasicCommandStack();
 
-		// Add a listener to set the most recent command's affected objects to be the selection of the viewer with focus.
+		// Add a listener to set the most recent command's affected objects to
+		// be the selection of the viewer with focus.
 		//
-		commandStack.addCommandStackListener
-			(new CommandStackListener() {
-				 public void commandStackChanged(final EventObject event) {
-					 getContainer().getDisplay().asyncExec
-						 (new Runnable() {
-							  public void run() {
-								  firePropertyChange(IEditorPart.PROP_DIRTY);
-								  ((LTSContentOutlinePage) contentOutlinePage).emfModelChanged();
+		commandStack.addCommandStackListener(new CommandStackListener() {
+			public void commandStackChanged(final EventObject event) {
+				getContainer().getDisplay().asyncExec(new Runnable() {
+					public void run() {
+						firePropertyChange(IEditorPart.PROP_DIRTY);
+						((LTSContentOutlinePage) contentOutlinePage).emfModelChanged();
 
-								  // Try to select the affected objects.
-								  //
-								  Command mostRecentCommand = ((CommandStack)event.getSource()).getMostRecentCommand();
-								  if (mostRecentCommand != null) {
-									  setSelectionToViewer(mostRecentCommand.getAffectedObjects());
-								  }
-								  if (propertySheetPage != null && !propertySheetPage.getControl().isDisposed()) {
-									  propertySheetPage.refresh();
-								  }
-							  }
-						  });
-				 }
-			 });
+						// Try to select the affected objects.
+						//
+						Command mostRecentCommand = ((CommandStack) event.getSource()).getMostRecentCommand();
+						if (mostRecentCommand != null) {
+							setSelectionToViewer(mostRecentCommand.getAffectedObjects());
+						}
+						if (propertySheetPage != null && !propertySheetPage.getControl().isDisposed()) {
+							propertySheetPage.refresh();
+						}
+					}
+				});
+			}
+		});
 
 		// Create the editing domain with a special command stack.
 		//
@@ -696,7 +687,7 @@ public class UsecaseEMFEditor
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-			@Override
+	@Override
 	protected void firePropertyChange(int action) {
 		super.firePropertyChange(action);
 	}
@@ -712,16 +703,16 @@ public class UsecaseEMFEditor
 		// Make sure it's okay.
 		//
 		if (theSelection != null && !theSelection.isEmpty()) {
-			Runnable runnable =
-				new Runnable() {
-					public void run() {
-						// Try to select the items in the current content viewer of the editor.
-						//
-						if (currentViewer != null) {
-							currentViewer.setSelection(new StructuredSelection(theSelection.toArray()), true);
-						}
+			Runnable runnable = new Runnable() {
+				public void run() {
+					// Try to select the items in the current content viewer of
+					// the editor.
+					//
+					if (currentViewer != null) {
+						currentViewer.setSelection(new StructuredSelection(theSelection.toArray()), true);
 					}
-				};
+				}
+			};
 			getSite().getShell().getDisplay().asyncExec(runnable);
 		}
 	}
@@ -759,7 +750,7 @@ public class UsecaseEMFEditor
 		 * @generated
 		 */
 		@Override
-		public Object [] getElements(Object object) {
+		public Object[] getElements(Object object) {
 			Object parent = super.getParent(object);
 			return (parent == null ? Collections.EMPTY_SET : Collections.singleton(parent)).toArray();
 		}
@@ -770,7 +761,7 @@ public class UsecaseEMFEditor
 		 * @generated
 		 */
 		@Override
-		public Object [] getChildren(Object object) {
+		public Object[] getChildren(Object object) {
 			Object parent = super.getParent(object);
 			return (parent == null ? Collections.EMPTY_SET : Collections.singleton(parent)).toArray();
 		}
@@ -827,7 +818,7 @@ public class UsecaseEMFEditor
 		contextMenu.add(new Separator("additions"));
 		contextMenu.setRemoveAllWhenShown(true);
 		contextMenu.addMenuListener(this);
-		Menu menu= contextMenu.createContextMenu(viewer.getControl());
+		Menu menu = contextMenu.createContextMenu(viewer.getControl());
 		viewer.getControl().setMenu(menu);
 		getSite().registerContextMenu(contextMenu, new UnwrappingSelectionProvider(viewer));
 
@@ -851,15 +842,14 @@ public class UsecaseEMFEditor
 			// Load the resource through the editing domain.
 			//
 			resource = editingDomain.getResourceSet().getResource(resourceURI, true);
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			exception = e;
 			resource = editingDomain.getResourceSet().getResource(resourceURI, false);
 		}
 
 		Diagnostic diagnostic = analyzeResourceProblems(resource, exception);
 		if (diagnostic.getSeverity() != Diagnostic.OK) {
-			resourceToDiagnosticMap.put(resource,  analyzeResourceProblems(resource, exception));
+			resourceToDiagnosticMap.put(resource, analyzeResourceProblems(resource, exception));
 		}
 		editingDomain.getResourceSet().eAdapters().add(problemIndicationAdapter);
 	}
@@ -873,30 +863,19 @@ public class UsecaseEMFEditor
 	 */
 	public Diagnostic analyzeResourceProblems(Resource resource, Exception exception) {
 		if (!resource.getErrors().isEmpty() || !resource.getWarnings().isEmpty()) {
-			BasicDiagnostic basicDiagnostic =
-				new BasicDiagnostic
-					(Diagnostic.ERROR,
-					 "reprotool.model.editor",
-					 0,
-					 getString("_UI_CreateModelError_message", resource.getURI()),
-					 new Object [] { exception == null ? (Object)resource : exception });
+			BasicDiagnostic basicDiagnostic = new BasicDiagnostic(Diagnostic.ERROR, "reprotool.model.editor", 0,
+					getString("_UI_CreateModelError_message", resource.getURI()),
+					new Object[] { exception == null ? (Object) resource : exception });
 			basicDiagnostic.merge(EcoreUtil.computeDiagnostic(resource, true));
 			return basicDiagnostic;
-		}
-		else if (exception != null) {
-			return
-				new BasicDiagnostic
-					(Diagnostic.ERROR,
-					 "reprotool.model.editor",
-					 0,
-					 getString("_UI_CreateModelError_message", resource.getURI()),
-					 new Object[] { exception });
-		}
-		else {
+		} else if (exception != null) {
+			return new BasicDiagnostic(Diagnostic.ERROR, "reprotool.model.editor", 0, getString(
+					"_UI_CreateModelError_message", resource.getURI()), new Object[] { exception });
+		} else {
 			return Diagnostic.OK_INSTANCE;
 		}
 	}
-	
+
 	/**
 	 * This is the method used by the framework to install your own controls.
 	 * <!-- begin-user-doc -->
@@ -916,46 +895,44 @@ public class UsecaseEMFEditor
 			// This is the page for the table tree viewer.
 			//
 			// This is custom non-generated page.
-			{				 
+			{
 				usecaseEditorPart = new UsecaseEMFEditorPart(this);
 				try {
 					int pageIndex = addPage(usecaseEditorPart, getEditorInput());
 				} catch (PartInitException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-				}				
+				}
 			}
 
-			getSite().getShell().getDisplay().asyncExec
-				(new Runnable() {
-					 public void run() {
-						 setActivePage(0);
-					 }
-				 });
+			getSite().getShell().getDisplay().asyncExec(new Runnable() {
+				public void run() {
+					setActivePage(0);
+				}
+			});
 		}
 
 		// Ensures that this editor will only display the page's tab
 		// area if there are more than one page
 		//
-		getContainer().addControlListener
-			(new ControlAdapter() {
-				boolean guard = false;
-				@Override
-				public void controlResized(ControlEvent event) {
-					if (!guard) {
-						guard = true;
-						hideTabs();
-						guard = false;
-					}
-				}
-			 });
+		getContainer().addControlListener(new ControlAdapter() {
+			boolean guard = false;
 
-		getSite().getShell().getDisplay().asyncExec
-			(new Runnable() {
-				 public void run() {
-					 updateProblemIndication();
-				 }
-			 });
+			@Override
+			public void controlResized(ControlEvent event) {
+				if (!guard) {
+					guard = true;
+					hideTabs();
+					guard = false;
+				}
+			}
+		});
+
+		getSite().getShell().getDisplay().asyncExec(new Runnable() {
+			public void run() {
+				updateProblemIndication();
+			}
+		});
 	}
 
 	/**
@@ -969,7 +946,7 @@ public class UsecaseEMFEditor
 		if (getPageCount() <= 1) {
 			setPageText(0, "");
 			if (getContainer() instanceof CTabFolder) {
-				((CTabFolder)getContainer()).setTabHeight(1);
+				((CTabFolder) getContainer()).setTabHeight(1);
 				Point point = getContainer().getSize();
 				getContainer().setSize(point.x, point.y + 6);
 			}
@@ -987,7 +964,7 @@ public class UsecaseEMFEditor
 		if (getPageCount() > 1) {
 			setPageText(0, getString("_UI_SelectionPage_label"));
 			if (getContainer() instanceof CTabFolder) {
-				((CTabFolder)getContainer()).setTabHeight(SWT.DEFAULT);
+				((CTabFolder) getContainer()).setTabHeight(SWT.DEFAULT);
 				Point point = getContainer().getSize();
 				getContainer().setSize(point.x, point.y - 6);
 			}
@@ -1020,17 +997,13 @@ public class UsecaseEMFEditor
 	public Object getAdapter(Class key) {
 		if (key.equals(IContentOutlinePage.class)) {
 			return showOutlineView() ? getContentOutlinePage() : null;
-		}
-		else if (key.equals(IPropertySheetPage.class)) {
+		} else if (key.equals(IPropertySheetPage.class)) {
 			return getPropertySheetPage();
-		}
-		else if (key.equals(ISentenceAnalysisSheetPage.class)) {
+		} else if (key.equals(ISentenceAnalysisSheetPage.class)) {
 			return getSentenceAnalysisSheetPage();
-		}
-		else if (key.equals(IGotoMarker.class)) {
+		} else if (key.equals(IGotoMarker.class)) {
 			return this;
-		}
-		else {
+		} else {
 			return super.getAdapter(key);
 		}
 	}
@@ -1042,63 +1015,70 @@ public class UsecaseEMFEditor
 	 * @generated NOT
 	 */
 	public IContentOutlinePage getContentOutlinePage() {
-//		if (contentOutlinePage == null) {
-//			// The content outline is just a tree.
-//			//
-//			class MyContentOutlinePage extends ContentOutlinePage {
-//				@Override
-//				public void createControl(Composite parent) {
-//					super.createControl(parent);
-//					contentOutlineViewer = getTreeViewer();
-//					contentOutlineViewer.addSelectionChangedListener(this);
-//
-//					// Set up the tree viewer.
-//					//
-//					contentOutlineViewer.setContentProvider(new AdapterFactoryContentProvider(adapterFactory));
-//					contentOutlineViewer.setLabelProvider(new AdapterFactoryLabelProvider(adapterFactory));
-//					contentOutlineViewer.setInput(editingDomain.getResourceSet());
-//
-//					// Make sure our popups work.
-//					//
-//					createContextMenuFor(contentOutlineViewer);
-//
-//					if (!editingDomain.getResourceSet().getResources().isEmpty()) {
-//					  // Select the root object in the view.
-//					  //
-//					  contentOutlineViewer.setSelection(new StructuredSelection(editingDomain.getResourceSet().getResources().get(0)), true);
-//					}
-//				}
-//
-//				@Override
-//				public void makeContributions(IMenuManager menuManager, IToolBarManager toolBarManager, IStatusLineManager statusLineManager) {
-//					super.makeContributions(menuManager, toolBarManager, statusLineManager);
-//					contentOutlineStatusLineManager = statusLineManager;
-//				}
-//
-//				@Override
-//				public void setActionBars(IActionBars actionBars) {
-//					super.setActionBars(actionBars);
-//					getActionBarContributor().shareGlobalActions(this, actionBars);
-//				}
-//			}
-//
-//			contentOutlinePage = new MyContentOutlinePage();
+		// if (contentOutlinePage == null) {
+		// // The content outline is just a tree.
+		// //
+		// class MyContentOutlinePage extends ContentOutlinePage {
+		// @Override
+		// public void createControl(Composite parent) {
+		// super.createControl(parent);
+		// contentOutlineViewer = getTreeViewer();
+		// contentOutlineViewer.addSelectionChangedListener(this);
+		//
+		// // Set up the tree viewer.
+		// //
+		// contentOutlineViewer.setContentProvider(new
+		// AdapterFactoryContentProvider(adapterFactory));
+		// contentOutlineViewer.setLabelProvider(new
+		// AdapterFactoryLabelProvider(adapterFactory));
+		// contentOutlineViewer.setInput(editingDomain.getResourceSet());
+		//
+		// // Make sure our popups work.
+		// //
+		// createContextMenuFor(contentOutlineViewer);
+		//
+		// if (!editingDomain.getResourceSet().getResources().isEmpty()) {
+		// // Select the root object in the view.
+		// //
+		// contentOutlineViewer.setSelection(new
+		// StructuredSelection(editingDomain.getResourceSet().getResources().get(0)),
+		// true);
+		// }
+		// }
+		//
+		// @Override
+		// public void makeContributions(IMenuManager menuManager,
+		// IToolBarManager toolBarManager, IStatusLineManager statusLineManager)
+		// {
+		// super.makeContributions(menuManager, toolBarManager,
+		// statusLineManager);
+		// contentOutlineStatusLineManager = statusLineManager;
+		// }
+		//
+		// @Override
+		// public void setActionBars(IActionBars actionBars) {
+		// super.setActionBars(actionBars);
+		// getActionBarContributor().shareGlobalActions(this, actionBars);
+		// }
+		// }
+		//
+		// contentOutlinePage = new MyContentOutlinePage();
 
-			// TODO jvinarek - remove ?
-			// Listen to selection so that we can handle it is a special way.
-			//
-//			contentOutlinePage.addSelectionChangedListener
-//				(new ISelectionChangedListener() {
-//					 // This ensures that we handle selections correctly.
-//					 //
-//					 public void selectionChanged(SelectionChangedEvent event) {
-//						 handleContentOutlineSelection(event.getSelection());
-//					 }
-//				 });
-//		}
-//
-//		return contentOutlinePage;
-		
+		// TODO jvinarek - remove ?
+		// Listen to selection so that we can handle it is a special way.
+		//
+		// contentOutlinePage.addSelectionChangedListener
+		// (new ISelectionChangedListener() {
+		// // This ensures that we handle selections correctly.
+		// //
+		// public void selectionChanged(SelectionChangedEvent event) {
+		// handleContentOutlineSelection(event.getSelection());
+		// }
+		// });
+		// }
+		//
+		// return contentOutlinePage;
+
 		if (contentOutlinePage == null) {
 			// create outline page
 			IEditorInput input = getEditorInput();
@@ -1107,19 +1087,19 @@ public class UsecaseEMFEditor
 
 			EObject object = getEditingDomain().getResourceSet().getEObject(uriEditorInput.getURI(), true);
 			Assert.isTrue(object instanceof UseCase);
-			UseCase useCase = (UseCase)object;
+			UseCase useCase = (UseCase) object;
 			final LTSContentOutlinePage outlinePage = new LTSContentOutlinePage(useCase);
-			
+
 			// add selection listener (changes arrows color in outline)
 			selectionProvider.addSelectionChangedListener(new ISelectionChangedListener() {
-				
+
 				public void selectionChanged(SelectionChangedEvent event) {
 					if (event.getSelection() instanceof IStructuredSelection) {
 						IStructuredSelection sel = (IStructuredSelection) event.getSelection();
-						Collection<?> col = ((IStructuredSelection)sel).toList();
+						Collection<?> col = ((IStructuredSelection) sel).toList();
 						List<UseCaseStep> selection = new ArrayList<UseCaseStep>();
 						Iterator<?> it = col.iterator();
-						while(it.hasNext()) {
+						while (it.hasNext()) {
 							Object obj = it.next();
 							if (obj instanceof UseCaseStep) {
 								UseCaseStep s = (UseCaseStep) obj;
@@ -1131,12 +1111,12 @@ public class UsecaseEMFEditor
 						}
 					}
 				}
-				
+
 			});
-			
+
 			contentOutlinePage = outlinePage;
 		}
-		
+
 		return contentOutlinePage;
 	}
 
@@ -1148,32 +1128,30 @@ public class UsecaseEMFEditor
 	 */
 	public IPropertySheetPage getPropertySheetPage() {
 		if (propertySheetPage == null) {
-			propertySheetPage =
-				new ExtendedPropertySheetPage(editingDomain) {
-					@Override
-					public void setSelectionToViewer(List<?> selection) {
-						UsecaseEMFEditor.this.setSelectionToViewer(selection);
-						UsecaseEMFEditor.this.setFocus();
-					}
+			propertySheetPage = new ExtendedPropertySheetPage(editingDomain) {
+				@Override
+				public void setSelectionToViewer(List<?> selection) {
+					UsecaseEMFEditor.this.setSelectionToViewer(selection);
+					UsecaseEMFEditor.this.setFocus();
+				}
 
-					@Override
-					public void setActionBars(IActionBars actionBars) {
-						super.setActionBars(actionBars);
-						getActionBarContributor().shareGlobalActions(this, actionBars);
-					}
-				};
+				@Override
+				public void setActionBars(IActionBars actionBars) {
+					super.setActionBars(actionBars);
+					getActionBarContributor().shareGlobalActions(this, actionBars);
+				}
+			};
 			propertySheetPage.setPropertySourceProvider(new AdapterFactoryContentProvider(adapterFactory));
 		}
 
 		return propertySheetPage;
 	}
-	
-	
+
 	/**
 	 * @generated NOT
 	 */
 	private ISentenceAnalysisSheetPage sentenceAnalysisSheetPage;
-	
+
 	/**
 	 * @generated NOT
 	 */
@@ -1189,10 +1167,13 @@ public class UsecaseEMFEditor
 	 */
 	public void handleContentOutlineSelection(ISelection selection) {
 		// TODO jvinarek - remove ?
-//		if (!selection.isEmpty() && selection instanceof IStructuredSelection) {
-//			List<?> selectedElements = ((IStructuredSelection) selection).toList();
-//			((UsecaseEMFEditorPart) getActiveEditor()).setInput(selectedElements.get(0));
-//		}
+		// if (!selection.isEmpty() && selection instanceof
+		// IStructuredSelection) {
+		// List<?> selectedElements = ((IStructuredSelection)
+		// selection).toList();
+		// ((UsecaseEMFEditorPart)
+		// getActiveEditor()).setInput(selectedElements.get(0));
+		// }
 	}
 
 	/**
@@ -1208,34 +1189,34 @@ public class UsecaseEMFEditor
 		final Map<Object, Object> saveOptions = new HashMap<Object, Object>();
 		saveOptions.put(Resource.OPTION_SAVE_ONLY_IF_CHANGED, Resource.OPTION_SAVE_ONLY_IF_CHANGED_MEMORY_BUFFER);
 
-		// Do the work within an operation because this is a long running activity that modifies the workbench.
+		// Do the work within an operation because this is a long running
+		// activity that modifies the workbench.
 		//
-		WorkspaceModifyOperation operation =
-			new WorkspaceModifyOperation() {
-				// This is the method that gets invoked when the operation runs.
+		WorkspaceModifyOperation operation = new WorkspaceModifyOperation() {
+			// This is the method that gets invoked when the operation runs.
+			//
+			@Override
+			public void execute(IProgressMonitor monitor) {
+				// Save the resources to the file system.
 				//
-				@Override
-				public void execute(IProgressMonitor monitor) {
-					// Save the resources to the file system.
-					//
-					boolean first = true;
-					for (Resource resource : editingDomain.getResourceSet().getResources()) {
-						if ((first || !resource.getContents().isEmpty() || isPersisted(resource)) && !editingDomain.isReadOnly(resource)) {
-							try {
-								long timeStamp = resource.getTimeStamp();
-								resource.save(saveOptions);
-								if (resource.getTimeStamp() != timeStamp) {
-									savedResources.add(resource);
-								}
+				boolean first = true;
+				for (Resource resource : editingDomain.getResourceSet().getResources()) {
+					if ((first || !resource.getContents().isEmpty() || isPersisted(resource))
+							&& !editingDomain.isReadOnly(resource)) {
+						try {
+							long timeStamp = resource.getTimeStamp();
+							resource.save(saveOptions);
+							if (resource.getTimeStamp() != timeStamp) {
+								savedResources.add(resource);
 							}
-							catch (Exception exception) {
-								resourceToDiagnosticMap.put(resource, analyzeResourceProblems(resource, exception));
-							}
-							first = false;
+						} catch (Exception exception) {
+							resourceToDiagnosticMap.put(resource, analyzeResourceProblems(resource, exception));
 						}
+						first = false;
 					}
 				}
-			};
+			}
+		};
 
 		updateProblemIndication = false;
 		try {
@@ -1245,10 +1226,9 @@ public class UsecaseEMFEditor
 
 			// Refresh the necessary state.
 			//
-			((BasicCommandStack)editingDomain.getCommandStack()).saveIsDone();
+			((BasicCommandStack) editingDomain.getCommandStack()).saveIsDone();
 			firePropertyChange(IEditorPart.PROP_DIRTY);
-		}
-		catch (Exception exception) {
+		} catch (Exception exception) {
 			// Something went wrong that shouldn't.
 			//
 			ReprotoolEditorPlugin.INSTANCE.log(exception);
@@ -1272,8 +1252,7 @@ public class UsecaseEMFEditor
 				result = true;
 				stream.close();
 			}
-		}
-		catch (IOException e) {
+		} catch (IOException e) {
 			// Ignore
 		}
 		return result;
@@ -1318,10 +1297,8 @@ public class UsecaseEMFEditor
 		(editingDomain.getResourceSet().getResources().get(0)).setURI(uri);
 		setInputWithNotify(editorInput);
 		setPartName(editorInput.getName());
-		IProgressMonitor progressMonitor =
-			getActionBars().getStatusLineManager() != null ?
-				getActionBars().getStatusLineManager().getProgressMonitor() :
-				new NullProgressMonitor();
+		IProgressMonitor progressMonitor = getActionBars().getStatusLineManager() != null ? getActionBars()
+				.getStatusLineManager().getProgressMonitor() : new NullProgressMonitor();
 		doSave(progressMonitor);
 	}
 
@@ -1338,12 +1315,11 @@ public class UsecaseEMFEditor
 					URI uri = URI.createURI(uriAttribute);
 					EObject eObject = editingDomain.getResourceSet().getEObject(uri, true);
 					if (eObject != null) {
-					  setSelectionToViewer(Collections.singleton(editingDomain.getWrapper(eObject)));
+						setSelectionToViewer(Collections.singleton(editingDomain.getWrapper(eObject)));
 					}
 				}
 			}
-		}
-		catch (CoreException exception) {
+		} catch (CoreException exception) {
 			ReprotoolEditorPlugin.INSTANCE.log(exception);
 		}
 	}
@@ -1359,7 +1335,7 @@ public class UsecaseEMFEditor
 		setSite(site);
 		setInputWithNotify(editorInput);
 		setPartName(editorInput.getName());
-		// Change from generated editor 
+		// Change from generated editor
 		site.setSelectionProvider(selectionProvider);
 		site.getPage().addPartListener(partListener);
 	}
@@ -1370,29 +1346,29 @@ public class UsecaseEMFEditor
 	 * @generated
 	 */
 	public void setStatusLineManager(ISelection selection) {
-		IStatusLineManager statusLineManager = currentViewer != null && currentViewer == contentOutlineViewer ?
-			contentOutlineStatusLineManager : getActionBars().getStatusLineManager();
+		IStatusLineManager statusLineManager = currentViewer != null && currentViewer == contentOutlineViewer ? contentOutlineStatusLineManager
+				: getActionBars().getStatusLineManager();
 
 		if (statusLineManager != null) {
 			if (selection instanceof IStructuredSelection) {
-				Collection<?> collection = ((IStructuredSelection)selection).toList();
+				Collection<?> collection = ((IStructuredSelection) selection).toList();
 				switch (collection.size()) {
-					case 0: {
-						statusLineManager.setMessage(getString("_UI_NoObjectSelected"));
-						break;
-					}
-					case 1: {
-						String text = new AdapterFactoryItemDelegator(adapterFactory).getText(collection.iterator().next());
-						statusLineManager.setMessage(getString("_UI_SingleObjectSelected", text));
-						break;
-					}
-					default: {
-						statusLineManager.setMessage(getString("_UI_MultiObjectSelected", Integer.toString(collection.size())));
-						break;
-					}
+				case 0: {
+					statusLineManager.setMessage(getString("_UI_NoObjectSelected"));
+					break;
 				}
-			}
-			else {
+				case 1: {
+					String text = new AdapterFactoryItemDelegator(adapterFactory).getText(collection.iterator().next());
+					statusLineManager.setMessage(getString("_UI_SingleObjectSelected", text));
+					break;
+				}
+				default: {
+					statusLineManager.setMessage(getString("_UI_MultiObjectSelected",
+							Integer.toString(collection.size())));
+					break;
+				}
+				}
+			} else {
 				statusLineManager.setMessage("");
 			}
 		}
@@ -1415,7 +1391,7 @@ public class UsecaseEMFEditor
 	 * @generated
 	 */
 	private static String getString(String key, Object s1) {
-		return ReprotoolEditorPlugin.INSTANCE.getString(key, new Object [] { s1 });
+		return ReprotoolEditorPlugin.INSTANCE.getString(key, new Object[] { s1 });
 	}
 
 	/**
@@ -1425,7 +1401,7 @@ public class UsecaseEMFEditor
 	 * @generated
 	 */
 	public void menuAboutToShow(IMenuManager menuManager) {
-		((IMenuListener)getEditorSite().getActionBarContributor()).menuAboutToShow(menuManager);
+		((IMenuListener) getEditorSite().getActionBarContributor()).menuAboutToShow(menuManager);
 	}
 
 	/**
@@ -1434,7 +1410,7 @@ public class UsecaseEMFEditor
 	 * @generated
 	 */
 	public EditingDomainActionBarContributor getActionBarContributor() {
-		return (EditingDomainActionBarContributor)getEditorSite().getActionBarContributor();
+		return (EditingDomainActionBarContributor) getEditorSite().getActionBarContributor();
 	}
 
 	/**
@@ -1494,12 +1470,4 @@ public class UsecaseEMFEditor
 	protected boolean showOutlineView() {
 		return true;
 	}
-
-	
-	// overridden to make method public instead of protected
-	@Override
-	public Composite getContainer() {
-		return super.getContainer();
-	} 
-	
 }

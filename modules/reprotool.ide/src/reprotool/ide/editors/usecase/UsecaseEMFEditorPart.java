@@ -24,6 +24,7 @@ import org.eclipse.emf.edit.ui.dnd.EditingDomainViewerDropAdapter;
 import org.eclipse.emf.edit.ui.dnd.LocalTransfer;
 import org.eclipse.emf.edit.ui.dnd.ViewerDragAdapter;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
+import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.emf.edit.ui.provider.UnwrappingSelectionProvider;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
@@ -46,6 +47,8 @@ import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.EditorPart;
 
+import reprotool.ide.utils.SelectionProviderIntermediate;
+import reprotool.ide.utils.Utils;
 import reprotool.model.swproj.SwprojPackage;
 import reprotool.model.usecase.UseCase;
 import reprotool.model.usecase.UsecasePackage;
@@ -150,7 +153,19 @@ public class UsecaseEMFEditorPart extends EditorPart implements IMenuListener, I
 		composite.getTextColumn().setEditingSupport(new UseCaseStepEditingSupport(composite.getTreeViewer()));
 
 		createContextMenuFor(viewer);
-		getEditorSite().setSelectionProvider(viewer);
+		
+		TableViewer tableViewer = composite.getPrecedingUseCasesComposite().getTableViewer();
+		createContextMenuFor(tableViewer);
+		
+		SelectionProviderIntermediate selectionProviderIntermediate = new SelectionProviderIntermediate();
+		Utils.addSelectionFocusListener(selectionProviderIntermediate, viewer.getTree(), viewer);
+		Utils.addSelectionFocusListener(selectionProviderIntermediate, tableViewer.getTable(), tableViewer);
+		
+		selectionProviderIntermediate.setSelectionProviderDelegate(viewer);
+		
+		getEditorSite().setSelectionProvider(selectionProviderIntermediate);
+		
+//		getEditorSite().setSelectionProvider(viewer);
 
 		// try to get use case from the input and set it into viewer
 		UseCase useCase = getInputUseCase();
@@ -248,10 +263,15 @@ public class UsecaseEMFEditorPart extends EditorPart implements IMenuListener, I
 	private void bindPrecedingUseCasesList(DataBindingContext bindingContext, UseCase useCase) {
 		TableViewer tableViewer = composite.getPrecedingUseCasesComposite().getTableViewer();
 		
-		IObservableList emfList = EMFEditProperties.list(getEditingDomain(), UsecasePackage.Literals.USE_CASE__PRECEDING_USE_CASES).observe(useCase);
-		IValueProperty labelProperty = EMFEditProperties.value(getEditingDomain(), SwprojPackage.Literals.DESCRIBED_ELEMENT__NAME);
-
-		ViewerSupport.bind(tableViewer, emfList, labelProperty);
+//		IObservableList emfList = EMFEditProperties.list(getEditingDomain(), UsecasePackage.Literals.USE_CASE__PRECEDING_USE_CASES).observe(useCase);
+//		IValueProperty labelProperty = EMFEditProperties.value(getEditingDomain(), SwprojPackage.Literals.DESCRIBED_ELEMENT__NAME);
+//
+//		ViewerSupport.bind(tableViewer, emfList, labelProperty);
+		
+		// TODO jvinarek - test
+		tableViewer.setContentProvider(new AdapterFactoryContentProvider(getAdapterFactory()));
+		tableViewer.setLabelProvider(new AdapterFactoryLabelProvider(getAdapterFactory()));
+		tableViewer.setInput(useCase.getMainScenario());
 	}
 
 	private UseCase getInputUseCase() {

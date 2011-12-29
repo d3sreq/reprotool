@@ -15,6 +15,8 @@ import org.eclipse.emf.edit.domain.IEditingDomainProvider;
 import org.eclipse.emf.edit.ui.dnd.EditingDomainViewerDropAdapter;
 import org.eclipse.emf.edit.ui.dnd.LocalTransfer;
 import org.eclipse.emf.edit.ui.dnd.ViewerDragAdapter;
+import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
+import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.emf.edit.ui.provider.UnwrappingSelectionProvider;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuListener;
@@ -38,6 +40,8 @@ import org.eclipse.ui.part.EditorPart;
 
 import reprotool.ide.editors.project.action.AddActorAction;
 import reprotool.ide.editors.project.action.AddConceptualObjectAction;
+import reprotool.ide.utils.SelectionProviderIntermediate;
+import reprotool.ide.utils.Utils;
 import reprotool.model.swproj.SoftwareProject;
 import reprotool.model.swproj.SwprojPackage;
 import reprotool.model.usecase.presentation.ReprotoolEditorPlugin;
@@ -122,7 +126,9 @@ public class ProjectEditorPart extends EditorPart implements IMenuListener, IEdi
 	@Override
 	public void createPartControl(final Composite parent) {
 		composite = new ProjectEditorComposite(parent, SWT.NONE);
-
+		
+		addSelectionListeners();
+		
 		// get project and use it in bindings
 		SoftwareProject softwareProject = getSoftwareProject();
 		m_bindingContext = initDataBindings(softwareProject);
@@ -133,6 +139,22 @@ public class ProjectEditorPart extends EditorPart implements IMenuListener, IEdi
 		
 		// add context menus + drag & drop
 		addConctextMenus();
+	}
+	
+	private void addSelectionListeners() {
+		SelectionProviderIntermediate selectionProviderIntermediate = new SelectionProviderIntermediate();
+		
+		TableViewer actorsViewer = composite.getActorsComposite().getTableViewer();
+		TableViewer conceptualObjectsViewer = composite.getConceptualObjectsComposite().getTableViewer();
+		TableViewer useCasesViewer = composite.getUseCasesComposite().getTableViewer();
+		
+		Utils.addSelectionFocusListener(selectionProviderIntermediate, actorsViewer.getTable(), actorsViewer);
+		Utils.addSelectionFocusListener(selectionProviderIntermediate, conceptualObjectsViewer.getTable(), conceptualObjectsViewer);
+		Utils.addSelectionFocusListener(selectionProviderIntermediate, useCasesViewer.getTable(), useCasesViewer);
+		
+		// set default
+		selectionProviderIntermediate.setSelectionProviderDelegate(useCasesViewer);
+		getEditorSite().setSelectionProvider(selectionProviderIntermediate);
 	}
 
 	private void addConctextMenus() {
