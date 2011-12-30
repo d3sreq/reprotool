@@ -339,26 +339,6 @@ public class SoftwareProjectItemProviderExt extends SoftwareProjectItemProvider 
 		}
 
 		@Override
-		protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
-			super.collectNewChildDescriptors(newChildDescriptors, object);
-			
-			// add use case with scenario and first step
-			Utils.removeCommandParameter(newChildDescriptors, SwprojPackage.Literals.SOFTWARE_PROJECT__USE_CASES);
-			newChildDescriptors.add(createChildParameter(SwprojPackage.Literals.SOFTWARE_PROJECT__USE_CASES,
-					createDefaultUseCase()));
-		}
-		
-		private UseCase createDefaultUseCase() {
-			UseCase useCase = UsecaseFactory.eINSTANCE.createUseCase();
-			Scenario scenario = UsecaseFactory.eINSTANCE.createScenario();
-			UseCaseStep useCaseStep = UsecaseFactory.eINSTANCE.createUseCaseStep();
-			
-			useCase.setMainScenario(scenario);
-			scenario.getSteps().add(useCaseStep);
-			return useCase;
-		}
-
-		@Override
 		protected Command createDragAndDropCommand(EditingDomain domain, Object owner, float location, int operations,
 				int operation, Collection<?> collection) {
 			if (new AddCommand(domain, (EObject) owner, SwprojPackage.Literals.SOFTWARE_PROJECT__USE_CASES, collection)

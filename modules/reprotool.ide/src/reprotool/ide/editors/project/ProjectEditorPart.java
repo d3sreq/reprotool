@@ -8,15 +8,16 @@ import org.eclipse.core.databinding.property.value.IValueProperty;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.command.BasicCommandStack;
 import org.eclipse.emf.common.notify.AdapterFactory;
+import org.eclipse.emf.common.ui.URIEditorInput;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
 import org.eclipse.emf.edit.ui.dnd.EditingDomainViewerDropAdapter;
 import org.eclipse.emf.edit.ui.dnd.LocalTransfer;
 import org.eclipse.emf.edit.ui.dnd.ViewerDragAdapter;
-import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
-import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.emf.edit.ui.provider.UnwrappingSelectionProvider;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuListener;
@@ -26,6 +27,10 @@ import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.action.ToolBarManager;
 import org.eclipse.jface.databinding.swt.WidgetProperties;
 import org.eclipse.jface.databinding.viewers.ViewerSupport;
+import org.eclipse.jface.viewers.DoubleClickEvent;
+import org.eclipse.jface.viewers.IDoubleClickListener;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
@@ -33,17 +38,23 @@ import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
+import org.eclipse.ui.IEditorDescriptor;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
+import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.EditorPart;
 
 import reprotool.ide.editors.project.action.AddActorAction;
 import reprotool.ide.editors.project.action.AddConceptualObjectAction;
+import reprotool.ide.editors.project.action.AddUseCaseAction;
+import reprotool.ide.editors.project.action.EditDescribedElementAction;
 import reprotool.ide.utils.SelectionProviderIntermediate;
 import reprotool.ide.utils.Utils;
 import reprotool.model.swproj.SoftwareProject;
 import reprotool.model.swproj.SwprojPackage;
+import reprotool.model.usecase.UseCase;
 import reprotool.model.usecase.presentation.ReprotoolEditorPlugin;
 
 public class ProjectEditorPart extends EditorPart implements IMenuListener, IEditingDomainProvider {
@@ -64,7 +75,7 @@ public class ProjectEditorPart extends EditorPart implements IMenuListener, IEdi
 		return ReprotoolEditorPlugin.INSTANCE.getString(key);
 	}
 
-	public EditingDomain getEditingDomain() {
+	public EditingDomain getEditingDomain() {		
 		return parentEditor.getEditingDomain();
 	}
 
@@ -136,11 +147,17 @@ public class ProjectEditorPart extends EditorPart implements IMenuListener, IEdi
 		// add actions to the section toolbars
 		addActorsActions(softwareProject);
 		addConceptualObjectsActions(softwareProject);
+		addUseCasesActions(softwareProject);
 		
 		// add context menus + drag & drop
-		addConctextMenus();
+		addContextMenus();
 	}
 	
+	@Override
+	public void setFocus() {
+		// TODO Auto-generated method stub
+	}
+
 	private void addSelectionListeners() {
 		SelectionProviderIntermediate selectionProviderIntermediate = new SelectionProviderIntermediate();
 		
@@ -157,28 +174,86 @@ public class ProjectEditorPart extends EditorPart implements IMenuListener, IEdi
 		getEditorSite().setSelectionProvider(selectionProviderIntermediate);
 	}
 
-	private void addConctextMenus() {
+	private void addContextMenus() {
 		createContextMenuFor(composite.getActorsComposite().getTableViewer());
 		createContextMenuFor(composite.getConceptualObjectsComposite().getTableViewer());
 		createContextMenuFor(composite.getUseCasesComposite().getTableViewer());
 	}
 
-	@Override
-	public void setFocus() {
-		// TODO Auto-generated method stub
-	}
-
 	private void addActorsActions(SoftwareProject softwareProject) {
-		Action action = new AddActorAction(getEditingDomain(), softwareProject);
-		ToolBarManager toolBarManager = composite.getActorsComposite().getToolBarManager(); 
-		toolBarManager.add(action);
+		ToolBarManager toolBarManager = composite.getActorsComposite().getToolBarManager();
+		
+		Action createAction = new AddActorAction(getEditingDomain(), softwareProject);
+		toolBarManager.add(createAction);
+		
+		final EditDescribedElementAction editAction = new EditDescribedElementAction(getEditingDomain(), "Edit actor");
+		getEditorSite().getSelectionProvider().addSelectionChangedListener(editAction);
+		composite.getActorsComposite().getTableViewer().addDoubleClickListener(new IDoubleClickListener() {
+			
+			@Override
+			public void doubleClick(DoubleClickEvent event) {
+				if (!event.getSelection().isEmpty()) {
+					editAction.run();
+				}				
+			}
+		});
+		
 		toolBarManager.update(true);
 	}
 	
 	private void addConceptualObjectsActions(SoftwareProject softwareProject) {
-		Action action = new AddConceptualObjectAction(getEditingDomain(), softwareProject);
-		ToolBarManager toolBarManager = composite.getConceptualObjectsComposite().getToolBarManager(); 
-		toolBarManager.add(action);
+		ToolBarManager toolBarManager = composite.getConceptualObjectsComposite().getToolBarManager();
+		
+		Action createAction = new AddConceptualObjectAction(getEditingDomain(), softwareProject);
+		toolBarManager.add(createAction);
+		
+		final EditDescribedElementAction editAction = new EditDescribedElementAction(getEditingDomain(), "Edit conceptual object");
+		getEditorSite().getSelectionProvider().addSelectionChangedListener(editAction);
+		composite.getConceptualObjectsComposite().getTableViewer().addDoubleClickListener(new IDoubleClickListener() {
+			
+			@Override
+			public void doubleClick(DoubleClickEvent event) {
+				if (!event.getSelection().isEmpty()) {
+					editAction.run();
+				}
+			}
+		});
+		
+		toolBarManager.update(true);
+	}
+	
+	private void addUseCasesActions(SoftwareProject softwareProject) {
+		ToolBarManager toolBarManager = composite.getUseCasesComposite().getToolBarManager();
+		
+		Action createAction = new AddUseCaseAction(getEditingDomain(), softwareProject, this, parentEditor);
+		toolBarManager.add(createAction);
+		
+		composite.getUseCasesComposite().getTableViewer().addDoubleClickListener(new IDoubleClickListener() {
+			
+			@Override
+			public void doubleClick(DoubleClickEvent event) {
+				ISelection selection = event.getSelection();
+				if (!selection.isEmpty()) {
+					IStructuredSelection structuredSelection = (IStructuredSelection)selection;
+					UseCase useCase = (UseCase)structuredSelection.getFirstElement();
+					
+					URI uri = EcoreUtil.getURI(useCase);
+					URIEditorInput input = new URIEditorInput(uri);
+
+					IWorkbenchPage page = getSite().getPage();
+					IEditorDescriptor desc = PlatformUI.getWorkbench().getEditorRegistry()
+							.findEditor("org.eclipselabs.reprotool.ide.UseCaseEmfEditor");
+					
+					try {
+						page.openEditor(input, desc.getId());
+					} catch (PartInitException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}
+		});
+		
 		toolBarManager.update(true);
 	}
 

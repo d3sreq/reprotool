@@ -43,7 +43,6 @@ public class Utils {
 			@Override
 			public void focusGained(FocusEvent e) {
 				selectionProviderIntermediate.setSelectionProviderDelegate(provider);
-				System.out.println(provider);
 			}
 		});
 	}

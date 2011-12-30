@@ -24,7 +24,6 @@ import org.eclipse.emf.edit.ui.dnd.EditingDomainViewerDropAdapter;
 import org.eclipse.emf.edit.ui.dnd.LocalTransfer;
 import org.eclipse.emf.edit.ui.dnd.ViewerDragAdapter;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
-import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.emf.edit.ui.provider.UnwrappingSelectionProvider;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
@@ -263,15 +262,10 @@ public class UsecaseEMFEditorPart extends EditorPart implements IMenuListener, I
 	private void bindPrecedingUseCasesList(DataBindingContext bindingContext, UseCase useCase) {
 		TableViewer tableViewer = composite.getPrecedingUseCasesComposite().getTableViewer();
 		
-//		IObservableList emfList = EMFEditProperties.list(getEditingDomain(), UsecasePackage.Literals.USE_CASE__PRECEDING_USE_CASES).observe(useCase);
-//		IValueProperty labelProperty = EMFEditProperties.value(getEditingDomain(), SwprojPackage.Literals.DESCRIBED_ELEMENT__NAME);
-//
-//		ViewerSupport.bind(tableViewer, emfList, labelProperty);
-		
-		// TODO jvinarek - test
-		tableViewer.setContentProvider(new AdapterFactoryContentProvider(getAdapterFactory()));
-		tableViewer.setLabelProvider(new AdapterFactoryLabelProvider(getAdapterFactory()));
-		tableViewer.setInput(useCase.getMainScenario());
+		IObservableList emfList = EMFEditProperties.list(getEditingDomain(), UsecasePackage.Literals.USE_CASE__PRECEDING_USE_CASES).observe(useCase);
+		IValueProperty labelProperty = EMFEditProperties.value(getEditingDomain(), SwprojPackage.Literals.DESCRIBED_ELEMENT__NAME);
+
+		ViewerSupport.bind(tableViewer, emfList, labelProperty);
 	}
 
 	private UseCase getInputUseCase() {
