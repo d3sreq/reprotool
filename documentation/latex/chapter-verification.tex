@@ -5,11 +5,11 @@ This section provides details about the verification process.
 
 The system's behaviour is specified by the set of use-cases contained within the project.
 Use-cases and their relations are stored in a memory structure we refer to as a use-case model (Figure~\ref{fig:ReprotoolUCModel}).
-The model is based on the EMF framework so that it integrates well within the eclipse environment.
+The model is based on the EMF framework so that it integrates well within the Eclipse environment.
 
 \begin{figure}[ht]
   \centering
-  \includegraphics[width=260pt]{images/ReprotoolUCModel}
+  \includegraphics[width=280pt]{images/ReprotoolUCModel}
   \caption{Use-case model}
   \label{fig:ReprotoolUCModel}
 \end{figure}
@@ -28,7 +28,7 @@ A suitable \emph{id} for annotation of this type could be \emph{file1}, thus the
 
 \begin{figure}[ht]
   \centering
-  \includegraphics[width=280pt]{images/ReprotoolUCAnnotModel}
+  \includegraphics[width=\textwidth]{images/ReprotoolUCAnnotModel}
   \caption{Model of annotations}
   \label{fig:ModelOfAnnotations}
 \end{figure}
@@ -45,13 +45,16 @@ Annotations are organized in groups as depicted in Figure~\ref{fig:ModelOfAnnota
 
 \subsection{Special annotations}
 
-When a \emph{reprotool} user creates a new project from the \emph{eclipse IDE} new project wizard, a special \emph{trace-on} annotation group
-is added to the project. This annotation group contains two special annotations - \emph{trace} and \emph{on}. These are the only special
-annotations supported by the \emph{reprotool} system. These two special annotations enable the \emph{reprotool} users to select mutually exclusive paths in their use-case scenarios. This might be used to prune the
-computation tree the \emph{NuSMV} tool considers when checking the \emph{CTL}/\emph{LTL} specifications.
+When a \emph{reprotool} user creates a new project from the \emph{Eclipse IDE} new project wizard, a special \emph{trace-on} annotation group is added to the project.
+This annotation group contains two special annotations -- \emph{trace} and \emph{on}.
+Currently, these are the only special annotations supported by \emph{Reprotool}.
+These two special annotations enable the users to select mutually exclusive paths in their use-case scenarios.
+This might be used to prune the computation tree the \emph{NuSMV} tool considers when checking the \emph{CTL}/\emph{LTL} specifications.
 
-Let's assume we have a use-case \emph{U} that has the main scenario 7 steps long. Step 1 and the step 4 have both an extension scenario 3
-steps long. The individual use-case steps are annotated as depicted in the following picture:
+Let's assume we have a use-case \emph{U} that has the main scenario 7 steps long.
+Step 1 and the step 4 have both an extension scenario 3
+steps long.
+The individual use-case steps are annotated as depicted in the following picture:
 
 
 \begin{figure}[ht]
@@ -61,19 +64,29 @@ steps long. The individual use-case steps are annotated as depicted in the follo
   \label{fig:traceTest_no_trace}
 \end{figure}
 
-The use-case \emph{U} contains \emph{create} and \emph{use} annotations. An example of a constraint that is by default imposed on such
-annotations in new \emph{reprotool} projects is \emph{Only one create}. That means you can not create a given object more than once. But if
-you look at the use-case \emph{U} carefully, you may notice that it is quite easy to find an execution path that creates \emph{FILE\_A}
-two times. You simply take both extension scenarios in your execution path.
 
-To solve the problem in the previous example, user needs to specify that if the first extension scenario has been taken, then the
-second extension scenario of use-case step 4 can not be taken. On the other hand, if the first extension scenario has not been taken,
-then the second extension scenario must be taken. And this is exactly what the \emph{trace} and \emph{on} annotations are
-for.
+The use-case \emph{U} contains two annotation types -- \emph{create} and \emph{use}.
+One of the constraints imposed on such annotations is a CTL formula:
+\begin{verbatim}
+CTLSPEC AG( create -> AX(AG(!create)) ) -- Only one 'create'
+\end{verbatim}
 
-This is how these annotations work: Whenever a use-case step has \emph{on} annotation specified with id \emph{A}, the paths
-involving this step will be considered only if the \emph{trace} annotation with the same id \emph{A} has previously been encountered. Let's
-clarify it with the help of an example. In the following figure you can see the same use-case \emph{U} but with properly added
+That means you cannot create a given object more than once.
+However, looking at the use-case \emph{U} carefully, it is obvious that there is an execution path containing  the annotation \textcolor{red}{\emph{CREATE\_FILE\_A}} twice.
+
+To solve the problem in the previous example, user needs to specify that if the first extension scenario has been taken, then the second extension scenario of use-case step 4 can not be taken. On the other hand, if the first extension scenario has not been taken,
+then the second extension scenario must be taken.
+And this is exactly what the \emph{trace} and \emph{on} annotations are for.
+
+\begin{definition}[Semantics of the trace-on annotation pair]
+	Let $S$ be a a use-case step.
+	Let $on\_x$ be an annotation attached to $S$ (\emph{x} is and arbitrary annotation id).
+	Let $T=\{t: S \in t\}$ be a set of all traces going through the step $S$.
+	A trace $t \in T$ will be considered for verification only if it contains a step $R'$ annotated with $trace\_x$ before the step $S$.
+\end{definition}
+
+Let's clarify it with the help of an example.
+In the Figure~\ref{fig:traceTest} you can see the same use-case \emph{U} but with properly added
 \emph{trace} and \emph{on} annotations that prevent any conflicts.
 
 \begin{figure}[ht]
@@ -181,7 +194,7 @@ ModuleElement hidden(WS, SL_COMMENT):
 
 The Xtext generates an EMF model from the specified grammar. You can have a hierarchical view of the generated model by displaying the
 \emph{NuSMVLang.ecore} file in the \emph{reprotool.fm.nusmv.lang} plugin. To better visualise the model, right-click on the \emph{NuSMVLang.ecore} file in
-the package explorer of the eclipse IDE and click the option ``Initialize Ecore Diagram file...''. This will create the \emph{NuSMVLang.ecorediag} file that you can view with the provided eclipse editor.
+the package explorer of the Eclipse IDE and click the option ``Initialize Ecore Diagram file...''. This will create the \emph{NuSMVLang.ecorediag} file that you can view with the provided Eclipse editor.
 
 \begin{figure}[ht]
   \centering
@@ -360,7 +373,7 @@ esac ;
 \end{lstlisting}
 
 Now we are going to describe how the \emph{CTL} and \emph{LTL} specifications are generated. When a new empty reprotool project is generated in the
-\emph{eclipse IDE}, it already contains a set of predefined \emph{CTL} formulas along with a quick description of each formula. Here is a subset of
+\emph{Eclipse IDE}, it already contains a set of predefined \emph{CTL} formulas along with a quick description of each formula. Here is a subset of
 these predefined formulas that is relevant to the \emph{open}/\emph{close} annotations:
 
 \begin{description}
