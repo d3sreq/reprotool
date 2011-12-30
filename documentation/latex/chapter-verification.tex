@@ -43,6 +43,73 @@ Annotations are organized in groups as depicted in Figure~\ref{fig:ModelOfAnnota
 	\item[Special annotations] organized in \emph{SpecialAnnotationGroup}s, whose semantics is hard-coded in Reprotool.
 \end{description}
 
+\subsection{Special annotations}
+
+When a \emph{reprotool} user creates a new project from the \emph{eclipse IDE} new project wizard, a special \emph{trace-on} annotation group
+is added to the project. This annotation group contains two special annotations - \emph{trace} and \emph{on}. These are the only special
+annotations supported by the \emph{reprotool} system. These two special annotations enable the \emph{reprotool} users to select mutually exclusive paths in their use-case scenarios. This might be used to prune the
+computation tree the \emph{NuSMV} tool considers when checking the \emph{CTL}/\emph{LTL} specifications.
+
+Let's assume we have a use-case \emph{U} that has the main scenario 7 steps long. Step 1 and the step 4 have both an extension scenario 3
+steps long. The individual use-case steps are annotated as depicted in the following picture:
+
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=180pt]{images/traceTest_no_trace}
+  \caption{Schema of the use-case \emph{U}}
+  \label{fig:traceTest_no_trace}
+\end{figure}
+
+The use-case \emph{U} contains \emph{create} and \emph{use} annotations. An example of a constraint that is by default imposed on such
+annotations in new \emph{reprotool} projects is \emph{Only one create}. That means you can not create a given object more than once. But if
+you look at the use-case \emph{U} carefully, you may notice that it is quite easy to find an execution path that creates \emph{FILE\_A}
+two times. You simply take both extension scenarios in your execution path.
+
+To solve the problem in the previous example, user needs to specify that if the first extension scenario has been taken, then the
+second extension scenario of use-case step 4 can not be taken. On the other hand, if the first extension scenario has not been taken,
+then the second extension scenario must be taken. And this is exactly what the \emph{trace} and \emph{on} annotations are
+for.
+
+This is how these annotations work: Whenever a use-case step has \emph{on} annotation specified with id \emph{A}, the paths
+involving this step will be considered only if the \emph{trace} annotation with the same id \emph{A} has previously been encountered. Let's
+clarify it with the help of an example. In the following figure you can see the same use-case \emph{U} but with properly added
+\emph{trace} and \emph{on} annotations that prevent any conflicts.
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=180pt]{images/traceTest}
+  \caption{Schema of the use-case \emph{U} with trace/on annotations added}
+  \label{fig:traceTest}
+\end{figure}
+
+The annotated use-case \emph{U} has now only two execution paths possible. And none of them violates any of the default constraints
+imposed on the \emph{create} and \emph{use} annotations. Here you can see the path where the \emph{trace}/\emph{on} branch has been
+taken:
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=180pt]{images/traceTest_path_taken}
+  \caption{\emph{Trace}/\emph{on} branch taken}
+  \label{fig:traceTestTaken}
+\end{figure}
+
+When the \emph{NuSMV} tool simlates the execution of the state machine corresponding to the annotated use-case \emph{U} and just finished
+execution of the 4 step of the use-case main scenario, there would normally by 2 possibilities how to proceed. But because in our
+example execution path the \emph{trace\_a} annotaion has been encountered, there is only one possibility - and that is to take the
+\emph{on} branch.
+
+\newpage
+
+The situation where the second path has been taken is depicted in the next picture. No other execution paths are considered by the
+\emph{NuSMV} tool.
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=180pt]{images/traceTest_path_not_taken}
+  \caption{\emph{Trace}/\emph{on} branch NOT taken}
+  \label{fig:traceTestNotTaken}
+\end{figure}
 
 \subsection{NuSMV symbolic model checker}
 
@@ -171,9 +238,11 @@ use-case U2 since it is included in the step 4 of the main scenario of the use-c
 filled with black colour and the final state is filled with green colour. Steps 1 and 2 are marked with a violet square because these
 steps are annotated.
 
+\newpage
+
 \begin{figure}[h]
   \centering
-  \includegraphics{images/uc1}
+  \includegraphics[width=200pt]{images/u1}
   \caption{Visual representation of the use-case U1}
   \label{fig:use-case U1}
 \end{figure}
