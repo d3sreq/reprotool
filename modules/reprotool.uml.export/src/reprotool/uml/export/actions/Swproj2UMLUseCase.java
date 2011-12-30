@@ -14,7 +14,12 @@ import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.resource.UMLResource;
 
+import com.google.inject.AbstractModule;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+
 import reprotool.model.swproj.SoftwareProject;
+import reprotool.model.utils.xtend.ReprotoolMappingExtensions;
 import reprotool.uml.export.mapping.UMLUseCaseModelGenerator;
 
 public class Swproj2UMLUseCase implements IWorkbenchWindowActionDelegate {
@@ -43,7 +48,15 @@ public class Swproj2UMLUseCase implements IWorkbenchWindowActionDelegate {
 		}
 		SoftwareProject swproj = (SoftwareProject) rootEObj;
 		
-		UMLUseCaseModelGenerator umlGen = new UMLUseCaseModelGenerator();
+		// configuring injector
+		Injector injector = Guice.createInjector( new AbstractModule() {
+			@Override
+			protected void configure() {
+				bind(ReprotoolMappingExtensions.class).toInstance(new ReprotoolMappingExtensions());
+			}
+		});
+		UMLUseCaseModelGenerator umlGen = injector.getInstance(UMLUseCaseModelGenerator.class);
+		
 		Model model = umlGen.generateUMLUCModel(swproj);
 		
 		final URI umlUri = URI.createPlatformResourceURI(

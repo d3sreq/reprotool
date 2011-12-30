@@ -26,6 +26,7 @@ import reprotool.fm.nusmv.lang.nuSmvLang.NuSmvLangFactory;
 import reprotool.fm.nusmv.mapping.NuSMVProj;
 import reprotool.model.swproj.CounterExample;
 import reprotool.model.swproj.SoftwareProject;
+import reprotool.model.utils.xtend.ReprotoolMappingExtensions;
 
 public class RunNuSMV implements IWorkbenchWindowActionDelegate {
 	final private MessageConsoleStream consoleOut = Activator.getDefault().findConsole().newMessageStream();	
@@ -63,6 +64,7 @@ public class RunNuSMV implements IWorkbenchWindowActionDelegate {
 				bind(NuSmvLangFactory.class).toInstance(NuSmvLangFactory.eINSTANCE);
 				bind(SoftwareProject.class).toInstance(swproj);
 				bind(MessageConsoleStream.class).toInstance(consoleOut);
+				bind(ReprotoolMappingExtensions.class).toInstance(new ReprotoolMappingExtensions());
 			}
 		});
 		

@@ -14,6 +14,7 @@ import reprotool.model.swproj.SoftwareProject
 import reprotool.model.usecase.Scenario
 import reprotool.model.usecase.UseCase
 import reprotool.model.usecase.UseCaseStep
+import reprotool.model.linguistic.action.InternalAction
 
 
 public class UMLGen {
@@ -36,6 +37,15 @@ public class UMLGen {
 	def private processUseCaseStep(UseCaseStep step) {
 		if (step.getAction() instanceof ToSystem) {
 			val ToSystem action = step.getAction() as ToSystem;
+			if (action.getSentenceActivity() != null) {
+				val TextRange text = action.getSentenceActivity().getText();
+				if (text != null) {
+					umlSystem.createOwnedOperation(text.getContent(), null, null);
+				}
+			}
+		}
+		if (step.getAction() instanceof InternalAction) {
+			val InternalAction action = step.getAction() as InternalAction;
 			if (action.getSentenceActivity() != null) {
 				val TextRange text = action.getSentenceActivity().getText();
 				if (text != null) {
