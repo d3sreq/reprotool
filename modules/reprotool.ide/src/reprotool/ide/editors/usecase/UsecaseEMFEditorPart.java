@@ -24,15 +24,18 @@ import org.eclipse.emf.edit.ui.dnd.EditingDomainViewerDropAdapter;
 import org.eclipse.emf.edit.ui.dnd.LocalTransfer;
 import org.eclipse.emf.edit.ui.dnd.ViewerDragAdapter;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
+import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.emf.edit.ui.provider.UnwrappingSelectionProvider;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
+import org.eclipse.jface.action.ToolBarManager;
 import org.eclipse.jface.databinding.swt.WidgetProperties;
 import org.eclipse.jface.databinding.viewers.ViewerSupport;
 import org.eclipse.jface.databinding.viewers.ViewersObservables;
 import org.eclipse.jface.viewers.ComboViewer;
+import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TreeViewer;
@@ -140,6 +143,9 @@ public class UsecaseEMFEditorPart extends EditorPart implements IMenuListener, I
 	@Override
 	public void createPartControl(final Composite parent) {
 		composite = new UsecaseEMFEditorComposite(parent, SWT.NONE);
+		
+//		PrecedingUseCasesAction
+		
 		TreeViewer viewer = composite.getTreeViewer();
 
 		viewer.setColumnProperties(new String[] { "a", "b" });
@@ -291,6 +297,12 @@ public class UsecaseEMFEditorPart extends EditorPart implements IMenuListener, I
 		Assert.isTrue(input instanceof UseCase, "Input must have type 'UseCase' but was:" + input);
 		UseCase useCase = (UseCase) input;
 		composite.getTreeViewer().setInput(useCase.getMainScenario());
+
+		ILabelProvider labelProviderFactory = new AdapterFactoryLabelProvider(getAdapterFactory());
+		PrecedingUseCasesAction precedingUseCasesAction = new PrecedingUseCasesAction(getEditingDomain(), useCase, labelProviderFactory);
+		ToolBarManager toolBarManager = composite.getPrecedingUseCasesComposite().getToolBarManager(); 
+		toolBarManager.add(precedingUseCasesAction);
+		toolBarManager.update(true);
 	}
 
 }
