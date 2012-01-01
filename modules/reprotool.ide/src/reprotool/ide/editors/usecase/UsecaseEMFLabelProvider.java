@@ -3,6 +3,9 @@ package reprotool.ide.editors.usecase;
 import org.eclipse.jface.viewers.StyledCellLabelProvider;
 import org.eclipse.jface.viewers.StyledString;
 import org.eclipse.jface.viewers.ViewerCell;
+import org.eclipse.swt.custom.StyleRange;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.widgets.Display;
 
 import reprotool.model.usecase.Scenario;
 import reprotool.model.usecase.UseCase;
@@ -137,7 +140,17 @@ public class UsecaseEMFLabelProvider {
 		
 		@Override
 		protected void updateStepAnnotation(ViewerCell cell, StepAnnotation stepAnnotation) {
-			cell.setText(stepAnnotation.getDescription());
+			String desc = stepAnnotation.getDescription();
+			cell.setText(desc);
+			
+			Color annotationColor = new Color(Display.getCurrent(), 170, 0, 0);
+			
+			StyleRange styleRange = new StyleRange();
+			styleRange.start = 0;
+			styleRange.length = desc.length();
+			
+			styleRange.foreground = annotationColor;
+			cell.setStyleRanges(new StyleRange[] { styleRange });
 		}
 	}
 }

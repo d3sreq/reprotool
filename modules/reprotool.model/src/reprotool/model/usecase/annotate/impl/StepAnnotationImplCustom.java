@@ -8,6 +8,7 @@ public class StepAnnotationImplCustom extends StepAnnotationImpl {
 
 	@Override
 	public String getDescription() {
-		return "#" + getAnnotationType().getName() + "_" + getId();
+		String typeName = getAnnotationType() == null ? "" : getAnnotationType().getName();
+		return "#" + typeName + "_" + getId();
 	}
 }
