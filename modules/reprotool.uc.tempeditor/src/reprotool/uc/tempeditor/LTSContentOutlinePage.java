@@ -292,6 +292,9 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 				int c = 0;
 				for (StepAnnotation a : annots) {
 					c++;
+					if (a.getAnnotationType() == null) {
+						continue;
+					}
 					stringBuffer.append(a.getAnnotationType().getName() + "_" + a.getId());
 					if (c < annots.size()) {
 						stringBuffer.append(", ");
