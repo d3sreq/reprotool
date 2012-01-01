@@ -88,6 +88,16 @@ public class UsecaseEMFLabelProvider {
 			StyledString styledString = new StyledString();
 			styledString.append(scenario.getLabel(), StyledString.COUNTER_STYLER);
 	
+			// distinguish extension and variation scenarios
+			if (scenario.eContainer() instanceof UseCaseStep) {
+				UseCaseStep parent = (UseCaseStep)scenario.eContainer();
+				if (parent.getExtensions().contains(scenario)) {
+					styledString.append(" (ext.)", StyledString.COUNTER_STYLER);
+				} else {
+					styledString.append(" (var.)", StyledString.COUNTER_STYLER);
+				}
+			}
+			
 			cell.setText(styledString.getString());
 			cell.setStyleRanges(styledString.getStyleRanges());
 		}
