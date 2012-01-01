@@ -71,7 +71,7 @@ public class AntoCorpus {
 				if (event.isStartElement()) {
 					StartElement startElement = event.asStartElement();
 					// if we have a item element we create a new item
-					if (startElement.getName().getLocalPart() == ("word")) {
+					if ("word".equals(startElement.getName().getLocalPart())) {
 						word = new AntoWord();
 						// attribute to our object
 						Iterator<Attribute> attributes = startElement.getAttributes();
@@ -109,7 +109,7 @@ public class AntoCorpus {
 				// when we reach the end of an item element we add it to the list
 				if (event.isEndElement()) {
 					EndElement endElement = event.asEndElement();
-					if (endElement.getName().getLocalPart() == ("word")) {
+					if ("word".equals(endElement.getName().getLocalPart())) {
 						addAntoWord(word);
 					}
 				}
