@@ -26,4 +26,14 @@ The UML class diagram model is generated in the \emph{UMLGen.xtend} class in the
 model. We utilised \emph{XTend} for this process to take advantage of some of its functional programming language features.
 
 \subsection{UML use-case diagram}
-Some very clever text to do.
+The \emph{UML use-case diagram} contains actor entities for every project actor and use-case entities for every project use-case.
+For every project use-case \emph{U} that has its \emph{primary actor} set, the diagram also contains a link between the use-case \emph{U}
+and its primary actor. The diagram also depicts the \emph{include} relation between project use-cases. An \emph{include} relation between
+two use-cases \emph{U1} and \emph{U2} will appear in the diagram, if there exists at least one execution path in use-case \emph{U1}
+that contains a use-case step that includes use-case \emph{U2}.
+
+The UML use-case diagram model is generated in the \emph{UMLUseCaseModelGenerator.xtend} class in the \emph{reprotool.uml.export.mapping} package of the
+\emph{reprotool.uml.export} plugin. The whole process is a simple two-phase model transformation process. In the first phase, the
+information about project actors and their associated use-cases is collected. In the second phase, the use-case include relations are
+searched.
+

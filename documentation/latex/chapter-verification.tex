@@ -129,7 +129,7 @@ The situation where the second path has been taken is depicted in the next pictu
 We use NuSMV~\cite{NuSMV-CAV02,NuSMV-frocos02} symbolic model-checker to verify consistency of use-cases with regard to their temporal annotations.
 Although NuSMV support BDD-based\footnote{Using binary decision diagrams} and BMC-based\footnote{Bounded model-checking using a SAT solver} model-checking techniques, in our project we use just the BDD-based approach.
 NuSMV supports analysis of synchronous and asynchronous systems using Computation Tree Logic (CTL) and Linear Temporal Logic (LTL).
-Our framework supports both CTL and LTL, however CTL is preferred because NuSMV would converts LTL formulae into CTL internally (as described in \cite{NuSMV-ltl-fmsd97}).
+Our framework supports both CTL and LTL, however CTL is preferred because NuSMV would convert LTL formulae into CTL internally (as described in \cite{NuSMV-ltl-fmsd97}).
 
 All use-cases from our UC model have to be converted into NuSMV input language.
 We use Xtext\cite{Xtext-website} as a tool for handling DSLs (Domain Specific Languages) which in this case is the NuSMV input language.
@@ -152,6 +152,24 @@ The generated serializer then produces a valid NuSMV code from the NuSMV model.
   \label{fig:XtextWorkflow}
 \end{figure}
 \pagebreak
+
+\subsection{NuSMV temporal logic formulas}
+
+Temporal annotations of a reprotool project are organised in \emph{TemporalAnnotationGroups}. (See Figure~\ref{fig:ModelOfAnnotations}.)
+Every \emph{TemporalAnnotationGroup} contains a set of logically grouped temporal annotations and a set of \emph{temporal logic formulas}
+that specify the semantics of the temporal annotations in the group. The NuSMV tool and Reprotool support two types of temporal logic
+formulas. And that is:
+
+\begin{enumerate}
+ \item CTL (Computation Tree Logic) formulas
+ \item LTL (Linear Temporal Logic) formulas
+\end{enumerate}
+
+\subsubsection{CTL formulas}
+Specify format of CTL formulas
+
+\subsubsection{LTL formulas}
+Specify format of LTL formulas
 
 \subsection{Generated NuSMV model}
 
@@ -196,6 +214,7 @@ The Xtext generates an EMF model from the specified grammar. You can have a hier
 \emph{NuSMVLang.ecore} file in the \emph{reprotool.fm.nusmv.lang} plugin. To better visualise the model, right-click on the \emph{NuSMVLang.ecore} file in
 the package explorer of the Eclipse IDE and click the option ``Initialize Ecore Diagram file...''. This will create the \emph{NuSMVLang.ecorediag} file that you can view with the provided Eclipse editor.
 
+% TODO: tento obrazok nesuvisi s textom. Treba ho vyhodit?
 \begin{figure}[ht]
   \centering
   \includegraphics[width=260pt]{images/ReprotoolActionsModel}
@@ -250,8 +269,6 @@ main scenario of use-case U2 contains only single step. You can have a look at t
 use-case U2 since it is included in the step 4 of the main scenario of the use-case U1) in the following figure. The initial state is
 filled with black colour and the final state is filled with green colour. Steps 1 and 2 are marked with a violet square because these
 steps are annotated.
-
-\newpage
 
 \begin{figure}[h]
   \centering
