@@ -83,6 +83,17 @@ public class SoftwareProjectItemProviderExt extends SoftwareProjectItemProvider 
 		return children.get(CONCEPTUAL_OBJECTS_INDEX);
 	}
 
+	@Override
+	public Object getImage(Object object) {
+		return ReprotoolEditExtPlugin.INSTANCE.getImage("full/obj16/book.png");
+	}
+	
+	@Override
+	public String getText(Object object) {
+		String label = ((SoftwareProject) object).getName();
+		return label == null || label.length() == 0 ? "<unnamed project>" : label;
+	}
+	
 	/**
 	 * Disposes the non-modeled children.
 	 */
@@ -239,7 +250,7 @@ public class SoftwareProjectItemProviderExt extends SoftwareProjectItemProvider 
 		
 		@Override
 		public Object getImage(Object object) {
-			return ReprotoolEditExtPlugin.INSTANCE.getImage("full/obj16/Actors");
+			return ReprotoolEditExtPlugin.INSTANCE.getImage("full/obj16/folder_user.png");
 		}
 
 		@Override
@@ -287,7 +298,7 @@ public class SoftwareProjectItemProviderExt extends SoftwareProjectItemProvider 
 		
 		@Override
 		public Object getImage(Object object) {
-			return ReprotoolEditExtPlugin.INSTANCE.getImage("full/obj16/ConceptualObjects.gif");
+			return ReprotoolEditExtPlugin.INSTANCE.getImage("full/obj16/folder_brick.png");
 		}
 
 		@Override
@@ -335,7 +346,7 @@ public class SoftwareProjectItemProviderExt extends SoftwareProjectItemProvider 
 		
 		@Override
 		public Object getImage(Object object) {
-			return ReprotoolEditExtPlugin.INSTANCE.getImage("full/obj16/UseCases");
+			return ReprotoolEditExtPlugin.INSTANCE.getImage("full/obj16/folder_page.png");
 		}
 
 		@Override

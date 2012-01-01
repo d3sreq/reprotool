@@ -3,6 +3,9 @@ package reprotool.model.swproj.provider;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 
+import reprotool.model.edit.ext.common.ReprotoolEditExtPlugin;
+import reprotool.model.swproj.Actor;
+
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 
@@ -33,6 +36,17 @@ public class ActorItemProviderExt extends ActorItemProvider {
 				.adapt(softwareProject, IEditingDomainItemProvider.class);
 
 		return softwareProjectItemProviderExt != null ? softwareProjectItemProviderExt.getActors() : null;
+	}
+	
+	@Override
+	public Object getImage(Object object) {
+		return ReprotoolEditExtPlugin.INSTANCE.getImage("full/obj16/user.png");
+	}
+	
+	@Override
+	public String getText(Object object) {
+		String label = ((Actor) object).getName();
+		return label == null || label.length() == 0 ? "<unnamed actor>" : label;
 	}
 
 }

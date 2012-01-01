@@ -84,6 +84,8 @@ public class UsecaseEMFEditorAdapterFactory extends ComposedAdapterFactory {
 
 			List<EReference> customUseCaseStepChildren = new ArrayList<EReference>();
 			customUseCaseStepChildren.add(UsecasePackage.Literals.SCENARIO__STEPS);
+			// TODO - add annotation to scenario condition ?
+			customUseCaseStepChildren.add(UsecasePackage.Literals.PARSEABLE_ELEMENT__ANNOTATIONS);
 			
 			bind(new TypeLiteral<List<EReference>>() {}).annotatedWith(Names.named(ScenarioItemProviderExt.CUSTOM_CHILDREN_FEATURES_KEY)).toInstance(customUseCaseStepChildren);
 		}

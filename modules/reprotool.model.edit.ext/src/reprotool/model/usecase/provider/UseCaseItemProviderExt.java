@@ -8,7 +8,10 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 
+import reprotool.model.edit.ext.common.ReprotoolEditExtPlugin;
+import reprotool.model.swproj.ConceptualObject;
 import reprotool.model.swproj.provider.SoftwareProjectItemProviderExt;
+import reprotool.model.usecase.UseCase;
 
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
@@ -59,6 +62,17 @@ public class UseCaseItemProviderExt extends UseCaseItemProvider {
 	
 	public Object getCreateChildImage(Object owner, Object feature, Object child, Collection<?> selection) {
 		return null;
+	}
+	
+	@Override
+	public Object getImage(Object object) {
+		return ReprotoolEditExtPlugin.INSTANCE.getImage("full/obj16/use-case-icon-16x16.png");
+	}
+	
+	@Override
+	public String getText(Object object) {
+		String label = ((UseCase) object).getName();
+		return label == null || label.length() == 0 ? "<unnamed use case>" : label;
 	}
 	
 	//

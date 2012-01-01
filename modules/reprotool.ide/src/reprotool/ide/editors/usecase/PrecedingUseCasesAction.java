@@ -11,9 +11,8 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.ui.ISharedImages;
-import org.eclipse.ui.PlatformUI;
 
+import reprotool.ide.Activator;
 import reprotool.model.usecase.UseCase;
 import reprotool.model.usecase.UsecasePackage;
 
@@ -29,7 +28,8 @@ public class PrecedingUseCasesAction extends Action {
 		this.labelProvider = labelProvider;
 		this.useCase = useCase;
 		this.editingDomain = editingDomain;
-		imageDescriptor = PlatformUI.getWorkbench().getSharedImages().getImageDescriptor(ISharedImages.IMG_OBJ_ADD);
+		// imageDescriptor = PlatformUI.getWorkbench().getSharedImages().getImageDescriptor(ISharedImages.IMG_OBJ_ADD);
+		imageDescriptor = Activator.getImageDescriptor("icons/wrench.png");
 	}
 
 	@Override
@@ -45,7 +45,7 @@ public class PrecedingUseCasesAction extends Action {
                 labelProvider,
                 useCase,
                 UsecasePackage.Literals.USE_CASE__PRECEDING_USE_CASES,
-                "TODO - display name",
+                "Select preceding use cases",
                 choceOfValues); 
 				
         if (dialog.open() == Window.OK) {

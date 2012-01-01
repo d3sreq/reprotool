@@ -43,6 +43,7 @@
             default="true"
             extensions="swproj"
             filenames="swproj"
+            icon="icons/book.png"
             id="cz.cuni.mff.reprotool.ide.editors.ProjectEditor"
             name="Project editor">
       </editor>
