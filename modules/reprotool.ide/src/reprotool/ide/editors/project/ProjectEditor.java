@@ -30,8 +30,6 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.command.BasicCommandStack;
-import org.eclipse.emf.common.command.Command;
-import org.eclipse.emf.common.command.CommandStack;
 import org.eclipse.emf.common.command.CommandStackListener;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
@@ -54,6 +52,7 @@ import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
 import org.eclipse.emf.edit.provider.AdapterFactoryItemDelegator;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
+import org.eclipse.emf.edit.provider.ReflectiveItemProviderAdapterFactory;
 import org.eclipse.emf.edit.ui.action.EditingDomainActionBarContributor;
 import org.eclipse.emf.edit.ui.celleditor.AdapterFactoryTreeEditor;
 import org.eclipse.emf.edit.ui.dnd.EditingDomainViewerDropAdapter;
@@ -488,6 +487,8 @@ public class ProjectEditor extends MultiPageEditorPart implements IEditingDomain
 	}
 
 	private ProjectEditorPart projectEditorPart;
+
+	private ProjectOutlineAdapterFactory projectAdapterFactory;
 	
 	/**
 	 * Handles what to do with changed resources on activation.
@@ -613,7 +614,11 @@ public class ProjectEditor extends MultiPageEditorPart implements IEditingDomain
 	protected void initializeEditingDomain() {
 		// Create an adapter factory that yields item providers.
 		//
-		adapterFactory = new ProjectOutlineAdapterFactory();
+		// TODO - test
+		projectAdapterFactory = new ProjectOutlineAdapterFactory();
+		
+		adapterFactory = new ComposedAdapterFactory();
+		adapterFactory.addAdapterFactory(new ReflectiveItemProviderAdapterFactory());
 
 		// Create the command stack that will notify this editor as commands are
 		// executed.
@@ -631,10 +636,10 @@ public class ProjectEditor extends MultiPageEditorPart implements IEditingDomain
 
 						// Try to select the affected objects.
 						//
-						Command mostRecentCommand = ((CommandStack) event.getSource()).getMostRecentCommand();
-						if (mostRecentCommand != null) {
-							setSelectionToViewer(mostRecentCommand.getAffectedObjects());
-						}
+//						Command mostRecentCommand = ((CommandStack) event.getSource()).getMostRecentCommand();
+//						if (mostRecentCommand != null) {
+//							setSelectionToViewer(mostRecentCommand.getAffectedObjects());
+//						}
 						// TODO
 						// if (propertySheetPage != null &&
 						// !propertySheetPage.getControl().isDisposed()) {
@@ -877,6 +882,7 @@ public class ProjectEditor extends MultiPageEditorPart implements IEditingDomain
 			// Page is kept from generated editor to allow editing of
 			// the "template" project
 			//
+			/*
 			{
 				ViewerPane viewerPane = new ViewerPane(getSite().getPage(), ProjectEditor.this) {
 					@Override
@@ -889,7 +895,7 @@ public class ProjectEditor extends MultiPageEditorPart implements IEditingDomain
 					@Override
 					public void requestActivation() {
 						super.requestActivation();
-//						setCurrentViewerPane(this);
+						//setCurrentViewerPane(this);
 					}
 				};
 				viewerPane.createControl(getContainer());
@@ -910,6 +916,7 @@ public class ProjectEditor extends MultiPageEditorPart implements IEditingDomain
 				// TODO jvinarek
 				setPageText(pageIndex, "Expert");
 			}
+			*/
 
 			getSite().getShell().getDisplay().asyncExec(new Runnable() {
 				public void run() {
@@ -1031,8 +1038,8 @@ public class ProjectEditor extends MultiPageEditorPart implements IEditingDomain
 
 					// Set up the tree viewer.
 					//
-					contentOutlineViewer.setContentProvider(new AdapterFactoryContentProvider(adapterFactory));
-					contentOutlineViewer.setLabelProvider(new AdapterFactoryLabelProvider(adapterFactory));
+					contentOutlineViewer.setContentProvider(new AdapterFactoryContentProvider(projectAdapterFactory));
+					contentOutlineViewer.setLabelProvider(new AdapterFactoryLabelProvider(projectAdapterFactory));
 					contentOutlineViewer.setInput(editingDomain.getResourceSet().getResources().get(0));
 					contentOutlineViewer.expandAll();
 
@@ -1055,7 +1062,14 @@ public class ProjectEditor extends MultiPageEditorPart implements IEditingDomain
 
 					// Make sure our popups work.
 					//
-					createContextMenuFor(contentOutlineViewer);
+					// createContextMenuFor(contentOutlineViewer);
+					
+					// add only drag & drop support, not context menu
+					int dndOperations = DND.DROP_COPY | DND.DROP_MOVE | DND.DROP_LINK;
+					Transfer[] transfers = new Transfer[] { LocalTransfer.getInstance() };
+					contentOutlineViewer.addDragSupport(dndOperations, transfers, new ViewerDragAdapter(contentOutlineViewer));
+					contentOutlineViewer.addDropSupport(dndOperations, transfers, new EditingDomainViewerDropAdapter(editingDomain, contentOutlineViewer));
+					
 					//
 					if (!editingDomain.getResourceSet().getResources().isEmpty()) {
 						// Select the root object in the view.
