@@ -164,9 +164,9 @@ The generated serializer then produces a valid NuSMV code from the NuSMV model.
 
 \subsection{NuSMV temporal logic formulas}
 
-Temporal annotations of a reprotool project are organised in \emph{TemporalAnnotationGroups}. (See Figure~\ref{fig:ModelOfAnnotations}.)
+Temporal annotations of a \emph{Reprotool} project are organised in \emph{TemporalAnnotationGroups}. (See Figure~\ref{fig:ModelOfAnnotations}.)
 Every \emph{TemporalAnnotationGroup} contains a set of logically grouped temporal annotations and a set of \emph{temporal logic formulas}
-that specify the semantics of the temporal annotations in the group. The NuSMV tool and Reprotool support two types of temporal logic
+that specify the semantics of the temporal annotations in the group. The NuSMV tool and \emph{Reprotool} support two types of temporal logic
 formulas. And that is:
 
 \begin{enumerate}
@@ -174,11 +174,43 @@ formulas. And that is:
  \item LTL (Linear Temporal Logic) formulas
 \end{enumerate}
 
-\subsubsection{CTL formulas}
-Specify format of CTL formulas
+\subsubsection{CTL formulae operators}
+We use in \emph{Reprotool} the following operators to build up our CTL formulas. (The descriptions of operators are taken from
+\cite{nusmv-manual}) 
+
+\begin{itemize}
+ \item \textbf{AG $p$} is \emph{true} in a state $s_{0}$ if for \emph{all} infinite series of transitions $s_{0} \rightarrow s_{1} , s_{1} \rightarrow 
+  s_{2} , \ldots$ \emph{p} is \emph{true} in \emph{every} $s_{i}$. (\emph{forall globally})
+ 
+ \item \textbf{AF $p$} is true in a state $s_{0}$ if for all series of transitions $s_{0} \rightarrow s_{1}, s_{1} \rightarrow
+  s_{2},\ldots, s_{n-1} \rightarrow s_{n}$ \emph{p} is \emph{true} in $s_{n}$. (\emph{forall finally})
+
+ \item \textbf{EF $p$} is \emph{true} in a state $s_{0}$ if there \emph{exists} a series of transitions $s_{0} \rightarrow s_{1}, 
+ s_{1} \rightarrow s_{2},~\ldots, s_{n-1} \rightarrow s_{n}$ such that \emph{p} is \emph{true} in $s_{n}$
+  
+\item \textbf{AX $p$} is true in a state \emph{s} if for all states $s'$ where there is a transition from \emph{s} to
+  $s'$ , \emph{p} is \emph{true} in $s'$. (\emph{forall next state})
+  \item \textbf{A[$p \cup q$]} is \emph{true} in a state $s_{0}$ if for \emph{all} series of transitions $s_{0} \rightarrow s_{1},
+  s_{1} \rightarrow s_{2},~\ldots, s_{n-1} \rightarrow s_{n}$ \emph{p} is \emph{true} in \emph{every} state from $s_{0}$ to
+  $s_{n-1}$ and \emph{q} is \emph{true} in state $s_{n}$. (\emph{forall until})
+\end{itemize}
+
+\subsubsection{CTL formulas examples}
+\begin{description}
+ \item[$AG(open \rightarrow AF(close))$] After 'open' there should always be 'close'
+ \item[$AG(open \rightarrow AX(A\lbrack!open \cup close\rbrack))$] No multi-open without close
+ \item[$AG(close \rightarrow AX(A\lbrack!close \cup open \mid !AF(close) \rbrack))$] No multi-close without open
+ \item[$A\lbrack !close \cup open \mid !AF(close)\rbrack$] First 'open' then 'close'
+ \item[$AG( create \rightarrow EF(use) )$] After 'create' there must be some branch containing 'use'
+ \item[$AG( create \rightarrow AX(AG(!create)) )$] Only one 'create'
+ \item[$A\lbrack !use \cup create \mid !AF(use)\rbrack$] No 'use' before 'create'
+\end{description}
+
 
 \subsubsection{LTL formulas}
-Specify format of LTL formulas
+Although it is possible to specify LTL formulas in \emph{Reprotool}, there are no LTL formulas specified by default in an empty
+\emph{Reprotool} project. Use of CTL formulas is preferred over LTL formulas because NuSMV converts LTL formulas into CTL internally
+\cite{NuSMV-ltl-fmsd97}
 
 \subsection{Generated NuSMV model}
 
@@ -279,7 +311,7 @@ use-case U2 since it is included in the step 4 of the main scenario of the use-c
 filled with black colour and the final state is filled with green colour. Steps 1 and 2 are marked with a violet square because these
 steps are annotated.
 
-\begin{figure}[h]
+\begin{figure}[ht]
   \centering
   \includegraphics[width=200pt]{images/u1}
   \caption{Visual representation of the use-case U1}
