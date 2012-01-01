@@ -111,8 +111,8 @@ public class Analyser {
 				compoundCommand.append(setCommand);										
 			} else {
 				// system actions
-				if(subject.getLemma() == "system") {
-					if (((Word)indirectobjects.get(0)).getLemma() == "system") {
+				if("system".equals(subject.getLemma())) {
+					if ("system".equals(((Word)indirectobjects.get(0)).getLemma())) {
 						InternalAction action = afactory.createInternalAction();
 						SetCommand setCommand = new SetCommand(editingDomain, ucs, UsecasePackage.Literals.USE_CASE_STEP__ACTION, action);
 						compoundCommand.append(setCommand);	
@@ -125,7 +125,7 @@ public class Analyser {
 				
 				if (objects.size() > 0) {
 					// now we have both objects
-					if (((Word)indirectobjects.get(0)).getLemma() == "system") {
+					if ("system".equals(((Word)indirectobjects.get(0)).getLemma())) {
 						ToSystem action = afactory.createToSystem();
 						SetCommand setCommand = new SetCommand(editingDomain, ucs, UsecasePackage.Literals.USE_CASE_STEP__ACTION, action);
 						compoundCommand.append(setCommand);	
