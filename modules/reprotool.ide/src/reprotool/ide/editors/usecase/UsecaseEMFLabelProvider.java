@@ -124,6 +124,9 @@ public class UsecaseEMFLabelProvider {
 	 *
 	 */
 	public static class TextColumnProvider extends DefaultUsecaseLabelProvider {
+		
+		private static Color ANNOTATION_TEXT_COLOR = new Color(Display.getCurrent(), 170, 0, 0);
+		
 		@Override
 		protected void updateUseCase(ViewerCell cell, UseCase useCase) {
 			cell.setText(useCase.getName());
@@ -153,13 +156,11 @@ public class UsecaseEMFLabelProvider {
 			String desc = stepAnnotation.getDescription();
 			cell.setText(desc);
 			
-			Color annotationColor = new Color(Display.getCurrent(), 170, 0, 0);
-			
 			StyleRange styleRange = new StyleRange();
 			styleRange.start = 0;
 			styleRange.length = desc.length();
 			
-			styleRange.foreground = annotationColor;
+			styleRange.foreground = ANNOTATION_TEXT_COLOR;
 			cell.setStyleRanges(new StyleRange[] { styleRange });
 		}
 	}

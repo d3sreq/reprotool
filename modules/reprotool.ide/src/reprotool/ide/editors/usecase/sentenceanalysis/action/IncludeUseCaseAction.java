@@ -1,4 +1,4 @@
-package reprotool.ide.editors.usecase.action;
+package reprotool.ide.editors.usecase.sentenceanalysis.action;
 
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.actions.BaseSelectionListenerAction;
@@ -6,13 +6,13 @@ import org.eclipse.ui.actions.BaseSelectionListenerAction;
 import reprotool.ide.Activator;
 import reprotool.ide.editors.usecase.MarkingService;
 
-public class SenderAction extends BaseSelectionListenerAction {
+public class IncludeUseCaseAction extends BaseSelectionListenerAction {
 
 	private ImageDescriptor imageDescriptor;
 	
-	public SenderAction(String text) {
+	public IncludeUseCaseAction(String text) {
 		super(text);
-		imageDescriptor = Activator.getImageDescriptor("icons/sender-sq-16x16.png");
+		imageDescriptor = Activator.getImageDescriptor("icons/include_use_case-sq-16x16.png");
 	}
 
 	@Override
@@ -22,6 +22,6 @@ public class SenderAction extends BaseSelectionListenerAction {
 	
 	@Override
 	public void run() {
-		MarkingService.getInstance().markSender();
+		MarkingService.getInstance().markIncludeUseCase();
 	}
 }

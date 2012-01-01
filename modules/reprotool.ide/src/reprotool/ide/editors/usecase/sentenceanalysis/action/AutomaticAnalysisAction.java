@@ -1,4 +1,4 @@
-package reprotool.ide.editors.usecase.action;
+package reprotool.ide.editors.usecase.sentenceanalysis.action;
 
 import org.eclipse.emf.common.command.CompoundCommand;
 import org.eclipse.emf.ecore.EObject;

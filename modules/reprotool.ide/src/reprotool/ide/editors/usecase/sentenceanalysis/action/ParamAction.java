@@ -1,4 +1,4 @@
-package reprotool.ide.editors.usecase.action;
+package reprotool.ide.editors.usecase.sentenceanalysis.action;
 
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.actions.BaseSelectionListenerAction;
@@ -6,13 +6,13 @@ import org.eclipse.ui.actions.BaseSelectionListenerAction;
 import reprotool.ide.Activator;
 import reprotool.ide.editors.usecase.MarkingService;
 
-public class GotoAction extends BaseSelectionListenerAction {
+public class ParamAction extends BaseSelectionListenerAction {
 
 	private ImageDescriptor imageDescriptor;
 	
-	public GotoAction(String text) {
+	public ParamAction(String text) {
 		super(text);
-		imageDescriptor = Activator.getImageDescriptor("icons/goto-sq-16x16.png");
+		imageDescriptor = Activator.getImageDescriptor("icons/param-sq-16x16.png");
 	}
 
 	@Override
@@ -22,6 +22,6 @@ public class GotoAction extends BaseSelectionListenerAction {
 	
 	@Override
 	public void run() {
-		MarkingService.getInstance().markGoto();
+		MarkingService.getInstance().markParam();
 	}
 }

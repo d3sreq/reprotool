@@ -38,14 +38,14 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PartInitException;
 
-import reprotool.ide.editors.usecase.action.ActivityAction;
-import reprotool.ide.editors.usecase.action.AutomaticAnalysisAction;
-import reprotool.ide.editors.usecase.action.ParamAction;
-import reprotool.ide.editors.usecase.action.GotoAction;
-import reprotool.ide.editors.usecase.action.IncludeUseCaseAction;
-import reprotool.ide.editors.usecase.action.EraseAction;
-import reprotool.ide.editors.usecase.action.ReceiverAction;
-import reprotool.ide.editors.usecase.action.SenderAction;
+import reprotool.ide.editors.usecase.sentenceanalysis.action.ActivityAction;
+import reprotool.ide.editors.usecase.sentenceanalysis.action.AutomaticAnalysisAction;
+import reprotool.ide.editors.usecase.sentenceanalysis.action.EraseAction;
+import reprotool.ide.editors.usecase.sentenceanalysis.action.GotoAction;
+import reprotool.ide.editors.usecase.sentenceanalysis.action.IncludeUseCaseAction;
+import reprotool.ide.editors.usecase.sentenceanalysis.action.ParamAction;
+import reprotool.ide.editors.usecase.sentenceanalysis.action.ReceiverAction;
+import reprotool.ide.editors.usecase.sentenceanalysis.action.SenderAction;
 import reprotool.model.usecase.presentation.ReprotoolEditorPlugin;
 
 /**
