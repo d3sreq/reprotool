@@ -52,31 +52,28 @@ These two special annotations enable the users to select mutually exclusive path
 This might be used to prune the computation tree the \emph{NuSMV} tool considers when checking the \emph{CTL}/\emph{LTL} specifications.
 
 Let's assume we have a use-case \emph{U} that has the main scenario 7 steps long.
-Step 1 and the step 4 have both an extension scenario 3
-steps long.
-The individual use-case steps are annotated as depicted in the following picture:
-
-
-\begin{figure}[ht]
-  \centering
-  \includegraphics[width=180pt]{images/traceTest_no_trace}
-  \caption{Schema of the use-case \emph{U}}
-  \label{fig:traceTest_no_trace}
-\end{figure}
-
-
+Step 1 and the step 4 have both an extension scenario 3 steps long.
+The individual use-case steps are annotated as depicted in the Figure~\ref{fig:traceTest_no_trace}.
 The use-case \emph{U} contains two annotation types -- \emph{create} and \emph{use}.
 One of the constraints imposed on such annotations is a CTL formula:
 \begin{verbatim}
 CTLSPEC AG( create -> AX(AG(!create)) ) -- Only one 'create'
 \end{verbatim}
 
-That means you cannot create a given object more than once.
-However, looking at the use-case \emph{U} carefully, it is obvious that there is an execution path containing  the annotation \textcolor{red}{\emph{CREATE\_FILE\_A}} twice.
-
-To solve the problem in the previous example, user needs to specify that if the first extension scenario has been taken, then the second extension scenario of use-case step 4 can not be taken. On the other hand, if the first extension scenario has not been taken,
+That means you cannot create a given object more than once. However, looking at the use-case \emph{U} carefully, it is obvious that there is an execution path containing  the annotation \textcolor{red}{\emph{CREATE\_FILE\_A}} twice.
+To solve the problem in this example, user needs to specify that if the first extension scenario has been taken, then the second extension scenario of use-case step 4 can not be taken. On the other hand, if the first extension scenario has not been taken,
 then the second extension scenario must be taken.
 And this is exactly what the \emph{trace} and \emph{on} annotations are for.
+
+\newpage
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=180pt]{images/traceTest_no_trace}
+  \caption{Schema of the use-case \emph{U} without the \emph{trace}/\emph{on} annotation pair}
+  \label{fig:traceTest_no_trace}
+\end{figure}
+
 
 \begin{definition}[Semantics of the trace-on annotation pair]
 	Let $S$ be a a use-case step.
@@ -96,31 +93,43 @@ In the Figure~\ref{fig:traceTest} you can see the same use-case \emph{U} but wit
   \label{fig:traceTest}
 \end{figure}
 
+\newpage
+
 The annotated use-case \emph{U} has now only two execution paths possible. And none of them violates any of the default constraints
-imposed on the \emph{create} and \emph{use} annotations. Here you can see the path where the \emph{trace}/\emph{on} branch has been
-taken:
+imposed on the \emph{create} and \emph{use} annotations.
+
+The first path does include the extension scenario of the first use-case
+step, but it does not include the extension scenario of the 4th use-case step. This is the path where the \emph{trace}/\emph{on} branch
+has been taken.
+
+The second possible path doesn't include the first extension scenario, but does include the second extension scenario.
+
+
+Let's now look more closely at the first possible path - the path where the \emph{trace}/\emph{on} branch has been taken.
+This situation we are describing now is depicted in the Figure \ref{fig:traceTestTaken}.
+
+\newpage
 
 \begin{figure}[ht]
   \centering
   \includegraphics[width=180pt]{images/traceTest_path_taken}
-  \caption{\emph{Trace}/\emph{on} branch taken}
+  \caption{Special annotations - \emph{Trace}/\emph{on} branch taken}
   \label{fig:traceTestTaken}
 \end{figure}
-
 When the \emph{NuSMV} tool simlates the execution of the state machine corresponding to the annotated use-case \emph{U} and just finished
 execution of the 4 step of the use-case main scenario, there would normally by 2 possibilities how to proceed. But because in our
 example execution path the \emph{trace\_a} annotaion has been encountered, there is only one possibility - and that is to take the
 \emph{on} branch.
 
-\newpage
-
 The situation where the second path has been taken is depicted in the next picture. No other execution paths are considered by the
 \emph{NuSMV} tool.
+
+\newpage
 
 \begin{figure}[ht]
   \centering
   \includegraphics[width=180pt]{images/traceTest_path_not_taken}
-  \caption{\emph{Trace}/\emph{on} branch NOT taken}
+  \caption{Special annotations - \emph{Trace}/\emph{on} branch NOT taken}
   \label{fig:traceTestNotTaken}
 \end{figure}
 
@@ -219,7 +228,7 @@ the package explorer of the Eclipse IDE and click the option ``Initialize Ecore 
   \centering
   \includegraphics[width=260pt]{images/ReprotoolActionsModel}
   \caption{Model of derived action}
-  \label{fig:ReprotoolActionsModel}
+  \label{fig:ReprotoolActionsModel_}
 \end{figure}
 
 \subsection{Model to model transformation}
@@ -394,10 +403,10 @@ Now we are going to describe how the \emph{CTL} and \emph{LTL} specifications ar
 these predefined formulas that is relevant to the \emph{open}/\emph{close} annotations:
 
 \begin{description}
- \item [$AG(open \rightarrow AF(close))$] After 'open' there should always be 'close'
- \item [$AG(open \rightarrow AX(A\lbrack!open \cup close\rbrack))$] No multi-open without close
- \item [$AG(close \rightarrow AX(A\lbrack!close \cup open \mid !AF(close) \rbrack))$] No multi-close without open
- \item [$A\lbrack !close \cup open \mid !AF(close)\rbrack$] First 'open' then 'close'
+ \item[$AG(open \rightarrow AF(close))$] After 'open' there should always be 'close'
+ \item[$AG(open \rightarrow AX(A\lbrack!open \cup close\rbrack))$] No multi-open without close
+ \item[$AG(close \rightarrow AX(A\lbrack!close \cup open \mid !AF(close) \rbrack))$] No multi-close without open
+ \item[$A\lbrack !close \cup open \mid !AF(close)\rbrack$] First 'open' then 'close'
 \end{description}
 
 We can see that these logical formulas specify properties for the open and close annotations. We also know that in the use-case \emph{U1} we
