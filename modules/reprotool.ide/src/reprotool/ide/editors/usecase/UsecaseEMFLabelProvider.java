@@ -7,6 +7,7 @@ import org.eclipse.jface.viewers.ViewerCell;
 import reprotool.model.usecase.Scenario;
 import reprotool.model.usecase.UseCase;
 import reprotool.model.usecase.UseCaseStep;
+import reprotool.model.usecase.annotate.StepAnnotation;
 
 /**
  * Contains label provider classes used in Use case editor.
@@ -34,6 +35,8 @@ public class UsecaseEMFLabelProvider {
 				updateScenario(cell, (Scenario) cellObject);	
 			} else if (cellObject instanceof UseCaseStep) {
 				updateUseCaseStep(cell, (UseCaseStep) cellObject);
+			} else if (cellObject instanceof StepAnnotation) {
+				updateStepAnnotation(cell, (StepAnnotation) cellObject);
 			} else {
 				updateDefault(cell, cellObject);
 			}
@@ -49,6 +52,10 @@ public class UsecaseEMFLabelProvider {
 		
 		protected void updateUseCaseStep(ViewerCell cell, UseCaseStep useCaseStep) {
 			updateDefault(cell, useCaseStep);			
+		}
+		
+		protected void updateStepAnnotation(ViewerCell cell, StepAnnotation stepAnnotation) {
+			updateDefault(cell, stepAnnotation);
 		}
 		
 		protected void updateDefault(ViewerCell cell, Object cellObject) {
@@ -91,6 +98,10 @@ public class UsecaseEMFLabelProvider {
 			cell.setStyleRanges(styledString.getStyleRanges());
 		}
 		
+		@Override
+		protected void updateStepAnnotation(ViewerCell cell, StepAnnotation stepAnnotation) {
+			cell.setText("Annotation");
+		}
 	}
 	
 	/**
@@ -124,5 +135,9 @@ public class UsecaseEMFLabelProvider {
 			cell.setStyleRanges(UseCaseStepStyler.style(useCaseStep));
 		}
 		
+		@Override
+		protected void updateStepAnnotation(ViewerCell cell, StepAnnotation stepAnnotation) {
+			cell.setText(stepAnnotation.getDescription());
+		}
 	}
 }
