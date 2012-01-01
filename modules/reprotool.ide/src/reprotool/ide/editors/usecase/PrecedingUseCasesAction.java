@@ -55,6 +55,5 @@ public class PrecedingUseCasesAction extends Action {
         	Command setCommand = new SetCommand(editingDomain, useCase, UsecasePackage.Literals.USE_CASE__PRECEDING_USE_CASES, precedingUseCases);
     		editingDomain.getCommandStack().execute(setCommand);
         }
-//        return dialog.getResult();
 	}
 }
