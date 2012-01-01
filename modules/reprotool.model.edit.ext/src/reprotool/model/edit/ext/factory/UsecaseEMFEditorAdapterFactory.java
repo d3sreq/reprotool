@@ -9,9 +9,7 @@ import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.provider.ReflectiveItemProviderAdapterFactory;
 import org.eclipse.emf.edit.provider.resource.ResourceItemProviderAdapterFactory;
 
-import reprotool.model.swproj.SwprojPackage;
 import reprotool.model.usecase.UsecasePackage;
-import reprotool.model.usecase.annotate.AnnotatePackage;
 import reprotool.model.usecase.provider.ScenarioItemProvider;
 import reprotool.model.usecase.provider.ScenarioItemProviderExt;
 import reprotool.model.usecase.provider.UseCaseItemProvider;
@@ -84,8 +82,6 @@ public class UsecaseEMFEditorAdapterFactory extends ComposedAdapterFactory {
 
 			List<EReference> customUseCaseStepChildren = new ArrayList<EReference>();
 			customUseCaseStepChildren.add(UsecasePackage.Literals.SCENARIO__STEPS);
-			// TODO - add annotation to scenario condition ?
-			customUseCaseStepChildren.add(UsecasePackage.Literals.PARSEABLE_ELEMENT__ANNOTATIONS);
 			
 			bind(new TypeLiteral<List<EReference>>() {}).annotatedWith(Names.named(ScenarioItemProviderExt.CUSTOM_CHILDREN_FEATURES_KEY)).toInstance(customUseCaseStepChildren);
 		}
