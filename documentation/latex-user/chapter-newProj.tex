@@ -30,6 +30,22 @@ This use-case has the following structure:
  \item Peter goes home
 \end{enumerate}
 
+\subsubsection{The \emph{takeLetter} use-case}
+\begin{enumerate}
+ \item Peter goes to the post office
+ \item Peter stands the queue
+ \item Peter becomes impatient
+
+ The queue has more than 10 people:
+ \begin{enumerate}
+  \item Peter goes home.
+ \end{enumerate}
+
+
+ \item The post officer takes a letter from Peter.
+\end{enumerate}
+
+
 \subsubsection{The \emph{writeLetter} use-case}
 \begin{enumerate}
 
@@ -77,7 +93,7 @@ Firstly, enter the use-case name \emph{writeLetter} and think of a suitable \emp
 Then select the \emph{Peter} as the \emph{primary actor} of the use-case.
 
 Now it is time to add the individual use-case steps to our use-case. Notice that the use-case by default already contains one single
-use case step. You add other steps by right-clicking on use-case step and select the
+use-case step. You add other steps by right-clicking on use-case step and select the
 \begin{verbatim}
 New Sibling / Use Case Step
 \end{verbatim}
@@ -161,7 +177,7 @@ in the next picture:
 
 \newpage
 
-Now we will define an include action for the use-case step with label \emph{3a2}. So click this use-case step and in the
+Now we will define an \emph{include action} for the use-case step with label \emph{3a2}. So click this use-case step and in the
 \emph{Analysis} view, select \emph{Use case include} as the action type and select the use-cese \emph{buyEnvelope} as the included
 use-case. You can view the situation in the next picture. Also notice the outline view that shows also the included use-case schema. 
 
@@ -171,3 +187,11 @@ use-case. You can view the situation in the next picture. Also notice the outlin
   \caption{\emph{Include} use-case step action specified}
   \label{fig:reprotoolInclude}
 \end{figure}
+
+\subsubsection{\emph{Actions} in the \emph{takeLetter} use-case}
+
+Now, please specify the \emph{Abort} action for the use-case step labeled \emph{3a1} in the \emph{takeLetter} use-case. (The step text
+reads: \emph{Peter goes home}).
+
+\subsubsection{\emph{Actions} in the \emph{buyEnvelope} use-case}
+There are no actions specified in this use-case.
