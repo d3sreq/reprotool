@@ -5,6 +5,7 @@ import java.net.URISyntaxException;
 import java.rmi.RemoteException;
 import java.util.regex.Pattern;
 
+import org.eclipse.core.runtime.AssertionFailedException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
@@ -37,7 +38,9 @@ import danbikel.parser.Settings;
  *
  */
 public class Parser extends Tool {
-
+	
+	// number of attempts to load a model (sometime external tool fails during loading)
+	static int max_model_reloads = 5;
 	static boolean runs = false;
 	static danbikel.parser.Parser parser = null;
 	
@@ -163,16 +166,20 @@ public class Parser extends Tool {
 		}		
 
     	
-		try {
-			parser = new danbikel.parser.Parser(modelFile);
-			runs = true;			
-		} catch (Exception e) {
-			System.out.println("Got an IOException: " + e.getMessage());
-			IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, "Parser error during loading model file", e);
-			StatusManager.getManager().handle(status, StatusManager.LOG);
-		}
-		
-		//parse("((Inicialize (NNP)) (parser (NN)) )");
+    	for (int i = 0; i < max_model_reloads ; i++) {
+    		if(runs == false) {
+				try {
+					parser = new danbikel.parser.Parser(modelFile);
+					runs = true;			
+				} catch (Exception e) {
+					// for benchmark purpose - getting manager can fail outside plugins 					
+					try {
+						IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, "Parser error during loading model file", e);
+						StatusManager.getManager().handle(status, StatusManager.LOG);
+					} catch (AssertionFailedException e1) {}
+				}
+    		}
+    	}
 		
 		return runs;		
 	}
