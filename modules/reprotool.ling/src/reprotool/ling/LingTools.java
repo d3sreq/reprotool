@@ -157,13 +157,9 @@ public class LingTools {
 		    		Lemmatizer.start();
 		    		monitor.worked(5);
 		    		
-		    		System.out.println("lemmatizerAfter");
-		    		
 		    		monitor.subTask("MXPost tagger initialization....");
 		    		Tagger.start();	
 		    		monitor.worked(5);	
-		    		
-		    		System.out.println("taggerAfter");
 		    		
 		    		monitor.subTask("Parser initialization....");
 		    		monitor.worked(10);

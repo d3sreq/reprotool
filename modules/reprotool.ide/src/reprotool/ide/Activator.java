@@ -35,8 +35,11 @@ public class Activator extends AbstractUIPlugin {
 		super.start(context);
 		
 		// loading linguistics models into a memory
-		LingTools.initJob();
-		
+		try {
+			LingTools.initJob();
+			// dint need to exist already, just saving time of user
+		} catch (Exception e){}
+
 		plugin = this;
 	}
 

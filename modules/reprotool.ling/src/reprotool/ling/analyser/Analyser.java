@@ -64,11 +64,15 @@ public class Analyser {
 			return compoundCommand;
 		}
 
+		// get all actors
+		EList<Actor> actors = ucs.getSoftwareProjectShortcut().getActors();
+		actors.addAll(LingConfig.actors);
+		
 		// FIND ALL IMPORTANT WORDS
 		// find subject
-		subject = FindConstituent.findSubject(sentence, LingConfig.actors);
+		subject = FindConstituent.findSubject(sentence, actors);
 		// find objects
-		indirectobjects = FindConstituent.findIndirectObject(sentence, null);	
+		indirectobjects = FindConstituent.findIndirectObject(sentence, actors);	
 		if (indirectobjects != null && indirectobjects.size() > 1) {
 			objects = FindConstituent.findRepresentativeObject(sentence, (SentenceNode)indirectobjects.get(0).getParent());			
 		} else {
@@ -121,9 +125,9 @@ public class Analyser {
 						SetCommand setCommand = new SetCommand(editingDomain, ucs, UsecasePackage.Literals.USE_CASE_STEP__ACTION, action);
 						compoundCommand.append(setCommand);	
 					}
-				}
+				} 
 				
-				if (objects.size() > 0) {
+				if (!definedAction && objects.size() > 0) {
 					// now we have both objects
 					if ("system".equals(((Word)indirectobjects.get(0)).getLemma())) {
 						ToSystem action = afactory.createToSystem();

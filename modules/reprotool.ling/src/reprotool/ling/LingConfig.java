@@ -22,6 +22,7 @@ import reprotool.model.swproj.SwprojFactory;
  * 
  */
 public class LingConfig {
+	
 	// special actions verb lists
 	// GOTO ACTION
 	public static ArrayList<String> gotoVerbs = defaultGotoVerbs();
@@ -72,6 +73,7 @@ public class LingConfig {
 	 * @return filled list
 	 */
 	private static EList<Actor> defaultActors() {
+	
 		EList<Actor> result = new BasicEList<Actor>();
 		// default actors
 		Actor ac = SwprojFactory.eINSTANCE.createActor();
