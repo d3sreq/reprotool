@@ -1,27 +1,20 @@
 package reprotool.ide.editors.usecase.sentenceanalysis.action;
 
-import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.ui.actions.BaseSelectionListenerAction;
+import org.eclipse.jface.action.IAction;
 
 import reprotool.ide.Activator;
 import reprotool.ide.editors.usecase.MarkingService;
 
-public class EraseAction extends BaseSelectionListenerAction {
+public class EraseAction extends AbstractMarkingAction {
 
-	private ImageDescriptor imageDescriptor;
-	
-	public EraseAction(String text) {
-		super(text);
+	public EraseAction(String text, IAction refreshEditorAction) {
+		super(text, refreshEditorAction);
 		imageDescriptor = Activator.getImageDescriptor("icons/erase-sq-16x16.png");
 	}
 
 	@Override
-	public ImageDescriptor getImageDescriptor() {
-		return imageDescriptor;
-	}
-	
-	@Override
 	public void run() {
 		MarkingService.getInstance().erase();
+		refreshEditorAction.run();
 	}
 }

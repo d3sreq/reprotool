@@ -12,6 +12,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.command.BasicCommandStack;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CommandStackListener;
+import org.eclipse.emf.common.command.CompoundCommand;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.ui.URIEditorInput;
 import org.eclipse.emf.databinding.FeaturePath;
@@ -186,27 +187,30 @@ public class UsecaseEMFEditorPart extends EditorPart implements IMenuListener, I
 			
 			public void commandStackChanged(final EventObject event) {
 				
-				// prevent refresh during writing of the text in cell editor
-				// FIXME jvinarek
-//				Command mostRecentCommand = getCommandStack().getMostRecentCommand();				
-//				if (!isContentSetting(mostRecentCommand)) {
+				// refresh viewer after action change
+				Command mostRecentCommand = getCommandStack().getMostRecentCommand();
+				if (isActionChanging(mostRecentCommand)) {
+					composite.getTreeViewer().refresh(true);
 //					parentEditor.getContainer().getDisplay().asyncExec(new Runnable() {
 //						public void run() {
 //							UsecaseEMFEditorPart.this.composite.getTreeViewer().refresh();
-//
 //						}
 //					});
-//				}
+				}
 			}
 
-			private boolean isContentSetting(Command command) {
+			private boolean isActionChanging(Command command) {
 				return (command instanceof SetCommand)
-						&& ((SetCommand) command).getFeature() == UsecasePackage.Literals.PARSEABLE_ELEMENT__CONTENT;
+						&& ((SetCommand) command).getFeature() == UsecasePackage.Literals.USE_CASE_STEP__ACTION;
 			}
 			
 		});
 
 		composite.getTreeViewer().expandAll();
+	}
+
+	public UsecaseEMFEditorComposite getComposite() {
+		return composite;
 	}
 
 	private DataBindingContext initDataBindings(UseCase useCase) {
@@ -302,5 +306,7 @@ public class UsecaseEMFEditorPart extends EditorPart implements IMenuListener, I
 		toolBarManager.add(precedingUseCasesAction);
 		toolBarManager.update(true);
 	}
+	
+	
 
 }

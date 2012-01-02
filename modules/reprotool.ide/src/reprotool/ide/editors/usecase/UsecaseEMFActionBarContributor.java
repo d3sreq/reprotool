@@ -50,6 +50,7 @@ import reprotool.model.linguistic.action.Communication;
 import reprotool.model.linguistic.action.FromSystem;
 import reprotool.model.linguistic.action.Goto;
 import reprotool.model.linguistic.action.ToSystem;
+import reprotool.model.linguistic.action.UseCaseInclude;
 import reprotool.model.usecase.UseCaseStep;
 import reprotool.model.usecase.presentation.ReprotoolEditorPlugin;
 
@@ -123,6 +124,17 @@ public class UsecaseEMFActionBarContributor
 			}
 		};
 
+	protected IAction refreshEditorAction = new Action("refresh-editor") {
+
+		@Override
+		public void run() {
+			if (activeEditorPart instanceof UsecaseEMFEditor) {
+				UsecaseEMFEditor editor = (UsecaseEMFEditor) activeEditorPart;
+				editor.refreshEMFEditorPart();
+			}
+		}
+	};
+		
 	/**
 	 * This will contain one {@link org.eclipse.emf.edit.ui.action.CreateChildAction} corresponding to each descriptor
 	 * generated for the current selection by the item provider.
@@ -191,20 +203,20 @@ public class UsecaseEMFActionBarContributor
 	public void contributeToToolBar(IToolBarManager toolBarManager) {
 		toolBarManager.add(new Separator("usecase-settings"));
 		
-		senderAction = new SenderAction("sender-action");
+		senderAction = new SenderAction("sender-action", refreshEditorAction);
 		toolBarManager.add(senderAction);
 		senderAction.setEnabled(false);
-		activityAction = new ActivityAction("activity-action");
+		activityAction = new ActivityAction("activity-action", refreshEditorAction);
 		toolBarManager.add(activityAction);
-		receiverAction = new ReceiverAction("receiver-action");
+		receiverAction = new ReceiverAction("receiver-action", refreshEditorAction);
 		toolBarManager.add(receiverAction);
-		paramAction = new ParamAction("action-param-action");
+		paramAction = new ParamAction("action-param-action", refreshEditorAction);
 		toolBarManager.add(paramAction);
-		gotoAction = new GotoAction("goto-action");
+		gotoAction = new GotoAction("goto-action", refreshEditorAction);
 		toolBarManager.add(gotoAction);
-		includeUseCaseAction = new IncludeUseCaseAction("include-use-case-action");
+		includeUseCaseAction = new IncludeUseCaseAction("include-use-case-action", refreshEditorAction);
 		toolBarManager.add(includeUseCaseAction);
-		eraseAction = new EraseAction("plain-text-action");
+		eraseAction = new EraseAction("plain-text-action", refreshEditorAction);
 		toolBarManager.add(eraseAction);
 		
 		toolBarManager.add(new Separator("usecase-automatic-tools"));
@@ -354,7 +366,7 @@ public class UsecaseEMFActionBarContributor
 			receiverAction.setEnabled(action instanceof FromSystem);
 			paramAction.setEnabled(action instanceof Communication);
 			gotoAction.setEnabled(action instanceof Goto);
-			includeUseCaseAction.setEnabled(action instanceof IncludeUseCaseAction);
+			includeUseCaseAction.setEnabled(action instanceof UseCaseInclude);
 			eraseAction.setEnabled(true);
 			automaticAnalysisAction.setEnabled(true);
 		} else {
@@ -487,8 +499,8 @@ public class UsecaseEMFActionBarContributor
 		menuManager.insertAfter("additions-end", new Separator("ui-actions"));
 		menuManager.insertAfter("ui-actions", showPropertiesViewAction);
 
-		refreshViewerAction.setEnabled(refreshViewerAction.isEnabled());		
-		menuManager.insertAfter("ui-actions", refreshViewerAction);
+//		refreshViewerAction.setEnabled(refreshViewerAction.isEnabled());		
+//		menuManager.insertAfter("ui-actions", refreshViewerAction);
 
 //		toolBarManager.add(new Separator("usecase-automatic-tools"));
 //		menuManager.add(new AutomaticAnalysisAction("automatic-analysis-action"));

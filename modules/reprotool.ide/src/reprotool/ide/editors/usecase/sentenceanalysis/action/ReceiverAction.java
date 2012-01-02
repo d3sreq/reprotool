@@ -1,27 +1,20 @@
 package reprotool.ide.editors.usecase.sentenceanalysis.action;
 
-import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.ui.actions.BaseSelectionListenerAction;
+import org.eclipse.jface.action.IAction;
 
 import reprotool.ide.Activator;
 import reprotool.ide.editors.usecase.MarkingService;
 
-public class ReceiverAction extends BaseSelectionListenerAction {
+public class ReceiverAction extends AbstractMarkingAction {
 
-	private ImageDescriptor imageDescriptor;
-	
-	public ReceiverAction(String text) {
-		super(text);
+	public ReceiverAction(String text, IAction refreshEditorAction) {
+		super(text, refreshEditorAction);
 		imageDescriptor = Activator.getImageDescriptor("icons/receiver-sq-16x16.png");
 	}
 
 	@Override
-	public ImageDescriptor getImageDescriptor() {
-		return imageDescriptor;
-	}
-	
-	@Override
 	public void run() {
 		MarkingService.getInstance().markReceiver();
+		refreshEditorAction.run();
 	}
 }

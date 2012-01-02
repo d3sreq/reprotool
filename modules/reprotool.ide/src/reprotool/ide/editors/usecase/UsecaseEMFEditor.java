@@ -88,6 +88,7 @@ import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.events.ControlAdapter;
 import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IEditorInput;
@@ -611,42 +612,6 @@ public class UsecaseEMFEditor extends MultiPageEditorPart implements IEditingDom
 		// ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
 		adapterFactory = new UsecaseEMFEditorAdapterFactory();
 
-		// adapterFactory.addAdapterFactory(new
-		// ResourceItemProviderAdapterFactory());
-		// adapterFactory.addAdapterFactory(new
-		// LtsItemProviderAdapterFactory());
-		// adapterFactory.addAdapterFactory(new
-		// UsecaseItemProviderAdapterFactory());
-		// adapterFactory.addAdapterFactory(new
-		// SwprojItemProviderAdapterFactory());
-		// adapterFactory.addAdapterFactory(new
-		// TraceabilityItemProviderAdapterFactory());
-		// adapterFactory.addAdapterFactory(new
-		// ParsetreeItemProviderAdapterFactory());
-		// adapterFactory.addAdapterFactory(new
-		// ActionpartItemProviderAdapterFactory());
-		// adapterFactory.addAdapterFactory(new
-		// ActionItemProviderAdapterFactory());
-		// adapterFactory.addAdapterFactory(new
-		// AstItemProviderAdapterFactory());
-		// adapterFactory.addAdapterFactory(new
-		// CompItemProviderAdapterFactory());
-		// adapterFactory.addAdapterFactory(new
-		// DocItemProviderAdapterFactory());
-		// adapterFactory.addAdapterFactory(new
-		// ProcasesItemProviderAdapterFactory());
-		// adapterFactory.addAdapterFactory(new
-		// ReflectiveItemProviderAdapterFactory());
-
-		// TODO - jvinarek - add more item provider factories ?
-		// TODO - is UsecaseItemProviderAdapterFactoryExt "stateful" ?
-		// SwprojItemProviderAdapterFactoryExt
-		// swprojItemProviderAdapterFactoryExt = new
-		// SwprojItemProviderAdapterFactoryExt();
-		// adapterFactory.addAdapterFactory(swprojItemProviderAdapterFactoryExt);
-		// adapterFactory.addAdapterFactory(new
-		// UsecaseItemProviderAdapterFactoryExt(swprojItemProviderAdapterFactoryExt));
-
 		// Create the command stack that will notify this editor as commands are
 		// executed.
 		//
@@ -1015,70 +980,6 @@ public class UsecaseEMFEditor extends MultiPageEditorPart implements IEditingDom
 	 * @generated NOT
 	 */
 	public IContentOutlinePage getContentOutlinePage() {
-		// if (contentOutlinePage == null) {
-		// // The content outline is just a tree.
-		// //
-		// class MyContentOutlinePage extends ContentOutlinePage {
-		// @Override
-		// public void createControl(Composite parent) {
-		// super.createControl(parent);
-		// contentOutlineViewer = getTreeViewer();
-		// contentOutlineViewer.addSelectionChangedListener(this);
-		//
-		// // Set up the tree viewer.
-		// //
-		// contentOutlineViewer.setContentProvider(new
-		// AdapterFactoryContentProvider(adapterFactory));
-		// contentOutlineViewer.setLabelProvider(new
-		// AdapterFactoryLabelProvider(adapterFactory));
-		// contentOutlineViewer.setInput(editingDomain.getResourceSet());
-		//
-		// // Make sure our popups work.
-		// //
-		// createContextMenuFor(contentOutlineViewer);
-		//
-		// if (!editingDomain.getResourceSet().getResources().isEmpty()) {
-		// // Select the root object in the view.
-		// //
-		// contentOutlineViewer.setSelection(new
-		// StructuredSelection(editingDomain.getResourceSet().getResources().get(0)),
-		// true);
-		// }
-		// }
-		//
-		// @Override
-		// public void makeContributions(IMenuManager menuManager,
-		// IToolBarManager toolBarManager, IStatusLineManager statusLineManager)
-		// {
-		// super.makeContributions(menuManager, toolBarManager,
-		// statusLineManager);
-		// contentOutlineStatusLineManager = statusLineManager;
-		// }
-		//
-		// @Override
-		// public void setActionBars(IActionBars actionBars) {
-		// super.setActionBars(actionBars);
-		// getActionBarContributor().shareGlobalActions(this, actionBars);
-		// }
-		// }
-		//
-		// contentOutlinePage = new MyContentOutlinePage();
-
-		// TODO jvinarek - remove ?
-		// Listen to selection so that we can handle it is a special way.
-		//
-		// contentOutlinePage.addSelectionChangedListener
-		// (new ISelectionChangedListener() {
-		// // This ensures that we handle selections correctly.
-		// //
-		// public void selectionChanged(SelectionChangedEvent event) {
-		// handleContentOutlineSelection(event.getSelection());
-		// }
-		// });
-		// }
-		//
-		// return contentOutlinePage;
-
 		if (contentOutlinePage == null) {
 			// create outline page
 			IEditorInput input = getEditorInput();
@@ -1166,14 +1067,7 @@ public class UsecaseEMFEditor extends MultiPageEditorPart implements IEditingDom
 	 * @generated NOT
 	 */
 	public void handleContentOutlineSelection(ISelection selection) {
-		// TODO jvinarek - remove ?
-		// if (!selection.isEmpty() && selection instanceof
-		// IStructuredSelection) {
-		// List<?> selectedElements = ((IStructuredSelection)
-		// selection).toList();
-		// ((UsecaseEMFEditorPart)
-		// getActiveEditor()).setInput(selectedElements.get(0));
-		// }
+		// no action needed
 	}
 
 	/**
@@ -1469,5 +1363,14 @@ public class UsecaseEMFEditor extends MultiPageEditorPart implements IEditingDom
 	 */
 	protected boolean showOutlineView() {
 		return true;
+	}
+	
+	@Override
+	public Composite getContainer() {
+		return super.getContainer();
+	}
+
+	public void refreshEMFEditorPart() {
+		usecaseEditorPart.getComposite().getTreeViewer().refresh();
 	}
 }
