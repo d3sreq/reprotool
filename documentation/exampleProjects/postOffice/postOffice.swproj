@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="ASCII"?>
+<swproj:SoftwareProject xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:action="http://d3s.mff.cuni.cz/reprotool/model/linguistic/action" xmlns:annotate="http://d3s.mff.cuni.cz/reprotool/model/usecase/annotate" xmlns:swproj="http://d3s.mff.cuni.cz/reprotool/model/swproj" name="Post Office" description="The project describes a letter delivery">
+  <actors name="Peter" description=""/>
+  <actors name="Officer" description=""/>
+  <useCases name="writeLetter" description="How a letter is written by Peter" primaryActor="//@actors.0">
+    <mainScenario>
+      <steps content="Peter looks at his watches">
+        <extensions>
+          <steps content="Peter does something more important">
+            <action xsi:type="action:AbortUseCase"/>
+          </steps>
+          <scenarioGuard content="Peter does not have enough free time"/>
+        </extensions>
+      </steps>
+      <steps content="Peter writes the letter">
+        <annotations annotationType="//@annotationGroups.2/@members.0" id="letter"/>
+      </steps>
+      <steps content="Peter checks if he has a spare envelope">
+        <extensions>
+          <steps content="Peter leaves the building"/>
+          <steps content="Include use-case buyEnvelope">
+            <action xsi:type="action:UseCaseInclude" includeTarget="//@useCases.1"/>
+          </steps>
+          <scenarioGuard content="Peter does not have a spare envelope"/>
+        </extensions>
+      </steps>
+      <steps content="Peter opens the envelope">
+        <annotations annotationType="//@annotationGroups.1/@members.0" id="envelope"/>
+      </steps>
+      <steps content="Peter puts the letter into the envelope and closes it">
+        <annotations annotationType="//@annotationGroups.1/@members.1" id="envelope"/>
+      </steps>
+    </mainScenario>
+  </useCases>
+  <useCases name="buyEnvelope" description="Peter buys an envelope" primaryActor="//@actors.0">
+    <mainScenario>
+      <steps content="Peter goes to the shop"/>
+      <steps content="Peter stands the queue"/>
+      <steps content="Peter buys the envelope"/>
+      <steps content="Peter goes home"/>
+    </mainScenario>
+  </useCases>
+  <useCases name="takeLetter" description="Peter takes letter to the post" primaryActor="//@actors.1" precedingUseCases="//@useCases.0">
+    <mainScenario>
+      <steps content="Peter goes to the post office"/>
+      <steps content="Peter stands the queue"/>
+      <steps content="Peter becomes impatient">
+        <extensions>
+          <steps content="Peter goes home">
+            <annotations annotationType="//@annotationGroups.2/@members.0" id="letter"/>
+            <action xsi:type="action:AbortUseCase"/>
+          </steps>
+          <scenarioGuard content="if the queue has more than 10 people"/>
+        </extensions>
+      </steps>
+      <steps content="The post officer takes a letter from Peter">
+        <annotations annotationType="//@annotationGroups.2/@members.1" id="letter"/>
+      </steps>
+      <steps content="Peter finished sending a letter"/>
+    </mainScenario>
+  </useCases>
+  <annotationGroups xsi:type="annotate:SpecialAnnotationGroup">
+    <members name="trace"/>
+    <members name="on"/>
+  </annotationGroups>
+  <annotationGroups xsi:type="annotate:TemporalAnnotationGroup">
+    <formulas xsi:type="annotate:CTLFormula" formula="AG(open -> AF(close))" description="After 'open' there should always be 'close'"/>
+    <formulas xsi:type="annotate:CTLFormula" formula="AG(open -> AX(A[!open U close]))" description="No multi-open without close"/>
+    <formulas xsi:type="annotate:CTLFormula" formula="AG(close -> AX(A[!close U open | !AF(close) ]))" description="No multi-close without open"/>
+    <formulas xsi:type="annotate:CTLFormula" formula="A[!close U open | !AF(close)]" description="First 'open' then 'close'"/>
+    <members name="open"/>
+    <members name="close"/>
+  </annotationGroups>
+  <annotationGroups xsi:type="annotate:TemporalAnnotationGroup">
+    <formulas xsi:type="annotate:CTLFormula" formula="AG( create -> EF(use) )" description="After 'create' there must be some branch containing 'use'"/>
+    <formulas xsi:type="annotate:CTLFormula" formula="AG( create -> AX(AG(!create)) )" description="Only one 'create'"/>
+    <formulas xsi:type="annotate:CTLFormula" formula="A[ !use U create | !AF(use)]" description="No 'use' before 'create'"/>
+    <members name="create"/>
+    <members name="use"/>
+  </annotationGroups>
+</swproj:SoftwareProject>
