@@ -1,6 +1,5 @@
 package reprotool.ide.views.sentenceanalysis.step;
 
-import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.internal.views.ViewsPlugin;
@@ -22,20 +21,13 @@ public class SentenceAnalysisSheet extends PageBookView {
 
 	public static final String ID = "reprotool.ide.views.sentenceanalysis.SentenceAnalysisSheet"; //$NON-NLS-1$
 
-	/**
-     * The initial selection when the property sheet opens
-     */
-    private ISelection bootstrapSelection;
-	
 	@Override
 	protected IPage createDefaultPage(PageBook book) {
 		
-//		IPageBookViewPage page = (IPageBookViewPage) ViewsPlugin.getAdapter(this, ISentenceAnalysisSheetPage.class, false);
-//		if (page == null) {
-			MessagePage messagePage = new MessagePage();
-			messagePage.setMessage("Not interested in this part");
-			IPageBookViewPage page = messagePage;
-//		}
+		MessagePage messagePage = new MessagePage();
+		messagePage.setMessage("Not interested in this part");
+		IPageBookViewPage page = messagePage;
+		
 		initPage(page);
 		page.createControl(book);
 		return page;
@@ -72,7 +64,6 @@ public class SentenceAnalysisSheet extends PageBookView {
 	protected IWorkbenchPart getBootstrapPart() {
 		IWorkbenchPage page = getSite().getPage();
         if (page != null) {
-            bootstrapSelection = page.getSelection();
             return page.getActivePart();
         }
         return null;

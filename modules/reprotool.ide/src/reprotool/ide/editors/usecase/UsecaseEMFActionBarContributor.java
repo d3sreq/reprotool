@@ -50,7 +50,6 @@ import reprotool.model.linguistic.action.Communication;
 import reprotool.model.linguistic.action.FromSystem;
 import reprotool.model.linguistic.action.Goto;
 import reprotool.model.linguistic.action.ToSystem;
-import reprotool.model.usecase.UseCase;
 import reprotool.model.usecase.UseCaseStep;
 import reprotool.model.usecase.presentation.ReprotoolEditorPlugin;
 
