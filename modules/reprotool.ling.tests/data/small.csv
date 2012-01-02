@@ -19,4 +19,4 @@ MOD1_UC1_5;System verifies if data is correct .;;1;verify;4;;FROM_SYSTEM;;
 MOD1_UC1_6;System informs that account has been created .;;1;inform;4;;FROM_SYSTEM;;
 MOD1_UC1_7;Some obligatory fields were not filled.;;0;be;3;;INTERNAL;;
 MOD1_UC1_8;Systems highlights the missing fields .;;1;highlight;5;;FROM_SYSTEM;;
-MOD1_UC1_9;Back to step 4 .;;0;;4;;GOTO;;
+MOD1_UC1_9;Back to step 4 .;;0;;4;;GOTO;4;

@@ -78,18 +78,7 @@ public class Analyser {
 		} else {
 			objects = FindConstituent.findRepresentativeObject(sentence, null);				
 		}
-		
-		// ACTORS
-		// add subject as a new actor
-		if(subject != null){
-			Actor actor = swfactory.createActor();
-			actor.setName(subject.getLemma());
-			actor.setDescription(subject.getText());
-			// add command
-			AddCommand addCommand = new AddCommand(editingDomain, ucs.getSoftwareProjectShortcut(), SwprojPackage.Literals.SOFTWARE_PROJECT__ACTORS, actor);
-			compoundCommand.append(addCommand);	
-		}
-		
+			
 		// FIND ACTION
 		// detection of GOTO action
 		if (!definedAction) definedAction = definedAction && detectGoto(ucs, sentence);

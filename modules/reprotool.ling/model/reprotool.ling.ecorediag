@@ -18,7 +18,7 @@
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_dWGLsfDsEeCrpKqsPek7YQ" fontColor="4210752" fontName="Sans" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
     <element xmi:type="ecore:EClass" href="reprotool.ling.ecore#//Sentence"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_dWGLsvDsEeCrpKqsPek7YQ" x="135" y="45" width="148" height="83"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_dWGLsvDsEeCrpKqsPek7YQ" x="220" y="45" width="148" height="83"/>
   </children>
   <children xmi:type="notation:Node" xmi:id="_jPtDYPDsEeCrpKqsPek7YQ" type="1001">
     <children xmi:type="notation:Node" xmi:id="_jPuRgPDsEeCrpKqsPek7YQ" type="4001"/>
@@ -102,7 +102,7 @@
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_XGe4AvvSEeCW9v1SpsxBYA" fontColor="4210752" fontName="Segoe UI" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
     <element xmi:type="ecore:EClass" href="reprotool.ling.ecore#//SentenceNode"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_XGe4A_vSEeCW9v1SpsxBYA" x="125" y="290" width="178" height="63"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_XGe4A_vSEeCW9v1SpsxBYA" x="210" y="290" width="178" height="63"/>
   </children>
   <children xmi:type="notation:Node" xmi:id="_JVoh0PvTEeCW9v1SpsxBYA" type="1005">
     <children xmi:type="notation:Node" xmi:id="_JVpv8PvTEeCW9v1SpsxBYA" type="4010"/>
@@ -137,7 +137,7 @@
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_JVoh0fvTEeCW9v1SpsxBYA" fontColor="4210752" fontName="Segoe UI" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
     <element xmi:type="ecore:EEnum" href="reprotool.ling.ecore#//SentenceType"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_JVoh0vvTEeCW9v1SpsxBYA" x="90" y="400" height="148"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_JVoh0vvTEeCW9v1SpsxBYA" x="245" y="390" height="148"/>
   </children>
   <children xmi:type="notation:Node" xmi:id="_2J_g8AbWEeG_7d3-mtVnVg" type="1005">
     <children xmi:type="notation:Node" xmi:id="_2KDyYAbWEeG_7d3-mtVnVg" type="4010"/>
@@ -188,7 +188,7 @@
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_2J_g8QbWEeG_7d3-mtVnVg" fontColor="4210752" fontName="Segoe UI" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
     <element xmi:type="ecore:EEnum" href="reprotool.ling.ecore#//NodeType"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_2J_g8gbWEeG_7d3-mtVnVg" x="250" y="400" height="213"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_2J_g8gbWEeG_7d3-mtVnVg" x="405" y="390" height="213"/>
   </children>
   <children xmi:type="notation:Node" xmi:id="_AN2uYAbeEeG5mYDa17WmjQ" type="1005">
     <children xmi:type="notation:Node" xmi:id="_AN5KoAbeEeG5mYDa17WmjQ" type="4010"/>
@@ -215,7 +215,7 @@
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_AN2uYQbeEeG5mYDa17WmjQ" fontColor="4210752" fontName="Segoe UI" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
     <element xmi:type="ecore:EEnum" href="reprotool.ling.ecore#//WordType"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_AN2uYgbeEeG5mYDa17WmjQ" x="385" y="400"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_AN2uYgbeEeG5mYDa17WmjQ" x="540" y="390"/>
   </children>
   <children xmi:type="notation:Node" xmi:id="_jzOKUAt-EeGR-K2IISKIHg" type="1001">
     <children xmi:type="notation:Node" xmi:id="_jzOKUwt-EeGR-K2IISKIHg" type="4001"/>
@@ -382,7 +382,7 @@
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_mcbQIQudEeG62JITji1IWA" fontColor="4210752" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
     <element xmi:type="ecore:EEnum" href="reprotool.ling.ecore#//POSType"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_mcbQIgudEeG62JITji1IWA" x="815" y="25" height="613"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_mcbQIgudEeG62JITji1IWA" x="770" y="15" height="613"/>
   </children>
   <styles xmi:type="notation:DiagramStyle" xmi:id="_WhVTUfDsEeCrpKqsPek7YQ"/>
   <element xmi:type="ecore:EPackage" href="reprotool.ling.ecore#/"/>
