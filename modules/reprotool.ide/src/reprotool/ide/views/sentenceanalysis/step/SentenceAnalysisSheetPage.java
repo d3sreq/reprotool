@@ -14,6 +14,8 @@ import org.eclipse.core.databinding.observable.list.WritableList;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.databinding.observable.value.WritableValue;
 import org.eclipse.core.databinding.property.value.IValueProperty;
+import org.eclipse.emf.common.command.Command;
+import org.eclipse.emf.common.command.CompoundCommand;
 import org.eclipse.emf.databinding.FeaturePath;
 import org.eclipse.emf.databinding.IEMFValueProperty;
 import org.eclipse.emf.databinding.edit.EMFEditObservables;
@@ -21,6 +23,7 @@ import org.eclipse.emf.databinding.edit.EMFEditProperties;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.command.DeleteCommand;
+import org.eclipse.emf.edit.command.RemoveCommand;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
@@ -58,6 +61,8 @@ import reprotool.model.linguistic.action.Unknown;
 import reprotool.model.linguistic.action.UseCaseInclude;
 import reprotool.model.linguistic.actionpart.ActionpartFactory;
 import reprotool.model.linguistic.actionpart.ActionpartPackage;
+import reprotool.model.linguistic.actionpart.SentenceActionParam;
+import reprotool.model.linguistic.actionpart.TextRange;
 import reprotool.model.swproj.SwprojPackage;
 import reprotool.model.usecase.UseCaseStep;
 import reprotool.model.usecase.UsecasePackage;
@@ -494,8 +499,15 @@ public class SentenceAnalysisSheetPage extends Page implements ISentenceAnalysis
 		}
 
 		private void removeTextNodes(UseCaseStep useCaseStep) {
-//			DeleteCommand deleteCommand = DeleteCommand.create(editingDomain, collection)
+			CompoundCommand compoundCommand = new CompoundCommand();
 			
+			for (TextRange textRange : useCaseStep.getTextNodes()) {
+				// remove text range
+				RemoveCommand removeCommand = new RemoveCommand(editingDomain, useCaseStep, UsecasePackage.Literals.PARSEABLE_ELEMENT__TEXT_NODES, textRange);
+				compoundCommand.append(removeCommand);				
+			}
+			
+			editingDomain.getCommandStack().execute(compoundCommand);
 		}
 
 	}
