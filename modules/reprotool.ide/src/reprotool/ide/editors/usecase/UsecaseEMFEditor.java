@@ -898,7 +898,7 @@ public class UsecaseEMFEditor extends MultiPageEditorPart implements IEditingDom
 			{
 				usecaseEditorPart = new UsecaseEMFEditorPart(this);
 				try {
-					int pageIndex = addPage(usecaseEditorPart, getEditorInput());
+					addPage(usecaseEditorPart, getEditorInput());
 				} catch (PartInitException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

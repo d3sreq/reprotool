@@ -4,7 +4,6 @@ import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 
 import reprotool.model.edit.ext.common.ReprotoolEditExtPlugin;
-import reprotool.model.swproj.Actor;
 import reprotool.model.swproj.ConceptualObject;
 
 import com.google.inject.Inject;

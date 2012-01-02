@@ -9,7 +9,6 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 
 import reprotool.model.edit.ext.common.ReprotoolEditExtPlugin;
-import reprotool.model.swproj.ConceptualObject;
 import reprotool.model.swproj.provider.SoftwareProjectItemProviderExt;
 import reprotool.model.usecase.UseCase;
 

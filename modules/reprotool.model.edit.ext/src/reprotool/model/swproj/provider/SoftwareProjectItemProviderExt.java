@@ -27,12 +27,7 @@ import reprotool.model.edit.ext.common.ReprotoolEditExtPlugin;
 import reprotool.model.swproj.SoftwareProject;
 import reprotool.model.swproj.SwprojFactory;
 import reprotool.model.swproj.SwprojPackage;
-import reprotool.model.usecase.Scenario;
-import reprotool.model.usecase.UseCase;
-import reprotool.model.usecase.UseCaseStep;
-import reprotool.model.usecase.UsecaseFactory;
 import reprotool.model.usecase.provider.ReprotoolEditPlugin;
-import utils.Utils;
 
 import com.google.inject.Inject;
 import com.google.inject.name.Named;

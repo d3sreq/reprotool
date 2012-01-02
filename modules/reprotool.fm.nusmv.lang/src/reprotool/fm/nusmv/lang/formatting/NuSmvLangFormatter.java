@@ -46,6 +46,6 @@ public class NuSmvLangFormatter extends AbstractDeclarativeFormatter {
 		c.setIndentationIncrement().before(g.getModuleElementRule());
 		c.setIndentationDecrement().after(g.getModuleElementRule());
 				
-		System.out.println("configuring nusmv code formatter");
+		//System.out.println("configuring nusmv code formatter");
 	}	
 }
