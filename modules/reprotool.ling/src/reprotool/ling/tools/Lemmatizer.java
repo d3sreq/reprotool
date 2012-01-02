@@ -100,7 +100,8 @@ public class Lemmatizer extends Tool {
 			} catch (URISyntaxException e1) {
 				rootPath = new java.io.File(Parser.class.getResource("/").getPath()).getParentFile().getParent();
 			}
-			modelFile = rootPath + "/../tools/mate-tools/lemma-eng.model";
+			//modelFile = rootPath + "/../tools/mate-tools/lemma-eng.model";
+			modelFile = rootPath + "/reprotool.tools.anna/data/lemma-eng.model";
     	}   	
     	
         // location of the model - options

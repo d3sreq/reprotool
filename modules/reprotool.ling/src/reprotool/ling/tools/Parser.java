@@ -141,7 +141,8 @@ public class Parser extends Tool {
 			} catch (URISyntaxException e1) {
 				rootPath = new java.io.File(Parser.class.getResource("/").getPath()).getParentFile().getParent();
 			}
-			modelFile = rootPath + "/../tools/parser/wsj-02-21.obj.gz";
+			modelFile = rootPath + "/reprotool.tools.dbparser/data/wsj-02-21.obj.gz";
+			//modelFile = rootPath + "/../tools/parser/wsj-02-21.obj.gz";
 		}   
 			
 		// locating external settings
@@ -154,7 +155,7 @@ public class Parser extends Tool {
 			} catch (URISyntaxException e1) {
 				rootPath = new java.io.File(Parser.class.getResource("/").getPath()).getParentFile().getParent();
 			}
-			settingsFile = rootPath + "/../tools/parser/collins.properties";
+			settingsFile = rootPath + "/reprotool.tools.dbparser/data/collins.properties";
 		} 
 
 

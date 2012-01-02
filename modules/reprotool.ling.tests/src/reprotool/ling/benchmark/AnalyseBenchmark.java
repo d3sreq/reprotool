@@ -195,7 +195,7 @@ public class AnalyseBenchmark {
 			} catch (URISyntaxException e) {
 				rootPath = new java.io.File(Parser.class.getResource("/").getPath()).getParentFile().getParent();
 			}
-			path = rootPath + "/../tools/benchmark/" + fileName;
+			path = rootPath + "/reprotool.ling.tests/data/" + fileName;
 		} else if (!path.contains("/")) {
 			fileName = path;
 			String rootPath;
@@ -204,7 +204,7 @@ public class AnalyseBenchmark {
 			} catch (URISyntaxException e) {
 				rootPath = new java.io.File(Parser.class.getResource("/").getPath()).getParentFile().getParent();
 			}
-			path = rootPath + "/../tools/benchmark/" + fileName;			
+			path = rootPath + "/reprotool.ling.tests/data/" + fileName;			
 		}
 		
 		File dataFile = new File(path);

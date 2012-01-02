@@ -45,7 +45,8 @@ public class TaggerThread extends Thread {
 			} catch (URISyntaxException e1) {
 				rootPath = new java.io.File(Tagger.class.getResource("/").getPath()).getParentFile().getParent();
 			}
-			path = rootPath + "/../tools/MXPost_tagger/tagger.project";
+			path = rootPath + "/reprotool.tools.mxpost/data/tagger.project";
+			//path = rootPath + "/../tools/MXPost_tagger/tagger.project";
 		}
 		
 		// set error stream

@@ -1,0 +1,22 @@
+ID;SENTENCE;ACTORS;SUBJECT_NUMBER;VERB_LEMMA;OBJECT_NUMBER;INDIRECT_OBJECT_NUMBER;ACTION_CODE;ACTION_PARAM1;ACTION_PARAM2
+RPT1;User opens window.;;1;open;3;;INTERNAL;;
+RPT2;System creates a new object.;;1;create;5;;FROM_SYSTEM;;
+RPT3;User fills login.;;1;fill;3;;INTERNAL;;
+RPT4;User fills login and password.;;1;fill;3,5;;INTERNAL;;
+RPT5;User closes the system.;;1;close;4;;TO_SYSTEM;;
+RPT6;Field is checked by the user.;;6;check;1;;INTERNAL;;
+RPT7;Continue to next step.;;0;continue;4;;GOTO;;
+RPT8;Abort scenario.;;0;abort;2;;ABORT;;
+RPT9;System throws error.;;1;throw;3;;FROM_SYSTEM;;
+RPT10;System terminates current action.;;1;terminate;4;;ABORT;;
+LING1;System provides the seller with a prise assessment.;seller;1;provide;8;4;FROM_SYSTEM;;
+LING2;System provides a prise assessment to the seller. ;seller;1;provide;5;8;FROM_SYSTEM;FROM_SYSTEM;
+MOD1_UC1_1;Candidate opens system main-page .;candidate;1;open;5;;INTERNAL;;
+MOD1_UC1_2;Candidate chooses registration option .;candidate;1;choose;4;;INTERNAL;;
+MOD1_UC1_3;System presents a registration data form and asks to enter the registration data .;;1;present;6,13;;FROM_SYSTEM;;
+MOD1_UC1_4;Candidate fills the registration data form and submits the registration data form .;candidate;1;fill;6,12;;INTERNAL;;
+MOD1_UC1_5;System verifies if data is correct .;;1;verify;4;;FROM_SYSTEM;;
+MOD1_UC1_6;System informs that account has been created .;;1;inform;4;;FROM_SYSTEM;;
+MOD1_UC1_7;Some obligatory fields were not filled.;;0;be;3;;INTERNAL;;
+MOD1_UC1_8;Systems highlights the missing fields .;;1;highlight;5;;FROM_SYSTEM;;
+MOD1_UC1_9;Back to step 4 .;;0;;4;;GOTO;;
