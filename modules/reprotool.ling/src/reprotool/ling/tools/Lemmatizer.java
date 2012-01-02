@@ -123,7 +123,6 @@ public class Lemmatizer extends Tool {
 			IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, "Error during lemmatizer model initialization", e);
 			StatusManager.getManager().handle(status, StatusManager.LOG);
 		}
-        
 		return runs;  
     }
     

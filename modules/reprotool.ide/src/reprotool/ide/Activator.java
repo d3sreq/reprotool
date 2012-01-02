@@ -4,6 +4,8 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
+import reprotool.ling.LingTools;
+
 
 /**
  * The activator class controls the plug-in life cycle
@@ -33,7 +35,7 @@ public class Activator extends AbstractUIPlugin {
 		super.start(context);
 		
 		// loading linguistics models into a memory
-//		LingTools.initJob();
+		LingTools.initJob();
 		
 		plugin = this;
 	}

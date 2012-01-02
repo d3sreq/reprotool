@@ -114,7 +114,7 @@ public class Tagger extends Tool{
 
     	// wait till model loads
 		try {
-			while(!err.toString("UTF-8").trim().endsWith("Ratnaparkhi*")) {
+			while(!err.toString("UTF-8").trim().endsWith("Ratnaparkhi*")&& tagger.isAlive()) {
 				try {
 					Thread.sleep(50);
 				} catch (InterruptedException e) {
