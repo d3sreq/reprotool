@@ -63,6 +63,10 @@ public class MarkingService {
 	}
 
 	private void markCommon(EMarkAction markAction) {
+		if (styledTextCellEditor == null) {
+			return;
+		}
+		
 		// get information about selection from editor
 		int[] selectionRange = styledTextCellEditor.getText().getSelectionRanges();
 		if (selectionRange.length == 0) {

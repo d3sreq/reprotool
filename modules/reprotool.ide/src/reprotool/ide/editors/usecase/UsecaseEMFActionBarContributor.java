@@ -46,6 +46,12 @@ import reprotool.ide.editors.usecase.sentenceanalysis.action.IncludeUseCaseActio
 import reprotool.ide.editors.usecase.sentenceanalysis.action.ParamAction;
 import reprotool.ide.editors.usecase.sentenceanalysis.action.ReceiverAction;
 import reprotool.ide.editors.usecase.sentenceanalysis.action.SenderAction;
+import reprotool.model.linguistic.action.Communication;
+import reprotool.model.linguistic.action.FromSystem;
+import reprotool.model.linguistic.action.Goto;
+import reprotool.model.linguistic.action.ToSystem;
+import reprotool.model.usecase.UseCase;
+import reprotool.model.usecase.UseCaseStep;
 import reprotool.model.usecase.presentation.ReprotoolEditorPlugin;
 
 /**
@@ -57,8 +63,6 @@ import reprotool.model.usecase.presentation.ReprotoolEditorPlugin;
 public class UsecaseEMFActionBarContributor
 	extends EditingDomainActionBarContributor
 	implements ISelectionChangedListener {
-	
-	private AutomaticAnalysisAction action;
 	
 	/**
 	 * This keeps track of the active editor.
@@ -154,6 +158,17 @@ public class UsecaseEMFActionBarContributor
 	 */
 	protected IMenuManager createSiblingMenuManager;
 
+	private SenderAction senderAction;
+	private ActivityAction activityAction;
+	private ReceiverAction receiverAction;
+	private ParamAction paramAction;
+	private GotoAction gotoAction;
+	private IncludeUseCaseAction includeUseCaseAction;
+	private EraseAction eraseAction;
+	
+	private AutomaticAnalysisAction automaticAnalysisAction;
+	
+
 	/**
 	 * This creates an instance of the contributor.
 	 * <!-- begin-user-doc -->
@@ -171,24 +186,32 @@ public class UsecaseEMFActionBarContributor
 	 * This adds Separators for editor additions to the tool bar.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public void contributeToToolBar(IToolBarManager toolBarManager) {
 		toolBarManager.add(new Separator("usecase-settings"));
 		
-		toolBarManager.add(new SenderAction("sender-action"));
-		toolBarManager.add(new ActivityAction("activity-action"));
-		toolBarManager.add(new ReceiverAction("receiver-action"));
-		toolBarManager.add(new ParamAction("action-param-action"));
-		toolBarManager.add(new GotoAction("goto-action"));
-		toolBarManager.add(new IncludeUseCaseAction("include-use-case-action"));
-		toolBarManager.add(new EraseAction("plain-text-action"));
+		senderAction = new SenderAction("sender-action");
+		toolBarManager.add(senderAction);
+		senderAction.setEnabled(false);
+		activityAction = new ActivityAction("activity-action");
+		toolBarManager.add(activityAction);
+		receiverAction = new ReceiverAction("receiver-action");
+		toolBarManager.add(receiverAction);
+		paramAction = new ParamAction("action-param-action");
+		toolBarManager.add(paramAction);
+		gotoAction = new GotoAction("goto-action");
+		toolBarManager.add(gotoAction);
+		includeUseCaseAction = new IncludeUseCaseAction("include-use-case-action");
+		toolBarManager.add(includeUseCaseAction);
+		eraseAction = new EraseAction("plain-text-action");
+		toolBarManager.add(eraseAction);
 		
 		toolBarManager.add(new Separator("usecase-automatic-tools"));
 		
-		action = new AutomaticAnalysisAction("usecase-automatic");
-		toolBarManager.add(action);
+		automaticAnalysisAction = new AutomaticAnalysisAction("usecase-automatic");
+		toolBarManager.add(automaticAnalysisAction);
 		
 		toolBarManager.add(new Separator("usecase-additions"));
 	}
@@ -257,7 +280,7 @@ public class UsecaseEMFActionBarContributor
 			selectionProvider.addSelectionChangedListener(this);
 
 			// add linguistic tools analysis
-			selectionProvider.addSelectionChangedListener(action);
+			selectionProvider.addSelectionChangedListener(automaticAnalysisAction);
 			
 			// Fake a selection changed event to update the menus.
 			//
@@ -273,7 +296,7 @@ public class UsecaseEMFActionBarContributor
 	 * that can be added to the selected object and updating the menus accordingly.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	public void selectionChanged(SelectionChangedEvent event) {
 		// Remove any menu items for old selection.
@@ -312,6 +335,39 @@ public class UsecaseEMFActionBarContributor
 		if (createSiblingMenuManager != null) {
 			populateManager(createSiblingMenuManager, createSiblingActions, null);
 			createSiblingMenuManager.update(true);
+		}
+		
+		// change from generated method
+		changeMarkingActionsEnablement(selection);
+	}
+
+	private void changeMarkingActionsEnablement(ISelection selection) {
+		boolean isUseCaseStep = (selection instanceof IStructuredSelection) 
+				&& (((IStructuredSelection)selection).size() == 1)
+				&& (((IStructuredSelection)selection).getFirstElement() instanceof UseCaseStep);
+		
+		if (isUseCaseStep) {
+			UseCaseStep useCaseStep = (UseCaseStep)((IStructuredSelection)selection).getFirstElement();
+			reprotool.model.linguistic.action.Action action = useCaseStep.getAction();
+			
+			senderAction.setEnabled(action instanceof ToSystem);
+			activityAction.setEnabled(action instanceof Communication);
+			receiverAction.setEnabled(action instanceof FromSystem);
+			paramAction.setEnabled(action instanceof Communication);
+			gotoAction.setEnabled(action instanceof Goto);
+			includeUseCaseAction.setEnabled(action instanceof IncludeUseCaseAction);
+			eraseAction.setEnabled(true);
+			automaticAnalysisAction.setEnabled(true);
+		} else {
+			// disable all
+			senderAction.setEnabled(false);
+			activityAction.setEnabled(false);
+			receiverAction.setEnabled(false);
+			paramAction.setEnabled(false);
+			gotoAction.setEnabled(false);
+			includeUseCaseAction.setEnabled(false);
+			eraseAction.setEnabled(false);
+			automaticAnalysisAction.setEnabled(false);
 		}
 	}
 
