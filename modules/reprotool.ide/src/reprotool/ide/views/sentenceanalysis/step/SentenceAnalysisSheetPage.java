@@ -20,7 +20,10 @@ import org.eclipse.emf.databinding.edit.EMFEditObservables;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.edit.command.DeleteCommand;
+import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
+import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.jface.databinding.viewers.ViewerSupport;
 import org.eclipse.jface.databinding.viewers.ViewersObservables;
@@ -294,7 +297,7 @@ public class SentenceAnalysisSheetPage extends Page implements ISentenceAnalysis
 		IObservableValue comboValue = ViewersObservables.observeSingleSelection(comboViewer);
 
 		UpdateValueStrategy comboToEmfStrategy = new UpdateValueStrategy();
-		comboToEmfStrategy.setConverter(new ComboToActionConverter());
+		comboToEmfStrategy.setConverter(new ComboToActionConverter(writableValue, editingDomain));
 		UpdateValueStrategy emfToComboStrategy = new UpdateValueStrategy();
 		emfToComboStrategy.setConverter(new ActionToComboConverter());
 		
@@ -468,8 +471,13 @@ public class SentenceAnalysisSheetPage extends Page implements ISentenceAnalysis
 	
 	public static class ComboToActionConverter extends Converter {
 
-		public ComboToActionConverter() {
+		private WritableValue writableValue;
+		private EditingDomain editingDomain;
+
+		public ComboToActionConverter(WritableValue writableValue, EditingDomain editingDomain) {
 			super(EComboActionType.class, Action.class);
+			this.writableValue = writableValue;
+			this.editingDomain = editingDomain;
 		}
 
 		@Override
@@ -477,8 +485,17 @@ public class SentenceAnalysisSheetPage extends Page implements ISentenceAnalysis
 			if (fromObject == null) {
 				return null;
 			}
+			
+			UseCaseStep useCaseStep = (UseCaseStep)writableValue.getValue();
+			removeTextNodes(useCaseStep);
+			
 			EComboActionType comboActionType = (EComboActionType)fromObject;
 			return comboActionType.createAction();
+		}
+
+		private void removeTextNodes(UseCaseStep useCaseStep) {
+//			DeleteCommand deleteCommand = DeleteCommand.create(editingDomain, collection)
+			
 		}
 
 	}

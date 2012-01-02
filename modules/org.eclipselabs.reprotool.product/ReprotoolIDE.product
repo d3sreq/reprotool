@@ -29,7 +29,7 @@ Charles University in Prague
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
    </launcherArgs>
 
-   <windowImages i16="icons/appwin/reprotool-16x16.png" i32="icons/appwin/reprotool-32x32.png" i48="icons/appwin/reprotool-48x48.png" i64="icons/appwin/reprotool-64x64.png" i128="icons/appwin/reprotool-128x128.png"/>
+   <windowImages i16="/org.eclipselabs.reprotool.branding/icons/appwin/reprotool-16x16.png" i32="/org.eclipselabs.reprotool.branding/icons/appwin/reprotool-32x32.png" i48="/org.eclipselabs.reprotool.branding/icons/appwin/reprotool-48x48.png" i64="/org.eclipselabs.reprotool.branding/icons/appwin/reprotool-64x64.png" i128="/org.eclipselabs.reprotool.branding/icons/appwin/reprotool-128x128.png"/>
 
    <splash
       location="org.eclipselabs.reprotool.branding"
@@ -41,14 +41,15 @@ Charles University in Prague
       <solaris/>
       <win useIco="false">
          <bmp
-            winSmallHigh="icons/reprotool-16x16_32.bmp"
-            winSmallLow="icons/reprotool-16x16_8.bmp"
-            winMediumHigh="icons/reprotool-32x32_32.bmp"
-            winMediumLow="icons/reprotool-32x32_8.bmp"
-            winLargeHigh="icons/reprotool-48x48_32.bmp"
-            winLargeLow="icons/reprotool-48x48_8.bmp"/>
+            winSmallHigh="/org.eclipselabs.reprotool.branding/icons/reprotool-16x16_32.bmp"
+            winSmallLow="/org.eclipselabs.reprotool.branding/icons/reprotool-16x16_8.bmp"
+            winMediumHigh="/org.eclipselabs.reprotool.branding/icons/reprotool-32x32_32.bmp"
+            winMediumLow="/org.eclipselabs.reprotool.branding/icons/reprotool-32x32_8.bmp"
+            winLargeHigh="/org.eclipselabs.reprotool.branding/icons/reprotool-48x48_32.bmp"
+            winLargeLow="/org.eclipselabs.reprotool.branding/icons/reprotool-48x48_8.bmp"/>
       </win>
    </launcher>
+
 
    <vm>
    </vm>
