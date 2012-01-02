@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URISyntaxException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -188,11 +189,21 @@ public class AnalyseBenchmark {
 		
 		// input
 		if (path.isEmpty()) {
-				String rootPath = new java.io.File(Parser.class.getResource("/").getPath()).getParentFile().getParent();
-				path = rootPath + "/../tools/benchmark/" + fileName;
+			String rootPath;
+			try {
+				rootPath = new java.io.File(Parser.class.getResource("/").toURI()).getParentFile().getParent();
+			} catch (URISyntaxException e) {
+				rootPath = new java.io.File(Parser.class.getResource("/").getPath()).getParentFile().getParent();
+			}
+			path = rootPath + "/../tools/benchmark/" + fileName;
 		} else if (!path.contains("/")) {
 			fileName = path;
-			String rootPath = new java.io.File(Parser.class.getResource("/").getPath()).getParentFile().getParent();
+			String rootPath;
+			try {
+				rootPath = new java.io.File(Parser.class.getResource("/").toURI()).getParentFile().getParent();
+			} catch (URISyntaxException e) {
+				rootPath = new java.io.File(Parser.class.getResource("/").getPath()).getParentFile().getParent();
+			}
 			path = rootPath + "/../tools/benchmark/" + fileName;			
 		}
 		

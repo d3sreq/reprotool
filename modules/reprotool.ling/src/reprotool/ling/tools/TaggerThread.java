@@ -3,6 +3,7 @@ package reprotool.ling.tools;
 import java.io.ByteArrayOutputStream;
 import java.io.PipedInputStream;
 import java.io.PrintStream;
+import java.net.URISyntaxException;
 
 import org.eclipse.core.runtime.Platform;
 
@@ -38,7 +39,12 @@ public class TaggerThread extends Thread {
 		try{
 			path = Platform.getPreferencesService().getString("reprotool.ide", "mxpostModel", "/tagger.project", null);
 		} catch (NullPointerException e){
-			String rootPath = new java.io.File(Tagger.class.getResource("/").getPath()).getParentFile().getParent();
+			String rootPath;
+			try {
+				rootPath = new java.io.File(Tagger.class.getResource("/").toURI()).getParentFile().getParent();
+			} catch (URISyntaxException e1) {
+				rootPath = new java.io.File(Tagger.class.getResource("/").getPath()).getParentFile().getParent();
+			}
 			path = rootPath + "/../tools/MXPost_tagger/tagger.project";
 		}
 		

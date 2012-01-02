@@ -1,6 +1,8 @@
 package reprotool.ling.tools;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.net.URISyntaxException;
 import java.rmi.RemoteException;
 import java.util.regex.Pattern;
 
@@ -131,7 +133,12 @@ public class Parser extends Tool {
     	try{
 			modelFile = Platform.getPreferencesService().getString("reprotool.ide", "parserModel", "/wsj-02-21.obj.gz", null);
 		} catch (NullPointerException e){
-			String rootPath = new java.io.File(Parser.class.getResource("/").getPath()).getParentFile().getParent();
+			String rootPath;
+			try {
+				rootPath = new java.io.File(Parser.class.getResource("/").toURI()).getParentFile().getParent();
+			} catch (URISyntaxException e1) {
+				rootPath = new java.io.File(Parser.class.getResource("/").getPath()).getParentFile().getParent();
+			}
 			modelFile = rootPath + "/../tools/parser/wsj-02-21.obj.gz";
 		}   
 			
@@ -139,7 +146,12 @@ public class Parser extends Tool {
     	try{
     		settingsFile = Platform.getPreferencesService().getString("reprotool.ide", "parserSettings", "/collins.properties", null);
 		} catch (NullPointerException e){
-			String rootPath = new java.io.File(Parser.class.getResource("/").getPath()).getParentFile().getParent();
+			String rootPath;
+			try {
+				rootPath = new java.io.File(Parser.class.getResource("/").toURI()).getParentFile().getParent();
+			} catch (URISyntaxException e1) {
+				rootPath = new java.io.File(Parser.class.getResource("/").getPath()).getParentFile().getParent();
+			}
 			settingsFile = rootPath + "/../tools/parser/collins.properties";
 		} 
 
@@ -154,8 +166,9 @@ public class Parser extends Tool {
     	
 		try {
 			parser = new danbikel.parser.Parser(modelFile);
-			runs = true;
+			runs = true;			
 		} catch (Exception e) {
+			System.out.println("Got an IOException: " + e.getMessage());
 			IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, "Parser error during loading model file", e);
 			StatusManager.getManager().handle(status, StatusManager.LOG);
 		}

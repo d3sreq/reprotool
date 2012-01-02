@@ -2,6 +2,7 @@ package reprotool.ling.tools;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 
 import org.eclipse.core.runtime.IStatus;
@@ -93,11 +94,13 @@ public class Lemmatizer extends Tool {
 		try{
 			modelFile = Platform.getPreferencesService().getString("reprotool.ide", "lemmatizerModel", "/lemma-eng.model", null);
     	} catch (NullPointerException e){
-			String rootPath = new java.io.File(Parser.class.getResource("/").getPath()).getParentFile().getParent();
+			String rootPath;
+			try {
+				rootPath = new java.io.File(Parser.class.getResource("/").toURI()).getParentFile().getParent();
+			} catch (URISyntaxException e1) {
+				rootPath = new java.io.File(Parser.class.getResource("/").getPath()).getParentFile().getParent();
+			}
 			modelFile = rootPath + "/../tools/mate-tools/lemma-eng.model";
-			// TODO better monitor
-			//IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, "Wrong location of lemmatizer model file", e);
-			//StatusManager.getManager().handle(status, StatusManager.LOG);
     	}   	
     	
         // location of the model - options
