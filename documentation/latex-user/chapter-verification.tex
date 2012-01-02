@@ -53,3 +53,21 @@ is shown in the next picture:
 
 Now if you run the \emph{NuSMV} verification, the \emph{NuSMV} model checker does not consider the path in the previous counter-example
 and therefore the project passes the verification process. 
+
+\subsection{Check the example projects}
+In the folder \emph{documentation} of the \emph{Reprotool} root svn directory, there is a directory \emph{exampleProjects} that you
+can directly import into \emph{Reprotool}. There is the \emph{postOffice} project, the \emph{postOfficeTraceOn} project with \emph{trace}/\emph{on}
+annotation pair and a couple of others that you can check. Import the projects into \emph{Reprotool} by executing this command:
+\begin{verbatim}
+ File / Import
+\end{verbatim}
+Now a dialog box appears, select \emph{General} and there click on the \emph{Existing projects into workspace}. Press Next. Now select
+as the root directorythe \emph{exampleProjects} directory on your filesystem. Now click Finish - the projects should now be imported
+to your \emph{eclipse workspace}.
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=280pt]{images/reprotoolImport}
+  \caption{\emph{Reprotool} import project dialog}
+  \label{fig:reprotoolImport}
+\end{figure}
