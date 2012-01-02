@@ -12,7 +12,6 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.command.BasicCommandStack;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CommandStackListener;
-import org.eclipse.emf.common.command.CompoundCommand;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.ui.URIEditorInput;
 import org.eclipse.emf.databinding.FeaturePath;
@@ -182,7 +181,6 @@ public class UsecaseEMFEditorPart extends EditorPart implements IMenuListener, I
 		}
 
 		// add command stack listener to refresh tree
-		// TODO - jvinarek - add somewhere remove listener ?
 		getCommandStack().addCommandStackListener(new CommandStackListener() {
 			
 			public void commandStackChanged(final EventObject event) {
@@ -191,11 +189,6 @@ public class UsecaseEMFEditorPart extends EditorPart implements IMenuListener, I
 				Command mostRecentCommand = getCommandStack().getMostRecentCommand();
 				if (isActionChanging(mostRecentCommand)) {
 					composite.getTreeViewer().refresh(true);
-//					parentEditor.getContainer().getDisplay().asyncExec(new Runnable() {
-//						public void run() {
-//							UsecaseEMFEditorPart.this.composite.getTreeViewer().refresh();
-//						}
-//					});
 				}
 			}
 
