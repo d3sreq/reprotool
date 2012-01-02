@@ -9,6 +9,10 @@ public class TextRangeImplCustom extends TextRangeImpl {
 
 	@Override
 	public String getContent() {
+		if (eContainer == null) {
+			return "";
+		}
+		
 		Assert.isTrue(eContainer() instanceof ParseableElement, "Parent of the TextRange node must be ParseableElement");
 		ParseableElement parseableElement = (ParseableElement)eContainer();
 		

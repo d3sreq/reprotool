@@ -72,9 +72,6 @@ public class MarkingService {
 		int start = selectionRange[0];
 		int length = selectionRange[1];
 
-		// TODO - replace with logging.
-		System.out.println("Marking: " +  textContent.getTextRange(start, length));
-		
 		markAction.mark(start, length, textContent);
 	}
 

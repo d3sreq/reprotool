@@ -2,6 +2,7 @@ package reprotool.ide.views.sentenceanalysis.step;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.EventObject;
 import java.util.List;
 
 import org.eclipse.core.databinding.DataBindingContext;
@@ -14,7 +15,7 @@ import org.eclipse.core.databinding.observable.list.WritableList;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.databinding.observable.value.WritableValue;
 import org.eclipse.core.databinding.property.value.IValueProperty;
-import org.eclipse.emf.common.command.Command;
+import org.eclipse.emf.common.command.CommandStackListener;
 import org.eclipse.emf.common.command.CompoundCommand;
 import org.eclipse.emf.databinding.FeaturePath;
 import org.eclipse.emf.databinding.IEMFValueProperty;
@@ -22,9 +23,7 @@ import org.eclipse.emf.databinding.edit.EMFEditObservables;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.edit.command.DeleteCommand;
 import org.eclipse.emf.edit.command.RemoveCommand;
-import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.jface.databinding.swt.SWTObservables;
@@ -61,7 +60,6 @@ import reprotool.model.linguistic.action.Unknown;
 import reprotool.model.linguistic.action.UseCaseInclude;
 import reprotool.model.linguistic.actionpart.ActionpartFactory;
 import reprotool.model.linguistic.actionpart.ActionpartPackage;
-import reprotool.model.linguistic.actionpart.SentenceActionParam;
 import reprotool.model.linguistic.actionpart.TextRange;
 import reprotool.model.swproj.SwprojPackage;
 import reprotool.model.usecase.UseCaseStep;
@@ -422,13 +420,13 @@ public class SentenceAnalysisSheetPage extends Page implements ISentenceAnalysis
 			m_bindingContext = initDataBindings();
 		}
 		
-		boxContainer.getActionTypeBox().getComboViewer().addPostSelectionChangedListener(new ISelectionChangedListener() {
+		editingDomain.getCommandStack().addCommandStackListener(new CommandStackListener() {
 			
 			@Override
-			public void selectionChanged(SelectionChangedEvent event) {
-				// some of the boxes are hidden after selection
-				// call is needed to recompute layout.
-				SentenceAnalysisSheetPage.this.boxContainer.layout();
+			public void commandStackChanged(EventObject event) {
+				boxContainer.redraw();
+				boxContainer.layout();
+				boxContainer.redraw();
 			}
 		});
 	}
