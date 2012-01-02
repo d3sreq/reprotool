@@ -69,7 +69,7 @@ public class Analyser {
 		subject = FindConstituent.findSubject(sentence, LingConfig.actors);
 		// find objects
 		indirectobjects = FindConstituent.findIndirectObject(sentence, null);	
-		if (indirectobjects != null) {
+		if (indirectobjects != null && indirectobjects.size() > 1) {
 			objects = FindConstituent.findRepresentativeObject(sentence, (SentenceNode)indirectobjects.get(0).getParent());			
 		} else {
 			objects = FindConstituent.findRepresentativeObject(sentence, null);				
@@ -105,13 +105,13 @@ public class Analyser {
 		// INTERNAL ACTION
 		// also TO and FROM
 		if (!definedAction){
-			if (indirectobjects == null) {				
+			if (indirectobjects == null || indirectobjects.size() == 0) {				
 				InternalAction action = afactory.createInternalAction();
 				SetCommand setCommand = new SetCommand(editingDomain, ucs, UsecasePackage.Literals.USE_CASE_STEP__ACTION, action);
 				compoundCommand.append(setCommand);										
 			} else {
 				// system actions
-				if("system".equals(subject.getLemma())) {
+				if(subject != null && "system".equals(subject.getLemma())) {
 					if ("system".equals(((Word)indirectobjects.get(0)).getLemma())) {
 						InternalAction action = afactory.createInternalAction();
 						SetCommand setCommand = new SetCommand(editingDomain, ucs, UsecasePackage.Literals.USE_CASE_STEP__ACTION, action);

@@ -147,10 +147,17 @@ public class BenchmarkSentence extends SentenceImpl {
 	 * @return String all sentence variables
 	 */
 	public String toString() {
+		// printing objects array in nice way
+		String inOb = "";
+		for (int a : inResults.objectNumbers){
+			inOb = inOb + a + ",";
+		}
+		if (inOb.endsWith(",")) inOb = inOb.substring(0, inOb.length()-1);
+		
 		// result
 		String result = "ID: " + id + " SENTENCE: " + sentence + " SUBJECT: "
 				+ inResults.subjectNumber + " VERB: " + inResults.verbLemma + " OBJECT: "
-				+ inResults.objectNumbers + " INDIRECT_OBJECT: " + inResults.indirectObjectNumber
+				+ inOb + " INDIRECT_OBJECT: " + inResults.indirectObjectNumber
 				+ " ACTION: " + inResults.actionCode;
 		return result;
 	}

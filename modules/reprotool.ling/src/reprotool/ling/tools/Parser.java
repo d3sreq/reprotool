@@ -1,7 +1,6 @@
 package reprotool.ling.tools;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.net.URISyntaxException;
 import java.rmi.RemoteException;
 import java.util.regex.Pattern;
@@ -189,8 +188,8 @@ public class Parser extends Tool {
     	Sexp result = null;
 
     	// remove bad parenthesis
-    	originalText.replaceAll("\\(\\( \\(NN\\)\\)", "");
-    	originalText.replaceAll("\\(\\) \\(NN\\)\\)", "");
+    	originalText = originalText.replaceAll("\\(\\( \\(NN\\)\\)", "");
+    	originalText = originalText.replaceAll("\\(\\) \\(NN\\)\\)", "");
     
 		// parsing sentence
 		try {

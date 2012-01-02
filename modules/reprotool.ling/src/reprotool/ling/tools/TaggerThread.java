@@ -13,11 +13,11 @@ import org.eclipse.core.runtime.Platform;
  */
 public class TaggerThread extends Thread {	
 
-	static boolean runs = false;
+	boolean runs = false;
 	// tool IO
-	static PipedInputStream pins;
-	static ByteArrayOutputStream baos;
-	static ByteArrayOutputStream err;
+	PipedInputStream pins;
+	ByteArrayOutputStream baos;
+	ByteArrayOutputStream err;
 	
 	TaggerThread(String name) {
 		super(name);
@@ -25,10 +25,10 @@ public class TaggerThread extends Thread {
 
 	TaggerThread(PipedInputStream pins, ByteArrayOutputStream baos, ByteArrayOutputStream err) {
 		super("tagger");
-		TaggerThread.pins = pins;
-		TaggerThread.baos = baos;		
-		TaggerThread.err = err;
-		System.setIn(TaggerThread.pins);
+		this.pins = pins;
+		this.baos = baos;		
+		this.err = err;
+		System.setIn(this.pins);
 	}
 
 	// run one at time
