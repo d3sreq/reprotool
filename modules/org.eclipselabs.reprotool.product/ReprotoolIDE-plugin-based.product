@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="Reprotool IDE" uid="reprotoolIDE.product" id="org.eclipselabs.reprotool.branding.ReprotoolIDEProduct" application="org.eclipse.ui.ide.workbench" useFeatures="false" includeLaunchers="true">
+<product name="Reprotool IDE" uid="reprotoolIDE-plugin-based.product" id="org.eclipselabs.reprotool.branding.ReprotoolIDEProduct" application="org.eclipse.ui.ide.workbench" useFeatures="false" includeLaunchers="true">
 
    <aboutInfo>
       <image path="/org.eclipselabs.reprotool.branding/icons/reprotool-about-icon.png"/>
@@ -53,7 +53,6 @@ Charles University in Prague
 
    <vm>
    </vm>
-
 
    <plugins>
       <plugin id="com.google.guava"/>
