@@ -15,7 +15,7 @@ Our simple project will contain three use-cases and two actors. The \emph{PostOf
 The \emph{PostOffice} project has these two actors specified:
 
 \begin{enumerate}
- \item {\bf Peter} He writes a letter.
+ \item {\bf Peter} He writes the letter.
  \item {\bf officer} He works at the post office.
 \end{enumerate}
 
@@ -42,7 +42,7 @@ This use-case has the following structure:
  \end{enumerate}
 
 
- \item The post officer takes a letter from Peter.
+ \item The post officer takes the letter from Peter.
 \end{enumerate}
 
 
@@ -195,3 +195,68 @@ reads: \emph{Peter goes home}).
 
 \subsubsection{\emph{Actions} in the \emph{buyEnvelope} use-case}
 There are no actions specified in this use-case.
+
+\newpage
+
+\subsection{Add \emph{annotations} to the use-case steps}
+
+In this step we will need the \emph{Properties} view. If it is not displayed, you can show it with this command:
+\begin{verbatim}
+ Window / Show View / Properties
+\end{verbatim}
+
+Now we will add \emph{annotations} to some of the use-case steps. The newly created \emph{Reprotool} project already contains a vocabulary
+of annotations that are ready to be used. We will now show how to use them.
+
+\subsubsection{\emph{Annotations} in the \emph{writeLetter} use-case}
+The second use-case step of this use-case reads: \emph{Peter writes the letter}. We will add an annotation of
+type \emph{create} to this step. Right-click on this step in the use-case editor. Execute this command:
+\begin{verbatim}
+ New Child / StepAnnotation
+\end{verbatim}
+A new \emph{Annotation} will be created under the specified use-case step. Now look at the \emph{Properties view} and select
+\emph{create} as annotation type. Write \emph{letter} as annotation id. Notice in the \emph{Properties view}, that \emph{Reprotool}
+automatically generates an annotation \emph{description} by concatenating the annotaion \emph{type} and the annotation \emph{id}.
+In this case it reads \emph{\#create\_letter}.
+Also notice that in the \emph{OutlineView} the annotated use-case steps have a small violet square drawn over them. You can view this
+situation in the next figure:
+
+\newpage
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[height=280pt]{images/reprotoolAnnot}
+  \caption{\emph{create} annotation specified}
+  \label{fig:reprotoolAnnot}
+\end{figure}
+
+Now add the annotation \emph{\#open\_envelope} to the step \emph{Peter opens the envelope} and add annotation \emph{\#close\_envelope}
+to the step \emph{Peter puts the letter into the envelope and closes it}.
+
+\subsubsection{\emph{Annotations} in the \emph{takeLetter} use-case}
+Please add the annotaion \emph{\#create\_letter} to the step in use-case \emph{takeLetter} that reads: \emph{Peter goes to the post
+office}\footnote{Please don't be worried if you think this annotation does not belong here. Indeed, it doesn't. But we create it
+here just to show in the later part of this tutorial what happens when you break the semantics of annotations.}.
+Also add the annotaion \emph{\#use\_letter} to the step in the same use-case that reads: \emph{The post officer takes the letter
+from Peter}.
+
+\subsubsection{\emph{Annotations} in the \emph{buyEnvelope} use-case}
+There are no annotations in this use-case.
+
+\newpage
+
+\subsection{Specify \emph{precedence relations} between use-cases.}
+
+We will now add a precedence relation between use-cases \emph{writeLetter} and \emph{takeLetter} specifying that the use-case
+\emph{takeLetter} can be executed only after the use-case \emph{writeLetter} successfully finished. Open now the use-case
+\emph{takeLetter} in the use-case editor. Click on the icon in the \emph{Preceding use-cases} area. A dialog box now appears that
+allows you to specify preceding use-cases of the use-case \emph{takeLetter}. Now select the \emph{writeLetter} use-case in the left part
+of the dialog window and click the \emph{add} button to copy this use-case to the right part of the window. Then just press OK. This
+situation is depicted in this figure:
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[height=280pt]{images/reprotoolPrecede}
+  \caption{\emph{precede} annotation specified}
+  \label{fig:reprotoolPrecede}
+\end{figure}
