@@ -538,6 +538,10 @@ public class SentenceAnalysisSheetPage extends Page implements ISentenceAnalysis
 
 		@Override
 		public Object convert(Object fromObject) {
+			if (fromObject == null) {
+				return false;
+			}
+			
 			Action action = (Action) fromObject;
 
 			for (EReference reference : action.eClass().getEAllReferences()) {
@@ -558,6 +562,10 @@ public class SentenceAnalysisSheetPage extends Page implements ISentenceAnalysis
 
 		@Override
 		public Object convert(Object fromObject) {
+			if (fromObject == null) {
+				return false;
+			}
+			
 			Action action = (Action) fromObject;
 			return action instanceof Communication;
 		}

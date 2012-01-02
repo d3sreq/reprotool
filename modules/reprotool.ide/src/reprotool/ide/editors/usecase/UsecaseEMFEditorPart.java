@@ -144,8 +144,6 @@ public class UsecaseEMFEditorPart extends EditorPart implements IMenuListener, I
 	public void createPartControl(final Composite parent) {
 		composite = new UsecaseEMFEditorComposite(parent, SWT.NONE);
 		
-//		PrecedingUseCasesAction
-		
 		TreeViewer viewer = composite.getTreeViewer();
 
 		viewer.setColumnProperties(new String[] { "a", "b" });
