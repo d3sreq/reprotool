@@ -1,0 +1,174 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+
+\usepackage{varioref} % vref command
+\usepackage[pdftex]{color,graphicx}
+%\usepackage{natbib}
+\usepackage[
+    % ==========================================================================
+    pdfauthor={
+      Jiri Vinarek,
+      Ondrej Fiala,
+      Rudo Tomori,
+      Viliam Simko (Supervisor)
+    },
+    pdftitle={Requirements Processing Tool},
+    pdfsubject={Software project user-documentation},
+    pdfkeywords={Use-cases, Formal methods, Model Checking},
+    pdfproducer={Latex with hyperref},
+    pdfcreator={pdflatex},
+    % ==========================================================================
+    pdfborder={0 0 0},
+    unicode, % use UTF-8 for PDF properties
+    plainpages=false,
+    pdfpagelabels,
+    hyperindex,
+    hyperfigures=true,
+    bookmarksnumbered=true, % generate section numbering in PDF bookmarks
+    bookmarks,
+    breaklinks=true, % allow URLs on multiple lines
+    hypertexnames=true 
+]{hyperref}
+
+% must go after hyperref definition
+\usepackage[all]{hypcap} % instead of captions, refs will scroll to images
+
+\usepackage{url} % allow clickable URLs
+\usepackage{graphicx}
+
+\usepackage{framed} % frames around paragraphs
+\usepackage{listings} % see http://en.wikibooks.org/wiki/LaTeX/Packages/Listings
+
+\definecolor{DarkGray}{rgb}{0.3,0.3,0.3}
+\definecolor{LightGray}{rgb}{0.6,0.6,0.6}
+\definecolor{Green}{rgb}{0,0.6,0}
+\definecolor{Purple}{rgb}{0.6,0,0.6}
+\definecolor{Blue}{rgb}{0,0,1}
+
+\hypersetup{colorlinks=true, linkcolor=black, urlcolor=black, citecolor=black}
+
+\usepackage{pslatex} % times + courier monospace
+%\usepackage{indentfirst}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% NuSMV Input Language
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{multicol}
+\lstdefinelanguage{NuSMVLang}{
+ ndkeywords={MODULE, VAR, INIT, ASSIGN, TRUE, FALSE, CTLSPEC, LTLSPEC, FAIRNESS, AX, A, AG, AF, U, boolean, next, case, esac, in},
+ ndkeywordstyle=\color{Purple}\bfseries,
+ identifierstyle=\color{black},
+ sensitive=true,
+ comment=[l]{--},
+ morecomment=[s]{/*}{*/},
+ commentstyle=\color{Green}\textit
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Xtext Grammar
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\lstdefinelanguage{XtextGrammar}{
+ ndkeywords={hidden, grammar, with, import, generate, as, terminal, fragment},
+ ndkeywordstyle=\color{Purple}\bfseries,
+ identifierstyle=\color{black},
+ sensitive=true,
+ comment=[l]{//},
+ morecomment=[s]{/*}{*/},
+ commentstyle=\color{Green}\textit,
+ stringstyle=\color{Blue},
+ morestring=[b]',
+ morestring=[b]" 
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Common design for all source codes
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\lstset{
+ language=NuSMVLang,
+ basicstyle=\scriptsize\sffamily,
+ tabsize = 4,
+ columns=fullflexible,
+ numberstyle=\tiny\sffamily,
+ %extendedchars=true,
+ breaklines=true,
+ %frame=bt,
+ %framerule=2pt,
+ numbers=left,
+ %xrightmargin=3pt,
+% framextopmargin=40pt,
+% framexbottommargin=4pt,
+ xleftmargin=16pt,
+ framexleftmargin=16pt,
+ morecomment=[l]{//},
+% belowskip=15pt,
+% aboveskip=10pt,
+ mathescape=true,
+ %linewidth=\textwidth,
+ showstringspaces=false
+}
+
+\usepackage{amsthm}
+\newtheorem{definition}{Definition}
+
+% \newenvironment{definition}[1][Definition]{
+% 	\setlength{\itemsep}{0cm}
+% 	\setlength{\parskip}{0cm}
+% 	\begin{trivlist}
+% 	\item[\hskip \labelsep {\bfseries Definition: #1}]
+% 	\item
+% }{\end{trivlist}}
+
+%\usepackage{setspace}
+%\onehalfspacing
+
+%\usepackage{fancyhdr} % vlastni podoba zahlavi/zapati
+%\pagestyle{fancy}
+%\fancyhead[L]{}
+%\fancyhead[C]{\thepage}
+%\fancyhead[R]{}
+
+%% mene roztahane seznamy
+%\usepackage{tweaklist}
+%\renewcommand{\enumhook}{\setlength{\topsep}{4pt}%
+%  \setlength{\itemsep}{0pt}}
+%\renewcommand{\itemhook}{\setlength{\topsep}{4pt}%
+%  \setlength{\itemsep}{0pt}}
+
+\widowpenalty=10000 % zabrani vdovam (prvni radek odstavce na predchozi strane)
+\clubpenalty=10000 % zabrani sirotkum (posledni radek odstavce na nove strane)
+
+	\renewcommand\labelitemi{\normalfont\bfseries --}
+
+\title{
+  \textbf{Requirements Processing Tool}\\
+  \vspace{26pt}\includegraphics[height=5cm]{images/reprotool-logo}\\
+  \vspace{16pt}\textbf{Software project user-documentation}
+}
+
+\author{
+  Jiří Vinárek,
+  Ondřej Fiala,
+  Rudo Tomori
+  \vspace*{120pt}
+  \\Supervisor: Viliam Šimko
+}
+
+\date{\small{\today}}
+
+\begin{document}
+\maketitle
+%\vspace{3cm}\abstract{The aim is to create a tool that allows users to bind requirements with the code of a developed application. Besides general requirements, the tool will semi-automatically process use-cases written in natural language. The idea is to reuse the algorithms and linguistic tools from the successful Procasor Environment project and to integrate them with the Eclipse platform.}
+\thispagestyle{empty} % titulni strana bez cisla strany
+
+\newpage
+
+\tableofcontents
+\vspace{12pt}
+
+%\newpage
+
+\include{chapter-introduction}
+\include{chapter-newProj}
+ 
+\end{document}
