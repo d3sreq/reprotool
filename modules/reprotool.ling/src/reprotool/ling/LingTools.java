@@ -182,7 +182,7 @@ public class LingTools {
 				MessageBox mb = new MessageBox( PlatformUI.getWorkbench().getDisplay().getActiveShell(), SWT.ICON_INFORMATION | SWT.OK);
 				mb.setText("Linguistics tools initialization");
 				mb.setMessage(
-						"Tagger - inicialization: " + (Tagger.isInicialized() ? "OK" : "Error" ) + " | running: " + (Tagger.isReady() ? "OK" : "Error" ) + "\n" +
+						"Tagger - inicialization: " + (Tagger.isInicialized() ? "OK" : "Error" ) + " | running: " + (Tagger.isRunning() ? "Yes" : "No" ) + "\n" +
 						"Parser - inicialization: " + (Parser.isInicialized() ? "OK" : "Error" ) + " | running: " + (Parser.isReady() ? "OK" : "Error" ) + "\n" +
 						"Lemmatizer - inicialization: " + (Lemmatizer.isInicialized() ? "OK" : "Error" ) + "\n"
 						);

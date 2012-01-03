@@ -9,10 +9,6 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import reprotool.ling.LingFactory;
-import reprotool.ling.POSType;
-import reprotool.ling.SentenceNode;
-import reprotool.ling.Word;
 import reprotool.ling.tools.Lemmatizer;
 import reprotool.ling.tools.Parser;
 import reprotool.ling.tools.Tagger;
@@ -83,46 +79,6 @@ public class ParseTest {
 		String sentence = "((Administrator (NNP)) (sends (VBZ)) (messages (NNS)) (. (.)) )";
 		
 		assertEquals("(S (NP (NNP Administrator)) (VP (VBZ sends) (NP (NNS messages))) (. .))", Parser.getString(sentence));
-	}
-	
-	@Test
-	public final void testParserTree1() {
-		String sentenceString = "(S (NP (NNP Administrator)) (VP (VBZ sends ) (NP (NNS messages))))";
-		
-		LingFactory factory = LingFactory.eINSTANCE;
-		SentenceNode rootNode = factory.createSentenceNode();
-		
-		SentenceNode nounPhrase = factory.createSentenceNode();
-		rootNode.getChildren().add(nounPhrase);
-		nounPhrase.setParent(rootNode);
-		
-		Word curWord = factory.createWord();	
-		curWord.setPOS(POSType.get("NNP"));
-		curWord.setText("Administrator");
-		nounPhrase.getChildren().add(curWord);
-		
-		SentenceNode verbPhrase = factory.createSentenceNode();
-		rootNode.getChildren().add(verbPhrase);
-		verbPhrase.setParent(rootNode);
-
-		curWord = factory.createWord();	
-		curWord.setPOS(POSType.get("VBZ"));
-		curWord.setText("sends");
-		verbPhrase.getChildren().add(curWord);
-		
-		nounPhrase = factory.createSentenceNode();
-		verbPhrase.getChildren().add(nounPhrase);
-		nounPhrase.setParent(verbPhrase);
-		
-		curWord = factory.createWord();	
-		curWord.setPOS(POSType.get("NNS"));
-		curWord.setText("messages");
-		nounPhrase.getChildren().add(curWord);
-		
-		SentenceNode node = Parser.parseTree(Parser.getString(sentenceString));
-		
-		// TODO vypsani stromu do stringu
-		assertSame(rootNode, node);
 	}
 	
 	// second sentence

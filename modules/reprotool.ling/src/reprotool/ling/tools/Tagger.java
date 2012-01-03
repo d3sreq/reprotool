@@ -1,14 +1,14 @@
 package reprotool.ling.tools;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
+import java.io.File;
 import java.io.InputStream;
-import java.io.PipedInputStream;
-import java.io.PipedOutputStream;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
-
+import java.net.URISyntaxException;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.ui.statushandlers.StatusManager;
 
@@ -22,172 +22,94 @@ import reprotool.ling.Tool;
 public class Tagger extends Tool{
 	
 	static boolean runs = false;
+	// is already running
+	static boolean running = false;
 	// tool IO
-	//static InputStream input;
+	static InputStream input;
 	static ByteArrayOutputStream baos;
-	static ByteArrayOutputStream err;
 	// standard IO
-	static InputStream stdin = System.in;
 	static PrintStream stdout = System.out;
-	static PrintStream stderr = System.err;
-	// piped stream between threads
-	static PipedInputStream pins;
-	static PipedOutputStream pouts;
-	// tagger thread
-	static public TaggerThread tagger; 
+	static InputStream stdin = System.in;
 	
 	public String run(String text) {
 		return getMXPOST(text);
+	}
+
+	/**
+	 * Was running?
+	 * 
+	 * @return
+	 */
+	public static boolean isInicialized(){
+		return runs;
 	}
 	
 	/**
 	 * Returns tokens from given text
 	 *
 	 * @return String part-of-speech_tagged_text 
-	 */		
-	// main method
-    public static String getMXPOST(String originalText) {
-    	String taggedText = "";
-
-    	if (runs){ // get response from tool
-    		taggedText = tagg(originalText);   			
-    		
-    	} else { // load models
-    		// restart tagger
-    		if(start()){    			
-    			taggedText = tagg(originalText);    
-    		} else {
-    			IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, "Tagger not ready during tagging", null);
-    			StatusManager.getManager().handle(status, StatusManager.LOG);
-    		}
-    	}
-        return taggedText;
-    }	
-    
-	/**
-	 * Is still running?
-	 * 
-	 * @return
-	 */
-	public static boolean isReady(){
-		return tagger.isAlive();
-	}    
-    
-	/**
-	 * Was running?
-	 * 
-	 * @return boolean
-	 */
-	public static boolean isInicialized(){
-		return runs;
-	}
-    
-
-	/**
-	 * Set all streams to standard streams
-	 * 
-	 * For repair purpose
-	 */
-	public static void resetStdStreams(){
-		System.setIn(stdin);
-		System.setOut(stdout);
-		System.setErr(stderr);
-	}
-	
-	public static boolean start () {
-
-    	pins = new PipedInputStream();
-    	try {
-			pouts = new PipedOutputStream(pins);
-		} catch (IOException e) {
-			IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, "Tagger input stream error", e);
-			StatusManager.getManager().handle(status, StatusManager.LOG);
-		}
-    	
-		// set output stream
-		baos = new ByteArrayOutputStream();
-		// set output stream
-		err = new ByteArrayOutputStream();
-		
-    	tagger = new TaggerThread(pins, baos, err);
-    	tagger.start();
-
-    	// wait till model loads
-		try {
-			while(!err.toString("UTF-8").trim().endsWith("Ratnaparkhi*")&& tagger.isAlive()) {
-				try {
-					Thread.sleep(50);
-				} catch (InterruptedException e) {
-					IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, "Tagger thread was interrupted during initialization", e);
-					StatusManager.getManager().handle(status, StatusManager.LOG);
-				}
-			}
-		} catch (UnsupportedEncodingException e) {
-			IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, "Tagger after initialization test - wrong encoding", e);
-			StatusManager.getManager().handle(status, StatusManager.LOG);
-		}
-		
-		// reset used streams
-		err.reset();
-		System.setErr(stderr);
-    	
-		// finished loading model
-		runs = true;
-    	return runs;
-	}
-		
-	private static String tagg (String originalText) {	
+	 */	
+    public static String getMXPOST(String originalText) {	
+		String path = "";
 		String text = "";
 		
-		// make whole line
-		if(!originalText.endsWith("\n")) originalText += "\n";
+		PrintStream stdout = System.out;
+		InputStream stdin = System.in;
+		
+		// locating external model
+		try{
+			path = Platform.getPreferencesService().getString("reprotool.ide", "mxpostModel", "/tagger.project", null);
+		} catch (NullPointerException e){
+			String rootPath;
+			try {
+				rootPath = new java.io.File(Tagger.class.getResource("/").toURI()).getParentFile().getParent();
+			} catch (URISyntaxException e1) {
+				rootPath = new java.io.File(Tagger.class.getResource("/").getPath()).getParentFile().getParent();
+			}
+			path = rootPath + "/reprotool.tools.mxpost/data/tagger.project";
+		}
+	
+		try{
+			InputStream input = new ByteArrayInputStream(originalText.getBytes("UTF-8"));
+			System.setIn(input); 
+		} catch (UnsupportedEncodingException e){}
 		
 		// set output stream
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		PrintStream ps = new PrintStream(baos);
 		System.setOut(ps);
-
-		try {
-			pouts.write(originalText.getBytes("UTF-8"), 0, originalText.length());
-		} catch (UnsupportedEncodingException e) {
-			IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, "Tagger wrong encoding error during tagging", e);
-			StatusManager.getManager().handle(status, StatusManager.LOG);
-		} catch (IOException e) {
-			IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, "Tagger stream error during tagging", e);
-			StatusManager.getManager().handle(status, StatusManager.LOG);
-		}		
-	
-		// waiting until TaggerThread returns sentence
-		try {
-			while(baos.toString("UTF-8").isEmpty()) {
-				try {
-					Thread.sleep(20);
-				} catch (InterruptedException e) {
-					IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, "Tagger thread was interrupted during waiting for result", e);
-					StatusManager.getManager().handle(status, StatusManager.LOG);
-				}
-			}
-		} catch (UnsupportedEncodingException e) {
-			IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, "Tagger wrong encoding error during waiting for result", e);
-			StatusManager.getManager().handle(status, StatusManager.LOG);
-		}
+		//System.setErr(ps);
+		
+		// model exist validation
+		File modelFile = new java.io.File(path);
+		// run external tool MXPOST
 		
 		try {
-			text = baos.toString("UTF-8").trim();
-		} catch (UnsupportedEncodingException e) {
-			IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, "Tagger wrong encoding error during parsing result", e);
+			if(modelFile.exists() && !running){
+				// running just for case job scheduling fails
+				running = true;
+				tagger.TestTagger.main(new String[] {path});
+				running = false;
+			} 
+		} catch (Exception e) {
+			// almost no control over external tool errors (model must be valid)
+			IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, "External tagger fails during initialization", e);
 			StatusManager.getManager().handle(status, StatusManager.LOG);
-		}
-
-		// remove old strings
-		baos.reset();
+		}	
 		
-		// set standard streams
-		//System.setIn(stdin);
+		try{
+			text = baos.toString("UTF-8");
+		} catch (UnsupportedEncodingException e){}
+
+		// reset to standard output
 		System.setOut(stdout);
-		//System.setErr(stderr);
-		return text;
-	}
-	
+		// reset to standard input
+		System.setIn(stdin);
+		
+		return text.trim();
+	}	
+    
+    
 	/**
 	 * Converts MXPOS format to WSJ Penn Treebank lisp style
 	 * @param word_POS word_POS ...
@@ -209,6 +131,26 @@ public class Tagger extends Tool{
     	lispStyle += ")";
     	
 		return lispStyle.trim();
+	}
+
+    
+    
+	/**
+	 * Method for testing tagger
+	 * just parse one sentence.
+	 */
+	public static void start() {
+		String sentence = "Administrator sends messages .";
+		
+		String result = getMXPOST(sentence);
+		if(result.length() > 15) {
+			runs = true;
+		}
+	}
+
+	public static boolean isRunning() {
+		// TODO Auto-generated method stub
+		return false;
 	}  
         
 }

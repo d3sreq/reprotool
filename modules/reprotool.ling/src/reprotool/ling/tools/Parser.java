@@ -173,6 +173,11 @@ public class Parser extends Tool {
 					parser = new danbikel.parser.Parser(modelFile);
 					runs = true;			
 				} catch (Exception e) {
+					try {
+						parser.die(true);
+					} catch (RemoteException e2) {
+						// just for case, no need to report again
+					}
 					// for benchmark purpose - getting manager can fail outside plugins 					
 					try {
 						IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, "Parser error during loading model file", e);
