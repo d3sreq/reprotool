@@ -1,9 +1,9 @@
-\section{Manual linguistic analysis}
+\section{Linguistic analysis}
 
+\subsection{Manual analysis}
 This section describes manual marking of the use case steps parts on the \emph{City map} project. 
 It explains assigning of the \emph{action type} of the step and binding of the \emph{text ranges} and \emph{action parts}.
 
-\subsection{\emph{City map} project preparation}
 We will reuse bundled project \emph{City map} and enhance contained use case \emph{Select city on map}. 
 
 Import project \emph{cityMap} from \emph{exampleProjects} directory and open \emph{Select city on map} use case.
@@ -40,3 +40,27 @@ Similarly one can mark \emph{Activity} and \emph{Action parameters}. Box for the
 allowed in the step sentence. 
 
 Analogous approach allows to mark \emph{Receiver} in the \emph{To system} action ("R" icon), \emph{Goto target} in the \emph{Goto} action ("G" icon) or \emph{Include target} in \emph{Include use case} action ("I" icon). "T" icon allows to "erase" already marked text.
+
+\subsection{Automatic analysis}
+
+Manual analysis can be time consuming. To help user with this tedious task \emph{Reprotool} provides automatic step analysis support.
+
+Select third use case step \emph{"The user selects a city on the map"}. Click on thunder icon.
+GUI may be less responsible for a few seconds while analysis is running.
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[height=280pt]{images/manual-analysis/step3-automatic-before}
+  \caption{Step 3 before automatic analysis run}
+  \label{fig:reprotoolUCEditor}
+\end{figure}
+
+Type of the step should be analysed as \emph{To system} and sender, activity and action parameter
+should be filled.
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[height=280pt]{images/manual-analysis/step3-automatic-after}
+  \caption{Step 3 after automatic analysis run}
+  \label{fig:reprotoolUCEditor}
+\end{figure}
