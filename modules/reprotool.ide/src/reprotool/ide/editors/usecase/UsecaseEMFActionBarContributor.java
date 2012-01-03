@@ -221,7 +221,7 @@ public class UsecaseEMFActionBarContributor
 		
 		toolBarManager.add(new Separator("usecase-automatic-tools"));
 		
-		automaticAnalysisAction = new AutomaticAnalysisAction("usecase-automatic");
+		automaticAnalysisAction = new AutomaticAnalysisAction("usecase-automatic", refreshEditorAction);
 		toolBarManager.add(automaticAnalysisAction);
 		
 		toolBarManager.add(new Separator("usecase-additions"));

@@ -5,6 +5,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
+import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.actions.BaseSelectionListenerAction;
@@ -21,10 +22,12 @@ import reprotool.model.usecase.UseCaseStep;
 public class AutomaticAnalysisAction extends BaseSelectionListenerAction {
 
 	private ImageDescriptor imageDescriptor;
+	private IAction refreshEditorAction;
 	
-	public AutomaticAnalysisAction(String text) {
+	public AutomaticAnalysisAction(String text, IAction refreshEditorAction) {
 		super(text);
 		imageDescriptor = Activator.getImageDescriptor("icons/lightning-16x16.png");
+		this.refreshEditorAction = refreshEditorAction;
 	}
 	
 	@Override
@@ -54,6 +57,8 @@ public class AutomaticAnalysisAction extends BaseSelectionListenerAction {
 		
 		CompoundCommand command = LingTools.analyseUseCaseStep(editingDomain, useCaseStep);
 		editingDomain.getCommandStack().execute(command);
+		
+		refreshEditorAction.run();
 	}
 	
 	private EditingDomain getEditingDomain(EObject eobject) {
