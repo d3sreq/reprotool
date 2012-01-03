@@ -1,10 +1,6 @@
 package reprotool.ide.preferences;
 
-import org.eclipse.jface.preference.BooleanFieldEditor;
-import org.eclipse.jface.preference.DirectoryFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
-import org.eclipse.jface.preference.RadioGroupFieldEditor;
-import org.eclipse.jface.preference.StringFieldEditor;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
@@ -31,7 +27,7 @@ public class ReprotoolPreferencePage
 	public ReprotoolPreferencePage() {
 		super(GRID);
 		setPreferenceStore(Activator.getDefault().getPreferenceStore());
-		setDescription("ReProTool preference page - sample preferences\nVersion: " + Activator.getDefault().getBundle().getVersion() );
+		setDescription("ReProTool preference page - \nVersion: " + Activator.getDefault().getBundle().getVersion() );
 	}
 	
 	/**
@@ -41,6 +37,7 @@ public class ReprotoolPreferencePage
 	 * restore itself.
 	 */
 	public void createFieldEditors() {
+		/*
 		addField(new DirectoryFieldEditor(PreferenceConstants.P_PATH, 
 				"&Directory preference:", getFieldEditorParent()));
 		addField(
@@ -57,7 +54,7 @@ public class ReprotoolPreferencePage
 				"C&hoice 2", "choice2" }
 		}, getFieldEditorParent()));
 		addField(
-			new StringFieldEditor(PreferenceConstants.P_STRING, "A &text preference:", getFieldEditorParent()));
+			new StringFieldEditor(PreferenceConstants.P_STRING, "A &text preference:", getFieldEditorParent()));*/
 	}
 
 	/* (non-Javadoc)

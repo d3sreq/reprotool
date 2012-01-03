@@ -1,11 +1,11 @@
 \section{Linguistic tools}
 
-One of the main parts of ReProTool project is an automatic text analyse. This part allows user to skip long-lasting manual annotation by pushing a button. This chapter describes implementation of linguistics analyse in ReProTool project and its linguistics background.
+One of the main parts of Reprotool project is an automatic text analysis. This part allows user to skip long-lasting manual annotation by pushing a button. This chapter describes implementation of linguistics analysis in Reprotool project and its linguistics background.
 
 \subsection{Introduction}
-Process of linguistics analyse gets natural language sentences as an input and returns analyzed usecases as is shown at figure \ref{fig:LinguisticsAnalyseSmall}. Whole process is divided into two parts: process of parsing and core analyse. Parsing contains main linguistics operations which are tokenization, tagging, parsing and lemmatization. Core work of parsing process is done by popular external linguistic analyse tools described in section \ref{sec:externaltools}. Core analyse converts parsed sentence trees with annotations into a usecases model ??. This process is described in more detail in section \ref{sec:analysis}. % TODO \ref{sec:usecasemodel}
+Process of linguistics analysis gets natural language sentences as an input and returns analyzed usecases as is shown at figure \ref{fig:LinguisticsAnalyseSmall}. Whole process is divided into two parts: process of parsing and core analysis. Parsing contains main linguistics operations which are tokenization, tagging, parsing and lemmatization. Core work of parsing process is done by popular external linguistic analysis tools described in section \ref{sec:externaltools}. Core analysis converts parsed sentence trees with annotations into our usecases model. This process is described in more detail in section \ref{sec:analysis}. % TODO \ref{sec:usecasemodel}
 
-Each implementation of any analyse brings problem of measuring success. We have put together a dataset of nearly tree hundred of sentences. These sentences contain the most common use cases operations. All these sentences were manually annotated and analysed. In section \ref{sec:benchmark} is described our benchmark solution with actual results.
+Each implementation of any analyse brings problem of measuring success. We have put together a dataset of nearly tree hundred of sentences. These sentences contain the most common use cases operations. All these sentences were manually annotated and analyzed. In section \ref{sec:benchmark} is described our benchmark solution with actual results.
 
 \begin{figure}[ht]
   \centering
@@ -14,40 +14,13 @@ Each implementation of any analyse brings problem of measuring success. We have 
   \label{fig:LinguisticsAnalyseSmall}
 \end{figure}
 
-\subsection{Linguistics background}
-
-Main goal of linguistic analyse in our porject is to identify important words in a sentence. These words are mainly constituents. For our purpose, we are identifiing four groups of words:
-
-\begin{itemize}
-\item {\bf Subject} main subject of the sentence
-\item {\bf Main verb} verb wearing meaning
-\item {\bf Representative object} main subject of sentence action
-\item {\bf Indirect object} an actor usually owning representative object
-\end{itemize}
-
-
-
-
-\subsubsection{Subject}
-
-\subsubsection{Main verb}
-
-\subsubsection{Representative object}
-
-\subsubsection{Indirect object}
-
-
-\subsubsection{Deriving rules}
-
-
-
 \subsection{External tools}
 \label{sec:externaltools}
-As described in previous sections, whole linguistics analyse is a hard task to do. Implementing all acts of this work is out of the scope of the project.  Especially parsers do a very sophisticated and difficult tasks. We choose selected commonly used external tools to do some parts of analyse. 
+As described in previous sections, whole linguistics analysis is a hard task to do. Implementing all acts of this work is out of the scope of the project.  Especially parsers do a very sophisticated and difficult tasks. We choose selected commonly used external tools to do some parts of analysis. 
 
-These parts were part-of-speech tagging, sentence parsing and obtaining lemma forms for words. Main reasons for our selection were widespread  and credibility of the tools, at least partial compatibility of output and input formats and java implementation. 
+These parts were part-of-speech tagging, sentence parsing and obtaining lemma forms for words. Main reasons for our selection were widespread  and credibility of the tools, at least partial compatibility of output and input formats and Java implementation. 
 
-We demanded java implementation, because runtime control of programs written in different languages is inoperative and bring big problems in portability of project. The selected tools don't allow access like common internal java classes, but we are able to control their correct running.
+We demanded Java implementation, because runtime control of programs written in different languages is inoperative and bring big problems in portability of project. The selected tools don't allow access like common internal java classes, but we are able to control their correct running.
 
 Selected tools are:
  
@@ -85,7 +58,54 @@ according to the Penn Treebank conventions.
   \label{fig:LinguisticsAnalyse}
 \end{figure}
 
+\subsubsection{Tokenization}
+\begin{table}[ht]   % or b
+\begin{center}
+    \begin{verbatim}
+Input 	Natural language sentence; negation detection
+Output 	Array of tokens (eg. words, numbers) 
+        \end{verbatim}
+  \caption{Tokenizer data}
+  \label{tab.tokenization}
+\end{center}
+\end{table} 
+
+\subsubsection{Tagging}
+\begin{table}[ht]   % or b
+\begin{center}
+    \begin{verbatim}
+Input 	Array of tokens
+Output 	Array of POS tagged tokens (eg. adjectives, verbs) 
+        \end{verbatim}
+  \caption{Tagger data}
+  \label{tab.tagging}
+\end{center}
+\end{table} 
+
 \subsubsection{Parsing}
+
+\begin{table}[ht]   % or b
+\begin{center}
+    \begin{verbatim}
+Input 	Array of POS tagged tokens
+Output 	Parse trees of each sentence 
+        \end{verbatim}
+  \caption{Parser}
+  \label{tab.parsing}
+\end{center}
+\end{table}  
+
+\subsubsection{Lemmatization}
+\begin{table}[ht]   % or b
+\begin{center}
+    \begin{verbatim}
+Input 	Parse trees of each sentence
+Output 	Lemma for each word 
+        \end{verbatim}
+  \caption{Example output from benchmark plug-in}
+  \label{tab.parsing}
+\end{center}
+\end{table} 
 
 \begin{figure}[ht]
   \centering
@@ -97,7 +117,7 @@ according to the Penn Treebank conventions.
 \begin{figure}[ht]
   \centering
   \includegraphics[width=250pt]{images/InternalActionExample}
-  \caption{Example of internal action analyse result.}
+  \caption{Example of internal action analysis result.}
   \label{fig:InternalActionExample}
 \end{figure}
 
@@ -108,10 +128,68 @@ according to the Penn Treebank conventions.
   \label{fig:ReprotoolLingModel}
 \end{figure}
 
+\subsection{Linguistics background}
+
+Main goal of linguistic analyse in our porject is to identify important words in a sentence. These words are mainly constituents. For our purpose, we are identifiing four groups of words:
+
+\begin{itemize}
+\item {\bf Subject} main subject of the sentence
+\item {\bf Main verb} verb wearing meaning
+\item {\bf Representative object} main subject of sentence action
+\item {\bf Indirect object} an actor usually owning representative object
+\end{itemize}
+
+These words are used in action analysis. We are matching sentences to proper actions with a set o deriving rules, which are based on these words. 
+                                                                    
+\subsubsection{Subject}
+For our purpose, subject must be always an actor. User have to add sentence actors before analysis. Usually is subject noun in a top noun phrase. If the sentence is in passive, subject stands at object's place. 
+
+Subject could be also missing. In that case analysis still tries to find other constituents.
+
+There are two predefined actors, "system" and "user". These actors could be subjects without user interaction.
+
+\subsubsection{Main verb}
+This verb is a main verb of highest verb phase in a sentence. In a passive sentence is auxiliary verb ingnored. 
+
+Finding verb is in properly parsed sentence easy task, but in a sentence with a wrong parsed tree usually culodn be found. It happens usually when parsed don't know current verb.
+
+\subsubsection{Indirect object}
+We are deriving first indirect objects and after then representative (conceptual) objects. All indirect object are actors and indirect objects aren't in the same node with other objects.
+
+Node with indirect objects must be noun phrase which is in verb phrase. If this node is found, all objects are marked as indirect. Indirect object cannot be in possessive form.  
+
+
+\subsubsection{Representative object}
+Representative object could be noun in a noun phrase which is a child of main verb phrase. Except noun phrase with indirect objects.
+
+If a phrase contains more nouns without conjunction, we mark as an object last of the nouns.
+
+\subsection{Actions deriving rules}
+When we have all constituents, analysis cant continue with determining proper action and filling internal models with obtained data from analysis.
+
+Types of actions come from our usecase model, which is restricted due to exporting purpose. Overall small action set allows various export options described in previous chapters.
+
+\subsubsection{Include usecase action}
+
+
+\subsubsection{Goto action}
+
+\subsubsection{Abort action}
+
+\subsubsection{From system action}
+
+\subsubsection{To system action}
+
+\subsubsection{Internal action}
+
+\subsubsection{Unknown action}
+
 \subsection{Benchmark}
 \label{sec:benchmark}
 
 During the creation of linguistics analysis we needed data for testing purpose.
+
+
 
 \subsubsection{Implementation}
 
@@ -207,7 +285,7 @@ MOD1_UC1_9;Back to step 4 .;;0;;4;;GOTO;4;
       {\bf Total} & {\bf 80.2\%} \\
       \hline
     \end{tabular}
- \caption{Overall results of analyse benchmark on dataset data.csv (269 sentences)}
+ \caption{Overall results of analysis benchmark on dataset data.csv (269 sentences)}
  \label{tab.benchmark}
 \end{center}
 \end{table}
