@@ -112,13 +112,13 @@ public class Analyser {
 		}
 
 		// FIND ACTION
-		if (subject == null) {
+
 			// detection of UseCaseInclude action
 			if (!definedAction)
-				definedAction = definedAction && detectInclude(ucs, sentence);
+				definedAction = detectInclude(ucs, sentence);
 			// detection of GOTO action
 			if (!definedAction)
-				definedAction = definedAction && detectGoto(ucs, sentence);
+				definedAction = detectGoto(ucs, sentence);
 			// detection of ABORT/TERMINATION action
 			if (!definedAction) {
 				boolean abort = detectAbort(sentence);
@@ -133,7 +133,7 @@ public class Analyser {
 				}
 			}
 			
-		} else {
+			if (subject != null) {
 			// INTERNAL ACTION - we have subject
 			// also TO and FROM
 			if (indirectobjects == null || indirectobjects.size() == 0) {
@@ -216,8 +216,7 @@ public class Analyser {
 	private static boolean detectInclude(UseCaseStep ucs, Sentence sentence) {
 		// result
 		boolean found = false;
-
-		// detection GOTO action
+		// detection Include action
 		int gotoVerbIndex = -1;
 		int labelIndex = -1;
 		
@@ -232,7 +231,7 @@ public class Analyser {
 		
 		// setting of the target
 		if (gotoVerbIndex >= 0) {
-			for(Word word : objects) {
+			for(Word word : sentence.getWords()) {
 				if("usecase".equals(word.getLemma())){
 					labelIndex = sentence.getWords().indexOf(word);
 					break;
@@ -240,11 +239,25 @@ public class Analyser {
 			}
 		}
 		
+		labelIndex++;
+		// skip prep
+		if(labelIndex > 0 && sentence.getWords().size() > labelIndex && sentence.getWords().get(labelIndex) != null){
+			if(!sentence.getWords().get(labelIndex).isNumeral())
+				labelIndex++;
+		}
+		
 		if(labelIndex > -1 && sentence.getWords().size() > labelIndex && sentence.getWords().get(labelIndex) != null) {
 			Word label = sentence.getWords().get(labelIndex);
-			int index = Integer.parseInt(label.getLemma());
+			int index = 0;
+			try{
+				index = Integer.parseInt(label.getLemma());
+			} catch (Exception e) {
+				// checked by next step .isNumeral()
+			}
+			
 			if(label.isNumeral() && ucs.getSoftwareProjectShortcut().getUseCases().size() > index) {
-				compoundCommand.append(setUseCaseInclude(ucs, ucs.getSoftwareProjectShortcut().getUseCases().get(index)));
+				setUseCaseInclude(ucs, ucs.getSoftwareProjectShortcut().getUseCases().get(index), label);
+				found = true;
 			}
 		}
 		
@@ -275,7 +288,7 @@ public class Analyser {
 			SetCommand setCommand = new SetCommand(editingDomain, ucs,
 					UsecasePackage.Literals.USE_CASE_STEP__ACTION, action);
 			compoundCommand.append(setCommand);
-
+			
 			// finding target
 			for (int i = gotoVerbIndex; i < sentence.getWords().size(); i++) {
 				Word word = sentence.getWords().get(i);
@@ -310,16 +323,10 @@ public class Analyser {
 						tr.setLength(sentence.getWords().get(labelIndex)
 								.getContentLength());
 						// for labels is lemma form always same as text
-						tr.setLemmaForm(sentence.getWords().get(labelIndex)
-								.getLemma());
-
-						// removing TextRange at current position
-						TextRange blockingtr = ucs.getTextNodeAt(tr
-								.getStartPosition());
-						if (blockingtr != null) {
-							ucs.getTextNodes().remove(blockingtr);
-						}
-
+						tr.setLemmaForm(sentence.getWords().get(labelIndex).getLemma());
+						tr.setPosTag(sentence.getWords().get(labelIndex).getPOS().getLiteral());
+						action.setText(tr);
+						
 						AddCommand addCommand = new AddCommand(
 								editingDomain,
 								ucs,
@@ -371,36 +378,31 @@ public class Analyser {
 		return setCommand;
 	}
 	
-	private static Command setUseCaseInclude(UseCaseStep ucs, UseCase uc) {
+	private static void setUseCaseInclude(UseCaseStep ucs, UseCase uc, Word ucword) {
 		
 		UseCaseInclude action = afactory.createUseCaseInclude();
-		
-		if (mainverb != null) {
+		SetCommand setCommand = new SetCommand(editingDomain, ucs,
+				UsecasePackage.Literals.USE_CASE_STEP__ACTION,
+				action);
+		compoundCommand.append(setCommand);
+				
+		if (uc != null) {
 			// text range settings
 			TextRange tr = apfactory.createTextRange();
-			tr.setStartPosition(mainverb.getContentStart());
-			tr.setLength(mainverb.getContentLength());
-			tr.setLemmaForm(mainverb.getLemma());
-			tr.setPosTag(mainverb.getPOS().getLiteral());
+			tr.setStartPosition(ucword.getContentStart());
+			tr.setLength(ucword.getContentLength());
+			tr.setLemmaForm(ucword.getLemma());
+			tr.setPosTag(ucword.getPOS().getLiteral());
 
-			// action part settings
-			SentenceActivity sactivity = apfactory.createSentenceActivity();
-			sactivity.setText(tr);
-			if(uc != null){
-				action.setIncludeTarget(uc);
-			}
 			// adding text range to model
 			AddCommand addCommand = new AddCommand(editingDomain, ucs,
 					UsecasePackage.Literals.PARSEABLE_ELEMENT__TEXT_NODES, tr);
 			compoundCommand.append(addCommand);
+			action.setText(tr);
+			action.setIncludeTarget(uc);
 		}
-		
-		setActionParams(ucs, action);
-		
-		SetCommand setCommand = new SetCommand(editingDomain, ucs,
-				UsecasePackage.Literals.USE_CASE_STEP__ACTION,
-				action);
-		return setCommand;
+
+		//return setCommand;
 	}
 	
 	

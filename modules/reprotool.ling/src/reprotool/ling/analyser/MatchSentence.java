@@ -26,6 +26,9 @@ public class MatchSentence {
 		// length of first part of last word
 		int restLength = 0;		
 		
+		if(sentence == null || sentence.getWords() == null)
+			return false;
+		
 		for(Word word : sentence.getWords()){
 			// skip damaged words
 			if(word.getText() == null) continue;
