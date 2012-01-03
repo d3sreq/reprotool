@@ -186,27 +186,6 @@ public class Analyser {
 			definedAction = true;
 		}
 
-		/*
-		 * if (!definedAction){ // default set to InternalAction InternalAction
-		 * action = afactory.createInternalAction(); SetCommand setCommand = new
-		 * SetCommand(editingDomain, ucs,
-		 * UsecasePackage.Literals.USE_CASE_STEP__ACTION, action);
-		 * compoundCommand.append(setCommand);
-		 * 
-		 * // text range settings TextRange tr = apfactory.createTextRange();
-		 * tr.setStartPosition(sentence.getWords().get(0).getContentStart());
-		 * tr.setLength(sentence.getWords().get(0).getContentLength());
-		 * tr.setLemmaForm(sentence.getWords().get(0).getLemma());
-		 * 
-		 * // removing TextRange at current position TextRange blockingtr =
-		 * ucs.getTextNodeAt(tr.getStartPosition()); if (blockingtr != null) {
-		 * ucs.getTextNodes().remove(blockingtr); }
-		 * 
-		 * AddCommand addCommand = new AddCommand(editingDomain, ucs,
-		 * UsecasePackage.Literals.PARSEABLE_ELEMENT__TEXT_NODES, tr);
-		 * compoundCommand.append(addCommand); }
-		 */
-
 		return compoundCommand;
 	}
 

@@ -149,8 +149,7 @@ public class Tagger extends Tool{
 	}
 
 	public static boolean isRunning() {
-		// TODO Auto-generated method stub
-		return false;
+		return running;
 	}  
         
 }

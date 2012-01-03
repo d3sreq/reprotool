@@ -45,7 +45,7 @@ public class Lemmatizer extends Tool {
     	}
     	
     	if (runs){ // get response from tool
-    		// is still running in memory TODO
+    		// is still running in memory 
     	} else { // load models first time
     		start();
     	}
@@ -66,7 +66,7 @@ public class Lemmatizer extends Tool {
     	}
     	
     	if (runs){ // get response from tool
-    		// is still running in memory TODO
+    		// is still running in memory 
     	} else { // load models first time
     		start();
     	}

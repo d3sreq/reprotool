@@ -142,7 +142,7 @@ public class LingTools {
 		return command;
 	}	
 	
-	// TODO non job inicialization
+	// job inicialization
 	public static void initJob() {
 		Job job = new Job("Linguistics tools initialization") {
 		    @Override
@@ -182,7 +182,7 @@ public class LingTools {
 				MessageBox mb = new MessageBox( PlatformUI.getWorkbench().getDisplay().getActiveShell(), SWT.ICON_INFORMATION | SWT.OK);
 				mb.setText("Linguistics tools initialization");
 				mb.setMessage(
-						"Tagger - inicialization: " + (Tagger.isInicialized() ? "OK" : "Error" ) + " | running: " + (Tagger.isRunning() ? "Yes" : "No" ) + "\n" +
+						"Tagger - inicialization: " + (Tagger.isInicialized() ? "OK" : "Error" ) + " | running: " + (Tagger.isRunning() ? "YES" : "NO" ) + "\n" +
 						"Parser - inicialization: " + (Parser.isInicialized() ? "OK" : "Error" ) + " | running: " + (Parser.isReady() ? "OK" : "Error" ) + "\n" +
 						"Lemmatizer - inicialization: " + (Lemmatizer.isInicialized() ? "OK" : "Error" ) + "\n"
 						);

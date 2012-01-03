@@ -53,7 +53,6 @@ public class FindConstituent {
 					if (word.getPOS() != POSType.POSSESSIVE_ENDING) {
 						// must be already actor
 						for (Actor ac : actors) {
-							// TODO objects have same parent ?
 							if (ac.getName().equalsIgnoreCase(word.getLemma())) {
 								// must be a noun
 								word.setType(WordType.INDIRECT_OBJECT);
