@@ -3,9 +3,9 @@
 One of the main parts of ReProTool project is an automatic text analyse. This part allows user to skip long-lasting manual annotation by pushing a button. This chapter describes implementation of linguistics analyse in ReProTool project and its linguistics background.
 
 \subsection{Introduction}
-Process of linguistics analyse gets natural language sentences as an input and returns analyzed usecases as is shown at figure \ref{fig:LinguisticsAnalyseSmall}. Whole process is divided into two parts: process of parsing and core analyse. Parsing contains main linguistics operations whitch are tokenization, tagging, parsing and lemmatization. Core work of parsing process is done by popular external linguistic analyse tools described in section \ref{sec:externaltools}. Core analyse converts parsed sentence trees with annotations into a usecases model ??. This process is described in more detail in section \ref{sec:analysis}. % TODO \ref{sec:usecasemodel}
+Process of linguistics analyse gets natural language sentences as an input and returns analyzed usecases as is shown at figure \ref{fig:LinguisticsAnalyseSmall}. Whole process is divided into two parts: process of parsing and core analyse. Parsing contains main linguistics operations which are tokenization, tagging, parsing and lemmatization. Core work of parsing process is done by popular external linguistic analyse tools described in section \ref{sec:externaltools}. Core analyse converts parsed sentence trees with annotations into a usecases model ??. This process is described in more detail in section \ref{sec:analysis}. % TODO \ref{sec:usecasemodel}
 
-Each implementation of any analyse brings problem of measuring success. We have put together a dataset of nearly tree hundred of sentences. These sentences contain the most commom use cases operations. All these sentences were manually anotated and analysed. In section \ref{sec:benchmark} is described our benchmark solution with actual results.
+Each implementation of any analyse brings problem of measuring success. We have put together a dataset of nearly tree hundred of sentences. These sentences contain the most common use cases operations. All these sentences were manually annotated and analysed. In section \ref{sec:benchmark} is described our benchmark solution with actual results.
 
 \begin{figure}[ht]
   \centering
@@ -47,7 +47,7 @@ As described in previous sections, whole linguistics analyse is a hard task to d
 
 These parts were part-of-speech tagging, sentence parsing and obtaining lemma forms for words. Main reasons for our selection were widespread  and credibility of the tools, at least partial compatibility of output and input formats and java implementation. 
 
-We demanded java implementation, because runtine control of programs wrtten in different languages is inoperative and bring big problems in portability of project. The selected tools don't allow access like common internal java classes, but we are able to control their correct running.
+We demanded java implementation, because runtime control of programs written in different languages is inoperative and bring big problems in portability of project. The selected tools don't allow access like common internal java classes, but we are able to control their correct running.
 
 Selected tools are:
  
