@@ -23,6 +23,7 @@ import reprotool.model.linguistic.actionpart.TextRange;
 import reprotool.model.swproj.Actor;
 import reprotool.model.swproj.ConceptualObject;
 import reprotool.model.swproj.SwprojFactory;
+import reprotool.model.usecase.UseCase;
 import reprotool.model.usecase.UseCaseStep;
 import reprotool.model.usecase.UsecasePackage;
 
@@ -112,6 +113,9 @@ public class Analyser {
 
 		// FIND ACTION
 		if (subject == null) {
+			// detection of UseCaseInclude action
+			if (!definedAction)
+				definedAction = definedAction && detectInclude(ucs, sentence);
 			// detection of GOTO action
 			if (!definedAction)
 				definedAction = definedAction && detectGoto(ucs, sentence);
@@ -209,6 +213,44 @@ public class Analyser {
 		return found;
 	}
 
+	private static boolean detectInclude(UseCaseStep ucs, Sentence sentence) {
+		// result
+		boolean found = false;
+
+		// detection GOTO action
+		int gotoVerbIndex = -1;
+		int labelIndex = -1;
+		
+		// check all goto verbs
+		for (int i = 0; i < sentence.getWords().size(); i++) {
+			Word word = sentence.getWords().get(i);
+			if (LingConfig.gotoVerbs.contains(word.getLemma())) {
+				gotoVerbIndex = i;
+				break;
+			}
+		}
+		
+		// setting of the target
+		if (gotoVerbIndex >= 0) {
+			for(Word word : objects) {
+				if("usecase".equals(word.getLemma())){
+					labelIndex = sentence.getWords().indexOf(word);
+					break;
+				}
+			}
+		}
+		
+		if(labelIndex > -1 && sentence.getWords().size() > labelIndex && sentence.getWords().get(labelIndex) != null) {
+			Word label = sentence.getWords().get(labelIndex);
+			int index = Integer.parseInt(label.getLemma());
+			if(label.isNumeral() && ucs.getSoftwareProjectShortcut().getUseCases().size() > index) {
+				compoundCommand.append(setUseCaseInclude(ucs, ucs.getSoftwareProjectShortcut().getUseCases().get(index)));
+			}
+		}
+		
+		return found;
+	}
+	
 	private static boolean detectGoto(UseCaseStep ucs, Sentence sentence) {
 		// result
 		boolean found = false;
@@ -237,16 +279,10 @@ public class Analyser {
 			// finding target
 			for (int i = gotoVerbIndex; i < sentence.getWords().size(); i++) {
 				Word word = sentence.getWords().get(i);
-				// Word nextword = sentence.getWords().get(i + 1);
 				// first number after verb
 				if (word.isNumeral()) {
-					// if(nextword.isNumeral() &&
-					// word.getPOS().toString().substring(0,2).equals("NN")){
 					labelIndex = i;
 					targetLabel = word.getText();
-
-					System.out.print("Goto target :" + targetLabel
-							+ " labelIndex :" + labelIndex);
 					break;
 				}
 			}
@@ -334,6 +370,39 @@ public class Analyser {
 				action);
 		return setCommand;
 	}
+	
+	private static Command setUseCaseInclude(UseCaseStep ucs, UseCase uc) {
+		
+		UseCaseInclude action = afactory.createUseCaseInclude();
+		
+		if (mainverb != null) {
+			// text range settings
+			TextRange tr = apfactory.createTextRange();
+			tr.setStartPosition(mainverb.getContentStart());
+			tr.setLength(mainverb.getContentLength());
+			tr.setLemmaForm(mainverb.getLemma());
+			tr.setPosTag(mainverb.getPOS().getLiteral());
+
+			// action part settings
+			SentenceActivity sactivity = apfactory.createSentenceActivity();
+			sactivity.setText(tr);
+			if(uc != null){
+				action.setIncludeTarget(uc);
+			}
+			// adding text range to model
+			AddCommand addCommand = new AddCommand(editingDomain, ucs,
+					UsecasePackage.Literals.PARSEABLE_ELEMENT__TEXT_NODES, tr);
+			compoundCommand.append(addCommand);
+		}
+		
+		setActionParams(ucs, action);
+		
+		SetCommand setCommand = new SetCommand(editingDomain, ucs,
+				UsecasePackage.Literals.USE_CASE_STEP__ACTION,
+				action);
+		return setCommand;
+	}
+	
 	
 	private static Command setToSystem(UseCaseStep ucs) {
 		ToSystem action = afactory.createToSystem();
