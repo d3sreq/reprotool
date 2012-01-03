@@ -1,0 +1,17 @@
+Viliam Šimko 
+- supervisor
+- EMF modelling
+- model verification
+
+Jiří Vinárek 
+- eclipse platform integration
+- EMF modelling
+- GUI creation
+
+Ondřej Fiala 
+- linguistic tools integration 
+
+Rudo Tomori 
+- model verification
+- model transformation, export to UML and NuSMV format
+- model visualisation
