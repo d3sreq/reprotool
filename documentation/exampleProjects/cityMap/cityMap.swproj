@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="ASCII"?>
 <swproj:SoftwareProject xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:action="http://d3s.mff.cuni.cz/reprotool/model/linguistic/action" xmlns:annotate="http://d3s.mff.cuni.cz/reprotool/model/usecase/annotate" xmlns:swproj="http://d3s.mff.cuni.cz/reprotool/model/swproj" name="City Map Example">
   <actors name="User"/>
-  <actors/>
   <useCases name="Select city on map" primaryActor="//@actors.0">
     <mainScenario>
       <steps content="The user opens the map web page."/>
@@ -9,14 +8,14 @@
         <variations>
           <steps content="System displays an empty map with message."/>
           <steps content="Use-case aborts">
-            <annotations id="abort1" annotationType="//@annotationGroups.0/@members.0"/>
+            <annotations annotationType="//@annotationGroups.0/@members.0" id="abort1"/>
             <action xsi:type="action:AbortUseCase"/>
           </steps>
           <scenarioGuard content="No cities available."/>
         </variations>
       </steps>
       <steps content="The user selects a city on the map.">
-        <annotations id="city" annotationType="//@annotationGroups.2/@members.0"/>
+        <annotations annotationType="//@annotationGroups.2/@members.0" id="city"/>
       </steps>
     </mainScenario>
   </useCases>
@@ -28,7 +27,7 @@
             <action xsi:type="action:AbortUseCase"/>
           </steps>
           <scenarioGuard content="There was an abort in &#x201c;Generate city&#x201d;.">
-            <annotations id="abort2" annotationType="//@annotationGroups.0/@members.1"/>
+            <annotations annotationType="//@annotationGroups.0/@members.1" id="abort2"/>
           </scenarioGuard>
         </extensions>
         <variations comment="">
@@ -36,13 +35,13 @@
             <action xsi:type="action:AbortUseCase"/>
           </steps>
           <scenarioGuard content="There was an abort in &#x201c;Select city on map&#x201d;">
-            <annotations id="abort1" annotationType="//@annotationGroups.0/@members.1"/>
+            <annotations annotationType="//@annotationGroups.0/@members.1" id="abort1"/>
           </scenarioGuard>
         </variations>
         <action xsi:type="action:UseCaseInclude" includeTarget="//@useCases.2"/>
       </steps>
       <steps content="System validates the zoom settings.">
-        <annotations id="zoom" annotationType="//@annotationGroups.2/@members.1"/>
+        <annotations annotationType="//@annotationGroups.2/@members.1" id="zoom"/>
         <extensions>
           <steps content="System display an error message to the user."/>
           <steps content="Goto step 1.">
@@ -52,8 +51,8 @@
         </extensions>
       </steps>
       <steps content="System asks RestaurantServer for restaurants.">
-        <annotations id="zoom" annotationType="//@annotationGroups.2/@members.1"/>
-        <annotations id="city" annotationType="//@annotationGroups.2/@members.1"/>
+        <annotations annotationType="//@annotationGroups.2/@members.1" id="zoom"/>
+        <annotations annotationType="//@annotationGroups.2/@members.1" id="city"/>
       </steps>
       <steps content="RestaurantServer generates the restaurant layer information."/>
       <steps content="System generates restaurant map."/>
@@ -62,27 +61,27 @@
   <useCases name="Generate city" precedingUseCases="//@useCases.0">
     <mainScenario>
       <steps content="The system asks MapServer to provide city information.">
-        <annotations id="city" annotationType="//@annotationGroups.2/@members.1"/>
+        <annotations annotationType="//@annotationGroups.2/@members.1" id="city"/>
         <variations>
           <steps content="Abort">
             <action xsi:type="action:AbortUseCase"/>
           </steps>
           <scenarioGuard content=" There was an abort in &#x201c;Select city on map&#x201d;.">
-            <annotations id="" annotationType="//@annotationGroups.0/@members.1"/>
+            <annotations annotationType="//@annotationGroups.0/@members.1" id=""/>
           </scenarioGuard>
         </variations>
       </steps>
       <steps content="MapServer provides the requested information.">
         <variations comment="">
           <steps content="Abort.">
-            <annotations id="abort2" annotationType="//@annotationGroups.0/@members.0"/>
+            <annotations annotationType="//@annotationGroups.0/@members.0" id="abort2"/>
             <action xsi:type="action:AbortUseCase"/>
           </steps>
           <scenarioGuard content="MapServer error occurred."/>
         </variations>
       </steps>
       <steps content="The system generates the map with default zoom settings.">
-        <annotations id="zoom" annotationType="//@annotationGroups.2/@members.0"/>
+        <annotations annotationType="//@annotationGroups.2/@members.0" id="zoom"/>
       </steps>
       <steps content="User adjusts zoom settings."/>
     </mainScenario>
@@ -106,4 +105,8 @@
     <members name="create"/>
     <members name="use"/>
   </annotationGroups>
+  <conceptualObjects name="map web page" description=""/>
+  <conceptualObjects name="map" description=""/>
+  <conceptualObjects name="city" description=""/>
+  <conceptualObjects name="message" description=""/>
 </swproj:SoftwareProject>
