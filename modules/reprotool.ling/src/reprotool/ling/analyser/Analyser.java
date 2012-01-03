@@ -525,6 +525,17 @@ public class Analyser {
 		// connect objects to textranges
 		if (objects != null && objects.size() > 0) {
 			for (Word object : objects) {
+				ConceptualObject cop = null;
+				boolean add = true;
+				for (ConceptualObject co : ucs.getSoftwareProjectShortcut()
+						.getConceptualObjects()) {
+					if (co.getName().equals(object.getLemma())) {
+						add = false;
+						cop = co;
+					}
+				}
+				// not duplicated
+
 				// text range settings
 				TextRange tr = apfactory.createTextRange();
 				tr.setStartPosition(object.getContentStart());
@@ -535,23 +546,27 @@ public class Analyser {
 				// action part settings
 				SentenceActionParam aparam = apfactory
 						.createSentenceActionParam();
-				ConceptualObject cobject = swfactory.createConceptualObject();
-				cobject.setName(object.getLemma());
-				aparam.setConceptualObject(cobject);
+				if (cop == null) {
+					cop = swfactory.createConceptualObject();
+				}
+				cop.setName(object.getLemma());
+				aparam.setConceptualObject(cop);
 				tr.setActionPart(aparam);
 				// adding action param
 				AddCommand addCommand = new AddCommand(editingDomain, action,
-						ActionPackage.Literals.ACTION__ACTION_PARAM,
-						aparam);
+						ActionPackage.Literals.ACTION__ACTION_PARAM, aparam);
 				compoundCommand.append(addCommand);
 				// adding conceptual object
-				ucs.getSoftwareProjectShortcut().getConceptualObjects().add(cobject);
-				// todo duplicity
+				if (add) {
+					ucs.getSoftwareProjectShortcut().getConceptualObjects()
+							.add(cop);
+				}
 				// adding text range to model
 				addCommand = new AddCommand(editingDomain, ucs,
 						UsecasePackage.Literals.PARSEABLE_ELEMENT__TEXT_NODES,
 						tr);
 				compoundCommand.append(addCommand);
+
 			}
 		}
 		
