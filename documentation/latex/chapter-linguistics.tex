@@ -14,6 +14,8 @@ Each implementation of any analyse brings problem of measuring success. We have 
   \label{fig:LinguisticsAnalyseSmall}
 \end{figure}
 
+In next pages is described work of various linguistics tolls.
+
 \subsection{External tools}
 \label{sec:externaltools}
 As described in previous sections, whole linguistics analysis is a hard task to do. Implementing all acts of this work is out of the scope of the project.  Especially parsers do a very sophisticated and difficult tasks. We choose selected commonly used external tools to do some parts of analysis. 
@@ -37,19 +39,23 @@ MXPOST tagger was written in Java implementation at University of Edinburg by NL
         
 Main part of this tagger is based on original parser written by Adwait Ratnaparkhi. Detailed description of this original parser is described in article \cite{Linguistics-ratnaparkhi96} and in his PhD thesis \cite{Linguistics-ratnaparkhi98}. 
 
-This 
-Work of 
-
-Input data, natural language sentences, 
-Main model of MXPOST tagger relies on the assumption that input sentences are tokenized
-according to the Penn Treebank conventions.
+Input data, natural language sentences, have to be tokenized according to the Penn Treebank conventions. Tagger needs it model consisting of tagged data and data are tagged with use of maximum entropy probability distribution. So the input sentence have to find a little bit corresponding sentence in trained data.
   
 \subsubsection{Dan Bikel's Multilingual Statistical Parsing Engine}   
 
+Statistical parsing do two main tasks. First is creating and training model and second is core parsing. For these purpose we have to obtain large data model with parsed sentences. 
+
+During the parsing, parses is trying to find the most similar sentence in trained model. As a trained data, we use a part of Penn Treebank, Wall Street Journal collection.
+
 \subsubsection{Mate-tools lemmatizer}          
           
+This lemmatizer is working in a similar way like previous parser. It also needs similar data models, because it cannot use just list of lemmas an theirs word forms. It also needs to obtain POS information for correct work.
+
+This tool uses one word per line 2009 CoNLL  input format, so we have to divide our sentences.
+
 \subsection{Analysis}
 \label{sec:analysis}
+Linguistics analysis covers multiple different actions executed by various tools. Its connection is described at figure \ref{fig:LinguisticsAnalyse}. 
 
 \begin{figure}[ht]
   \centering
@@ -58,7 +64,10 @@ according to the Penn Treebank conventions.
   \label{fig:LinguisticsAnalyse}
 \end{figure}
 
+As we can see, the biggest problem is data convertion between two cooperating tools. There actions are described by input and output data.
+
 \subsubsection{Tokenization}
+First part of natural language processing provided by our tokenizer.
 \begin{table}[ht]   % or b
 \begin{center}
     \begin{verbatim}
@@ -71,6 +80,7 @@ Output 	Array of tokens (eg. words, numbers)
 \end{table} 
 
 \subsubsection{Tagging}
+Usually determining part of speech tags.
 \begin{table}[ht]   % or b
 \begin{center}
     \begin{verbatim}
@@ -83,6 +93,7 @@ Output 	Array of POS tagged tokens (eg. adjectives, verbs)
 \end{table} 
 
 \subsubsection{Parsing}
+Creating dependency tree for each sentence. Example of parsed tree could be found at figure \ref{fig:ParsedTree}. 
 
 \begin{table}[ht]   % or b
 \begin{center}
@@ -90,19 +101,20 @@ Output 	Array of POS tagged tokens (eg. adjectives, verbs)
 Input 	Array of POS tagged tokens
 Output 	Parse trees of each sentence 
         \end{verbatim}
-  \caption{Parser}
+  \caption{Parser data}
   \label{tab.parsing}
 \end{center}
 \end{table}  
 
 \subsubsection{Lemmatization}
+Finding lemma forms for all words in a sentence.
 \begin{table}[ht]   % or b
 \begin{center}
     \begin{verbatim}
 Input 	Parse trees of each sentence
 Output 	Lemma for each word 
         \end{verbatim}
-  \caption{Example output from benchmark plug-in}
+  \caption{Lemmatizer data}
   \label{tab.parsing}
 \end{center}
 \end{table} 
@@ -112,13 +124,6 @@ Output 	Lemma for each word
   \includegraphics[width=200pt]{images/ParsedTree}
   \caption{Parsed tree of sentence "Administrator sends messages".}
   \label{fig:ParsedTree}
-\end{figure}
-
-\begin{figure}[ht]
-  \centering
-  \includegraphics[width=250pt]{images/InternalActionExample}
-  \caption{Example of internal action analysis result.}
-  \label{fig:InternalActionExample}
 \end{figure}
 
 \begin{figure}[ht]
@@ -165,33 +170,46 @@ Representative object could be noun in a noun phrase which is a child of main ve
 If a phrase contains more nouns without conjunction, we mark as an object last of the nouns.
 
 \subsection{Actions deriving rules}
-When we have all constituents, analysis cant continue with determining proper action and filling internal models with obtained data from analysis.
+When we have all constituents, analysis cant continue with determining proper action and filling internal models with obtained data from analysis. There are described theirs deriving rules. 
 
-Types of actions come from our usecase model, which is restricted due to exporting purpose. Overall small action set allows various export options described in previous chapters.
+Types of actions come from our usecase model, which is restricted due to exporting purpose. Overall small action set allows various export options described in previous chapters. 
 
 \subsubsection{Include usecase action}
-
+Sentence contains one of the set of defined verbs. These verbs are: "continue", "repeat", "resume" and "retry".  This verb must be main verb of the sentence. It also have to contain reference to usecase and label of one existing usecase in current project.
 
 \subsubsection{Goto action}
+Sentence contains one of the set of defined verb, same like in Include usecase action. This verb must be main verb of the sentence a must be found target. Target must be existing usecasestep in current usecase. 
 
 \subsubsection{Abort action}
+Set of abort verbs contains "abort", "terminate", "end".  This verb must be main verb of the sentence.
 
 \subsubsection{From system action}
+System is a subject of the sentence and we have indirect object (not system).
 
 \subsubsection{To system action}
+System is an indirect object. Subject could not be system.
 
 \subsubsection{Internal action}
+System is a subject and there is not indirect object, or system is also indirect object. Example of Internal action could be found at figure \ref{fig:InternalActionExample}. 
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=250pt]{images/InternalActionExample}
+  \caption{Example of internal action analysis result.}
+  \label{fig:InternalActionExample}
+\end{figure}
 
 \subsubsection{Unknown action}
+This is an default action. If analysis could not find any other action, we set unknown action. 
 
 \subsection{Benchmark}
 \label{sec:benchmark}
 
 During the creation of linguistics analysis we needed data for testing purpose.
 
-
-
 \subsubsection{Implementation}
+
+Implementation of benchmark is slightly different from common analysis, because of data conversion an reading.
 
 \begin{table}[ht]   % or b
 \begin{center}
@@ -218,13 +236,9 @@ TOTAL: Count: 84 Found: 70 | 83,3%
       
 \subsubsection{Dataset}
 
-Main usecase benchmark dataset:
+Main usecase benchmark dataset was obtained from \href{http://www2.put.poznan.pl/en}{Poznan University of Technology}, their \href{http://www.se.cs.put.poznan.pl/knowledge-base/software-projects-database/use-cases-database-ucdb/use-cases-database-ucdb}{Use Cases Database (UCDB)} and it coverts one project \href{http://ucdb.cs.put.poznan.pl/benchmark/2.f.n/srs/index.html}{Admission System version 2.0F (quantitative)}.  
 
-\href{http://www2.put.poznan.pl/en}{Poznan University of Technology}
-
-\href{http://www.se.cs.put.poznan.pl/knowledge-base/software-projects-database/use-cases-database-ucdb/use-cases-database-ucdb}{Use Cases Database (UCDB)}
-
-\href{http://ucdb.cs.put.poznan.pl/benchmark/2.f.n/srs/index.html}{Admission System version 2.0F (quantitative)}      
+Whole dataset have analysed 269 sentence.    
 
 \begin{enumerate}
 \item {\bf ID } Id string for one sentence provided for sentence identification
@@ -268,25 +282,5 @@ MOD1_UC1_9;Back to step 4 .;;0;;4;;GOTO;4;
 \end{center}
 \end{table}      
       
-\subsubsection{Results}
-                        
-\begin{table}[ht]   % or b
-\begin{center}
-    \begin{tabular}{|l|c|}
-      \hline
-      {\bf Section} & {\bf Accuracy} \\
-      \hline
-      Subjects               & 91.5\% \\
-      Verbs                  & 80.1\% \\
-      Representative objects & 70.3\% \\
-      Indirects objects      & 70.5\% \\
-      Actions                & 20.8\% \\
-      \hline
-      {\bf Total} & {\bf 80.2\%} \\
-      \hline
-    \end{tabular}
- \caption{Overall results of analysis benchmark on dataset data.csv (269 sentences)}
- \label{tab.benchmark}
-\end{center}
-\end{table}
+
 
