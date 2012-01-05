@@ -1,0 +1,15 @@
+ReProTool project installation CD
+MFF UK software project
+
+Content:
+/documentation - user and developer documentation
+/src - source codes
+/bin - bundle for installation
+AuthorsResponsibilities.txt - project authors
+
+Installation:
+1/ Unpack file reprotool-bundle.zip to proper directory
+2/ Choose Linux or Windows subdirectory depending on operating system
+3/ Run binary files in /eclipse subdirectory
+4/ For beter user experience consult project pages http://code.google.com/a/eclipselabs.org/p/reprotool/
+5/ While encounter problems with external tool check models locations
