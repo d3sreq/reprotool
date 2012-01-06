@@ -27,11 +27,19 @@ public class UMLGen {
 	}
 	
 	def private loadActors(SoftwareProject swproj, Model model) {
-		umlSystem = model.createOwnedClass("system", false);
 		swproj.actors.forEach([actor|actor2UML +=
 				actor -> 
 				model.createOwnedClass(actor.getName(), false)
 		]);
+		
+		val Actor system =
+			swproj.actors.findFirst([actor|actor.name.equals("system")])
+			
+		if (system == null) {
+			umlSystem = model.createOwnedClass("system", false);
+		} else {
+			umlSystem = actor2UML.get(system)
+		}
 	}
 	
 	def private processUseCaseStep(UseCaseStep step) {
