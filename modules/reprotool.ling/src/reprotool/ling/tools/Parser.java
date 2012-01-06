@@ -1,15 +1,19 @@
 package reprotool.ling.tools;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.rmi.RemoteException;
 import java.util.regex.Pattern;
 
 import org.eclipse.core.runtime.AssertionFailedException;
+import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.ui.statushandlers.StatusManager;
+import org.osgi.framework.Bundle;
 
 import reprotool.ling.Activator;
 import reprotool.ling.LingFactory;
@@ -132,32 +136,19 @@ public class Parser extends Tool {
     	String modelFile = "";
     	
 		// locating external model
-    	try{
-			modelFile = Platform.getPreferencesService().getString("reprotool.ide", "parserModel", "/wsj-02-21.obj.gz", null);
-		} catch (NullPointerException e){
-			String rootPath;
-			try {
-				rootPath = new java.io.File(Parser.class.getResource("/").toURI()).getParentFile().getParent();
-			} catch (URISyntaxException e1) {
-				rootPath = new java.io.File(Parser.class.getResource("/").getPath()).getParentFile().getParent();
-			}
-			modelFile = rootPath + "/reprotool.tools.dbparser/data/wsj-02-21.obj.gz";
-			//modelFile = rootPath + "/../tools/parser/wsj-02-21.obj.gz";
-		}   
-			
-		// locating external settings
-    	try{
-    		settingsFile = Platform.getPreferencesService().getString("reprotool.ide", "parserSettings", "/collins.properties", null);
-		} catch (NullPointerException e){
-			String rootPath;
-			try {
-				rootPath = new java.io.File(Parser.class.getResource("/").toURI()).getParentFile().getParent();
-			} catch (URISyntaxException e1) {
-				rootPath = new java.io.File(Parser.class.getResource("/").getPath()).getParentFile().getParent();
-			}
-			settingsFile = rootPath + "/reprotool.tools.dbparser/data/collins.properties";
-		} 
-
+    	Bundle bundle = Platform.getBundle("reprotool.tools.dbparser");
+    	URL modelFileURL = bundle.getEntry("data/wsj-02-21.obj.gz");
+    	URL settingsFileURL = bundle.getEntry("data/collins.properties");
+	    try {
+	    	modelFile = new File(FileLocator.resolve(modelFileURL).toURI()).toString();
+			settingsFile = new File(FileLocator.resolve(settingsFileURL).toURI()).toString();
+		} catch (URISyntaxException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 
     	try {
 			Settings.load(settingsFile);
