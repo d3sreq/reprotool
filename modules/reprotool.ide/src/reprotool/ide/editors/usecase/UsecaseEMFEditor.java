@@ -625,7 +625,9 @@ public class UsecaseEMFEditor extends MultiPageEditorPart implements IEditingDom
 				getContainer().getDisplay().asyncExec(new Runnable() {
 					public void run() {
 						firePropertyChange(IEditorPart.PROP_DIRTY);
-						((LTSContentOutlinePage) contentOutlinePage).emfModelChanged();
+						if (contentOutlinePage != null) {
+							((LTSContentOutlinePage) contentOutlinePage).emfModelChanged();
+						}
 
 						// Try to select the affected objects.
 						//
