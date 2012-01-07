@@ -52,22 +52,19 @@ public class CExmpEditor extends SwprojEditor {
 			Resource resource = editingDomain.getResourceSet().getResources().get(0);
 			Object obj = resource.getContents().get(0);
 			CounterExample ce = (CounterExample) obj;
-			contentOutlinePage = new LTSContentOutlinePage(ce);
-			
-			contentOutlinePage.addSelectionChangedListener
-				(new ISelectionChangedListener() {
-					 public void selectionChanged(SelectionChangedEvent event) {
-						 handleContentOutlineSelection(event.getSelection());
-					 }
-				 });
+			contentOutlinePage = new LTSContentOutlinePage(ce, this);
 		}
 		
 		return contentOutlinePage;
-	}	
-
+	}
+	
+	public void setLTSSelection(ISelection selection) {
+		selectionViewer.setSelection(selection);
+	}
+	
 	
 	@Override
 	public void handleContentOutlineSelection(ISelection selection) {
 		/* Not implemented */
-	}	
+	}
 }

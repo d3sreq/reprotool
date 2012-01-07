@@ -115,7 +115,6 @@ import reprotool.model.edit.ext.factory.UsecaseEMFEditorAdapterFactory;
 import reprotool.model.usecase.UseCase;
 import reprotool.model.usecase.UseCaseStep;
 import reprotool.model.usecase.presentation.ReprotoolEditorPlugin;
-import reprotool.uc.tempeditor.LTSContentOutlinePage;
 
 /**
  * This is an example of a Usecase model editor.
@@ -991,7 +990,7 @@ public class UsecaseEMFEditor extends MultiPageEditorPart implements IEditingDom
 			EObject object = getEditingDomain().getResourceSet().getEObject(uriEditorInput.getURI(), true);
 			Assert.isTrue(object instanceof UseCase);
 			UseCase useCase = (UseCase) object;
-			final LTSContentOutlinePage outlinePage = new LTSContentOutlinePage(useCase);
+			final LTSContentOutlinePage outlinePage = new LTSContentOutlinePage(useCase, this);
 
 			// add selection listener (changes arrows color in outline)
 			selectionProvider.addSelectionChangedListener(new ISelectionChangedListener() {
@@ -1374,5 +1373,9 @@ public class UsecaseEMFEditor extends MultiPageEditorPart implements IEditingDom
 
 	public void refreshEMFEditorPart() {
 		usecaseEditorPart.getComposite().getTreeViewer().refresh();
+	}
+	
+	public void setLTSSelection(ISelection selection) {
+		usecaseEditorPart.getComposite().getTreeViewer().setSelection(selection);
 	}
 }
