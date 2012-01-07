@@ -1378,4 +1378,9 @@ public class UsecaseEMFEditor extends MultiPageEditorPart implements IEditingDom
 	public void setLTSSelection(ISelection selection) {
 		usecaseEditorPart.getComposite().getTreeViewer().setSelection(selection);
 	}
+
+	// exposed to allow setting of the partName from contained pages  
+	public void setPartName(String partName) {
+		super.setPartName(partName);
+	}
 }

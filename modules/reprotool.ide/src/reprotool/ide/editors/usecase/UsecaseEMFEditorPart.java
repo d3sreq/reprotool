@@ -298,6 +298,13 @@ public class UsecaseEMFEditorPart extends EditorPart implements IMenuListener, I
 		ToolBarManager toolBarManager = composite.getPrecedingUseCasesComposite().getToolBarManager(); 
 		toolBarManager.add(precedingUseCasesAction);
 		toolBarManager.update(true);
+		
+		if (useCase.getName() != null && !useCase.getName().isEmpty()) {
+			parentEditor.setPartName(useCase.getName());
+		} else {
+			String partName = parentEditor.getPartName() + " - unnamed";
+			parentEditor.setPartName(partName);
+		}
 	}
 	
 	
