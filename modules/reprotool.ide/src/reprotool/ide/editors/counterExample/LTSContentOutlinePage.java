@@ -23,6 +23,8 @@ import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.SWTEventDispatcher;
 import org.eclipse.draw2d.Shape;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.jface.viewers.DoubleClickEvent;
+import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -307,7 +309,7 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 			
 			connectionTracker.get(trans).put(transition.getRelatedStep(), con);
 			Step editorStep = findCExmpStep(trans, transition.getRelatedStep()); 
-			con.setData(editorStep != null ? editorStep : trans);
+			con.setData(editorStep != null ? editorStep : transition.getRelatedStep());
 		} else if (trans.getUseCase() != null) {
 			IFigure toolTip = new Label();
 			((Label) toolTip).setText("UseCase: " + u.getName());
@@ -377,12 +379,10 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 							break;
 						}
 						c.setLineColor(ColorConstants.red);
-						c.setHighlightColor(ColorConstants.red);
 					}
 				}
 			}
 			con.setLineColor(ColorConstants.red);
-			con.setHighlightColor(ColorConstants.red);
 			
 			List<StepAnnotation> annots = ucStep.getAnnotations();
 			if (!annots.isEmpty()) {
@@ -545,14 +545,58 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 							selection.add(obj);
 						}
 					}
-					if (!selection.isEmpty()) {
-						editor.setLTSSelection(new StructuredSelection(selection));
+				
+					editor.setLTSSelection(new StructuredSelection(selection));
+				}
+			}
+		});
+		
+		viewer.addDoubleClickListener(new IDoubleClickListener() {
+
+			@Override
+			public void doubleClick(DoubleClickEvent event) {
+				ISelection selection = event.getSelection();
+				if (!selection.isEmpty() && selection instanceof StructuredSelection) {
+					StructuredSelection structuredSelection = (StructuredSelection) selection;
+
+					Object first = structuredSelection.getFirstElement();
+					if (first instanceof UseCaseStep) {
+						UseCaseStep ucStep = (UseCaseStep) first;
+						UseCase u = getRootUseCase(ucStep);
+						if (u != null) {
+							EditorUtils.openUseCaseEditor(getSite().getPage(), u, ucStep);
+						}
+					} else if (first instanceof Step) {
+						Step step = (Step) first;
+						UseCaseStep ucStep = step.getUcStep();
+						UseCaseTransition t = null;
+						Assert.isTrue(step.eContainer() instanceof UseCaseTransition);
+						t = (UseCaseTransition) step.eContainer();
+						UseCase u = t.getUseCase();
+						EditorUtils.openUseCaseEditor(getSite().getPage(), u, ucStep);
 					}
 				}
 			}
 		});
 		
 		createLtsGraph(parent);
+	}
+	
+	private UseCase getRootUseCase(UseCaseStep step) {
+		Object parent = step.eContainer();
+		if (!(parent instanceof Scenario)) {
+			return null;
+		}
+		parent = ((Scenario) parent).eContainer();
+		while (parent instanceof UseCaseStep) {
+			parent = ((UseCaseStep) parent).eContainer();
+			Assert.isTrue(parent instanceof Scenario);
+			parent = ((Scenario) parent).eContainer();
+		}
+		
+		Assert.isTrue(parent instanceof UseCase);
+		
+		return (UseCase) parent;
 	}
 
 	@Override

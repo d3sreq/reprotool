@@ -6,17 +6,23 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.core.runtime.Assert;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.jface.viewers.DoubleClickEvent;
+import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 
 import reprotool.model.swproj.CounterExample;
 import reprotool.model.swproj.Step;
 import reprotool.model.swproj.UseCaseTransition;
 import reprotool.model.swproj.presentation.SwprojEditor;
+import reprotool.model.usecase.UseCase;
+import reprotool.model.usecase.UseCaseStep;
 
 public class CExmpEditor extends SwprojEditor {
 	public CExmpEditor() {
@@ -43,7 +49,7 @@ public class CExmpEditor extends SwprojEditor {
 					}
 				}
 			}
-		});
+		});		
 	}
 	
 	@Override
@@ -66,5 +72,32 @@ public class CExmpEditor extends SwprojEditor {
 	@Override
 	public void handleContentOutlineSelection(ISelection selection) {
 		/* Not implemented */
+	}
+	
+	@Override
+	public void createPages() {
+		super.createPages();
+		
+		selectionViewer.addDoubleClickListener(new IDoubleClickListener() {
+
+			@Override
+			public void doubleClick(DoubleClickEvent event) {
+				ISelection selection = event.getSelection();
+				if (!selection.isEmpty() && selection instanceof StructuredSelection) {
+					StructuredSelection structuredSelection = (StructuredSelection) selection;
+
+					Object first = structuredSelection.getFirstElement();
+					if (first instanceof Step) {
+						Step step = (Step) first;
+						UseCaseStep ucStep = step.getUcStep();
+						UseCaseTransition t = null;
+						Assert.isTrue(step.eContainer() instanceof UseCaseTransition);
+						t = (UseCaseTransition) step.eContainer();
+						UseCase u = t.getUseCase();
+						EditorUtils.openUseCaseEditor(getSite().getPage(), u, ucStep);
+					}
+				}
+			}
+		});
 	}
 }
