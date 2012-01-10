@@ -1,0 +1,33 @@
+module reprotool.lts
+
+import org.eclipse.emf.mwe.utils.*
+import org.eclipse.emf.mwe2.ecore.*
+
+var projectName = "reprotool.lts"
+var runtimeProject = "../${projectName}"
+
+
+Workflow {
+	bean = StandaloneSetup {
+		platformUri = ".."
+	}
+
+	component = DirectoryCleaner {
+		directory = "${runtimeProject}/src-gen"
+	}
+	/* 	
+	component = DirectoryCleaner {
+		directory = "${runtimeProject}.edit/src"
+	}
+
+	component = DirectoryCleaner {
+		directory = "${runtimeProject}.editor/src"
+	}
+	*/
+	component = EcoreGenerator {
+		srcPath = "platform:/resource/${projectName}/src"
+		genModel = "platform:/resource/${projectName}/model/reprotool.lts.genmodel"
+		generateEdit = false
+		generateEditor = false
+	}
+}
