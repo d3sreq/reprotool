@@ -1,4 +1,4 @@
-package reprotool.uc.tempeditor;
+package lts2.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;

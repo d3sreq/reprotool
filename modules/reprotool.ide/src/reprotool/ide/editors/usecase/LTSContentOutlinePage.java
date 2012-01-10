@@ -64,8 +64,6 @@ import reprotool.model.usecase.Scenario;
 import reprotool.model.usecase.UseCase;
 import reprotool.model.usecase.UseCaseStep;
 import reprotool.model.usecase.annotate.StepAnnotation;
-import reprotool.uc.tempeditor.FigureProvider;
-import reprotool.uc.tempeditor.LTSLayoutAlgorithm;
 
 
 public class LTSContentOutlinePage extends Page implements IContentOutlinePage {

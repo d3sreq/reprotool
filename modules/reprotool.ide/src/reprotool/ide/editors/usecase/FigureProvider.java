@@ -1,4 +1,4 @@
-package reprotool.uc.tempeditor;
+package reprotool.ide.editors.usecase;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.ImageFigure;

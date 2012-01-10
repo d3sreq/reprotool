@@ -1,4 +1,4 @@
-package reprotool.uc.tempeditor;
+package reprotool.ide.editors.usecase;
 
 import java.awt.Point;
 import java.util.ArrayList;

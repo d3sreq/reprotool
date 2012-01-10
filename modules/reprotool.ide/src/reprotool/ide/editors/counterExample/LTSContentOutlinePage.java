@@ -46,6 +46,7 @@ import org.eclipse.zest.core.widgets.GraphNode;
 import org.eclipse.zest.core.widgets.ZestStyles;
 import org.eclipse.zest.layouts.LayoutAlgorithm;
 
+import reprotool.ide.editors.usecase.FigureProvider;
 import reprotool.model.linguistic.action.UseCaseInclude;
 import reprotool.model.swproj.CounterExample;
 import reprotool.model.swproj.Step;
@@ -55,7 +56,6 @@ import reprotool.model.usecase.Scenario;
 import reprotool.model.usecase.UseCase;
 import reprotool.model.usecase.UseCaseStep;
 import reprotool.model.usecase.annotate.StepAnnotation;
-import reprotool.uc.tempeditor.FigureProvider;
 
 
 public class LTSContentOutlinePage extends Page implements IContentOutlinePage {

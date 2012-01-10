@@ -7,5 +7,5 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.core.resources;bundle-version="3.7.100",
  reprotool.model;bundle-version="0.1.0",
- reprotool.uc.tempeditor;bundle-version="1.0.0"
+ reprotool.lts;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

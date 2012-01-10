@@ -32,7 +32,6 @@ import reprotool.model.linguistic.action.UseCaseInclude;
 import reprotool.model.usecase.Scenario;
 import reprotool.model.usecase.UseCase;
 import reprotool.model.usecase.UseCaseStep;
-import reprotool.uc.tempeditor.LTSCache;
 
 /**
  * <!-- begin-user-doc -->
