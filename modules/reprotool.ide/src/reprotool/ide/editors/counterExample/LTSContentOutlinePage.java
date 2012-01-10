@@ -23,8 +23,6 @@ import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.SWTEventDispatcher;
 import org.eclipse.draw2d.Shape;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.jface.viewers.DoubleClickEvent;
-import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -35,6 +33,8 @@ import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.part.Page;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
@@ -568,16 +568,19 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 				}
 			}
 		});
-		
-		viewer.addDoubleClickListener(new IDoubleClickListener() {
-
+				
+		viewer.getGraphControl().addListener(SWT.MouseDoubleClick, new Listener() {
+			 
 			@Override
-			public void doubleClick(DoubleClickEvent event) {
-				ISelection selection = event.getSelection();
-				if (!selection.isEmpty() && selection instanceof StructuredSelection) {
-					StructuredSelection structuredSelection = (StructuredSelection) selection;
-
-					Object first = structuredSelection.getFirstElement();
+			public void handleEvent(Event event) {
+				IFigure f = viewer.getGraphControl().getFigureAt(event.x, event.y);				
+				if (f == null) {
+					return;
+				}
+				
+				List selection = viewer.getGraphControl().getSelection();
+				if ((!selection.isEmpty()) && (selection.get(0) instanceof GraphConnection)) {
+					Object first = ((GraphConnection) selection.get(0)).getData();
 					if (first instanceof UseCaseStep) {
 						UseCaseStep ucStep = (UseCaseStep) first;
 						UseCase u = getRootUseCase(ucStep);
