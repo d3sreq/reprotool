@@ -573,7 +573,9 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 			 
 			@Override
 			public void handleEvent(Event event) {
-				IFigure f = viewer.getGraphControl().getFigureAt(event.x, event.y);				
+				int scrollX = viewer.getGraphControl().getHorizontalBar().getSelection();
+				int scrollY = viewer.getGraphControl().getVerticalBar().getSelection();
+				IFigure f = viewer.getGraphControl().getFigureAt(event.x + scrollX, event.y + scrollY);				
 				if (f == null) {
 					return;
 				}
