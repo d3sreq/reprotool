@@ -28,6 +28,7 @@
       <import plugin="org.eclipselabs.nusmvtools.nusmv4j" version="4.0.1" match="greaterOrEqual"/>
       <import plugin="org.eclipselabs.nusmvtools.counterexample" version="0.0.2" match="greaterOrEqual"/>
       <import plugin="reprotool.model"/>
+      <import plugin="reprotool.model.utils" version="0.1.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.ui.console" version="3.5.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.core.resources" version="3.6.1" match="greaterOrEqual"/>
       <import plugin="reprotool.fm.nusmv.lang" version="1.0.0" match="greaterOrEqual"/>
@@ -50,7 +51,8 @@
       <import plugin="org.eclipse.xtext.ui.codetemplates.ui"/>
       <import plugin="org.eclipse.compare"/>
       <import plugin="org.apache.commons.logging"/>
-      <import plugin="reprotool.model.utils" version="0.1.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.emf.mwe2.launch"/>
+      <import plugin="org.eclipse.xtend2.lib"/>
    </requires>
 
    <plugin
