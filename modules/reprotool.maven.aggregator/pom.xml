@@ -35,6 +35,7 @@
 		<module>../reprotool.ling</module>
 		<!-- <module>../reprotool.ling.tests</module> -->
 		
+		<module>../reprotool.lts</module>
 		<module>../reprotool.lts.export</module>
 		
 		<!-- model, gui -->
@@ -54,10 +55,7 @@
 		<!-- not included - contains no tests -->
 		<!-- <module>../reprotool.tools.txtspec.tests</module> -->
 		<module>../reprotool.txtspec.ui</module>
-		
-		<!-- LTS model + gui -->
-		<module>../reprotool.uc.tempeditor</module>
-		
+				
 		<!-- reprotool model export to UML -->
 		<module>../reprotool.uml.export</module>
 	</modules>
