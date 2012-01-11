@@ -32,7 +32,7 @@
       <import plugin="org.eclipse.core.resources" version="3.6.1" match="greaterOrEqual"/>
       <import plugin="reprotool.fm.nusmv.lang" version="1.0.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.xtext.xtend2.lib" version="2.1.1" match="greaterOrEqual"/>
-      <import plugin="reprotool.uc.tempeditor"/>
+      <import plugin="reprotool.lts"/>
       <import plugin="org.eclipse.xtext" version="2.1.0" match="greaterOrEqual"/>
       <import plugin="org.apache.log4j" version="1.2.15" match="greaterOrEqual"/>
       <import plugin="org.eclipse.xtext.util"/>
