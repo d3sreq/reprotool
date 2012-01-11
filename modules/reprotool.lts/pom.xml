@@ -10,7 +10,7 @@
 		<relativePath>../reprotool.maven.parent/pom.xml</relativePath>
 	</parent>
 	<groupId>reprotool</groupId>
-	<artifactId>reprotool.uc.tempeditor</artifactId>
+	<artifactId>reprotool.lts</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>eclipse-plugin</packaging>
 
@@ -75,7 +75,7 @@
 						</goals>
 						<configuration>
 							<workflowEngine>mwe2</workflowEngine>
-							<workflowDescriptor>reprotool.tempeditor</workflowDescriptor>
+							<workflowDescriptor>reprotool.lts</workflowDescriptor>
 							<timestampFileName>emf-generator.timestamp</timestampFileName>
 							<!-- <jvmSettings> <fork>true</fork> <jvmArgs> <jvmArg>-Xms100m</jvmArg> 
 								<jvmArg>-Xmx700m</jvmArg> <jvmArg>-XX:MaxPermSize=128m</jvmArg> <jvmArg>-Dlog4j.configuration=file:${basedir}/log4j.properties</jvmArg> 

@@ -192,7 +192,7 @@ VariableIdentifier:
 	| ID ('.' ID)* ('[' (NUMBER | ID) ']')+
 	| ID ('.' ID)* '[' NUMBER ':' NUMBER ']';
 
-terminal NUMBER:
+NUMBER:
 	INT;
 
 terminal SL_COMMENT:
