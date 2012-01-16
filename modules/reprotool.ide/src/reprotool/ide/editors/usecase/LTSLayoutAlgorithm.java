@@ -126,17 +126,7 @@ public class LTSLayoutAlgorithm extends AbstractLayoutAlgorithm {
 		int prolong = 0; 
 		
 		for (UseCaseStep step: s.getSteps()) {
-			
-			for (Scenario ext: step.getExtensions()) {
-				UseCaseStep lastExtStep = ext.getSteps().get(ext.getSteps().size() - 1);
-				if (
-						(!(lastExtStep.getAction() instanceof Goto)) &&
-						(!(lastExtStep.getAction() instanceof AbortUseCase))
-				) {
-					prolong++;
-					break;
-				}
-			}
+			prolong += step.getExtensions().isEmpty() ? 0 : 1;
 		}
 		
 		UseCaseStep lastStep = s.getSteps().get(s.getSteps().size() - 1);
@@ -207,37 +197,19 @@ public class LTSLayoutAlgorithm extends AbstractLayoutAlgorithm {
 			internal2Board.get(node).setLocation(x, y);
 			
 			if (!step.getExtensions().isEmpty()) {
-				int yy = y + 1;
-				for (Scenario sc: step.getExtensions()) {
-					UseCaseStep lStep = sc.getSteps().get(sc.getSteps().size() - 1);
-					if (
-							(!(lStep.getAction() instanceof Goto)) &&
-							(!(lStep.getAction() instanceof AbortUseCase))
-						) {
-						yy--;
-						break;
-					}
-				}
 				for (Scenario scenario: step.getExtensions()) {
-					int xx = findFreeColumn(x0, yy, countEffectiveSize(scenario), extensionSpan);					
-					occupyColumns(scenario, xx, yy);
-					processScenario(scenario, xx, yy, extensionSpan);
+					int xx = findFreeColumn(x0, y, countEffectiveSize(scenario), extensionSpan);					
+					occupyColumns(scenario, xx, y);
+					processScenario(scenario, xx, y, extensionSpan);
 				}
 			}
 			
 			y--;
 			
 			if (!step.getVariations().isEmpty()) {
-				int yy = y + 1;
-				for (Scenario sc: step.getExtensions()) {
-					UseCaseStep lStep = sc.getSteps().get(sc.getSteps().size() - 1);
-					if (
-							(!(lStep.getAction() instanceof Goto)) &&
-							(!(lStep.getAction() instanceof AbortUseCase))
-						) {
-						yy--;
-						break;
-					}
+				int yy = y;
+				if (step.getExtensions().isEmpty()) {
+					yy++;
 				}
 				for (Scenario scenario: step.getVariations()) {
 					int xx = findFreeColumn(x0, yy, countEffectiveSize(scenario), variationSpan);

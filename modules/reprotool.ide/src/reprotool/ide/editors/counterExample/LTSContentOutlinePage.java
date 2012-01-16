@@ -282,7 +282,7 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 						state2Node.get(transition.getSourceState()), state2Node.get(transition.getTargetState()));
 			trans2Edge.put(transition, con);
 			if (gotoTransitions.contains(transition)) {
-				con.setCurveDepth(16);
+				con.setCurveDepth(24);
 			}
 		}
 		
@@ -300,7 +300,9 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 			if (!annots.isEmpty()) {
 				UseCaseTransition workingTransition = findUCTransition(trans, u);
 				if (!transitionHasStep(workingTransition, transition.getRelatedStep())) {
-					con.setImage(figureProvider.getSignImage());
+					if (!gotoTransitions.contains(transition)) {
+						con.setImage(figureProvider.getSignImage());
+					}
 				}
 				stringBuffer.append("\n");
 				stringBuffer.append("Annots: ");
@@ -443,7 +445,6 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 		UseCaseTransition pred = null;
 		for (UseCaseTransition trans: transitions) {
 			selectUCTransition(trans, null);
-			UseCase uc = trans.getUseCase();
 			
 			if (pred != null) {
 				GraphConnection c = new GraphConnection(viewer.getGraphControl(),
@@ -518,6 +519,12 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 		viewer.getGraphControl().addMouseListener(new MouseAdapter() {
 			
 			public void mouseDown(MouseEvent e) {
+				int scrollX = viewer.getGraphControl().getHorizontalBar().getSelection();
+				int scrollY = viewer.getGraphControl().getVerticalBar().getSelection();
+				IFigure f = viewer.getGraphControl().getFigureAt(e.x + scrollX, e.y + scrollY);				
+				if (f == null) {
+					viewer.getGraphControl().setSelection(null);
+				}
 				if (e.button == 1) {
 					redrawDashedConnections();
 				}

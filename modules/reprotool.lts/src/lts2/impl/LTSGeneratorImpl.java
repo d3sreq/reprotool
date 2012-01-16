@@ -190,8 +190,7 @@ public class LTSGeneratorImpl extends EObjectImpl implements LTSGenerator {
 			
 			if (
 					(srcState != init) &&
-					(ltsCache.getExtClosures().containsKey(srcState)) &&
-					(!ltsCache.getExtClosures().get(srcState).isEmpty())
+					(ltsCache.getExtClosures().containsKey(srcState))
 			) {
 				TransitionalState extHolder = Lts2Factory.eINSTANCE.createTransitionalState();
 				labelTransitionSystem.getTransitionalStates().add(extHolder);
@@ -217,6 +216,7 @@ public class LTSGeneratorImpl extends EObjectImpl implements LTSGenerator {
 				ltsCache.getUCStep2TransLayout().put(prevStep, t);
 				
 				srcState = extHolder;
+				ltsCache.getUCStep2TSrcState().put(ucStep, srcState);
 			}
 
 			// Variations are attached to the source state.
@@ -276,10 +276,12 @@ public class LTSGeneratorImpl extends EObjectImpl implements LTSGenerator {
 					if (!sc.getSteps().isEmpty()) {
 						UseCaseStep lStep = sc.getSteps().get(sc.getSteps().size() - 1);
 						State st = processScenario(sc, tgtState, null, false);
+						
 						if (
 							(!(lStep.getAction() instanceof Goto)) &&
 							(!(lStep.getAction() instanceof AbortUseCase))
 						) {
+						
 							Assert.isNotNull(ltsCache.getExtClosures().get(tgtState));
 							Assert.isTrue(st instanceof TransitionalState);
 							ltsCache.getExtClosures().get(tgtState).add((TransitionalState) st);

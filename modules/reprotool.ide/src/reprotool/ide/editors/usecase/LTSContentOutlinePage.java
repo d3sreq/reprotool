@@ -21,7 +21,6 @@ import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.SWTEventDispatcher;
-import org.eclipse.draw2d.SWTGraphics;
 import org.eclipse.draw2d.Shape;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.jface.viewers.ISelection;
@@ -32,25 +31,14 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.graphics.GC;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.ImageData;
-import org.eclipse.swt.graphics.ImageLoader;
-import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.FileDialog;
-import org.eclipse.swt.widgets.Menu;
-import org.eclipse.swt.widgets.MenuItem;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.part.Page;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 import org.eclipse.zest.core.viewers.GraphViewer;
 import org.eclipse.zest.core.widgets.CGraphNode;
-import org.eclipse.zest.core.widgets.Graph;
 import org.eclipse.zest.core.widgets.GraphConnection;
 import org.eclipse.zest.core.widgets.GraphItem;
 import org.eclipse.zest.core.widgets.GraphNode;
@@ -89,7 +77,10 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 	private HashMap<Transition, GraphNode> trans2Node = new HashMap<Transition, GraphNode>();
 	private List<Transition> gotoTransitions = null;	
 	private HashMap<Transition, GraphConnection> trans2Edge = new HashMap<Transition, GraphConnection>();
-	private UsecaseEMFEditor editor;
+	private final UsecaseEMFEditor editor;
+	
+	private MouseListener mouseListener;
+	private ISelectionChangedListener selectionChangedListener;
 	
 	public LTSContentOutlinePage(UseCase uc, UsecaseEMFEditor editor) {
 		super();
@@ -97,6 +88,44 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 		figureProvider = new FigureProvider();
 		regenerateLTS();
 		this.editor = editor;
+		
+		this.mouseListener = new MouseAdapter() {
+			
+			public void mouseDown(MouseEvent e) {
+				int scrollX = viewer.getGraphControl().getHorizontalBar().getSelection();
+				int scrollY = viewer.getGraphControl().getVerticalBar().getSelection();
+				IFigure f = viewer.getGraphControl().getFigureAt(e.x + scrollX, e.y + scrollY);				
+				if (f == null) {
+					viewer.getGraphControl().setSelection(null);
+				}
+				if (e.button == 1) {
+					redrawDashedConnections();
+				}
+			}
+			
+		};
+		
+		final LTSContentOutlinePage lts = this;
+		this.selectionChangedListener = new ISelectionChangedListener() {
+			
+			public void selectionChanged(SelectionChangedEvent event) {
+				if (event.getSelection() instanceof IStructuredSelection) {
+					IStructuredSelection sel = (IStructuredSelection) event.getSelection();
+					Collection<?> col = ((IStructuredSelection)sel).toList();
+					List<UseCaseStep> selection = new ArrayList<UseCaseStep>();
+					Iterator<?> it = col.iterator();
+					while(it.hasNext()) {
+						Object obj = it.next();
+						if (obj instanceof UseCaseStep) {
+							selection.add((UseCaseStep) obj);
+						}
+					}
+					if (!selection.isEmpty()) {
+						lts.editor.setLTSSelection(new StructuredSelection(selection));
+					}
+				}
+			}
+		};
 	}
 	
 	private void generateIncludedMachines(List<UseCase> roots) {
@@ -173,6 +202,8 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 	}
 	
 	public void emfModelChanged() {
+		viewer.getGraphControl().setSelection(null);
+		
 		// Remove the old graph.
 		while (viewer.getGraphControl().getNodes().size() > 0) {
 			GraphNode node = (GraphNode) viewer.getGraphControl().getNodes().get(0);
@@ -186,6 +217,10 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 				connection.dispose();
 			}
 		}
+		
+		viewer.removeSelectionChangedListener(selectionChangedListener);
+		viewer.getGraphControl().removeMouseListener(mouseListener);
+
 		ucStep2Trans.clear();
 		ucStep2TransLayout.clear();
 		gotoTransitions.clear();
@@ -194,6 +229,7 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 		state2Node.clear();
 		machine2UseCase.clear();
 		useCase2Machine.clear();
+		dashedArrows.clear();
 		
 		regenerateLTS();
 		
@@ -228,7 +264,7 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 		}
 	}
 	
-	private void processTransition(Transition transition, AbortState abort) {
+	private void processTransition(Transition transition, AbortState abort, UseCase u) {
 		if (
 				(transition.getRelatedStep() != null) &&
 				(transition.getRelatedStep().getAction() instanceof UseCaseInclude)
@@ -281,7 +317,7 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 						state2Node.get(transition.getSourceState()), state2Node.get(transition.getTargetState()));
 			trans2Edge.put(transition, con);
 			if (gotoTransitions.contains(transition)) {
-				con.setCurveDepth(16);
+				con.setCurveDepth(24);
 			}
 		}
 		
@@ -290,13 +326,17 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 			
 
 			StringBuffer stringBuffer = new StringBuffer();
+			stringBuffer.append("UseCase: " + u.getName());
+			stringBuffer.append("\n");
 			stringBuffer.append("Label: " + transition.getRelatedStep().getLabel());
 			stringBuffer.append("\n");
 			stringBuffer.append("Text: " + WordUtils.wrap( transition.getRelatedStep().getContent(), 40) );
 			
 			List<StepAnnotation> annots = transition.getRelatedStep().getAnnotations();
 			if (!annots.isEmpty()) {
-				con.setImage(figureProvider.getSignImage());
+				if (!gotoTransitions.contains(transition)) {
+					con.setImage(figureProvider.getSignImage());
+				}
 				stringBuffer.append("\n");
 				stringBuffer.append("Annots: ");
 				int c = 0;
@@ -329,12 +369,12 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 	private void generateGraphEdges(StateMachine m) {
 		figureProvider.setMachine(m);
 		for (Transition t: m.getInitialState().getTransitions()) {
-			processTransition(t, m.getAbortState());
+			processTransition(t, m.getAbortState(), machine2UseCase.get(m));
 		}
 		
 		for (TransitionalState tState: m.getTransitionalStates()) {
 			for (Transition t: tState.getTransitions()) {
-				processTransition(t, m.getAbortState());
+				processTransition(t, m.getAbortState(), machine2UseCase.get(m));
 			}
 		}
 	}
@@ -357,26 +397,7 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 				}
 		);
 		
-		viewer.addSelectionChangedListener(new ISelectionChangedListener() {
-			
-			public void selectionChanged(SelectionChangedEvent event) {
-				if (event.getSelection() instanceof IStructuredSelection) {
-					IStructuredSelection sel = (IStructuredSelection) event.getSelection();
-					Collection<?> col = ((IStructuredSelection)sel).toList();
-					List<UseCaseStep> selection = new ArrayList<UseCaseStep>();
-					Iterator<?> it = col.iterator();
-					while(it.hasNext()) {
-						Object obj = it.next();
-						if (obj instanceof UseCaseStep) {
-							selection.add((UseCaseStep) obj);
-						}
-					}
-					if (!selection.isEmpty()) {
-						editor.setLTSSelection(new StructuredSelection(selection));
-					}
-				}
-			}
-		});
+		viewer.addSelectionChangedListener(selectionChangedListener);
 		
 		// Firstly we need to generate all nodes
 		generateGraphNodes(machine, useCase);
@@ -400,53 +421,7 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 		
 		viewer.getGraphControl().setNodeStyle(ZestStyles.NODES_NO_ANIMATION);
 		viewer.applyLayout();
-
-		// popup menu
-		final Menu menu = new Menu(graphParent);
-		MenuItem saveItem = new MenuItem(menu, SWT.PUSH);
-		saveItem.setText("save image");
-		
-		saveItem.addSelectionListener(new SelectionAdapter() {
-
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				Shell s = graphParent.getShell();
-				FileDialog fd = new FileDialog(s, SWT.SAVE);
-				fd.setFilterExtensions(new String[] {"*.png"});
-				fd.setText("Save");
-				String selected = fd.open();
-				
-				if (selected == null) {
-					return;
-				}
-			        
-				Graph g = viewer.getGraphControl();
-				Point size = new Point(g.getContents().getSize().width, g.getContents().getSize().height);
-				final Image image = new Image(null, size.x, size.y);
-				GC gc = new GC(image);
-				SWTGraphics swtGraphics = new SWTGraphics(gc);
-				g.getViewport().paint(swtGraphics);
-				gc.dispose();
-
-				ImageLoader loader = new ImageLoader();
-				loader.data = new ImageData[] {image.getImageData()};
-				loader.save(selected, SWT.IMAGE_PNG);
-			}
-			
-		});
-		
-		viewer.getGraphControl().addMouseListener(new MouseAdapter() {
-			
-			public void mouseDown(MouseEvent e) {
-				if (e.button == 1) {
-					redrawDashedConnections();
-				}
-				if (e.button == 3) {
-					menu.setVisible(true);
-				}
-			}
-			
-		});
+		viewer.getGraphControl().addMouseListener(mouseListener);
 	}
 
 	private void redrawDashedConnections() {

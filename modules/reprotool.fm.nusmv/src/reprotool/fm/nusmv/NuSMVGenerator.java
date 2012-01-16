@@ -26,7 +26,6 @@ import reprotool.fm.nusmv.lang.nuSmvLang.SyncrProcessType;
 import reprotool.fm.nusmv.lang.nuSmvLang.VarBody;
 import reprotool.fm.nusmv.lang.nuSmvLang.VariableDeclaration;
 import reprotool.model.linguistic.action.AbortUseCase;
-import reprotool.model.linguistic.action.Goto;
 import reprotool.model.linguistic.action.UseCaseInclude;
 import reprotool.model.usecase.UseCase;
 import reprotool.model.usecase.UseCaseStep;
@@ -76,132 +75,75 @@ public class NuSMVGenerator {
 		return useCase.getName().replaceAll(" +", "_");
 	}
 	
-	private void loadStates() {
-		label2State.put("s0", machine.getInitialState());
-		state2Label.put(machine.getInitialState(), "s0");
-		
-		for (Transition t: machine.getInitialState().getTransitions()) {
+	private void loadStatesFromTransitions(List<Transition> transitions) {
+		for (Transition t: transitions) {
 			if (t.getTargetState() == machine.getFinalState()) {
 				finalTransition = t;
 			}
 			UseCaseStep ucStep = t.getRelatedStep();
-			if (
-					(ucStep != null) &&
-					(!(ucStep.getAction() instanceof Goto))
-			) {
-				String label;
-				boolean skipDouble = false;
-				if ("".equals(t.getRelatedStep().getLabel())) {
-					label = "s" + t.getRelatedStep().getContent();
-				} else {
-					label = "s" + t.getRelatedStep().getLabel();
-				}
-				
-				if (ucStep.getAnnotations().isEmpty()) {
-					skipDouble = true;
-				}
-				
-				if (ucStep.getAction() instanceof UseCaseInclude) {
-					skipDouble = false;
-					UseCaseInclude ui = (UseCaseInclude) ucStep.getAction();
-					includedUseCases.add(ui.getIncludeTarget());
-					useCase2Label.put(ui.getIncludeTarget(), label + "__");
-					states.add(label + "__");
-				}
-				
-				states.add(label);
-				if (!skipDouble) {
-					states.add(label + "_");
-					annotatedLabels.add(label);
-				}
-				label2Trans.put(label, t);
-				trans2Label.put(t, label);
-				state2Label.put(t.getTargetState(), label);
-				label2State.put(label, t.getTargetState());
-				
-				EList<StepAnnotation> annots = ucStep.getAnnotations();
-				if (!annots.isEmpty()) {
-					for (StepAnnotation a: annots) {
-						String tag = a.getAnnotationType().getName() + "_" + a.getId();
-						AnnotationEntry aEntry = annotationTracker.get(tag);
-						if (aEntry == null) {
-							aEntry = new AnnotationEntry();
-							aEntry.automatonID = useCaseId;
-							aEntry.states = new ArrayList<String>();
-							annotationTracker.put(tag, aEntry);
-						}
-						aEntry.states.add(label);
+			if (ucStep == null) {
+				continue;
+			}
+			
+			String label;
+			boolean skipDouble = false;
+			if ("".equals(t.getRelatedStep().getLabel())) {
+				label = "s" + t.getRelatedStep().getContent();
+			} else {
+				label = "s" + t.getRelatedStep().getLabel();
+			}
+			
+			if (ucStep.getAnnotations().isEmpty()) {
+				skipDouble = true;
+			}
+			
+			if (ucStep.getAction() instanceof UseCaseInclude) {
+				skipDouble = false;
+				UseCaseInclude ui = (UseCaseInclude) ucStep.getAction();
+				includedUseCases.add(ui.getIncludeTarget());
+				useCase2Label.put(ui.getIncludeTarget(), label + "__");
+				states.add(label + "__");
+			}
+			
+			states.add(label);
+			if (!skipDouble) {
+				states.add(label + "_");
+				annotatedLabels.add(label);
+			}
+			label2Trans.put(label, t);
+			trans2Label.put(t, label);
+			state2Label.put(t.getTargetState(), label);
+			label2State.put(label, t.getTargetState());
+			
+			EList<StepAnnotation> annots = ucStep.getAnnotations();
+			if (!annots.isEmpty()) {
+				for (StepAnnotation a: annots) {
+					String tag = a.getAnnotationType().getName() + "_" + a.getId();
+					AnnotationEntry aEntry = annotationTracker.get(tag);
+					if (aEntry == null) {
+						aEntry = new AnnotationEntry();
+						aEntry.automatonID = useCaseId;
+						aEntry.states = new ArrayList<String>();
+						annotationTracker.put(tag, aEntry);
 					}
+					aEntry.states.add(label);
 				}
 			}
 			
-			if ((ucStep != null) && (ucStep.getAction() instanceof AbortUseCase)) {
+			if ((ucStep.getAction() instanceof AbortUseCase)) {
 				hasAbort = true;
 			}
-		}
+		}		
+	}
+	
+	private void loadStates() {
+		label2State.put("s0", machine.getInitialState());
+		state2Label.put(machine.getInitialState(), "s0");
+		
+		loadStatesFromTransitions(machine.getInitialState().getTransitions());
 		
 		for (TransitionalState tState: machine.getTransitionalStates()) {
-			for (Transition t: tState.getTransitions()) {
-				if (t.getTargetState() == machine.getFinalState()) {
-					if (t.getRelatedStep() != null) {
-						finalTransition = t;
-					}
-				}
-				UseCaseStep ucStep = t.getRelatedStep();
-				if (
-						(ucStep != null) &&
-						(!(ucStep.getAction() instanceof Goto))
-				) {
-					String label;
-					boolean skipDouble = false;
-					if ("".equals(ucStep.getLabel())) {
-						label = "s" + ucStep.getContent();
-					} else {
-						label = "s" + ucStep.getLabel();
-					}
-					
-					if (ucStep.getAnnotations().isEmpty()) {
-						skipDouble = true;
-					}
-
-					if (ucStep.getAction() instanceof UseCaseInclude) {
-						skipDouble = false;
-						UseCaseInclude ui = (UseCaseInclude) ucStep.getAction();
-						includedUseCases.add(ui.getIncludeTarget());
-						useCase2Label.put(ui.getIncludeTarget(), label + "__");
-						states.add(label + "__");
-					}
-					
-					states.add(label);
-					if (!skipDouble) {
-						states.add(label + "_");
-						annotatedLabels.add(label);
-					}
-					label2Trans.put(label, t);
-					trans2Label.put(t, label);
-					state2Label.put(t.getTargetState(), label);
-					label2State.put(label, t.getTargetState());
-
-					EList<StepAnnotation> annots = ucStep.getAnnotations();
-					if (!annots.isEmpty()) {
-						for (StepAnnotation a: annots) {
-							String tag = a.getAnnotationType().getName() + "_" + a.getId();
-							AnnotationEntry aEntry = annotationTracker.get(tag);
-							if (aEntry == null) {
-								aEntry = new AnnotationEntry();
-								aEntry.automatonID = useCaseId;
-								aEntry.states = new ArrayList<String>();
-								annotationTracker.put(tag, aEntry);
-							}
-							aEntry.states.add(label);
-						}
-					}
-				}
-				
-				if ((ucStep != null) && (ucStep.getAction() instanceof AbortUseCase)) {
-					hasAbort = true;
-				}
-			}
+			loadStatesFromTransitions(tState.getTransitions());
 		}
 	}
 	
@@ -251,6 +193,157 @@ public class NuSMVGenerator {
 	
 	public OtherModule getModule() {
 		return module;
+	}
+	
+	private StringBuffer processSpecialAnnotations(HashMap<String, List<Transition>> annots,
+			StringBuffer nextExpr, String state, List<Transition> transitions, boolean initial)
+	{
+		for (String traceTag: annots.keySet()) {
+			if (initial) {
+				nextExpr.append("		s=" + state + " & run & top." + traceTag + ": {");
+			} else {
+				nextExpr.append("		s=" + state + " & top." + traceTag + ": {");
+			}
+			int c = 0;
+			for (Transition tr: annots.get(traceTag)) {
+				String label = trans2Label.get(tr);
+				if (label != null) {
+					if (annotatedLabels.contains(label)) {
+						label = label + "_";
+					}
+					UseCaseStep step = tr.getRelatedStep();
+					if ((step != null) && (step.getAction() instanceof UseCaseInclude)) {
+						label = label + "_";
+					}
+				}
+				if (label == null) {
+					label = state2Label.get(tr.getTargetState());
+				}
+				if (c > 0) {
+					nextExpr.append(",");
+				}
+				c++;
+				nextExpr.append(label);
+			}
+			nextExpr.append("};\n");
+		}
+		
+		List<Transition> skips = new ArrayList<Transition>();
+		nextExpr.append("		s=" + state);
+		for (String traceTag: annots.keySet()) {
+			nextExpr.append(" & !top." + traceTag);
+			skips.addAll(annots.get(traceTag));
+		}
+		nextExpr.append(": {");
+		int c = 0;
+		for (Transition tr: transitions) {
+			if (skips.contains(tr)) {
+				continue;
+			}
+			String label = trans2Label.get(tr);
+			if (label != null) {
+				if (annotatedLabels.contains(label)) {
+					label = label + "_";
+				}
+				UseCaseStep step = tr.getRelatedStep();
+				if ((step != null) && (step.getAction() instanceof UseCaseInclude)) {
+					label = label + "_";
+				}
+			}
+			if (label == null) {
+				label = state2Label.get(tr.getTargetState());
+			}
+			if (c > 0) {
+				nextExpr.append(",");
+			}
+			c++;
+			nextExpr.append(label);
+		}
+		nextExpr.append("};\n");
+
+		return nextExpr;
+	}
+	
+	private StringBuffer processIncludeTransitions(List<Transition> transitions, StringBuffer nextExpr) {
+		for (Transition tr: transitions) {
+			
+			if (
+				(tr.getRelatedStep() != null) &&
+				(tr.getRelatedStep().getAction() instanceof UseCaseInclude)
+			) {
+				String label = trans2Label.get(tr);
+				if (label == null) {
+					label = state2Label.get(tr.getTargetState());
+				}
+				UseCaseInclude ui = (UseCaseInclude)tr.getRelatedStep().getAction();
+				int i = includedUseCases.indexOf(ui.getIncludeTarget()) + 1;
+				String tag = Integer.toString(i);
+				nextExpr.append("		s=" + label + "__ & y" + tag +  ".s != sFin : " + label + "__;\n");
+				nextExpr.append("		s=" + label + "__ & y" + tag +  ".s  = sFin : " + label + "_;\n");
+			}
+		}
+		
+		return nextExpr;
+	}
+	
+	private StringBuffer processTransitions(List<Transition> transitions, String state,
+			StringBuffer nextExpr, boolean initial)
+	{
+		if (initial) {
+			nextExpr.append("		s=" + state + " & run : {");
+		} else {
+			nextExpr.append("		s=" + state + " : {");			
+		}
+		int c = 0;
+		for (Transition tr: transitions) {
+			String label = trans2Label.get(tr);
+			if (label != null) {
+				if (annotatedLabels.contains(label)) {
+					label = label + "_";
+				}
+				UseCaseStep step = tr.getRelatedStep();
+				if ((step != null) && (step.getAction() instanceof UseCaseInclude)) {
+					label = label + "_";
+				}
+			}
+			if (label == null) {
+				label = state2Label.get(tr.getTargetState());
+			}
+			if (c > 0) {
+				nextExpr.append(",");
+			}
+			c++;
+			nextExpr.append(label);
+		}
+		nextExpr.append("};\n");
+		
+		return nextExpr;
+	}
+	
+	private Boolean checkSpecialAnnotations(List<Transition> transitions,
+			HashMap<String, List<Transition>> annots)
+	{
+		boolean onAnnotation = false;
+		
+		for (Transition tr: transitions) {
+			UseCaseStep step = tr.getRelatedStep();
+			if (step != null) {
+				for (StepAnnotation a: step.getAnnotations()) {
+					if ("on".equals(a.getAnnotationType().getName())) {
+						onAnnotation = true;
+						String traceAnnot = "trace_" + a.getId();
+						List<Transition> skips = annots.get(traceAnnot);
+						if (skips == null) {
+							skips = new ArrayList<Transition>();
+							annots.put(traceAnnot, skips);
+						}
+						skips.add(tr);
+					}
+				}
+			}
+		}
+		
+		return onAnnotation;
 	}
 	
 	public void fillAutomaton(HashMap<UseCase, NuSMVGenerator> uc2gen) {
@@ -316,47 +409,19 @@ public class NuSMVGenerator {
 		StringBuffer nextExpr = new StringBuffer();
 		
 		nextExpr.append("case\n");
-		nextExpr.append("		s=s0 & !run : s0;\n");
-		nextExpr.append("		s=s0 & run : {");
+		nextExpr.append("		s=s0 & !run : s0;\n");		
+
+		HashMap<String, List<Transition>> annots = new HashMap<String, List<Transition>>();
+		List<Transition> initialTransitions = machine.getInitialState().getTransitions();
+		boolean onAnnotation = checkSpecialAnnotations(initialTransitions, annots);
 		
-		c = 0;
-		for (Transition t: machine.getInitialState().getTransitions()) {
-			String label = trans2Label.get(t);
-			if (label == null) {
-				continue;
-			}
-			if (c > 0) {
-				nextExpr.append(",");
-			}
-			c++;
-			if (annotatedLabels.contains(label)) {
-				label = label + "_";
-			}
-			UseCaseStep step = t.getRelatedStep();
-			if ((step != null) && (step.getAction() instanceof UseCaseInclude)) {
-				label = label + "_";
-			}
-			nextExpr.append(label);				
+		if (onAnnotation) {
+			nextExpr = processSpecialAnnotations(annots, nextExpr, "s0", initialTransitions, true);
+		} else {
+			nextExpr = processTransitions(initialTransitions, "s0", nextExpr, true);
 		}
-		nextExpr.append("};\n");
 		
-		for (Transition tr: machine.getInitialState().getTransitions()) {
-			
-			if (
-				(tr.getRelatedStep() != null) &&
-				(tr.getRelatedStep().getAction() instanceof UseCaseInclude)
-			) {
-				String label = trans2Label.get(tr);
-				if (label == null) {
-					label = state2Label.get(tr.getTargetState());
-				}
-				UseCaseInclude ui = (UseCaseInclude)tr.getRelatedStep().getAction();
-				int i = includedUseCases.indexOf(ui.getIncludeTarget()) + 1;
-				String tag = Integer.toString(i);
-				nextExpr.append("		s=" + label + "__ & y" + tag +  ".s != sFin : " + label + "__;\n");
-				nextExpr.append("		s=" + label + "__ & y" + tag +  ".s  = sFin : " + label + "_;\n");
-			}
-		}
+		nextExpr = processIncludeTransitions(initialTransitions, nextExpr);
 		
 		for(String state: states) {
 			if (state.matches(".*__")) {
@@ -373,116 +438,16 @@ public class NuSMVGenerator {
 				TransitionalState tgtTransitional = (TransitionalState) tgt;
 				EList<Transition> transitions = tgtTransitional.getTransitions();
 								
-				for (Transition tr: transitions) {
+				nextExpr = processIncludeTransitions(transitions, nextExpr);
 				
-					if (
-						(tr.getRelatedStep() != null) &&
-						(tr.getRelatedStep().getAction() instanceof UseCaseInclude)
-					) {
-						String label = trans2Label.get(tr);
-						if (label == null) {
-							label = state2Label.get(tr.getTargetState());
-						}
-						UseCaseInclude ui = (UseCaseInclude)tr.getRelatedStep().getAction();
-						int i = includedUseCases.indexOf(ui.getIncludeTarget()) + 1;
-						String tag = Integer.toString(i);
-						nextExpr.append("		s=" + label + "__ & y" + tag +  ".s != sFin : " + label + "__;\n");
-						nextExpr.append("		s=" + label + "__ & y" + tag +  ".s  = sFin : " + label + "_;\n");
-					}
-				}
-				
-				boolean onAnnotation = false;
-				List<Transition> skips = new ArrayList<Transition>();
-				String traceTag = null;
-				
-				for (Transition tr: transitions) {
-					UseCaseStep step = tr.getRelatedStep();
-					if (step != null) {
-						for (StepAnnotation a: step.getAnnotations()) {
-							if ("on".equals(a.getAnnotationType().getName())) {
-								onAnnotation = true;
-								skips.add(tr);
-								traceTag = "trace_" + a.getId();
-							}
-						}
-					}
-				}
+				annots = new HashMap<String, List<Transition>>();
+				onAnnotation = checkSpecialAnnotations(transitions, annots);
 				
 				if (onAnnotation) {
-					nextExpr.append("		s=" + state + " & !top." + traceTag + ": {");
-					c = 0;
-					for (Transition tr: transitions) {
-						if (skips.contains(tr)) {
-							continue;
-						}
-						String label = trans2Label.get(tr);
-						if (label != null) {
-							if (annotatedLabels.contains(label)) {
-								label = label + "_";
-							}
-							UseCaseStep step = tr.getRelatedStep();
-							if ((step != null) && (step.getAction() instanceof UseCaseInclude)) {
-								label = label + "_";
-							}
-						}
-						if (label == null) {
-							label = state2Label.get(tr.getTargetState());
-						}
-						if (c > 0) {
-							nextExpr.append(",");
-						}
-						c++;
-						nextExpr.append(label);
-					}
-					nextExpr.append("};\n");
-					
-					nextExpr.append("		s=" + state + " & top." + traceTag + ": {");
-					c = 0;
-					for (Transition tr: skips) {
-						String label = trans2Label.get(tr);
-						if (label != null) {
-							if (annotatedLabels.contains(label)) {
-								label = label + "_";
-							}
-							UseCaseStep step = tr.getRelatedStep();
-							if ((step != null) && (step.getAction() instanceof UseCaseInclude)) {
-								label = label + "_";
-							}
-						}
-						if (label == null) {
-							label = state2Label.get(tr.getTargetState());
-						}
-						if (c > 0) {
-							nextExpr.append(",");
-						}
-						c++;
-						nextExpr.append(label);
-					}
-					nextExpr.append("};\n");
+					nextExpr = processSpecialAnnotations(annots, nextExpr, state, transitions, false);
+									
 				} else {
-					nextExpr.append("		s=" + state + " : {");
-					c = 0;
-					for (Transition tr: transitions) {
-						String label = trans2Label.get(tr);
-						if (label != null) {
-							if (annotatedLabels.contains(label)) {
-								label = label + "_";
-							}
-							UseCaseStep step = tr.getRelatedStep();
-							if ((step != null) && (step.getAction() instanceof UseCaseInclude)) {
-								label = label + "_";
-							}
-						}
-						if (label == null) {
-							label = state2Label.get(tr.getTargetState());
-						}
-						if (c > 0) {
-							nextExpr.append(",");
-						}
-						c++;
-						nextExpr.append(label);
-					}
-					nextExpr.append("};\n");
+					nextExpr = processTransitions(transitions, state, nextExpr, false);
 				}
 			}
 			
