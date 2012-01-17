@@ -298,8 +298,7 @@ public class LTSGeneratorImpl extends EObjectImpl implements LTSGenerator {
 		if (
 				(srcState != init) &&
 				(mainScenario) &&
-				(ltsCache.getExtClosures().containsKey(srcState)) &&
-				(!ltsCache.getExtClosures().get(srcState).isEmpty())
+				(ltsCache.getExtClosures().containsKey(srcState))
 		) {
 			for (TransitionalState src: ltsCache.getExtClosures().get(srcState)) {
 				Transition t = Lts2Factory.eINSTANCE.createTransition();
