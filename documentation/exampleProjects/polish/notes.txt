@@ -1,0 +1,10 @@
+v stepe sa neda pouzit ctrl+v
+
+
+ked je otvoreny project explorer a vytvorim novy uc tak sa project explorer neupdatne.
+
+
+ked chcem nastavit step na goto tak sa hned nezobrazi combobox na vyber targetu.
+v comboboxe na vyber goto targetu je na vyber iba step 1. (Toto sa stava iba niekedy)
+
+asi by sa hodila "plus" ikonka na pridanie noveho stepu. Ako je to napriklad v project editore pri pridani noveho uc. 

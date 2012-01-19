@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="ASCII"?>
+<swproj:SoftwareProject xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:action="http://d3s.mff.cuni.cz/reprotool/model/linguistic/action" xmlns:annotate="http://d3s.mff.cuni.cz/reprotool/model/usecase/annotate" xmlns:swproj="http://d3s.mff.cuni.cz/reprotool/model/swproj" name="Applications Handling Module">
+  <actors name="Candidate" description=""/>
+  <actors name="System" description=""/>
+  <useCases name="Register in the system.">
+    <mainScenario>
+      <steps content=" Candidate opens system main-page."/>
+      <steps content="Candidate chooses registration option."/>
+      <steps content="System presents a registration data form and asks to enter registration data."/>
+      <steps content="Candidate fills the registration data form and submits the registration data form."/>
+      <steps content="System verifies if data is correct.">
+        <extensions>
+          <steps content="System highlights the missing fields."/>
+          <steps content="Back to step 4.">
+            <action xsi:type="action:Goto" gotoTarget="//@useCases.0/@mainScenario/@steps.3"/>
+          </steps>
+          <scenarioGuard content="Some obligatory fields were not filled."/>
+        </extensions>
+        <extensions>
+          <steps content="System informs that the user name is in use."/>
+          <steps content="Back to step 4.">
+            <action xsi:type="action:Goto" gotoTarget="//@useCases.0/@mainScenario/@steps.3"/>
+          </steps>
+          <scenarioGuard content="Account with the given username exists."/>
+        </extensions>
+        <extensions>
+          <steps content="System informs candidate that passwords do not match."/>
+          <steps content="Back to step 4.">
+            <action xsi:type="action:Goto" gotoTarget="//@useCases.0/@mainScenario/@steps.3"/>
+          </steps>
+          <scenarioGuard content="Given passwords do not match."/>
+        </extensions>
+      </steps>
+      <steps content="System informs the data has been created."/>
+    </mainScenario>
+  </useCases>
+  <useCases name="Provide personal and education information.">
+    <mainScenario>
+      <steps content="Candidate provides personal information.">
+        <extensions>
+          <steps content="System informs that some required data was not provided."/>
+          <steps content="Go back to step 1.">
+            <action xsi:type="action:Goto" gotoTarget="//@useCases.1/@mainScenario/@steps.0"/>
+          </steps>
+          <scenarioGuard content="Some obligatory data was not provided."/>
+        </extensions>
+        <extensions>
+          <steps content="System informs that the data was not provided correctly."/>
+          <steps content="Go back to steo 1.">
+            <action xsi:type="action:Goto" gotoTarget="//@useCases.1/@mainScenario/@steps.0"/>
+          </steps>
+          <scenarioGuard content="Some data was provided in wrong format."/>
+        </extensions>
+      </steps>
+      <steps content="Candidate chooses to provide information concerning former education."/>
+      <steps content="System presents the education data form."/>
+      <steps content="Candidate fills the education data form and confirms.">
+        <extensions>
+          <steps content="System informs that some required data was not provided."/>
+          <steps content="Go back to step 4.">
+            <action xsi:type="action:Goto" gotoTarget="//@useCases.1/@mainScenario/@steps.3"/>
+          </steps>
+          <scenarioGuard content="Some obligatory data was not provided."/>
+        </extensions>
+        <extensions>
+          <steps content="System informs that some data was not provided correctly."/>
+          <steps content="Go back to step 4.">
+            <action xsi:type="action:Goto" gotoTarget="//@useCases.1/@mainScenario/@steps.3"/>
+          </steps>
+          <scenarioGuard content="Some data was provided in wrong format."/>
+        </extensions>
+      </steps>
+      <steps content="System stores the data."/>
+      <steps content="System displays a confirmation message."/>
+    </mainScenario>
+  </useCases>
+  <useCases name="Choose a major.">
+    <mainScenario>
+      <steps content="Candidate chooses the adding-new-major option."/>
+      <steps content="System presents a list of majors for which admission is available."/>
+      <steps content="Candidate chooses a major.">
+        <extensions>
+          <steps content="Candidate chooses many majors."/>
+          <scenarioGuard content="Candidate would like to apply for more majors."/>
+        </extensions>
+      </steps>
+      <steps content="System presents a list of majors chosen by the candidate."/>
+    </mainScenario>
+  </useCases>
+  <useCases name="Assign an application fee to a major.">
+    <mainScenario>
+      <steps content="Candidate proceeds to the chosen-major view."/>
+      <steps content="System presents list containing chosen majors."/>
+      <steps content="Candidate chooses major that he wants to pay for."/>
+      <steps content="System presents the payment form and asks about the payment method."/>
+      <steps content="Candidate chooses to use a credit card.">
+        <variations>
+          <steps content="System presents candidate's individual account number."/>
+          <steps content="Candidate performs money transfer."/>
+          <steps content="Candidate assigns the payment to a major. "/>
+          <steps content="Use-case finishes.">
+            <action xsi:type="action:Goto" gotoTarget="//@useCases.3/@mainScenario/@steps.6"/>
+          </steps>
+          <scenarioGuard content="Candidate chooses to use money transfer."/>
+        </variations>
+      </steps>
+      <steps content="Candidate provides credit card data and confirms payment."/>
+      <steps content="System presents updated list of the chosen majors."/>
+    </mainScenario>
+  </useCases>
+  <useCases name="Check application status.">
+    <mainScenario>
+      <steps content="Candidate chooses an option of presenting current status of his applications."/>
+      <steps content="System presents a chosen-major list with information concerning current status of each application."/>
+    </mainScenario>
+  </useCases>
+  <useCases name="Print application.">
+    <mainScenario>
+      <steps content="Candidate proceeds to the chosen-major view."/>
+      <steps content="System presents list containing chosen majors."/>
+      <steps content="Candidate selects major and chooses a print-application form."/>
+      <steps content="System prints application filled with candidate's data."/>
+    </mainScenario>
+  </useCases>
+  <useCases name="Define major priorities.">
+    <mainScenario>
+      <steps content="Candidate proceeds to the chosen-majors-view."/>
+      <steps content="System presents a list containing chosen majors."/>
+      <steps content="Candidate assigns priority value to each major."/>
+      <steps content="System stores priorities and presents updated majors-view."/>
+    </mainScenario>
+  </useCases>
+  <useCases name="Apply for payment cancellation.">
+    <mainScenario>
+      <steps content="Candidate chooses one of the selected and payed majors."/>
+      <steps content="Candidate chooses the apply-for-cancellation option."/>
+      <steps content="System presents the application form."/>
+      <steps content="Candidate provides justification for the payment cancellation.">
+        <extensions>
+          <steps content="System informs that some of the fields were not filled."/>
+          <steps content="System highlights the missing fields."/>
+          <steps content="Back to step 4.">
+            <action xsi:type="action:Goto" gotoTarget="//@useCases.7/@mainScenario/@steps.3"/>
+          </steps>
+          <scenarioGuard content="Some obligatory data was not provided."/>
+        </extensions>
+      </steps>
+      <steps content="System stores the application."/>
+      <steps content="Selecting commitee analyses the application."/>
+      <steps content="Selecting commitee confirms the payment cancellation.">
+        <variations>
+          <steps content="System sends information to the candidate that the application has been rejected."/>
+          <steps content="Use-case finishes">
+            <action xsi:type="action:AbortUseCase"/>
+          </steps>
+          <scenarioGuard content="Selecting commitee cancels the application."/>
+        </variations>
+      </steps>
+      <steps content="System sends information to the candidate that the cancellation has been accepted."/>
+    </mainScenario>
+  </useCases>
+  <useCases name="Ask a question concerning admission.">
+    <mainScenario>
+      <steps content="Candidate chooses to ask a new question."/>
+      <steps content="System presents the question form."/>
+      <steps content="Candidate provides a question."/>
+      <steps content="System stores the question."/>
+      <steps content="Administrator answers the question."/>
+      <steps content="System sends the answer to the candidate."/>
+    </mainScenario>
+  </useCases>
+  <useCases name="Add a post to the admission forum.">
+    <mainScenario>
+      <steps content="Candidate chooses to view a forum."/>
+      <steps content="Candidate chooses a thread he would like to add a post."/>
+      <steps content="Candidate enters text of the post."/>
+      <steps content="Candidate chooses the save option."/>
+      <steps content="System stores the post."/>
+    </mainScenario>
+  </useCases>
+  <useCases name="View a post at admission forum.">
+    <mainScenario>
+      <steps content="Candidate browses admission forum threads."/>
+      <steps content="Candidate selects a post and chooses the view option."/>
+      <steps content="System displays the content of the post."/>
+    </mainScenario>
+  </useCases>
+  <useCases name="Activate admission reminder">
+    <mainScenario>
+      <steps content="Candidate chooses the admission."/>
+      <steps content="Candidate chooses to activate reminder."/>
+      <steps content="System activates the reminder."/>
+    </mainScenario>
+  </useCases>
+  <annotationGroups xsi:type="annotate:SpecialAnnotationGroup">
+    <members name="trace"/>
+    <members name="on"/>
+  </annotationGroups>
+  <annotationGroups xsi:type="annotate:TemporalAnnotationGroup">
+    <formulas xsi:type="annotate:CTLFormula" formula="AG(open -> AF(close))" description="After 'open' there should always be 'close'"/>
+    <formulas xsi:type="annotate:CTLFormula" formula="AG(open -> AX(A[!open U close]))" description="No multi-open without close"/>
+    <formulas xsi:type="annotate:CTLFormula" formula="AG(close -> AX(A[!close U open | !AF(close) ]))" description="No multi-close without open"/>
+    <formulas xsi:type="annotate:CTLFormula" formula="A[!close U open | !AF(close)]" description="First 'open' then 'close'"/>
+    <members name="open"/>
+    <members name="close"/>
+  </annotationGroups>
+  <annotationGroups xsi:type="annotate:TemporalAnnotationGroup">
+    <formulas xsi:type="annotate:CTLFormula" formula="AG( create -> EF(use) )" description="After 'create' there must be some branch containing 'use'"/>
+    <formulas xsi:type="annotate:CTLFormula" formula="AG( create -> AX(AG(!create)) )" description="Only one 'create'"/>
+    <formulas xsi:type="annotate:CTLFormula" formula="A[ !use U create | !AF(use)]" description="No 'use' before 'create'"/>
+    <members name="create"/>
+    <members name="use"/>
+  </annotationGroups>
+</swproj:SoftwareProject>
