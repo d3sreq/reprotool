@@ -17,7 +17,6 @@ import org.eclipse.swt.custom.TextChangeListener;
 import org.eclipse.swt.custom.TextChangedEvent;
 import org.eclipse.swt.custom.TextChangingEvent;
 
-import reprotool.ide.utils.Utils;
 import reprotool.model.linguistic.action.ActionPackage;
 import reprotool.model.linguistic.action.Communication;
 import reprotool.model.linguistic.action.FromSystem;
@@ -44,9 +43,11 @@ public class UseCaseStepStyledTextContent implements StyledTextContent {
 
 	private List<TextChangeListener> listenerList = new ArrayList<TextChangeListener>();
 	private UseCaseStep useCaseStep;
+	private EditingDomain editingDomain;
 	
-	public UseCaseStepStyledTextContent(UseCaseStep useCaseStep) {
+	public UseCaseStepStyledTextContent(UseCaseStep useCaseStep, EditingDomain editingDomain) {
 		this.useCaseStep = useCaseStep;
+		this.editingDomain = editingDomain;
 	}
 
 	/**
@@ -153,7 +154,7 @@ public class UseCaseStepStyledTextContent implements StyledTextContent {
 		}
 		
 		// execute command
-		Utils.getEditingDomain(useCaseStep).getCommandStack().execute(command);
+		editingDomain.getCommandStack().execute(command);
 		
 		// inform listeners
 		TextChangedEvent textChangedEvent = new TextChangedEvent(this);
@@ -174,7 +175,6 @@ public class UseCaseStepStyledTextContent implements StyledTextContent {
 	 */
 	private Command changeUseCaseStep(final int start, final int replaceLength, final String text) {
 		
-		EditingDomain editingDomain = Utils.getEditingDomain(useCaseStep);
 		CompoundCommand compoundCommand = new CompoundCommand();
 		
 		// command changing text of the step
@@ -334,7 +334,6 @@ public class UseCaseStepStyledTextContent implements StyledTextContent {
 	 * @param start 
 	 */
 	void markCommon(int start, int length, MarkingService.EMarkAction markAction) {
-		EditingDomain editingDomain = Utils.getEditingDomain(useCaseStep);
 		CompoundCommand compoundCommand = new CompoundCommand();
 	
 		// erase selected text
@@ -427,7 +426,6 @@ public class UseCaseStepStyledTextContent implements StyledTextContent {
 	}
 
 	private Command createEraseCommand(int unmarkStart, int unmarkLength) {
-		EditingDomain editingDomain = Utils.getEditingDomain(useCaseStep);
 		CompoundCommand compoundCommand = new CompoundCommand();
 		
 		for (TextRange textRange : useCaseStep.getTextNodes()) {

@@ -49,12 +49,14 @@ import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.EditorPart;
 
+import reprotool.ide.editors.project.UseCaseEditorInput;
 import reprotool.ide.utils.SelectionProviderIntermediate;
 import reprotool.ide.utils.Utils;
 import reprotool.model.swproj.SwprojPackage;
 import reprotool.model.usecase.UseCase;
 import reprotool.model.usecase.UsecasePackage;
 import reprotool.model.usecase.presentation.ReprotoolEditorPlugin;
+import reprotool.model.usecase.presentation.UsecaseEditor;
 
 /**
  * Page of the Use case editor containing tree with use case steps and editor to
@@ -153,7 +155,7 @@ public class UsecaseEMFEditorPart extends EditorPart implements IMenuListener, I
 		composite.getLabelColumn().setLabelProvider(new UsecaseEMFLabelProvider.LabelColumnProvider());
 
 		composite.getTextColumn().setLabelProvider(new UsecaseEMFLabelProvider.TextColumnProvider());
-		composite.getTextColumn().setEditingSupport(new UseCaseStepEditingSupport(composite.getTreeViewer()));
+		composite.getTextColumn().setEditingSupport(new UseCaseStepEditingSupport(composite.getTreeViewer(), getEditingDomain()));
 
 		createContextMenuFor(viewer);
 		
@@ -270,17 +272,20 @@ public class UsecaseEMFEditorPart extends EditorPart implements IMenuListener, I
 	}
 
 	private UseCase getInputUseCase() {
-		IEditorInput input = getEditorInput();
-		if (input instanceof URIEditorInput) {
-			URIEditorInput uriEditorInput = (URIEditorInput) input;
+//		IEditorInput input = getEditorInput();
+//		if (input instanceof URIEditorInput) {
+//			URIEditorInput uriEditorInput = (URIEditorInput) input;
+//	
+//			EObject object = getEditingDomain().getResourceSet().getEObject(uriEditorInput.getURI(), true);
+//			if (object instanceof UseCase) {
+//				return (UseCase) object;
+//			}
+//		}
+
+		UseCaseEditorInput useCaseEditorInput = (UseCaseEditorInput)getEditorInput();
+		return useCaseEditorInput.getUseCase();
 	
-			EObject object = getEditingDomain().getResourceSet().getEObject(uriEditorInput.getURI(), true);
-			if (object instanceof UseCase) {
-				return (UseCase) object;
-			}
-		}
-	
-		return null;
+//		return null;
 	}
 
 	@Override

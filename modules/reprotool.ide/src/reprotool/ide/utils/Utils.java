@@ -21,13 +21,13 @@ public class Utils {
 	 * @param eobject
 	 * @return
 	 */
-	public static EditingDomain getEditingDomain(EObject eobject) {
-		ResourceSet resourceSet = eobject.eResource().getResourceSet();
-		// TODO - jvinarek - use guava validation ?
-		assert(resourceSet instanceof IEditingDomainProvider);
-		EditingDomain editingDomain = ((IEditingDomainProvider)resourceSet).getEditingDomain(); 
-        return editingDomain; 
-	}
+//	public static EditingDomain getEditingDomain(EObject eobject) {
+//		ResourceSet resourceSet = eobject.eResource().getResourceSet();
+//		// TODO - jvinarek - use guava validation ?
+//		assert(resourceSet instanceof IEditingDomainProvider);
+//		EditingDomain editingDomain = ((IEditingDomainProvider)resourceSet).getEditingDomain(); 
+//        return editingDomain; 
+//	}
 	
 	/**
 	 * Adds focus listener to control changing selection provider to the given

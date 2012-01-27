@@ -7,7 +7,6 @@ import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.TreeViewer;
 
-import reprotool.ide.utils.Utils;
 import reprotool.model.usecase.Condition;
 import reprotool.model.usecase.Scenario;
 import reprotool.model.usecase.UseCaseStep;
@@ -22,10 +21,12 @@ import reprotool.model.usecase.UsecasePackage;
 public class UseCaseStepEditingSupport extends EditingSupport {
 
 	private final TreeViewer viewer;
+	private EditingDomain editingDomain;
 
-	public UseCaseStepEditingSupport(TreeViewer viewer) {
+	public UseCaseStepEditingSupport(TreeViewer viewer, EditingDomain editingDomain) {
 		super(viewer);
 		this.viewer = viewer;
+		this.editingDomain = editingDomain;
 	}
 
 	@Override
@@ -34,7 +35,7 @@ public class UseCaseStepEditingSupport extends EditingSupport {
 		
 		if (element instanceof UseCaseStep) {
 			UseCaseStep useCaseStep = (UseCaseStep)element;		
-			UseCaseStepStyledTextContent content = new UseCaseStepStyledTextContent(useCaseStep);
+			UseCaseStepStyledTextContent content = new UseCaseStepStyledTextContent(useCaseStep, editingDomain);
 			
 			// TODO - jvinarek - can this be set more like in another editors by getvalue ?
 			styledTextCellEditor.getText().setContent(content);
@@ -85,7 +86,6 @@ public class UseCaseStepEditingSupport extends EditingSupport {
 			Assert.isTrue(cond != null);
 			
 			String newContent = (String)value;
-			EditingDomain editingDomain = Utils.getEditingDomain(cond);
 			SetCommand setCommand = new SetCommand(editingDomain, cond, UsecasePackage.Literals.PARSEABLE_ELEMENT__CONTENT, newContent);
 			editingDomain.getCommandStack().execute(setCommand);
 		}

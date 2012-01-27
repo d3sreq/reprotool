@@ -237,15 +237,16 @@ public class ProjectEditorPart extends EditorPart implements IMenuListener, IEdi
 					IStructuredSelection structuredSelection = (IStructuredSelection)selection;
 					UseCase useCase = (UseCase)structuredSelection.getFirstElement();
 					
-					URI uri = EcoreUtil.getURI(useCase);
-					URIEditorInput input = new URIEditorInput(uri);
+//					URI uri = EcoreUtil.getURI(useCase);
+//					URIEditorInput input = new URIEditorInput(uri);
+					UseCaseEditorInput useCaseEditorInput = new UseCaseEditorInput(useCase, getEditorInput(), getCommandStack());
 
 					IWorkbenchPage page = getSite().getPage();
 					IEditorDescriptor desc = PlatformUI.getWorkbench().getEditorRegistry()
 							.findEditor("org.eclipselabs.reprotool.ide.UseCaseEmfEditor");
 					
 					try {
-						page.openEditor(input, desc.getId());
+						page.openEditor(useCaseEditorInput, desc.getId());
 					} catch (PartInitException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
