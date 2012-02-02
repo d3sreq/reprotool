@@ -1,0 +1,43 @@
+grammar reprotool.ide.txtuc.TxtUseCase with org.eclipse.xtext.common.Terminals
+
+generate txtUseCase "http://www.ide.reprotool/txtuc/TxtUseCase"
+
+UseCase:
+	'Use case name:' name=STRING
+	header=Header
+	'Main scenario:' mainScenarioBlock=MainScenarioBlock
+	('Extensions:' extensionsBlock=ExtVarBlock)?
+	('Variations:' variationsBlock=ExtVarBlock)?;
+
+Header:
+	'Primary actor:' primaryActor=STRING
+	('Preceding use cases:' precedingUseCases+=STRING+)?
+;
+
+MainScenarioBlock:
+	(steps+=MainScenarioStep)+;
+
+MainScenarioStep:
+	label=NUM (text+=STRING)+;
+
+ExtVarBlock:
+	(conditions+=Condition
+	(steps+=ExtVarStep)+)+;
+
+Condition:
+	label=CONDITION_LABEL text=STRING;
+
+ExtVarStep:
+	label=EXT_VAR_LABEL (text+=STRING)+;
+
+terminal NUM:
+	('1'..'9') ('0'..'9')*;
+
+terminal CONDITION_LABEL:
+	NUM LABEL_LETTER;
+
+terminal EXT_VAR_LABEL:
+	NUM (LABEL_LETTER NUM)+;
+
+terminal fragment LABEL_LETTER:
+	('a'..'z');
