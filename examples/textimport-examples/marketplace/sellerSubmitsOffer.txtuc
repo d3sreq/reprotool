@@ -1,0 +1,27 @@
+Use case name: "Seller submits offer"
+
+Primary actor: "Seller"
+Preceding use cases:
+  "Seller logs into system"
+
+Main scenario:
+1 "Seller submits item description"
+2 "System validates the description"
+3 "Seller adjusts/enters price and enters contact and billing information"
+4 "System validates the seller's contact information"
+5 "System verifies the seller's history to permit the seller to operate"
+6 "System validates the whole offer with the Trade Commission"
+7 "System lists the offer in published offers"
+8 "System responds with an uniquely identified authorization number"
+
+Extensions:
+2a "Item not valid"
+  2a1 "Use case aborted"
+5a "Seller's history inappropriate"
+  5a1 "Use case aborted"
+6a "Trade commission rejects the offer"  
+  6a1 "Use case aborted"
+
+Variations:
+2b "Price assessment available"
+  2b1 "System provides the seller with a prise assessment"
