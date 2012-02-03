@@ -10,8 +10,9 @@ UseCase:
 	('Variations:' variationsBlock=ExtVarBlock)?;
 
 Header:
+	('Description:' description+=STRING+)?
 	'Primary actor:' primaryActor=STRING
-	('Preceding use cases:' precedingUseCases+=STRING+)?
+	('Preceding use cases:' (precedingUseCases+=STRING)+)?
 ;
 
 MainScenarioBlock:
@@ -34,7 +35,7 @@ terminal NUM:
 	('1'..'9') ('0'..'9')*;
 
 terminal CONDITION_LABEL:
-	NUM LABEL_LETTER;
+	(NUM LABEL_LETTER)+;
 
 terminal EXT_VAR_LABEL:
 	NUM (LABEL_LETTER NUM)+;
