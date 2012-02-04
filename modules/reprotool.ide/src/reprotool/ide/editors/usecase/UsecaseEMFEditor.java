@@ -126,7 +126,7 @@ import reprotool.model.usecase.presentation.ReprotoolEditorPlugin;
  * @generated NOT
  */
 public class UsecaseEMFEditor extends MultiPageEditorPart implements IEditingDomainProvider, IMenuListener,
-		IViewerProvider, IGotoMarker {
+		IViewerProvider, IGotoMarker, IFirePropertyChange {
 
 	private MultiPageSelectionProvider selectionProvider;
 
@@ -700,10 +700,10 @@ public class UsecaseEMFEditor extends MultiPageEditorPart implements IEditingDom
 	 * This is here for the listener to be able to call it.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
-	protected void firePropertyChange(int action) {
+	public void firePropertyChange(int action) {
 		super.firePropertyChange(action);
 	}
 
@@ -1184,6 +1184,8 @@ public class UsecaseEMFEditor extends MultiPageEditorPart implements IEditingDom
 		}
 		updateProblemIndication = true;
 		updateProblemIndication();
+		
+		UnmarkDirtyService.INSTANCE.unmarkDirty(commandStack);
 	}
 
 	/**
@@ -1293,6 +1295,8 @@ public class UsecaseEMFEditor extends MultiPageEditorPart implements IEditingDom
 		// Change from generated editor
 		site.setSelectionProvider(selectionProvider);
 		site.getPage().addPartListener(partListener);
+		
+		UnmarkDirtyService.INSTANCE.add(commandStack, this);
 	}
 
 	/**
@@ -1389,7 +1393,7 @@ public class UsecaseEMFEditor extends MultiPageEditorPart implements IEditingDom
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public void dispose() {
@@ -1414,7 +1418,8 @@ public class UsecaseEMFEditor extends MultiPageEditorPart implements IEditingDom
 		}
 		
 		commandStack.removeCommandStackListener(commandStackListener);
-
+		UnmarkDirtyService.INSTANCE.remove(commandStack, this);
+		
 		super.dispose();
 	}
 

@@ -114,6 +114,8 @@ import org.eclipse.ui.views.properties.IPropertySheetPage;
 import org.eclipse.ui.views.properties.PropertySheet;
 import org.eclipse.ui.views.properties.PropertySheetPage;
 
+import reprotool.ide.editors.usecase.IFirePropertyChange;
+import reprotool.ide.editors.usecase.UnmarkDirtyService;
 import reprotool.model.edit.ext.factory.ProjectOutlineAdapterFactory;
 import reprotool.model.usecase.UseCase;
 import reprotool.model.usecase.presentation.ReprotoolEditorPlugin;
@@ -127,7 +129,7 @@ import reprotool.model.usecase.presentation.ReprotoolEditorPlugin;
  * @generated NOT
  */
 public class ProjectEditor extends MultiPageEditorPart implements IEditingDomainProvider, 
-		IMenuListener, IViewerProvider, IGotoMarker {
+		IMenuListener, IViewerProvider, IGotoMarker, IFirePropertyChange {
 
 	private MultiPageSelectionProvider selectionProvider;
 	
@@ -650,16 +652,17 @@ public class ProjectEditor extends MultiPageEditorPart implements IEditingDomain
 		// Create the editing domain with a special command stack.
 		//
 		editingDomain = new AdapterFactoryEditingDomain(adapterFactory, commandStack, new HashMap<Resource, Boolean>());
+		UnmarkDirtyService.INSTANCE.add(commandStack, this);
 	}
 
 	/**
 	 * This is here for the listener to be able to call it.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
-	protected void firePropertyChange(int action) {
+	public void firePropertyChange(int action) {
 		super.firePropertyChange(action);
 	}
 
@@ -1264,6 +1267,8 @@ public class ProjectEditor extends MultiPageEditorPart implements IEditingDomain
 		}
 		updateProblemIndication = true;
 		updateProblemIndication();
+		
+		UnmarkDirtyService.INSTANCE.unmarkDirty(editingDomain.getCommandStack());
 	}
 
 	/**
@@ -1465,7 +1470,7 @@ public class ProjectEditor extends MultiPageEditorPart implements IEditingDomain
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public void dispose() {
@@ -1488,6 +1493,8 @@ public class ProjectEditor extends MultiPageEditorPart implements IEditingDomain
 		if (contentOutlinePage != null) {
 			contentOutlinePage.dispose();
 		}
+		
+		UnmarkDirtyService.INSTANCE.remove(editingDomain.getCommandStack(), this);
 
 		super.dispose();
 	}
