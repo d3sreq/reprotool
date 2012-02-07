@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.importWizards">
+      <category
+            name="Reprotool"
+            id="reprotool.txtimport.importWizards.sampleCategory">
+      </category>
+      <wizard
+            name="Import use-cases"
+            icon="icons/sample.gif"
+            category="reprotool.txtimport.importWizards.sampleCategory"
+            class="reprotool.txtimport.importWizards.ImportWizard"
+            id="reprotool.txtimport.importWizards.ImportWizard">
+         <description>
+            Import a file from the local file system into the workspace.
+         </description>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.core.runtime.adapters">
+      <factory adaptableType="org.eclipse.emf.common.util.URI" class="reprotool.ide.txtuc.ui.TxtUseCaseExecutableExtensionFactory:reprotool.ide.txtuc.ui.ModelLoadingAdapter">
+         <adapter type="reprotool.ide.txtuc.txtUseCase.UseCase" />
+      </factory>
+	</extension>
+</plugin>

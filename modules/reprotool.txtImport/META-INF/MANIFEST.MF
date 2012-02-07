@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: TxtImport
+Bundle-SymbolicName: reprotool.txtImport; singleton:=true
+Bundle-Version: 1.0.0
+Bundle-Activator: reprotool.txtimport.Activator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.ui.ide,
+ org.eclipse.core.resources,
+ org.eclipse.emf.ecore;bundle-version="2.7.0",
+ reprotool.ide.txtuc;bundle-version="1.0.0",
+ reprotool.ide.txtuc.ui;bundle-version="1.0.0",
+ reprotool.model;bundle-version="0.1.0"
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
