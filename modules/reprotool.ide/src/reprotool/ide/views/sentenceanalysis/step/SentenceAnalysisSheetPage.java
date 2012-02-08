@@ -82,6 +82,7 @@ public class SentenceAnalysisSheetPage extends Page implements ISentenceAnalysis
 	private DataBindingContext m_bindingContext;
 	
 	private AdapterFactoryEditingDomain editingDomain;
+	private CommandStackListener commandStackListener;
 	
 	
 	/**
@@ -392,7 +393,8 @@ public class SentenceAnalysisSheetPage extends Page implements ISentenceAnalysis
 			m_bindingContext = initDataBindings();
 		}
 		
-		editingDomain.getCommandStack().addCommandStackListener(new CommandStackListener() {
+		
+		commandStackListener = new CommandStackListener() {
 			
 			@Override
 			public void commandStackChanged(EventObject event) {
@@ -400,12 +402,15 @@ public class SentenceAnalysisSheetPage extends Page implements ISentenceAnalysis
 				boxContainer.layout();
 				boxContainer.redraw();
 			}
-		});
+		};
+		
+		editingDomain.getCommandStack().addCommandStackListener(commandStackListener);
 	}
 	
 	@Override
 	public void dispose() {
 		getSite().getPage().removeSelectionListener(this);
+		editingDomain.getCommandStack().removeCommandStackListener(commandStackListener);
 	}
 
 	@Override

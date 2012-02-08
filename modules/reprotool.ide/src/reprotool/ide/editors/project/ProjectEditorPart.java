@@ -7,12 +7,11 @@ import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.databinding.property.value.IValueProperty;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.command.BasicCommandStack;
+import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.notify.AdapterFactory;
-import org.eclipse.emf.common.ui.URIEditorInput;
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.edit.command.AddCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
 import org.eclipse.emf.edit.ui.dnd.EditingDomainViewerDropAdapter;
@@ -46,15 +45,16 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.EditorPart;
 
+import reprotool.ide.editors.project.action.AbstractAddAction;
 import reprotool.ide.editors.project.action.AddActorAction;
 import reprotool.ide.editors.project.action.AddConceptualObjectAction;
-import reprotool.ide.editors.project.action.AddUseCaseAction;
 import reprotool.ide.editors.project.action.EditDescribedElementAction;
 import reprotool.ide.utils.SelectionProviderIntermediate;
 import reprotool.ide.utils.Utils;
 import reprotool.model.swproj.SoftwareProject;
 import reprotool.model.swproj.SwprojPackage;
 import reprotool.model.usecase.UseCase;
+import reprotool.model.usecase.UsecaseFactory;
 import reprotool.model.usecase.presentation.ReprotoolEditorPlugin;
 
 public class ProjectEditorPart extends EditorPart implements IMenuListener, IEditingDomainProvider {
@@ -222,10 +222,21 @@ public class ProjectEditorPart extends EditorPart implements IMenuListener, IEdi
 		toolBarManager.update(true);
 	}
 	
-	private void addUseCasesActions(SoftwareProject softwareProject) {
+	private void addUseCasesActions(final SoftwareProject softwareProject) {
 		ToolBarManager toolBarManager = composite.getUseCasesComposite().getToolBarManager();
 		
-		Action createAction = new AddUseCaseAction(getEditingDomain(), softwareProject, this, parentEditor);
+		Action createAction = new AbstractAddAction("Add use case") {
+			@Override
+			public void run() {
+				// add use case
+				UseCase useCase = UsecaseFactory.eINSTANCE.createUseCase();
+				Command addCommand = new AddCommand(getEditingDomain(), softwareProject, SwprojPackage.Literals.SOFTWARE_PROJECT__USE_CASES, useCase);
+				getEditingDomain().getCommandStack().execute(addCommand);
+				UseCaseEditorInput useCaseEditorInput = new UseCaseEditorInput(useCase, getEditorInput(), getCommandStack(), getEditingDomain());
+				openUseCaseEmfEditorPage(useCaseEditorInput);
+			}
+		};
+		
 		toolBarManager.add(createAction);
 		
 		composite.getUseCasesComposite().getTableViewer().addDoubleClickListener(new IDoubleClickListener() {
@@ -237,27 +248,30 @@ public class ProjectEditorPart extends EditorPart implements IMenuListener, IEdi
 					IStructuredSelection structuredSelection = (IStructuredSelection)selection;
 					UseCase useCase = (UseCase)structuredSelection.getFirstElement();
 					
-//					URI uri = EcoreUtil.getURI(useCase);
-//					URIEditorInput input = new URIEditorInput(uri);
-					UseCaseEditorInput useCaseEditorInput = new UseCaseEditorInput(useCase, getEditorInput(), getCommandStack());
+					UseCaseEditorInput useCaseEditorInput = new UseCaseEditorInput(useCase, getEditorInput(), getCommandStack(), getEditingDomain());
 
-					IWorkbenchPage page = getSite().getPage();
-					IEditorDescriptor desc = PlatformUI.getWorkbench().getEditorRegistry()
-							.findEditor("org.eclipselabs.reprotool.ide.UseCaseEmfEditor");
-					
-					try {
-						page.openEditor(useCaseEditorInput, desc.getId());
-					} catch (PartInitException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+					openUseCaseEmfEditorPage(useCaseEditorInput);
 				}
 			}
+			
 		});
 		
 		toolBarManager.update(true);
 	}
 
+	private void openUseCaseEmfEditorPage(UseCaseEditorInput useCaseEditorInput) {
+		IWorkbenchPage page = getSite().getPage();
+		IEditorDescriptor desc = PlatformUI.getWorkbench().getEditorRegistry()
+				.findEditor("org.eclipselabs.reprotool.ide.UseCaseEmfEditor");
+		
+		try {
+			page.openEditor(useCaseEditorInput, desc.getId());
+		} catch (PartInitException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	private SoftwareProject getSoftwareProject() {
 		// TODO jvinarek - add checks
 		Resource resource = parentEditor.getEditingDomain().getResourceSet().getResources().get(0);

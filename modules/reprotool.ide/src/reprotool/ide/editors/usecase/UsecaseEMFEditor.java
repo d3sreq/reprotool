@@ -693,7 +693,9 @@ public class UsecaseEMFEditor extends MultiPageEditorPart implements IEditingDom
 		
 		// Create the editing domain with a special command stack.
 		//
-		editingDomain = new AdapterFactoryEditingDomain(adapterFactory, commandStack, new HashMap<Resource, Boolean>());
+		// TODO
+//		editingDomain = new AdapterFactoryEditingDomain(adapterFactory, commandStack, new HashMap<Resource, Boolean>());
+		
 	}
 
 	/**
@@ -1136,7 +1138,8 @@ public class UsecaseEMFEditor extends MultiPageEditorPart implements IEditingDom
 		// Save only resources that have actually changed.
 		//
 		final Map<Object, Object> saveOptions = new HashMap<Object, Object>();
-		saveOptions.put(Resource.OPTION_SAVE_ONLY_IF_CHANGED, Resource.OPTION_SAVE_ONLY_IF_CHANGED_MEMORY_BUFFER);
+//		saveOptions.put(Resource.OPTION_SAVE_ONLY_IF_CHANGED, Resource.OPTION_SAVE_ONLY_IF_CHANGED_MEMORY_BUFFER);
+//		Resource.o
 
 		// Do the work within an operation because this is a long running
 		// activity that modifies the workbench.
@@ -1286,7 +1289,11 @@ public class UsecaseEMFEditor extends MultiPageEditorPart implements IEditingDom
 	public void init(IEditorSite site, IEditorInput editorInput) {
 		// initialize editing domain here instead of the constructor
 		UseCaseEditorInput useCaseEditorInput = (UseCaseEditorInput)editorInput;
-		commandStack = useCaseEditorInput.getCommandStack(); 
+		commandStack = useCaseEditorInput.getCommandStack();
+		
+		// TODO - test!
+		this.editingDomain = (AdapterFactoryEditingDomain) useCaseEditorInput.getEditingDomain(); 
+		
 		myItializeEditingDomain();
 		
 		setSite(site);
