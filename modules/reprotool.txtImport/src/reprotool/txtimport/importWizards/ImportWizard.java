@@ -40,7 +40,10 @@ public class ImportWizard extends Wizard implements IImportWizard {
 		reprotool.model.usecase.UseCase useCase = gen.generateUseCase();
 		IPath projectPath = new Path(outputSelectionPage.existingProjectPath());
 		IWorkspace ws = ResourcesPlugin.getWorkspace();
+		
+		// I need to add a check in the wizard if the existing project is inside eclipse workspace.
 		Assert.isTrue(ws.getRoot().getLocation().isPrefixOf(projectPath));
+		
 		IPath relativePath = projectPath.makeRelativeTo(ws.getRoot().getLocation());
 		URI uri = URI.createPlatformResourceURI(relativePath.toOSString(), true);
 		
