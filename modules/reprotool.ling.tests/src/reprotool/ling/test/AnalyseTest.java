@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 
-import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.command.CompoundCommand;
 import org.junit.Test;
@@ -36,7 +35,7 @@ public class AnalyseTest {
 		// result
 		String result = "";
 		// actors
-		EList<Actor> actors = new BasicEList<Actor>();
+		ArrayList<Actor> actors = new ArrayList<Actor>();
 		Actor ac = SwprojFactory.eINSTANCE.createActor();
 		ac.setName("seller");
 		actors.add(ac);
@@ -84,7 +83,7 @@ public class AnalyseTest {
 		// result
 		String result = "";
 		// actors
-		EList<Actor> actors = new BasicEList<Actor>();
+		ArrayList<Actor> actors = new ArrayList<Actor>();
 		Actor ac = SwprojFactory.eINSTANCE.createActor();
 		ac.setName("seller");
 		actors.add(ac);

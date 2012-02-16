@@ -41,7 +41,7 @@ public class Analyser {
 	static ArrayList<Word> objects = null;
 	
 	// actors
-	static EList<Actor> actors = null;
+	static ArrayList<Actor> actors = new ArrayList<Actor>();
 
 	// factories
 	// action type
@@ -84,7 +84,7 @@ public class Analyser {
 		}
 		
 		// get all actors
-		actors = ucs.getSoftwareProjectShortcut().getActors();
+		actors.addAll(ucs.getSoftwareProjectShortcut().getActors());
 		boolean addActor = true;
 		for (Actor act1 : LingConfig.actors) {
 			for (Actor act2 : actors) {

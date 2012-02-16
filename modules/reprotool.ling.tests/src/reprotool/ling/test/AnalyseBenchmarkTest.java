@@ -72,7 +72,8 @@ public class AnalyseBenchmarkTest {
 		String stats = "";
 		
 		AnalyseBenchmark ab = new AnalyseBenchmark();
-		ab.loadData("small.csv");
+//		ab.loadData("small.csv");
+		ab.loadData("data.csv");
 		// parse first
 		if(ab.parseAll()) {
 			ab.analyseAll();

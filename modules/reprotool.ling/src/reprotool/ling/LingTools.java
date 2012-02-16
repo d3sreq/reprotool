@@ -149,6 +149,8 @@ public class LingTools {
 		    public IStatus run(IProgressMonitor monitor) {
 		    	setProperty(IProgressConstants.KEEP_PROPERTY, Boolean.TRUE);
 		    	try{
+		    		String initSentence = "Inicialization sentence.";
+		    		
 		    		monitor.beginTask("External tools", 100);
 		    		monitor.worked(1);	
 		    		
@@ -158,7 +160,9 @@ public class LingTools {
 		    		monitor.worked(5);
 		    		
 		    		monitor.subTask("MXPost tagger initialization....");
-		    		Tagger.start();	
+		    		Tagger.start();
+		    		// memory for tagger init
+		    		Tagger.getMXPOST(initSentence);
 		    		monitor.worked(5);	
 		    		
 		    		monitor.subTask("Parser initialization....");

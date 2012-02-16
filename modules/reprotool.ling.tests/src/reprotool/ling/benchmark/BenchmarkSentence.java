@@ -2,9 +2,6 @@ package reprotool.ling.benchmark;
 
 import java.util.ArrayList;
 
-import org.eclipse.emf.common.util.BasicEList;
-import org.eclipse.emf.common.util.EList;
-
 import reprotool.ling.LingConfig;
 import reprotool.ling.LingTools;
 import reprotool.ling.Sentence;
@@ -25,7 +22,7 @@ public class BenchmarkSentence extends SentenceImpl {
 	// basic parameters
 	private String id = "";
 	private String sentence = "";
-	private EList<Actor> actors = new BasicEList<Actor>(LingConfig.actors);
+	private ArrayList<Actor> actors = new ArrayList<Actor>(LingConfig.actors);
 	
 	// same object for given and analysed results
 	class BenchmarkResults {

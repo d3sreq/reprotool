@@ -2,8 +2,6 @@ package reprotool.ling.analyser;
 
 import java.util.ArrayList;
 
-import org.eclipse.emf.common.util.EList;
-
 import reprotool.ling.LingConfig;
 import reprotool.ling.POSType;
 import reprotool.ling.ParseTreeNode;
@@ -25,7 +23,7 @@ public class FindConstituent {
 	 * @param sentence sentence object to analyse
 	 * @return SentenceNode / null if not found
 	 */
-	public static ArrayList<Word> findIndirectObject(Sentence sentence, EList<Actor> actors) {
+	public static ArrayList<Word> findIndirectObject(Sentence sentence, ArrayList<Actor> actors) {
 		// have we one?
 		//boolean indirectobject = false;	
 		// count objects
@@ -117,7 +115,7 @@ public class FindConstituent {
 	 * @param sentence sentence object to analyse
 	 * @return SentenceNode / null if not found
 	 */
-	public static Word findSubject (Sentence sentence, EList<Actor> actors) {
+	public static Word findSubject (Sentence sentence, ArrayList<Actor> actors) {
 		// result
 		Word subject = null;		
 		// current node

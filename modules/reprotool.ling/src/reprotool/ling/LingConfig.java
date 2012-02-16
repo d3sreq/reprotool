@@ -2,9 +2,6 @@ package reprotool.ling;
 
 import java.util.ArrayList;
 
-import org.eclipse.emf.common.util.BasicEList;
-import org.eclipse.emf.common.util.EList;
-
 import reprotool.model.swproj.Actor;
 import reprotool.model.swproj.SwprojFactory;
 
@@ -30,7 +27,7 @@ public class LingConfig {
 	public static ArrayList<String> abortVerbs = defaultAbortVerbs();
 	
 	// default actors
-	public static EList<Actor> actors = defaultActors();
+	public static ArrayList<Actor> actors = defaultActors();
 	
 	// must be aSubject in actors list?
 	public static final boolean isSubjectActor = true;
@@ -72,9 +69,9 @@ public class LingConfig {
 	 *  
 	 * @return filled list
 	 */
-	private static EList<Actor> defaultActors() {
+	private static ArrayList<Actor> defaultActors() {
 	
-		EList<Actor> result = new BasicEList<Actor>();
+		ArrayList<Actor> result = new ArrayList<Actor>();
 		// default actors
 		Actor ac = SwprojFactory.eINSTANCE.createActor();
 		ac.setName("system");

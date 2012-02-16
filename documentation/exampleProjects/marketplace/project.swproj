@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="ASCII"?>
+<swproj:SoftwareProject xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:action="http://d3s.mff.cuni.cz/reprotool/model/linguistic/action" xmlns:annotate="http://d3s.mff.cuni.cz/reprotool/model/usecase/annotate" xmlns:swproj="http://d3s.mff.cuni.cz/reprotool/model/swproj" name="Marketplace" description="data exported from Procasor">
+  <actors name="seller" description="Seller"/>
+  <actors name="buyer" description="Buyer"/>
+  <actors name="clerk" description="Clerk"/>
+  <actors name="supervisor" description="Supervisor"/>
+  <actors name="system"/>
+  <actors name="user"/>
+  <useCases name="UC1 : Seller submits item description" description="Seller submits item description" primaryActor="//@actors.0">
+    <mainScenario>
+      <steps content="Seller submits item description">
+        <textNodes length="6" actionPart="//@useCases.0/@mainScenario/@steps.0/@action/@sender" lemmaForm="seller" posTag="NNP"/>
+        <textNodes startPosition="7" length="7" actionPart="//@useCases.0/@mainScenario/@steps.0/@action/@sentenceActivity" lemmaForm="submit" posTag="VBZ"/>
+        <textNodes startPosition="20" length="11" actionPart="//@useCases.0/@mainScenario/@steps.0/@action/@actionParam.0" lemmaForm="description" posTag="NN"/>
+        <action xsi:type="action:ToSystem">
+          <actionParam text="//@useCases.0/@mainScenario/@steps.0/@textNodes.2" conceptualObject="//@conceptualObjects.0"/>
+          <sentenceActivity text="//@useCases.0/@mainScenario/@steps.0/@textNodes.1"/>
+          <sender text="//@useCases.0/@mainScenario/@steps.0/@textNodes.0" actor="//@actors.0"/>
+        </action>
+      </steps>
+      <steps content="System validates the description">
+        <textNodes startPosition="7" length="9" actionPart="//@useCases.0/@mainScenario/@steps.1/@action/@sentenceActivity" lemmaForm="validate" posTag="VBZ"/>
+        <textNodes startPosition="21" length="11" actionPart="//@useCases.0/@mainScenario/@steps.1/@action/@actionParam.0" lemmaForm="description" posTag="NN"/>
+        <extensions>
+          <steps content="Use case aborted"/>
+          <scenarioGuard content="Item not valid"/>
+        </extensions>
+        <variations comment="">
+          <steps content="System provides the seller with a prise assessment"/>
+          <scenarioGuard content="Price assessment available"/>
+        </variations>
+        <action xsi:type="action:InternalAction">
+          <actionParam text="//@useCases.0/@mainScenario/@steps.1/@textNodes.1" conceptualObject="//@conceptualObjects.0"/>
+          <sentenceActivity text="//@useCases.0/@mainScenario/@steps.1/@textNodes.0"/>
+        </action>
+      </steps>
+      <steps content="Seller adjusts/enters price and enters contact and billing information"/>
+      <steps content="System validates the seller's contact information"/>
+      <steps content="System verifies the seller's history to permit the seller to operate">
+        <extensions>
+          <steps content="Use case aborted"/>
+          <scenarioGuard content="Seller's history inappropriate"/>
+        </extensions>
+      </steps>
+      <steps content="System validates the whole offer with the Trade Commision">
+        <extensions>
+          <steps/>
+          <scenarioGuard content="Trade commission rejects the offer"/>
+        </extensions>
+      </steps>
+      <steps content="System lists the offer in published offers"/>
+      <steps content="System responds with an uniquely identified authorization number"/>
+      <steps content="Seller inputs customer name">
+        <textNodes length="6" actionPart="//@useCases.0/@mainScenario/@steps.8/@action/@sender" lemmaForm="seller" posTag="NNP"/>
+        <textNodes startPosition="7" length="6" actionPart="//@useCases.0/@mainScenario/@steps.8/@action/@sentenceActivity" lemmaForm="input" posTag="VBZ"/>
+        <textNodes startPosition="23" length="4" actionPart="//@useCases.0/@mainScenario/@steps.8/@action/@actionParam.0" lemmaForm="name" posTag="NN"/>
+        <action xsi:type="action:ToSystem">
+          <actionParam text="//@useCases.0/@mainScenario/@steps.8/@textNodes.2" conceptualObject="//@conceptualObjects.1"/>
+          <sentenceActivity text="//@useCases.0/@mainScenario/@steps.8/@textNodes.1"/>
+          <sender text="//@useCases.0/@mainScenario/@steps.8/@textNodes.0" actor="//@actors.0"/>
+        </action>
+      </steps>
+      <steps content="Seller inputs customer's name">
+        <textNodes length="6" actionPart="//@useCases.0/@mainScenario/@steps.9/@action/@sender" lemmaForm="seller" posTag="NNP"/>
+        <textNodes actionPart="//@useCases.0/@mainScenario/@steps.9/@action/@sentenceActivity" lemmaForm="s" posTag="VBZ"/>
+        <textNodes actionPart="//@useCases.0/@mainScenario/@steps.9/@action/@actionParam.0" lemmaForm="name" posTag="NN"/>
+        <action xsi:type="action:ToSystem">
+          <actionParam text="//@useCases.0/@mainScenario/@steps.9/@textNodes.2" conceptualObject="//@conceptualObjects.1"/>
+          <sentenceActivity text="//@useCases.0/@mainScenario/@steps.9/@textNodes.1"/>
+          <sender text="//@useCases.0/@mainScenario/@steps.9/@textNodes.0" actor="//@actors.0"/>
+        </action>
+      </steps>
+    </mainScenario>
+  </useCases>
+  <useCases name="UC2 : Buyer searches for an offer" description="Buyer searches for an offer" primaryActor="//@actors.1">
+    <mainScenario>
+      <steps content="Buyer enters basic search criteria"/>
+      <steps content="System responds with the list of matches">
+        <extensions>
+          <steps content="Use case aborted"/>
+          <scenarioGuard content="No matches found"/>
+        </extensions>
+        <variations>
+          <steps content="Buyer narrows the search results with additional criteria"/>
+          <scenarioGuard content="The amount of matches is too high"/>
+        </variations>
+      </steps>
+      <steps content="Buyer requests the complete listing of a selected offer"/>
+      <steps content="Buyer requests the complete listing of a selected offer"/>
+    </mainScenario>
+  </useCases>
+  <useCases name="UC3 : Buyer buys a selected item" description="Buyer buys a selected item" primaryActor="//@actors.1">
+    <mainScenario>
+      <steps content="Buyer chooses to accept a selected offer"/>
+      <steps content="System validates the offer">
+        <extensions>
+          <steps/>
+          <scenarioGuard content="Offer is not valid"/>
+        </extensions>
+      </steps>
+      <steps content="User enters billing information, select a payment method and provides the payment details"/>
+      <steps content="System validates the buyer's information with the Credit Verification Agency"/>
+      <steps content="System performs the sale"/>
+      <steps content="System informs the seller that the offer has been accepted and provides the shipping"/>
+      <steps content="System transfers the payment to the sellers account"/>
+      <steps content="System responds to the buyer with an uniquely identified authorization number"/>
+    </mainScenario>
+  </useCases>
+  <useCases name="UC4 : Seller cancels an offer" description="Seller cancels an offer" primaryActor="//@actors.0">
+    <mainScenario>
+      <steps content="Seller locates a previously submitted offer"/>
+      <steps content="Seller requests the system to cancel the offer"/>
+      <steps content="System responds with a request for the seller to prove identity"/>
+      <steps content="Seller responds with the authorization number obtained when the offer was submitted">
+        <extensions comment="">
+          <steps content="Use case is aborted"/>
+          <scenarioGuard content="Seller cannot provide the authorization number"/>
+        </extensions>
+      </steps>
+      <steps content="System validates the request and seller's identity">
+        <extensions>
+          <steps/>
+          <scenarioGuard content="Authorization number is not valid"/>
+        </extensions>
+      </steps>
+      <steps content="System removes the offer"/>
+    </mainScenario>
+  </useCases>
+  <useCases name="UC5 : Seller checks on the status of an offer" description="Seller checks on the status of an offer" primaryActor="//@actors.0">
+    <mainScenario>
+      <steps content="Seller locates a previously submitted offer"/>
+      <steps content="Seller requests the system to provide status of the offer"/>
+      <steps content="System responds with a request for the seller to prove identity"/>
+      <steps content="Seller responds with the authorization number submitted returned when the offer was submitted">
+        <extensions>
+          <steps content="Use case is aborted"/>
+          <scenarioGuard content="Seller cannot provide the authorization number"/>
+        </extensions>
+      </steps>
+      <steps content="System validates the request and seller's identiy">
+        <extensions>
+          <steps/>
+          <scenarioGuard content="Authorization number is not valid"/>
+        </extensions>
+      </steps>
+      <steps content="System returns the status of the offer"/>
+    </mainScenario>
+  </useCases>
+  <useCases name="UC6 : Seller updates an offer" description="Seller updates an offer" primaryActor="//@actors.0">
+    <mainScenario>
+      <steps content="Seller locates a previously submitted offer"/>
+      <steps content="Seller requests the system to update the offer, providing new details (e.g., price)"/>
+      <steps content="System responds with a request for the seller to prove identity"/>
+      <steps content="Seller responds with the authorization number returned when the offer was submitted">
+        <extensions>
+          <steps content="Use case is aborted"/>
+          <scenarioGuard content="Seller cannot provide the authorization number"/>
+        </extensions>
+      </steps>
+      <steps content="System validates the request and seller's identity">
+        <extensions>
+          <steps/>
+          <scenarioGuard content="Authorization number is not valid"/>
+        </extensions>
+      </steps>
+      <steps content="System updates the offer"/>
+    </mainScenario>
+  </useCases>
+  <useCases name="UC7 : Buyer makes a purchase" description="Buyer makes a purchase" primaryActor="//@actors.1">
+    <mainScenario>
+      <steps content="Buyer searches for an offer">
+        <extensions>
+          <steps content="Use case aborted"/>
+          <scenarioGuard content="The Buyer did not find any matching offer"/>
+        </extensions>
+        <variations>
+          <steps/>
+          <scenarioGuard content="The Buyer decides not to accept the offer"/>
+        </variations>
+      </steps>
+      <steps content="Buyer buys a selected item"/>
+    </mainScenario>
+  </useCases>
+  <useCases name="UC8 : Clerk submits an offer on behalf of a Seller" description="Clerk submits an offer on behalf of a Seller" primaryActor="//@actors.2">
+    <mainScenario>
+      <steps content="Clerk submits information describing an item"/>
+      <steps content="System validates the description">
+        <extensions>
+          <steps content="Use case aborted"/>
+          <scenarioGuard content="Validation performed by the system fails"/>
+        </extensions>
+        <variations>
+          <steps content="System provides the seller with a price assessment"/>
+          <scenarioGuard content="Price assessment availeble"/>
+        </variations>
+      </steps>
+      <steps content="Clerk adjusts/enters price and enters seller's contact and billing information"/>
+      <steps content="System validates the seller's contact information"/>
+      <steps content="System asks the Supervisor to validate the seller"/>
+      <steps content="Supervisor permits the seller to operate on the marketplace"/>
+      <steps content="System validates the whole offer with the Trade Commission">
+        <extensions>
+          <steps content="Use case aborted"/>
+          <scenarioGuard content="Trade commission rejects the offer"/>
+        </extensions>
+      </steps>
+      <steps content="System lists the offer in published offers"/>
+      <steps content="System responds with an uniquely identified authorization number"/>
+    </mainScenario>
+  </useCases>
+  <useCases name="UC9 : Buyer searches for an offer" description="Buyer searches for an offer">
+    <mainScenario>
+      <steps content="Buyer enters basic search criterion"/>
+      <steps content="System responds with the list of matches"/>
+      <steps content="Buyer requests the complete listing of a selected offer"/>
+      <steps content="System responds with the requested information"/>
+    </mainScenario>
+  </useCases>
+  <useCases name="UC10 : Clerk buys a selected item on behalf of a Buyer" description="Clerk buys a selected item on behalf of a Buyer" primaryActor="//@actors.2">
+    <mainScenario>
+      <steps content="Clerk is contacted by a buyer who has decided to accept a selected offer"/>
+      <steps content="System validates the offer">
+        <extensions>
+          <steps content="Use case abort"/>
+          <scenarioGuard content="Offer is not valid"/>
+        </extensions>
+      </steps>
+      <steps content="Clerk enters billing information, select a payment method and provides the necessary detail"/>
+      <steps content="System validates this information with a Credit Verification Agency"/>
+      <steps content="System performs the trade"/>
+      <steps content="System informs the seller that the offer has been accepted and provides the shipping"/>
+      <steps content="System transfers the payment to the sellers account"/>
+      <steps content="System responds to the buyer with an uniquely identified authorization number"/>
+    </mainScenario>
+  </useCases>
+  <useCases name="UC11 : Supervisor validates a seller" description="Supervisor validates a seller">
+    <mainScenario>
+      <steps content="Computer system asks the supervisor to decide on permitting a seller to operate on the">
+        <action xsi:type="action:Unknown"/>
+      </steps>
+      <steps content="Supervisor validates the seller and signals the system to permit the seller to operate">
+        <textNodes length="10" actionPart="//@useCases.10/@mainScenario/@steps.1/@action/@sender" lemmaForm="supervisor" posTag="NNP"/>
+        <textNodes startPosition="11" length="9" actionPart="//@useCases.10/@mainScenario/@steps.1/@action/@sentenceActivity" lemmaForm="validate" posTag="VBZ"/>
+        <textNodes startPosition="25" length="6" actionPart="//@useCases.10/@mainScenario/@steps.1/@action/@actionParam.0" lemmaForm="seller" posTag="NN"/>
+        <action xsi:type="action:ToSystem">
+          <actionParam text="//@useCases.10/@mainScenario/@steps.1/@textNodes.2" conceptualObject="//@conceptualObjects.2"/>
+          <sentenceActivity text="//@useCases.10/@mainScenario/@steps.1/@textNodes.1"/>
+          <sender text="//@useCases.10/@mainScenario/@steps.1/@textNodes.0" actor="//@actors.3"/>
+        </action>
+      </steps>
+      <steps content="Continue to uc1">
+        <textNodes startPosition="12" length="3" actionPart="//@useCases.10/@mainScenario/@steps.2/@action" lemmaForm="1" posTag="CD"/>
+        <action xsi:type="action:Goto" text="//@useCases.10/@mainScenario/@steps.2/@textNodes.0" gotoTarget="//@useCases.10/@mainScenario/@steps.0"/>
+      </steps>
+      <steps content="Back to usecase 1">
+        <action xsi:type="action:Unknown"/>
+      </steps>
+      <steps content="continue to usecase 1">
+        <textNodes startPosition="20" length="1" actionPart="//@useCases.10/@mainScenario/@steps.4/@action" lemmaForm="1" posTag="CD"/>
+        <action xsi:type="action:UseCaseInclude" text="//@useCases.10/@mainScenario/@steps.4/@textNodes.0" includeTarget="//@useCases.1"/>
+      </steps>
+    </mainScenario>
+  </useCases>
+  <annotationGroups xsi:type="annotate:SpecialAnnotationGroup">
+    <members name="trace"/>
+    <members name="on"/>
+  </annotationGroups>
+  <annotationGroups xsi:type="annotate:TemporalAnnotationGroup">
+    <formulas xsi:type="annotate:CTLFormula" formula="AG(open -> AF(close))" description="After 'open' there should always be 'close'"/>
+    <formulas xsi:type="annotate:CTLFormula" formula="AG(open -> AX(A[!open U close]))" description="No multi-open without close"/>
+    <formulas xsi:type="annotate:CTLFormula" formula="AG(close -> AX(A[!close U open | !AF(close) ]))" description="No multi-close without open"/>
+    <formulas xsi:type="annotate:CTLFormula" formula="A[!close U open | !AF(close)]" description="First 'open' then 'close'"/>
+    <members name="open"/>
+    <members name="close"/>
+  </annotationGroups>
+  <annotationGroups xsi:type="annotate:TemporalAnnotationGroup">
+    <formulas xsi:type="annotate:CTLFormula" formula="AG( create -> EF(use) )" description="After 'create' there must be some branch containing 'use'"/>
+    <formulas xsi:type="annotate:CTLFormula" formula="AG( create -> AX(AG(!create)) )" description="Only one 'create'"/>
+    <formulas xsi:type="annotate:CTLFormula" formula="A[ !use U create | !AF(use)]" description="No 'use' before 'create'"/>
+    <members name="create"/>
+    <members name="use"/>
+  </annotationGroups>
+  <conceptualObjects name="description"/>
+  <conceptualObjects name="name"/>
+  <conceptualObjects name="seller"/>
+</swproj:SoftwareProject>
