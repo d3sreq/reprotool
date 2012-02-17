@@ -2,6 +2,9 @@ package reprotool.txtimport.importWizards;
 
 import java.io.File;
 
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IWorkspace;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
@@ -65,6 +68,12 @@ public class OutputSelectionPage extends WizardPage {
 		}
 		
 		return newProjNameTxt.getText();
+	}
+	
+	private boolean projectExists(String projName) {
+		IWorkspace ws = ResourcesPlugin.getWorkspace();
+		IProject project = ws.getRoot().getProject(projName);
+		return project.exists();
 	}
 
     public void createControl(Composite parent) {
@@ -152,7 +161,7 @@ public class OutputSelectionPage extends WizardPage {
 			@Override
 			public void modifyText(ModifyEvent e) {
 				String newProjName = ((Text) e.widget).getText();
-				if ((newProjName == null) || (newProjName.isEmpty())) {
+				if ((newProjName == null) || (newProjName.isEmpty()) || (projectExists(newProjName))) {
 					if (canFinishNew) {
 						canFinishNew = false;
 						updateFinishButton();

@@ -66,7 +66,6 @@ public class ImportWizard extends Wizard implements IImportWizard {
 	private IPath getProjectPath() {
 		IWorkspace ws = ResourcesPlugin.getWorkspace();
 
-		// I need a chceck in the wizard that such project does not exist.
 		if (outputSelectionPage.createNewProj()) {
 			String projName = outputSelectionPage.newProjectName();
 			IProject project = ws.getRoot().getProject(projName);
