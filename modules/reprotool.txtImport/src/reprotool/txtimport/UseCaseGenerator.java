@@ -84,7 +84,7 @@ public class UseCaseGenerator {
 	}
 	
 	public reprotool.model.usecase.UseCase generateUseCase() {
-		UsecaseFactory factory = reprotool.model.usecase.UsecaseFactory.eINSTANCE;
+		UsecaseFactory factory = UsecaseFactory.eINSTANCE;
 		oUseCase = factory.createUseCase();
 		oUseCase.setName(iUseCase.getName());
 		Scenario mainScenario = factory.createScenario();

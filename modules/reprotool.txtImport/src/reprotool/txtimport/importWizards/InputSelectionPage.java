@@ -36,7 +36,7 @@ public class InputSelectionPage extends WizardPage {
 		return canGoNext;
 	}
 	
-	List<String> getSeelctedUseCases() {
+	List<String> getSelctedUseCases() {
 		List<String> result = new ArrayList<String>();
 		for (Object obj: ctv.getCheckedElements()) {
 			File f = (File) obj;

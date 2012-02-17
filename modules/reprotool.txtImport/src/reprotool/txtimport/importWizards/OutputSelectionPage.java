@@ -12,7 +12,6 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
@@ -21,10 +20,10 @@ import org.eclipse.swt.widgets.Text;
 public class OutputSelectionPage extends WizardPage {
 	private boolean canFinishExisting = false;
 	private boolean canFinishNew = false;
-	private boolean canFinishNew2 = false;
 	private boolean createNewProj = false;
 	
 	private Text existingProjTxt = null;
+	private Text newProjNameTxt = null;
 	
 	public OutputSelectionPage() {
         super("outputSelectionPage");
@@ -53,11 +52,19 @@ public class OutputSelectionPage extends WizardPage {
 	}
 	
 	String existingProjectPath() {
-		if (createNewProj) {
+		if (createNewProj || (existingProjTxt == null)) {
 			return null;
 		}
 		
 		return existingProjTxt.getText();
+	}
+	
+	String newProjectName() {
+		if (useExistingProj() || (newProjNameTxt == null)) {
+			return null;
+		}
+		
+		return newProjNameTxt.getText();
 	}
 
     public void createControl(Composite parent) {
@@ -134,30 +141,13 @@ public class OutputSelectionPage extends WizardPage {
 			}
 		});
         
-        final Label newProjDirLbl = new Label(container, SWT.NONE);
-        newProjDirLbl.setText("Project directory:");
-        
-        GridData gridData4 = new GridData(GridData.FILL_HORIZONTAL);
-        final Text newProjDirTxt = new Text(container, SWT.BORDER);
-        newProjDirTxt.setLayoutData(gridData4);
-         
-        final Button newProjDirBtn = new Button(container, SWT.PUSH);
-        newProjDirBtn.setText("Browse...");
-        newProjDirBtn.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent event) {
-				DirectoryDialog dlg = new DirectoryDialog(container.getShell());
-				dlg.setFilterPath(newProjDirTxt.getText());
-				dlg.setText("Select a project directory");
-				String dirName = dlg.open();
-				if (dirName != null) {
-					newProjDirTxt.setText(dirName);
-				}
-			}
-		});
-        
         final Label newProjNameLbl = new Label(container, SWT.NONE);
         newProjNameLbl.setText("Project name:");
-        final Text newProjNameTxt = new Text(container, SWT.BORDER);
+        newProjNameTxt = new Text(container, SWT.BORDER);
+        GridData gridData4 = new GridData(96, SWT.DEFAULT);
+        System.out.println("Size: " + existingProjTxt.getSize());
+        newProjNameTxt.setLayoutData(gridData4);
+
         newProjNameTxt.addModifyListener(new ModifyListener() {
 			@Override
 			public void modifyText(ModifyEvent e) {
@@ -169,46 +159,12 @@ public class OutputSelectionPage extends WizardPage {
 					}
 					return;
 				}
-				if (canFinishNew2 && (!canFinishNew)) {
+				if (!canFinishNew) {
 					canFinishNew = true;
 					updateFinishButton();
 				}
 			}
         });
-        
-        newProjDirTxt.addModifyListener(new ModifyListener() {
-			@Override
-			public void modifyText(ModifyEvent e) {
-				boolean redraw = false;
-				String projFileName = ((Text) e.widget).getText();
-				if (projFileName == null) {
-					return;
-				}
-				File projFile = new File(projFileName);
-				if (
-						(projFile.exists()) &&
-						(projFile.isDirectory())
-				) {
-					canFinishNew2 = true;
-					if (!canFinishNew) {
-						if (!newProjNameTxt.getText().isEmpty()) {
-							canFinishNew = true;
-							redraw = true;
-						}
-					}
-				} else {
-					canFinishNew2 = false;
-					if (canFinishNew) {
-						canFinishNew = false;
-						redraw = true;
-					}
-				}
-				
-				if (redraw) {
-					updateFinishButton();
-				}
-			}
-		});
         
         newProjBtn.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
@@ -218,9 +174,6 @@ public class OutputSelectionPage extends WizardPage {
 				existingProjLbl.setEnabled(false);
 				existingProjBtn.setEnabled(false);
 				
-				newProjDirLbl.setEnabled(true);
-				newProjDirTxt.setEnabled(true);
-				newProjDirBtn.setEnabled(true);
 				newProjNameLbl.setEnabled(true);
 				newProjNameTxt.setEnabled(true);
 				
@@ -232,9 +185,6 @@ public class OutputSelectionPage extends WizardPage {
 			public void widgetSelected(SelectionEvent event) {
 				createNewProj = false;
 				
-				newProjDirLbl.setEnabled(false);
-				newProjDirTxt.setEnabled(false);
-				newProjDirBtn.setEnabled(false);
 				newProjNameLbl.setEnabled(false);
 				newProjNameTxt.setEnabled(false);
 				
@@ -248,14 +198,11 @@ public class OutputSelectionPage extends WizardPage {
         
         existingBtn.setSelection(true);
         
-        newProjDirLbl.setEnabled(false);
-		newProjDirTxt.setEnabled(false);
-		newProjDirBtn.setEnabled(false);
 		newProjNameLbl.setEnabled(false);
 		newProjNameTxt.setEnabled(false);
 		
 		existingProjTxt.setEnabled(true);
 		existingProjLbl.setEnabled(true);
-		existingProjBtn.setEnabled(true);
+		existingProjBtn.setEnabled(true);		
     }
 }

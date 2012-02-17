@@ -2,8 +2,6 @@ package reprotool.txtimport.importWizards;
 
 import java.io.IOException;
 import java.util.Collections;
-import java.util.List;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -24,80 +22,112 @@ import org.eclipse.ui.IImportWizard;
 import org.eclipse.ui.IWorkbench;
 import reprotool.ide.txtuc.txtUseCase.UseCase;
 import reprotool.model.swproj.SoftwareProject;
+import reprotool.model.swproj.SwprojFactory;
 import reprotool.txtimport.UseCaseGenerator;
 
 
 public class ImportWizard extends Wizard implements IImportWizard {
 	private InputSelectionPage inputSelectionPage;
 	private OutputSelectionPage outputSelectionPage;
+	private Resource projRes;
+	private SoftwareProject swProj;
 	
 	public ImportWizard() {
 		super();
 	}
 	
-	private void storeUseCase(UseCase u) {
-		UseCaseGenerator gen = new UseCaseGenerator(u);
-		reprotool.model.usecase.UseCase useCase = gen.generateUseCase();
-		IPath projectPath = new Path(outputSelectionPage.existingProjectPath());
-		IWorkspace ws = ResourcesPlugin.getWorkspace();
-		
-		// I need to add a check in the wizard if the existing project is inside eclipse workspace.
-		Assert.isTrue(ws.getRoot().getLocation().isPrefixOf(projectPath));
-		
-		IPath relativePath = projectPath.makeRelativeTo(ws.getRoot().getLocation());
-		URI uri = URI.createPlatformResourceURI(relativePath.toOSString(), true);
-		
+	private void loadProjectModel() {
 		ResourceSet resourceSet = new ResourceSetImpl();
-		Resource resource = resourceSet.getResource(uri, true);
-		Object obj = resource.getContents().get(0);
-		Assert.isTrue(obj instanceof SoftwareProject);
+		URI uri = createPlatformResourceURI(getProjectPath());
 		
-		SoftwareProject swProj = (SoftwareProject) obj;
-		swProj.getUseCases().add(useCase);
-		
+		if (outputSelectionPage.useExistingProj()) {
+			projRes = resourceSet.getResource(uri, true);
+			Object obj = projRes.getContents().get(0);
+			Assert.isTrue(obj instanceof SoftwareProject);
+			swProj = (SoftwareProject) obj;
+		} else {
+			String projName = outputSelectionPage.newProjectName();
+			projRes = resourceSet.createResource(uri);
+			SwprojFactory swProjFactor = SwprojFactory.eINSTANCE;
+			swProj = swProjFactor.createSoftwareProject();
+			swProj.setName(projName);
+			projRes.getContents().add(swProj);
+		}		
+	}
+	
+	private void saveProjectModel() {
 		try {
-			resource.save(Collections.EMPTY_MAP);
+			projRes.save(Collections.EMPTY_MAP);
 		} catch (IOException e) {
 			e.printStackTrace();
+		}		
+	}
+	
+	private IPath getProjectPath() {
+		IWorkspace ws = ResourcesPlugin.getWorkspace();
+
+		// I need a chceck in the wizard that such project does not exist.
+		if (outputSelectionPage.createNewProj()) {
+			String projName = outputSelectionPage.newProjectName();
+			IProject project = ws.getRoot().getProject(projName);
+			try {
+				if (!project.exists()) {
+						project.create(null);
+				}
+				if (!project.isOpen()) {
+				    project.open(null);
+				}
+			} catch (CoreException e) {
+				e.printStackTrace();
+			}
+			IPath absolutePath = project.getLocation();
+			System.out.println("Project absolute path is: " + absolutePath.toOSString());
+			return absolutePath.append(new Path(projName).addFileExtension("swproj"));
+		} else {
+			return new Path(outputSelectionPage.existingProjectPath());
 		}
+	}
+	
+	private URI createPlatformResourceURI(IPath filePath) {
+		IWorkspace ws = ResourcesPlugin.getWorkspace();
+		
+		if (ws.getRoot().getLocation().isPrefixOf(filePath)) {
+			System.out.println("File is already in the workspace.");
+			IPath relativePath = filePath.makeRelativeTo(ws.getRoot().getLocation());
+			System.out.println("The relative path is: " + relativePath);
+		
+			return URI.createPlatformResourceURI(relativePath.toOSString(), true);
+		} 
+		
+		IProject project = ws.getRoot().getProject("External-Files");
+		IPath relativePath = null;
+		
+		try {
+			if (!project.exists()) {
+				project.create(null, IResource.HIDDEN, null);
+			}
+			if (!project.isOpen()) {
+			    project.open(null);
+			}
+			IFile file = project.getFile(filePath.lastSegment());
+			file.createLink(filePath, IResource.REPLACE | IResource.HIDDEN, null);
+			relativePath = file.getFullPath();
+		} catch (CoreException e) {
+			e.printStackTrace();
+		}
+		
+		return URI.createPlatformResourceURI(relativePath.toOSString(), true);
 	}
 
 	public boolean performFinish() {
-		if (outputSelectionPage.useExistingProj()) {
-			List<String> useCases = inputSelectionPage.getSeelctedUseCases();
-			String fileName = useCases.get(0);
+		loadProjectModel();
+		
+		for (String fileName: inputSelectionPage.getSelctedUseCases()) {
 			IPath useCasePath = new Path(fileName);
-
-			System.out.println("Loading use-case " + fileName);
-			UseCase model = null;
-			URI uri = null;
-			
-			IWorkspace ws = ResourcesPlugin.getWorkspace();
-			if (ws.getRoot().getLocation().isPrefixOf(useCasePath)) {
-				System.out.println("Use-case is already in the workspace.");
-				IPath relativePath = useCasePath.makeRelativeTo(ws.getRoot().getLocation());
-				System.out.println("The relative path is: " + relativePath);
-				uri = URI.createPlatformResourceURI(relativePath.toOSString(), true);
-			} else {
-				IProject project = ws.getRoot().getProject("External-Files");
-				try {
-					if (!project.exists()) {
-						project.create(null, IResource.HIDDEN, null);
-					}
-					if (!project.isOpen()) {
-					    project.open(null);
-					}
-					IFile file = project.getFile(useCasePath.lastSegment());
-					file.createLink(useCasePath, IResource.REPLACE | IResource.HIDDEN, null);
-					IPath relativePath = file.getFullPath();
-					uri = URI.createPlatformResourceURI(relativePath.toOSString(), true);
-				} catch (CoreException e) {
-					e.printStackTrace();
-				}
-			}
-			
+			System.out.println("Loading use-case " + fileName);				
+			URI uri = createPlatformResourceURI(useCasePath);
 			System.out.println("The generated uri is: " + uri.path());								
-			model = (UseCase) Platform.getAdapterManager().getAdapter(uri, UseCase.class);
+			UseCase model = (UseCase) Platform.getAdapterManager().getAdapter(uri, UseCase.class);
 
 			if (model == null) {
 				System.out.println("Adaptation failed.");
@@ -105,9 +135,12 @@ public class ImportWizard extends Wizard implements IImportWizard {
 				System.out.println("Adaptation performed successfully.");
 				System.out.println("UC name: " + model.getName());
 				
-				storeUseCase(model);
+				UseCaseGenerator gen = new UseCaseGenerator(model);								
+				swProj.getUseCases().add(gen.generateUseCase());				
 			}
 		}
+		
+		saveProjectModel();
 		
         return true;
 	}
