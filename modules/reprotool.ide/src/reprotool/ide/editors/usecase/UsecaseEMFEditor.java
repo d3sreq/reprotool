@@ -493,6 +493,8 @@ public class UsecaseEMFEditor extends MultiPageEditorPart implements IEditingDom
 	 * @generated
 	 */
 	protected void handleChangedResources() {
+		// TODO - commented to prevent resource reload
+		/*
 		if (!changedResources.isEmpty() && (!isDirty() || handleDirtyConflict())) {
 			if (isDirty()) {
 				changedResources.addAll(editingDomain.getResourceSet().getResources());
@@ -522,6 +524,7 @@ public class UsecaseEMFEditor extends MultiPageEditorPart implements IEditingDom
 			updateProblemIndication = true;
 			updateProblemIndication();
 		}
+		*/
 	}
 
 	/**

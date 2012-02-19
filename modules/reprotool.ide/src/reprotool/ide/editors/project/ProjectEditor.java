@@ -496,6 +496,8 @@ public class ProjectEditor extends MultiPageEditorPart implements IEditingDomain
 	 * @generated
 	 */
 	protected void handleChangedResources() {
+		// TODO - commented to prevent resource reload
+		/*
 		if (!changedResources.isEmpty() && (!isDirty() || handleDirtyConflict())) {
 			if (isDirty()) {
 				changedResources.addAll(editingDomain.getResourceSet().getResources());
@@ -525,6 +527,7 @@ public class ProjectEditor extends MultiPageEditorPart implements IEditingDomain
 			updateProblemIndication = true;
 			updateProblemIndication();
 		}
+		*/
 	}
 
 	/**
