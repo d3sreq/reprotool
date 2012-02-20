@@ -87,6 +87,13 @@ public class UseCaseGenerator {
 		UsecaseFactory factory = UsecaseFactory.eINSTANCE;
 		oUseCase = factory.createUseCase();
 		oUseCase.setName(iUseCase.getName());
+		
+		StringBuffer desc = new StringBuffer();
+		for (String s: iUseCase.getHeader().getDescription()) {
+			desc.append(s);
+		}
+		oUseCase.setDescription(desc.toString());
+		
 		Scenario mainScenario = factory.createScenario();
 		
 		for (MainScenarioStep step : iUseCase.getMainScenarioBlock().getSteps()) {

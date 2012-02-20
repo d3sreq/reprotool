@@ -1,7 +1,11 @@
 package reprotool.txtimport.importWizards;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -31,6 +35,10 @@ public class ImportWizard extends Wizard implements IImportWizard {
 	private OutputSelectionPage outputSelectionPage;
 	private Resource projRes;
 	private SoftwareProject swProj;
+	
+	private HashMap<String, reprotool.model.usecase.UseCase> ucMap = new HashMap<String,
+			reprotool.model.usecase.UseCase>();
+	private List<UseCase> ucModels = new ArrayList<UseCase>();
 	
 	public ImportWizard() {
 		super();
@@ -133,9 +141,20 @@ public class ImportWizard extends Wizard implements IImportWizard {
 			} else {
 				System.out.println("Adaptation performed successfully.");
 				System.out.println("UC name: " + model.getName());
-				
-				UseCaseGenerator gen = new UseCaseGenerator(model);								
-				swProj.getUseCases().add(gen.generateUseCase());				
+				ucModels.add(model);
+				UseCaseGenerator gen = new UseCaseGenerator(model);
+				reprotool.model.usecase.UseCase uc = gen.generateUseCase();
+				ucMap.put(uc.getName(), uc);
+				swProj.getUseCases().add(uc);
+			}
+		}
+		
+		for (UseCase model: ucModels) {
+			reprotool.model.usecase.UseCase uc = ucMap.get(model.getName());
+			for (String pred: model.getHeader().getPrecedingUseCases()) {
+				if (ucMap.containsKey(pred)) {
+					uc.getPrecedingUseCases().add(ucMap.get(pred));
+				}
 			}
 		}
 		
