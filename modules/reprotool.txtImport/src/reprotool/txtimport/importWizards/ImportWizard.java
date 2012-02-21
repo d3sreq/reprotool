@@ -25,6 +25,7 @@ import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.ui.IImportWizard;
 import org.eclipse.ui.IWorkbench;
 import reprotool.ide.txtuc.txtUseCase.UseCase;
+import reprotool.model.swproj.Actor;
 import reprotool.model.swproj.SoftwareProject;
 import reprotool.model.swproj.SwprojFactory;
 import reprotool.txtimport.UseCaseGenerator;
@@ -35,7 +36,9 @@ public class ImportWizard extends Wizard implements IImportWizard {
 	private OutputSelectionPage outputSelectionPage;
 	private Resource projRes;
 	private SoftwareProject swProj;
-	
+	private SwprojFactory swProjFactory = SwprojFactory.eINSTANCE;
+
+	private HashMap<String, Actor> swProjActors = new HashMap<String, Actor>();
 	private HashMap<String, reprotool.model.usecase.UseCase> ucMap = new HashMap<String,
 			reprotool.model.usecase.UseCase>();
 	private List<UseCase> ucModels = new ArrayList<UseCase>();
@@ -53,11 +56,13 @@ public class ImportWizard extends Wizard implements IImportWizard {
 			Object obj = projRes.getContents().get(0);
 			Assert.isTrue(obj instanceof SoftwareProject);
 			swProj = (SoftwareProject) obj;
+			for (Actor actor:swProj.getActors()) {
+				swProjActors.put(actor.getName(), actor);
+			}
 		} else {
 			String projName = outputSelectionPage.newProjectName();
 			projRes = resourceSet.createResource(uri);
-			SwprojFactory swProjFactor = SwprojFactory.eINSTANCE;
-			swProj = swProjFactor.createSoftwareProject();
+			swProj = swProjFactory.createSoftwareProject();
 			swProj.setName(projName);
 			projRes.getContents().add(swProj);
 		}		
@@ -146,6 +151,17 @@ public class ImportWizard extends Wizard implements IImportWizard {
 				reprotool.model.usecase.UseCase uc = gen.generateUseCase();
 				ucMap.put(uc.getName(), uc);
 				swProj.getUseCases().add(uc);
+				
+				String primaryActor = model.getHeader().getPrimaryActor();
+				if ((primaryActor != null) && (!primaryActor.isEmpty())) {
+					if (!swProjActors.containsKey(primaryActor)) {
+						Actor a = swProjFactory.createActor();
+						a.setName(primaryActor);
+						swProjActors.put(primaryActor, a);
+						swProj.getActors().add(a);
+					}
+					uc.setPrimaryActor(swProjActors.get(primaryActor));
+				}
 			}
 		}
 		
@@ -164,7 +180,10 @@ public class ImportWizard extends Wizard implements IImportWizard {
 	}
 	
 	public boolean canFinish() {
-		return outputSelectionPage.canFinish();
+		return (
+			(outputSelectionPage == getContainer().getCurrentPage()) &&
+			outputSelectionPage.canFinish()
+		);
 	}
 	 
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
