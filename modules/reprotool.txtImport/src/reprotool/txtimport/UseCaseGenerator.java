@@ -8,6 +8,7 @@ import org.eclipse.core.runtime.Assert;
 
 import reprotool.ide.txtuc.txtUseCase.ExtVarBlock;
 import reprotool.ide.txtuc.txtUseCase.ExtVarStep;
+import reprotool.ide.txtuc.txtUseCase.ExtVarUnit;
 import reprotool.ide.txtuc.txtUseCase.MainScenarioStep;
 import reprotool.model.usecase.Condition;
 import reprotool.model.usecase.Scenario;
@@ -29,7 +30,8 @@ public class UseCaseGenerator {
 	private void processExtVarBlock(ExtVarBlock block, UsecaseFactory factory, boolean extension) {
 		strayScenarios.clear();
 		
-		for (reprotool.ide.txtuc.txtUseCase.Condition cond: block.getConditions()) {
+		for (ExtVarUnit unit: block.getUnits()) {
+			reprotool.ide.txtuc.txtUseCase.Condition cond = unit.getCondition();
 			Scenario extVarScenario = factory.createScenario();
 			Condition c = factory.createCondition();
 			c.setContent(cond.getText());
@@ -52,21 +54,23 @@ public class UseCaseGenerator {
 			System.out.println("Scenario label:" + cond.getLabel());
 		}
 		
-		for (ExtVarStep step: block.getSteps()) {
-			StringBuffer content = new StringBuffer();
-			for (String s: step.getText()) {
-				content.append(s);
+		for (ExtVarUnit unit: block.getUnits()) {
+			for (ExtVarStep step: unit.getSteps()) {
+				StringBuffer content = new StringBuffer();
+				for (String s: step.getText()) {
+					content.append(s);
+				}
+				UseCaseStep ucStep = factory.createUseCaseStep();
+				ucStep.setContent(content.toString());
+				
+				String scenarioLabel = step.getLabel().substring(0, step.getLabel().length() - 1);
+				Scenario scenario = label2Scenario.get(scenarioLabel);
+				Assert.isNotNull(scenario);
+				scenario.getSteps().add(ucStep);
+				
+				label2UCStep.put(step.getLabel(), ucStep);			
+				System.out.println("Step label: " + step.getLabel());
 			}
-			UseCaseStep ucStep = factory.createUseCaseStep();
-			ucStep.setContent(content.toString());
-			
-			String scenarioLabel = step.getLabel().substring(0, step.getLabel().length() - 1);
-			Scenario scenario = label2Scenario.get(scenarioLabel);
-			Assert.isNotNull(scenario);
-			scenario.getSteps().add(ucStep);
-			
-			label2UCStep.put(step.getLabel(), ucStep);			
-			System.out.println("Step label: " + step.getLabel());
 		}
 		
 		for (ScenarioMapper sMapper: strayScenarios) {

@@ -22,8 +22,13 @@ MainScenarioStep:
 	label=NUM (text+=STRING)+;
 
 ExtVarBlock:
-	(conditions+=Condition
-	(steps+=ExtVarStep)+)+;
+	(units+=ExtVarUnit)+
+;
+
+ExtVarUnit:
+	condition=Condition
+	(steps+=ExtVarStep)+
+;
 
 Condition:
 	label=CONDITION_LABEL text=STRING;
