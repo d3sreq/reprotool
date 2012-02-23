@@ -14,6 +14,7 @@ import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 import org.eclipse.ui.console.MessageConsoleStream;
+import org.eclipselabs.nusmvtools.nusmv4j.NusmvLibrary;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
@@ -87,7 +88,12 @@ public class RunNuSMV implements IWorkbenchWindowActionDelegate {
 			IFile file = (IFile) tsel.getFirstElement();
 			IPath filePath = file.getFullPath();
 			while( ! "swproj".equals(filePath.getFileExtension()) ) {
-				filePath = filePath.removeFileExtension();
+				IPath newFilePath = filePath.removeFileExtension();
+				if(newFilePath == filePath) {
+					checkArbitrarySmvModel(file);
+					return;
+				}
+				filePath = newFilePath;
 			}
 			if (!loadNuSMVProject(filePath)) {
 				return;
@@ -123,6 +129,22 @@ public class RunNuSMV implements IWorkbenchWindowActionDelegate {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		}
+	}
+	
+	private void checkArbitrarySmvModel(IFile file) {
+		NuSMVWrapper nusmv = Activator.getDefault().getNuSMVWrapper();
+		nusmv.loadModelFile( file );
+		nusmv.execCommand("go");
+		nusmv.execCommand("check_ctlspec");
+		System.err.println();
+		nusmv.execCommand("check_ltlspec");
+		System.err.println();
+		try {
+			nusmv.collectCheckerResults();
+			nusmv.printMessage("Verification finished");
+		} catch (Exception e) {
+			nusmv.printMessage(e.getMessage());
 		}
 	}
 
