@@ -21,3 +21,5 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.mwe2.launch
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: Reprotool
+Import-Package: org.eclipse.ui,
+ org.eclipse.ui.console

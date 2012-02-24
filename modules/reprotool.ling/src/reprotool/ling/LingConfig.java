@@ -42,6 +42,7 @@ public class LingConfig {
 		ArrayList<String> result = new ArrayList<String>();
 		// continue verbs
 		result.add("continue");
+		result.add("goto");
 		result.add("repeat");
 		result.add("resume");
 		result.add("retry");

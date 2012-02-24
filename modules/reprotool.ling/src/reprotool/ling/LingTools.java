@@ -1,7 +1,11 @@
 package reprotool.ling;
 
+import javax.naming.Context;
+
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.Plugin;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.common.command.CompoundCommand;
@@ -11,6 +15,7 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.console.MessageConsoleStream;
 import org.eclipse.ui.progress.IProgressConstants;
 import org.eclipse.ui.statushandlers.StatusManager;
 
@@ -144,13 +149,24 @@ public class LingTools {
 	
 	// job inicialization
 	public static void initJob() {
+		//nic tam neni
+		//System.out.println(Activator.getContext()..toString());
+		
 		Job job = new Job("Linguistics tools initialization") {
 		    @Override
 		    public IStatus run(IProgressMonitor monitor) {
 		    	setProperty(IProgressConstants.KEEP_PROPERTY, Boolean.TRUE);
 		    	try{
-		    		String initSentence = "Inicialization sentence.";
+
+		    		//MessageConsoleStream consoleOut = Activator.getDefault().findConsole().newMessageStream();
+
+		    		// show the console
+		    		//consoleOut.getConsole().clearConsole();
+		    		//consoleOut.getConsole().activate();
+		    		//consoleOut.println("huhu jsem tu");
 		    		
+		    		String initSentence = "Inicialization sentence.";
+
 		    		monitor.beginTask("External tools", 100);
 		    		monitor.worked(1);	
 		    		
@@ -173,7 +189,10 @@ public class LingTools {
 			    		return Status.CANCEL_STATUS;
 			    	}
 			    	monitor.worked(100);
-		    	} catch (Exception e){}
+		    	} catch (Exception e){
+					IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, "Error during ling tools initialization", e);
+					StatusManager.getManager().handle(status, StatusManager.LOG);		    		
+		    	}
 		    	finally{
 		    		monitor.done();
 		    	}
