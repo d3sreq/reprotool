@@ -46,6 +46,7 @@ public class LingConfig {
 		result.add("repeat");
 		result.add("resume");
 		result.add("retry");
+		result.add("include");
 		return result;
 	}
 	
