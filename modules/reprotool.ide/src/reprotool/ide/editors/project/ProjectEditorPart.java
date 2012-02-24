@@ -61,6 +61,9 @@ public class ProjectEditorPart extends EditorPart implements IMenuListener, IEdi
 
 	private ProjectEditorComposite composite;
 	protected ProjectEditor parentEditor;
+	private boolean useCaseDoubleClickListener = false;
+	private boolean actorsDoubleClickListener = false;
+	private boolean conceptualDoubleClickListener = false;
 
 	// used by binding framework
 	@SuppressWarnings("unused")
@@ -133,6 +136,16 @@ public class ProjectEditorPart extends EditorPart implements IMenuListener, IEdi
 		// pass the request to show the context menu on to the parent editor
 		((IMenuListener) parentEditor.getEditorSite().getActionBarContributor()).menuAboutToShow(manager);
 	}
+	
+	public void modelChanged() {
+		SoftwareProject softwareProject = getSoftwareProject();
+		m_bindingContext = initDataBindings(softwareProject);
+		
+		// add actions to the section toolbars
+		addActorsActions(softwareProject);
+		addConceptualObjectsActions(softwareProject);
+		addUseCasesActions(softwareProject);
+	}
 
 	@Override
 	public void createPartControl(final Composite parent) {
@@ -182,48 +195,57 @@ public class ProjectEditorPart extends EditorPart implements IMenuListener, IEdi
 
 	private void addActorsActions(SoftwareProject softwareProject) {
 		ToolBarManager toolBarManager = composite.getActorsComposite().getToolBarManager();
+		toolBarManager.removeAll();
 		
 		Action createAction = new AddActorAction(getEditingDomain(), softwareProject);
 		toolBarManager.add(createAction);
 		
 		final EditDescribedElementAction editAction = new EditDescribedElementAction(getEditingDomain(), "Edit actor");
 		getEditorSite().getSelectionProvider().addSelectionChangedListener(editAction);
-		composite.getActorsComposite().getTableViewer().addDoubleClickListener(new IDoubleClickListener() {
-			
-			@Override
-			public void doubleClick(DoubleClickEvent event) {
-				if (!event.getSelection().isEmpty()) {
-					editAction.run();
-				}				
-			}
-		});
+		if (!actorsDoubleClickListener) {
+			composite.getActorsComposite().getTableViewer().addDoubleClickListener(new IDoubleClickListener() {
+				
+				@Override
+				public void doubleClick(DoubleClickEvent event) {
+					if (!event.getSelection().isEmpty()) {
+						editAction.run();
+					}				
+				}
+			});
+			actorsDoubleClickListener = true;
+		}
 		
 		toolBarManager.update(true);
 	}
 	
 	private void addConceptualObjectsActions(SoftwareProject softwareProject) {
 		ToolBarManager toolBarManager = composite.getConceptualObjectsComposite().getToolBarManager();
+		toolBarManager.removeAll();
 		
 		Action createAction = new AddConceptualObjectAction(getEditingDomain(), softwareProject);
 		toolBarManager.add(createAction);
 		
 		final EditDescribedElementAction editAction = new EditDescribedElementAction(getEditingDomain(), "Edit conceptual object");
 		getEditorSite().getSelectionProvider().addSelectionChangedListener(editAction);
-		composite.getConceptualObjectsComposite().getTableViewer().addDoubleClickListener(new IDoubleClickListener() {
-			
-			@Override
-			public void doubleClick(DoubleClickEvent event) {
-				if (!event.getSelection().isEmpty()) {
-					editAction.run();
+		if (!conceptualDoubleClickListener) {
+			composite.getConceptualObjectsComposite().getTableViewer().addDoubleClickListener(new IDoubleClickListener() {
+				
+				@Override
+				public void doubleClick(DoubleClickEvent event) {
+					if (!event.getSelection().isEmpty()) {
+						editAction.run();
+					}
 				}
-			}
-		});
+			});
+			conceptualDoubleClickListener = true;
+		}
 		
 		toolBarManager.update(true);
 	}
 	
 	private void addUseCasesActions(final SoftwareProject softwareProject) {
 		ToolBarManager toolBarManager = composite.getUseCasesComposite().getToolBarManager();
+		toolBarManager.removeAll();
 		
 		Action createAction = new AbstractAddAction("Add use case") {
 			@Override
@@ -239,22 +261,26 @@ public class ProjectEditorPart extends EditorPart implements IMenuListener, IEdi
 		
 		toolBarManager.add(createAction);
 		
-		composite.getUseCasesComposite().getTableViewer().addDoubleClickListener(new IDoubleClickListener() {
-			
-			@Override
-			public void doubleClick(DoubleClickEvent event) {
-				ISelection selection = event.getSelection();
-				if (!selection.isEmpty()) {
-					IStructuredSelection structuredSelection = (IStructuredSelection)selection;
-					UseCase useCase = (UseCase)structuredSelection.getFirstElement();
-					
-					UseCaseEditorInput useCaseEditorInput = new UseCaseEditorInput(useCase, getEditorInput(), getCommandStack(), getEditingDomain());
-
-					openUseCaseEmfEditorPage(useCaseEditorInput);
+		if (!useCaseDoubleClickListener) {
+			composite.getUseCasesComposite().getTableViewer().addDoubleClickListener(new IDoubleClickListener() {
+				
+				@Override
+				public void doubleClick(DoubleClickEvent event) {
+					ISelection selection = event.getSelection();
+					if (!selection.isEmpty()) {
+						IStructuredSelection structuredSelection = (IStructuredSelection)selection;
+						UseCase useCase = (UseCase)structuredSelection.getFirstElement();
+						
+						UseCaseEditorInput useCaseEditorInput = new UseCaseEditorInput(useCase, getEditorInput(),
+								getCommandStack(), getEditingDomain());
+	
+						openUseCaseEmfEditorPage(useCaseEditorInput);
+					}
 				}
-			}
-			
-		});
+				
+			});
+			useCaseDoubleClickListener = true;
+		}
 		
 		toolBarManager.update(true);
 	}

@@ -497,7 +497,7 @@ public class ProjectEditor extends MultiPageEditorPart implements IEditingDomain
 	 */
 	protected void handleChangedResources() {
 		// TODO - commented to prevent resource reload
-		/*
+//		/*
 		if (!changedResources.isEmpty() && (!isDirty() || handleDirtyConflict())) {
 			if (isDirty()) {
 				changedResources.addAll(editingDomain.getResourceSet().getResources());
@@ -515,6 +515,7 @@ public class ProjectEditor extends MultiPageEditorPart implements IEditingDomain
 							resourceToDiagnosticMap.put(resource, analyzeResourceProblems(resource, exception));
 						}
 					}
+					projectEditorPart.modelChanged();
 				}
 			}
 
@@ -527,7 +528,7 @@ public class ProjectEditor extends MultiPageEditorPart implements IEditingDomain
 			updateProblemIndication = true;
 			updateProblemIndication();
 		}
-		*/
+//		*/
 	}
 
 	/**

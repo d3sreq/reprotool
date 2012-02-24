@@ -25,6 +25,7 @@ import org.eclipse.swt.widgets.Text;
 public class InputSelectionPage extends WizardPage {
 	private boolean canGoNext = false;
 	private CheckboxTableViewer ctv = null;
+	private Text inputDirTxt = null;
 	
 	public InputSelectionPage() {
         super("wizardPage");
@@ -47,17 +48,37 @@ public class InputSelectionPage extends WizardPage {
 	
 	private void updateNavigationButtons() {
 		boolean redraw = false;
+		String dirPath = inputDirTxt.getText();
+		File dir = new File(dirPath);
+		
+		if ((!dir.exists()) || (!dir.isDirectory())) {
+			if (canGoNext) {
+				canGoNext = false;
+				getWizard().getContainer().updateButtons();
+			}
+			
+			if ((dirPath == null) || (dirPath.isEmpty())) {
+				setErrorMessage(null);
+			} else {
+				setErrorMessage("The specified directory does not exist!");
+			}
+			return;
+		}
+		
 		if (ctv.getCheckedElements().length == 0) {
 			if (canGoNext) {
 				canGoNext = false;
 				redraw = true;
+				setErrorMessage("You need to select at least one use-case!");
 			}
 		} else {
 			if (!canGoNext) {
 				canGoNext = true;
 				redraw = true;
+				setErrorMessage(null);
 			}
 		}
+		
 		if (redraw) {
 			getWizard().getContainer().updateButtons();
 		}
@@ -71,7 +92,7 @@ public class InputSelectionPage extends WizardPage {
 		new Label(container, SWT.NONE).setText("Input directory:");
 		
 		GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
-		final Text inputDirTxt = new Text(container, SWT.BORDER);
+		inputDirTxt = new Text(container, SWT.BORDER);
 		inputDirTxt.setLayoutData(gridData);
 		
 		Button button = new Button(container, SWT.PUSH);
@@ -105,8 +126,14 @@ public class InputSelectionPage extends WizardPage {
 		inputDirTxt.addModifyListener(new ModifyListener() {
 			@Override
 			public void modifyText(ModifyEvent e) {
-				ctv.setInput(((Text) e.widget).getText());
-				ctv.setAllChecked(true);
+				String dirPath = ((Text) e.widget).getText();
+				File dir = new File(dirPath);
+				if ((dir.exists()) && (dir.isDirectory())) {
+					ctv.setInput(dirPath);
+					ctv.setAllChecked(true);	
+				} else {
+					ctv.setInput(null);
+				}
 				updateNavigationButtons();
 			}
 		});

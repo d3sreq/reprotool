@@ -1,5 +1,8 @@
 package reprotool.txtimport.importWizards;
 
+// Preceding use-cases brat aj z modelu
+// Ak nenajde preceding use-case tak vypisat do konzole info...
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;

@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import org.eclipse.core.runtime.Assert;
-
 import reprotool.ide.txtuc.txtUseCase.ExtVarBlock;
 import reprotool.ide.txtuc.txtUseCase.ExtVarStep;
 import reprotool.ide.txtuc.txtUseCase.ExtVarUnit;
@@ -27,9 +25,7 @@ public class UseCaseGenerator {
 		iUseCase = u;
 	}
 	
-	private void processExtVarBlock(ExtVarBlock block, UsecaseFactory factory, boolean extension) {
-		strayScenarios.clear();
-		
+	private void processExtVarBlock(ExtVarBlock block, UsecaseFactory factory, boolean extension) {		
 		for (ExtVarUnit unit: block.getUnits()) {
 			reprotool.ide.txtuc.txtUseCase.Condition cond = unit.getCondition();
 			Scenario extVarScenario = factory.createScenario();
@@ -47,7 +43,7 @@ public class UseCaseGenerator {
 					step.getVariations().add(extVarScenario);
 				}
 			} else {
-				strayScenarios.add(new ScenarioMapper(extVarScenario, stepLabel));
+				strayScenarios.add(new ScenarioMapper(extVarScenario, stepLabel, extension));
 			}
 			
 			label2Scenario.put(cond.getLabel(), extVarScenario);
@@ -65,26 +61,33 @@ public class UseCaseGenerator {
 				
 				String scenarioLabel = step.getLabel().substring(0, step.getLabel().length() - 1);
 				Scenario scenario = label2Scenario.get(scenarioLabel);
-				Assert.isNotNull(scenario);
+				if (scenario == null) {
+					continue;
+				}
 				scenario.getSteps().add(ucStep);
 				
 				label2UCStep.put(step.getLabel(), ucStep);			
 				System.out.println("Step label: " + step.getLabel());
 			}
 		}
-		
+	}
+	
+	private void processStrayScenarios() {
 		for (ScenarioMapper sMapper: strayScenarios) {
 			Scenario s = sMapper.getScenario();
 			String stepLabel = sMapper.getLabel();
+			boolean extension = sMapper.getExtension();
 			UseCaseStep ucStep = label2UCStep.get(stepLabel);
-			Assert.isNotNull(ucStep);
+			if (ucStep == null) {
+				continue;
+			}
 			if (extension) {
 				ucStep.getExtensions().add(s);
 			} else {
 				ucStep.getVariations().add(s);
 			}
 			System.out.println("Attaching stray scenario to step with label: " + ucStep.getLabel());
-		}		
+		}				
 	}
 	
 	public reprotool.model.usecase.UseCase generateUseCase() {
@@ -117,6 +120,7 @@ public class UseCaseGenerator {
 		
 		processExtVarBlock(iUseCase.getExtensionsBlock(), factory, true);
 		processExtVarBlock(iUseCase.getVariationsBlock(), factory, false);
+		processStrayScenarios();
 		
 		return oUseCase;
 	}
@@ -125,10 +129,12 @@ public class UseCaseGenerator {
 class ScenarioMapper {
 	private Scenario s;
 	private String l;
+	private boolean ext;
 	
-	ScenarioMapper(Scenario scenario, String label) {
+	ScenarioMapper(Scenario scenario, String label, boolean extension) {
 		l = label;
 		s = scenario;
+		ext = extension;
 	}
 	
 	Scenario getScenario() {
@@ -137,5 +143,9 @@ class ScenarioMapper {
 	
 	String getLabel() {
 		return l;
+	}
+	
+	boolean getExtension() {
+		return ext;
 	}
 }

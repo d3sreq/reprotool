@@ -120,11 +120,17 @@ public class OutputSelectionPage extends WizardPage {
 					if (!canFinishExisting) {
 						canFinishExisting = true;
 						redraw = true;
+						setErrorMessage(null);
 					}
 				} else {
 					if (canFinishExisting) {
 						canFinishExisting = false;
 						redraw = true;
+					}
+					if ((projFileName == null) || (projFileName.isEmpty())) {
+						setErrorMessage(null);
+					} else {
+						setErrorMessage("You have not selected a valid project file.");
 					}
 				}
 				
@@ -166,10 +172,17 @@ public class OutputSelectionPage extends WizardPage {
 						canFinishNew = false;
 						updateFinishButton();
 					}
+					if ((newProjName != null) && (!newProjName.isEmpty())) {
+						setErrorMessage("The specified project already exists in" +
+							" your workspace. Please select a different name!");
+					} else {
+						setErrorMessage(null);
+					}
 					return;
 				}
 				if (!canFinishNew) {
 					canFinishNew = true;
+					setErrorMessage(null);
 					updateFinishButton();
 				}
 			}
@@ -187,6 +200,16 @@ public class OutputSelectionPage extends WizardPage {
 				newProjNameTxt.setEnabled(true);
 				
 				updateFinishButton();
+				
+				String newProjName = newProjNameTxt.getText();
+				if ((newProjName == null) || (newProjName.isEmpty())) {
+					setErrorMessage(null);
+				} else if (projectExists(newProjName)) {
+					setErrorMessage("The specified project already exists in" +
+							" your workspace. Please select a different name!");
+				} else {
+					setErrorMessage(null);
+				}
 			}
 		});
         
@@ -202,6 +225,16 @@ public class OutputSelectionPage extends WizardPage {
 				existingProjBtn.setEnabled(true);
 				
 				updateFinishButton();
+				
+				String existingProjName = existingProjTxt.getText();
+				File projFile = new File(existingProjName);
+				if ((existingProjName == null) || (existingProjName.isEmpty())) {
+					setErrorMessage(null);
+				} else if ((!projFile.exists()) || (!existingProjName.endsWith(".swproj"))) {
+					setErrorMessage("You have not selected a valid project file.");
+				} else {
+					setErrorMessage(null);
+				}
 			}
 		});
         
