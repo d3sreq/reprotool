@@ -201,6 +201,39 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 		}		
 	}
 	
+	private void relabelSingleStep(UseCaseStep step) {
+		Transition t = ucStep2Trans.get(step);
+		GraphConnection c = trans2Edge.get(t);
+		UseCase u = getOwnerUseCase(step);
+		String newLabel = generateLabel(step, u);
+		IFigure toolTip = new Label();
+		((Label) toolTip).setText(newLabel);
+		c.setTooltip(toolTip);
+	}
+	
+	public void relabel(UseCaseStep step) {
+		if (step != null) {
+			relabelSingleStep(step);
+		} else {
+			for (UseCaseStep ucStep: ucStep2Trans.keySet()) {
+				relabelSingleStep(ucStep);
+			}
+		}
+	}
+	
+	private UseCase getOwnerUseCase(UseCaseStep step) {
+		UseCase result = null;
+		
+		Scenario scenario = (Scenario) step.eContainer();
+		while (scenario.eContainer() instanceof UseCaseStep) {
+			UseCaseStep s = (UseCaseStep) scenario.eContainer();
+			scenario = (Scenario) s.eContainer();
+		}
+		result = (UseCase) scenario.eContainer();
+		
+		return result;
+	}
+	
 	public void emfModelChanged() {
 		viewer.getGraphControl().setSelection(null);
 		
@@ -264,6 +297,43 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 		}
 	}
 	
+	private String generateLabel(UseCaseStep step, UseCase u) {
+		StringBuffer stringBuffer = new StringBuffer();
+		stringBuffer.append("UseCase: " + u.getName());
+		stringBuffer.append("\n");
+		stringBuffer.append("Label: " + step.getLabel());
+		stringBuffer.append("\n");
+		stringBuffer.append("Text: " + WordUtils.wrap(step.getContent(), 40) );
+		
+		List<StepAnnotation> annots = step.getAnnotations();
+		if (!annots.isEmpty()) {
+			stringBuffer.append("\n");
+			stringBuffer.append("Annots: ");
+			int c = 0;
+			for (StepAnnotation a : annots) {
+				c++;
+				if (a.getAnnotationType() == null) {
+					continue;
+				}
+				stringBuffer.append(a.getAnnotationType().getName() + "_" + a.getId());
+				if (c < annots.size()) {
+					stringBuffer.append(", ");
+				}
+			}
+		}
+		
+		Scenario scenario = (Scenario) step.eContainer();
+		if (scenario != null) {
+			EList<Condition> preconditions = scenario.getPreconditions();
+			if (!preconditions.isEmpty()) {
+				stringBuffer.append("\n");
+				stringBuffer.append("Cond: " + preconditions.get(0).getContent());
+			}
+		}
+		
+		return stringBuffer.toString();
+	}
+	
 	private void processTransition(Transition transition, AbortState abort, UseCase u) {
 		if (
 				(transition.getRelatedStep() != null) &&
@@ -324,7 +394,6 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 		if (transition.getRelatedStep() != null) {
 			IFigure toolTip = new Label();
 			
-
 			StringBuffer stringBuffer = new StringBuffer();
 			stringBuffer.append("UseCase: " + u.getName());
 			stringBuffer.append("\n");

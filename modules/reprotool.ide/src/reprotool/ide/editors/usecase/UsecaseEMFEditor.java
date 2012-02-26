@@ -32,6 +32,8 @@ import org.eclipse.emf.common.command.BasicCommandStack;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CommandStack;
 import org.eclipse.emf.common.command.CommandStackListener;
+import org.eclipse.emf.common.command.CompoundCommand;
+import org.eclipse.emf.common.command.IdentityCommand;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.ui.MarkerHelper;
@@ -46,6 +48,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
@@ -107,6 +110,7 @@ import reprotool.ide.editors.project.UseCaseEditorInput;
 import reprotool.ide.views.sentenceanalysis.ISentenceAnalysisSheetPage;
 import reprotool.ide.views.sentenceanalysis.step.SentenceAnalysisSheetPage;
 import reprotool.model.edit.ext.factory.UsecaseEMFEditorAdapterFactory;
+import reprotool.model.swproj.SoftwareProject;
 import reprotool.model.usecase.UseCase;
 import reprotool.model.usecase.UseCaseStep;
 import reprotool.model.usecase.presentation.ReprotoolEditorPlugin;
@@ -121,7 +125,8 @@ import reprotool.model.usecase.presentation.ReprotoolEditorPlugin;
  */
 public class UsecaseEMFEditor extends MultiPageEditorPart implements IEditingDomainProvider, IMenuListener,
 		IViewerProvider, IGotoMarker, IFirePropertyChange {
-
+	
+	private int useCaseId;
 	private MultiPageSelectionProvider selectionProvider;
 
 	/**
@@ -668,13 +673,55 @@ public class UsecaseEMFEditor extends MultiPageEditorPart implements IEditingDom
 				getContainer().getDisplay().asyncExec(new Runnable() {
 					public void run() {
 						firePropertyChange(IEditorPart.PROP_DIRTY);
-						if (contentOutlinePage != null && !contentOutlinePage.getControl().isDisposed()) {
-							((LTSContentOutlinePage) contentOutlinePage).emfModelChanged();
-						}
 
 						// Try to select the affected objects.
 						//
 						Command mostRecentCommand = ((CommandStack) event.getSource()).getMostRecentCommand();
+						
+						boolean onlyLabelChange = false;
+						UseCaseStep relabelStep = null;
+						SetCommand setCmd = null;
+						
+						if (mostRecentCommand instanceof SetCommand) {
+							setCmd = (SetCommand) mostRecentCommand;
+						}
+						if (mostRecentCommand instanceof CompoundCommand) {
+							CompoundCommand compound = (CompoundCommand) mostRecentCommand;
+							if (compound.getCommandList().size() == 1) {
+								Command first = compound.getCommandList().get(0);
+								if (first instanceof SetCommand) {
+									if (((SetCommand) first).getOwner() instanceof UseCaseStep) {
+										setCmd = (SetCommand) first;
+										relabelStep = (UseCaseStep) setCmd.getOwner();
+									}
+								}
+							}
+							if (compound.getCommandList().size() == 2) {
+								Command first = compound.getCommandList().get(0);
+								Command second = compound.getCommandList().get(1);
+								if ((first instanceof SetCommand) && (second instanceof IdentityCommand)) {
+									if (((SetCommand) first).getOwner() instanceof UseCaseStep) {
+										setCmd = (SetCommand) first;
+										relabelStep = (UseCaseStep) setCmd.getOwner();
+									}
+								}
+							}
+						}
+						
+						if (setCmd != null) {
+							if (setCmd.getValue() instanceof String) {
+								onlyLabelChange = true;
+							}
+						}
+						
+						if (contentOutlinePage != null && !contentOutlinePage.getControl().isDisposed()) {
+							if (onlyLabelChange) {
+								((LTSContentOutlinePage) contentOutlinePage).relabel(relabelStep);
+							} else {
+								((LTSContentOutlinePage) contentOutlinePage).emfModelChanged();
+							}
+						}
+
 						if (mostRecentCommand != null) {
 							setSelectionToViewer(mostRecentCommand.getAffectedObjects());
 						}
@@ -1123,6 +1170,10 @@ public class UsecaseEMFEditor extends MultiPageEditorPart implements IEditingDom
 	public void handleContentOutlineSelection(ISelection selection) {
 		// no action needed
 	}
+	
+	public void remapBindings() {
+		usecaseEditorPart.bindUseCase(getResourceUseCaseById(useCaseId));
+	}
 
 	/**
 	 * This is for implementing {@link IEditorPart} and simply saves the model file.
@@ -1132,6 +1183,17 @@ public class UsecaseEMFEditor extends MultiPageEditorPart implements IEditingDom
 	 */
 	@Override
 	public void doSave(IProgressMonitor progressMonitor) {
+		UseCaseEditorInput useCaseEditorInput = (UseCaseEditorInput)getEditorInput();
+		UseCase useCase = useCaseEditorInput.getUseCase();
+		UseCase resourceUC = getResourceUseCaseById(useCaseId);
+		
+		if (useCase == resourceUC) {
+			System.out.println("Directly editing resource use-case.");
+		} else {
+			System.out.println("Editing local copy of the use-case");
+		}
+		System.out.println("Saving uc: " + useCase.getName());
+				
 		// Save only resources that have actually changed.
 		//
 		final Map<Object, Object> saveOptions = new HashMap<Object, Object>();
@@ -1275,7 +1337,21 @@ public class UsecaseEMFEditor extends MultiPageEditorPart implements IEditingDom
 			ReprotoolEditorPlugin.INSTANCE.log(exception);
 		}
 	}
-
+	
+	private UseCase getResourceUseCaseById(int id) {
+		for (Resource resource : editingDomain.getResourceSet().getResources()) {
+			for (Object obj: resource.getContents()) {
+				if (obj instanceof SoftwareProject) {
+					SoftwareProject swProj = (SoftwareProject) obj;
+					System.out.println("Using software project: " + swProj.hashCode());
+					return swProj.getUseCases().get(id);
+				}
+			}
+		}
+		
+		return null;
+	}
+		
 	/**
 	 * This is called during startup.
 	 * <!-- begin-user-doc -->
@@ -1289,7 +1365,7 @@ public class UsecaseEMFEditor extends MultiPageEditorPart implements IEditingDom
 		commandStack = useCaseEditorInput.getCommandStack();
 		
 		// TODO - test!
-		this.editingDomain = (AdapterFactoryEditingDomain) useCaseEditorInput.getEditingDomain(); 
+		this.editingDomain = (AdapterFactoryEditingDomain) useCaseEditorInput.getEditingDomain();
 		
 		myItializeEditingDomain();
 		
@@ -1301,6 +1377,31 @@ public class UsecaseEMFEditor extends MultiPageEditorPart implements IEditingDom
 		site.getPage().addPartListener(partListener);
 		
 		UnmarkDirtyService.INSTANCE.add(commandStack, this);
+		
+		boolean found = false;
+		UseCase uc = useCaseEditorInput.getUseCase();
+		outer:for (Resource resource : editingDomain.getResourceSet().getResources()) {
+			for (Object obj: resource.getContents()) {
+				if (obj instanceof SoftwareProject) {
+					SoftwareProject swProj = (SoftwareProject) obj;
+					int i = -1;
+					for (UseCase u: swProj.getUseCases()) {
+						i++;
+						if (u == uc) {
+							found = true;
+							useCaseId = i;
+							break outer;
+						}
+					}
+				}
+			}
+		}
+		
+		if (found) {
+			System.out.println("Editing use-case with id: " + useCaseId);
+		} else {
+			System.out.println("Use-case not found in the resources.");
+		}
 	}
 
 	/**

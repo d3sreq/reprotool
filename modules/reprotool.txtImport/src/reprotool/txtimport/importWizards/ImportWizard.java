@@ -59,8 +59,11 @@ public class ImportWizard extends Wizard implements IImportWizard {
 			Object obj = projRes.getContents().get(0);
 			Assert.isTrue(obj instanceof SoftwareProject);
 			swProj = (SoftwareProject) obj;
-			for (Actor actor:swProj.getActors()) {
+			for (Actor actor: swProj.getActors()) {
 				swProjActors.put(actor.getName(), actor);
+			}
+			for (reprotool.model.usecase.UseCase uc: swProj.getUseCases()) {
+				ucMap.put(uc.getName(), uc);
 			}
 		} else {
 			String projName = outputSelectionPage.newProjectName();

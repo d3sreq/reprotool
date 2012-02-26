@@ -95,6 +95,7 @@ import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IEditorDescriptor;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IPartListener;
 import org.eclipse.ui.IWorkbenchPage;
@@ -116,6 +117,7 @@ import org.eclipse.ui.views.properties.PropertySheetPage;
 
 import reprotool.ide.editors.usecase.IFirePropertyChange;
 import reprotool.ide.editors.usecase.UnmarkDirtyService;
+import reprotool.ide.editors.usecase.UsecaseEMFEditor;
 import reprotool.model.edit.ext.factory.ProjectOutlineAdapterFactory;
 import reprotool.model.usecase.UseCase;
 import reprotool.model.usecase.presentation.ReprotoolEditorPlugin;
@@ -133,6 +135,8 @@ public class ProjectEditor extends MultiPageEditorPart implements IEditingDomain
 
 	private MultiPageSelectionProvider selectionProvider;
 	
+	private CommandStackListener commandStackListener;
+		
 	/**
 	 * This keeps track of the editing domain that is used to track all changes to the model.
 	 * <!-- begin-user-doc -->
@@ -516,6 +520,21 @@ public class ProjectEditor extends MultiPageEditorPart implements IEditingDomain
 						}
 					}
 					projectEditorPart.modelChanged();
+					int c = 0;
+					
+					IEditorReference[] editors = PlatformUI.getWorkbench().getActiveWorkbenchWindow().
+							getActivePage().getEditorReferences();
+					
+					for (IEditorReference editorRef: editors) {
+						IEditorPart editor = editorRef.getEditor(false);
+						if (editor instanceof UsecaseEMFEditor) {
+							c++;
+							((UsecaseEMFEditor) editor).remapBindings();							
+						}
+					}
+					
+					System.out.println("Called remap bindings for " + c + " times.");
+					System.out.println("I have " + editors.length + "editors in list");
 				}
 			}
 
@@ -631,7 +650,8 @@ public class ProjectEditor extends MultiPageEditorPart implements IEditingDomain
 		// Add a listener to set the most recent command's affected objects to
 		// be the selection of the viewer with focus.
 		//
-		commandStack.addCommandStackListener(new CommandStackListener() {
+		
+		commandStackListener = new CommandStackListener() {
 			public void commandStackChanged(final EventObject event) {
 				getContainer().getDisplay().asyncExec(new Runnable() {
 					public void run() {
@@ -651,7 +671,9 @@ public class ProjectEditor extends MultiPageEditorPart implements IEditingDomain
 					}
 				});
 			}
-		});
+		};
+		
+		commandStack.addCommandStackListener(commandStackListener);
 
 		// Create the editing domain with a special command stack.
 		//
@@ -1481,6 +1503,7 @@ public class ProjectEditor extends MultiPageEditorPart implements IEditingDomain
 		updateProblemIndication = false;
 
 		ResourcesPlugin.getWorkspace().removeResourceChangeListener(resourceChangeListener);
+		editingDomain.getCommandStack().removeCommandStackListener(commandStackListener);
 
 		getSite().getPage().removePartListener(partListener);
 

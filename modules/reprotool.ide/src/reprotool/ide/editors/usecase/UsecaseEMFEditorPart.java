@@ -220,6 +220,10 @@ public class UsecaseEMFEditorPart extends EditorPart implements IMenuListener, I
 		
 		return bindingContext;
 	}
+	
+	void bindUseCase(UseCase useCase) {
+		m_bindingContext = initDataBindings(useCase);
+	}
 
 	private void bindName(DataBindingContext bindingContext, UseCase useCase) {
 		IObservableValue emfValue = EMFEditProperties.value(getEditingDomain(),
