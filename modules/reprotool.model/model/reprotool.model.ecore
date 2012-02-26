@@ -21,6 +21,9 @@
       </eStructuralFeatures>
       <eStructuralFeatures xsi:type="ecore:EReference" name="softwareProjectShortcut"
           lowerBound="1" eType="#//swproj/SoftwareProject" eOpposite="#//swproj/SoftwareProject/useCases"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" ordered="false" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+          defaultValueLiteral="" iD="true"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="ParseableElement" abstract="true"
         interface="true">

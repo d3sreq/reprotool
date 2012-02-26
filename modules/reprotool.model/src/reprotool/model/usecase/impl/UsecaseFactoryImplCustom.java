@@ -1,5 +1,7 @@
 package reprotool.model.usecase.impl;
 
+import org.eclipse.emf.ecore.util.EcoreUtil;
+
 import reprotool.model.usecase.Scenario;
 import reprotool.model.usecase.UseCase;
 import reprotool.model.usecase.UseCaseStep;
@@ -19,6 +21,10 @@ public class UsecaseFactoryImplCustom extends UsecaseFactoryImpl {
 		UseCaseStep useCaseStep = UsecaseFactory.eINSTANCE.createUseCaseStep();
 		useCase.setMainScenario(scenario);
 		scenario.getSteps().add(useCaseStep);
+		
+		// set UUID
+		useCase.setId(EcoreUtil.generateUUID());
+		
 		return useCase;
 	}
 }
