@@ -2,7 +2,7 @@
 <swproj:SoftwareProject xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:action="http://d3s.mff.cuni.cz/reprotool/model/linguistic/action" xmlns:annotate="http://d3s.mff.cuni.cz/reprotool/model/usecase/annotate" xmlns:swproj="http://d3s.mff.cuni.cz/reprotool/model/swproj" name="Applications Handling Module">
   <actors name="Candidate" description=""/>
   <actors name="System" description=""/>
-  <useCases name="Register in the system.">
+  <useCases name="Register in the system." id="_5MRQUGCVEeGHdYq4VNImpA">
     <mainScenario>
       <steps content=" Candidate opens system main-page."/>
       <steps content="Candidate chooses registration option."/>
@@ -34,7 +34,7 @@
       <steps content="System informs the data has been created."/>
     </mainScenario>
   </useCases>
-  <useCases name="Provide personal and education information.">
+  <useCases name="Provide personal and education information." id="_5MR3YGCVEeGHdYq4VNImpA">
     <mainScenario>
       <steps content="Candidate provides personal information.">
         <extensions>
@@ -74,7 +74,7 @@
       <steps content="System displays a confirmation message."/>
     </mainScenario>
   </useCases>
-  <useCases name="Choose a major.">
+  <useCases name="Choose a major." id="_5MSecGCVEeGHdYq4VNImpA">
     <mainScenario>
       <steps content="Candidate chooses the adding-new-major option."/>
       <steps content="System presents a list of majors for which admission is available."/>
@@ -87,7 +87,7 @@
       <steps content="System presents a list of majors chosen by the candidate."/>
     </mainScenario>
   </useCases>
-  <useCases name="Assign an application fee to a major.">
+  <useCases name="Assign an application fee to a major." id="_5MSecWCVEeGHdYq4VNImpA">
     <mainScenario>
       <steps content="Candidate proceeds to the chosen-major view."/>
       <steps content="System presents list containing chosen majors."/>
@@ -108,13 +108,13 @@
       <steps content="System presents updated list of the chosen majors."/>
     </mainScenario>
   </useCases>
-  <useCases name="Check application status.">
+  <useCases name="Check application status." id="_5MTFgGCVEeGHdYq4VNImpA">
     <mainScenario>
       <steps content="Candidate chooses an option of presenting current status of his applications."/>
       <steps content="System presents a chosen-major list with information concerning current status of each application."/>
     </mainScenario>
   </useCases>
-  <useCases name="Print application.">
+  <useCases name="Print application." id="_5MTFgWCVEeGHdYq4VNImpA">
     <mainScenario>
       <steps content="Candidate proceeds to the chosen-major view."/>
       <steps content="System presents list containing chosen majors."/>
@@ -122,7 +122,7 @@
       <steps content="System prints application filled with candidate's data."/>
     </mainScenario>
   </useCases>
-  <useCases name="Define major priorities.">
+  <useCases name="Define major priorities." id="_5MTFgmCVEeGHdYq4VNImpA">
     <mainScenario>
       <steps content="Candidate proceeds to the chosen-majors-view."/>
       <steps content="System presents a list containing chosen majors."/>
@@ -130,7 +130,7 @@
       <steps content="System stores priorities and presents updated majors-view."/>
     </mainScenario>
   </useCases>
-  <useCases name="Apply for payment cancellation.">
+  <useCases name="Apply for payment cancellation." id="_5MTskGCVEeGHdYq4VNImpA">
     <mainScenario>
       <steps content="Candidate chooses one of the selected and payed majors."/>
       <steps content="Candidate chooses the apply-for-cancellation option."/>
@@ -159,7 +159,7 @@
       <steps content="System sends information to the candidate that the cancellation has been accepted."/>
     </mainScenario>
   </useCases>
-  <useCases name="Ask a question concerning admission.">
+  <useCases name="Ask a question concerning admission." id="_5MTskWCVEeGHdYq4VNImpA">
     <mainScenario>
       <steps content="Candidate chooses to ask a new question."/>
       <steps content="System presents the question form."/>
@@ -169,7 +169,7 @@
       <steps content="System sends the answer to the candidate."/>
     </mainScenario>
   </useCases>
-  <useCases name="Add a post to the admission forum.">
+  <useCases name="Add a post to the admission forum." id="_5MUToGCVEeGHdYq4VNImpA">
     <mainScenario>
       <steps content="Candidate chooses to view a forum."/>
       <steps content="Candidate chooses a thread he would like to add a post."/>
@@ -178,14 +178,14 @@
       <steps content="System stores the post."/>
     </mainScenario>
   </useCases>
-  <useCases name="View a post at admission forum.">
+  <useCases name="View a post at admission forum." id="_5MUToWCVEeGHdYq4VNImpA">
     <mainScenario>
       <steps content="Candidate browses admission forum threads."/>
       <steps content="Candidate selects a post and chooses the view option."/>
       <steps content="System displays the content of the post."/>
     </mainScenario>
   </useCases>
-  <useCases name="Activate admission reminder">
+  <useCases name="Activate admission reminder" id="_5MUTomCVEeGHdYq4VNImpA">
     <mainScenario>
       <steps content="Candidate chooses the admission."/>
       <steps content="Candidate chooses to activate reminder."/>
