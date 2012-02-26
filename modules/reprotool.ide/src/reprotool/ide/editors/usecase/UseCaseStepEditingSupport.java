@@ -6,6 +6,8 @@ import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.ui.IActionBars;
+import org.eclipse.ui.part.CellEditorActionHandler;
 
 import reprotool.model.usecase.Condition;
 import reprotool.model.usecase.Scenario;
@@ -22,16 +24,22 @@ public class UseCaseStepEditingSupport extends EditingSupport {
 
 	private final TreeViewer viewer;
 	private EditingDomain editingDomain;
+	private IActionBars iActionBars;
 
-	public UseCaseStepEditingSupport(TreeViewer viewer, EditingDomain editingDomain) {
+	public UseCaseStepEditingSupport(TreeViewer viewer, EditingDomain editingDomain, IActionBars iActionBars) {
 		super(viewer);
 		this.viewer = viewer;
 		this.editingDomain = editingDomain;
+		this.iActionBars = iActionBars;
 	}
 
 	@Override
 	protected CellEditor getCellEditor(Object element) {
 		StyledTextCellEditor styledTextCellEditor = new StyledTextCellEditor(viewer.getTree());
+		
+		// add copy & paste support
+		CellEditorActionHandler cellEditorActionHandler = new CellEditorActionHandler(iActionBars);
+		cellEditorActionHandler.addCellEditor(styledTextCellEditor);
 		
 		if (element instanceof UseCaseStep) {
 			UseCaseStep useCaseStep = (UseCaseStep)element;		

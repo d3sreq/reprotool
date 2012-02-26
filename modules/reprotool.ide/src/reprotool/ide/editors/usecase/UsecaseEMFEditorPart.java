@@ -42,9 +42,12 @@ import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
+import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.actions.TextActionHandler;
+import org.eclipse.ui.part.CellEditorActionHandler;
 import org.eclipse.ui.part.EditorPart;
 
 import reprotool.ide.utils.SelectionProviderIntermediate;
@@ -151,7 +154,7 @@ public class UsecaseEMFEditorPart extends EditorPart implements IMenuListener, I
 		composite.getLabelColumn().setLabelProvider(new UsecaseEMFLabelProvider.LabelColumnProvider());
 
 		composite.getTextColumn().setLabelProvider(new UsecaseEMFLabelProvider.TextColumnProvider());
-		composite.getTextColumn().setEditingSupport(new UseCaseStepEditingSupport(composite.getTreeViewer(), getEditingDomain()));
+		composite.getTextColumn().setEditingSupport(new UseCaseStepEditingSupport(composite.getTreeViewer(), getEditingDomain(), getEditorSite().getActionBars()));
 
 		createContextMenuFor(viewer);
 		
@@ -194,6 +197,8 @@ public class UsecaseEMFEditorPart extends EditorPart implements IMenuListener, I
 		});
 
 		composite.getTreeViewer().expandAll();
+		
+		addCopyPasteSupport();
 	}
 
 	public UsecaseEMFEditorComposite getComposite() {
@@ -215,6 +220,15 @@ public class UsecaseEMFEditorPart extends EditorPart implements IMenuListener, I
 	
 	void bindUseCase(UseCase useCase) {
 		m_bindingContext = initDataBindings(useCase);
+	}
+	
+	private void addCopyPasteSupport() {
+		IActionBars actionBars = getEditorSite().getActionBars();
+		TextActionHandler textActionHandler = new TextActionHandler(actionBars);
+		 
+		// hook in the text control
+		textActionHandler.addText(composite.getUseCasePropertiesComposite().getTxtName());
+		textActionHandler.addText(composite.getUseCasePropertiesComposite().getTxtDescription());
 	}
 
 	private void bindName(DataBindingContext bindingContext, UseCase useCase) {

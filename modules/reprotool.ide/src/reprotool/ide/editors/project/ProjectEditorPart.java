@@ -38,12 +38,14 @@ import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
+import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IEditorDescriptor;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.actions.TextActionHandler;
 import org.eclipse.ui.part.EditorPart;
 
 import reprotool.ide.editors.project.action.AbstractAddAction;
@@ -165,8 +167,19 @@ public class ProjectEditorPart extends EditorPart implements IMenuListener, IEdi
 		
 		// add context menus + drag & drop
 		addContextMenus();
+		
+		addCopyPasteSupport();
 	}
 	
+	private void addCopyPasteSupport() {
+		IActionBars actionBars = getEditorSite().getActionBars();
+		TextActionHandler textActionHandler = new TextActionHandler(actionBars);
+		 
+		// hook in the text control
+		textActionHandler.addText(composite.getNameDescriptionComposite().getTxtName());
+		textActionHandler.addText(composite.getNameDescriptionComposite().getTxtDescription());
+	}
+
 	@Override
 	public void setFocus() {
 		// TODO Auto-generated method stub
