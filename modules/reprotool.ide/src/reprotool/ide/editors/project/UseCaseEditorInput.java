@@ -1,28 +1,20 @@
 package reprotool.ide.editors.project;
 
-import org.eclipse.emf.common.command.BasicCommandStack;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IPersistableElement;
 
-import reprotool.model.usecase.UseCase;
-
 public class UseCaseEditorInput implements IEditorInput {
 
-	private final UseCase useCase;
+	private final URI useCaseURI;
 	private final IEditorInput parentEditorInput;
-	private final BasicCommandStack commandStack;
 	private final EditingDomain editingDomain;
 
-	public UseCase getUseCase() {
-		return useCase;
-	}
-
-	public UseCaseEditorInput(UseCase useCase, IEditorInput editorInput, BasicCommandStack commandStack, EditingDomain editingDomain) {
-		this.useCase = useCase;
+	public UseCaseEditorInput(URI useCaseURI, IEditorInput editorInput, EditingDomain editingDomain) {
+		this.useCaseURI = useCaseURI;
 		this.parentEditorInput = editorInput;
-		this.commandStack = commandStack;
 		this.editingDomain = editingDomain;
 	}
 
@@ -57,8 +49,8 @@ public class UseCaseEditorInput implements IEditorInput {
 		return parentEditorInput.getToolTipText();
 	}
 
-	public BasicCommandStack getCommandStack() {
-		return commandStack;
+	public URI getUseCaseURI() {
+		return useCaseURI;
 	}
 
 	public EditingDomain getEditingDomain() {

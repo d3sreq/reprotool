@@ -13,10 +13,8 @@ import org.eclipse.emf.common.command.BasicCommandStack;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CommandStackListener;
 import org.eclipse.emf.common.notify.AdapterFactory;
-import org.eclipse.emf.common.ui.URIEditorInput;
 import org.eclipse.emf.databinding.FeaturePath;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
@@ -49,14 +47,12 @@ import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.EditorPart;
 
-import reprotool.ide.editors.project.UseCaseEditorInput;
 import reprotool.ide.utils.SelectionProviderIntermediate;
 import reprotool.ide.utils.Utils;
 import reprotool.model.swproj.SwprojPackage;
 import reprotool.model.usecase.UseCase;
 import reprotool.model.usecase.UsecasePackage;
 import reprotool.model.usecase.presentation.ReprotoolEditorPlugin;
-import reprotool.model.usecase.presentation.UsecaseEditor;
 
 /**
  * Page of the Use case editor containing tree with use case steps and editor to
@@ -169,18 +165,14 @@ public class UsecaseEMFEditorPart extends EditorPart implements IMenuListener, I
 		selectionProviderIntermediate.setSelectionProviderDelegate(viewer);
 		
 		getEditorSite().setSelectionProvider(selectionProviderIntermediate);
-		
-//		getEditorSite().setSelectionProvider(viewer);
 
 		// try to get use case from the input and set it into viewer
-		UseCase useCase = getInputUseCase();
-		if (useCase != null) {
-			// set use case to viewer
-			this.setInput(useCase);
+		UseCase useCase = parentEditor.getUseCaseFromResource();
+		// set use case to viewer
+		this.setInput(useCase);
 
-			// add binding
-			m_bindingContext = initDataBindings(useCase);
-		}
+		// add binding
+		m_bindingContext = initDataBindings(useCase);
 
 		// add command stack listener to refresh tree
 		getCommandStack().addCommandStackListener(new CommandStackListener() {
@@ -273,23 +265,6 @@ public class UsecaseEMFEditorPart extends EditorPart implements IMenuListener, I
 		IValueProperty labelProperty = EMFEditProperties.value(getEditingDomain(), SwprojPackage.Literals.DESCRIBED_ELEMENT__NAME);
 
 		ViewerSupport.bind(tableViewer, emfList, labelProperty);
-	}
-
-	private UseCase getInputUseCase() {
-//		IEditorInput input = getEditorInput();
-//		if (input instanceof URIEditorInput) {
-//			URIEditorInput uriEditorInput = (URIEditorInput) input;
-//	
-//			EObject object = getEditingDomain().getResourceSet().getEObject(uriEditorInput.getURI(), true);
-//			if (object instanceof UseCase) {
-//				return (UseCase) object;
-//			}
-//		}
-
-		UseCaseEditorInput useCaseEditorInput = (UseCaseEditorInput)getEditorInput();
-		return useCaseEditorInput.getUseCase();
-	
-//		return null;
 	}
 
 	@Override

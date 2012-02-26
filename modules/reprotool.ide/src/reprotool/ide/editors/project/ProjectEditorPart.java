@@ -11,6 +11,7 @@ import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.command.AddCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
@@ -254,7 +255,7 @@ public class ProjectEditorPart extends EditorPart implements IMenuListener, IEdi
 				UseCase useCase = UsecaseFactory.eINSTANCE.createUseCase();
 				Command addCommand = new AddCommand(getEditingDomain(), softwareProject, SwprojPackage.Literals.SOFTWARE_PROJECT__USE_CASES, useCase);
 				getEditingDomain().getCommandStack().execute(addCommand);
-				UseCaseEditorInput useCaseEditorInput = new UseCaseEditorInput(useCase, getEditorInput(), getCommandStack(), getEditingDomain());
+				UseCaseEditorInput useCaseEditorInput = new UseCaseEditorInput(EcoreUtil.getURI(useCase), getEditorInput(), getEditingDomain());
 				openUseCaseEmfEditorPage(useCaseEditorInput);
 			}
 		};
@@ -271,8 +272,8 @@ public class ProjectEditorPart extends EditorPart implements IMenuListener, IEdi
 						IStructuredSelection structuredSelection = (IStructuredSelection)selection;
 						UseCase useCase = (UseCase)structuredSelection.getFirstElement();
 						
-						UseCaseEditorInput useCaseEditorInput = new UseCaseEditorInput(useCase, getEditorInput(),
-								getCommandStack(), getEditingDomain());
+						UseCaseEditorInput useCaseEditorInput = new UseCaseEditorInput(EcoreUtil.getURI(useCase), getEditorInput(),
+								getEditingDomain());
 	
 						openUseCaseEmfEditorPage(useCaseEditorInput);
 					}
