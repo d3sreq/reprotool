@@ -119,6 +119,7 @@ import reprotool.ide.editors.usecase.IFirePropertyChange;
 import reprotool.ide.editors.usecase.UnmarkDirtyService;
 import reprotool.ide.editors.usecase.UsecaseEMFEditor;
 import reprotool.model.edit.ext.factory.ProjectOutlineAdapterFactory;
+import reprotool.model.edit.ext.factory.UsecaseEMFEditorAdapterFactory;
 import reprotool.model.usecase.UseCase;
 import reprotool.model.usecase.presentation.ReprotoolEditorPlugin;
 
@@ -487,6 +488,9 @@ public class ProjectEditor extends MultiPageEditorPart implements IEditingDomain
 			changedResources.clear();
 			savedResources.clear();
 		}
+		
+		// change adapter factory in shared editing domain
+		((AdapterFactoryEditingDomain)editingDomain).setAdapterFactory(adapterFactory);
 	}
 
 	private ProjectEditorPart projectEditorPart;
@@ -635,6 +639,7 @@ public class ProjectEditor extends MultiPageEditorPart implements IEditingDomain
 		
 		adapterFactory = new ComposedAdapterFactory();
 		adapterFactory.addAdapterFactory(new ReflectiveItemProviderAdapterFactory());
+//		adapterFactory = new UsecaseEMFEditorAdapterFactory();
 
 		// Create the command stack that will notify this editor as commands are
 		// executed.
@@ -672,6 +677,7 @@ public class ProjectEditor extends MultiPageEditorPart implements IEditingDomain
 		// Create the editing domain with a special command stack.
 		//
 		editingDomain = new AdapterFactoryEditingDomain(adapterFactory, commandStack, new HashMap<Resource, Boolean>());
+		
 		UnmarkDirtyService.INSTANCE.add(commandStack, this);
 	}
 

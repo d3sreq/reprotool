@@ -8,8 +8,11 @@ package reprotool.ide.editors.usecase;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.eclipse.emf.common.ui.viewer.IViewerProvider;
+import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.edit.command.CommandParameter;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
 import org.eclipse.emf.edit.ui.action.ControlAction;
@@ -34,6 +37,7 @@ import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PartInitException;
@@ -51,7 +55,10 @@ import reprotool.model.linguistic.action.FromSystem;
 import reprotool.model.linguistic.action.Goto;
 import reprotool.model.linguistic.action.ToSystem;
 import reprotool.model.linguistic.action.UseCaseInclude;
+import reprotool.model.usecase.Scenario;
 import reprotool.model.usecase.UseCaseStep;
+import reprotool.model.usecase.UsecaseFactory;
+import reprotool.model.usecase.UsecasePackage;
 import reprotool.model.usecase.presentation.ReprotoolEditorPlugin;
 
 /**
@@ -382,23 +389,59 @@ public class UsecaseEMFActionBarContributor
 		}
 	}
 
+	private static List<EReference> useCaseStepReferencesToRetain = new ArrayList<EReference>();
+	private static List<EReference> scenarioReferencesToRetain = new ArrayList<EReference>();
+	static {
+		useCaseStepReferencesToRetain.add(UsecasePackage.eINSTANCE.getUseCaseStep_Extensions());
+		useCaseStepReferencesToRetain.add(UsecasePackage.eINSTANCE.getUseCaseStep_Variations());
+		useCaseStepReferencesToRetain.add(UsecasePackage.eINSTANCE.getParseableElement_Annotations());
+		
+		scenarioReferencesToRetain.add(UsecasePackage.eINSTANCE.getScenario_Steps());
+	}
+	
 	/**
 	 * This generates a {@link org.eclipse.emf.edit.ui.action.CreateChildAction} for each object in <code>descriptors</code>,
 	 * and returns the collection of these actions.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	protected Collection<IAction> generateCreateChildActions(Collection<?> descriptors, ISelection selection) {
 		Collection<IAction> actions = new ArrayList<IAction>();
 		if (descriptors != null) {
+			
+			// change from generated code - get rid of descriptors that should not be showed in popup menu
+			if (selectionHasType(UseCaseStep.class, selection)) {
+				filterDescriptors(descriptors, useCaseStepReferencesToRetain);
+			} else if (selectionHasType(Scenario.class, selection)) {
+				filterDescriptors(descriptors, scenarioReferencesToRetain);
+			} 
+			
 			for (Object descriptor : descriptors) {
 				actions.add(new CreateChildAction(activeEditorPart, selection, descriptor));
 			}
 		}
 		return actions;
 	}
+	
+	private void filterDescriptors(Collection<?> descriptors, Collection<EReference> referencesToRetain) {
+		List<Object> toRetain = new ArrayList<Object>();
+		
+		for (Object descriptor : descriptors) {
+			if (descriptor instanceof CommandParameter 
+					&& referencesToRetain.contains(((CommandParameter)descriptor).getEReference())) {
+				toRetain.add(descriptor);
+			}
+		}
+		
+		descriptors.retainAll(toRetain);
+		
+	}
 
+	private boolean selectionHasType(Class<?> clazz, ISelection selection) {
+		return (selection instanceof TreeSelection) && clazz.isAssignableFrom(((TreeSelection)selection).getFirstElement().getClass());
+	}
+	
 	/**
 	 * This generates a {@link org.eclipse.emf.edit.ui.action.CreateSiblingAction} for each object in <code>descriptors</code>,
 	 * and returns the collection of these actions.
@@ -409,6 +452,13 @@ public class UsecaseEMFActionBarContributor
 	protected Collection<IAction> generateCreateSiblingActions(Collection<?> descriptors, ISelection selection) {
 		Collection<IAction> actions = new ArrayList<IAction>();
 		if (descriptors != null) {
+			// change from generated code - get rid of descriptors that should not be showed in popup menu
+			if (selectionHasType(UseCaseStep.class, selection)) {
+				filterDescriptors(descriptors, scenarioReferencesToRetain);
+			} else if (selectionHasType(Scenario.class, selection)) {
+				filterDescriptors(descriptors, useCaseStepReferencesToRetain);
+			} 
+			
 			for (Object descriptor : descriptors) {
 				actions.add(new CreateSiblingAction(activeEditorPart, selection, descriptor));
 			}

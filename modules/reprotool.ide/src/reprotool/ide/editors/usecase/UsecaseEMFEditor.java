@@ -477,6 +477,9 @@ public class UsecaseEMFEditor extends MultiPageEditorPart implements IEditingDom
 			changedResources.clear();
 			savedResources.clear();
 		}
+		
+		// change adapter factory in shared editing domain
+		((AdapterFactoryEditingDomain)editingDomain).setAdapterFactory(adapterFactory);
 	}
 
 	private UsecaseEMFEditorPart usecaseEditorPart;
