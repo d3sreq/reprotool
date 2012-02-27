@@ -1387,7 +1387,7 @@ public class UsecaseEMFEditor extends MultiPageEditorPart implements IEditingDom
 	@Override
 	public void dispose() {
 		updateProblemIndication = false;
-
+				
 		ResourcesPlugin.getWorkspace().removeResourceChangeListener(resourceChangeListener);
 
 		getSite().getPage().removePartListener(partListener);
@@ -1407,6 +1407,8 @@ public class UsecaseEMFEditor extends MultiPageEditorPart implements IEditingDom
 		}
 		
 		commandStack.removeCommandStackListener(commandStackListener);
+		commandStack.removeCommandStackListener(usecaseEditorPart.getCommandStackListener());
+		
 		UnmarkDirtyService.INSTANCE.remove(commandStack, this);
 		
 		super.dispose();

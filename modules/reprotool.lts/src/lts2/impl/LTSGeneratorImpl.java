@@ -141,7 +141,7 @@ public class LTSGeneratorImpl extends EObjectImpl implements LTSGenerator {
 			State dst = ltsCache.getUCStep2TSrcState().get(gotoAction.getGotoTarget());
 			
 			if ((src == null) || (dst == null)) {
-				return;
+				continue;
 			}
 
 			Transition t = Lts2Factory.eINSTANCE.createTransition();
@@ -153,7 +153,7 @@ public class LTSGeneratorImpl extends EObjectImpl implements LTSGenerator {
 			srcTransitional.getTransitions().add(t);
 			ltsCache.getGotoTransitions().add(t);
 			ltsCache.getUCStep2Trans().put(ucStep, t);
-			ltsCache.getUCStep2TransLayout().put(ucStep, t);
+			ltsCache.getUCStep2TransLayout().put(ucStep, t);			
 		}
 	}
 	
@@ -166,7 +166,6 @@ public class LTSGeneratorImpl extends EObjectImpl implements LTSGenerator {
 	private State processScenario(Scenario scen, State init, State next, boolean mainScenario) {
 		
 		if ((scen == null) || (scen.getSteps().isEmpty())) {
-			System.out.println("Returning null");
 			return null;
 		}
 		

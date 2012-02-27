@@ -203,7 +203,17 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 	
 	private void relabelSingleStep(UseCaseStep step) {
 		Transition t = ucStep2Trans.get(step);
+		
+		if (t == null) {
+			return;
+		}
+		
 		GraphConnection c = trans2Edge.get(t);
+		
+		if (c == null) {
+			return;
+		}
+		
 		UseCase u = getOwnerUseCase(step);
 		String newLabel = generateLabel(step, u);
 		IFigure toolTip = new Label();

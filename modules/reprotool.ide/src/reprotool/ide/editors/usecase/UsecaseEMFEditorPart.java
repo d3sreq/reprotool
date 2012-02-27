@@ -67,6 +67,7 @@ import reprotool.model.usecase.presentation.ReprotoolEditorPlugin;
 public class UsecaseEMFEditorPart extends EditorPart implements IMenuListener, IEditingDomainProvider {
 
 	private UsecaseEMFEditorComposite composite;
+	private CommandStackListener commandStackListener;
 	protected UsecaseEMFEditor parentEditor;
 
 	// used by binding framework
@@ -178,7 +179,7 @@ public class UsecaseEMFEditorPart extends EditorPart implements IMenuListener, I
 		m_bindingContext = initDataBindings(useCase);
 
 		// add command stack listener to refresh tree
-		getCommandStack().addCommandStackListener(new CommandStackListener() {
+		commandStackListener = new CommandStackListener() {
 			
 			public void commandStackChanged(final EventObject event) {
 				
@@ -194,7 +195,9 @@ public class UsecaseEMFEditorPart extends EditorPart implements IMenuListener, I
 						&& ((SetCommand) command).getFeature() == UsecasePackage.Literals.USE_CASE_STEP__ACTION;
 			}
 			
-		});
+		};
+		
+		getCommandStack().addCommandStackListener(commandStackListener);
 
 		composite.getTreeViewer().expandAll();
 		
@@ -219,6 +222,7 @@ public class UsecaseEMFEditorPart extends EditorPart implements IMenuListener, I
 	}
 	
 	void bindUseCase(UseCase useCase) {
+		setInput(useCase);
 		m_bindingContext = initDataBindings(useCase);
 	}
 	
@@ -293,7 +297,8 @@ public class UsecaseEMFEditorPart extends EditorPart implements IMenuListener, I
 
 		ILabelProvider labelProviderFactory = new AdapterFactoryLabelProvider(getAdapterFactory());
 		PrecedingUseCasesAction precedingUseCasesAction = new PrecedingUseCasesAction(getEditingDomain(), useCase, labelProviderFactory);
-		ToolBarManager toolBarManager = composite.getPrecedingUseCasesComposite().getToolBarManager(); 
+		ToolBarManager toolBarManager = composite.getPrecedingUseCasesComposite().getToolBarManager();
+		toolBarManager.removeAll();
 		toolBarManager.add(precedingUseCasesAction);
 		toolBarManager.update(true);
 		
@@ -305,6 +310,7 @@ public class UsecaseEMFEditorPart extends EditorPart implements IMenuListener, I
 		}
 	}
 	
-	
-
+	CommandStackListener getCommandStackListener() {
+		return commandStackListener;
+	}
 }
