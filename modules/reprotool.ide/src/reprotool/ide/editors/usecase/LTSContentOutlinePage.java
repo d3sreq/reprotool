@@ -502,6 +502,10 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 		viewer.applyLayout();
 		viewer.getGraphControl().addMouseListener(mouseListener);
 	}
+	
+	public void setUseCase(UseCase useCase) {
+		this.useCase = useCase;
+	}
 
 	private void redrawDashedConnections() {
 		for (GraphConnection con: dashedArrows) {

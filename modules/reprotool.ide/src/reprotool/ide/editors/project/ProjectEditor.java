@@ -520,21 +520,15 @@ public class ProjectEditor extends MultiPageEditorPart implements IEditingDomain
 						}
 					}
 					projectEditorPart.modelChanged();
-					int c = 0;
-					
 					IEditorReference[] editors = PlatformUI.getWorkbench().getActiveWorkbenchWindow().
 							getActivePage().getEditorReferences();
 					
 					for (IEditorReference editorRef: editors) {
 						IEditorPart editor = editorRef.getEditor(false);
 						if (editor instanceof UsecaseEMFEditor) {
-							c++;
 							((UsecaseEMFEditor) editor).remapBindings();							
 						}
 					}
-					
-					System.out.println("Called remap bindings for " + c + " times.");
-					System.out.println("I have " + editors.length + "editors in list");
 				}
 			}
 

@@ -1109,7 +1109,10 @@ public class UsecaseEMFEditor extends MultiPageEditorPart implements IEditingDom
 	}
 	
 	public void remapBindings() {
-		usecaseEditorPart.bindUseCase(getUseCaseFromResource());
+		UseCase useCase = getUseCaseFromResource();
+		usecaseEditorPart.bindUseCase(useCase);
+		((LTSContentOutlinePage) contentOutlinePage).setUseCase(useCase);
+		((LTSContentOutlinePage) contentOutlinePage).emfModelChanged();
 	}
 
 	/**
