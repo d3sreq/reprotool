@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ASCII"?>
 <swproj:SoftwareProject xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:action="http://d3s.mff.cuni.cz/reprotool/model/linguistic/action" xmlns:annotate="http://d3s.mff.cuni.cz/reprotool/model/usecase/annotate" xmlns:swproj="http://d3s.mff.cuni.cz/reprotool/model/swproj" name="City Map Example">
   <actors name="User"/>
-  <useCases name="Select city on map" primaryActor="//@actors.0">
+  <useCases name="Select city on map" primaryActor="//@actors.0" id="_S6ubcGMbEeGinovcTpRtOA">
     <mainScenario>
       <steps content="The user opens the map web page."/>
       <steps content="The system generates a map with available cities.">
@@ -19,7 +19,7 @@
       </steps>
     </mainScenario>
   </useCases>
-  <useCases name="Generate restaurant map for city" primaryActor="//@actors.0" precedingUseCases="//@useCases.0">
+  <useCases name="Generate restaurant map for city" primaryActor="//@actors.0" precedingUseCases="_S6ubcGMbEeGinovcTpRtOA" id="_S6vCgGMbEeGinovcTpRtOA">
     <mainScenario>
       <steps content="Include use-case &quot;Generate city&quot;.">
         <extensions>
@@ -38,7 +38,7 @@
             <annotations annotationType="//@annotationGroups.0/@members.1" id="abort1"/>
           </scenarioGuard>
         </variations>
-        <action xsi:type="action:UseCaseInclude" includeTarget="//@useCases.2"/>
+        <action xsi:type="action:UseCaseInclude" includeTarget="_S6vpkGMbEeGinovcTpRtOA"/>
       </steps>
       <steps content="System validates the zoom settings.">
         <annotations annotationType="//@annotationGroups.2/@members.1" id="zoom"/>
@@ -58,7 +58,7 @@
       <steps content="System generates restaurant map."/>
     </mainScenario>
   </useCases>
-  <useCases name="Generate city" precedingUseCases="//@useCases.0">
+  <useCases name="Generate city" precedingUseCases="_S6ubcGMbEeGinovcTpRtOA" id="_S6vpkGMbEeGinovcTpRtOA">
     <mainScenario>
       <steps content="The system asks MapServer to provide city information.">
         <annotations annotationType="//@annotationGroups.2/@members.1" id="city"/>
