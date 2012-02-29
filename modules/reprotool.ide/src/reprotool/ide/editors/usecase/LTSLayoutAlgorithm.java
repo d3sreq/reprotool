@@ -186,7 +186,10 @@ public class LTSLayoutAlgorithm extends AbstractLayoutAlgorithm {
 				decrease = true;
 				for (Scenario ext: lastStep.getExtensions()) {
 					UseCaseStep lastExtStep = getLastStep(ext);
-					if (!(lastExtStep.getAction() instanceof Goto)) {
+					if (
+							!(lastExtStep.getAction() instanceof Goto) &&
+							!(lastExtStep.getAction() instanceof AbortUseCase)
+					) {
 						decrease = false;
 					}
 				}
@@ -261,8 +264,9 @@ public class LTSLayoutAlgorithm extends AbstractLayoutAlgorithm {
 				boolean lastStep = (step == getLastStep(s));
 				for (Scenario scenario: step.getExtensions()) {
 					boolean lastStepGoto = (getLastStep(scenario).getAction() instanceof Goto);
+					boolean lastStepAbort = (getLastStep(scenario).getAction() instanceof AbortUseCase);
 					int xx = 0;
-					if (lastStep && lastStepGoto) {
+					if (lastStep && (lastStepGoto || lastStepAbort)) {
 						xx = findFreeColumn(x0, y + 1, countEffectiveSize(scenario), extensionSpan);
 						occupyColumns(scenario, xx, y + 1);
 						processScenario(scenario, xx, y + 1, extensionSpan);
