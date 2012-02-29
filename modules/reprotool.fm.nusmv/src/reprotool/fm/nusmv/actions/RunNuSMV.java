@@ -14,8 +14,6 @@ import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 import org.eclipse.ui.console.MessageConsoleStream;
-import org.eclipselabs.nusmvtools.nusmv4j.NusmvLibrary;
-
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -112,6 +110,9 @@ public class RunNuSMV implements IWorkbenchWindowActionDelegate {
 			}
 			
 			if (!counterExampleGenerated) {
+				if ((!nusmvProj.containsCTLFormulas()) && (!nusmvProj.containsLTLFormulas())) {
+					consoleOut.println("Your project does not contain any CTL/LTL specifications.");
+				}
 				return;
 			}
 			

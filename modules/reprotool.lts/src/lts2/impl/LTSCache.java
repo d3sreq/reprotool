@@ -18,6 +18,17 @@ public class LTSCache {
 	private HashMap<UseCaseStep, Transition> ucStep2Trans = new HashMap<UseCaseStep, Transition>();
 	private HashMap<UseCaseStep, Transition> ucStep2TransLayout = new HashMap<UseCaseStep, Transition>();
 	private HashMap<UseCaseStep, State> ucStep2SrcState = new HashMap<UseCaseStep, State>();
+	private HashMap<UseCaseStep, State> ucStep2GotoState = new HashMap<UseCaseStep, State>();
+	private HashMap<Transition, UseCaseStep> trans2VariationRef = new HashMap<Transition, UseCaseStep>();
+	
+	public HashMap<Transition, UseCaseStep> getTrans2VariationRef() {
+		return trans2VariationRef;
+	}
+
+	public HashMap<UseCaseStep, State> getUcStep2GotoState() {
+		return ucStep2GotoState;
+	}
+
 	private HashMap<State, List<TransitionalState>> extClosures = 
 			new HashMap<State, List<TransitionalState>>();
 

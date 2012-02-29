@@ -73,10 +73,12 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 	private HashMap<UseCase, StateMachine> useCase2Machine = new HashMap<UseCase, StateMachine>();
 	
 	private HashMap<UseCaseStep, Transition> ucStep2Trans = null;
+	private HashMap<UseCaseStep, State> ucStep2GotoState = null;
 	private HashMap<UseCaseStep, Transition> ucStep2TransLayout = null;
 	private HashMap<Transition, GraphNode> trans2Node = new HashMap<Transition, GraphNode>();
 	private List<Transition> gotoTransitions = null;	
 	private HashMap<Transition, GraphConnection> trans2Edge = new HashMap<Transition, GraphConnection>();
+	private HashMap<Transition, UseCaseStep> trans2VariationRef = new HashMap<Transition, UseCaseStep>();
 	private final UsecaseEMFEditor editor;
 	
 	private MouseListener mouseListener;
@@ -149,6 +151,8 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 				ucQueue.addAll(g.getLtsCache().getIncludedUseCases());
 				ucStep2Trans.putAll(g.getLtsCache().getUCStep2Trans());
 				ucStep2TransLayout.putAll(g.getLtsCache().getUCStep2TransLayout());
+				ucStep2GotoState.putAll(g.getLtsCache().getUcStep2GotoState());
+				trans2VariationRef.putAll(g.getLtsCache().getTrans2VariationRef());
 				gotoTransitions.addAll(g.getLtsCache().getGotoTransitions());
 				machine2UseCase.put(g.getLabelTransitionSystem(), u);
 				useCase2Machine.put(u, g.getLabelTransitionSystem());
@@ -163,6 +167,8 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 		ucStep2Trans = generator.getLtsCache().getUCStep2Trans();
 		ucStep2TransLayout = generator.getLtsCache().getUCStep2TransLayout();
 		gotoTransitions = generator.getLtsCache().getGotoTransitions();
+		ucStep2GotoState = generator.getLtsCache().getUcStep2GotoState();
+		trans2VariationRef = generator.getLtsCache().getTrans2VariationRef();
 		generateIncludedMachines(generator.getLtsCache().getIncludedUseCases());
 	}
 	
@@ -385,20 +391,33 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 		GraphConnection con = null;
 		
 		if (transition.getTargetState() == abort) {
-			GraphNode node = new CGraphNode(viewer.getGraphControl(), SWT.NONE,
-					figureProvider.getFigure(abort));
-			node.setData(abort);
-			trans2Node.put(transition, node);
-			con = new GraphConnection(viewer.getGraphControl(), ZestStyles.CONNECTIONS_DIRECTED,
-					state2Node.get(transition.getSourceState()), node);
-			trans2Edge.put(transition, con);
-		} else {
-			con = new GraphConnection(viewer.getGraphControl(), ZestStyles.CONNECTIONS_DIRECTED,
-						state2Node.get(transition.getSourceState()), state2Node.get(transition.getTargetState()));
-			trans2Edge.put(transition, con);
-			if (gotoTransitions.contains(transition)) {
-				con.setCurveDepth(24);
+			if (!trans2VariationRef.containsKey(transition)) {
+				GraphNode node = new CGraphNode(viewer.getGraphControl(), SWT.NONE,
+						figureProvider.getFigure(abort));
+				node.setData(abort);
+				trans2Node.put(transition, node);
+				GraphNode src = state2Node.get(transition.getSourceState());
+				if ((src != null) && (node != null)) {
+					con = new GraphConnection(viewer.getGraphControl(), ZestStyles.CONNECTIONS_DIRECTED, src, node);
+					trans2Edge.put(transition, con);
+				}
+			} else {
+				return;
 			}
+		} else {
+			GraphNode src = state2Node.get(transition.getSourceState());
+			GraphNode dst = state2Node.get(transition.getTargetState());
+			if ((src != null) && (dst != null)) {
+				con = new GraphConnection(viewer.getGraphControl(), ZestStyles.CONNECTIONS_DIRECTED, src, dst);
+				trans2Edge.put(transition, con);
+				if (gotoTransitions.contains(transition)) {
+					con.setCurveDepth(24);
+				}
+			}
+		}
+		
+		if (con == null) {
+			return;
 		}
 		
 		if (transition.getRelatedStep() != null) {
@@ -441,20 +460,38 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 				((Label) toolTip).setText(stringBuffer.toString());
 				con.setTooltip(toolTip);
 			}
+			
 			con.setData(transition.getRelatedStep());
 		}
 	}
 	
 	private void generateGraphEdges(StateMachine m) {
 		figureProvider.setMachine(m);
-		for (Transition t: m.getInitialState().getTransitions()) {
-			processTransition(t, m.getAbortState(), machine2UseCase.get(m));
-		}
-		
-		for (TransitionalState tState: m.getTransitionalStates()) {
-			for (Transition t: tState.getTransitions()) {
+		try {
+			for (Transition t: m.getInitialState().getTransitions()) {
 				processTransition(t, m.getAbortState(), machine2UseCase.get(m));
 			}
+		
+			for (TransitionalState tState: m.getTransitionalStates()) {
+				for (Transition t: tState.getTransitions()) {
+					processTransition(t, m.getAbortState(), machine2UseCase.get(m));
+				}
+			}
+		
+		for (Transition variationAbort: trans2VariationRef.keySet()) {
+			UseCaseStep variatedStep = trans2VariationRef.get(variationAbort);
+			Transition t = ucStep2Trans.get(variatedStep);
+			GraphNode node = trans2Node.get(t);
+			GraphNode src = state2Node.get(variationAbort.getSourceState());
+			if ((src != null) && (node != null)) {
+				GraphConnection con = new GraphConnection(viewer.getGraphControl(), ZestStyles.CONNECTIONS_DIRECTED,
+						src, node);
+				trans2Edge.put(variationAbort, con);
+			}
+		}
+		
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 	
@@ -493,8 +530,15 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 		includedMachines.add(0, machine);
 
 		// layout algorithm
-		LayoutAlgorithm ltsLayout = new LTSLayoutAlgorithm(trans2Node,
-			ucStep2TransLayout, ucStep2Trans, includedMachines, machine2UseCase, useCase2Machine);
+		LayoutAlgorithm ltsLayout = new LTSLayoutAlgorithm(
+				trans2Node,
+				ucStep2TransLayout,
+				ucStep2Trans, 
+				includedMachines,
+				machine2UseCase,
+				useCase2Machine,
+				ucStep2GotoState
+		);
 		
 		viewer.setLayoutAlgorithm(ltsLayout, false);
 		

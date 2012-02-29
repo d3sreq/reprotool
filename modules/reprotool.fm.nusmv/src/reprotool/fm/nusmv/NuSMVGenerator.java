@@ -315,6 +315,9 @@ public class NuSMVGenerator {
 			c++;
 			nextExpr.append(label);
 		}
+		if (c == 0) {
+			nextExpr.append(state);
+		}
 		nextExpr.append("};\n");
 		
 		return nextExpr;
@@ -432,6 +435,7 @@ public class NuSMVGenerator {
 						state.substring(0, state.length() - 1) + ";\n");
 				continue;
 			}
+			
 			Transition t = label2Trans.get(state);
 			State tgt = t.getTargetState();
 			if (tgt instanceof TransitionalState) {
