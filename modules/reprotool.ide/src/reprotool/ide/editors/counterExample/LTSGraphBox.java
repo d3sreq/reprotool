@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import lts2.State;
 import lts2.StateMachine;
 import lts2.Transition;
 
@@ -19,7 +20,16 @@ public class LTSGraphBox {
 	private List<StateMachine> includedMachines;
 	private HashMap<StateMachine, UseCase> machine2UseCase;
 	private HashMap<UseCase, StateMachine> useCase2Machine;
+	private HashMap<UseCaseStep, State> ucStep2GotoState;
 	
+	public HashMap<UseCaseStep, State> getUcStep2GotoState() {
+		return ucStep2GotoState;
+	}
+
+	public void setUcStep2GotoState(HashMap<UseCaseStep, State> ucStep2GotoState) {
+		this.ucStep2GotoState = new HashMap<UseCaseStep, State> (ucStep2GotoState);
+	}
+
 	public HashMap<Transition, GraphNode> getTrans2Node() {
 		return trans2Node;
 	}

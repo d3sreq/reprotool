@@ -292,8 +292,6 @@ public class NuSMVWrapper {
 					Scenario s = (Scenario) ucTrans.getUseCase().getMainScenario();
 					UseCaseStep missingStep = s.getSteps().get(0);
 					Assert.isNotNull(missingStep);
-					step.setLabel(missingStep.getLabel());
-					step.setContent(missingStep.getContent());
 					step.setUcStep(missingStep);
 					ucTrans.getSteps().add(step);
 					
@@ -310,8 +308,6 @@ public class NuSMVWrapper {
 					int i = s.getSteps().indexOf(pred.getUcStep());
 					UseCaseStep missingStep = s.getSteps().get(i + 1);
 					Assert.isNotNull(missingStep);
-					step.setLabel(missingStep.getLabel());
-					step.setContent(missingStep.getContent());
 					step.setUcStep(missingStep);
 					ucTrans.getSteps().add(step);
 				}

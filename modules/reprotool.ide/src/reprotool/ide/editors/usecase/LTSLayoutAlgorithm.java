@@ -74,7 +74,7 @@ public class LTSLayoutAlgorithm extends AbstractLayoutAlgorithm {
 		}
 	}
 	
-	UseCaseStep succStep(UseCaseStep step) {
+	private UseCaseStep succStep(UseCaseStep step) {
 		Scenario s = (Scenario) step.eContainer();
 		int i = s.getSteps().indexOf(step);
 		if (s.getSteps().size() > i + 1) {
@@ -140,7 +140,7 @@ public class LTSLayoutAlgorithm extends AbstractLayoutAlgorithm {
 	}
 	
 
-	boolean hasEffectiveExtension(UseCaseStep step) {
+	private boolean hasEffectiveExtension(UseCaseStep step) {
 		if (step == null) {
 			return false;
 		}
@@ -154,7 +154,7 @@ public class LTSLayoutAlgorithm extends AbstractLayoutAlgorithm {
 		);
 	}
 	
-	UseCaseStep getLastStep(Scenario s) {
+	private UseCaseStep getLastStep(Scenario s) {
 		if (s.getSteps().isEmpty()) {
 			return null;
 		}

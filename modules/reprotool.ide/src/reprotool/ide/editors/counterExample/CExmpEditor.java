@@ -15,8 +15,12 @@ import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IEditorReference;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 
+import reprotool.ide.editors.usecase.UsecaseEMFEditor;
 import reprotool.model.swproj.CounterExample;
 import reprotool.model.swproj.Step;
 import reprotool.model.swproj.UseCaseTransition;
@@ -29,6 +33,7 @@ public class CExmpEditor extends SwprojEditor {
 		addSelectionChangedListener(new ISelectionChangedListener() {
 			
 			public void selectionChanged(SelectionChangedEvent event) {
+				try {
 				if (event.getSelection() instanceof IStructuredSelection) {
 					IStructuredSelection sel = (IStructuredSelection) event.getSelection();
 					Collection<?> col = ((IStructuredSelection)sel).toList();
@@ -44,9 +49,12 @@ public class CExmpEditor extends SwprojEditor {
 							selection.addAll(t.getSteps());
 						}
 					}
-					if (!selection.isEmpty()) {
+					if ((!selection.isEmpty()) && (contentOutlinePage != null)) {
 						((LTSContentOutlinePage) contentOutlinePage).handleEditorUCStepSelected(selection);
 					}
+				}
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
 			}
 		});		
@@ -62,6 +70,27 @@ public class CExmpEditor extends SwprojEditor {
 		}
 		
 		return contentOutlinePage;
+	}
+	
+	@Override
+	public void handleChangedResources() {
+		super.handleChangedResources();
+		if (contentOutlinePage != null) {
+			Resource resource = editingDomain.getResourceSet().getResources().get(0);
+			Object obj = resource.getContents().get(0);
+			CounterExample ce = (CounterExample) obj;
+			((LTSContentOutlinePage) contentOutlinePage).reloadLTSGraph(ce);
+		}
+		
+		IEditorReference[] editors = PlatformUI.getWorkbench().getActiveWorkbenchWindow().
+				getActivePage().getEditorReferences();
+		
+		for (IEditorReference editorRef: editors) {
+			IEditorPart editor = editorRef.getEditor(false);
+			if (editor instanceof UsecaseEMFEditor) {
+				((UsecaseEMFEditor) editor).remapBindings();							
+			}
+		}
 	}
 	
 	public void setLTSSelection(ISelection selection) {
@@ -94,7 +123,7 @@ public class CExmpEditor extends SwprojEditor {
 						Assert.isTrue(step.eContainer() instanceof UseCaseTransition);
 						t = (UseCaseTransition) step.eContainer();
 						UseCase u = t.getUseCase();
-						EditorUtils.openUseCaseEditor(getSite().getPage(), u, ucStep);
+						EditorUtils.openUseCaseEditor(getSite().getPage(), u, ucStep, getEditorInput(), getEditingDomain());
 					}
 				}
 			}

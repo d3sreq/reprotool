@@ -119,7 +119,6 @@ import reprotool.ide.editors.usecase.IFirePropertyChange;
 import reprotool.ide.editors.usecase.UnmarkDirtyService;
 import reprotool.ide.editors.usecase.UsecaseEMFEditor;
 import reprotool.model.edit.ext.factory.ProjectOutlineAdapterFactory;
-import reprotool.model.edit.ext.factory.UsecaseEMFEditorAdapterFactory;
 import reprotool.model.usecase.UseCase;
 import reprotool.model.usecase.presentation.ReprotoolEditorPlugin;
 

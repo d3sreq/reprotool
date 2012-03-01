@@ -94,12 +94,6 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 		this.mouseListener = new MouseAdapter() {
 			
 			public void mouseDown(MouseEvent e) {
-				int scrollX = viewer.getGraphControl().getHorizontalBar().getSelection();
-				int scrollY = viewer.getGraphControl().getVerticalBar().getSelection();
-				IFigure f = viewer.getGraphControl().getFigureAt(e.x + scrollX, e.y + scrollY);				
-				if (f == null) {
-					viewer.getGraphControl().setSelection(null);
-				}
 				if (e.button == 1) {
 					redrawDashedConnections();
 				}
@@ -478,17 +472,17 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 				}
 			}
 		
-		for (Transition variationAbort: trans2VariationRef.keySet()) {
-			UseCaseStep variatedStep = trans2VariationRef.get(variationAbort);
-			Transition t = ucStep2Trans.get(variatedStep);
-			GraphNode node = trans2Node.get(t);
-			GraphNode src = state2Node.get(variationAbort.getSourceState());
-			if ((src != null) && (node != null)) {
-				GraphConnection con = new GraphConnection(viewer.getGraphControl(), ZestStyles.CONNECTIONS_DIRECTED,
-						src, node);
-				trans2Edge.put(variationAbort, con);
+			for (Transition variationAbort: trans2VariationRef.keySet()) {
+				UseCaseStep variatedStep = trans2VariationRef.get(variationAbort);
+				Transition t = ucStep2Trans.get(variatedStep);
+				GraphNode node = trans2Node.get(t);
+				GraphNode src = state2Node.get(variationAbort.getSourceState());
+				if ((src != null) && (node != null)) {
+					GraphConnection con = new GraphConnection(viewer.getGraphControl(), ZestStyles.CONNECTIONS_DIRECTED,
+							src, node);
+					trans2Edge.put(variationAbort, con);
+				}
 			}
-		}
 		
 		} catch (Exception e) {
 			e.printStackTrace();

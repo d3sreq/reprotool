@@ -35,6 +35,7 @@ public class LTSLayoutAlgorithm extends AbstractLayoutAlgorithm {
 	
 	private Scenario mainScenario;
 	private State initialState;
+	private State finalState;
 	private Set<State> abortStates = new HashSet<State>();
 	
 	private HashMap<Integer, Set<Integer>> occupiedCols = new HashMap<Integer, Set<Integer>>();
@@ -43,6 +44,7 @@ public class LTSLayoutAlgorithm extends AbstractLayoutAlgorithm {
 	private HashMap<UseCaseStep, Transition> ucStep2TransLayout = new HashMap<UseCaseStep, Transition>();
 	private HashMap<UseCaseStep, Transition> ucStep2TransOriginal = new HashMap<UseCaseStep, Transition>();
 	private HashMap<GraphNode, InternalNode> graph2Internal = new HashMap<GraphNode, InternalNode>();
+	private HashMap<UseCaseStep, State> ucStep2GotoState = new HashMap<UseCaseStep, State>();
 	
 	private StateMachine workingMachine;
 	private List<StateMachine> includedMachines;
@@ -74,7 +76,30 @@ public class LTSLayoutAlgorithm extends AbstractLayoutAlgorithm {
 		}
 	}
 	
+	private UseCaseStep succStep(UseCaseStep step) {
+		Scenario s = (Scenario) step.eContainer();
+		int i = s.getSteps().indexOf(step);
+		if (s.getSteps().size() > i + 1) {
+			return s.getSteps().get(i + 1); 
+		} else {
+			return null;
+		}
+	}
+	
 	private InternalNode findMappedNode(UseCaseStep step) {
+		if (step.getAction() instanceof Goto) {
+			UseCaseStep succ = succStep(step);
+			if ((succ == null) && (step.getVariations().isEmpty())) {
+				return null;
+			}
+			
+			return state2Node.get(ucStep2GotoState.get(step));
+		}
+		
+		if (!ucStep2TransLayout.containsKey(step)) {
+			return null;
+		}
+		
 		return state2Node.get(ucStep2TransLayout.get(step).getTargetState());
 	}
 	
@@ -116,6 +141,28 @@ public class LTSLayoutAlgorithm extends AbstractLayoutAlgorithm {
 		
 		return col;
 	}
+
+	private boolean hasEffectiveExtension(UseCaseStep step) {
+		if (step == null) {
+			return false;
+		}
+		
+		return (
+			(!step.getExtensions().isEmpty()) &&
+				(
+					!(step.getAction() instanceof Goto) &&
+					!(step.getAction() instanceof AbortUseCase)
+				)
+		);
+	}
+
+	private UseCaseStep getLastStep(Scenario s) {
+		if (s.getSteps().isEmpty()) {
+			return null;
+		}
+		
+		return s.getSteps().get(s.getSteps().size() - 1);
+	}
 	
 	/*
 	 * Goto steps do not use their own graph nodes - they should
@@ -129,15 +176,33 @@ public class LTSLayoutAlgorithm extends AbstractLayoutAlgorithm {
 		int prolong = 0; 
 		
 		for (UseCaseStep step: s.getSteps()) {
-			prolong += step.getExtensions().isEmpty() ? 0 : 1;
+			if (hasEffectiveExtension(step)) {
+				prolong++;
+			}
 		}
 		
-		UseCaseStep lastStep = s.getSteps().get(s.getSteps().size() - 1);
-		if (lastStep.getAction() instanceof Goto) {
-			return s.getSteps().size() - 1 + prolong;
+		UseCaseStep lastStep = getLastStep(s);
+		boolean decrease = false;
+		if (lastStep != null) {
+			if (!lastStep.getExtensions().isEmpty()) {
+				decrease = true;
+				for (Scenario ext: lastStep.getExtensions()) {
+					UseCaseStep lastExtStep = getLastStep(ext);
+					if (
+							!(lastExtStep.getAction() instanceof Goto) &&
+							!(lastExtStep.getAction() instanceof AbortUseCase)
+					) {
+						decrease = false;
+					}
+				}
+			}
 		}
 		
-		return s.getSteps().size() + prolong;		
+		if (decrease) {
+			prolong--;
+		}
+				
+		return s.getSteps().size() + prolong;
 	}
 	
 	private void processScenario(Scenario s, int x0, int y0, SpanDirection span) {
@@ -160,10 +225,6 @@ public class LTSLayoutAlgorithm extends AbstractLayoutAlgorithm {
 		for (int i = s.getSteps().size() - 1; i >= 0; --i) {
 			UseCaseStep step = s.getSteps().get(i);
 			
-			if (step.getAction() instanceof Goto) {
-				continue;
-			}
-			
 			InternalNode node = findMappedNode(step);
 			
 			if ((prediction != null)) {
@@ -183,9 +244,9 @@ public class LTSLayoutAlgorithm extends AbstractLayoutAlgorithm {
 				Transition t = ucStep2TransOriginal.get(step);
 				Assert.isNotNull(t);
 				GraphNode gNode = trans2Node.get(t);
-				Assert.isNotNull(gNode);
-				node = graph2Internal.get(gNode);
-				Assert.isNotNull(node);
+				if (gNode != null) {
+					node = graph2Internal.get(gNode);
+				}
 			}
 			
 			if (step.getAction() instanceof UseCaseInclude) {
@@ -197,21 +258,33 @@ public class LTSLayoutAlgorithm extends AbstractLayoutAlgorithm {
 				}
 			}
 			
-			internal2Board.get(node).setLocation(x, y);
+			if (node != null) {
+				internal2Board.get(node).setLocation(x, y);
+			}
 						
 			if (!step.getExtensions().isEmpty()) {
+				boolean lastStep = (step == getLastStep(s));
 				for (Scenario scenario: step.getExtensions()) {
-					int xx = findFreeColumn(x0, y, countEffectiveSize(scenario), extensionSpan);					
-					occupyColumns(scenario, xx, y);
-					processScenario(scenario, xx, y, extensionSpan);				
-				}
+					boolean lastStepGoto = (getLastStep(scenario).getAction() instanceof Goto);
+					boolean lastStepAbort = (getLastStep(scenario).getAction() instanceof AbortUseCase);
+					int xx = 0;
+					if (lastStep && (lastStepGoto || lastStepAbort)) {
+						xx = findFreeColumn(x0, y + 1, countEffectiveSize(scenario), extensionSpan);
+						occupyColumns(scenario, xx, y + 1);
+						processScenario(scenario, xx, y + 1, extensionSpan);
+					} else {
+						xx = findFreeColumn(x0, y, countEffectiveSize(scenario), extensionSpan);
+						occupyColumns(scenario, xx, y);
+						processScenario(scenario, xx, y, extensionSpan);
+					}
+				}				
 			}
 			
 			y--;
 			
 			if (!step.getVariations().isEmpty()) {
 				int yy = y;
-				if (step.getExtensions().isEmpty()) {
+				if (!hasEffectiveExtension(step)) {
 					yy++;
 				}		
 				for (Scenario scenario: step.getVariations()) {
@@ -359,6 +432,18 @@ public class LTSLayoutAlgorithm extends AbstractLayoutAlgorithm {
 		Assert.isNotNull(node);
 		internal2Board.get(node).setLocation(0, 0);
 	}
+
+	private void processFinalState(int y) {
+		InternalNode node = state2Node.get(finalState);
+		if (node == null) {
+			return;
+		}
+		BoardNode bNode = internal2Board.get(node);
+		Assert.isNotNull(bNode);
+		if (bNode.getY() == 0) {
+			internal2Board.get(node).setLocation(0, y);
+		}
+	}
 	
 	public LTSLayoutAlgorithm(List<LTSGraphBox> ltsParams) {
 		super(LayoutStyles.NO_LAYOUT_NODE_RESIZING);
@@ -402,7 +487,8 @@ public class LTSLayoutAlgorithm extends AbstractLayoutAlgorithm {
 			this.includedMachines = box.getIncludedMachines();
 			this.machine2UseCase = box.getMachine2UseCase();
 			this.useCase2Machine = box.getUseCase2Machine();
-			
+			this.ucStep2GotoState = box.getUcStep2GotoState();
+
 			workingMachine = includedMachines.remove(0);
 			this.initialState = workingMachine.getInitialState();
 			UseCase u = machine2UseCase.get(workingMachine);
@@ -411,6 +497,7 @@ public class LTSLayoutAlgorithm extends AbstractLayoutAlgorithm {
 
 			processInitialState();
 			processScenario(mainScenario, 0, 1, SpanDirection.BOTH);
+			processFinalState(countEffectiveSize(mainScenario));
 			int y0 = freeStartingPosition(nextStart);
 			layoutBoard(0, y0);
 			nextStart = y0 + countEffectiveSize(mainScenario) + 2;
@@ -421,8 +508,9 @@ public class LTSLayoutAlgorithm extends AbstractLayoutAlgorithm {
 				occupiedCols.clear();
 				initialState = workingMachine.getInitialState();
 				processInitialState();
-				processScenario(machine2UseCase.get(workingMachine).getMainScenario(), 0,
-					1 , SpanDirection.BOTH);
+				Scenario mainScenario = machine2UseCase.get(workingMachine).getMainScenario(); 
+				processScenario(mainScenario, 0, 1 , SpanDirection.BOTH);
+				processFinalState(countEffectiveSize(mainScenario));
 			}
 			
 			while (!ltsIncludes.isEmpty()) {

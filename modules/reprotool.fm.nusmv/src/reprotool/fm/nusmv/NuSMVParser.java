@@ -117,7 +117,7 @@ public class NuSMVParser {
 		State prevTarget = null;
 		List<Step> stepPath = ucTrans.getSteps();
 		if (!stepPath.isEmpty()) {
-			prevLabel = stepPath.get(stepPath.size() - 1).getLabel();
+			prevLabel = stepPath.get(stepPath.size() - 1).getUcStep().getLabel();
 			Transition prevTransition = null;
 			if (prevLabel != null) {
 				prevTransition = gen.getLabel2Trans().get("s" + prevLabel);
@@ -169,11 +169,9 @@ public class NuSMVParser {
 		UseCaseStep s = t.getRelatedStep();
 		if (s != null) {
 			step.setUcStep(s);
-			step.setLabel(t.getRelatedStep().getLabel());
-			step.setContent(t.getRelatedStep().getContent());
 		}
 		
-		if (!"".equals(step.getLabel()))
+		if (!"".equals(step.getUcStep().getLabel()))
 			ucTrans.getSteps().add(step);
 	}
 	
@@ -237,7 +235,7 @@ public class NuSMVParser {
 		State prevTarget = null;
 		List<Step> stepPath = ucTrans.getSteps();
 		if (!stepPath.isEmpty()) {
-			prevLabel = stepPath.get(stepPath.size() - 1).getLabel();
+			prevLabel = stepPath.get(stepPath.size() - 1).getUcStep().getLabel();
 			Transition prevTransition = null;
 			if (prevLabel != null) {
 				prevTransition = gen.getLabel2Trans().get("s" + prevLabel);
@@ -289,11 +287,9 @@ public class NuSMVParser {
 		UseCaseStep s = t.getRelatedStep();
 		if (s != null) {
 			step.setUcStep(s);
-			step.setLabel(t.getRelatedStep().getLabel());
-			step.setContent(t.getRelatedStep().getContent());
 		}
 		
-		if (!"".equals(step.getLabel()))
+		if (!"".equals(step.getUcStep().getLabel()))
 			ucTrans.getSteps().add(step);
 	}
 
