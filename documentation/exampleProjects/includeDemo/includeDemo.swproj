@@ -3,7 +3,7 @@
   <actors name="Actor_A"/>
   <actors name="Actor_B"/>
   <actors name="Actor_C"/>
-  <useCases name="UseCase 1" primaryActor="//@actors.0">
+  <useCases name="UseCase 1" primaryActor="//@actors.0" id="_Hf8hoGJUEeGnPvoQtctGxw">
     <mainScenario>
       <steps content="Step forward">
         <annotations annotationType="//@annotationGroups.1/@members.0" id="file"/>
@@ -36,13 +36,13 @@
       </steps>
     </mainScenario>
   </useCases>
-  <useCases name="UseCase 2" primaryActor="//@actors.1" precedingUseCases="//@useCases.0">
+  <useCases name="UseCase 2" primaryActor="//@actors.1" precedingUseCases="_Hf8hoGJUEeGnPvoQtctGxw" id="_Hf-W0GJUEeGnPvoQtctGxw">
     <mainScenario>
       <steps>
         <extensions>
           <steps/>
           <steps>
-            <action xsi:type="action:UseCaseInclude" includeTarget="//@useCases.0"/>
+            <action xsi:type="action:UseCaseInclude" includeTarget="_Hf8hoGJUEeGnPvoQtctGxw"/>
           </steps>
         </extensions>
       </steps>
@@ -50,7 +50,7 @@
       <steps/>
     </mainScenario>
   </useCases>
-  <useCases name="UseCase 3" primaryActor="//@actors.2" precedingUseCases="//@useCases.1 //@useCases.0">
+  <useCases name="UseCase 3" primaryActor="//@actors.2" precedingUseCases="_Hf-W0GJUEeGnPvoQtctGxw _Hf8hoGJUEeGnPvoQtctGxw" id="_Hf-W0WJUEeGnPvoQtctGxw">
     <mainScenario>
       <steps content="Seller submits item description">
         <textNodes length="6" actionPart="//@useCases.0/@mainScenario/@steps.0/@extensions.0/@steps.1/@action/@sentenceActivity"/>
@@ -67,7 +67,7 @@
             <action xsi:type="action:AbortUseCase"/>
           </steps>
         </extensions>
-        <action xsi:type="action:UseCaseInclude" includeTarget="//@useCases.1"/>
+        <action xsi:type="action:UseCaseInclude" includeTarget="_Hf-W0GJUEeGnPvoQtctGxw"/>
       </steps>
       <steps>
         <annotations annotationType="//@annotationGroups.1/@members.1" id="file"/>

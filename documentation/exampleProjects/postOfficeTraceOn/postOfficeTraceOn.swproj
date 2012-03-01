@@ -2,7 +2,7 @@
 <swproj:SoftwareProject xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:action="http://d3s.mff.cuni.cz/reprotool/model/linguistic/action" xmlns:annotate="http://d3s.mff.cuni.cz/reprotool/model/usecase/annotate" xmlns:swproj="http://d3s.mff.cuni.cz/reprotool/model/swproj" name="Post Office" description="The project describes a letter delivery">
   <actors name="Peter" description=""/>
   <actors name="Officer" description=""/>
-  <useCases name="writeLetter" description="How a letter is written by Peter" primaryActor="//@actors.0">
+  <useCases name="writeLetter" description="How a letter is written by Peter" primaryActor="//@actors.0" id="_t7tWQGOvEeG3f_GONvVIAg">
     <mainScenario>
       <steps content="Peter looks at his watches">
         <extensions>
@@ -20,7 +20,7 @@
         <extensions>
           <steps content="Peter leaves the building"/>
           <steps content="Include use-case buyEnvelope">
-            <action xsi:type="action:UseCaseInclude" includeTarget="//@useCases.1"/>
+            <action xsi:type="action:UseCaseInclude" includeTarget="_t7t9UGOvEeG3f_GONvVIAg"/>
           </steps>
           <scenarioGuard content="Peter does not have a spare envelope"/>
         </extensions>
@@ -33,7 +33,7 @@
       </steps>
     </mainScenario>
   </useCases>
-  <useCases name="buyEnvelope" description="Peter buys an envelope" primaryActor="//@actors.0">
+  <useCases name="buyEnvelope" description="Peter buys an envelope" primaryActor="//@actors.0" id="_t7t9UGOvEeG3f_GONvVIAg">
     <mainScenario>
       <steps content="Peter goes to the shop"/>
       <steps content="Peter stands the queue"/>
@@ -41,7 +41,7 @@
       <steps content="Peter goes home"/>
     </mainScenario>
   </useCases>
-  <useCases name="takeLetter" description="Peter takes letter to the post" primaryActor="//@actors.1" precedingUseCases="//@useCases.0">
+  <useCases name="takeLetter" description="Peter takes letter to the post" primaryActor="//@actors.1" precedingUseCases="_t7tWQGOvEeG3f_GONvVIAg" id="_t7t9UWOvEeG3f_GONvVIAg">
     <mainScenario>
       <steps content="Peter goes to the post office"/>
       <steps content="Peter stands the queue"/>
