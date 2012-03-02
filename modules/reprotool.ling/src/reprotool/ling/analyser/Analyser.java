@@ -9,6 +9,15 @@ import org.eclipse.emf.edit.command.AddCommand;
 import org.eclipse.emf.edit.command.RemoveCommand;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.ui.handlers.HandlerUtil;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IMarker;
+import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.JavaCore;
 
 import reprotool.ling.LingConfig;
 import reprotool.ling.Sentence;
@@ -180,6 +189,27 @@ public class Analyser {
 			}
 		}
 		// internal action
+			
+		IJavaProject targetProject = null;
+		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+		System.out.println(root.toString());
+		for (IProject project : root.getProjects()) {
+			System.out.println(project.getName());
+			if (project.getName().equals("reprotool.ling")) {
+				try {
+					// if (project.hasNature("org.eclipse.jdt.core.javanature"))
+					// {
+					targetProject = (IJavaProject) project;
+					IResource resource = targetProject.getUnderlyingResource();
+					IMarker marker = resource.createMarker(IMarker.TASK);
+					marker.setAttribute(IMarker.MESSAGE, "This a a task");
+					marker.setAttribute(IMarker.PRIORITY, IMarker.PRIORITY_HIGH);
+					// }
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
 
 		// THE REST
 		if (!definedAction) {
@@ -238,16 +268,17 @@ public class Analyser {
 				}
 			}
 		}
-		
-		labelIndex++;
-		// skip prep
-		if(labelIndex > 0 && sentence.getWords().size() > labelIndex && sentence.getWords().get(labelIndex) != null){
-			if(!sentence.getWords().get(labelIndex).isNumeral())
-				labelIndex++;
+		// next word after usecase
+		labelIndex++;		
+		// skip preposition
+		int numeralIndex = labelIndex;
+		if(numeralIndex > 0 && sentence.getWords().size() > numeralIndex && sentence.getWords().get(numeralIndex) != null){
+			if(!sentence.getWords().get(numeralIndex).isNumeral())
+				numeralIndex++;
 		}
-		
-		if(labelIndex > -1 && sentence.getWords().size() > labelIndex && sentence.getWords().get(labelIndex) != null) {
-			Word label = sentence.getWords().get(labelIndex);
+		// try to find by index
+		if(numeralIndex > -1 && sentence.getWords().size() > numeralIndex && sentence.getWords().get(numeralIndex) != null) {
+			Word label = sentence.getWords().get(numeralIndex);
 			int index = 0;
 			try{
 				index = Integer.parseInt(label.getLemma());
@@ -255,12 +286,26 @@ public class Analyser {
 				// checked by next step .isNumeral()
 			}
 			
-			if(label.isNumeral() && ucs.getSoftwareProjectShortcut().getUseCases().size() > index) {
+			if(index != 0 && label.isNumeral() && ucs.getSoftwareProjectShortcut().getUseCases().size() > index) {
 				setUseCaseInclude(ucs, ucs.getSoftwareProjectShortcut().getUseCases().get(index), label);
 				found = true;
 			}
 		}
 		
+		// try to find by name
+		if(!found){
+			if(labelIndex > 0) {
+				for(int i = labelIndex; i < sentence.getWords().size(); i++) {
+					for(UseCase uc : ucs.getSoftwareProjectShortcut().getUseCases()){
+						if(uc.getName().equals(sentence.getWords().get(i).getLemma())){
+							setUseCaseInclude(ucs, uc, sentence.getWords().get(i));
+							found = true;
+							return found;
+						}
+					}
+				}
+			}
+		}
 		return found;
 	}
 	
