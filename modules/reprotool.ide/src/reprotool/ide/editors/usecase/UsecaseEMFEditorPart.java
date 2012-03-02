@@ -182,18 +182,9 @@ public class UsecaseEMFEditorPart extends EditorPart implements IMenuListener, I
 			
 			public void commandStackChanged(final EventObject event) {
 				
-				// refresh viewer after action change
-				Command mostRecentCommand = getCommandStack().getMostRecentCommand();
-				if (isActionChanging(mostRecentCommand)) {
-					composite.getTreeViewer().refresh(true);
-				}
+				// refresh viewer - need to refresh labels after step add/delete
+				composite.getTreeViewer().refresh(true);
 			}
-
-			private boolean isActionChanging(Command command) {
-				return (command instanceof SetCommand)
-						&& ((SetCommand) command).getFeature() == UsecasePackage.Literals.USE_CASE_STEP__ACTION;
-			}
-			
 		};
 		
 		getCommandStack().addCommandStackListener(commandStackListener);

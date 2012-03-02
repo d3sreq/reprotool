@@ -401,6 +401,9 @@ public class SentenceAnalysisSheetPage extends Page implements ISentenceAnalysis
 				boxContainer.redraw();
 				boxContainer.layout();
 				boxContainer.redraw();
+				
+				// refresh goto list (bound to derived feature, no notification about it's change is generated)
+				boxContainer.getGotoUseCaseStepBox().getComboViewer().refresh(true);
 			}
 		};
 		
