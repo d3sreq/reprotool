@@ -78,6 +78,18 @@
             name="Reprotool Project"
             project="true">
       </wizard>
+      <category
+            id="reprotool.ide.examplesCategory"
+            name="Reprotool Examples"
+            parentCategory="reprotool.ide.category1">
+      </category>
+      <wizard
+            category="reprotool.ide.category1/reprotool.ide.examplesCategory"
+            class="org.eclipse.emf.common.ui.wizard.ExampleInstallerWizard"
+            id="reprotool.exampleProjects.wizard1"
+            name="Citymap Example Project"
+            project="true">
+      </wizard>
    </extension>
    <extension
          point="org.eclipse.ui.preferencePages">

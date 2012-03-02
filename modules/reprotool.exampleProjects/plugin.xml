@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.emf.common.ui.examples">
+      <example
+            wizardID="reprotool.exampleProjects.wizard1">
+         <projectDescriptor
+               contentURI="src/cityMap.swproj.zip"
+               description="Reprotool citymap example project"
+               name="citymap example">
+         </projectDescriptor>
+         <fileToOpen
+               location="citymap example/cityMap.swproj">
+         </fileToOpen>
+      </example>
+   </extension>
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <category
+            id="reprotool.exampleProjects.categoryReprotool"
+            name="Reprotool"
+            parentCategory="org.eclipse.ui.Examples">
+      </category>
+      <wizard
+            category="org.eclipse.ui.Examples/reprotool.exampleProjects.categoryReprotool"
+            class="org.eclipse.emf.common.ui.wizard.ExampleInstallerWizard"
+            finalPerspective="reprotool.ide.perspectives.ReprotoolPerspective"
+            id="reprotool.exampleProjects.wizard1"
+            name="Citymap Example Project"
+            project="true">
+      </wizard>
+   </extension>
+
+</plugin>

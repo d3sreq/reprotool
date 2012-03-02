@@ -27,14 +27,18 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.ui.IImportWizard;
 import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.console.MessageConsoleStream;
+
 import reprotool.ide.txtuc.txtUseCase.UseCase;
 import reprotool.model.swproj.Actor;
 import reprotool.model.swproj.SoftwareProject;
 import reprotool.model.swproj.SwprojFactory;
+import reprotool.txtimport.Activator;
 import reprotool.txtimport.UseCaseGenerator;
 
 
 public class ImportWizard extends Wizard implements IImportWizard {
+	final private MessageConsoleStream consoleOut = Activator.getDefault().findConsole().newMessageStream();	
 	private InputSelectionPage inputSelectionPage;
 	private OutputSelectionPage outputSelectionPage;
 	private Resource projRes;
@@ -181,6 +185,11 @@ public class ImportWizard extends Wizard implements IImportWizard {
 		}
 		
 		saveProjectModel();
+		
+		// show the console
+		consoleOut.getConsole().clearConsole();
+		consoleOut.getConsole().activate();
+		consoleOut.println("Import performed successfully.");
 		
         return true;
 	}

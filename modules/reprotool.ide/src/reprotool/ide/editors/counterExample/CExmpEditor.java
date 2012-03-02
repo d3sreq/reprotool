@@ -34,25 +34,25 @@ public class CExmpEditor extends SwprojEditor {
 			
 			public void selectionChanged(SelectionChangedEvent event) {
 				try {
-				if (event.getSelection() instanceof IStructuredSelection) {
-					IStructuredSelection sel = (IStructuredSelection) event.getSelection();
-					Collection<?> col = ((IStructuredSelection)sel).toList();
-					List<Step> selection = new ArrayList<Step>();
-					Iterator<?> it = col.iterator();
-					while(it.hasNext()) {
-						Object obj = it.next();
-						if (obj instanceof Step) {
-							Step s = (Step) obj;
-							selection.add(s);
-						} else if (obj instanceof UseCaseTransition) {
-							UseCaseTransition t = (UseCaseTransition) obj;
-							selection.addAll(t.getSteps());
+					if (event.getSelection() instanceof IStructuredSelection) {
+						IStructuredSelection sel = (IStructuredSelection) event.getSelection();
+						Collection<?> col = ((IStructuredSelection)sel).toList();
+						List<Step> selection = new ArrayList<Step>();
+						Iterator<?> it = col.iterator();
+						while(it.hasNext()) {
+							Object obj = it.next();
+							if (obj instanceof Step) {
+								Step s = (Step) obj;
+								selection.add(s);
+							} else if (obj instanceof UseCaseTransition) {
+								UseCaseTransition t = (UseCaseTransition) obj;
+								selection.addAll(t.getSteps());
+							}
+						}
+						if ((!selection.isEmpty()) && (contentOutlinePage != null)) {
+							((LTSContentOutlinePage) contentOutlinePage).handleEditorUCStepSelected(selection);
 						}
 					}
-					if ((!selection.isEmpty()) && (contentOutlinePage != null)) {
-						((LTSContentOutlinePage) contentOutlinePage).handleEditorUCStepSelected(selection);
-					}
-				}
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

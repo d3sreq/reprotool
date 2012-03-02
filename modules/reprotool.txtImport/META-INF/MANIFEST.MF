@@ -11,6 +11,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.emf.ecore;bundle-version="2.7.0",
  reprotool.ide.txtuc;bundle-version="1.0.0",
  reprotool.ide.txtuc.ui;bundle-version="1.0.0",
- reprotool.model;bundle-version="0.1.0"
+ reprotool.model;bundle-version="0.1.0",
+ org.eclipse.ui.console;bundle-version="3.5.100"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
