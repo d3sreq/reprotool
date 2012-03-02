@@ -1068,23 +1068,6 @@ public class ProjectEditor extends MultiPageEditorPart implements IEditingDomain
 					contentOutlineViewer.setInput(editingDomain.getResourceSet().getResources().get(0));
 					contentOutlineViewer.expandAll();
 
-					contentOutlineViewer.addDoubleClickListener(new IDoubleClickListener() {
-
-						@Override
-						public void doubleClick(DoubleClickEvent event) {
-							ISelection selection = event.getSelection();
-							if (!selection.isEmpty() && selection instanceof StructuredSelection) {
-								StructuredSelection structuredSelection = (StructuredSelection) selection;
-
-								Object first = structuredSelection.getFirstElement();
-								if (first instanceof UseCase) {
-									UseCase useCase = (UseCase) first;
-									openUseCaseEditor(useCase);
-								}
-							}
-						}
-					});
-
 					// Make sure our popups work.
 					//
 					// createContextMenuFor(contentOutlineViewer);
