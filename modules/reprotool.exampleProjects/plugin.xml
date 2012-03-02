@@ -6,7 +6,7 @@
       <example
             wizardID="reprotool.exampleProjects.wizard1">
          <projectDescriptor
-               contentURI="src/cityMap.swproj.zip"
+               contentURI="resources/cityMap.swproj.zip"
                description="Reprotool citymap example project"
                name="citymap example">
          </projectDescriptor>
