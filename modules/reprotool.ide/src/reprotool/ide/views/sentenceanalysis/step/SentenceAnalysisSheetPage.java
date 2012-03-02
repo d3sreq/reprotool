@@ -33,7 +33,9 @@ import org.eclipse.jface.viewers.ComboBoxViewerCellEditor;
 import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
@@ -113,8 +115,6 @@ public class SentenceAnalysisSheetPage extends Page implements ISentenceAnalysis
 	}
 
 	private void bindInclude(DataBindingContext bindingContext, IObservableValue emfValue) {
-		// use case include
-		bindBoxVisibility(bindingContext, emfValue, boxContainer.getIncludeUseCaseBox(), "includeTarget");
 		// TODO - jvinarek - filter out selected use case step ?
 		bindIncludeUseCaseList(bindingContext);
 		// @formatter:off
@@ -137,7 +137,7 @@ public class SentenceAnalysisSheetPage extends Page implements ISentenceAnalysis
 	}
 
 	private void bindGoto(DataBindingContext bindingContext, IObservableValue emfValue) {
-		bindBoxVisibility(bindingContext, emfValue, boxContainer.getGotoUseCaseStepBox(), "gotoTarget");
+//		bindBoxVisibility(bindingContext, emfValue, boxContainer.getGotoUseCaseStepBox(), "gotoTarget");
 		bindGotoList(bindingContext);
 		// @formatter:off
 		bindMarkedText(bindingContext,
@@ -160,7 +160,7 @@ public class SentenceAnalysisSheetPage extends Page implements ISentenceAnalysis
 
 	private void bindReceiver(DataBindingContext bindingContext, IObservableValue emfValue) {
 		// @formatter:off
-		bindBoxVisibility(bindingContext, emfValue, boxContainer.getReceiverBox(), "receiver");
+//		bindBoxVisibility(bindingContext, emfValue, boxContainer.getReceiverBox(), "receiver");
 		bindActorList(bindingContext, boxContainer.getReceiverBox().getComboViewer());
 		bindMarkedText(bindingContext, 
 				boxContainer.getReceiverBox().getLblMarkedText(),
@@ -184,7 +184,7 @@ public class SentenceAnalysisSheetPage extends Page implements ISentenceAnalysis
 
 	private void bindSentenceActivity(DataBindingContext bindingContext, IObservableValue emfValue) {
 		// @formatter:off
-		bindBoxVisibility(bindingContext, emfValue, boxContainer.getSentenceActivityBox(), "sentenceActivity");
+//		bindBoxVisibility(bindingContext, emfValue, boxContainer.getSentenceActivityBox(), "sentenceActivity");
 		bindMarkedText(bindingContext, 
 				boxContainer.getSentenceActivityBox().getLblMarkedText(),
 				FeaturePath.fromList(
@@ -199,7 +199,7 @@ public class SentenceAnalysisSheetPage extends Page implements ISentenceAnalysis
 
 	private void bindSender(DataBindingContext bindingContext, IObservableValue emfValue) {
 		// @formatter:off
-		bindBoxVisibility(bindingContext, emfValue, boxContainer.getSenderBox(), "sender");
+//		bindBoxVisibility(bindingContext, emfValue, boxContainer.getSenderBox(), "sender");
 		bindMarkedText(bindingContext, 
 				boxContainer.getSenderBox().getLblMarkedText(),
 				FeaturePath.fromList(
@@ -222,8 +222,6 @@ public class SentenceAnalysisSheetPage extends Page implements ISentenceAnalysis
 	}
 
 	private void bindActionParams(DataBindingContext bindingContext, IObservableValue emfValue) {
-		bindActionParamBoxVisibility(bindingContext, emfValue, boxContainer.getActionParamBox());
-		
 		TableViewer tableViewer = boxContainer.getActionParamBox().getTableViewer();
 
 		// get action from use case step
@@ -258,13 +256,6 @@ public class SentenceAnalysisSheetPage extends Page implements ISentenceAnalysis
 		
 		// bind items - values from which user selects
 		bindConceptualObjectsList(bindingContext, cellEditor.getViewer());
-	}
-
-	private void bindActionParamBoxVisibility(DataBindingContext bindingContext, IObservableValue emfValue, ParamBox paramBox) {
-		IObservableValue widgetValue = PojoProperties.value("visibleAndInclude").observe(paramBox);
-		UpdateValueStrategy strategy = new UpdateValueStrategy();
-		strategy.setConverter(new ActionParamBoxVisibleConverter());
-		bindingContext.bindValue(widgetValue, emfValue, null, strategy);
 	}
 
 	private void bindActionSelection(DataBindingContext bindingContext, IObservableValue emfValue) {
@@ -361,21 +352,6 @@ public class SentenceAnalysisSheetPage extends Page implements ISentenceAnalysis
 		IObservableValue emfValue = EMFEditProperties.value(editingDomain, featurePath).observeDetail(writableValue);
 		bindingContext.bindValue(emfValue, widgetValue);
 	}
-
-	/**
-	 * Binds visibility of the box to the given emfValue which is converted to boolean.  
-	 * 
-	 * @param bindingContext
-	 * @param emfValue
-	 * @param box
-	 * @param referenceName
-	 */
-	private void bindBoxVisibility(DataBindingContext bindingContext, IObservableValue emfValue, Composite box, String referenceName) {
-		IObservableValue widgetValue = PojoProperties.value("visibleAndInclude").observe(box);
-		UpdateValueStrategy strategy = new UpdateValueStrategy();
-		strategy.setConverter(new BoxVisibleConverter(referenceName));
-		bindingContext.bindValue(widgetValue, emfValue, null, strategy);
-	}
 	
 	/**
 	 * Create contents of the PageBookView Page.
@@ -408,6 +384,23 @@ public class SentenceAnalysisSheetPage extends Page implements ISentenceAnalysis
 		};
 		
 		editingDomain.getCommandStack().addCommandStackListener(commandStackListener);
+		
+		// action type change listener
+		boxContainer.getActionTypeBox().getComboViewer().addSelectionChangedListener(new ISelectionChangedListener() {
+			
+			@Override
+			public void selectionChanged(SelectionChangedEvent event) {
+				IStructuredSelection selection = (IStructuredSelection)event.getSelection();
+				
+				EComboActionType actionType = null;
+				if (selection != null) {
+					actionType = (EComboActionType)selection.getFirstElement();
+				}
+				setBoxVisibility(actionType);
+				boxContainer.layout(true);
+				boxContainer.redraw();
+			}
+		});
 	}
 	
 	@Override
@@ -446,6 +439,25 @@ public class SentenceAnalysisSheetPage extends Page implements ISentenceAnalysis
 			
 			boxContainer.layout();
 		}
+	}
+	
+	private void setBoxVisibility(EComboActionType comboActionType) {
+		boxContainer.getSentenceActivityBox().setVisibleAndInclude(
+				comboActionType == EComboActionType.FROM_SYSTEM 
+				|| comboActionType == EComboActionType.TO_SYSTEM 
+				|| comboActionType == EComboActionType.INTERNAL);
+		boxContainer.getIncludeUseCaseBox().setVisibleAndInclude(
+				comboActionType == EComboActionType.USE_CASE_INCLUDE);
+		boxContainer.getGotoUseCaseStepBox().setVisibleAndInclude(
+				comboActionType == EComboActionType.GOTO);
+		boxContainer.getReceiverBox().setVisibleAndInclude(
+				comboActionType == EComboActionType.FROM_SYSTEM);
+		boxContainer.getActionParamBox().setVisibleAndInclude(
+				comboActionType == EComboActionType.FROM_SYSTEM 
+				|| comboActionType == EComboActionType.TO_SYSTEM 
+				|| comboActionType == EComboActionType.INTERNAL);
+		boxContainer.getSenderBox().setVisibleAndInclude(				 
+				comboActionType == EComboActionType.TO_SYSTEM);
 	}
 
 	protected ISaveablePart getSaveablePart() {

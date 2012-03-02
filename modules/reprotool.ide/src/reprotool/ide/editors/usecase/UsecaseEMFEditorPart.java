@@ -15,9 +15,13 @@ import org.eclipse.emf.common.command.CommandStackListener;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.databinding.FeaturePath;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
+import org.eclipse.emf.edit.command.AddCommand;
+import org.eclipse.emf.edit.command.CreateChildCommand;
+import org.eclipse.emf.edit.command.DeleteCommand;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
+import org.eclipse.emf.edit.ui.action.CreateChildAction;
 import org.eclipse.emf.edit.ui.dnd.EditingDomainViewerDropAdapter;
 import org.eclipse.emf.edit.ui.dnd.LocalTransfer;
 import org.eclipse.emf.edit.ui.dnd.ViewerDragAdapter;
@@ -182,8 +186,20 @@ public class UsecaseEMFEditorPart extends EditorPart implements IMenuListener, I
 			
 			public void commandStackChanged(final EventObject event) {
 				
-				// refresh viewer - need to refresh labels after step add/delete
-				composite.getTreeViewer().refresh(true);
+				// refresh viewer after action change
+				Command mostRecentCommand = getCommandStack().getMostRecentCommand();
+				if (isActionChanging(mostRecentCommand) || isStepAddOrRemove(mostRecentCommand)) {
+					composite.getTreeViewer().refresh(true);
+				}
+			}
+
+			private boolean isActionChanging(Command command) {
+				return (command instanceof SetCommand)
+						&& ((SetCommand) command).getFeature() == UsecasePackage.Literals.USE_CASE_STEP__ACTION;
+			}
+			
+			private boolean isStepAddOrRemove(Command command) {
+				return (command instanceof CreateChildCommand) || (command instanceof DeleteCommand);
 			}
 		};
 		
