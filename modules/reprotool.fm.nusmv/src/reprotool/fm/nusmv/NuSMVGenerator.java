@@ -225,6 +225,10 @@ public class NuSMVGenerator {
 				c++;
 				nextExpr.append(label);
 			}
+			
+			if (c == 0) {
+				nextExpr.append(state);
+			}
 			nextExpr.append("};\n");
 		}
 		
@@ -259,6 +263,11 @@ public class NuSMVGenerator {
 			c++;
 			nextExpr.append(label);
 		}
+		
+		if (c == 0) {
+			nextExpr.append(state);
+		}
+		
 		nextExpr.append("};\n");
 
 		return nextExpr;
