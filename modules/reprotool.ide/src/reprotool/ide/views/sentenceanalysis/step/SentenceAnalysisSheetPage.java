@@ -437,6 +437,8 @@ public class SentenceAnalysisSheetPage extends Page implements ISentenceAnalysis
 			UseCaseStep useCaseStep = (UseCaseStep)object; 
 			writableValue.setValue(useCaseStep);
 			
+			setBoxVisibility(EComboActionType.createEnum(useCaseStep.getAction()));
+			
 			boxContainer.layout();
 		}
 	}
