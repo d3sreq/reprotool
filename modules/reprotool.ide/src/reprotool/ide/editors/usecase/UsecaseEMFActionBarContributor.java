@@ -57,7 +57,6 @@ import reprotool.model.linguistic.action.ToSystem;
 import reprotool.model.linguistic.action.UseCaseInclude;
 import reprotool.model.usecase.Scenario;
 import reprotool.model.usecase.UseCaseStep;
-import reprotool.model.usecase.UsecaseFactory;
 import reprotool.model.usecase.UsecasePackage;
 import reprotool.model.usecase.presentation.ReprotoolEditorPlugin;
 

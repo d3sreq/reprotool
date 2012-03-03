@@ -178,5 +178,21 @@
          </adapter>
       </factory>
    </extension>
+   <extension
+         point="org.eclipse.ui.bindings">
+      <key
+            commandId="reprotool.ide.usecase.addstep"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="CTRL+ENTER">
+      </key>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            defaultHandler="reprotool.ide.editors.usecase.AddUseCaseStepStepHandler"
+            id="reprotool.ide.usecase.addstep"
+            name="Add use case step">
+      </command>
+   </extension>
 
 </plugin>
