@@ -113,7 +113,11 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 					while(it.hasNext()) {
 						Object obj = it.next();
 						if (obj instanceof UseCaseStep) {
-							selection.add((UseCaseStep) obj);
+							UseCaseStep step = (UseCaseStep) obj;
+							Scenario s = (Scenario) step.eContainer();
+							if (s != null) {
+								selection.add(step);
+							}
 						}
 					}
 					if (!selection.isEmpty()) {

@@ -93,13 +93,16 @@ import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorSite;
+import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPartListener;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.ide.IGotoMarker;
 import org.eclipse.ui.part.MultiPageEditorPart;
 import org.eclipse.ui.part.MultiPageSelectionProvider;
+import org.eclipse.ui.part.PageBookView;
 import org.eclipse.ui.views.contentoutline.ContentOutline;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 import org.eclipse.ui.views.properties.IPropertySheetPage;
@@ -1441,6 +1444,31 @@ public class UsecaseEMFEditor extends MultiPageEditorPart implements IEditingDom
 	
 	public void setLTSSelection(ISelection selection) {
 		usecaseEditorPart.getComposite().getTreeViewer().setSelection(selection);
+		
+		PropertySheet propertyView = null;
+		try{
+			propertyView = (PropertySheet) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().
+				findView(IPageLayout.ID_PROP_SHEET);
+		} catch (Exception e) {}
+		
+		if(propertyView != null) {
+			propertyView.partActivated(this);
+			propertyView.selectionChanged(this, selection);
+		}
+		
+		PageBookView analysisView = null;
+		try{
+			analysisView = (PageBookView) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().
+				findView("reprotool.ide.views.sentenceanalysis.SentenceAnalysisSheet");
+		} catch (Exception e) {}
+		
+		if (analysisView != null) {
+			analysisView.partActivated(this);
+		}
+		
+		if (sentenceAnalysisSheetPage != null) {
+			sentenceAnalysisSheetPage.selectionChanged(this, selection);
+		}
 	}
 
 	// exposed to allow setting of the partName from contained pages  
