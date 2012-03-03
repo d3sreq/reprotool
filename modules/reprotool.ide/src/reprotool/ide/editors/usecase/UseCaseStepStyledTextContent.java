@@ -17,6 +17,7 @@ import org.eclipse.swt.custom.TextChangeListener;
 import org.eclipse.swt.custom.TextChangedEvent;
 import org.eclipse.swt.custom.TextChangingEvent;
 
+import reprotool.model.linguistic.action.Action;
 import reprotool.model.linguistic.action.ActionPackage;
 import reprotool.model.linguistic.action.Communication;
 import reprotool.model.linguistic.action.FromSystem;
@@ -440,12 +441,19 @@ public class UseCaseStepStyledTextContent implements StyledTextContent {
 				// set action part linked from text to null
 				SetCommand setCommand = new SetCommand(editingDomain, textRange.getActionPart(), ActionpartPackage.Literals.ACTION_PART__TEXT, null);
 				compoundCommand.append(setCommand);
-	
-				// TODO jvinarek - remove action part ? Only for params ?
-				
+
 				// remove text range
 				RemoveCommand removeCommand = new RemoveCommand(editingDomain, useCaseStep, UsecasePackage.Literals.PARSEABLE_ELEMENT__TEXT_NODES, textRange);
 				compoundCommand.append(removeCommand);
+				
+				if (textRange.getActionPart() instanceof SentenceActionParam) {
+					// remove action part from Action
+					// other action parts than SentenceActionParam remain in Action (they don't have multiplicity)
+					SentenceActionParam actionParam = (SentenceActionParam)textRange.getActionPart();
+					Action action = (Action)actionParam.eContainer();
+					RemoveCommand removeActionParamCommand = new RemoveCommand(editingDomain, action.getActionParam(), actionParam);
+					compoundCommand.append(removeActionParamCommand);
+				}
 				
 			} else if (changeDeletesTextRangeStart(textRange, unmarkStart, unmarkLength)) {
 				int newStart = unmarkStart + unmarkLength;
