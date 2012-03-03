@@ -17,8 +17,10 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
+import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
+import org.eclipse.ui.views.properties.PropertySheet;
 
 import reprotool.ide.editors.usecase.UsecaseEMFEditor;
 import reprotool.model.swproj.CounterExample;
@@ -95,6 +97,17 @@ public class CExmpEditor extends SwprojEditor {
 	
 	public void setLTSSelection(ISelection selection) {
 		selectionViewer.setSelection(selection);
+		
+		PropertySheet propertyView = null;
+		try{
+			propertyView = (PropertySheet) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().
+				findView(IPageLayout.ID_PROP_SHEET);
+		} catch (Exception e) {}
+		
+		if(propertyView != null) {
+			propertyView.partActivated(this);
+			propertyView.selectionChanged(this, selection);
+		}
 	}
 	
 	

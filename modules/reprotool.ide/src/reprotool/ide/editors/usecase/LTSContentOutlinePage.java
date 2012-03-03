@@ -120,9 +120,8 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 							}
 						}
 					}
-					if (!selection.isEmpty()) {
-						lts.editor.setLTSSelection(new StructuredSelection(selection));
-					}
+					
+					lts.editor.setLTSSelection(new StructuredSelection(selection));
 				}
 			}
 		};
