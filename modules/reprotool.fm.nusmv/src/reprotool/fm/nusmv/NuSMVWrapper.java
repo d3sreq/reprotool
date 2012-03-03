@@ -264,10 +264,14 @@ public class NuSMVWrapper {
 		final CounterExampleType counterExample = ((DocumentRoot) resource
 				.getContents().get(0)).getCounterExample();
 
+		final String loopStart = counterExample.getLoops().trim();
+		
 		out.println("FAILED : " + counterExample.getDesc());
 		for (NodeType node : counterExample.getNode()) {
+			
 			for (StateType state : node.getState()) {
-				out.println("  State: " + state.getId() + " = ");
+				final String stateId = state.getId().trim();
+				out.println("  State: " + stateId + " = " + (stateId.equals(loopStart) ? "Loop starts here" : ""));
 				for (ValueType var : state.getValue()) {
 					if (!"FALSE".equals(var.getValue()))
 						out.println("    - " + var.getVariable() + " = "
@@ -278,6 +282,9 @@ public class NuSMVWrapper {
 					}
 				}
 			}
+		}
+		if( ! loopStart.isEmpty()) {
+			out.println("Loops to state " + loopStart);
 		}
 	}
 		
