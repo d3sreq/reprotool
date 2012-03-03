@@ -23,6 +23,13 @@
          id="org.eclipse.ui.views.ProgressView"
          restorable="true">
       </view>
+            <view
+         name="Properties View"
+         category="reprotool.ide.views.ReprotoolCategory"
+         class="org.eclipse.ui.ExtensionFactory:propertiesView"
+         id="org.eclipse.ui.views.PropertiesView"
+         restorable="true">
+      </view>
       <view
             category="reprotool.ide.views.ReprotoolCategory"
             class="reprotool.ide.views.sentenceanalysis.step.SentenceAnalysisSheet"
@@ -134,6 +141,16 @@
          </view>
          <view
                closeable="true"
+               id="org.eclipse.ui.views.PropertiesView"
+               minimized="false"
+               moveable="true"
+               ratio="0.65"
+               relationship="stack"
+               relative="org.eclipse.ui.views.ContentOutline"
+               visible="true">
+         </view>
+         <view
+               closeable="true"
                id="reprotool.ide.views.sentenceanalysis.SentenceAnalysisSheet"
                minimized="false"
                moveable="true"
@@ -148,8 +165,8 @@
                minimized="false"
                moveable="true"
                ratio="0.7"
-               relationship="bottom"
-               relative="org.eclipse.ui.editorss"
+               relationship="stack"
+               relative="reprotool.ide.views.sentenceanalysis.SentenceAnalysisSheet"
                visible="true">
          </view>
          <viewShortcut
