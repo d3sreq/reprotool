@@ -13,6 +13,8 @@
         <details key="namespace" value=""/>
       </eAnnotations>
     </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="regions" upperBound="-1"
+        eType="#//SentenceRegion"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Word" eSuperTypes="#//ParseTreeNode">
     <eOperations name="parseString" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
@@ -101,5 +103,10 @@
     <eLiterals name="Wh_determiner" value="32" literal="WDT"/>
     <eLiterals name="Wh_pronoun" value="33" literal="WP"/>
     <eLiterals name="Wh_adverb" value="34" literal="WRB"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SentenceRegion">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="contentStart" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="contentLength" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="text" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
 </ecore:EPackage>

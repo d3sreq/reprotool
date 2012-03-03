@@ -189,6 +189,7 @@ public class Parser extends Tool {
 						parser.die(true);
 					} catch (RemoteException e2) {
 						// just for case, no need to report again
+						runs = false;
 					}
 					// for benchmark purpose - getting manager can fail outside plugins 					
 					try {

@@ -47,6 +47,10 @@ public class Tokenizer extends Tool{
 		// whitespaces cleanup
 		text = Pattern.compile("[ ]+").matcher(text).replaceAll(" ");
 		
+		// remove bad characters - handled in next stages by SentenceRegions
+		text = Pattern.compile("\"").matcher(text).replaceAll("");
+		text = Pattern.compile(" ' ").matcher(text).replaceAll(" ");
+		
 		//tokens = Arrays.asList(text.trim().split("\\s+"));
 		tokens = text.trim();
 		

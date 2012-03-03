@@ -3,7 +3,9 @@ package reprotool.ling.analyser;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import reprotool.ling.LingFactory;
 import reprotool.ling.Sentence;
+import reprotool.ling.SentenceRegion;
 import reprotool.ling.Word;
 
 /**
@@ -38,6 +40,12 @@ public class MatchSentence {
 			int length = 0;
 			// length of whitespaces
 			int spaceLength = 0;
+			
+			// skip all bad characters encoutered
+			while(rest.length() > 0 && !rest.startsWith(word.getText())){
+				rest = rest.substring(1);
+				position++;
+			}
 			
 			if(rest.startsWith(word.getText())){
 				// find first whitespace or punctuation after word.length				
@@ -75,4 +83,57 @@ public class MatchSentence {
 		return result;
 	}
 	
+	/**
+	 * Detects regions in originalString and store them in Sentence.regions 
+	 * 
+	 * @param sentenceString - original string from UseCaseStep.content
+	 * @param sentence - sentence object filled with words
+	 * @return true on success
+	 */	
+	public static boolean matchSentenceRegions(String sentenceString, Sentence sentence) {
+		String[] delimiters = { "'", "\"" };
+		boolean result = false;
+		for(String del : delimiters){
+			int count = characterCount(sentenceString,del);
+			if(count > 0 && count % 2 == 0){
+				int last = 0;
+				int even = 1;
+				// text contains regions
+				for (int index = sentenceString.indexOf(del);index >= 0;index = sentenceString.indexOf(del, index + 1)){
+					if(even % 2 == 0){
+						SentenceRegion reg = LingFactory.eINSTANCE.createSentenceRegion();
+						reg.setContentStart(last + 1);
+						reg.setContentLength(index - last - 1);
+						reg.setText(sentenceString.substring(reg.getContentStart(), reg.getContentStart() + reg.getContentLength()).toLowerCase());
+						sentence.getRegions().add(reg);
+					}
+					last = index;	
+					even++;
+				}
+				//sentenceString.subSequence(beginIndex, endIndex)
+			}
+		}
+		
+		return result;
+	}
+	
+	/**
+	 * Counts number of characters in string
+	 * 
+	 * @param sentenceString - original string 
+	 * @param character - to find
+	 * @return number of characters
+	 */
+	private static int characterCount(String sentenceString, String character){
+		// add to end for split purpose
+		String s = sentenceString + " .";
+		int badOcc = 0;
+		//s.lenght() - s.replaceAll("[^,]","").length();  
+		int occ = s.split(character).length - 1;
+		// remove possessive usage of '
+		if(character == "'"){			
+			badOcc = s.split("'s ").length - 1;
+		}		
+		return occ - badOcc;
+	}
 }

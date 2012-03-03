@@ -9,7 +9,7 @@ import reprotool.model.swproj.SwprojFactory;
  * Class holding all linguistic analyse configuration
  * 
  * Special actions verb lists: 
- * continueVerbs - list of all default verbs for CONTINUE action
+ * gotoVerbs - list of all default verbs for CONTINUE action
  * abortVerbs - list of all default verbs for ABORT action
  * 
  * Default actors 
@@ -62,6 +62,7 @@ public class LingConfig {
 		result.add("abort");
 		result.add("terminate");		
 		result.add("end");
+		result.add("exit");
 		return result;
 	}
 	

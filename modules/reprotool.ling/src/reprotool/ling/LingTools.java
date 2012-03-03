@@ -1,11 +1,7 @@
 package reprotool.ling;
 
-import javax.naming.Context;
-
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Platform;
-import org.eclipse.core.runtime.Plugin;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.common.command.CompoundCommand;
@@ -15,7 +11,6 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.console.MessageConsoleStream;
 import org.eclipse.ui.progress.IProgressConstants;
 import org.eclipse.ui.statushandlers.StatusManager;
 
@@ -136,11 +131,18 @@ public class LingTools {
 		
 		Sentence sentence = job.getSentence();		
 		
-		if(!MatchSentence.matchSentence(sentenceString, sentence)){
-			IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, "Error during matching UseCaseStep.content to Sentence object", null);
+		try {
+			// match sentence object to original string
+			if(!MatchSentence.matchSentence(sentenceString, sentence)){
+				IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, "Error during matching UseCaseStep.content to Sentence object", null);
+				StatusManager.getManager().handle(status, StatusManager.LOG);
+			}
+			// detect all striped sentence regions like "name" 
+			MatchSentence.matchSentenceRegions(sentenceString, sentence);
+		} catch (NullPointerException e){
+			IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, "NullPointerException during matching UseCaseStep.content to Sentence object and detecting regions", e);
 			StatusManager.getManager().handle(status, StatusManager.LOG);
 		}
-
 		CompoundCommand command = Analyser.analyseTree(editingDomain, ucs, sentence);
 		System.out.println("Linguistics - created command - END.");
 		
@@ -158,13 +160,16 @@ public class LingTools {
 		    	setProperty(IProgressConstants.KEEP_PROPERTY, Boolean.TRUE);
 		    	try{
 
-		    		//MessageConsoleStream consoleOut = Activator.getDefault().findConsole().newMessageStream();
 
+		    		//Activator act = Activator.getDefault() ;
+		    		//Assert.isNotNull(act);
+		    			    		
 		    		// show the console
-		    		//consoleOut.getConsole().clearConsole();
-		    		//consoleOut.getConsole().activate();
-		    		//consoleOut.println("huhu jsem tu");
-		    		
+		    		/*
+		    		consoleOut.getConsole().clearConsole();
+		    		consoleOut.getConsole().activate();
+		    		consoleOut.println("huhu jsem tu");
+		    		*/
 		    		String initSentence = "Inicialization sentence.";
 
 		    		monitor.beginTask("External tools", 100);
@@ -215,5 +220,22 @@ public class LingTools {
 		job.setProperty(IProgressConstants.ACTION_PROPERTY, showReportAction);		
 		job.schedule();	
 	}	
-	
+	/*
+	public static MessageConsole findConsole() {
+		ConsolePlugin plugin = ConsolePlugin.getDefault();
+		IConsoleManager consoleManager = plugin.getConsoleManager();
+
+		for (IConsole console : consoleManager.getConsoles()) {
+			if (PLUGIN_ID.equals(console.getName())) {
+				return (MessageConsole) console;
+			}
+		}
+
+		MessageConsole console = new MessageConsole(PLUGIN_ID, null);
+		consoleManager.addConsoles(new IConsole[] { console });
+
+		return console;
+	}
+	*/
 }
+

@@ -9,19 +9,14 @@ import org.eclipse.emf.edit.command.AddCommand;
 import org.eclipse.emf.edit.command.RemoveCommand;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
-import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.ui.handlers.HandlerUtil;
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IMarker;
-import org.eclipse.core.resources.IWorkspaceRoot;
-import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.jdt.core.IJavaProject;
-import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.ui.console.MessageConsoleStream;
 
+import reprotool.ling.Activator;
 import reprotool.ling.LingConfig;
+import reprotool.ling.LingFactory;
 import reprotool.ling.Sentence;
 import reprotool.ling.SentenceNode;
+import reprotool.ling.SentenceRegion;
 import reprotool.ling.Word;
 import reprotool.model.linguistic.action.*;
 import reprotool.model.linguistic.actionpart.ActionpartFactory;
@@ -73,12 +68,13 @@ public class Analyser {
 	 */
 	public static CompoundCommand analyseTree(EditingDomain editingDomain,
 			UseCaseStep ucs, Sentence sentence) {
-
 		Boolean definedAction = false;
 		Analyser.editingDomain = editingDomain;
 		
 		compoundCommand = new CompoundCommand();
-
+		// console for errors
+		MessageConsoleStream consoleOut = Activator.getDefault().findConsole().newMessageStream();
+		
 		// check input variables
 		if (sentence.getSentenceTree() == null) {
 			// wrong input - do nothing
@@ -91,7 +87,7 @@ public class Analyser {
 					UsecasePackage.Literals.PARSEABLE_ELEMENT__TEXT_NODES, removetr);
 			compoundCommand.append(removeCommand);
 		}
-		
+
 		// get all actors
 		actors.addAll(ucs.getSoftwareProjectShortcut().getActors());
 		boolean addActor = true;
@@ -189,30 +185,14 @@ public class Analyser {
 			}
 		}
 		// internal action
-			
-		IJavaProject targetProject = null;
-		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-		System.out.println(root.toString());
-		for (IProject project : root.getProjects()) {
-			System.out.println(project.getName());
-			if (project.getName().equals("reprotool.ling")) {
-				try {
-					// if (project.hasNature("org.eclipse.jdt.core.javanature"))
-					// {
-					targetProject = (IJavaProject) project;
-					IResource resource = targetProject.getUnderlyingResource();
-					IMarker marker = resource.createMarker(IMarker.TASK);
-					marker.setAttribute(IMarker.MESSAGE, "This a a task");
-					marker.setAttribute(IMarker.PRIORITY, IMarker.PRIORITY_HIGH);
-					// }
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		}
 
 		// THE REST
 		if (!definedAction) {
+			//MessageConsoleStream consoleOut = Activator.getDefault().findConsole().newMessageStream();
+			//consoleOut.getConsole().clearConsole();
+			//consoleOut.getConsole().activate();
+			consoleOut.println("Action was not detected.");
+			
 			Unknown action = afactory.createUnknown();
 			SetCommand setCommand = new SetCommand(editingDomain, ucs,
 					UsecasePackage.Literals.USE_CASE_STEP__ACTION, action);
@@ -268,8 +248,9 @@ public class Analyser {
 				}
 			}
 		}
+		
 		// next word after usecase
-		labelIndex++;		
+		labelIndex++;	
 		// skip preposition
 		int numeralIndex = labelIndex;
 		if(numeralIndex > 0 && sentence.getWords().size() > numeralIndex && sentence.getWords().get(numeralIndex) != null){
@@ -297,7 +278,7 @@ public class Analyser {
 			if(labelIndex > 0) {
 				for(int i = labelIndex; i < sentence.getWords().size(); i++) {
 					for(UseCase uc : ucs.getSoftwareProjectShortcut().getUseCases()){
-						if(uc.getName().equals(sentence.getWords().get(i).getLemma())){
+						if(uc.getName().toLowerCase().equals(sentence.getWords().get(i).getLemma())){
 							setUseCaseInclude(ucs, uc, sentence.getWords().get(i));
 							found = true;
 							return found;
@@ -306,6 +287,58 @@ public class Analyser {
 				}
 			}
 		}
+		
+		// try to find regions
+		if(!found){
+			for(SentenceRegion sr : sentence.getRegions()) {
+				for(UseCase uc : ucs.getSoftwareProjectShortcut().getUseCases()){
+					if(uc.getName().toLowerCase().equals(sr.getText())){
+						setUseCaseInclude(ucs, uc, sr);
+						found = true;
+						return found;
+					}
+				}
+			}
+		}
+
+		// string search in the rest of sentence
+		if (!found) {
+			// concatenate all rest words
+			String rest = "";
+			for (int i = labelIndex; i < sentence.getWords().size(); i++) {
+				rest = rest + sentence.getWords().get(i).getText() + " ";
+			}
+			rest = rest.toLowerCase().trim();
+			// try to find UC names in rest
+			for (UseCase uc : ucs.getSoftwareProjectShortcut().getUseCases()) {
+				// null name
+				if(uc.getName() == null)
+					continue;
+						
+				String name = uc.getName().toLowerCase();
+				if (rest.contains(name)) {
+					// name found - match words
+					SentenceRegion sr = LingFactory.eINSTANCE
+							.createSentenceRegion();
+					sr.setText(name);
+					// find first after this last word
+					for (int i = labelIndex; i < sentence.getWords().size(); i++) {
+						Word word = sentence.getWords().get(i);
+						if (sr.getContentStart() == 0 && name.startsWith(word.getText().toLowerCase())) {
+							sr.setContentStart(word.getContentStart());
+						} else {
+							if (sr.getContentStart() > 0 && name.endsWith(word.getText().toLowerCase())) {
+								sr.setContentLength(word.getContentStart() + word.getContentLength() - sr.getContentStart());
+								setUseCaseInclude(ucs, uc, sr);
+								return true;
+							}
+						}
+					}
+				}
+			}
+
+		}
+		
 		return found;
 	}
 	
@@ -423,6 +456,30 @@ public class Analyser {
 		return setCommand;
 	}
 	
+	private static void setUseCaseInclude(UseCaseStep ucs, UseCase uc, SentenceRegion sr) {
+		
+		UseCaseInclude action = afactory.createUseCaseInclude();
+		SetCommand setCommand = new SetCommand(editingDomain, ucs,
+				UsecasePackage.Literals.USE_CASE_STEP__ACTION,
+				action);
+		compoundCommand.append(setCommand);
+				
+		if (uc != null) {
+			// text range settings
+			TextRange tr = apfactory.createTextRange();
+			tr.setStartPosition(sr.getContentStart());
+			tr.setLength(sr.getContentLength());
+			tr.setLemmaForm(sr.getText());
+
+			// adding text range to model
+			AddCommand addCommand = new AddCommand(editingDomain, ucs,
+					UsecasePackage.Literals.PARSEABLE_ELEMENT__TEXT_NODES, tr);
+			compoundCommand.append(addCommand);
+			action.setText(tr);
+			action.setIncludeTarget(uc);
+		}
+	}
+	
 	private static void setUseCaseInclude(UseCaseStep ucs, UseCase uc, Word ucword) {
 		
 		UseCaseInclude action = afactory.createUseCaseInclude();
@@ -446,8 +503,6 @@ public class Analyser {
 			action.setText(tr);
 			action.setIncludeTarget(uc);
 		}
-
-		//return setCommand;
 	}
 	
 	

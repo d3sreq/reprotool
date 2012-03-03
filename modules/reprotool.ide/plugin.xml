@@ -142,6 +142,16 @@
                relative="org.eclipse.ui.editorss"
                visible="true">
          </view>
+         <view
+               closeable="true"
+               id="org.eclipse.ui.views.ProgressView"
+               minimized="false"
+               moveable="true"
+               ratio="0.7"
+               relationship="bottom"
+               relative="org.eclipse.ui.editorss"
+               visible="true">
+         </view>
          <viewShortcut
                id="reprotool.ide.views.sentenceanalysis.SentenceAnalysisSheet">
          </viewShortcut>
