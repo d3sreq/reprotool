@@ -50,10 +50,8 @@ Charles University in Prague
       </win>
    </launcher>
 
-
    <vm>
    </vm>
-
 
    <plugins>
       <plugin id="com.google.guava"/>
@@ -62,7 +60,20 @@ Charles University in Prague
       <plugin id="com.ochafik.lang.jnaeratorruntime"/>
       <plugin id="com.sun.jna"/>
       <plugin id="javax.inject"/>
+      <plugin id="lpg.runtime.java"/>
       <plugin id="org.antlr.runtime"/>
+      <plugin id="org.apache.batik.bridge"/>
+      <plugin id="org.apache.batik.css"/>
+      <plugin id="org.apache.batik.dom"/>
+      <plugin id="org.apache.batik.dom.svg"/>
+      <plugin id="org.apache.batik.ext.awt"/>
+      <plugin id="org.apache.batik.parser"/>
+      <plugin id="org.apache.batik.pdf"/>
+      <plugin id="org.apache.batik.svggen"/>
+      <plugin id="org.apache.batik.transcoder"/>
+      <plugin id="org.apache.batik.util"/>
+      <plugin id="org.apache.batik.util.gui"/>
+      <plugin id="org.apache.batik.xml"/>
       <plugin id="org.apache.commons.cli"/>
       <plugin id="org.apache.commons.lang"/>
       <plugin id="org.apache.commons.logging"/>
@@ -100,15 +111,23 @@ Charles University in Prague
       <plugin id="org.eclipse.debug.core"/>
       <plugin id="org.eclipse.debug.ui"/>
       <plugin id="org.eclipse.draw2d"/>
+      <plugin id="org.eclipse.emf.codegen"/>
+      <plugin id="org.eclipse.emf.codegen.ecore"/>
+      <plugin id="org.eclipse.emf.codegen.ecore.ui"/>
       <plugin id="org.eclipse.emf.common"/>
       <plugin id="org.eclipse.emf.common.ui"/>
+      <plugin id="org.eclipse.emf.converter"/>
       <plugin id="org.eclipse.emf.databinding"/>
       <plugin id="org.eclipse.emf.databinding.edit"/>
       <plugin id="org.eclipse.emf.ecore"/>
+      <plugin id="org.eclipse.emf.ecore.change"/>
       <plugin id="org.eclipse.emf.ecore.edit"/>
+      <plugin id="org.eclipse.emf.ecore.editor"/>
       <plugin id="org.eclipse.emf.ecore.xmi"/>
       <plugin id="org.eclipse.emf.edit"/>
       <plugin id="org.eclipse.emf.edit.ui"/>
+      <plugin id="org.eclipse.emf.exporter"/>
+      <plugin id="org.eclipse.emf.importer"/>
       <plugin id="org.eclipse.emf.mapping.ecore2xml"/>
       <plugin id="org.eclipse.emf.mwe.core"/>
       <plugin id="org.eclipse.emf.mwe.utils"/>
@@ -116,6 +135,11 @@ Charles University in Prague
       <plugin id="org.eclipse.emf.mwe2.launch"/>
       <plugin id="org.eclipse.emf.mwe2.lib"/>
       <plugin id="org.eclipse.emf.mwe2.runtime"/>
+      <plugin id="org.eclipse.emf.query"/>
+      <plugin id="org.eclipse.emf.query.ocl"/>
+      <plugin id="org.eclipse.emf.transaction"/>
+      <plugin id="org.eclipse.emf.validation"/>
+      <plugin id="org.eclipse.emf.workspace"/>
       <plugin id="org.eclipse.equinox.app"/>
       <plugin id="org.eclipse.equinox.common"/>
       <plugin id="org.eclipse.equinox.p2.core"/>
@@ -129,6 +153,39 @@ Charles University in Prague
       <plugin id="org.eclipse.equinox.security.macosx" fragment="true"/>
       <plugin id="org.eclipse.equinox.security.win32.x86" fragment="true"/>
       <plugin id="org.eclipse.equinox.security.win32.x86_64" fragment="true"/>
+      <plugin id="org.eclipse.gef"/>
+      <plugin id="org.eclipse.gmf.runtime.common.core"/>
+      <plugin id="org.eclipse.gmf.runtime.common.ui"/>
+      <plugin id="org.eclipse.gmf.runtime.common.ui.action"/>
+      <plugin id="org.eclipse.gmf.runtime.common.ui.action.ide"/>
+      <plugin id="org.eclipse.gmf.runtime.common.ui.printing"/>
+      <plugin id="org.eclipse.gmf.runtime.common.ui.printing.win32" fragment="true"/>
+      <plugin id="org.eclipse.gmf.runtime.common.ui.services"/>
+      <plugin id="org.eclipse.gmf.runtime.common.ui.services.action"/>
+      <plugin id="org.eclipse.gmf.runtime.common.ui.services.properties"/>
+      <plugin id="org.eclipse.gmf.runtime.diagram.core"/>
+      <plugin id="org.eclipse.gmf.runtime.diagram.ui"/>
+      <plugin id="org.eclipse.gmf.runtime.diagram.ui.actions"/>
+      <plugin id="org.eclipse.gmf.runtime.diagram.ui.printing"/>
+      <plugin id="org.eclipse.gmf.runtime.diagram.ui.printing.render"/>
+      <plugin id="org.eclipse.gmf.runtime.diagram.ui.properties"/>
+      <plugin id="org.eclipse.gmf.runtime.diagram.ui.providers"/>
+      <plugin id="org.eclipse.gmf.runtime.diagram.ui.providers.ide"/>
+      <plugin id="org.eclipse.gmf.runtime.diagram.ui.render"/>
+      <plugin id="org.eclipse.gmf.runtime.diagram.ui.resources.editor"/>
+      <plugin id="org.eclipse.gmf.runtime.diagram.ui.resources.editor.ide"/>
+      <plugin id="org.eclipse.gmf.runtime.draw2d.ui"/>
+      <plugin id="org.eclipse.gmf.runtime.draw2d.ui.render"/>
+      <plugin id="org.eclipse.gmf.runtime.draw2d.ui.render.awt"/>
+      <plugin id="org.eclipse.gmf.runtime.emf.clipboard.core"/>
+      <plugin id="org.eclipse.gmf.runtime.emf.commands.core"/>
+      <plugin id="org.eclipse.gmf.runtime.emf.core"/>
+      <plugin id="org.eclipse.gmf.runtime.emf.type.core"/>
+      <plugin id="org.eclipse.gmf.runtime.emf.ui"/>
+      <plugin id="org.eclipse.gmf.runtime.emf.ui.properties"/>
+      <plugin id="org.eclipse.gmf.runtime.gef.ui"/>
+      <plugin id="org.eclipse.gmf.runtime.notation"/>
+      <plugin id="org.eclipse.gmf.runtime.notation.providers"/>
       <plugin id="org.eclipse.help"/>
       <plugin id="org.eclipse.jdt.compiler.apt" fragment="true"/>
       <plugin id="org.eclipse.jdt.compiler.tool" fragment="true"/>
@@ -142,6 +199,9 @@ Charles University in Prague
       <plugin id="org.eclipse.jface.text"/>
       <plugin id="org.eclipse.ltk.core.refactoring"/>
       <plugin id="org.eclipse.ltk.ui.refactoring"/>
+      <plugin id="org.eclipse.ocl"/>
+      <plugin id="org.eclipse.ocl.ecore"/>
+      <plugin id="org.eclipse.ocl.uml"/>
       <plugin id="org.eclipse.osgi"/>
       <plugin id="org.eclipse.search"/>
       <plugin id="org.eclipse.swt"/>
@@ -178,8 +238,33 @@ Charles University in Prague
       <plugin id="org.eclipse.ui.win32" fragment="true"/>
       <plugin id="org.eclipse.ui.workbench"/>
       <plugin id="org.eclipse.ui.workbench.texteditor"/>
+      <plugin id="org.eclipse.uml2"/>
+      <plugin id="org.eclipse.uml2.codegen.ecore"/>
+      <plugin id="org.eclipse.uml2.codegen.ecore.ui"/>
       <plugin id="org.eclipse.uml2.common"/>
+      <plugin id="org.eclipse.uml2.common.edit"/>
+      <plugin id="org.eclipse.uml2.diagram"/>
+      <plugin id="org.eclipse.uml2.diagram.activity"/>
+      <plugin id="org.eclipse.uml2.diagram.clazz"/>
+      <plugin id="org.eclipse.uml2.diagram.common"/>
+      <plugin id="org.eclipse.uml2.diagram.common.notation"/>
+      <plugin id="org.eclipse.uml2.diagram.component"/>
+      <plugin id="org.eclipse.uml2.diagram.csd"/>
+      <plugin id="org.eclipse.uml2.diagram.deploy"/>
+      <plugin id="org.eclipse.uml2.diagram.parser"/>
+      <plugin id="org.eclipse.uml2.diagram.profile"/>
+      <plugin id="org.eclipse.uml2.diagram.sequence"/>
+      <plugin id="org.eclipse.uml2.diagram.sequence.model"/>
+      <plugin id="org.eclipse.uml2.diagram.statemachine"/>
+      <plugin id="org.eclipse.uml2.diagram.usecase"/>
+      <plugin id="org.eclipse.uml2.examples.uml.ui"/>
       <plugin id="org.eclipse.uml2.uml"/>
+      <plugin id="org.eclipse.uml2.uml.ecore.exporter"/>
+      <plugin id="org.eclipse.uml2.uml.ecore.importer"/>
+      <plugin id="org.eclipse.uml2.uml.edit"/>
+      <plugin id="org.eclipse.uml2.uml.editor"/>
+      <plugin id="org.eclipse.uml2.uml.resources"/>
+      <plugin id="org.eclipse.uml2tools"/>
       <plugin id="org.eclipse.wb.jdt.fragment" fragment="true"/>
       <plugin id="org.eclipse.xtend2.lib"/>
       <plugin id="org.eclipse.xtext"/>
@@ -201,12 +286,18 @@ Charles University in Prague
       <plugin id="org.eclipselabs.reprotool.branding"/>
       <plugin id="org.hamcrest.core"/>
       <plugin id="org.junit"/>
+      <plugin id="org.w3c.css.sac"/>
+      <plugin id="org.w3c.dom.events"/>
+      <plugin id="org.w3c.dom.smil"/>
+      <plugin id="org.w3c.dom.svg"/>
+      <plugin id="reprotool.exampleProjects"/>
       <plugin id="reprotool.fm.nusmv"/>
       <plugin id="reprotool.fm.nusmv.lang"/>
       <plugin id="reprotool.fm.nusmv.lang.ui"/>
       <plugin id="reprotool.ide"/>
       <plugin id="reprotool.ling"/>
       <plugin id="reprotool.ling.tests" fragment="true"/>
+      <plugin id="reprotool.lts"/>
       <plugin id="reprotool.lts.export"/>
       <plugin id="reprotool.model"/>
       <plugin id="reprotool.model.edit"/>
@@ -218,7 +309,6 @@ Charles University in Prague
       <plugin id="reprotool.tools.mxpost"/>
       <plugin id="reprotool.txtspec"/>
       <plugin id="reprotool.txtspec.ui"/>
-      <plugin id="reprotool.uc.tempeditor" fragment=""/>
       <plugin id="reprotool.uml.export"/>
    </plugins>
 
