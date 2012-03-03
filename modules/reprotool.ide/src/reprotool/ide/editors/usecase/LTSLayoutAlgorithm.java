@@ -166,12 +166,12 @@ public class LTSLayoutAlgorithm extends AbstractLayoutAlgorithm {
 	 * Goto steps do not use their own graph nodes - they should
 	 * not be counted to the scenario graphics size.
 	 */
-	private int countEffectiveSize(Scenario s) {
+	private int countEffectiveSize(Scenario s, boolean isMainScenario) {
 		if ((s == null) || s.getSteps().isEmpty()) {
 			return 0;
 		}
 		
-		int prolong = 0; 
+		int prolong = 0;
 		
 		for (UseCaseStep step: s.getSteps()) {
 			if (hasEffectiveExtension(step)) {
@@ -181,7 +181,7 @@ public class LTSLayoutAlgorithm extends AbstractLayoutAlgorithm {
 		
 		UseCaseStep lastStep = getLastStep(s);
 		boolean decrease = false;
-		if (lastStep != null) {
+		if ((!isMainScenario) && (lastStep != null)) {
 			if (!lastStep.getExtensions().isEmpty()) {
 				decrease = true;
 				for (Scenario ext: lastStep.getExtensions()) {
@@ -203,13 +203,13 @@ public class LTSLayoutAlgorithm extends AbstractLayoutAlgorithm {
 		return s.getSteps().size() + prolong;
 	}
 	
-	private void processScenario(Scenario s, int x0, int y0, SpanDirection span) {
+	private void processScenario(Scenario s, int x0, int y0, SpanDirection span, boolean isMainScenario) {
 		if (s == null) {
 			return;
 		}
 		
 		int x = x0;
-		int y = y0 + (countEffectiveSize(s) - 1);
+		int y = y0 + (countEffectiveSize(s, isMainScenario) - 1);
 		
 		SpanDirection extensionSpan = span;
 		SpanDirection variationSpan = span;
@@ -266,14 +266,14 @@ public class LTSLayoutAlgorithm extends AbstractLayoutAlgorithm {
 					boolean lastStepGoto = (getLastStep(scenario).getAction() instanceof Goto);
 					boolean lastStepAbort = (getLastStep(scenario).getAction() instanceof AbortUseCase);
 					int xx = 0;
-					if (lastStep && (lastStepGoto || lastStepAbort)) {
-						xx = findFreeColumn(x0, y + 1, countEffectiveSize(scenario), extensionSpan);
+					if ((!isMainScenario) && lastStep && (lastStepGoto || lastStepAbort)) {
+						xx = findFreeColumn(x0, y + 1, countEffectiveSize(scenario, false), extensionSpan);
 						occupyColumns(scenario, xx, y + 1);
-						processScenario(scenario, xx, y + 1, extensionSpan);
+						processScenario(scenario, xx, y + 1, extensionSpan, false);
 					} else {
-						xx = findFreeColumn(x0, y, countEffectiveSize(scenario), extensionSpan);
+						xx = findFreeColumn(x0, y, countEffectiveSize(scenario, false), extensionSpan);
 						occupyColumns(scenario, xx, y);
-						processScenario(scenario, xx, y, extensionSpan);
+						processScenario(scenario, xx, y, extensionSpan, false);
 					}
 				}
 			}
@@ -286,9 +286,9 @@ public class LTSLayoutAlgorithm extends AbstractLayoutAlgorithm {
 					yy++;
 				}
 				for (Scenario scenario: step.getVariations()) {
-					int xx = findFreeColumn(x0, yy, countEffectiveSize(scenario), variationSpan);
+					int xx = findFreeColumn(x0, yy, countEffectiveSize(scenario, false), variationSpan);
 					occupyColumns(scenario, xx, yy);
-					processScenario(scenario, xx, yy, variationSpan);
+					processScenario(scenario, xx, yy, variationSpan, false);
 				}
 			}
 		}
@@ -486,8 +486,8 @@ public class LTSLayoutAlgorithm extends AbstractLayoutAlgorithm {
 		rootPos = new Point((int) boundsWidth / 2, (int) verSpacing / 2);
 		
 		processInitialState();
-		processScenario(mainScenario, 0, 1, SpanDirection.BOTH);
-		processFinalState(countEffectiveSize(mainScenario));
+		processScenario(mainScenario, 0, 1, SpanDirection.BOTH, true);
+		processFinalState(countEffectiveSize(mainScenario, true));
 		layoutBoard(0, 0);
 		drawnMachines.add(workingMachine);
 		
@@ -498,8 +498,8 @@ public class LTSLayoutAlgorithm extends AbstractLayoutAlgorithm {
 			finalState = workingMachine.getFinalState();
 			processInitialState();
 			Scenario mainScenario = machine2UseCase.get(workingMachine).getMainScenario(); 
-			processScenario(mainScenario, 0, 1 , SpanDirection.BOTH);
-			processFinalState(countEffectiveSize(mainScenario));
+			processScenario(mainScenario, 0, 1 , SpanDirection.BOTH, true);
+			processFinalState(countEffectiveSize(mainScenario, true));
 		}
 				
 		while (!ltsIncludes.isEmpty()) {

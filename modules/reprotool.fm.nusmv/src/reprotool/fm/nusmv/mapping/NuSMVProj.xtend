@@ -288,7 +288,7 @@ public class NuSMVProj {
 							"		p=p" + nusmv.useCaseId + " & idle & x" + nusmv.useCaseId +
 							".s = s0 : TRUE;\n" +
 							"		TRUE : x" + nusmv.useCaseId + "run & x" + nusmv.useCaseId +
-							".s != sFin;\n" +
+							".s != sFin & x" + nusmv.useCaseId +  ".s != sAbort;\n" +
 							"	esac"													
 					} else {
 						nextExpr = "case\n" +
@@ -297,8 +297,8 @@ public class NuSMVProj {
 							nusmv.useCase.precedingUseCases.join(" & ",
 								["x" + nusmv.uc2id(it) + ".s = sFin"]) + " : TRUE;\n" +
 							"		TRUE : x" + nusmv.useCaseId + "run & x" + nusmv.useCaseId +
-							".s != sFin;\n" +
-							"	esac"											
+							".s != sFin & x" + nusmv.useCaseId +  ".s != sAbort;\n" +
+							"	esac"
 					}
 				]
 			];
