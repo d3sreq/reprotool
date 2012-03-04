@@ -5,7 +5,6 @@ package reprotool.ide.txtuc.ui.outline;
 
 import org.eclipse.xtext.ui.editor.outline.IOutlineNode;
 import org.eclipse.xtext.ui.editor.outline.impl.DefaultOutlineTreeProvider;
-import org.eclipse.xtext.ui.editor.outline.impl.DocumentRootNode;
 
 import reprotool.ide.txtuc.txtUseCase.ExtVarBlock;
 import reprotool.ide.txtuc.txtUseCase.ExtVarStep;
