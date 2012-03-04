@@ -37,7 +37,8 @@ public class NuSmvLangFormatter extends AbstractDeclarativeFormatter {
 		
 		// newline after 'case'..'esac'
 		c.setLinewrap().after(g.getCaseExpressionRule());
-
+		
+		c.setLinewrap(2).before(g.getVariableDeclarationRule());
 
 		// indentation
 		c.setWrappedLineIndentation(2);

@@ -119,7 +119,7 @@ public class NuSMVProj {
 							"\t\tx" + aEntry.automatonID + ".s=" + it + "_ : TRUE;"
 						]).join("\n")
 					]).join("\n") +
-					"\t\tTRUE : " + tag + ";\n\tesac"
+					"\n\t\tTRUE : " + tag + ";\n\tesac"
 			]
 		]
 	}
