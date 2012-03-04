@@ -213,13 +213,43 @@
             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
             sequence="CTRL+ENTER">
       </key>
+      <key
+            commandId="reprotool.ide.usecase.addextension"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="CTRL+1">
+      </key>
+      <key
+            commandId="reprotool.ide.usecase.addvariation"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="CTRL+2">
+      </key>
+      <key
+            commandId="reprotool.ide.usecase.addannotation"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="CTRL+4">
+      </key>
    </extension>
    <extension
          point="org.eclipse.ui.commands">
       <command
-            defaultHandler="reprotool.ide.editors.usecase.AddUseCaseStepStepHandler"
+            defaultHandler="reprotool.ide.editors.usecase.AddEntityHandler$AddStepHandler"
             id="reprotool.ide.usecase.addstep"
-            name="Add use case step">
+            name="Add step">
+      </command>
+      <command
+            defaultHandler="reprotool.ide.editors.usecase.AddEntityHandler$AddExtensionHandler"
+            id="reprotool.ide.usecase.addextension"
+            name="Add extension">
+      </command>
+      <command
+            defaultHandler="reprotool.ide.editors.usecase.AddEntityHandler$AddVariationHandler"
+            id="reprotool.ide.usecase.addvariation"
+            name="Add variation">
+      </command>
+      <command
+            defaultHandler="reprotool.ide.editors.usecase.AddEntityHandler$AddAnnotationHandler"
+            id="reprotool.ide.usecase.addannotation"
+            name="Add annotation">
       </command>
    </extension>
 
