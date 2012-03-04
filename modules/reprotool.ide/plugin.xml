@@ -93,6 +93,7 @@
       <wizard
             category="reprotool.ide.category1/reprotool.ide.examplesCategory"
             class="org.eclipse.emf.common.ui.wizard.ExampleInstallerWizard"
+            icon="icons/reprotool-web-logo-16x16.png"
             id="reprotool.exampleProjects.wizard1"
             name="Citymap Example Project"
             project="true">

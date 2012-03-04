@@ -170,7 +170,7 @@ public class FindConstituent {
 		if (subject != null) {
 			if(isActor) {
 				for (Actor ac : actors) {
-					if (ac.getName().equalsIgnoreCase((subject).getLemma())) {
+					if ((ac.getName() != null) && ac.getName().equalsIgnoreCase((subject).getLemma())) {
 						subject.setType(WordType.SUBJECT);
 						return subject;
 					}

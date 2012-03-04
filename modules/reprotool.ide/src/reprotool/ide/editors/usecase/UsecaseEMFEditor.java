@@ -89,6 +89,7 @@ import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.Widget;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
@@ -1117,8 +1118,11 @@ public class UsecaseEMFEditor extends MultiPageEditorPart implements IEditingDom
 	public void remapBindings() {
 		UseCase useCase = getUseCaseFromResource();
 		usecaseEditorPart.bindUseCase(useCase);
-		((LTSContentOutlinePage) contentOutlinePage).setUseCase(useCase);
-		((LTSContentOutlinePage) contentOutlinePage).emfModelChanged();
+		
+		if ((contentOutlinePage != null) && (!contentOutlinePage.getControl().isDisposed())) {
+			((LTSContentOutlinePage) contentOutlinePage).setUseCase(useCase);
+			((LTSContentOutlinePage) contentOutlinePage).emfModelChanged();
+		}
 	}
 
 	/**

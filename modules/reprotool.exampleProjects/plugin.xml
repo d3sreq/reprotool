@@ -26,6 +26,7 @@
             category="org.eclipse.ui.Examples/reprotool.exampleProjects.categoryReprotool"
             class="org.eclipse.emf.common.ui.wizard.ExampleInstallerWizard"
             finalPerspective="reprotool.ide.perspectives.ReprotoolPerspective"
+            icon="icons/reprotool-web-logo-16x16.png"
             id="reprotool.exampleProjects.wizard1"
             name="Citymap Example Project"
             project="true">
