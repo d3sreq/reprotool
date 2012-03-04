@@ -34,7 +34,6 @@ import org.eclipse.emf.common.command.CommandStackListener;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.ui.MarkerHelper;
-import org.eclipse.emf.common.ui.URIEditorInput;
 import org.eclipse.emf.common.ui.editor.ProblemEditorPart;
 import org.eclipse.emf.common.ui.viewer.IViewerProvider;
 import org.eclipse.emf.common.util.BasicDiagnostic;
@@ -70,8 +69,6 @@ import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
-import org.eclipse.jface.viewers.DoubleClickEvent;
-import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -92,13 +89,11 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.ui.IActionBars;
-import org.eclipse.ui.IEditorDescriptor;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IPartListener;
-import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
@@ -119,7 +114,6 @@ import reprotool.ide.editors.usecase.IFirePropertyChange;
 import reprotool.ide.editors.usecase.UnmarkDirtyService;
 import reprotool.ide.editors.usecase.UsecaseEMFEditor;
 import reprotool.model.edit.ext.factory.ProjectOutlineAdapterFactory;
-import reprotool.model.usecase.UseCase;
 import reprotool.model.usecase.presentation.ReprotoolEditorPlugin;
 
 /**
@@ -1116,27 +1110,6 @@ public class ProjectEditor extends MultiPageEditorPart implements IEditingDomain
 		}
 
 		return contentOutlinePage;
-	}
-
-	private void openUseCaseEditor(UseCase useCase) {
-		URI uri = EcoreUtil.getURI(useCase);
-		URIEditorInput input = new URIEditorInput(uri);
-
-		IWorkbenchPage page = getSite().getPage();
-		IEditorDescriptor desc = PlatformUI.getWorkbench().getEditorRegistry()
-				.findEditor("org.eclipselabs.reprotool.ide.UseCaseEmfEditor");
-
-		try {
-			// TODO jvinarek - workaround, resource is saved before use case
-			// editor opens
-			// to ensure that use case editor can retrieve use case from passed
-			// URIEditorInput.
-			doSave(new NullProgressMonitor());
-			page.openEditor(input, desc.getId());
-		} catch (PartInitException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
 	}
 
 	/**

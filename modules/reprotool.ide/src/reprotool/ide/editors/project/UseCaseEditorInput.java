@@ -18,6 +18,7 @@ public class UseCaseEditorInput implements IEditorInput {
 		this.editingDomain = editingDomain;
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public Object getAdapter(Class adapter) {
 		return parentEditorInput.getAdapter(adapter);
