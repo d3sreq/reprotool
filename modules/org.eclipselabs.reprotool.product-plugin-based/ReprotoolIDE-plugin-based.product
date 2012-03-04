@@ -50,8 +50,10 @@ Charles University in Prague
       </win>
    </launcher>
 
+
    <vm>
    </vm>
+
 
    <plugins>
       <plugin id="com.google.guava"/>
@@ -298,7 +300,6 @@ Charles University in Prague
       <plugin id="reprotool.ide.txtuc"/>
       <plugin id="reprotool.ide.txtuc.ui"/>
       <plugin id="reprotool.ling"/>
-      <plugin id="reprotool.ling.tests" fragment="true"/>
       <plugin id="reprotool.lts"/>
       <plugin id="reprotool.lts.export"/>
       <plugin id="reprotool.model"/>
@@ -310,8 +311,6 @@ Charles University in Prague
       <plugin id="reprotool.tools.dbparser"/>
       <plugin id="reprotool.tools.mxpost"/>
       <plugin id="reprotool.txtImport"/>
-      <plugin id="reprotool.txtspec"/>
-      <plugin id="reprotool.txtspec.ui"/>
       <plugin id="reprotool.uml.export"/>
    </plugins>
 
