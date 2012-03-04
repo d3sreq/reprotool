@@ -3,12 +3,47 @@
 */
 package reprotool.ide.txtuc.ui.outline;
 
+import org.eclipse.xtext.ui.editor.outline.IOutlineNode;
 import org.eclipse.xtext.ui.editor.outline.impl.DefaultOutlineTreeProvider;
+import org.eclipse.xtext.ui.editor.outline.impl.DocumentRootNode;
+
+import reprotool.ide.txtuc.txtUseCase.ExtVarBlock;
+import reprotool.ide.txtuc.txtUseCase.ExtVarStep;
+import reprotool.ide.txtuc.txtUseCase.ExtVarUnit;
+import reprotool.ide.txtuc.txtUseCase.MainScenarioBlock;
+import reprotool.ide.txtuc.txtUseCase.TxtUseCasePackage;
 
 /**
  * customization of the default outline structure
  * 
  */
 public class TxtUseCaseOutlineTreeProvider extends DefaultOutlineTreeProvider {
-	
+
+	/**
+	 * Skips {@link ExtVarUnit} nodes.
+	 * 
+	 * @param parentNode
+	 * @param extVarBlock
+	 */
+	public void _createChildren(IOutlineNode parentNode, ExtVarBlock extVarBlock) {
+		for (ExtVarUnit unit : extVarBlock.getUnits()) {
+			createNode(parentNode, unit.getCondition());
+
+			for (ExtVarStep step : unit.getSteps()) {
+				createNode(parentNode, step);
+			}
+		}
+	}
+
+	public Object _text(MainScenarioBlock mainScenarioBlock) {
+		return "Main scenario:";
+	}
+
+	public Object _text(ExtVarBlock extVarBlock) {
+		if (TxtUseCasePackage.Literals.USE_CASE__EXTENSIONS_BLOCK.equals(extVarBlock.eContainingFeature())) {
+			return "Extensions:";
+		} else {
+			return "Variations:";
+		}
+	}
 }
