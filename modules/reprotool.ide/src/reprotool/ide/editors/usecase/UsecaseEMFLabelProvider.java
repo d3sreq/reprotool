@@ -3,10 +3,13 @@ package reprotool.ide.editors.usecase;
 import org.eclipse.jface.viewers.StyledCellLabelProvider;
 import org.eclipse.jface.viewers.StyledString;
 import org.eclipse.jface.viewers.ViewerCell;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyleRange;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
 
+import reprotool.ide.Activator;
 import reprotool.model.usecase.Scenario;
 import reprotool.model.usecase.UseCase;
 import reprotool.model.usecase.UseCaseStep;
@@ -73,6 +76,11 @@ public class UsecaseEMFLabelProvider {
 	 *
 	 */
 	public static class LabelColumnProvider extends DefaultUsecaseLabelProvider {
+		
+		private static final Image EXTENSION_IMAGE = Activator.getImageDescriptor("icons/extension.png").createImage();
+		private static final Image VARIATION_IMAGE = Activator.getImageDescriptor("icons/variation.png").createImage();
+		private static final Image ANNOTATION_IMAGE = Activator.getImageDescriptor("icons/annotation.png").createImage();
+		
 		@Override
 		protected void updateDefault(ViewerCell cell, Object cellObject) {
 			// dummy example implementation
@@ -92,9 +100,9 @@ public class UsecaseEMFLabelProvider {
 			if (scenario.eContainer() instanceof UseCaseStep) {
 				UseCaseStep parent = (UseCaseStep)scenario.eContainer();
 				if (parent.getExtensions().contains(scenario)) {
-					styledString.append(" (ext.)", StyledString.COUNTER_STYLER);
+					cell.setImage(EXTENSION_IMAGE);
 				} else {
-					styledString.append(" (var.)", StyledString.COUNTER_STYLER);
+					cell.setImage(VARIATION_IMAGE);
 				}
 			}
 			
@@ -113,7 +121,8 @@ public class UsecaseEMFLabelProvider {
 		
 		@Override
 		protected void updateStepAnnotation(ViewerCell cell, StepAnnotation stepAnnotation) {
-			cell.setText("Annotation");
+//			cell.setText("Annotation");
+			cell.setImage(ANNOTATION_IMAGE );
 		}
 	}
 	
