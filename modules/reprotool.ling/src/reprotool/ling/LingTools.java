@@ -21,6 +21,7 @@ import reprotool.ling.tools.Lemmatizer;
 import reprotool.ling.tools.Parser;
 import reprotool.ling.tools.Tagger;
 import reprotool.ling.tools.Tokenizer;
+import reprotool.model.usecase.UseCase;
 import reprotool.model.usecase.UseCaseStep;
 
 /**
@@ -149,6 +150,60 @@ public class LingTools {
 		return command;
 	}	
 	
+	/**
+	 * Runs all linguistic tools for all UseCaseSteps in UseCase
+	 * 
+	 * @param editingDomain
+	 * @param ucs
+	 * @return CompoundCommand all commands at model objects
+	 */
+	public static CompoundCommand analyseUseCase(EditingDomain editingDomain, UseCase uc) {
+		// gets UseCaseStep string 
+	//	String sentenceString = ucs.getContent();
+		// empty sentence - some problems?
+	//	if(sentenceString.isEmpty()) {
+			return new CompoundCommand();
+	//	}
+	/*	
+		// gets sentence object
+		//Sentence sentence = LingTools.parseSentence(sentenceString);
+		
+		LingJob job = new LingJob("Linguistics analyse", sentenceString);
+		//job.setProperty(IProgressConstants.ACTION_PROPERTY, gotoAction);		
+		job.schedule();	
+
+		while(job.getState() != Job.NONE){
+			//System.out.println(job.getState());
+			try {
+				//Thread.currentThread();
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+
+				e.printStackTrace();
+			}
+		}
+		System.out.println("LingJob final state: " + job.getState());
+		
+		Sentence sentence = job.getSentence();		
+		
+		try {
+			// match sentence object to original string
+			if(!MatchSentence.matchSentence(sentenceString, sentence)){
+				IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, "Error during matching UseCaseStep.content to Sentence object", null);
+				StatusManager.getManager().handle(status, StatusManager.LOG);
+			}
+			// detect all striped sentence regions like "name" 
+			MatchSentence.matchSentenceRegions(sentenceString, sentence);
+		} catch (NullPointerException e){
+			IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, "NullPointerException during matching UseCaseStep.content to Sentence object and detecting regions", e);
+			StatusManager.getManager().handle(status, StatusManager.LOG);
+		}
+		CompoundCommand command = Analyser.analyseTree(editingDomain, ucs, sentence);
+		System.out.println("Linguistics - created command - END.");
+		*/
+		//return command;
+	}
+	
 	// job inicialization
 	public static void initJob() {
 		//nic tam neni
@@ -159,17 +214,6 @@ public class LingTools {
 		    public IStatus run(IProgressMonitor monitor) {
 		    	setProperty(IProgressConstants.KEEP_PROPERTY, Boolean.TRUE);
 		    	try{
-
-
-		    		//Activator act = Activator.getDefault() ;
-		    		//Assert.isNotNull(act);
-		    			    		
-		    		// show the console
-		    		/*
-		    		consoleOut.getConsole().clearConsole();
-		    		consoleOut.getConsole().activate();
-		    		consoleOut.println("huhu jsem tu");
-		    		*/
 		    		String initSentence = "Inicialization sentence.";
 
 		    		monitor.beginTask("External tools", 100);
@@ -220,22 +264,6 @@ public class LingTools {
 		job.setProperty(IProgressConstants.ACTION_PROPERTY, showReportAction);		
 		job.schedule();	
 	}	
-	/*
-	public static MessageConsole findConsole() {
-		ConsolePlugin plugin = ConsolePlugin.getDefault();
-		IConsoleManager consoleManager = plugin.getConsoleManager();
 
-		for (IConsole console : consoleManager.getConsoles()) {
-			if (PLUGIN_ID.equals(console.getName())) {
-				return (MessageConsole) console;
-			}
-		}
-
-		MessageConsole console = new MessageConsole(PLUGIN_ID, null);
-		consoleManager.addConsoles(new IConsole[] { console });
-
-		return console;
-	}
-	*/
 }
 

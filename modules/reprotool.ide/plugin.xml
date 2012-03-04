@@ -26,7 +26,7 @@
             <view
          name="Properties View"
          category="reprotool.ide.views.ReprotoolCategory"
-         class="org.eclipse.ui.ExtensionFactory:propertiesView"
+         class="org.eclipse.ui.views.properties.PropertySheet"
          id="org.eclipse.ui.views.PropertiesView"
          restorable="true">
       </view>
@@ -142,17 +142,7 @@
          </view>
          <view
                closeable="true"
-               id="org.eclipse.ui.views.PropertiesView"
-               minimized="false"
-               moveable="true"
-               ratio="0.65"
-               relationship="stack"
-               relative="org.eclipse.ui.views.ContentOutline"
-               visible="true">
-         </view>
-         <view
-               closeable="true"
-               id="reprotool.ide.views.sentenceanalysis.SentenceAnalysisSheet"
+               id="org.eclipse.ui.views.ProgressView"
                minimized="false"
                moveable="true"
                ratio="0.7"
@@ -162,7 +152,17 @@
          </view>
          <view
                closeable="true"
-               id="org.eclipse.ui.views.ProgressView"
+               id="reprotool.ide.views.sentenceanalysis.SentenceAnalysisSheet"
+               minimized="false"
+               moveable="true"
+               ratio="0.7"
+               relationship="stack"
+               relative="org.eclipse.ui.views.ProgressView"
+               visible="true">
+         </view>
+         <view
+               closeable="true"
+               id="org.eclipse.ui.views.PropertiesView"
                minimized="false"
                moveable="true"
                ratio="0.7"
