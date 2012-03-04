@@ -27,7 +27,7 @@
          name="Properties View"
          category="reprotool.ide.views.ReprotoolCategory"
          class="org.eclipse.ui.views.properties.PropertySheet"
-         id="org.eclipse.ui.views.PropertiesView"
+         id="org.eclipse.ui.views.PropertySheet"
          restorable="true">
       </view>
       <view
@@ -162,7 +162,7 @@
          </view>
          <view
                closeable="true"
-               id="org.eclipse.ui.views.PropertiesView"
+               id="org.eclipse.ui.views.PropertySheet"
                minimized="false"
                moveable="true"
                ratio="0.7"
