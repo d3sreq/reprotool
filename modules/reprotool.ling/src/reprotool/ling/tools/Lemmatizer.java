@@ -1,14 +1,19 @@
 package reprotool.ling.tools;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 
+import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.ui.statushandlers.StatusManager;
+import org.osgi.framework.Bundle;
+
 import is2.data.SentenceData09;
 import reprotool.ling.Activator;
 import reprotool.ling.Sentence;
@@ -88,35 +93,16 @@ public class Lemmatizer extends Tool {
 	public static synchronized boolean start() {
 		String modelFile = "";
 
-		
-		// locating external model
-		try{
-			modelFile = Platform.getPreferencesService().getString("reprotool.ide", "lemmatizerModel", "/lemma-eng.model", null);
-    	} catch (NullPointerException e){
-			String rootPath;
-			try {
-				rootPath = new java.io.File(Parser.class.getResource("/").toURI()).getParentFile().getParent();
-			} catch (URISyntaxException e1) {
-				rootPath = new java.io.File(Parser.class.getResource("/").getPath()).getParentFile().getParent();
-			}
-			//modelFile = rootPath + "/../tools/mate-tools/lemma-eng.model";
-			modelFile = rootPath + "/reprotool.tools.anna/data/lemma-eng.model";
-    	}   	
-    	
-		/*
 		// locating external model
 		Bundle bundle = Platform.getBundle("reprotool.tools.anna");
 		URL fileURL = bundle.getEntry("data/lemma-eng.model");
 		try {
 			File file = new File(FileLocator.resolve(fileURL).toURI());
 			modelFile = file.toString();
-		} catch (URISyntaxException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}*/
+		} catch (Exception e) {
+			IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, "Error during locating lemmatizer model", e);
+			StatusManager.getManager().handle(status, StatusManager.LOG);
+		}
 
 		// location of the model - options
 		try {

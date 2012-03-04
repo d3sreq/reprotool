@@ -44,6 +44,7 @@ import org.eclipse.ui.PartInitException;
 
 import reprotool.ide.editors.usecase.sentenceanalysis.action.ActivityAction;
 import reprotool.ide.editors.usecase.sentenceanalysis.action.AutomaticAnalysisAction;
+import reprotool.ide.editors.usecase.sentenceanalysis.action.AutomaticAnalysisAllAction;
 import reprotool.ide.editors.usecase.sentenceanalysis.action.EraseAction;
 import reprotool.ide.editors.usecase.sentenceanalysis.action.GotoAction;
 import reprotool.ide.editors.usecase.sentenceanalysis.action.IncludeUseCaseAction;
@@ -183,6 +184,7 @@ public class UsecaseEMFActionBarContributor
 	private IncludeUseCaseAction includeUseCaseAction;
 	private EraseAction eraseAction;
 	
+	private AutomaticAnalysisAllAction automaticAnalysisAllAction;
 	private AutomaticAnalysisAction automaticAnalysisAction;
 	
 
@@ -227,7 +229,10 @@ public class UsecaseEMFActionBarContributor
 		
 		toolBarManager.add(new Separator("usecase-automatic-tools"));
 		
-		automaticAnalysisAction = new AutomaticAnalysisAction("usecase-automatic", refreshEditorAction);
+		automaticAnalysisAllAction = new AutomaticAnalysisAllAction("usecase-automatic-all", "Analyze linguistically Use Case", refreshEditorAction);
+		toolBarManager.add(automaticAnalysisAllAction);
+		
+		automaticAnalysisAction = new AutomaticAnalysisAction("usecase-automatic", "Analyze linguistically selected Use Case Step", refreshEditorAction);
 		toolBarManager.add(automaticAnalysisAction);
 		
 		toolBarManager.add(new Separator("usecase-additions"));

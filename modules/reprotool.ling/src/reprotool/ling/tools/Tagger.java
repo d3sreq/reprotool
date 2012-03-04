@@ -3,14 +3,20 @@ package reprotool.ling.tools;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
+import java.net.URL;
+
+import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.ui.statushandlers.StatusManager;
+import org.osgi.framework.Bundle;
+
 import reprotool.ling.Activator;
 import reprotool.ling.Tool;
 
@@ -54,7 +60,7 @@ public class Tagger extends Tool{
 		
 		PrintStream stdout = System.out;
 		InputStream stdin = System.in;
-		
+		/*
 		// locating external model
 		try{
 			path = Platform.getPreferencesService().getString("reprotool.ide", "mxpostModel", "/tagger.project", null);
@@ -66,9 +72,9 @@ public class Tagger extends Tool{
 				rootPath = new java.io.File(Tagger.class.getResource("/").getPath()).getParentFile().getParent();
 			}
 			path = rootPath + "/reprotool.tools.mxpost/data/tagger.project";
-		}
+		}*/
 		
-		/*
+		
 		// locating external model
     	Bundle bundle = Platform.getBundle("reprotool.tools.mxpost");
     	URL modelFileURL = bundle.getEntry("data/tagger.project");
@@ -81,7 +87,7 @@ public class Tagger extends Tool{
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-	*/
+	
 		try{
 			InputStream input = new ByteArrayInputStream(originalText.getBytes("UTF-8"));
 			System.setIn(input); 

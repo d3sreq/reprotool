@@ -1,19 +1,16 @@
 package reprotool.ide.editors.usecase.sentenceanalysis.action;
 
 import org.eclipse.emf.common.command.CompoundCommand;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.edit.domain.EditingDomain;
+import org.eclipse.emf.edit.domain.IEditingDomainProvider;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.IWorkbench;
-import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.BaseSelectionListenerAction;
 
 import reprotool.ide.Activator;
-import reprotool.ide.editors.usecase.UsecaseEMFEditor;
 import reprotool.ling.LingTools;
 import reprotool.model.usecase.UseCaseStep;
 
@@ -22,14 +19,14 @@ import reprotool.model.usecase.UseCaseStep;
  * @author jvinarek
  *
  */
-public class AutomaticAnalysisAction extends BaseSelectionListenerAction {
+public class AutomaticAnalysisAllAction extends BaseSelectionListenerAction {
 
 	private ImageDescriptor imageDescriptor;
 	private IAction refreshEditorAction;
 	
-	public AutomaticAnalysisAction(String text, String tooltip, IAction refreshEditorAction) {
+	public AutomaticAnalysisAllAction(String text, String tooltip, IAction refreshEditorAction) {
 		super(text);
-		imageDescriptor = Activator.getImageDescriptor("icons/lightning-16x16.png");
+		imageDescriptor = Activator.getImageDescriptor("icons/table-lightning-16x16.png");
 		this.setToolTipText(tooltip);
 		this.refreshEditorAction = refreshEditorAction;
 	}
@@ -57,7 +54,7 @@ public class AutomaticAnalysisAction extends BaseSelectionListenerAction {
 		}
 		
 		UseCaseStep useCaseStep = (UseCaseStep)elem;
-		EditingDomain editingDomain = getEditingDomain();
+		EditingDomain editingDomain = getEditingDomain(useCaseStep);
 		
 		CompoundCommand command = LingTools.analyseUseCaseStep(editingDomain, useCaseStep);
 		editingDomain.getCommandStack().execute(command);
@@ -65,19 +62,11 @@ public class AutomaticAnalysisAction extends BaseSelectionListenerAction {
 		refreshEditorAction.run();
 	}
 	
-	private EditingDomain getEditingDomain() {
-		IWorkbench wb = PlatformUI.getWorkbench();
-		IWorkbenchWindow window = wb.getActiveWorkbenchWindow();
-		IWorkbenchPage page = window.getActivePage();
-		
-		IEditorPart editorPart = page.getActiveEditor();
-
-		if (!(editorPart instanceof UsecaseEMFEditor)) {
-			return null;
-		}
-		UsecaseEMFEditor usecaseEMFEditor = (UsecaseEMFEditor)editorPart;
-		EditingDomain editingDomain = usecaseEMFEditor.getEditingDomain();
-		
+	private EditingDomain getEditingDomain(EObject eobject) {
+		ResourceSet resourceSet = eobject.eResource().getResourceSet();
+		// TODO - jvinarek - use guava validation ?
+		assert(resourceSet instanceof IEditingDomainProvider);
+		EditingDomain editingDomain = ((IEditingDomainProvider)resourceSet).getEditingDomain(); 
         return editingDomain; 
 	}
 }
