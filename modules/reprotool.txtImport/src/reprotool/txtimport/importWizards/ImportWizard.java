@@ -34,6 +34,7 @@ import reprotool.model.swproj.Actor;
 import reprotool.model.swproj.SoftwareProject;
 import reprotool.model.swproj.SwprojFactory;
 import reprotool.txtimport.Activator;
+import reprotool.txtimport.ModelGenerator;
 import reprotool.txtimport.UseCaseGenerator;
 
 
@@ -148,8 +149,10 @@ public class ImportWizard extends Wizard implements IImportWizard {
 			IPath useCasePath = new Path(fileName);
 			System.out.println("Loading use-case " + fileName);				
 			URI uri = createPlatformResourceURI(useCasePath);
-			System.out.println("The generated uri is: " + uri.path());								
-			UseCase model = (UseCase) Platform.getAdapterManager().getAdapter(uri, UseCase.class);
+			System.out.println("The generated uri is: " + uri.path());
+						
+			ModelGenerator generator = new ModelGenerator();
+			UseCase model = generator.getUseCase(uri);
 
 			if (model == null) {
 				System.out.println("Adaptation failed.");
