@@ -67,6 +67,8 @@ import reprotool.model.usecase.presentation.ReprotoolEditorPlugin;
  */
 public class UsecaseEMFEditorPart extends EditorPart implements IMenuListener, IEditingDomainProvider {
 
+	private final String UNNAMED_SUFFIX = " - unnamed";
+	
 	private UsecaseEMFEditorComposite composite;
 	private CommandStackListener commandStackListener;
 	protected UsecaseEMFEditor parentEditor;
@@ -309,7 +311,10 @@ public class UsecaseEMFEditorPart extends EditorPart implements IMenuListener, I
 		if (useCase.getName() != null && !useCase.getName().isEmpty()) {
 			parentEditor.setPartName(useCase.getName());
 		} else {
-			String partName = parentEditor.getPartName() + " - unnamed";
+			String partName = parentEditor.getPartName();
+			if (!partName.endsWith(UNNAMED_SUFFIX)) {
+				partName += UNNAMED_SUFFIX;
+			}
 			parentEditor.setPartName(partName);
 		}
 	}
