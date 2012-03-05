@@ -42,6 +42,7 @@ public class NuSMVGenerator {
 	
 	private Set<String> states = new HashSet<String>();
 	private List<String> annotatedLabels = new ArrayList<String>();
+	private List<String> traceIDs = new ArrayList<String>();
 	private List<UseCase> includedUseCases = new ArrayList<UseCase>();
 	private HashMap<String, Transition> label2Trans = new HashMap<String, Transition>();
 	private HashMap<Transition, String> trans2Label = new HashMap<Transition, String>();
@@ -118,6 +119,9 @@ public class NuSMVGenerator {
 			EList<StepAnnotation> annots = ucStep.getAnnotations();
 			if (!annots.isEmpty()) {
 				for (StepAnnotation a: annots) {
+					if (a.getAnnotationType().getName().equals("on")) {
+						traceIDs.add(a.getId());
+					}
 					String tag = a.getAnnotationType().getName() + "_" + a.getId();
 					AnnotationEntry aEntry = annotationTracker.get(tag);
 					if (aEntry == null) {
@@ -144,6 +148,20 @@ public class NuSMVGenerator {
 		
 		for (TransitionalState tState: machine.getTransitionalStates()) {
 			loadStatesFromTransitions(tState.getTransitions());
+		}
+		
+		checkSpecialAnnotations();
+	}
+	
+	private void checkSpecialAnnotations() {
+		for (String annotId : traceIDs) {
+			String traceTag = "trace_" + annotId;
+			if (!annotationTracker.containsKey(traceTag)) {
+				AnnotationEntry aEntry = new AnnotationEntry();
+				aEntry.automatonID = useCaseId;
+				aEntry.states = new ArrayList<String>();
+				annotationTracker.put(traceTag, aEntry);
+			}
 		}
 	}
 	
@@ -287,8 +305,10 @@ public class NuSMVGenerator {
 				UseCaseInclude ui = (UseCaseInclude)tr.getRelatedStep().getAction();
 				int i = includedUseCases.indexOf(ui.getIncludeTarget()) + 1;
 				String tag = Integer.toString(i);
-				nextExpr.append("		s=" + label + "__ & y" + tag +  ".s != sFin : " + label + "__;\n");
-				nextExpr.append("		s=" + label + "__ & y" + tag +  ".s  = sFin : " + label + "_;\n");
+				nextExpr.append("		s=" + label + "__ & y" + tag +  ".s != sFin & y" + tag +
+						".s != sAbort : " + label + "__;\n");
+				nextExpr.append("		s=" + label + "__ & (y" + tag +  ".s  = sFin | y" + tag +
+						".s = sAbort) : " + label + "_;\n");
 			}
 		}
 		
