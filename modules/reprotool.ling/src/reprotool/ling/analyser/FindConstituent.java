@@ -51,7 +51,7 @@ public class FindConstituent {
 					if (word.getPOS() != POSType.POSSESSIVE_ENDING) {
 						// must be already actor
 						for (Actor ac : actors) {
-							if (ac.getName().equalsIgnoreCase(word.getLemma())) {
+							if (ac.getName() != null && ac.getName().equalsIgnoreCase(word.getLemma())) {
 								// must be a noun
 								word.setType(WordType.INDIRECT_OBJECT);
 								words.add(word);
@@ -170,6 +170,7 @@ public class FindConstituent {
 		if (subject != null) {
 			if(isActor) {
 				for (Actor ac : actors) {
+					//System.out.println(ac.getName());
 					if ((ac.getName() != null) && ac.getName().equalsIgnoreCase((subject).getLemma())) {
 						subject.setType(WordType.SUBJECT);
 						return subject;

@@ -327,27 +327,31 @@ public class Parser extends Tool {
 	    		case FRAG:
 	    			// sentence fragment
 	    			break;
-	    			
-	    		default:
-	    			// preparation for new WORD (at POS)
-	    			curWord = factory.createWord();
-	    			// set POS of word
-	    			try {
-	    				curWord.setPOS(POSType.get(symbol));
-	    			} catch (NullPointerException e) {
-	    				curWord.setPOS(POSType.UNDEFINED); 
-	    			}
-    			
-	    			//there are no parent roots -> finish sentence
-	    			if(curNode == null) {
-	    				break;
-	    			}
-	    			curWord.setParent(curNode);
-	    			curNode.getChildren().add(curWord);	
-	    			sentence.getWords().add(curWord);
-	    			atWord = true;
-
+	    		case PRN:
+	    			// parenthetical
 	    			break;
+	    			
+				default:
+					// preparation for new WORD (at POS)
+					curWord = factory.createWord();
+					// set POS of word
+					try {
+						curWord.setPOS(POSType.get(symbol));
+					} catch (NullPointerException e) {
+						curWord.setPOS(POSType.UNDEFINED);
+					}
+
+					// there are no parent roots -> finish sentence
+					if (curNode == null) {
+						break;
+					}
+					// text will be rewrited
+					curWord.setText(symbol);
+					curWord.setParent(curNode);
+					curNode.getChildren().add(curWord);
+					sentence.getWords().add(curWord);
+					atWord = true;
+					break;
 	    		}
 	    	} else if(symbol.startsWith(")")) { // end node
 	    		

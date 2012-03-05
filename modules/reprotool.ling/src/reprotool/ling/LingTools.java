@@ -5,6 +5,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.common.command.CompoundCommand;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
@@ -115,11 +116,9 @@ public class LingTools {
 		//Sentence sentence = LingTools.parseSentence(sentenceString);
 		
 		LingJob job = new LingJob("Linguistics analyse", sentenceString);
-		//job.setProperty(IProgressConstants.ACTION_PROPERTY, gotoAction);		
 		job.schedule();	
 
 		while(job.getState() != Job.NONE){
-			//System.out.println(job.getState());
 			try {
 				//Thread.currentThread();
 				Thread.sleep(100);
@@ -130,7 +129,9 @@ public class LingTools {
 		}
 		System.out.println("LingJob final state: " + job.getState());
 		
-		Sentence sentence = job.getSentence();		
+		Sentence sentence = job.getSentence();
+		if(sentence.getSentenceString() != null && !sentenceString.equals(sentence.getSentenceString()))
+			sentenceString = sentence.getSentenceString();
 		
 		try {
 			// match sentence object to original string
@@ -158,50 +159,21 @@ public class LingTools {
 	 * @return CompoundCommand all commands at model objects
 	 */
 	public static CompoundCommand analyseUseCase(EditingDomain editingDomain, UseCase uc) {
-		// gets UseCaseStep string 
-	//	String sentenceString = ucs.getContent();
-		// empty sentence - some problems?
-	//	if(sentenceString.isEmpty()) {
+		System.out.println("Linguistic analysis of UseCase started.");
+		// gets UseCaseSteps 
+		EList<UseCaseStep> lucs = uc.getAllUseCaseStepsShortcut();
+		
+		// empty list - some problems?
+		if(lucs.isEmpty()) {
 			return new CompoundCommand();
-	//	}
-	/*	
-		// gets sentence object
-		//Sentence sentence = LingTools.parseSentence(sentenceString);
-		
-		LingJob job = new LingJob("Linguistics analyse", sentenceString);
-		//job.setProperty(IProgressConstants.ACTION_PROPERTY, gotoAction);		
-		job.schedule();	
-
-		while(job.getState() != Job.NONE){
-			//System.out.println(job.getState());
-			try {
-				//Thread.currentThread();
-				Thread.sleep(100);
-			} catch (InterruptedException e) {
-
-				e.printStackTrace();
-			}
 		}
-		System.out.println("LingJob final state: " + job.getState());
 		
-		Sentence sentence = job.getSentence();		
-		
-		try {
-			// match sentence object to original string
-			if(!MatchSentence.matchSentence(sentenceString, sentence)){
-				IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, "Error during matching UseCaseStep.content to Sentence object", null);
-				StatusManager.getManager().handle(status, StatusManager.LOG);
-			}
-			// detect all striped sentence regions like "name" 
-			MatchSentence.matchSentenceRegions(sentenceString, sentence);
-		} catch (NullPointerException e){
-			IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, "NullPointerException during matching UseCaseStep.content to Sentence object and detecting regions", e);
-			StatusManager.getManager().handle(status, StatusManager.LOG);
+		CompoundCommand command = new CompoundCommand();
+		for(UseCaseStep ucs : lucs) {
+			command.append(analyseUseCaseStep(editingDomain, ucs));		
 		}
-		CompoundCommand command = Analyser.analyseTree(editingDomain, ucs, sentence);
-		System.out.println("Linguistics - created command - END.");
-		*/
-		//return command;
+	
+		return command;
 	}
 	
 	// job inicialization
@@ -234,6 +206,9 @@ public class LingTools {
 		    		monitor.worked(10);
 		    		Parser.start();	
 
+		    		LingJob job = new LingJob("Linguistics analyse initialization", "Initialization sentence.");
+		    		job.schedule();	
+		    		
 			    	if(monitor.isCanceled()){
 			    		return Status.CANCEL_STATUS;
 			    	}

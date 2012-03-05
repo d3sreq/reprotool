@@ -15,6 +15,7 @@ import org.eclipse.ui.actions.BaseSelectionListenerAction;
 import reprotool.ide.Activator;
 import reprotool.ide.editors.usecase.UsecaseEMFEditor;
 import reprotool.ling.LingTools;
+import reprotool.model.usecase.UseCase;
 import reprotool.model.usecase.UseCaseStep;
 
 /**
@@ -57,9 +58,12 @@ public class AutomaticAnalysisAllAction extends BaseSelectionListenerAction {
 		}
 		
 		UseCaseStep useCaseStep = (UseCaseStep)elem;
+		UseCase useCase = useCaseStep.getUseCaseShortcut();
 		EditingDomain editingDomain = getEditingDomain();
 		
-		CompoundCommand command = LingTools.analyseUseCaseStep(editingDomain, useCaseStep);
+		System.out.println("huhu2");
+		
+		CompoundCommand command = LingTools.analyseUseCase(editingDomain, useCase);
 		editingDomain.getCommandStack().execute(command);
 		
 		refreshEditorAction.run();

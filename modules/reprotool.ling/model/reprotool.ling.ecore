@@ -4,6 +4,7 @@
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="ling"
     nsURI="http://d3s.mff.cuni.cz/reprotool/model/ling" nsPrefix="ling">
   <eClassifiers xsi:type="ecore:EClass" name="Sentence">
+    <eOperations name="beforeTokenizer"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="words" upperBound="-1"
         eType="#//Word"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="sentenceTree" eType="#//SentenceNode"
@@ -15,6 +16,7 @@
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="regions" upperBound="-1"
         eType="#//SentenceRegion"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="sentenceString" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Word" eSuperTypes="#//ParseTreeNode">
     <eOperations name="parseString" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
@@ -49,12 +51,13 @@
     <eLiterals name="VP" value="1"/>
     <eLiterals name="PP" value="2"/>
     <eLiterals name="FRAG" value="8"/>
-    <eLiterals name="X" value="9"/>
+    <eLiterals name="X" value="10"/>
     <eLiterals name="S" value="3"/>
     <eLiterals name="QP" value="7"/>
     <eLiterals name="ADJP" value="4"/>
     <eLiterals name="ADVP" value="5" literal="ADVP"/>
     <eLiterals name="CONJP" value="6"/>
+    <eLiterals name="PRN" value="9"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="WordType">
     <eLiterals name="SUBJECT"/>

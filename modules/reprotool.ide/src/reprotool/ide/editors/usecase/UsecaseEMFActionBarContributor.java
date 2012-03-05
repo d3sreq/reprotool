@@ -302,6 +302,7 @@ public class UsecaseEMFActionBarContributor
 			selectionProvider.addSelectionChangedListener(this);
 
 			// add linguistic tools analysis
+			selectionProvider.addSelectionChangedListener(automaticAnalysisAllAction);
 			selectionProvider.addSelectionChangedListener(automaticAnalysisAction);
 			
 			// Fake a selection changed event to update the menus.
@@ -379,6 +380,7 @@ public class UsecaseEMFActionBarContributor
 			gotoAction.setEnabled(action instanceof Goto);
 			includeUseCaseAction.setEnabled(action instanceof UseCaseInclude);
 			eraseAction.setEnabled(true);
+			automaticAnalysisAllAction.setEnabled(true);
 			automaticAnalysisAction.setEnabled(true);
 		} else {
 			// disable all
@@ -389,6 +391,7 @@ public class UsecaseEMFActionBarContributor
 			gotoAction.setEnabled(false);
 			includeUseCaseAction.setEnabled(false);
 			eraseAction.setEnabled(false);
+			automaticAnalysisAllAction.setEnabled(false);
 			automaticAnalysisAction.setEnabled(false);
 		}
 	}

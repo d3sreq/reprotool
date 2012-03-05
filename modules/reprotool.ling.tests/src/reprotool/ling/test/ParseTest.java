@@ -50,6 +50,20 @@ public class ParseTest {
 		assertEquals("(S (NP (NNP Administrator)) (VP (VBZ opens) (NP (NN view) (CD 1))) (. .))", Parser.getString(sentence));
 	}
 
+	@Test
+	public final void testSafeTokenizer1() {
+		String sentence = "|.,_!<>?:\"{}()_+!@#$%^&*[]";
+		
+		assertEquals("|.,_!<>?:\"{}()_+!@#$%^&*[]", Tokenizer.getSafeSentence(sentence));
+	}
+	
+	@Test
+	public final void testSafeTokenizer2() {
+		String sentence = "ìšèøıáíéúùabAB09\'\".,?!:;";
+		
+		assertEquals("abAB09\'\".,?!:;", Tokenizer.getSafeSentence(sentence));
+	}
+	
 	// first sentence
 	@Test
 	public final void testTokenizer1() {
@@ -57,7 +71,7 @@ public class ParseTest {
 		
 		assertEquals("Administrator sends messages .", Tokenizer.getTokens(sentence));
 	}
-
+	
 	@Test
 	public final void testTagger1() {
 		String sentence = "Administrator sends messages .";

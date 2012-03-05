@@ -213,8 +213,7 @@ public class Analyser {
 		}
 		for (Word word : sentence.getWords()) {
 			// abort verbs
-			if (word.getLemma() != null
-					&& LingConfig.abortVerbs.contains(word.getLemma())) {
+			if (word.getLemma() != null	&& LingConfig.abortVerbs.contains(word.getLemma())) {
 				found = true;
 				break;
 			}
@@ -520,7 +519,7 @@ public class Analyser {
 			// action part settings
 			SentenceActor sactor = apfactory.createSentenceActor();
 			for (Actor ac : actors) {
-				if (ac.getName().equalsIgnoreCase(subject.getLemma())) {
+				if (ac.getName() != null && ac.getName().equalsIgnoreCase(subject.getLemma())) {
 					sactor.setActor(ac);
 				}
 			}

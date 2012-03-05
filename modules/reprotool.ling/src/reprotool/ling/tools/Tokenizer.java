@@ -44,6 +44,10 @@ public class Tokenizer extends Tool{
 		text = Pattern.compile("shan \' t").matcher(text).replaceAll("shan* n\'t");
 		text = Pattern.compile("n ' t").matcher(text).replaceAll(" n't");
 		
+		// putting space before bad characters
+		text = Pattern.compile("\\(").matcher(text).replaceAll(" -LRB- ");
+		text = Pattern.compile("\\)").matcher(text).replaceAll(" -RRB- ");
+		
 		// whitespaces cleanup
 		text = Pattern.compile("[ ]+").matcher(text).replaceAll(" ");
 		
@@ -51,9 +55,28 @@ public class Tokenizer extends Tool{
 		text = Pattern.compile("\"").matcher(text).replaceAll("");
 		text = Pattern.compile(" ' ").matcher(text).replaceAll(" ");
 		
-		//tokens = Arrays.asList(text.trim().split("\\s+"));
-		tokens = text.trim();
-		
+		tokens = text.trim();		
 		return tokens;
-	}		
+	}
+    
+	/**
+	 * Returns sentence string with removed odd characters
+	 *
+	 * @return List<String> tokens 
+	 */	
+    public static String getSafeSentence(String originalText) {	
+    	String result = "";
+		String text = originalText;
+		
+		// running at blank data
+    	if(originalText.isEmpty()) {
+    		return originalText;
+    	}    	
+    	//text = text.replaceAll("[^\\p{Print}]", "");  
+    	text = text.replaceAll("[^a-zA-Z0-9\'\".,?!:;]", "");
+    	
+		result = text.trim();    	
+    	return result;
+    }
+    
 }
