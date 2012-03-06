@@ -57,7 +57,7 @@ public class TxtUseCaseJavaValidator extends AbstractTxtUseCaseJavaValidator {
 	}
 	
 	@Check
-	public void checkConditionLabel(Condition cond) {
+	public void checkConditionLabel(Condition cond) {		
 		String condLabel = cond.getLabel();
 		String stepLabel = condLabel.substring(0, condLabel.length() - 1);
 		ExtVarUnit u = (ExtVarUnit) cond.eContainer();
@@ -65,20 +65,24 @@ public class TxtUseCaseJavaValidator extends AbstractTxtUseCaseJavaValidator {
 		UseCase uc = (UseCase) extVarBlock.eContainer();
 		
 		int counter = 0;
-		for (ExtVarUnit unit: uc.getExtensionsBlock().getUnits()) {
-			Condition c = unit.getCondition();
-			if (c.getLabel().equals(condLabel)) {
-				counter++;
-				if (counter > 1) {
-					break;
-				}
-			}
-		}
-		if (counter <= 1) {
-			for (ExtVarUnit unit: uc.getVariationsBlock().getUnits()) {
+		if (uc.getExtensionsBlock() != null) {
+			for (ExtVarUnit unit: uc.getExtensionsBlock().getUnits()) {
 				Condition c = unit.getCondition();
 				if (c.getLabel().equals(condLabel)) {
 					counter++;
+					if (counter > 1) {
+						break;
+					}
+				}
+			}
+		}
+		if (uc.getVariationsBlock() != null) {
+			if (counter <= 1) {
+				for (ExtVarUnit unit: uc.getVariationsBlock().getUnits()) {
+					Condition c = unit.getCondition();
+					if (c.getLabel().equals(condLabel)) {
+						counter++;
+					}
 				}
 			}
 		}
@@ -133,7 +137,7 @@ public class TxtUseCaseJavaValidator extends AbstractTxtUseCaseJavaValidator {
 			}
 		}
 		
-		if (!found) {
+		if (!found && (uc.getExtensionsBlock() != null)) {
 			outer: for (ExtVarUnit unit: uc.getExtensionsBlock().getUnits()) {
 				for (ExtVarStep step: unit.getSteps()) {
 					if (step.getLabel().equals(stepLabel)) {
@@ -144,7 +148,7 @@ public class TxtUseCaseJavaValidator extends AbstractTxtUseCaseJavaValidator {
 			}
 		}
 		
-		if (!found) {
+		if (!found && (uc.getVariationsBlock() != null)) {
 			outer: for (ExtVarUnit unit: uc.getVariationsBlock().getUnits()) {
 				for (ExtVarStep step: unit.getSteps()) {
 					if (step.getLabel().equals(stepLabel)) {
@@ -160,11 +164,5 @@ public class TxtUseCaseJavaValidator extends AbstractTxtUseCaseJavaValidator {
 			error(message, TxtUseCasePackage.Literals.CONDITION__LABEL);
 			return;
 		}
-	}
-	
-	// TODO - ExtVarBlock - step labels form sequence (i.e. - 1a1, 1a3 <- missing 1a2)
-	// TODO - ExtVarBlock - steps belong to condition (i.e. - 1a1, 1a2 after 2b <- steps should start with 2b)
-	// TODO - conditions belong to step (i.e - steps 1-5, cond. 6a <- step 6 missing)
-	// TODO - conditions letters form "sequence" (i.e. - found 1b but 1a is missing) 
-	 
+	}	 
 }
