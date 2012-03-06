@@ -298,16 +298,11 @@ public class LTSContentOutlinePage extends Page implements IContentOutlinePage {
 		node.setData(s);
 		state2Node.put(s, node);
 		
-		int n = u.getMainScenario().getSteps().size();
-		UseCaseStep lastStep = u.getMainScenario().getSteps().get(n - 1);
-		
-		if (!(lastStep.getAction() instanceof AbortUseCase)) {
-			s = m.getFinalState();
-			node = new CGraphNode(viewer.getGraphControl(), SWT.NONE,
-				figureProvider.getFigure(s));
-			node.setData(s);
-			state2Node.put(s, node);
-		}
+		s = m.getFinalState();
+		node = new CGraphNode(viewer.getGraphControl(), SWT.NONE,
+			figureProvider.getFigure(s));
+		node.setData(s);
+		state2Node.put(s, node);
 	}
 	
 	private String generateLabel(UseCaseStep step, UseCase u) {
