@@ -14,6 +14,7 @@ import org.eclipse.ui.console.MessageConsoleStream;
 import reprotool.ling.Activator;
 import reprotool.ling.LingConfig;
 import reprotool.ling.LingFactory;
+import reprotool.ling.POSType;
 import reprotool.ling.Sentence;
 import reprotool.ling.SentenceNode;
 import reprotool.ling.SentenceRegion;
@@ -133,6 +134,7 @@ public class Analyser {
 					SetCommand setCommand = new SetCommand(editingDomain, ucs,
 							UsecasePackage.Literals.USE_CASE_STEP__ACTION,
 							action);
+					setCommand.setDescription("AbortUseCase action");
 					compoundCommand.append(setCommand);
 					definedAction = true;
 				}
@@ -188,14 +190,10 @@ public class Analyser {
 
 		// THE REST
 		if (!definedAction) {
-			//MessageConsoleStream consoleOut = Activator.getDefault().findConsole().newMessageStream();
-			//consoleOut.getConsole().clearConsole();
-			//consoleOut.getConsole().activate();
-			consoleOut.println("Action was not detected.");
-			
 			Unknown action = afactory.createUnknown();
 			SetCommand setCommand = new SetCommand(editingDomain, ucs,
 					UsecasePackage.Literals.USE_CASE_STEP__ACTION, action);
+			setCommand.setDescription("Unknown action");
 			compoundCommand.append(setCommand);
 			definedAction = true;
 		}
@@ -240,11 +238,18 @@ public class Analyser {
 		
 		// setting of the target
 		if (gotoVerbIndex >= 0) {
-			for(Word word : sentence.getWords()) {
-				if("usecase".equals(word.getLemma())){
+			int next = gotoVerbIndex;
+			// next word exists
+			if((gotoVerbIndex + 1) < sentence.getWords().size()) {
+				Word word = sentence.getWords().get(gotoVerbIndex + 1);
+				if(word.getPOS() == POSType.PREPOSITION_OR_SUBORDINATING_CONJUNCTION)
+					next = gotoVerbIndex + 1;
+			}			
+			int tempIndex = next;
+			if((tempIndex + 1) < sentence.getWords().size()) {
+				Word word = sentence.getWords().get(tempIndex + 1);
+				if("usecase".equals(word.getLemma()))
 					labelIndex = sentence.getWords().indexOf(word);
-					break;
-				}
 			}
 		}
 		
@@ -325,12 +330,11 @@ public class Analyser {
 						Word word = sentence.getWords().get(i);
 						if (sr.getContentStart() == 0 && name.startsWith(word.getText().toLowerCase())) {
 							sr.setContentStart(word.getContentStart());
-						} else {
-							if (sr.getContentStart() > 0 && name.endsWith(word.getText().toLowerCase())) {
-								sr.setContentLength(word.getContentStart() + word.getContentLength() - sr.getContentStart());
-								setUseCaseInclude(ucs, uc, sr);
-								return true;
-							}
+						} 
+						if (sr.getContentStart() > 0 && name.endsWith(word.getText().toLowerCase())) {
+							sr.setContentLength(word.getContentStart() + word.getContentLength() - sr.getContentStart());
+							setUseCaseInclude(ucs, uc, sr);
+							return true;
 						}
 					}
 				}
@@ -364,6 +368,7 @@ public class Analyser {
 
 			SetCommand setCommand = new SetCommand(editingDomain, ucs,
 					UsecasePackage.Literals.USE_CASE_STEP__ACTION, action);
+			setCommand.setDescription("Goto action");
 			compoundCommand.append(setCommand);
 			
 			// finding target
@@ -378,8 +383,7 @@ public class Analyser {
 			}
 
 			try {
-				EList<UseCaseStep> lucs = ucs.getUseCaseShortcut()
-						.getAllUseCaseStepsShortcut();
+				EList<UseCaseStep> lucs = ucs.getUseCaseShortcut().getAllUseCaseStepsShortcut();
 
 				if (!targetLabel.isEmpty()) {
 					// set target of GOTO action (UseCaseStep) by label
@@ -452,16 +456,13 @@ public class Analyser {
 		SetCommand setCommand = new SetCommand(editingDomain, ucs,
 				UsecasePackage.Literals.USE_CASE_STEP__ACTION,
 				action);
+		setCommand.setDescription("InternalAction action");
 		return setCommand;
 	}
 	
 	private static void setUseCaseInclude(UseCaseStep ucs, UseCase uc, SentenceRegion sr) {
 		
 		UseCaseInclude action = afactory.createUseCaseInclude();
-		SetCommand setCommand = new SetCommand(editingDomain, ucs,
-				UsecasePackage.Literals.USE_CASE_STEP__ACTION,
-				action);
-		compoundCommand.append(setCommand);
 				
 		if (uc != null) {
 			// text range settings
@@ -476,6 +477,12 @@ public class Analyser {
 			compoundCommand.append(addCommand);
 			action.setText(tr);
 			action.setIncludeTarget(uc);
+			
+			SetCommand setCommand = new SetCommand(editingDomain, ucs,
+					UsecasePackage.Literals.USE_CASE_STEP__ACTION,
+					action);
+			setCommand.setDescription("UseCaseInclude action");
+			compoundCommand.append(setCommand);
 		}
 	}
 	
@@ -498,6 +505,7 @@ public class Analyser {
 			// adding text range to model
 			AddCommand addCommand = new AddCommand(editingDomain, ucs,
 					UsecasePackage.Literals.PARSEABLE_ELEMENT__TEXT_NODES, tr);
+			addCommand.setDescription("UseCaseInclude action");
 			compoundCommand.append(addCommand);
 			action.setText(tr);
 			action.setIncludeTarget(uc);
@@ -558,7 +566,7 @@ public class Analyser {
 				ucs,
 				UsecasePackage.Literals.USE_CASE_STEP__ACTION,
 				action);
-		
+		setCommand.setDescription("ToSystem action");
 		return setCommand;
 	}
 	
@@ -588,6 +596,7 @@ public class Analyser {
 				AddCommand addCommand = new AddCommand(editingDomain, ucs,
 						UsecasePackage.Literals.PARSEABLE_ELEMENT__TEXT_NODES,
 						tr);
+				//addCommand
 				compoundCommand.append(addCommand);
 			}
 		}
@@ -616,6 +625,7 @@ public class Analyser {
 		SetCommand setCommand = new SetCommand(editingDomain, ucs,
 				UsecasePackage.Literals.USE_CASE_STEP__ACTION,
 				action);
+		setCommand.setDescription("FromSystem action");
 		compoundCommand.append(setCommand);
 		return setCommand;
 	}
@@ -654,6 +664,7 @@ public class Analyser {
 				// adding action param
 				AddCommand addCommand = new AddCommand(editingDomain, action,
 						ActionPackage.Literals.ACTION__ACTION_PARAM, aparam);
+				
 				compoundCommand.append(addCommand);
 				// adding conceptual object
 				if (add) {

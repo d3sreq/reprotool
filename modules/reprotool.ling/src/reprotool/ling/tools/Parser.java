@@ -253,7 +253,7 @@ public class Parser extends Tool {
     	ParseTreeNode curNode = rootNode;
 				
     	// removing head S (sentence) node - it is already root node
-    	if(parsedText.startsWith("(S") && parsedText.endsWith(")")) {
+    	if((parsedText.startsWith("(S") || parsedText.startsWith("(X")) && parsedText.endsWith(")")) {
     		parsedText = parsedText.substring(2, parsedText.length()-1).trim();
     	}    	
     	
@@ -365,10 +365,14 @@ public class Parser extends Tool {
 	    			atWord = false;
 	    		}
 	    	} else { // parsing WORD
-    			curWord.setText(symbol);
-    			curWord.setInterpunction(Pattern.matches("[,.!?\\-\"';]", symbol));
-    			// finding digits - all from Label1 to 99IMG
-    			curWord.setNumeral(Pattern.matches("([a-zA-Z]*\\d+)|(\\d+[a-zA-Z]*)", symbol));
+	    		if(symbol.equals("X") && curWord.getPOS() == POSType.UNDEFINED)
+	    			curNode.getChildren().remove(curWord);
+	    		else {
+	    			curWord.setText(symbol);
+	    			curWord.setInterpunction(Pattern.matches("[,.!?\\-\"';]", symbol));
+	    			// finding digits - all from Label1 to 99IMG
+	    			curWord.setNumeral(Pattern.matches("([a-zA-Z]*\\d+)|(\\d+[a-zA-Z]*)", symbol));
+	    		}
 	    	}  		
 	    }
 	    	

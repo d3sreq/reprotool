@@ -12,6 +12,7 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.console.MessageConsoleStream;
 import org.eclipse.ui.progress.IProgressConstants;
 import org.eclipse.ui.statushandlers.StatusManager;
 
@@ -147,6 +148,10 @@ public class LingTools {
 		}
 		CompoundCommand command = Analyser.analyseTree(editingDomain, ucs, sentence);
 		System.out.println("Linguistics - created command - END.");
+
+		// print result to RCP console
+		MessageConsoleStream consoleOut = Activator.getDefault().findConsole().newMessageStream();
+		consoleOut.println(command.getDescription());
 		
 		return command;
 	}	

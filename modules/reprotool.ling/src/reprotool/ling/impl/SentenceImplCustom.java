@@ -52,6 +52,9 @@ public class SentenceImplCustom extends SentenceImpl {
 	 */	
 	@Override
     public void beforeTokenizer(){
+		if(words == null)
+			return;
+		
     	for (Word word : words) {
     		if(word.getText() == null)
     			continue;

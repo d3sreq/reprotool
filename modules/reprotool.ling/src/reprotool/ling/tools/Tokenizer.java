@@ -73,7 +73,7 @@ public class Tokenizer extends Tool{
     		return originalText;
     	}    	
     	//text = text.replaceAll("[^\\p{Print}]", "");  
-    	text = text.replaceAll("[^a-zA-Z0-9\'\".,?!:;]", "");
+    	text = text.replaceAll("[^a-zA-Z0-9'\".,?!:;]", " ");
     	
 		result = text.trim();    	
     	return result;

@@ -34,7 +34,7 @@ public class MatchSentence {
 		for(Word word : sentence.getWords()){
 			// skip damaged words
 			if(word.getText() == null) continue;
-			// working strings
+			// working string
 			String rest = sentenceString.substring(position + restLength);
 			// length of word in original string
 			int length = 0;
@@ -48,14 +48,11 @@ public class MatchSentence {
 			}
 			
 			if(rest.startsWith(word.getText())){
-				// find first whitespace or punctuation after word.length				
-				Matcher match = Pattern.compile("([a-zA-Z0-9\'.]+)").matcher(rest);
-				if (match.find()) {
-					length = match.group(0).length();
+				
+				length = word.getText().length();
 
-					word.setContentStart(position);
-					word.setContentLength(restLength + length);				
-				}	
+				word.setContentStart(position);
+				word.setContentLength(restLength + length);					
 				
 			} else { // unknown characters / strings mismatch
 				result = false;
@@ -67,14 +64,6 @@ public class MatchSentence {
 				restLength = restLength + word.getText().length();
 				//restLength = 
 			} else { // non divided words	
-				restLength = 0;
-				// skip whitespaces and similar
-				Matcher match = Pattern.compile("([^a-zA-Z0-9\'.]+)").matcher(rest.substring(length));
-				if (match.find()) {
-					spaceLength = match.group(0).length();
-					length += spaceLength; 
-				}	
-	
 				position = position + length;
 			}
 			

@@ -142,7 +142,7 @@
          </view>
          <view
                closeable="true"
-               id="org.eclipse.ui.views.ProgressView"
+               id="reprotool.ide.views.sentenceanalysis.SentenceAnalysisSheet"
                minimized="false"
                moveable="true"
                ratio="0.7"
@@ -152,12 +152,12 @@
          </view>
          <view
                closeable="true"
-               id="reprotool.ide.views.sentenceanalysis.SentenceAnalysisSheet"
+               id="org.eclipse.ui.views.ProgressView"
                minimized="false"
                moveable="true"
                ratio="0.7"
                relationship="stack"
-               relative="org.eclipse.ui.views.ProgressView"
+               relative="reprotool.ide.views.sentenceanalysis.SentenceAnalysisSheet"
                visible="true">
          </view>
          <view
@@ -167,7 +167,7 @@
                moveable="true"
                ratio="0.7"
                relationship="stack"
-               relative="reprotool.ide.views.sentenceanalysis.SentenceAnalysisSheet"
+               relative="org.eclipse.ui.views.ProgressView"
                visible="true">
          </view>
          <viewShortcut
