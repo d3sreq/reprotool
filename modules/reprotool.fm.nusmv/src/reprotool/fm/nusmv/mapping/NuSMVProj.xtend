@@ -114,7 +114,7 @@ public class NuSMVProj {
 			bodies += $(factory.createNextBody) [
 				varId = tag
 				nextExpr = "case\n" +
-					globalTracker.get(tag).map([aEntry |
+					globalTracker.get(tag).filter([aEntry|(!aEntry.states.isEmpty())]).map([aEntry |
 						aEntry.states.map([
 							"\t\tx" + aEntry.automatonID + ".s=" + it + "_ : TRUE;"
 						]).join("\n")
@@ -288,7 +288,7 @@ public class NuSMVProj {
 							"		p=p" + nusmv.useCaseId + " & idle & x" + nusmv.useCaseId +
 							".s = s0 : TRUE;\n" +
 							"		TRUE : x" + nusmv.useCaseId + "run & x" + nusmv.useCaseId +
-							".s != sFin & x" + nusmv.useCaseId +  ".s != sAbort;\n" +
+							".s != sFin;\n" +
 							"	esac"													
 					} else {
 						nextExpr = "case\n" +
@@ -297,7 +297,7 @@ public class NuSMVProj {
 							nusmv.useCase.precedingUseCases.join(" & ",
 								["x" + nusmv.uc2id(it) + ".s = sFin"]) + " : TRUE;\n" +
 							"		TRUE : x" + nusmv.useCaseId + "run & x" + nusmv.useCaseId +
-							".s != sFin & x" + nusmv.useCaseId +  ".s != sAbort;\n" +
+							".s != sFin;\n" +
 							"	esac"
 					}
 				]

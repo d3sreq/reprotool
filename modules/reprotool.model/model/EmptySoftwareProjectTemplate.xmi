@@ -9,13 +9,15 @@
     <formulas xsi:type="annotate:CTLFormula" formula="AG(open -> AX(A[!open U close]))" description="No multi-open without close"/>
     <formulas xsi:type="annotate:CTLFormula" formula="AG(close -> AX(A[!close U open | !AF(close) ]))" description="No multi-close without open"/>
     <formulas xsi:type="annotate:CTLFormula" formula="A[!close U open | !AF(close)]" description="First 'open' then 'close'"/>
+    <formulas xsi:type="annotate:LTLFormula" formula="(!close U open) | G(!close)" description="First 'open' then 'close'"/>
     <members name="open"/>
     <members name="close"/>
   </annotationGroups>
   <annotationGroups xsi:type="annotate:TemporalAnnotationGroup">
     <formulas xsi:type="annotate:CTLFormula" formula="AG( create -> EF(use) )" description="After 'create' there must be some branch containing 'use'"/>
     <formulas xsi:type="annotate:CTLFormula" formula="AG( create -> AX(AG(!create)) )" description="Only one 'create'"/>
-    <formulas xsi:type="annotate:CTLFormula" formula="A[ !use U create | !AF(use)]" description="No 'use' before 'create'"/>
+    <formulas xsi:type="annotate:CTLFormula" formula="A[ !use U create | !AF(use)]" description="First 'create' then 'use'"/>
+    <formulas xsi:type="annotate:LTLFormula" formula="(!use U create) | G(!use)" description="First 'create' then 'use'"/>
     <members name="create"/>
     <members name="use"/>
   </annotationGroups>

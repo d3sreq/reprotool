@@ -494,7 +494,7 @@ public class NuSMVGenerator {
 		}
 		nextExpr.append("		s=sFin : sFin;\n");
 		if (hasAbort) {
-			nextExpr.append("		s=sAbort : sAbort;\n");			
+			nextExpr.append("		s=sAbort : sFin;\n");			
 		}
 		nextExpr.append("	esac");
 			
