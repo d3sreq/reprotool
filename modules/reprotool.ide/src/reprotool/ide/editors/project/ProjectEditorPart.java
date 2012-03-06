@@ -316,7 +316,6 @@ public class ProjectEditorPart extends EditorPart implements IMenuListener, IEdi
 		// TODO jvinarek - add checks
 		Resource resource = parentEditor.getEditingDomain().getResourceSet().getResources().get(0);
 		SoftwareProject softwareProject = (SoftwareProject)resource.getContents().get(0);
-		System.out.println("Project editor uses software project with id: " + softwareProject.hashCode());
 		return softwareProject;
 	}
 

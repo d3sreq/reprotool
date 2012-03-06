@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.eclipse.ui.console.MessageConsoleStream;
+
 import reprotool.ide.txtuc.txtUseCase.ExtVarBlock;
 import reprotool.ide.txtuc.txtUseCase.ExtVarStep;
 import reprotool.ide.txtuc.txtUseCase.ExtVarUnit;
@@ -17,12 +19,14 @@ import reprotool.model.usecase.UsecaseFactory;
 public class UseCaseGenerator {
 	private reprotool.ide.txtuc.txtUseCase.UseCase iUseCase;
 	private UseCase oUseCase;
+	private MessageConsoleStream logger;
 	private HashMap<String, Scenario> label2Scenario = new HashMap<String, Scenario>();
 	private HashMap<String, UseCaseStep> label2UCStep = new HashMap<String, UseCaseStep>();
 	private List<ScenarioMapper> strayScenarios = new ArrayList<ScenarioMapper>();
 	
-	public UseCaseGenerator(reprotool.ide.txtuc.txtUseCase.UseCase u) {
+	public UseCaseGenerator(reprotool.ide.txtuc.txtUseCase.UseCase u, MessageConsoleStream logger) {
 		iUseCase = u;
+		this.logger = logger;
 	}
 	
 	private void processExtVarBlock(ExtVarBlock block, UsecaseFactory factory, boolean extension) {		
@@ -33,7 +37,11 @@ public class UseCaseGenerator {
 			c.setContent(cond.getText());
 			extVarScenario.setScenarioGuard(c);
 			
-			String stepLabel = cond.getLabel().substring(0, cond.getLabel().length() - 1);
+			String stepLabel = null;
+			if (!cond.getLabel().isEmpty()) {
+				stepLabel = cond.getLabel().substring(0, cond.getLabel().length() - 1);
+			}
+			
 			UseCaseStep step = label2UCStep.get(stepLabel);
 			
 			if (step != null) {
@@ -47,27 +55,35 @@ public class UseCaseGenerator {
 			}
 			
 			label2Scenario.put(cond.getLabel(), extVarScenario);
-			System.out.println("Scenario label:" + cond.getLabel());
 		}
 		
 		for (ExtVarUnit unit: block.getUnits()) {
 			for (ExtVarStep step: unit.getSteps()) {
 				StringBuffer content = new StringBuffer();
+				int c = step.getText().size();
+				int i = 0;
 				for (String s: step.getText()) {
 					content.append(s);
+					if (i < c - 1) {
+						content.append(' ');
+					}
+					i++;
 				}
 				UseCaseStep ucStep = factory.createUseCaseStep();
 				ucStep.setContent(content.toString());
 				
-				String scenarioLabel = step.getLabel().substring(0, step.getLabel().length() - 1);
+				String scenarioLabel = null;
+				if (!step.getLabel().isEmpty()) {
+					scenarioLabel = step.getLabel().substring(0, step.getLabel().length() - 1);
+				}
 				Scenario scenario = label2Scenario.get(scenarioLabel);
 				if (scenario == null) {
+					logger.println("[Import] Warning: Scenario with label \"" + scenarioLabel + "\" not found.");
 					continue;
 				}
 				scenario.getSteps().add(ucStep);
 				
 				label2UCStep.put(step.getLabel(), ucStep);			
-				System.out.println("Step label: " + step.getLabel());
 			}
 		}
 	}
@@ -79,6 +95,7 @@ public class UseCaseGenerator {
 			boolean extension = sMapper.getExtension();
 			UseCaseStep ucStep = label2UCStep.get(stepLabel);
 			if (ucStep == null) {
+				logger.println("[Import] Warning: Use-case step with label \"" + stepLabel + "\" not found.");
 				continue;
 			}
 			if (extension) {
@@ -86,7 +103,6 @@ public class UseCaseGenerator {
 			} else {
 				ucStep.getVariations().add(s);
 			}
-			System.out.println("Attaching stray scenario to step with label: " + ucStep.getLabel());
 		}				
 	}
 	
@@ -96,8 +112,14 @@ public class UseCaseGenerator {
 		oUseCase.setName(iUseCase.getName());
 		
 		StringBuffer desc = new StringBuffer();
+		int c = iUseCase.getHeader().getDescription().size();
+		int i = 0;
 		for (String s: iUseCase.getHeader().getDescription()) {
 			desc.append(s);
+			if (i < c - 1) {
+				desc.append(' ');
+			}
+			i++;
 		}
 		oUseCase.setDescription(desc.toString());
 		
@@ -105,15 +127,21 @@ public class UseCaseGenerator {
 		
 		for (MainScenarioStep step : iUseCase.getMainScenarioBlock().getSteps()) {
 			StringBuffer content = new StringBuffer();
+			
+			c = step.getText().size();
+			i = 0;
 			for (String s: step.getText()) {
 				content.append(s);
+				if (i < c - 1) {
+					content.append(' ');
+				}
+				i++;
 			}
 			UseCaseStep ucStep = factory.createUseCaseStep();
 			ucStep.setContent(content.toString());
 			mainScenario.getSteps().add(ucStep);
 			
 			label2UCStep.put(ucStep.getLabel(), ucStep);			
-			System.out.println("Step label: " + ucStep.getLabel());
 		}
 		
 		oUseCase.setMainScenario(mainScenario);

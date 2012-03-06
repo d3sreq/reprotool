@@ -1,8 +1,5 @@
 package reprotool.txtimport.importWizards;
 
-// Preceding use-cases brat aj z modelu
-// Ak nenajde preceding use-case tak vypisat do konzole info...
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,7 +15,6 @@ import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -104,7 +100,6 @@ public class ImportWizard extends Wizard implements IImportWizard {
 				e.printStackTrace();
 			}
 			IPath absolutePath = project.getLocation();
-			System.out.println("Project absolute path is: " + absolutePath.toOSString());
 			return absolutePath.append(new Path(projName).addFileExtension("swproj"));
 		} else {
 			return new Path(outputSelectionPage.existingProjectPath());
@@ -115,10 +110,7 @@ public class ImportWizard extends Wizard implements IImportWizard {
 		IWorkspace ws = ResourcesPlugin.getWorkspace();
 		
 		if (ws.getRoot().getLocation().isPrefixOf(filePath)) {
-			System.out.println("File is already in the workspace.");
-			IPath relativePath = filePath.makeRelativeTo(ws.getRoot().getLocation());
-			System.out.println("The relative path is: " + relativePath);
-		
+			IPath relativePath = filePath.makeRelativeTo(ws.getRoot().getLocation());		
 			return URI.createPlatformResourceURI(relativePath.toOSString(), true);
 		} 
 		
@@ -145,22 +137,24 @@ public class ImportWizard extends Wizard implements IImportWizard {
 	public boolean performFinish() {
 		loadProjectModel();
 		
+		consoleOut.getConsole().clearConsole();
+		consoleOut.getConsole().activate();
+		
 		for (String fileName: inputSelectionPage.getSelctedUseCases()) {
 			IPath useCasePath = new Path(fileName);
-			System.out.println("Loading use-case " + fileName);				
+			consoleOut.println("[Import] Loading use-case in file " + fileName);				
 			URI uri = createPlatformResourceURI(useCasePath);
-			System.out.println("The generated uri is: " + uri.path());
 						
-			ModelGenerator generator = new ModelGenerator();
+			ModelGenerator generator = new ModelGenerator(consoleOut);
 			UseCase model = generator.getUseCase(uri);
 
 			if (model == null) {
 				System.out.println("Adaptation failed.");
 			} else {
 				System.out.println("Adaptation performed successfully.");
-				System.out.println("UC name: " + model.getName());
+				consoleOut.println("[Import] Loaded use-case with name: \"" + model.getName() + "\"");
 				ucModels.add(model);
-				UseCaseGenerator gen = new UseCaseGenerator(model);
+				UseCaseGenerator gen = new UseCaseGenerator(model, consoleOut);
 				reprotool.model.usecase.UseCase uc = gen.generateUseCase();
 				ucMap.put(uc.getName(), uc);
 				swProj.getUseCases().add(uc);
@@ -172,6 +166,7 @@ public class ImportWizard extends Wizard implements IImportWizard {
 						a.setName(primaryActor);
 						swProjActors.put(primaryActor, a);
 						swProj.getActors().add(a);
+						consoleOut.println("[Import] Added actor \"" + primaryActor + "\" to the project.");
 					}
 					uc.setPrimaryActor(swProjActors.get(primaryActor));
 				}
@@ -183,16 +178,15 @@ public class ImportWizard extends Wizard implements IImportWizard {
 			for (String pred: model.getHeader().getPrecedingUseCases()) {
 				if (ucMap.containsKey(pred)) {
 					uc.getPrecedingUseCases().add(ucMap.get(pred));
+				} else {
+					consoleOut.println("[Import] Preceding use-case \"" + pred + "\" not found in the project.");
 				}
 			}
 		}
 		
 		saveProjectModel();
 		
-		// show the console
-		consoleOut.getConsole().clearConsole();
-		consoleOut.getConsole().activate();
-		consoleOut.println("Import performed successfully.");
+		consoleOut.println("[Import] Import Finished.");
 		
         return true;
 	}
