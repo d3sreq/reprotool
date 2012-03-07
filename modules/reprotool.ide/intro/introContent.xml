@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<introContent>
+
+	<extensionContent id="reprotool.ide.intro.tutorialsExtension" 
+			name="Tutorials extension" path="tutorials/@" style="./css/styles.css" >
+		
+		<group style-id="content-group" id="reprotool.ide.intro.tutorialsGroup">
+			<link label="Quick 5-minutes ReProTool tutorial" url="quickTutorial.html"
+				id="reprotool.ide.intro.tutorials.quickTutorialLink" style-id="content-link">
+			
+			<text>
+				This simple tutorial introduces new users to some of the basic
+				ReProTool features.
+			</text>
+			</link>
+			
+			<link label="Development environment"
+				url="http://code.google.com/a/eclipselabs.org/p/reprotool/wiki/DevelopmentEnvironment"
+				id="reprotool.ide.intro.tutorials.developmentLink" style-id="content-link">
+			
+			<text>
+				This page is intended for reprotool developers as a guide to set up their environment.
+			</text>
+			</link>
+		</group>
+		
+	</extensionContent>
+	
+	
+	
+	<extensionContent id="reprotool.ide.intro.resourcesExtension" 
+		name="Web resources extension" path="webresources/@" style="./css/styles.css" >
+	
+		<group style-id="content-group" id="reprotool.ide.intro.tutorialsGroup">
+			<link label="ReProTool homepage"
+				url="http://code.google.com/a/eclipselabs.org/p/reprotool/"
+				id="reprotool.ide.intro.resources.homePageLink" style-id="content-link">
+			
+			<text>
+				The project home-page.
+			</text>
+			</link>
+			
+			<link label="Continuous build server"
+				url="http://india.ms.mff.cuni.cz/"
+				id="reprotool.ide.intro.resources.buildServerLink" style-id="content-link">
+			
+			<text>
+				This is our build server.
+			</text>
+			</link>
+		</group>
+	
+	</extensionContent>
+
+	
+	<extensionContent id="reprotool.ide.intro.overviewExtension" 
+		name="Overview extension" path="overview/@" style="./css/styles.css" >
+				
+				<group style-id="content-group" id="reprotool.ide.intro.overviewGroup">
+					<html id="reprotool.ide.intro.overviewPage" src="overview.html" type="inline" />
+				</group>
+
+	</extensionContent>
+
+
+	<page id="standbyPageId" url="quickTutorial.html"/>
+
+
+</introContent>

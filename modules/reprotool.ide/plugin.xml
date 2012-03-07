@@ -252,5 +252,21 @@
             name="Add annotation">
       </command>
    </extension>
+   <extension
+         point="org.eclipse.ui.intro">
+      <introProductBinding
+            introId="org.eclipse.ui.intro.universal"
+            productId="org.eclipselabs.reprotool.branding.ReprotoolIDEProduct">
+      </introProductBinding>
+   </extension>
+   
+   <extension
+         point="org.eclipse.ui.intro.configExtension">
+      <configExtension
+            configId="org.eclipse.ui.intro.universalConfig"
+            content="intro/introContent.xml">
+      </configExtension>
+   </extension>
+   
 
 </plugin>

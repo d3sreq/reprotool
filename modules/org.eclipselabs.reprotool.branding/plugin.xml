@@ -40,6 +40,14 @@
                name="windowImages"
                value="icons/appwin/reprotool-16x16.png,icons/appwin/reprotool-32x32.png,icons/appwin/reprotool-48x48.png,icons/appwin/reprotool-64x64.png,icons/appwin/reprotool-128x128.png">
          </property>
+         <property
+               name="introBrandingImage"
+               value="product:icons/reprotool-about-icon.png">
+         </property>
+         <property
+               name="introTitle"
+               value="ReProTool">
+         </property>
       </product>
    </extension>
 

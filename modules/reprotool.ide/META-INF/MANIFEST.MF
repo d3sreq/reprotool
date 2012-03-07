@@ -20,6 +20,8 @@ Require-Bundle: org.eclipse.core.runtime,
  org.apache.commons.lang,
  org.eclipse.jface.text;bundle-version="3.7.1",
  org.eclipse.ui.editors;bundle-version="3.7.0",
- reprotool.exampleProjects;bundle-version="1.0.0"
+ reprotool.exampleProjects;bundle-version="1.0.0",
+ org.eclipse.ui.intro;bundle-version="3.4.100",
+ org.eclipse.ui.intro.universal;bundle-version="3.2.500"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
