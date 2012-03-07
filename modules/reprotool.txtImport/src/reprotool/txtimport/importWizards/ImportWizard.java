@@ -1,6 +1,8 @@
 package reprotool.txtimport.importWizards;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -14,16 +16,22 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.ui.IImportWizard;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.console.MessageConsoleStream;
+import org.eclipse.ui.statushandlers.StatusManager;
 
 import reprotool.ide.txtuc.txtUseCase.UseCase;
 import reprotool.model.swproj.Actor;
@@ -51,6 +59,28 @@ public class ImportWizard extends Wizard implements IImportWizard {
 		super();
 	}
 	
+	private EObject createInitialModel() {
+		try {
+			XMIResourceImpl resource = new XMIResourceImpl();
+			
+			// use SoftwareProject from the template stored in file
+			URL url = new URL("platform:/plugin/reprotool.model/model/EmptySoftwareProjectTemplate.xmi");
+			InputStream inputStream = url.openConnection().getInputStream();
+			resource.load(inputStream, new HashMap<Object, Object>());
+			inputStream.close();
+			
+			SoftwareProject templateProject = (SoftwareProject) resource.getContents().get(0);
+			return EcoreUtil.copy(templateProject);
+			
+		} catch (IOException e) {			
+			IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, "Error initialization from template", e);
+			StatusManager.getManager().handle(status, StatusManager.BLOCK | StatusManager.LOG);
+			
+			// fallback - create empty SoftwareProject
+			return SwprojFactory.eINSTANCE.createSoftwareProject();
+		}
+	}
+	
 	private void loadProjectModel() {
 		ResourceSet resourceSet = new ResourceSetImpl();
 		URI uri = createPlatformResourceURI(getProjectPath());
@@ -69,7 +99,7 @@ public class ImportWizard extends Wizard implements IImportWizard {
 		} else {
 			String projName = outputSelectionPage.newProjectName();
 			projRes = resourceSet.createResource(uri);
-			swProj = swProjFactory.createSoftwareProject();
+			swProj = (SoftwareProject) createInitialModel();
 			swProj.setName(projName);
 			projRes.getContents().add(swProj);
 		}		
