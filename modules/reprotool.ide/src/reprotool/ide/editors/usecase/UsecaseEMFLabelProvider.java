@@ -46,10 +46,12 @@ public class UsecaseEMFLabelProvider {
 			} else {
 				updateDefault(cell, cellObject);
 			}
+			
+			super.update(cell);
 		}
 		
 		protected void updateUseCase(ViewerCell cell, UseCase useCase) {
-			updateDefault(cell, useCase);
+			updateDefault(cell, useCase);			
 		}
 
 		protected void updateScenario(ViewerCell cell, Scenario scenario) {
