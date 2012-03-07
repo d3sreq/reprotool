@@ -121,13 +121,13 @@ public class Analyser {
 
 			// detection of UseCaseInclude action
 			if (!definedAction)
-				definedAction = detectInclude(ucs, sentence);
+				definedAction = detectInclude(ucs, sentence, consoleOut);
 			// detection of GOTO action
 			if (!definedAction)
-				definedAction = detectGoto(ucs, sentence);
+				definedAction = detectGoto(ucs, sentence, consoleOut);
 			// detection of ABORT/TERMINATION action
 			if (!definedAction) {
-				boolean abort = detectAbort(sentence);
+				boolean abort = detectAbort(sentence, consoleOut);
 				if (abort) {
 					// set abort action
 					AbortUseCase action = afactory.createAbortUseCase();
@@ -201,7 +201,11 @@ public class Analyser {
 		return compoundCommand;
 	}
 
-	public static boolean detectAbort(Sentence sentence) {
+	public static boolean detectAbort(Sentence sentence, MessageConsoleStream consoleOut) {
+		if (consoleOut != null) {
+			consoleOut.println("[Ling] Trying to detect abort action...");
+		}
+		
 		// result
 		boolean found = false;
 
@@ -216,11 +220,26 @@ public class Analyser {
 				break;
 			}
 		}
+		
+		if (found) {
+			if (consoleOut != null) {
+				consoleOut.println("[Ling] Abort action detected.");
+			}
+		} else {
+			if (consoleOut != null) {
+				consoleOut.println("[Ling] Abort action not detected.");
+			}
+		}
+		
 		// set result
 		return found;
 	}
 
-	private static boolean detectInclude(UseCaseStep ucs, Sentence sentence) {
+	private static boolean detectInclude(UseCaseStep ucs, Sentence sentence,
+			MessageConsoleStream consoleOut) {
+		if (consoleOut != null) {
+			consoleOut.println("[Ling] Trying to detect include action...");
+		}
 		// result
 		boolean found = false;
 		// detection Include action
@@ -285,6 +304,9 @@ public class Analyser {
 						if(uc.getName().toLowerCase().equals(sentence.getWords().get(i).getLemma())){
 							setUseCaseInclude(ucs, uc, sentence.getWords().get(i));
 							found = true;
+							if (consoleOut != null) {
+								consoleOut.println("[Ling] Include action detected.");
+							}
 							return found;
 						}
 					}
@@ -299,6 +321,9 @@ public class Analyser {
 					if(uc.getName().toLowerCase().equals(sr.getText())){
 						setUseCaseInclude(ucs, uc, sr);
 						found = true;
+						if (consoleOut != null) {
+							consoleOut.println("[Ling] Include action detected.");
+						}
 						return found;
 					}
 				}
@@ -334,6 +359,9 @@ public class Analyser {
 						if (sr.getContentStart() > 0 && name.endsWith(word.getText().toLowerCase())) {
 							sr.setContentLength(word.getContentStart() + word.getContentLength() - sr.getContentStart());
 							setUseCaseInclude(ucs, uc, sr);
+							if (consoleOut != null) {
+								consoleOut.println("[Ling] Include action detected.");
+							}
 							return true;
 						}
 					}
@@ -341,11 +369,21 @@ public class Analyser {
 			}
 
 		}
-		
+		if (consoleOut != null) {
+			if (found) {
+				consoleOut.println("[Ling] Include action detected.");			
+			} else {
+				consoleOut.println("[Ling] Include action not detected.");						
+			}
+		}
 		return found;
 	}
 	
-	private static boolean detectGoto(UseCaseStep ucs, Sentence sentence) {
+	private static boolean detectGoto(UseCaseStep ucs, Sentence sentence, MessageConsoleStream consoleOut) {
+		if (consoleOut != null) {
+			consoleOut.println("[Ling] Trying to detect goto action...");
+		}
+
 		// result
 		boolean found = false;
 
@@ -424,6 +462,13 @@ public class Analyser {
 			}
 
 			found = true;
+		}
+		if (consoleOut != null) {
+			if (found) {
+				consoleOut.println("[Ling] Goto action detected.");			
+			} else {
+				consoleOut.println("[Ling] Goto action not detected.");						
+			}
 		}
 		// set result
 		return found;

@@ -222,7 +222,7 @@ public class BenchmarkSentence extends SentenceImpl {
 //			this.outResults.objectNumbers = new int [] {0,2};
 
 		
-		boolean abort = Analyser.detectAbort(this);
+		boolean abort = Analyser.detectAbort(this, null);
 		if (abort) outResults.actionCode = ActionCode.ABORT;
 		
 		return result;

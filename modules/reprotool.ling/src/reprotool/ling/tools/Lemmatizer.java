@@ -106,6 +106,7 @@ public class Lemmatizer extends Tool {
 
 		// location of the model - options
 		try {
+			System.out.println("Initialising lemmatiser");
 			optionsLemmatizer = new is2.lemmatizer.Options(new String[] { "-model", modelFile });
 		} catch (IOException e) {
 			IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, "Error during loading lemmatizer model", e);

@@ -116,6 +116,11 @@ public class LingTools {
 		// gets sentence object
 		//Sentence sentence = LingTools.parseSentence(sentenceString);
 		
+		MessageConsoleStream consoleOut = Activator.getDefault().findConsole().newMessageStream();
+		consoleOut.println("[Ling]");
+		consoleOut.println("[Ling] " + "Starting liguistic analysis for sentence \"" +
+				sentenceString + "\"");
+		
 		LingJob job = new LingJob("Linguistics analyse", sentenceString);
 		job.schedule();	
 
@@ -129,6 +134,7 @@ public class LingTools {
 			}
 		}
 		System.out.println("LingJob final state: " + job.getState());
+		consoleOut.println("[Ling] " + "Analysis finished.");
 		
 		Sentence sentence = job.getSentence();
 		if(sentence.getSentenceString() != null && !sentenceString.equals(sentence.getSentenceString()))
@@ -148,10 +154,8 @@ public class LingTools {
 		}
 		CompoundCommand command = Analyser.analyseTree(editingDomain, ucs, sentence);
 		System.out.println("Linguistics - created command - END.");
+		consoleOut.println("[Ling] " + command.getDescription());
 
-		// print result to RCP console
-		MessageConsoleStream consoleOut = Activator.getDefault().findConsole().newMessageStream();
-		consoleOut.println(command.getDescription());
 		
 		return command;
 	}	
