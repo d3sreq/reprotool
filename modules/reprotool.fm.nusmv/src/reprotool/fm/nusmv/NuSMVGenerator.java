@@ -31,6 +31,14 @@ import reprotool.model.usecase.UseCase;
 import reprotool.model.usecase.UseCaseStep;
 import reprotool.model.usecase.annotate.StepAnnotation;
 
+
+/**
+ * This class is responsible for generating the nusmv code for a single
+ * finite state machine that represents a single use-case from the
+ * project.
+ * 
+ * @author rudo
+ */
 public class NuSMVGenerator {
 	private String useCaseId;
 	private boolean hasAbort = false;
@@ -53,6 +61,11 @@ public class NuSMVGenerator {
 	private HashMap<String, AnnotationEntry> annotationTracker = new 
 		HashMap<String, AnnotationEntry>();
 	
+	/**
+	 * Generates the automaton skeleton for a specified use-case
+	 * 
+	 * @param uc	The input use-case.
+	 */
 	public NuSMVGenerator(UseCase uc) {
 		factory = NuSmvLangFactory.eINSTANCE;
 		useCase = uc;
@@ -61,7 +74,7 @@ public class NuSMVGenerator {
 		machine = lts.getLabelTransitionSystem();
 		this.useCaseId = uc2id(useCase);
 		loadStates();
-		generateAutomaton();
+		generateAutomatonSkeleton();
 	}
 	
 	/**
@@ -165,6 +178,12 @@ public class NuSMVGenerator {
 		}
 	}
 	
+	/**
+	 * Looks for the transition between the source and the destination states.
+	 * 
+	 * @param src	The source state
+	 * @param dst	The destination state
+	 */
 	public Transition findTransition(State src, State dst) {
 		for (Transition t: machine.getInitialState().getTransitions()) {
 			State s1 = (State) t.getSourceState();
@@ -378,6 +397,11 @@ public class NuSMVGenerator {
 		return onAnnotation;
 	}
 	
+	/**
+	 * Fills the generated automaton skeleton with the actual data.
+	 * 
+	 * @param uc2gen
+	 */
 	public void fillAutomaton(HashMap<UseCase, NuSMVGenerator> uc2gen) {
 		int c = 0;
 		for (UseCase include: getIncludedUseCases()) {
@@ -506,7 +530,7 @@ public class NuSMVGenerator {
 		module.getModuleElement().add(assignConstraint);
 	}
 	
-	private void generateAutomaton() {
+	private void generateAutomatonSkeleton() {
 		module = factory.createOtherModule();
 		module.setName("UC_" + uc2id(useCase));
 		

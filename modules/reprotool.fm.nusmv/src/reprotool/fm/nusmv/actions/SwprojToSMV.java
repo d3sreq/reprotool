@@ -28,14 +28,21 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
+
+/**
+ * Implementation of the "Convert SW project to SMV" action.
+ * 
+ * @author rudo, viliam simko
+ */
 public class SwprojToSMV implements IWorkbenchWindowActionDelegate {
 	final private MessageConsoleStream consoleOut = Activator.getDefault().findConsole().newMessageStream();
 	private ISelection sel;
 
 	@Override
 	public void run(IAction action) {
-		if( ! (sel instanceof TreeSelection) )
+		if(!(sel instanceof TreeSelection)) {
 			return;
+		}
 		
 		TreeSelection tsel = (TreeSelection) sel;
 		IFile ifile = (IFile) tsel.getFirstElement();			
@@ -54,13 +61,13 @@ public class SwprojToSMV implements IWorkbenchWindowActionDelegate {
 
 		EObject rootEObj = resource.getContents().get(0);
 		
-		if( ! (rootEObj instanceof SoftwareProject) ) {
-			consoleOut.println("NOT a Software Project : " + rootEObj);
+		if(!(rootEObj instanceof SoftwareProject)) {
+			consoleOut.println("[NuSMV] NOT a Software Project : " + rootEObj);
 			return;
 		}
 
 		final SoftwareProject swproj = (SoftwareProject) rootEObj;
-		consoleOut.println("FOUND Software Project : " + swproj);
+		consoleOut.println("[NuSMV] found software project with name: " + swproj.getName());
 
 		// configuring injector
 		Injector injector = Guice.createInjector( new AbstractModule() {
@@ -76,12 +83,12 @@ public class SwprojToSMV implements IWorkbenchWindowActionDelegate {
 		try {
 			nusmvProj.initializeSoftwareProject();
 		} catch (RuntimeException e) {
-			consoleOut.println("Error: " + e.getMessage());
+			consoleOut.println("[NuSMV] Error: " + e.getMessage());
 			return;
 		}
 		
 		URI outputUri = uri.appendFileExtension("nusmv");
-		consoleOut.println("Will be saved to : " + CommonPlugin.resolve(outputUri).path());
+		consoleOut.println("[NuSMV] Will be saved to : " + CommonPlugin.resolve(outputUri).path());
 		
 		// serialization of the model
 		NuSmvLangStandaloneSetup.doSetup(); // activates the correct parser/serializer
@@ -119,5 +126,4 @@ public class SwprojToSMV implements IWorkbenchWindowActionDelegate {
 		// TODO Auto-generated method stub
 
 	}
-
 }

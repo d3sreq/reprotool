@@ -19,6 +19,12 @@ import reprotool.model.utils.xtend.ReprotoolMappingExtensions
 import reprotool.model.usecase.annotate.CTLFormula
 import reprotool.model.usecase.annotate.LTLFormula
 
+/**
+ * This class is responsible for model to model transformation of the
+ * Reprotool project to he NuSMV model.
+ * 
+ * @author rudo, viliam simko
+ */
 public class NuSMVProj {
 
 	@Inject extension ReprotoolMappingExtensions
@@ -42,7 +48,7 @@ public class NuSMVProj {
 		// prepare generators
 		generators = new ArrayList<NuSMVGenerator>();
 		generators += swproj.useCases.map([
-			consoleOut.println("Found usecase " + name)
+			consoleOut.println("[NuSMV] Found usecase " + name)
 			new NuSMVGenerator(it)
 		])
 		
@@ -167,6 +173,7 @@ public class NuSMVProj {
 			}
 		}
 	}
+	
 	def private getMainModule() {
 		$(factory.createMainModule) [
 			name = "main"

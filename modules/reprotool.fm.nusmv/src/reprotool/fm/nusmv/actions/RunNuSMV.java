@@ -27,6 +27,12 @@ import reprotool.model.swproj.CounterExample;
 import reprotool.model.swproj.SoftwareProject;
 import reprotool.model.utils.xtend.ReprotoolMappingExtensions;
 
+
+/**
+ * The implementation class of the "Run the NuSMV verification" action.
+ * 
+ * @author rudo
+ */
 public class RunNuSMV implements IWorkbenchWindowActionDelegate {
 	final private MessageConsoleStream consoleOut = Activator.getDefault().findConsole().newMessageStream();	
 	private ISelection sel;
@@ -48,13 +54,13 @@ public class RunNuSMV implements IWorkbenchWindowActionDelegate {
 		
 		EObject rootEObj = resource.getContents().get(0);
 		
-		if( ! (rootEObj instanceof SoftwareProject) ) {
-			consoleOut.println("Not a Software Project : " + rootEObj);
+		if(!(rootEObj instanceof SoftwareProject)) {
+			consoleOut.println("[NuSMV] Not a Software Project : " + rootEObj);
 			return false;
 		}
 
 		final SoftwareProject swproj = (SoftwareProject) rootEObj;
-		consoleOut.println("FOUND Software Project : " + swproj);
+		consoleOut.println("[NuSMV] found software Project : " + swproj.getName());
 		
 		// configuring injector
 		Injector injector = Guice.createInjector( new AbstractModule() {
@@ -72,7 +78,7 @@ public class RunNuSMV implements IWorkbenchWindowActionDelegate {
 		try {
 			nusmvProj.initializeSoftwareProject();
 		} catch (RuntimeException e) {
-			consoleOut.println("Error: " + e.getMessage());
+			consoleOut.println("[NuSMV] Error: " + e.getMessage());
 			return false;
 		}
 		
@@ -85,7 +91,7 @@ public class RunNuSMV implements IWorkbenchWindowActionDelegate {
 			TreeSelection tsel = (TreeSelection) sel;
 			IFile file = (IFile) tsel.getFirstElement();
 			IPath filePath = file.getFullPath();
-			while( ! "swproj".equals(filePath.getFileExtension()) ) {
+			while(!"swproj".equals(filePath.getFileExtension())) {
 				IPath newFilePath = filePath.removeFileExtension();
 				if(newFilePath == filePath) {
 					checkArbitrarySmvModel(file);
@@ -111,7 +117,8 @@ public class RunNuSMV implements IWorkbenchWindowActionDelegate {
 			
 			if (!counterExampleGenerated) {
 				if ((!nusmvProj.containsCTLFormulas()) && (!nusmvProj.containsLTLFormulas())) {
-					consoleOut.println("Your project does not contain any CTL/LTL specifications.");
+					consoleOut.println("[NuSMV] Your project does not contain any CTL/LTL specifications.");
+					consoleOut.println("[NuSMV] You probably have not added any annotations to the project yet.");
 				}
 				return;
 			}
@@ -127,7 +134,6 @@ public class RunNuSMV implements IWorkbenchWindowActionDelegate {
 			try {
 				resource.save(null);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -143,7 +149,7 @@ public class RunNuSMV implements IWorkbenchWindowActionDelegate {
 		System.err.println();
 		try {
 			nusmv.collectCheckerResults();
-			nusmv.printMessage("Verification finished");
+			nusmv.printMessage("[NuSMV] Verification finished");
 		} catch (Exception e) {
 			nusmv.printMessage(e.getMessage());
 		}

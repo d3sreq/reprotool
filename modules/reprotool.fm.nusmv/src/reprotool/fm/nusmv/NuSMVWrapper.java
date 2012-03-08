@@ -41,6 +41,11 @@ import reprotool.model.usecase.UseCaseStep;
 import reprotool.model.usecase.annotate.TemporalLogicFormula;
 
 
+/**
+ * The wrapper class of the nusmv parser.
+ * 
+ * @author viliam simko, rudo
+ */
 public class NuSMVWrapper {
 
 	private static final String COUNTER_EXAMPLE_FILE = "counterexample.xml";
@@ -58,13 +63,13 @@ public class NuSMVWrapper {
 		nusmvLib = NuSMV4J.INSTANCE().getNusmvLibrary();
 		counterExample = SwprojFactory.eINSTANCE.createCounterExample();
 				
-		out.println("NuSMV native library build date : " + nusmvLib.NuSMVCore_get_build_date().getString(0));
-		out.println("NuSMV native library version    : " + nusmvLib.NuSMVCore_get_library_version().getString(0));
-		out.println("Generated JNA interface version : " + NusmvLibrary.NUSMV_LIBRARY_VERSION);
+		out.println("[NuSMV] Native library build date : " + nusmvLib.NuSMVCore_get_build_date().getString(0));
+		out.println("[NuSMV] Native library version    : " + nusmvLib.NuSMVCore_get_library_version().getString(0));
+		out.println("[NuSMV] Generated JNA interface version : " + NusmvLibrary.NUSMV_LIBRARY_VERSION);
 		
 		execCommand("set default_trace_plugin 4");
-		out.println("(this message is shown only when nusmv is initialized)");
-		out.println("------------------------------------------------------");
+		out.println("[NuSMV] (this message is shown only when nusmv is initialized)");
+		out.println("[NuSMV] ------------------------------------------------------");
 	}
 	
 	/**
@@ -83,7 +88,7 @@ public class NuSMVWrapper {
 	 * @param absoluteFileLocation
 	 */
 	final public void loadModelFile(String absoluteFileLocation) {
-		out.println("Reading SMV model from:" + absoluteFileLocation );
+		out.println("[NuSMV] Reading SMV model from:" + absoluteFileLocation );
 		execCommand("reset");
         execCommand("read_model -i \"" + absoluteFileLocation + "\"");
 	}
@@ -92,7 +97,7 @@ public class NuSMVWrapper {
 	 * @param command NuSMV command
 	 */
 	final public void execCommand(String command) {
-		System.out.println("Executing NuSMV command: " + command);
+		System.out.println("[NuSMV] Executing command: " + command);
 		NusmvLibraryUtil.executeCommand(nusmvLib, command);
 	}
 	
@@ -102,10 +107,10 @@ public class NuSMVWrapper {
 	final public boolean checkInlineSpec(NuSMVProj nusmvProj, LogicFormulaType formulaType) {
 	    switch (formulaType) {
 		case CTL:
-		    out.println("Checking all inline CTLSPEC");
+		    out.println("[NuSMV] Checking all inline CTLSPEC");
 		    break;
 		case LTL:
-		    out.println("Checking all inline LTLSPEC");
+		    out.println("[NuSMV] Checking all inline LTLSPEC");
 		    break;
 		}
 	    
@@ -136,15 +141,15 @@ public class NuSMVWrapper {
 			File origFile = new File(COUNTER_EXAMPLE_FILE);
 			
 			if( ! origFile.exists() ) {
-				out.println("no counterexample generated");
+				out.println("[NuSMV] no counterexample generated");
 				CLibrary.INSTANCE.fflush(NusmvLibrary.nusmv_stderr.get());
 				
 				if (errFile.length() > 0) {
 					BufferedReader in = new BufferedReader(new FileReader(errFile));
 					String line;
-					out.println("\nERROR(S) FOUND IN THE INPUT NUSMV FILE !!!");
+					out.println("[NuSMV]\n[NuSMV] ERROR(S) FOUND IN THE INPUT NUSMV FILE !!!");
 					while ((line = in.readLine()) != null) {
-						out.println(line);
+						out.println("[NuSMV] " + line);
 					}
 				}
 				
@@ -167,7 +172,7 @@ public class NuSMVWrapper {
 					writer.write(line);
 					writer.newLine();
 				} else {
-					out.println(line);
+					out.println("[NuSMV] " + line);
 					if (line.matches("-- specification .* is false")) {
 						Pattern myPattern = Pattern.compile("-- specification (.*) is false");
 						Matcher m = myPattern.matcher(line);
@@ -192,7 +197,7 @@ public class NuSMVWrapper {
 				String str = tmpFile.toURI().toString();
 				displayCounterExampleFile(str);
 			} else {
-				out.println("empty counterexample generated");
+				out.println("[NuSMV] empty counterexample generated");
 				counterExampleGenerated = false;
 			}
 			tmpFile.delete();
@@ -237,7 +242,7 @@ public class NuSMVWrapper {
 	    if( "True".equals(status) )
 	    {
 
-	    	out.println("OK");
+	    	out.println("[NuSMV] Status OK");
 	    	return;
 	    }
 	    execCommand("show_traces -a -o \"" + COUNTER_EXAMPLE_FILE + "\"");
@@ -266,15 +271,15 @@ public class NuSMVWrapper {
 
 		final String loopStart = counterExample.getLoops().trim();
 		
-		out.println("FAILED : " + counterExample.getDesc());
+		out.println("[NuSMV] FAILED : " + counterExample.getDesc());
 		for (NodeType node : counterExample.getNode()) {
 			
 			for (StateType state : node.getState()) {
 				final String stateId = state.getId().trim();
-				out.println("  State: " + stateId + " = " + (stateId.equals(loopStart) ? "Loop starts here" : ""));
+				out.println("[NuSMV]  State: " + stateId + " = " + (stateId.equals(loopStart) ? "Loop starts here" : ""));
 				for (ValueType var : state.getValue()) {
 					if (!"FALSE".equals(var.getValue()))
-						out.println("    - " + var.getVariable() + " = "
+						out.println("[NuSMV]    - " + var.getVariable() + " = "
 								+ var.getValue());
 					if (var.getVariable().matches("x.*\\.s")) {
 						NuSMVParser.processVariable(var.getVariable(), var.getValue(),
@@ -284,10 +289,15 @@ public class NuSMVWrapper {
 			}
 		}
 		if( ! loopStart.isEmpty()) {
-			out.println("Loops to state " + loopStart);
+			out.println("[NuSMV] Loops to state " + loopStart);
 		}
 	}
-		
+	
+	/**
+	 * Finalize the counterExample model and return it.
+	 * 
+	 * @return The counter-example model.
+	 */
 	public CounterExample getCounterExample() {		
 		if (!branchingStep.isEmpty()) {
 			for (UseCaseTransition ucTrans : branchingStep.keySet()) {
