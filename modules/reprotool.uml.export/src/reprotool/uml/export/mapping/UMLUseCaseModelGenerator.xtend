@@ -16,7 +16,12 @@ import org.eclipse.uml2.uml.Property
 import com.google.inject.Inject
 import reprotool.model.utils.xtend.ReprotoolMappingExtensions
 
-
+/**
+ * This class is responsible for model to model transformation of the reprotool
+ * project model to the UML use-case diagram model.
+ *
+ * @author rudo
+ */
 public class UMLUseCaseModelGenerator {
 	
 	@Inject extension ReprotoolMappingExtensions

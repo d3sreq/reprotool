@@ -18,6 +18,11 @@ import org.eclipse.uml2.uml.resource.UMLResource;
 import reprotool.model.swproj.SoftwareProject;
 import reprotool.uml.export.mapping.UMLGen;
 
+/**
+ * Implementation of the "Convert project to UML Class diagram" action.
+ * 
+ * @author rudo
+ */
 public class Swproj2UMLClass implements IWorkbenchWindowActionDelegate {
 	private ISelection sel;
 	
@@ -39,7 +44,7 @@ public class Swproj2UMLClass implements IWorkbenchWindowActionDelegate {
 		EObject rootEObj = resource.getContents().get(0);
 		
 		if( ! (rootEObj instanceof SoftwareProject) ) {
-			System.out.println("NOT a SWPROJ : " + rootEObj);
+			System.out.println("[UML] Not a Reprotool project : " + rootEObj);
 			return;
 		}
 		SoftwareProject swproj = (SoftwareProject) rootEObj;
@@ -81,5 +86,4 @@ public class Swproj2UMLClass implements IWorkbenchWindowActionDelegate {
 		// TODO Auto-generated method stub
 
 	}
-
 }

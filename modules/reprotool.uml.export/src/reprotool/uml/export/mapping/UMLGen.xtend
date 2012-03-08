@@ -16,7 +16,12 @@ import reprotool.model.usecase.UseCase
 import reprotool.model.usecase.UseCaseStep
 import reprotool.model.linguistic.action.InternalAction
 
-
+/**
+ * This class is responsible for model to model transformation of the reprotool
+ * project model to the UML class diagram model.
+ *
+ * @author rudo
+ */
 public class UMLGen {
 	private HashMap<Actor, org.eclipse.uml2.uml.Class> actor2UML
 	private org.eclipse.uml2.uml.Class umlSystem
@@ -33,7 +38,7 @@ public class UMLGen {
 		]);
 		
 		val Actor system =
-			swproj.actors.findFirst([actor|actor.name.equals("system")])
+			swproj.actors.findFirst([actor|actor.name.toLowerCase.equals("system")])
 			
 		if (system == null) {
 			umlSystem = model.createOwnedClass("system", false);
@@ -46,12 +51,12 @@ public class UMLGen {
 		if (step.getAction() instanceof ToSystem) {
 			val ToSystem action = step.getAction() as ToSystem;
 			if (action.getSentenceActivity() != null) {
-				val TextRange text = action.getSentenceActivity().getText();
-				if (text != null) {
-					umlSystem.createOwnedOperation(text.getContent(), null, null);
-				}
+				val Actor actor = action.sender.actor;
+				actor2UML.get(actor).createOwnedOperation(action.getSentenceActivity().getText().getContent(),
+						null, null);
 			}
 		}
+		
 		if (step.getAction() instanceof InternalAction) {
 			val InternalAction action = step.getAction() as InternalAction;
 			if (action.getSentenceActivity() != null) {
@@ -61,12 +66,14 @@ public class UMLGen {
 				}
 			}
 		}
+		
 		if (step.getAction() instanceof FromSystem) {
 			val FromSystem action = step.getAction() as FromSystem;
 			if (action.getSentenceActivity() != null) {
-				val Actor actor = action.getReceiver().getActor();
-				actor2UML.get(actor).createOwnedOperation(action.getSentenceActivity().getText().getContent(),
-						null, null);
+				val TextRange text = action.getSentenceActivity().getText();
+				if (text != null) {
+					umlSystem.createOwnedOperation(text.getContent(), null, null);
+				}
 			}
 		}
 	}

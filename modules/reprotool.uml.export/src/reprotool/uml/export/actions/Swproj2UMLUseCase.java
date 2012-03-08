@@ -22,6 +22,11 @@ import reprotool.model.swproj.SoftwareProject;
 import reprotool.model.utils.xtend.ReprotoolMappingExtensions;
 import reprotool.uml.export.mapping.UMLUseCaseModelGenerator;
 
+/**
+ * Implementation of the "Convert project to UML use-case diagram" action.
+ * 
+ * @author rudo
+ */
 public class Swproj2UMLUseCase implements IWorkbenchWindowActionDelegate {
 	private ISelection sel;
 	
@@ -90,5 +95,4 @@ public class Swproj2UMLUseCase implements IWorkbenchWindowActionDelegate {
 		// TODO Auto-generated method stub
 
 	}
-
 }
