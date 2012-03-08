@@ -305,10 +305,10 @@ public class NuSMVGenerator {
 				UseCaseInclude ui = (UseCaseInclude)tr.getRelatedStep().getAction();
 				int i = includedUseCases.indexOf(ui.getIncludeTarget()) + 1;
 				String tag = Integer.toString(i);
-				nextExpr.append("		s=" + label + "__ & y" + tag +  ".s != sFin & y" + tag +
-						".s != sAbort : " + label + "__;\n");
-				nextExpr.append("		s=" + label + "__ & (y" + tag +  ".s  = sFin | y" + tag +
-						".s = sAbort) : " + label + "_;\n");
+				nextExpr.append("		s=" + label + "__ & y" + tag +  ".s != sFin : " +
+						label + "__;\n");
+				nextExpr.append("		s=" + label + "__ & y" + tag +  ".s  = sFin : " +
+						label + "_;\n");
 			}
 		}
 		
