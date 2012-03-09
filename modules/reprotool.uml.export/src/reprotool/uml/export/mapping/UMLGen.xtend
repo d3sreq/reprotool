@@ -63,7 +63,9 @@ public class UMLGen {
 				)
 				val TextRange text = action.sentenceActivity.text;
 				if ((text != null) && (text.content != null) && (!text.content.isEmpty())) {
-					actor2UML.get(actor).createOwnedOperation(text.content, eParamNames, null);
+					if (actor2UML.containsKey(actor)) {
+						actor2UML.get(actor).createOwnedOperation(text.content, eParamNames, null);
+					}
 				}
 			}
 		}
@@ -77,7 +79,9 @@ public class UMLGen {
 				)
 				val TextRange text = action.sentenceActivity.text;
 				if ((text != null) && (text.content != null) && (!text.content.isEmpty())) {
-					umlSystem.createOwnedOperation(text.content, eParamNames, null);
+					if (umlSystem != null) {
+						umlSystem.createOwnedOperation(text.content, eParamNames, null);
+					}
 				}
 			}
 		}
@@ -91,7 +95,9 @@ public class UMLGen {
 				)
 				val TextRange text = action.sentenceActivity.text;
 				if ((text != null) && (text.content != null) && (!text.content.isEmpty())) {
-					umlSystem.createOwnedOperation(text.content, eParamNames, null);
+					if (umlSystem != null) {
+						umlSystem.createOwnedOperation(text.content, eParamNames, null);
+					}
 				}
 			}
 		}
