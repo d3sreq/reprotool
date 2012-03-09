@@ -193,10 +193,6 @@ public class Analyser {
 	}
 
 	public static boolean detectAbort(Sentence sentence, MessageConsoleStream consoleOut) {
-		if (consoleOut != null) {
-			consoleOut.println("[Ling] Trying to detect abort action...");
-		}
-		
 		// result
 		boolean found = false;
 
@@ -228,9 +224,6 @@ public class Analyser {
 
 	private static boolean detectInclude(UseCaseStep ucs, Sentence sentence,
 			MessageConsoleStream consoleOut) {
-		if (consoleOut != null) {
-			consoleOut.println("[Ling] Trying to detect include action...");
-		}
 		// result
 		boolean found = false;
 		// detection Include action
@@ -371,10 +364,6 @@ public class Analyser {
 	}
 	
 	private static boolean detectGoto(UseCaseStep ucs, Sentence sentence, MessageConsoleStream consoleOut) {
-		if (consoleOut != null) {
-			consoleOut.println("[Ling] Trying to detect goto action...");
-		}
-
 		// result
 		boolean found = false;
 

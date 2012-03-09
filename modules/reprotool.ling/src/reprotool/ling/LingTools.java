@@ -154,8 +154,6 @@ public class LingTools {
 		}
 		CompoundCommand command = Analyser.analyseTree(editingDomain, ucs, sentence);
 		System.out.println("Linguistics - created command - END.");
-		consoleOut.println("[Ling] " + command.getDescription());
-
 		
 		return command;
 	}	
@@ -206,22 +204,23 @@ public class LingTools {
 		    		
 		    		// tools subtasks
 		    		monitor.subTask("Anna lemmatizer initialization....");	
-		    		consoleOut.println("[Ling] Anna lemmatizer initialization started.");
+		    		consoleOut.println("[Ling] Anna lemmatizer initialization...");
 		    		Lemmatizer.start();
 		    		monitor.worked(5);
 		    		
 		    		monitor.subTask("MXPost tagger initialization....");
-		    		consoleOut.println("[Ling] MXPost tagger initialization started.");
+		    		consoleOut.println("[Ling] MXPost tagger initialization...");
 		    		Tagger.start();
 		    		// memory for tagger init
 		    		Tagger.getMXPOST(initSentence);
 		    		monitor.worked(5);	
 		    		
 		    		monitor.subTask("Parser initialization....");
-		    		consoleOut.println("[Ling] Parser initialization started.");
+		    		consoleOut.println("[Ling] Dan Bikel Parser initialization...");
 		    		monitor.worked(10);
 		    		Parser.start();	
-
+		    		
+		    		consoleOut.println("[Ling] Analyzing initialization sentence...");
 		    		LingJob job = new LingJob("Linguistics analyse initialization", "Initialization sentence.");
 		    		job.schedule();	
 		    		consoleOut.println("[Ling] Initialization finished.");
