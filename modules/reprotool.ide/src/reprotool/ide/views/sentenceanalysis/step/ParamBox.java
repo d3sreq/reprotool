@@ -72,6 +72,7 @@ public class ParamBox extends Composite {
 
 		// TODO - jvinarek - comment
 		rowData = new RowData();
+		rowData.height = 100;
 		setLayoutData(rowData);
 	}
 
