@@ -3,6 +3,7 @@ package reprotool.uml.export.mapping
 import org.eclipse.xtext.xbase.lib.Pair
 
 import java.util.Map
+import java.util.List
 import java.util.HashMap
 import org.eclipse.uml2.uml.Model
 
@@ -15,6 +16,10 @@ import reprotool.model.usecase.Scenario
 import reprotool.model.usecase.UseCase
 import reprotool.model.usecase.UseCaseStep
 import reprotool.model.linguistic.action.InternalAction
+import reprotool.model.linguistic.actionpart.SentenceActionParam
+import org.eclipse.emf.common.util.EList
+import org.eclipse.emf.common.util.BasicEList
+
 
 /**
  * This class is responsible for model to model transformation of the reprotool
@@ -52,17 +57,27 @@ public class UMLGen {
 			val ToSystem action = step.getAction() as ToSystem;
 			if (action.getSentenceActivity() != null) {
 				val Actor actor = action.sender.actor;
-				actor2UML.get(actor).createOwnedOperation(action.getSentenceActivity().getText().getContent(),
-						null, null);
+				val List<SentenceActionParam> params = action.actionParam
+				val EList<String> eParamNames = new BasicEList<String>(
+					params.map([param|param.text.content])
+				)
+				val TextRange text = action.sentenceActivity.text;
+				if ((text != null) && (text.content != null) && (!text.content.isEmpty())) {
+					actor2UML.get(actor).createOwnedOperation(text.content, eParamNames, null);
+				}
 			}
 		}
 		
 		if (step.getAction() instanceof InternalAction) {
 			val InternalAction action = step.getAction() as InternalAction;
 			if (action.getSentenceActivity() != null) {
-				val TextRange text = action.getSentenceActivity().getText();
-				if (text != null) {
-					umlSystem.createOwnedOperation(text.getContent(), null, null);
+				val List<SentenceActionParam> params = action.actionParam
+				val EList<String> eParamNames = new BasicEList<String>(
+					params.map([param|param.text.content])
+				)
+				val TextRange text = action.sentenceActivity.text;
+				if ((text != null) && (text.content != null) && (!text.content.isEmpty())) {
+					umlSystem.createOwnedOperation(text.content, eParamNames, null);
 				}
 			}
 		}
@@ -70,9 +85,13 @@ public class UMLGen {
 		if (step.getAction() instanceof FromSystem) {
 			val FromSystem action = step.getAction() as FromSystem;
 			if (action.getSentenceActivity() != null) {
-				val TextRange text = action.getSentenceActivity().getText();
-				if (text != null) {
-					umlSystem.createOwnedOperation(text.getContent(), null, null);
+				val List<SentenceActionParam> params = action.actionParam
+				val EList<String> eParamNames = new BasicEList<String>(
+					params.map([param|param.text.content])
+				)
+				val TextRange text = action.sentenceActivity.text;
+				if ((text != null) && (text.content != null) && (!text.content.isEmpty())) {
+					umlSystem.createOwnedOperation(text.content, eParamNames, null);
 				}
 			}
 		}
