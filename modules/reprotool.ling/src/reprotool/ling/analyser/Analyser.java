@@ -90,17 +90,8 @@ public class Analyser {
 		}
 
 		// get all actors
+		actors.clear();
 		actors.addAll(ucs.getSoftwareProjectShortcut().getActors());
-		boolean addActor = true;
-		for (Actor act1 : LingConfig.actors) {
-			for (Actor act2 : actors) {
-				if (act1.getName().equalsIgnoreCase(act2.getName()))
-					addActor = false;
-			}
-			// not duplicated
-			if (addActor)
-				actors.add(act1);
-		}
 
 		// FIND ALL IMPORTANT WORDS
 		// find subject
@@ -537,6 +528,7 @@ public class Analyser {
 		SetCommand setCommand = new SetCommand(editingDomain, ucs,
 				UsecasePackage.Literals.USE_CASE_STEP__ACTION,
 				action);
+		setCommand.setDescription("UseCaseInclude action");
 		compoundCommand.append(setCommand);
 				
 		if (uc != null) {
@@ -619,31 +611,32 @@ public class Analyser {
 		FromSystem action = afactory.createFromSystem();
 		
 		if (indirectobjects != null && indirectobjects.size() > 0) {
-			for (Word iobject : indirectobjects) {
-				// text range settings
-				TextRange tr = apfactory.createTextRange();
-				tr.setStartPosition(iobject.getContentStart());
-				tr.setLength(iobject.getContentLength());
-				tr.setLemmaForm(iobject.getLemma());
-				tr.setPosTag(iobject.getPOS().getLiteral());
+			// set first as receiver
+			Word iobject = indirectobjects.get(0);
+			// text range settings
+			TextRange tr = apfactory.createTextRange();
+			tr.setStartPosition(iobject.getContentStart());
+			tr.setLength(iobject.getContentLength());
+			tr.setLemmaForm(iobject.getLemma());
+			tr.setPosTag(iobject.getPOS().getLiteral());
 		
-				// action part settings
-				SentenceActor ioactor = apfactory.createSentenceActor();
-				for (Actor ac : actors) {
-					if (ac.getName().equalsIgnoreCase(subject.getLemma())) {
-						ioactor.setActor(ac);
-					}
+			// action part settings
+			SentenceActor ioactor = apfactory.createSentenceActor();
+			for (Actor ac : actors) {
+				if (ac.getName().equalsIgnoreCase(iobject.getLemma())) {
+					ioactor.setActor(ac);
 				}
-				ioactor.setText(tr);
-				tr.setActionPart(ioactor);
-				action.setReceiver(ioactor);
-				// adding text range to model
-				AddCommand addCommand = new AddCommand(editingDomain, ucs,
-						UsecasePackage.Literals.PARSEABLE_ELEMENT__TEXT_NODES,
-						tr);
-				//addCommand
-				compoundCommand.append(addCommand);
 			}
+			ioactor.setText(tr);
+			tr.setActionPart(ioactor);
+			action.setReceiver(ioactor);
+			// adding text range to model
+			AddCommand addCommand = new AddCommand(editingDomain, ucs,
+					UsecasePackage.Literals.PARSEABLE_ELEMENT__TEXT_NODES,
+					tr);
+			//addCommand
+			compoundCommand.append(addCommand);
+
 		}
 				
 		if (mainverb != null) {
