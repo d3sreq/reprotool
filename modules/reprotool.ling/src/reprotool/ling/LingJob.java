@@ -87,8 +87,9 @@ public class LingJob extends Job {
     				// at second run try safe sentence
     				if(i == 1) {
     					originalSentence = Tokenizer.getSafeSentence(originalSentence);
+    		    		// local console initialization
+    					MessageConsoleStream consoleOut = Activator.getDefault().findConsole().newMessageStream();
 		    			// console for errors
-		    			MessageConsoleStream consoleOut = Activator.getDefault().findConsole().newMessageStream();
 		    			consoleOut.println("[Ling] Sentence contains invalid characters!");
 		    			consoleOut.println("[Ling] Using safe version of sentence: \"" + originalSentence + "\"");
     				}

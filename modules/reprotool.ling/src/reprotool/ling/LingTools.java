@@ -179,7 +179,9 @@ public class LingTools {
 		
 		CompoundCommand command = new CompoundCommand();
 		for(UseCaseStep ucs : lucs) {
-			command.append(analyseUseCaseStep(editingDomain, ucs));		
+			if(!ucs.getContent().isEmpty()) {
+				command.append(analyseUseCaseStep(editingDomain, ucs));	
+			}
 		}
 	
 		return command;
@@ -196,27 +198,33 @@ public class LingTools {
 		    	setProperty(IProgressConstants.KEEP_PROPERTY, Boolean.TRUE);
 		    	try{
 		    		String initSentence = "Inicialization sentence.";
-
+		    		// local console initialization
+					MessageConsoleStream consoleOut = Activator.getDefault().findConsole().newMessageStream();
+					consoleOut.println("[Ling] Initialization started.");
 		    		monitor.beginTask("External tools", 100);
 		    		monitor.worked(1);	
 		    		
 		    		// tools subtasks
 		    		monitor.subTask("Anna lemmatizer initialization....");	
+		    		consoleOut.println("[Ling] Anna lemmatizer initialization started.");
 		    		Lemmatizer.start();
 		    		monitor.worked(5);
 		    		
 		    		monitor.subTask("MXPost tagger initialization....");
+		    		consoleOut.println("[Ling] MXPost tagger initialization started.");
 		    		Tagger.start();
 		    		// memory for tagger init
 		    		Tagger.getMXPOST(initSentence);
 		    		monitor.worked(5);	
 		    		
 		    		monitor.subTask("Parser initialization....");
+		    		consoleOut.println("[Ling] Parser initialization started.");
 		    		monitor.worked(10);
 		    		Parser.start();	
 
 		    		LingJob job = new LingJob("Linguistics analyse initialization", "Initialization sentence.");
 		    		job.schedule();	
+		    		consoleOut.println("[Ling] Initialization finished.");
 		    		
 			    	if(monitor.isCanceled()){
 			    		return Status.CANCEL_STATUS;

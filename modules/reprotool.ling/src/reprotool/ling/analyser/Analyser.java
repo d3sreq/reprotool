@@ -110,71 +110,71 @@ public class Analyser {
 
 		// FIND ACTION
 
-			// detection of UseCaseInclude action
-			if (!definedAction)
-				definedAction = detectInclude(ucs, sentence, consoleOut);
-			// detection of GOTO action
-			if (!definedAction)
-				definedAction = detectGoto(ucs, sentence, consoleOut);
-			// detection of ABORT/TERMINATION action
-			if (!definedAction) {
-				boolean abort = detectAbort(sentence, consoleOut);
-				if (abort) {
-					// set abort action
-					AbortUseCase action = afactory.createAbortUseCase();
-					SetCommand setCommand = new SetCommand(editingDomain, ucs,
-							UsecasePackage.Literals.USE_CASE_STEP__ACTION,
-							action);
-					setCommand.setDescription("AbortUseCase action");
-					compoundCommand.append(setCommand);
-					definedAction = true;
-				}
+		// detection of UseCaseInclude action
+		if (!definedAction)
+			definedAction = detectInclude(ucs, sentence, consoleOut);
+		// detection of GOTO action
+		if (!definedAction)
+			definedAction = detectGoto(ucs, sentence, consoleOut);
+		// detection of ABORT/TERMINATION action
+		if (!definedAction) {
+			boolean abort = detectAbort(sentence, consoleOut);
+			if (abort) {
+				// set abort action
+				AbortUseCase action = afactory.createAbortUseCase();
+				SetCommand setCommand = new SetCommand(editingDomain, ucs,
+						UsecasePackage.Literals.USE_CASE_STEP__ACTION, action);
+				setCommand.setDescription("AbortUseCase action");
+				compoundCommand.append(setCommand);
+				definedAction = true;
 			}
-			
+		}
+		if (!definedAction) {
 			if (subject != null) {
-			// INTERNAL ACTION - we have subject
-			// also TO and FROM
-			if (indirectobjects == null || indirectobjects.size() == 0) {
-				if ("system".equals(subject.getLemma())) {
-					// internal action in system
-					compoundCommand.append(setInternalAction(ucs));
-					definedAction = true;	
-				} else {
-					// actor is making something - ToSystem
-					compoundCommand.append(setToSystem(ucs));
-					definedAction = true;
-				}
-			} else {
-				// we have indirect objects
-				// searching system in indirect objects
-				boolean toSystem = false;
-				for (Word word : indirectobjects) {
-					if ("system".equals(word.getLemma())) {
-						toSystem = true;
-						break;
-					}
-				}
-				if (toSystem) {
+				// INTERNAL ACTION - we have subject
+				// also TO and FROM
+				if (indirectobjects == null || indirectobjects.size() == 0) {
 					if ("system".equals(subject.getLemma())) {
-						// internal action - from system to system
+						// internal action in system
 						compoundCommand.append(setInternalAction(ucs));
 						definedAction = true;
 					} else {
-						// from actor to system
+						// actor is making something - ToSystem
 						compoundCommand.append(setToSystem(ucs));
 						definedAction = true;
 					}
 				} else {
-					// to actor					
-					if ("system".equals(subject.getLemma())) {
-						// from system to actor
-						compoundCommand.append(setFromSystem(ucs));
-						definedAction = true;
-					} else {
-						// from actor to actor -> bad -> unknown
+					// we have indirect objects
+					// searching system in indirect objects
+					boolean toSystem = false;
+					for (Word word : indirectobjects) {
+						if ("system".equals(word.getLemma())) {
+							toSystem = true;
+							break;
+						}
 					}
-				}
+					if (toSystem) {
+						if ("system".equals(subject.getLemma())) {
+							// internal action - from system to system
+							compoundCommand.append(setInternalAction(ucs));
+							definedAction = true;
+						} else {
+							// from actor to system
+							compoundCommand.append(setToSystem(ucs));
+							definedAction = true;
+						}
+					} else {
+						// to actor
+						if ("system".equals(subject.getLemma())) {
+							// from system to actor
+							compoundCommand.append(setFromSystem(ucs));
+							definedAction = true;
+						} else {
+							// from actor to actor -> bad -> unknown
+						}
+					}
 
+				}
 			}
 		}
 		// internal action
