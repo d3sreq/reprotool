@@ -12,6 +12,7 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 
+import reprotool.ide.editors.project.ProjectEditor;
 import reprotool.ide.editors.usecase.UsecaseEMFEditor;
 import reprotool.model.usecase.Condition;
 import reprotool.model.usecase.Scenario;
@@ -65,6 +66,21 @@ public class Utils {
 		return (UsecaseEMFEditor)editorPart;
 	}
 	
+	/**
+	 * @return Active {@link ProjectEditor} or <code>null</code> if another (or none) editor 
+	 * 	is active
+	 */
+	public static ProjectEditor getProjectEditor() {
+		IWorkbenchPage page = getPage();
+		IEditorPart editorPart = page.getActiveEditor();
+	
+		if (!(editorPart instanceof ProjectEditor)) {
+			return null;
+		}
+		return (ProjectEditor)editorPart;
+	}
+
+
 	/**
 	 * Returns first selected object if it has specified type 
 	 * (or is subclass of the specified type) otherwise returns <code>null</code>

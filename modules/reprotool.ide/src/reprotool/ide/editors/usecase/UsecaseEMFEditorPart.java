@@ -172,6 +172,7 @@ public class UsecaseEMFEditorPart extends EditorPart implements IMenuListener, I
 		selectionProviderIntermediate.setSelectionProviderDelegate(viewer);
 		
 		getEditorSite().setSelectionProvider(selectionProviderIntermediate);
+//		getEditorSite().setSelectionProvider(viewer);
 
 		// try to get use case from the input and set it into viewer
 		UseCase useCase = parentEditor.getUseCaseFromResource();
@@ -189,7 +190,7 @@ public class UsecaseEMFEditorPart extends EditorPart implements IMenuListener, I
 				// refresh viewer after action change
 				Command mostRecentCommand = getCommandStack().getMostRecentCommand();
 				if (isActionChanging(mostRecentCommand) || isStepAddOrRemove(mostRecentCommand)) {
-					composite.getTreeViewer().refresh(true);
+					composite.getTreeViewer().refresh();
 				}
 			}
 
