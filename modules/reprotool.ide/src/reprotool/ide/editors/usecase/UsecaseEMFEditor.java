@@ -1123,6 +1123,8 @@ public class UsecaseEMFEditor extends MultiPageEditorPart implements IEditingDom
 			((LTSContentOutlinePage) contentOutlinePage).setUseCase(useCase);
 			((LTSContentOutlinePage) contentOutlinePage).emfModelChanged();
 		}
+		
+		getEditingDomain().getCommandStack().flush();
 	}
 
 	/**
