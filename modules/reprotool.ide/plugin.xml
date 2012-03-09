@@ -250,6 +250,54 @@
             content="intro/introContent.xml">
       </configExtension>
    </extension>
+   <extension
+         point="org.eclipse.ui.handlers">
+         <handler
+            class="reprotool.ide.editors.usecase.DeleteEntityHandler$DeleteAnnotationHandler"
+            commandId="org.eclipse.ui.edit.delete">
+         <activeWhen>
+            <with
+                  variable="selection">
+               <iterate
+                     operator="or">
+                  <instanceof
+                        value="reprotool.model.usecase.annotate.StepAnnotation">
+                  </instanceof>
+               </iterate>
+            </with>
+         </activeWhen>
+      </handler>
+      <handler
+            class="reprotool.ide.editors.usecase.DeleteEntityHandler$DeleteStepHandler"
+            commandId="org.eclipse.ui.edit.delete">
+         <activeWhen>
+            <with
+                  variable="selection">
+               <iterate
+                     operator="or">
+                  <instanceof
+                        value="reprotool.model.usecase.UseCaseStep">
+                  </instanceof>
+               </iterate>
+            </with>
+         </activeWhen>
+      </handler>
+      <handler
+            class="reprotool.ide.editors.usecase.DeleteEntityHandler$DeleteScenarioHandler"
+            commandId="org.eclipse.ui.edit.delete">
+         <activeWhen>
+            <with
+                  variable="selection">
+               <iterate
+                     operator="or">
+                  <instanceof
+                        value="reprotool.model.usecase.Scenario">
+                  </instanceof>
+               </iterate>
+            </with>
+         </activeWhen>
+      </handler>
+   </extension>
    
 
 </plugin>
