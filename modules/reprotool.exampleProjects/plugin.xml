@@ -2,17 +2,19 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension
-         point="org.eclipse.emf.common.ui.examples">
+         point="org.eclipse.emf.common.ui.examples"> 
       <example
             wizardID="reprotool.exampleProjects.wizard1">
          <projectDescriptor
                contentURI="resources/cityMap.swproj.zip"
                description="Reprotool citymap example project"
-               name="citymap example">
+               name="Citymap example">
          </projectDescriptor>
-         <fileToOpen
-               location="citymap example/cityMap.swproj">
-         </fileToOpen>
+         <projectDescriptor
+               contentURI="resources/admission-ucdb.cs.put.poznan.pl.zip"
+               description="The admission system (http://ucdb.cs.put.poznan.pl) example project that is prepared for you to learn how to use the textual import of use-cases in Reprotool."
+               name="Admission system">
+         </projectDescriptor>
       </example>
    </extension>
    <extension
@@ -28,7 +30,7 @@
             finalPerspective="reprotool.ide.perspectives.ReprotoolPerspective"
             icon="icons/reprotool-web-logo-16x16.png"
             id="reprotool.exampleProjects.wizard1"
-            name="Citymap Example Project"
+            name="Reprotool example projects"
             project="true">
       </wizard>
    </extension>

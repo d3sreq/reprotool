@@ -146,8 +146,14 @@ public class UseCaseGenerator {
 		
 		oUseCase.setMainScenario(mainScenario);
 		
-		processExtVarBlock(iUseCase.getExtensionsBlock(), factory, true);
-		processExtVarBlock(iUseCase.getVariationsBlock(), factory, false);
+		if (iUseCase.getExtensionsBlock() != null) {
+			processExtVarBlock(iUseCase.getExtensionsBlock(), factory, true);
+		}
+		
+		if (iUseCase.getVariationsBlock() != null) {
+			processExtVarBlock(iUseCase.getVariationsBlock(), factory, false);
+		}
+		
 		processStrayScenarios();
 		
 		return oUseCase;

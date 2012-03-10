@@ -95,7 +95,7 @@
             class="org.eclipse.emf.common.ui.wizard.ExampleInstallerWizard"
             icon="icons/reprotool-web-logo-16x16.png"
             id="reprotool.exampleProjects.wizard1"
-            name="Citymap Example Project"
+            name="Reprotool example projects"
             project="true">
       </wizard>
    </extension>

@@ -102,6 +102,7 @@ public class OutputSelectionPage extends WizardPage {
         GridData gridData3 = new GridData(GridData.FILL_HORIZONTAL);
         existingProjTxt = new Text(container, SWT.BORDER);
         existingProjTxt.setLayoutData(gridData3);
+        existingProjTxt.setText(ResourcesPlugin.getWorkspace().getRoot().getLocation().toOSString());
         
         existingProjTxt.addModifyListener(new ModifyListener() {
 			@Override

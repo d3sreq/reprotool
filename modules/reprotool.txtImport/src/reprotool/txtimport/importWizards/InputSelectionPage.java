@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.jface.viewers.CheckStateChangedEvent;
 import org.eclipse.jface.viewers.CheckboxTableViewer;
 import org.eclipse.jface.viewers.ICheckStateListener;
@@ -94,6 +95,7 @@ public class InputSelectionPage extends WizardPage {
 		GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
 		inputDirTxt = new Text(container, SWT.BORDER);
 		inputDirTxt.setLayoutData(gridData);
+		inputDirTxt.setText(ResourcesPlugin.getWorkspace().getRoot().getLocation().toOSString());
 		
 		Button button = new Button(container, SWT.PUSH);
 		button.setText("Browse...");
