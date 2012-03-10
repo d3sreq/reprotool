@@ -285,9 +285,18 @@
            hasPages="true"
            icon="icons/pencil.png"
            id="reprotool.ide.txtuc.ui.wizard2"
-           name="Textual use case wizard"
+           name="Textual use case"
            project="false">
      </wizard>
+  </extension>
+  <extension
+        point="org.eclipse.ui.perspectiveExtensions">
+     <perspectiveExtension
+           targetID="reprotool.ide.perspectives.ReprotoolPerspective">
+        <newWizardShortcut
+              id="reprotool.ide.txtuc.ui.wizard2">
+        </newWizardShortcut>
+     </perspectiveExtension>
   </extension>
 
 </plugin>
