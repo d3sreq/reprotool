@@ -2,12 +2,81 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 
 Transitional//EN" "DTD/xhtml1-transitional.dtd">
 <html xml:lang="en" lang="en" xmlns="http://www.w3.org/1999/xhtml">
+	
 	<head>
 		<title>Quick 5 minutes tutorial</title>
 		<link href="./css/styles.css" rel="stylesheet" type="text/css">
 	</head>
+	
 	<body>
 		<h3>Quick 5-minutes tutorial</h3>
-		<p>Tutorial text goes here.</p>
+		
+		<h4>First install the example projects into your workspace.</h4>
+		<p>
+			<ol>
+			<li>Select the <b><i>File / New / Example...</i></b> command from the main menu.</li>
+			<li>Now choose the <b>Reprotool example projects</b> wizard.</li>
+			<li>Click <b>Finish</b>.</li>
+			</ol>
+			
+			Two <em>Reprotool</em> example projects should now be installed in your workspace.
+		</p>
+		
+		<h4>Familiarise yourself with the <em>Citimap example</em> project.</h4>
+		<p>
+			<ol>
+			<li>Double click the <b><i>cityMap.swproj</i></b> in the <em>Citymap example</em> project directory.</li>
+			<li>Make sure the outline view is displayed.</li>
+			<li>Double-click the use-cases in the project editor. A new use-case editor will fire up
+				where you can view the selected use-case.</li>
+			</ol>
+		</p>
+		
+		<h4>Introduction to the model-checking in <em>Reprotool</em></h4>
+		<p>
+			The <em>Citymap example</em> project contains already some annotations. You can think of
+			<em>Reprotool</em> annotations as boolean variables. Use-cases in <em>Reprotool</em>
+			projects consist of use-case steps. You can assign annotaions to individual use-case steps.
+			When the <em>Reprotool</em> performs model checking, it firstly initializes all annotaion
+			variables to boolean value false. It then starts executing use-cases. Executing a use-case
+			means executing its use-case steps. If a step is executed that has an annotation, the
+			value of that annotation variable is changed to true.
+		</p>
+		
+		<p>
+			In every <em>Reprotool</em> project, there is already a set of predefined annotations that
+			you can use. You can, however, define new annotations. The annotaions in <em>Reprotool</em>
+			projects must adhere to some rules that are defined in the projects as a set of
+			<em>temporal logic formulas</em>.
+			The predefined annotations already have some predefined default
+			behaviour. One of the predefined annotations is the <b><i>create</i></b> annotation. One
+			of the rules that defines its behaviour in <em>Reprotool is</em> this:
+			<ol>
+				<li>You can not create the same object more than once.</li>
+			</ol>
+			In the next section of this tutorial, you will run the model checking on the <em>Citymap
+			example</em> project and the model checker will generate a counter-example where you can
+			see that there is a possible execution scenario where the <b><i>zoom</i></b> object is
+			created more than once. The generated counter-example contains the trace of this execution
+			scenario.
+		</p>
+		
+		<h4>Run the model-check of the <em>Citymap example</em> project.</h4>
+		<ol>
+		<li>Right-click the <b><i>cityMap.swproj</i></b> file in the project explorer and run the command
+		<b><i>Convert SW project to SMV</i></b> from the context menu.</li>
+		<li>Notice in the project explorer, that a new file <b><i>cityMap.swproj.nusmv</i></b> has been generated.
+			View the file. If you are asked whether you want to add the <em>Xtext nature</em> to
+			the project, click yes.</li>
+		<li>Right-click the <b><i>cityMap.swproj.nusmv</i></b> file in the project explorer and run the
+			<b><i></i>Run NuSMV verification</b> command from the context menu.</li>
+		<li>The counter-example trace has been printed on the console output. Also notice in the
+			project explorer, that a new file <b><i>cityMap.swproj.cexmp</i></b> has been generated.</li>
+		<li>View the generated counter-example file <b><i>cityMap.swproj.cexmp</i></b>.</li>
+		<li>Notice in the outline-view of the counter-example trace, that the <b><i>create_zoom<i></b>
+		annotation appears two times in the red line that shows the execution path. This is a
+		violation of one of the default rules that bind the <b><i></i>create</b> annotation.</li>
+		</ol>
 	</body>
+
 </html>
