@@ -1,0 +1,37 @@
+\section{Model checking in \emph{Reprotool}.}
+
+\subsection{Introduction to model checking in \emph{Reprotool}}.
+
+\emph{Reprotool} project can contain many use-cases. Use-cases consis of use-case steps. You can assign annotaions to individual
+use-case steps. When the \emph{Reprotool} performs model checking, it firstly initializes all annotaion variables to boolean value false.
+It then starts executing use-cases. Executing a use-case means executing its use-case steps. If a step is executed that has
+an annotation, the value of that annotation variable is changed to true. The annotaions in a \emph{Reprotool} project must adhere to
+some rules that are defined in the project as a set of temporal logic formulas. When you run the model checking in \emph{Reprotool},
+you are actually checking the validity of these temporal logic formulas. By assigning new annotaions to use-case steps in the project,
+you are actually extending the set of logic formulas that will be verified during the model checking process.
+
+\subsection{Predefined \emph{Reprotool} annotaions an their semantics.}
+In every \emph{Reprotool} project, there is already a set of predefined annotations that you can use. You can, however, define new
+annotations and define their behaviour. The predefined annotations already have some predefined default behaviour.
+
+\subsubsection {The \emph{open} and \emph{close} annotaions are bound by these rules:}
+
+\begin{enumerate}
+  \item After 'open' there should always be 'close'.
+  \item No multi-open without close.
+  \item No multi-close without open.
+  \item First 'open' then 'close'.
+\end{enumerate}
+
+\subsubsection{The \emph{create} and \emph{use} annotaions are bound by these rules:}
+
+\begin{enumerate}
+  \item After 'create' there must be some branch containing 'use'.
+  \item Only one 'create'.
+  \item First 'create' then 'use'.
+\end{enumerate}
+
+\subsubsection{The special \emph{trace} and \emph{on} annotations}
+These two annotations are special, you can not override their meaning. By using these annotations, you can conditionally prune the
+execution tree of the model checker during the verification process. You will better understand their meaning when we demonstrate
+their usage later in this chapter.
