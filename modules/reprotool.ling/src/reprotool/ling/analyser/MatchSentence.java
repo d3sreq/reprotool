@@ -1,8 +1,5 @@
 package reprotool.ling.analyser;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import reprotool.ling.LingFactory;
 import reprotool.ling.Sentence;
 import reprotool.ling.SentenceRegion;
@@ -38,8 +35,6 @@ public class MatchSentence {
 			String rest = sentenceString.substring(position + restLength);
 			// length of word in original string
 			int length = 0;
-			// length of whitespaces
-			int spaceLength = 0;
 			
 			// skip all bad characters encoutered
 			while(rest.length() > 0 && !rest.startsWith(word.getText())){

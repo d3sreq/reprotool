@@ -22,19 +22,19 @@ public class LingConfig {
 	
 	// special actions verb lists
 	// GOTO ACTION
-	public static ArrayList<String> gotoVerbs = defaultGotoVerbs();
+	public static final ArrayList<String> gotoVerbs = defaultGotoVerbs();
 	// ABORT ACTION
-	public static ArrayList<String> abortVerbs = defaultAbortVerbs();
+	public static final ArrayList<String> abortVerbs = defaultAbortVerbs();
 	
 	// default actors
-	public static ArrayList<Actor> actors = defaultActors();
+	public static final ArrayList<Actor> actors = defaultActors();
 	
 	// must be aSubject in actors list?
 	public static final boolean isSubjectActor = true;
 	
 	/**
 	 * Static method for setting Goto action verbs
-	 * "continue", "repeat", "resume", "retry"
+	 * "continue", "repeat", "resume", "retry", "include"
 	 *  
 	 * @return filled list
 	 */
@@ -52,7 +52,7 @@ public class LingConfig {
 	
 	/**
 	 * Static method for setting Abort action verbs
-	 * "abort", "terminate", "end"
+	 * "abort", "terminate", "end", "exit", "finish"
 	 *  
 	 * @return filled list
 	 */
@@ -63,6 +63,7 @@ public class LingConfig {
 		result.add("terminate");		
 		result.add("end");
 		result.add("exit");
+		result.add("finish");
 		return result;
 	}
 	

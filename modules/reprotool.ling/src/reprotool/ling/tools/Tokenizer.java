@@ -34,6 +34,7 @@ public class Tokenizer extends Tool{
 		
 		// separate punctation
 		text = Pattern.compile("([^ !])(!+)").matcher(text).replaceAll("$1 $2");
+		text = Pattern.compile("([\".,?!:;]+)").matcher(text).replaceAll(" $1 ");
 	
 		// stems English elisions, except for the ambiguous cases of 's and 'd
 		text = Pattern.compile("Won \' t").matcher(text).replaceAll("Won* n\'t");

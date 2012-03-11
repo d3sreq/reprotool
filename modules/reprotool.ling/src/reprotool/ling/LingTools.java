@@ -180,8 +180,7 @@ public class LingTools {
 			if(!ucs.getContent().isEmpty()) {
 				command.append(analyseUseCaseStep(editingDomain, ucs));	
 			}
-		}
-	
+		}	
 		return command;
 	}
 	

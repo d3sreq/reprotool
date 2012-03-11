@@ -212,12 +212,7 @@ public class Analyser {
 			if (consoleOut != null) {
 				consoleOut.println("[Ling] Abort action detected.");
 			}
-		} else {
-			if (consoleOut != null) {
-				consoleOut.println("[Ling] Abort action not detected.");
-			}
-		}
-		
+		}		
 		// set result
 		return found;
 	}
@@ -356,9 +351,7 @@ public class Analyser {
 		if (consoleOut != null) {
 			if (found) {
 				consoleOut.println("[Ling] Include action detected.");			
-			} else {
-				consoleOut.println("[Ling] Include action not detected.");						
-			}
+			} 
 		}
 		return found;
 	}
@@ -446,9 +439,7 @@ public class Analyser {
 		if (consoleOut != null) {
 			if (found) {
 				consoleOut.println("[Ling] Goto action detected.");			
-			} else {
-				consoleOut.println("[Ling] Goto action not detected.");						
-			}
+			} 
 		}
 		// set result
 		return found;
