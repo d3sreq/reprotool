@@ -6,7 +6,7 @@ import java.io.InputStream;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
 
-import reprotool.ide.txtuc.ui.internal.TxtUseCaseActivator;
+import reprotool.ide.Activator;
 
 public class NewTxtucWizardPage extends WizardNewFileCreationPage {
 
@@ -20,8 +20,9 @@ public class NewTxtucWizardPage extends WizardNewFileCreationPage {
     @Override
     protected InputStream getInitialContents() {
         try {
-            return TxtUseCaseActivator.getInstance().getBundle().getEntry("/resources/empty.txtuc").openStream();
+            return Activator.getDefault().getBundle().getEntry("/resources/empty.txtuc").openStream();
         } catch (IOException e) {
+        	e.printStackTrace();
             return null; // ignore and create empty comments
         }
     }

@@ -98,6 +98,18 @@
             name="Reprotool example projects"
             project="true">
       </wizard>
+      
+     <wizard
+           category="reprotool.ide.category1"
+           class="reprotool.ide.txtuc.ui.wizard.NewTxtucWizard"
+           hasPages="true"
+           icon="icons/pencil.png"
+           id="reprotool.ide.txtuc.ui.wizard2"
+           name="Textual use case"
+           project="false">
+           <description>Create a new textual use case file</description>
+           <selection class="org.eclipse.core.resources.IResource" />
+     </wizard>
    </extension>
    <extension
          point="org.eclipse.ui.perspectiveExtensions">
@@ -353,6 +365,14 @@
          </activeWhen>
       </handler>
    </extension>
-   
+   <extension
+        point="org.eclipse.ui.perspectiveExtensions">
+     <perspectiveExtension
+           targetID="reprotool.ide.perspectives.ReprotoolPerspective">
+        <newWizardShortcut
+              id="reprotool.ide.txtuc.ui.wizard2">
+        </newWizardShortcut>
+     </perspectiveExtension>
+   </extension>
 
 </plugin>
