@@ -1,5 +1,6 @@
 package reprotool.model.usecase.impl;
 
+import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 
 import reprotool.model.usecase.Scenario;
@@ -9,17 +10,29 @@ public class UseCaseImplCustom extends UseCaseImpl {
 
 	@Override
 	public EList<UseCaseStep> getAllUseCaseStepsShortcut() {
-		return getStepsFromScenario(this.getMainScenario());
+		EList<UseCaseStep> result = new BasicEList<UseCaseStep>();
+		getStepsFromScenario(this.getMainScenario(), result);
+		return result;
 	}
 	
-	private EList<UseCaseStep> getStepsFromScenario(Scenario scenario) {
+	private void getStepsFromScenario(Scenario scenario, EList<UseCaseStep> result) {
 		// check is needed, exception was thrown when deleting actor
 		if (scenario == null) {
-			return null;
+			return;
 		}
 		
-		// TODO - jvinarek - add recursion, get steps from extensions & variations. 
-		return scenario.getSteps();
+		for (UseCaseStep step : scenario.getSteps()) {
+			result.add(step);
+			
+			for (Scenario extScenario : step.getExtensions()) {
+				getStepsFromScenario(extScenario, result);
+			}
+			
+			for (Scenario varScenario : step.getVariations()) {
+				getStepsFromScenario(varScenario, result);
+			}
+		}
 	}
+	
 	
 }
