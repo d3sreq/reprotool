@@ -7,7 +7,6 @@ import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.provider.ReflectiveItemProviderAdapterFactory;
-import org.eclipse.emf.edit.provider.resource.ResourceItemProviderAdapterFactory;
 
 import reprotool.model.usecase.UsecasePackage;
 import reprotool.model.usecase.provider.ScenarioItemProvider;
@@ -39,7 +38,7 @@ public class UsecaseEMFEditorAdapterFactory extends ComposedAdapterFactory {
 
 		UsecaseItemProviderAdapterFactory usecaseItemProviderAdapterFactory = injector.getInstance(UsecaseItemProviderAdapterFactory.class);
 		
-		addAdapterFactory(new ResourceItemProviderAdapterFactory());
+//		addAdapterFactory(new ResourceItemProviderAdapterFactory());
 		addAdapterFactory(usecaseItemProviderAdapterFactory);
 		addAdapterFactory(new ReflectiveItemProviderAdapterFactory());
 	}
@@ -70,9 +69,9 @@ public class UsecaseEMFEditorAdapterFactory extends ComposedAdapterFactory {
 			bind(AdapterFactory.class).annotatedWith(Names.named(UseCaseStepItemProviderExt.USE_CASE_STEP_ITEM_PROVIDER_ANNOTATION)).to(UsecaseItemProviderAdapterFactoryExt.class).in(Scopes.SINGLETON);
 			
 			List<EReference> customUseCaseStepChildren = new ArrayList<EReference>();
+			customUseCaseStepChildren.add(UsecasePackage.Literals.PARSEABLE_ELEMENT__ANNOTATIONS);
 			customUseCaseStepChildren.add(UsecasePackage.Literals.USE_CASE_STEP__EXTENSIONS);
 			customUseCaseStepChildren.add(UsecasePackage.Literals.USE_CASE_STEP__VARIATIONS);
-			customUseCaseStepChildren.add(UsecasePackage.Literals.PARSEABLE_ELEMENT__ANNOTATIONS);
 		
 			bind(new TypeLiteral<List<EReference>>() {}).annotatedWith(Names.named(UseCaseStepItemProviderExt.CUSTOM_CHILDREN_FEATURES_KEY)).toInstance(customUseCaseStepChildren);
 		}
