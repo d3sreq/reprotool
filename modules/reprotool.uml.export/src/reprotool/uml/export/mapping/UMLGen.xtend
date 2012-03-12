@@ -4,6 +4,7 @@ import org.eclipse.xtext.xbase.lib.Pair
 
 import java.util.Map
 import java.util.List
+import java.util.ArrayList
 import java.util.HashMap
 import org.eclipse.uml2.uml.Model
 
@@ -20,7 +21,6 @@ import reprotool.model.linguistic.actionpart.SentenceActionParam
 import org.eclipse.emf.common.util.EList
 import org.eclipse.emf.common.util.BasicEList
 
-
 /**
  * This class is responsible for model to model transformation of the reprotool
  * project model to the UML class diagram model.
@@ -29,7 +29,9 @@ import org.eclipse.emf.common.util.BasicEList
  */
 public class UMLGen {
 	private HashMap<Actor, org.eclipse.uml2.uml.Class> actor2UML
+	private HashMap<Actor, ArrayList<String>> actor2Ops
 	private org.eclipse.uml2.uml.Class umlSystem
+	private List systemOps
 	
 	def <K,V> boolean operator_add(Map<K,V> map, Pair<K,V> pair) {
 		map.put(pair.key, pair.value)
@@ -37,9 +39,13 @@ public class UMLGen {
 	}
 	
 	def private loadActors(SoftwareProject swproj, Model model) {
-		swproj.actors.forEach([actor|actor2UML +=
+		swproj.actors.forEach([actor|
+			actor2UML +=
 				actor -> 
-				model.createOwnedClass(actor.getName(), false)
+				model.createOwnedClass(actor.getName(), false);
+			actor2Ops +=
+				actor ->
+				new ArrayList<String>();
 		]);
 		
 		val Actor system =
@@ -63,8 +69,9 @@ public class UMLGen {
 				)
 				val TextRange text = action.sentenceActivity.text;
 				if ((text != null) && (text.content != null) && (!text.content.isEmpty())) {
-					if (actor2UML.containsKey(actor)) {
+					if (actor2UML.containsKey(actor) && (!actor2Ops.get(actor).contains(text.content))) {
 						actor2UML.get(actor).createOwnedOperation(text.content, eParamNames, null);
+						actor2Ops.get(actor).add(text.content);
 					}
 				}
 			}
@@ -79,8 +86,9 @@ public class UMLGen {
 				)
 				val TextRange text = action.sentenceActivity.text;
 				if ((text != null) && (text.content != null) && (!text.content.isEmpty())) {
-					if (umlSystem != null) {
+					if ((umlSystem != null) && (!systemOps.contains(text.content))) {
 						umlSystem.createOwnedOperation(text.content, eParamNames, null);
+						systemOps.add(text.content);
 					}
 				}
 			}
@@ -95,8 +103,9 @@ public class UMLGen {
 				)
 				val TextRange text = action.sentenceActivity.text;
 				if ((text != null) && (text.content != null) && (!text.content.isEmpty())) {
-					if (umlSystem != null) {
+					if ((umlSystem != null) && (!systemOps.contains(text.content))) {
 						umlSystem.createOwnedOperation(text.content, eParamNames, null);
+						systemOps.add(text.content);
 					}
 				}
 			}
@@ -117,6 +126,8 @@ public class UMLGen {
 	
 	def public generateUMLModel(SoftwareProject swproj, Model model) {
 		actor2UML = new HashMap<Actor, org.eclipse.uml2.uml.Class>();
+		actor2Ops = new HashMap<Actor, ArrayList<String>>();
+		systemOps = new ArrayList<String>();
 		loadActors(swproj, model);
 		swproj.useCases.forEach([useCase|processUseCase(useCase)]);
 	}

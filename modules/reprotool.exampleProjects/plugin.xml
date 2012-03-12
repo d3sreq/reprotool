@@ -15,6 +15,11 @@
                description="The admission system (http://ucdb.cs.put.poznan.pl) example project that is prepared for you to learn how to use the textual import of use-cases in Reprotool."
                name="Admission system">
          </projectDescriptor>
+         <projectDescriptor
+               contentURI="resources/umlExport.swproj.zip"
+               description="This example project is prepared for exporting into UML"
+               name="UML Export">
+         </projectDescriptor>
       </example>
    </extension>
    <extension
