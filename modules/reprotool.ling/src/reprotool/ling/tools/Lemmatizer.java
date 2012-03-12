@@ -94,6 +94,11 @@ public class Lemmatizer extends Tool {
 
 		// locating external model
 		Bundle bundle = Platform.getBundle("reprotool.tools.anna");
+		// bundle not found - package damaged
+		if(bundle == null) {
+			System.err.println("Bundle \"reprotool.tools.anna\" not found!");
+			return false;
+		}
 		URL fileURL = bundle.getEntry("data/lemma-eng.model");
 		try {
 			File file = new File(FileLocator.resolve(fileURL).toURI());

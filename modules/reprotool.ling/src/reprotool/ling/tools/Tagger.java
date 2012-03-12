@@ -60,32 +60,22 @@ public class Tagger extends Tool{
 		
 		PrintStream stdout = System.out;
 		InputStream stdin = System.in;
-		/*
-		// locating external model
-		try{
-			path = Platform.getPreferencesService().getString("reprotool.ide", "mxpostModel", "/tagger.project", null);
-		} catch (NullPointerException e){
-			String rootPath;
-			try {
-				rootPath = new java.io.File(Tagger.class.getResource("/").toURI()).getParentFile().getParent();
-			} catch (URISyntaxException e1) {
-				rootPath = new java.io.File(Tagger.class.getResource("/").getPath()).getParentFile().getParent();
-			}
-			path = rootPath + "/reprotool.tools.mxpost/data/tagger.project";
-		}*/
-		
-		
 		// locating external model
     	Bundle bundle = Platform.getBundle("reprotool.tools.mxpost");
+		// bundle not found - package damaged
+		if(bundle == null) {
+			System.err.println("Bundle \"reprotool.tools.mxpost\" not found!");
+			return text;
+		}
     	URL modelFileURL = bundle.getEntry("data/tagger.project");
 	    try {
 	    	path = new File(FileLocator.resolve(modelFileURL).toURI()).toString();
 		} catch (URISyntaxException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, "Error during locating tagger files", e1);
+			StatusManager.getManager().handle(status, StatusManager.LOG);
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, "Error during accessing tagger files", e1);
+			StatusManager.getManager().handle(status, StatusManager.LOG);
 		}
 	
 		try{

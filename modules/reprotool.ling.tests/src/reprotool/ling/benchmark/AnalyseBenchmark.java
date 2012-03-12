@@ -7,17 +7,19 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.URISyntaxException;
+import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.ui.statushandlers.StatusManager;
+import org.osgi.framework.Bundle;
 
 import reprotool.ling.Activator;
-import reprotool.ling.tools.Parser;
 
 /**
  * @author ofiala
@@ -33,12 +35,11 @@ public class AnalyseBenchmark {
 		GOTO,
 		ABORT,
 		INTERNAL,
-		FROM,
-		TO,
+		FROM_SYSTEM,
+		TO_SYSTEM,
 		INCLUDE,
 		X;
 	}
-
 
 	/**
 	 * Analyse selected loaded sentence
@@ -158,13 +159,18 @@ public class AnalyseBenchmark {
 			actions++;
 			if (bs.outResults.actionCode == bs.inResults.actionCode)
 				foundActions++;
+			else
+				error += bs.getId() + ": input actionCode: "
+						+ bs.inResults.actionCode
+						+ " output actionCode: "
+						+ bs.outResults.actionCode + "\n";
 		}
 		result += "ACTIONS: " + "Count: " + actions + " Found: " + (int)foundActions + " | " + formatter.format((foundActions * 100)/actions) + "%\n";
-		//result += error;
+		result += error;
 		
 		// sum
-		int count = subjects + verbs + iobjects + objects;
-		float found = foundSubjects + foundVerbs + ifoundObjects + foundObjects; 
+		int count = subjects + verbs + iobjects + objects + actions;
+		float found = foundSubjects + foundVerbs + ifoundObjects + foundObjects + foundActions; 
 		result += "TOTAL: " + "Count: " + count + " Found: " + (int)found + " | " + formatter.format((found * 100)/count) + "%\n";
 	
 		return result;
@@ -188,23 +194,26 @@ public class AnalyseBenchmark {
 		boolean result = false;
 		
 		// input
-		if (path.isEmpty()) {
-			String rootPath;
-			try {
-				rootPath = new java.io.File(Parser.class.getResource("/").toURI()).getParentFile().getParent();
-			} catch (URISyntaxException e) {
-				rootPath = new java.io.File(Parser.class.getResource("/").getPath()).getParentFile().getParent();
+		if (path.isEmpty() || (!path.contains("/"))) {
+			// locating data file
+			Bundle bundle = Platform.getBundle("reprotool.ling.tests");
+			if(bundle == null) {
+				System.err.println("Bundle \"reprotool.ling.tests\" not found! Execute as plugin test (Run As -> JUnit Plug-in Test) or locate bundle.");
+				return false;
 			}
-			path = rootPath + "/reprotool.ling.tests/data/" + fileName;
-		} else if (!path.contains("/")) {
-			fileName = path;
-			String rootPath;
+			URL fileURL = null;
+			// path is just file name
+			if ((!path.isEmpty())&&(!path.contains("/")))
+				fileURL = bundle.getEntry("data/" + path);
+			else
+				fileURL = bundle.getEntry("data/" + fileName);
 			try {
-				rootPath = new java.io.File(Parser.class.getResource("/").toURI()).getParentFile().getParent();
-			} catch (URISyntaxException e) {
-				rootPath = new java.io.File(Parser.class.getResource("/").getPath()).getParentFile().getParent();
+				File file = new File(FileLocator.resolve(fileURL).toURI());
+				path = file.toString();
+			} catch (Exception e) {
+				IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, "Error during locating benchmark data file", e);
+				StatusManager.getManager().handle(status, StatusManager.LOG);
 			}
-			path = rootPath + "/reprotool.ling.tests/data/" + fileName;			
 		}
 		
 		File dataFile = new File(path);
@@ -246,6 +255,10 @@ public class AnalyseBenchmark {
 	 * @return boolean success at all sentences
 	 */
 	public boolean parseAll() {
+		if(sentences.isEmpty()) {
+			System.err.println("Benchmark didn't found any sentence.");
+			return false;
+		}
 		// result
 		boolean result = true;
 		for (BenchmarkSentence bs : sentences) {
@@ -260,7 +273,10 @@ public class AnalyseBenchmark {
 	 * @return boolean success at sentence
 	 */
 	public boolean parse(int i) {
-		return sentences.get(i).parse();
+		if(sentences.size() > i)
+			return sentences.get(i).parse();
+		else
+			return false;
 	}
 	
 }

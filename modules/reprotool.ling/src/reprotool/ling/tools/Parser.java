@@ -134,39 +134,24 @@ public class Parser extends Tool {
 	public static synchronized boolean start () {
     	String settingsFile = "";
     	String modelFile = "";
-    	/*
-		// locating external model
-		String rootPath;
-		try {
-			rootPath = new java.io.File(Parser.class.getResource("/").toURI()).getParentFile().getParent();
-		} catch (URISyntaxException e1) {
-			rootPath = new java.io.File(Parser.class.getResource("/").getPath()).getParentFile().getParent();
-		}
-		modelFile = rootPath + "/reprotool.tools.dbparser/data/wsj-02-21.obj.gz";
-		// modelFile = rootPath + "/../tools/parser/wsj-02-21.obj.gz";
-			
-		// locating external settings
-		try {
-			rootPath = new java.io.File(Parser.class.getResource("/").toURI()).getParentFile().getParent();
-		} catch (URISyntaxException e1) {
-			rootPath = new java.io.File(Parser.class.getResource("/").getPath()).getParentFile().getParent();
-			System.out.println("Parser location exception .toURI");
-		}
-		settingsFile = rootPath + "/reprotool.tools.dbparser/data/collins.properties";
-*/
     	
     	Bundle bundle = Platform.getBundle("reprotool.tools.dbparser");
+		// bundle not found - package damaged
+		if(bundle == null) {
+			System.err.println("Bundle \"reprotool.tools.dbparser\" not found!");
+			return false;
+		}
     	URL modelFileURL = bundle.getEntry("data/wsj-02-21.obj.gz");
     	URL settingsFileURL = bundle.getEntry("data/collins.properties");
 	    try {
 	    	modelFile = new File(FileLocator.resolve(modelFileURL).toURI()).toString();
 			settingsFile = new File(FileLocator.resolve(settingsFileURL).toURI()).toString();
 		} catch (URISyntaxException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, "Error during locating parser files", e1);
+			StatusManager.getManager().handle(status, StatusManager.LOG);
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, "Error during accessing parser files", e1);
+			StatusManager.getManager().handle(status, StatusManager.LOG);
 		}
 
     	try {

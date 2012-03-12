@@ -131,16 +131,6 @@ public class FindConstituent {
 			}
 		}
 		
-		// is there any determiner?
-		/*
-		for (Word word : sentence.getWords()) {	
-			if (word.getPOS() == POSType.DETERMINER) {
-				word.setType(WordType.SUBJECT);
-				System.out.println("Subject: " + word.getLemma());
-				subject = word;
-			}
-		}	*/
-		
 		// find determiner in head NP
 		if (subject == null) {
 			curNode = (SentenceNode)FindNode.mainNounPhrase(sentence.getSentenceTree());

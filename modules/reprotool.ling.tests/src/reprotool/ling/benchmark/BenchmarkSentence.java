@@ -2,7 +2,11 @@ package reprotool.ling.benchmark;
 
 import java.util.ArrayList;
 
+import org.eclipse.emf.common.command.Command;
+import org.eclipse.emf.edit.domain.EditingDomain;
+
 import reprotool.ling.LingConfig;
+import reprotool.ling.LingFactory;
 import reprotool.ling.LingTools;
 import reprotool.ling.Sentence;
 import reprotool.ling.SentenceNode;
@@ -11,8 +15,19 @@ import reprotool.ling.analyser.Analyser;
 import reprotool.ling.analyser.FindConstituent;
 import reprotool.ling.benchmark.AnalyseBenchmark.ActionCode;
 import reprotool.ling.impl.SentenceImpl;
+import reprotool.model.linguistic.action.AbortUseCase;
+import reprotool.model.linguistic.action.FromSystem;
+import reprotool.model.linguistic.action.Goto;
+import reprotool.model.linguistic.action.InternalAction;
+import reprotool.model.linguistic.action.ToSystem;
+import reprotool.model.linguistic.action.UseCaseInclude;
 import reprotool.model.swproj.Actor;
+import reprotool.model.swproj.SoftwareProject;
 import reprotool.model.swproj.SwprojFactory;
+import reprotool.model.usecase.Scenario;
+import reprotool.model.usecase.UseCase;
+import reprotool.model.usecase.UseCaseStep;
+import reprotool.model.usecase.UsecaseFactory;
 
 /**
  * @author ofiala
@@ -22,6 +37,7 @@ public class BenchmarkSentence extends SentenceImpl {
 	// basic parameters
 	private String id = "";
 	private String sentence = "";
+	private Sentence sentenceObject = LingFactory.eINSTANCE.createSentence();
 	private ArrayList<Actor> actors = new ArrayList<Actor>(LingConfig.actors);
 	
 	// same object for given and analysed results
@@ -51,7 +67,7 @@ public class BenchmarkSentence extends SentenceImpl {
 			// add all new actors
 			for(String acstr : fields[2].split(",")) {
 				Actor ac = SwprojFactory.eINSTANCE.createActor();
-				ac.setName(acstr);
+				ac.setName(acstr.toLowerCase().trim());
 				actors.add(ac);
 			}
 			if (fields.length >= 4) {
@@ -123,7 +139,7 @@ public class BenchmarkSentence extends SentenceImpl {
 			return false;
 
 		// parent object
-		Sentence sentenceObject = LingTools.parseSentence(sentence);
+		sentenceObject = LingTools.parseSentence(sentence);
 		
 		if (sentenceObject == null) {
 			return false;
@@ -221,10 +237,44 @@ public class BenchmarkSentence extends SentenceImpl {
 			this.outResults.objectNumbers = new int [] {0};
 //			this.outResults.objectNumbers = new int [] {0,2};
 
+		// create SoftwareProject for analysis
+		SoftwareProject sw = SwprojFactory.eINSTANCE.createSoftwareProject();
+		sw.setName("TEST");
+		sw.getActors().addAll(actors);
+		// create UseCase for analysis
+		UseCase uc = UsecaseFactory.eINSTANCE.createUseCase();
+		uc.setId("TEST");
+		uc.setName("TEST");
+		uc.setSoftwareProjectShortcut(sw);
+		// create UseCaseStep for analysis
+		UseCaseStep ucs = UsecaseFactory.eINSTANCE.createUseCaseStep();
+		ucs.setContent(sentence);
+		// create Scenario for analysis
+		Scenario scenario = UsecaseFactory.eINSTANCE.createScenario();
+		scenario.getSteps().add(ucs);
+		uc.setMainScenario(scenario);
+		sw.getUseCases().add(uc);
+		// analyse sentence
+		EditingDomain editingDomain = null;		
+		Command command = Analyser.analyseTree(editingDomain, ucs, sentenceObject);
+		command.execute();
 		
-		boolean abort = Analyser.detectAbort(this, null);
-		if (abort) outResults.actionCode = ActionCode.ABORT;
-		
+		// detect action code
+		if(ucs.getAction() instanceof AbortUseCase)
+			outResults.actionCode = ActionCode.ABORT;
+		if(ucs.getAction() instanceof FromSystem)
+			outResults.actionCode = ActionCode.FROM_SYSTEM;
+		if(ucs.getAction() instanceof Goto)
+			outResults.actionCode = ActionCode.GOTO;
+		if(ucs.getAction() instanceof UseCaseInclude)
+			outResults.actionCode = ActionCode.INCLUDE;
+		if(ucs.getAction() instanceof InternalAction)
+			outResults.actionCode = ActionCode.INTERNAL;
+		if(ucs.getAction() instanceof ToSystem)
+			outResults.actionCode = ActionCode.TO_SYSTEM;
+
+		System.out.println(this.id + ": detected action " + ucs.getAction());		
+			
 		return result;
 	}
 

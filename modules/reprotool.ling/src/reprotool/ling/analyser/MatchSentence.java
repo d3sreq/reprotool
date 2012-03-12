@@ -115,7 +115,7 @@ public class MatchSentence {
 		//s.lenght() - s.replaceAll("[^,]","").length();  
 		int occ = s.split(character).length - 1;
 		// remove possessive usage of '
-		if(character == "'"){			
+		if(character.equals("'")){			
 			badOcc = s.split("'s ").length - 1;
 		}		
 		return occ - badOcc;

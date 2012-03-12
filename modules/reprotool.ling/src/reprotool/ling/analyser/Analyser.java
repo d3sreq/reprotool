@@ -192,7 +192,7 @@ public class Analyser {
 		return compoundCommand;
 	}
 
-	public static boolean detectAbort(Sentence sentence, MessageConsoleStream consoleOut) {
+	private static boolean detectAbort(Sentence sentence, MessageConsoleStream consoleOut) {
 		// result
 		boolean found = false;
 

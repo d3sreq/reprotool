@@ -67,20 +67,4 @@ public class WordImplCustom extends WordImpl {
 		}
 		
 	}
-	
-	/**
-	 * Switch text and negation
-	 *
-	 * @return Boolean success
-	 */	
-/*    public Boolean negate() {
-    	if(!this.negation.isEmpty()){
-			String temp = this.text;
-			this.text = this.negation;
-			this.negation = temp;
-			return true;
-    	}
-    	return false;
-    }
-    */
 }

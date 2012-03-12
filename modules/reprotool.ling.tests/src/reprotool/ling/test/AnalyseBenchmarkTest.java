@@ -68,18 +68,18 @@ public class AnalyseBenchmarkTest {
 	// print stats
 	@Test
 	public final void testResults() {
-
 		String stats = "";
 		
 		AnalyseBenchmark ab = new AnalyseBenchmark();
-//		ab.loadData("small.csv");
-		ab.loadData("data.csv");
+		ab.loadData("small.csv");
+		//ab.loadData();
+		
 		// parse first
 		if(ab.parseAll()) {
 			ab.analyseAll();
 			stats = ab.getResults();
 		}
 		System.out.println(stats);
-		assertTrue(stats.length() > 10);
+		assertTrue(stats.length() > 10);		
 	}
 }
