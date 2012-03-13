@@ -301,7 +301,6 @@ Charles University in Prague
       <plugin id="reprotool.ide.txtuc.ui"/>
       <plugin id="reprotool.ling"/>
       <plugin id="reprotool.lts"/>
-      <plugin id="reprotool.lts.export"/>
       <plugin id="reprotool.model"/>
       <plugin id="reprotool.model.edit"/>
       <plugin id="reprotool.model.edit.ext"/>
