@@ -34,7 +34,8 @@ view. Use the same command to add the \emph{unlock} annotation to this annotatio
 \subsubsection{Adding semantics to the \emph{lock / unlock} annotations.}
 Right-click the new \emph{Annotation group} in the \emph{Swproj Model Editor} and select the command \texttt{New Child / CTL Formula}
 from the context menu. Now type \emph{After 'lock' there always needs to be 'unlock'} as the formula \emph{Description} in the
-\emph{Properties view}. Type \texttt{AG(lock -> AF(unlock))} as \emph{Formula} in the \emph{Properties view}.
+\emph{Properties view}. Type \texttt{AG(lock -> AF(unlock))} as \emph{Formula} in the \emph{Properties view}. You will see in the
+next subsection how to build your own NuSMV \emph{CTL} formulas.
 You should now be in a situation shown in the following figure:
 
 \newpage
@@ -56,3 +57,37 @@ are not properly unlocked. Running the model-cheking process on this example yie
   \caption{The \emph{unlock} annotation is missing in this execution path}
   \label{fig:reprotoolLockUnlock2}
 \end{figure}
+
+\newpage
+
+\subsubsection{CTL formulae operators}
+We use in \emph{Reprotool} the following operators to build up our CTL formulas. (The descriptions of operators are taken from
+the {nusmv-manual} that you can find in the \emph{Reprotool} svn documentation directory.) 
+
+\begin{itemize}
+ \item \textbf{AG $p$} is \emph{true} in a state $s_{0}$ if for \emph{all} infinite series of transitions $s_{0} \rightarrow s_{1} , s_{1} \rightarrow 
+  s_{2} , \ldots$ \emph{p} is \emph{true} in \emph{every} $s_{i}$. (\emph{forall globally})
+ 
+ \item \textbf{AF $p$} is true in a state $s_{0}$ if for all series of transitions $s_{0} \rightarrow s_{1}, s_{1} \rightarrow
+  s_{2},\ldots, s_{n-1} \rightarrow s_{n}$ \emph{p} is \emph{true} in $s_{n}$. (\emph{forall finally})
+
+ \item \textbf{EF $p$} is \emph{true} in a state $s_{0}$ if there \emph{exists} a series of transitions $s_{0} \rightarrow s_{1}, 
+ s_{1} \rightarrow s_{2},~\ldots, s_{n-1} \rightarrow s_{n}$ such that \emph{p} is \emph{true} in $s_{n}$
+  
+\item \textbf{AX $p$} is true in a state \emph{s} if for all states $s'$ where there is a transition from \emph{s} to
+  $s'$ , \emph{p} is \emph{true} in $s'$. (\emph{forall next state})
+  \item \textbf{A[$p \cup q$]} is \emph{true} in a state $s_{0}$ if for \emph{all} series of transitions $s_{0} \rightarrow s_{1},
+  s_{1} \rightarrow s_{2},~\ldots, s_{n-1} \rightarrow s_{n}$ \emph{p} is \emph{true} in \emph{every} state from $s_{0}$ to
+  $s_{n-1}$ and \emph{q} is \emph{true} in state $s_{n}$. (\emph{forall until})
+\end{itemize}
+
+\subsubsection{CTL formulas examples}
+\begin{description}
+ \item[$AG(open \rightarrow AF(close))$] After 'open' there should always be 'close'
+ \item[$AG(open \rightarrow AX(A\lbrack!open \cup close\rbrack))$] No multi-open without close
+ \item[$AG(close \rightarrow AX(A\lbrack!close \cup open \mid !AF(close) \rbrack))$] No multi-close without open
+ \item[$A\lbrack !close \cup open \mid !AF(close)\rbrack$] First 'open' then 'close'
+ \item[$AG( create \rightarrow EF(use) )$] After 'create' there must be some branch containing 'use'
+ \item[$AG( create \rightarrow AX(AG(!create)) )$] Only one 'create'
+ \item[$A\lbrack !use \cup create \mid !AF(use)\rbrack$] No 'use' before 'create'
+\end{description}
