@@ -1,6 +1,6 @@
 \section{Model checking in \emph{Reprotool}.}
 
-\subsection{Introduction to model checking in \emph{Reprotool}}.
+\subsection{Introduction to model checking in \emph{Reprotool}.}
 
 \emph{Reprotool} project can contain many use-cases. Use-cases consist of use-case steps. You can assign annotaions to individual
 use-case steps. These annotations are basicly boolean variables. When the \emph{Reprotool} performs model checking, it firstly
@@ -46,6 +46,13 @@ Open the \emph{cityMap.swproj.nusmv} file. The file will be opened by our \mbox{
 There is a \emph{NuSMV Manual} in the documentation directory of the \emph{Reprotool} svn tree. Direct editing of this
 file should however not be necessary.
 
+\begin{figure}[ht]
+  \centering
+  \includegraphics[height=180pt]{images/reprotoolNuSMVContentAssist}
+  \caption{Content Assist in \emph{Reprotool} NuSMV editor}
+  \label{fig:reprotoolNuSMVContentAssist}
+\end{figure}
+
 \hyphenation{Ve-ri-fi-ca-tion}
 
 \subsection{Model checking}
@@ -58,8 +65,6 @@ directory.
 
 \subsection{Reading the counter-example trace}
 Open the generated counter-example trace in the file \emph{cityMap.swproj.cexmp}. You should see a screen similar to this:
-
-\newpage
 
 \begin{figure}[ht]
   \centering
@@ -113,8 +118,6 @@ the linguistic analysis of the selected step. You will learn more about linguist
 devoted to this topic. Check in the sentence-analysis view, that the step has defined its action type as \emph{Abort use-case}.
 You can notice it also in the outline view. Anyway, you should now be in a situation similar to this:
 
-\newpage
-
 \begin{figure}[ht]
   \centering
   \includegraphics[height=280pt]{images/reprotoolTraceCityMapFix1}
@@ -156,5 +159,5 @@ situation similar to this:
   \label{fig:reprotoolTraceCityMapFix2}
 \end{figure}
 
-Now that is all. Run the verification again, and you should see in the console view that none of the temporal logic properties
+Now we are finished. Run the verification again, and you should see in the console view that none of the temporal logic properties
 has been violated.
