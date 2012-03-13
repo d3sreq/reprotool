@@ -132,6 +132,10 @@ public class NuSMVGenerator {
 			EList<StepAnnotation> annots = ucStep.getAnnotations();
 			if (!annots.isEmpty()) {
 				for (StepAnnotation a: annots) {
+					if (a.getAnnotationType() == null) {
+						continue;
+					}
+					
 					if (a.getAnnotationType().getName().equals("on")) {
 						traceIDs.add(a.getId());
 					}

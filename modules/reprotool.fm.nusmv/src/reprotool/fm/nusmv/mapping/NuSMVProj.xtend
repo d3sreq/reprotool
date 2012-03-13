@@ -7,6 +7,7 @@ import java.util.List
 import org.eclipse.core.runtime.Assert
 import org.eclipse.emf.common.util.EList
 import org.eclipse.ui.console.MessageConsoleStream
+import reprotool.fm.nusmv.FormulaUtils
 import reprotool.fm.nusmv.AnnotationEntry
 import reprotool.fm.nusmv.NuSMVGenerator
 import reprotool.fm.nusmv.lang.nuSmvLang.ModuleElement
@@ -44,21 +45,21 @@ public class NuSMVProj {
 	def public initializeSoftwareProject() {
 		Assert::isNotNull(factory)
 		Assert::isNotNull(swproj)
-		
+				
 		// prepare generators
 		generators = new ArrayList<NuSMVGenerator>();
 		generators += swproj.useCases.map([
 			consoleOut.println("[NuSMV] Found usecase " + name)
 			new NuSMVGenerator(it)
 		])
-		
+				
 		// prepare formulas
 		formulas = new ArrayList<TemporalLogicFormula>();
 		formulas += swproj.annotationGroups
 			.filter( typeof(TemporalAnnotationGroup) )
 			.map( annotGroup | annotGroup.formulas )
 			.flatten
-		
+					
 		// cleanup helper structures
 		globalTracker = new HashMap<String, List<AnnotationEntry>>()
 		uc2gen = new HashMap<UseCase, NuSMVGenerator>()
@@ -67,7 +68,7 @@ public class NuSMVProj {
 		expandedLTLFormulas = new ArrayList<String>()
 
 		uc2gen += generators.map([ it.useCase -> it ])
-				
+		
 		processAnnotations()
 		loadIncludedAnnotations()
 		loadTLFormulas()
@@ -369,17 +370,12 @@ public class NuSMVProj {
 			val annotatedVars = getAnnotatedVars(annotations);
 			
 			for (variable: annotatedVars) {
-				var f = formula.getFormula()
-				for (annot: tGrp.members) {
-					if (f.contains(annot.name)) {
-						val varName = annot.name + "_" + variable
-						f = f.replaceAll(annot.name, varName)
-						if (!globalTracker.containsKey(varName)) {
-							val List<AnnotationEntry> dummy = new ArrayList<AnnotationEntry>()
-							globalTracker += varName -> dummy
-						}
-					}
-				}
+				var f = FormulaUtils::expandFormula(
+					formula.getFormula(),
+					variable,
+					annotations,
+					globalTracker
+				);
 				
 				val normalised = f.replaceAll("[()\\s]+", "")
 				expanded2Formula += normalised -> formula

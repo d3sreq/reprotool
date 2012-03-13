@@ -105,6 +105,11 @@ public class NuSMVWrapper {
 	 * Checks all CTL formulae written within the SMV code as CTLSPEC.
 	 */
 	final public boolean checkInlineSpec(NuSMVProj nusmvProj, LogicFormulaType formulaType) {
+		File clearFile = new File(COUNTER_EXAMPLE_FILE);
+		if (clearFile.exists()) {
+			clearFile.delete();
+		}
+		
 	    switch (formulaType) {
 		case CTL:
 		    out.println("[NuSMV] Checking all inline CTLSPEC");
@@ -115,6 +120,9 @@ public class NuSMVWrapper {
 		}
 	    
 		errFile = new File("reprotool_nusmv_stderr.txt");
+		if (errFile.exists()) {
+			errFile.delete();
+		}
         
         NusmvLibrary.nusmv_stderr.set(nusmvLib.CmdOpenFile(errFile.getName()));
 	    nusmvProject = nusmvProj;

@@ -20,6 +20,11 @@
                description="This example project is prepared for exporting into UML"
                name="UML Export">
          </projectDescriptor>
+         <projectDescriptor
+               contentURI="resources/lockingSystem.swproj.zip"
+               description="This example project demonstrates the ability of adding custom annotations to Reprotool projects"
+               name="Locking system">
+         </projectDescriptor>
       </example>
    </extension>
    <extension
