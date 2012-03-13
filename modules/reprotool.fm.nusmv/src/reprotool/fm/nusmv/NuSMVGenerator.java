@@ -275,6 +275,9 @@ public class NuSMVGenerator {
 		
 		List<Transition> skips = new ArrayList<Transition>();
 		nextExpr.append("		s=" + state);
+		if (initial) {
+			nextExpr.append(" & run");
+		}
 		for (String traceTag: annots.keySet()) {
 			nextExpr.append(" & !top." + traceTag);
 			skips.addAll(annots.get(traceTag));
