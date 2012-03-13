@@ -194,16 +194,16 @@ Set of abort verbs contains "abort", "terminate", "end", "exit" and "finish".  T
 System is a subject of the sentence and we have indirect object (not system).
 
 \subsubsection{To system action}
-System is an indirect object. Subject could not be system.
+System is an indirect object. Subject could not be system. Example of To system action could be found at figure \ref{fig:ToSystemActionExample}. 
 
 \subsubsection{Internal action}
-System is a subject and there is not indirect object, or system is also indirect object. Example of Internal action could be found at figure \ref{fig:InternalActionExample}. 
+System is a subject and there is not indirect object, or system is also indirect object.
 
 \begin{figure}[ht]
   \centering
-  \includegraphics[width=250pt]{images/InternalActionExample}
-  \caption{Example of internal action analysis result.}
-  \label{fig:InternalActionExample}
+  \includegraphics[width=250pt]{images/ToSystemActionExample}
+  \caption{Example of To system action analysis result.}
+  \label{fig:ToSystemActionExample}
 \end{figure}
 
 \subsubsection{Unknown action}
@@ -245,7 +245,7 @@ TOTAL: Count: 84 Found: 70 | 83,3%
 
 Main usecase benchmark dataset was obtained from \href{http://www2.put.poznan.pl/en}{Poznan University of Technology}, their \href{http://www.se.cs.put.poznan.pl/knowledge-base/software-projects-database/use-cases-database-ucdb/use-cases-database-ucdb}{Use Cases Database (UCDB)} and it coverts one project \href{http://ucdb.cs.put.poznan.pl/benchmark/2.f.n/srs/index.html}{Admission System version 2.0F (quantitative)}.  
 
-Whole dataset have analysed 269 sentence.    
+Whole dataset have analysed 270 sentence.    
 
 \begin{enumerate}
 \item {\bf ID } Id string for one sentence provided for sentence identification
@@ -289,5 +289,21 @@ MOD1_UC1_9;Back to step 4 .;;0;;4;;GOTO;4;
 \end{center}
 \end{table}      
       
+\subsubsection{Results}
+Table \ref{tab.benchmarkresults} shows current benchmark results. Total result is 88,10\%. This number means, that 11,90\% of tagged entities is not correctly recognized.
 
+\begin{table}[ht]   % or b
+\begin{center}
+    \begin{verbatim} 
+SUBJECTS: Count: 269 Found: 249 | 92,57% 
+VERBS: Count: 269 Found: 244 | 90,71%
+INDIRECT_OBJECTS: Count: 269 Found: 260 | 96,65%    
+OBJECTS: Count: 269 Found: 200 | 74,35%
+ACTIONS: Count: 269 Found: 232 | 86,25%
+TOTAL: Count: 1345 Found: 1185 | 88,10%
+    \end{verbatim}
+  \caption{Final benchmark results}
+  \label{tab.benchmarkresults}
+\end{center}
+\end{table}  
 
