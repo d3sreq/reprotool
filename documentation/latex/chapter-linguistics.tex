@@ -289,20 +289,20 @@ We needed bigger set of proper sentences during the implementation of automatic 
 We have created special benchmark plug-in. This plug-in complement JUnit tests used during implementation and is part of {\tt reprotool.ling.tests} bundle. Core function of this plug-in is batch sentence analysis. Benchmark contains three main parts:
 
 \begin{itemize}
-\item {\bf Loading} Reading file containing annotated dataset.
-\item {\bf Analysis} Batch analysis of all sentences in dataset.
-\item {\bf Results output} Computing main results in usable format.
+\item {\bf Loading} - reading file containing annotated dataset.
+\item {\bf Analysis} - batch analysis of all sentences in dataset.
+\item {\bf Results output} - computing main results in usable format.
 \end{itemize}
 
-Our benchmark plug-in is ready to use. Usage of its features needs almost no source code modification. User only have to specify dataset file location. For quick run of this benchmark locate JUnit tests in {\tt reprotool.ling.tests} bundle and change noted dataset file location. Default location is set to file "data.csv" located in bundle.
+Our benchmark plug-in is ready to use. Usage of its features needs almost no source code modification. User only has to specify dataset file location. For quick run of this benchmark locate JUnit tests in {\tt reprotool.ling.tests} bundle and change noted dataset file location. Default location is set to file "data.csv" located in bundle.
 
 Right usage of our benchmark plug-in is described in following list. This process is composed of more nontrivial tasks, but these tasks are easy to resolve.
 
 \begin{enumerate}
-\item {\bf Reprotool initialization} You have to be able successfully built our \emph{Reprotool} project. It is supposed, that user modifying our project is able to built Eclipse plug-in projects.
+\item {\bf Reprotool initialization} You have to be able successfully build our \emph{Reprotool} project. It is supposed, that user modifying our project is able to build Eclipse plug-in projects.
 \item {\bf Obtaining sentences} First part of dataset creation is collecting data. It is recommended to obtain sentences from use cases.
 \item {\bf Manual annotation} The most time consuming part is dataset annotation. Example of dataset file is located in table \ref{tab.benchmarkinput}.
-\item {\bf Dataset location} User have to specify dataset location in source code.
+\item {\bf Dataset location} User has to specify dataset location in source code.
 \item {\bf Benchmark running} The easiest way to run benchmark is to execute corresponding JUnit test.
 \end{enumerate}
 
@@ -314,16 +314,16 @@ Benchmark plug-in uses same core functions like common \emph{Reprotool} linguist
 This difficult description could be better explained by following process. This process describes lifetime of one benchmark.
 
 \begin{enumerate}
-\item {\bf Main benchmark object is initialized} This step just set up benchmark base properties.for example location of dataset.
+\item {\bf Main benchmark object is initialized} This step just sets up benchmark base properties,for example location of dataset.
 
-\item {\bf Benchmark loads dataset} Benchmark localize dataset and in loop creates small project object for each sentence.
+\item {\bf Benchmark loads dataset} Benchmark locates dataset and in loop creates small project object for each sentence.
     \begin{enumerate}
     \item {\bf Loading sentence} Sentence with annotation is parsed. Representative results are created from annotation.
     \item {\bf Creating project} Benchmark creates project due to \emph{Reprotool} model. Benchmark sets up project, UseCase, Scenario, UseCaseStep and other needed objects.
     \item {\bf Linking objects} Benchmark links all objects, so the loaded sentence is not different from common UseCaseStep sentence.
     \end{enumerate}
 
-\item {\bf Analyzing sentences} Benchmark analyze each input sentence (now project)  like common project.
+\item {\bf Analyzing sentences} Benchmark analyzes each input sentence (now project)  like common project.
     \begin{enumerate}
     \item {\bf Linguistic tools} Parsed tree is created for each sentence.
     \item {\bf Action type} Analyzer tries to determine UseCaseStep action type.
@@ -333,7 +333,7 @@ This difficult description could be better explained by following process. This 
 \item {\bf Benchmark cleanup} Destruction of objects and termination.
 \end{enumerate}
 
-The most important part of benchmark are final results and their format. Result are computed for each annotated entity. Results for each entity consist of overall string. For example "{\tt OBJECTS: Count: 21 Found: 11 | 52,4\%}". Meaning of this line is self explanatory. This line is usually followed with set of lines containing errors. Each line starts with sentence identification, input (annotated) result and  output (analyzed) result. These informations are very important for localizing differences between input and output results.
+The most important part of benchmark are final results and their format. Result are computed for each annotated entity. Results for each entity consists of overall string. For example "{\tt OBJECTS: Count: 21 Found: 11 | 52,4\%}". This line is usually followed with set of lines containing errors. Each line starts with sentence identification, input (annotated) result and  output (analyzed) result. These informations are very important for localizing differences between input and output results.
 
 Based on these informations, \emph{Reprotool} model can be changed for modified usage of our project to suit your needs.
 
@@ -366,11 +366,11 @@ Most important precondition for benchmarking is good properly annotated dataset.
 
 We have defined eight basic sentence entities to annotate. These list could be followed with action type parameters. First entity is sentence identification string. This string is used for referencing to sentences, so it should be unique string for each sentence.
 
-Are entities are described in following list:
+Entities are described in the following list:
 
 \begin{enumerate}
 \item {\bf ID } Id string for one sentence provided for sentence identification
-\item {\bf SENTENCE } Test of natural language sentence
+\item {\bf SENTENCE } Test sentence
 \item {\bf ACTORS } List of sentence actors (separated by commas)
 \item {\bf SUBJECT\_NUMBER } Word index of subject
 \item {\bf VERB\_LEMMA } Lemma form of main verb in a sentence
@@ -380,9 +380,9 @@ Are entities are described in following list:
 \item {\bf ACTION\_PARAM1} First parameter of an action
 \end{enumerate}   
    
-There are few basic advices for annotation. All indices are starting from value 1. Value 0 indicate missing entity. Empty string in action code indicates Unknown action type. 
+There are few basic advices for annotation. All indices are starting from value 1. Value 0 indicates missing entity. Empty string in action code indicates Unknown action type. 
 
-As you should know, we have defined several action types. Each type should be also set in benchmark dataset. Defined action codes for corresponding action types are:      
+As mentioned in previous section, we have defined several action types. Each type should be also set in benchmark dataset. Defined action codes for corresponding action types are:      
      
 \begin{itemize}
 \item {\bf INTERNAL} Internal action
@@ -394,7 +394,7 @@ As you should know, we have defined several action types. Each type should be al
 \item {\bf UNKNOWN} Undefined action
 \end{itemize}     
 
-Table \ref{tab.benchmarkinput} contains few annotated sentences. You can see, that annotation covers main results of common UseCaseStep analysis. And this is exactly the main purpose of our dataset annotation.
+Table \ref{tab.benchmarkinput} contains few annotated sentences. You can see that annotation covers main results of common UseCaseStep analysis. And this is exactly the main purpose of our dataset annotation.
       
 \begin{table}[ht]   % or b
 \begin{center}
