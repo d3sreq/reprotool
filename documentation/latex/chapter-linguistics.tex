@@ -176,7 +176,7 @@ First part of process is initialization. This process is executed at startup of 
 \begin{itemize}
 \item {\bf Initialize tagger} - external tagger is initialized.
 \item {\bf Initialize parser} - external parser is initialized and started.
-\item {\bf Initialize lemmatizer} External lemmatizer is initialized started.
+\item {\bf Initialize lemmatizer} - external lemmatizer is initialized started.
 \item {\bf Analysis of the initialization sentence} - this step speeds up following analyses by memory initialization.
 \end{itemize}
 
@@ -192,6 +192,8 @@ Second, bigger part on analysis process is sentence analysis. Its start is trigg
 \item {\bf Prepare model changes} - stacks all needed changes of model. Changes must be valid and must corresponds.
 \item {\bf Return results to UI} - all changes to model are executed at one place by UI. UI has always control over internal model.
 \end{itemize}
+
+When linguistic analysis are not able to analyze original sentence string, we create safe version of this string. This string contains only characters from set {\tt a-zA-Z0-9'".,?!:;}.
 
 \subsubsection{Core analyzer}
 Part of our project called "core analyzer" describes process following basic linguistic analysis. This core analyzer accomplish two main tasks:
@@ -210,7 +212,7 @@ All changes made by core analyzer are stored in \verb|CompoundCommand| object. T
 \begin{figure}[ht]
   \centering
   \includegraphics[width=\textwidth]{images/ReprotoolLingModel}
-  \caption{Internal linguistics model with enumerations.}
+  \caption{Internal linguistics model with enumerations.  Model use Penn TreeBank tags notation.}
   \label{fig:ReprotoolLingModel}
 \end{figure}
 
@@ -232,7 +234,7 @@ For our purpose, subject must be always an actor. User has to add sentence actor
 
 Subject could be also missing. In that case analysis still tries to find other constituents.
 
-There are two predefined actors, "system" and "user". Automatic analysis uses these actors, but it is strongly recommended, that user adds these actors to project.
+There are no predefined actors. Automatic analysis uses just project actors, but it is strongly recommended, that user adds "system" and "user" actors to project.
 
 \subsubsection{Main verb}
 This verb is a main verb of highest verb phrase in a sentence. In a passive sentence is auxiliary verb ignored. 
@@ -253,8 +255,12 @@ If a phrase contains more nouns without conjunction, we mark as an object last o
 \label{sec:actiontypes}
 When we have determined all constituents, analysis can continue with determining proper action type. This is followed by filling internal models with obtained data from analysis. Each action type has its own set of deriving rules and these rules are strictly disjunct. This means, that only one action type can be assigned to analyzed sentence. This section contains description of these deriving rules. 
 
+There is only one important keyword, that our analysis use. It is "system" and determines analysis of To system and From system actions. 
+
+When we talk about system, we talk about main base entity in project. This entity usually represents main part of application, or main decision making unit.
+
 \subsubsection{Include use case action}
-Sentence contains one of the following verbs: "continue", "repeat", "resume", "retry" and "include".  This verb must be main verb of the sentence. It also has to contain reference to usecase and label of one existing usecase in current project.
+Sentence contains one of the following verbs: "continue", "repeat", "resume", "retry" and "include".  This verb must be main verb of the sentence. It also has to contain reference to usecase and label of one existing usecase in current project. For better determination of this action type is recommended to use word "usecase" in sentence.
 
 \subsubsection{Goto action}
 Sentence contains one of the verbs from \emph{Include use case action}. This verb must be main verb of the sentence. In addition, target of the action must be found and it has to be existing use case step in current use case. 
