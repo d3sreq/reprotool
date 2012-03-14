@@ -1,5 +1,11 @@
 \documentclass[12pt,a4paper]{article}
 
+\usepackage[printonlyused]{acronym} % Package for acronyms.
+	\acrodef{NLP}[NLP]{Natural Language Processing}
+	\acrodef{UML}[UML]{Unified Modeling Language}
+	\acrodef{IDE}[IDE]{Integrated Development Environment}
+	\acrodef{LTS}[LTS]{Labelled Transition System}
+
 \usepackage[utf8]{inputenc}
 
 \usepackage{varioref} % vref command
@@ -51,12 +57,13 @@
 \usepackage{pslatex} % times + courier monospace
 %\usepackage{indentfirst}
 
+\usepackage{multicol}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % NuSMV Input Language
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\usepackage{multicol}
 \lstdefinelanguage{NuSMVLang}{
- ndkeywords={MODULE, VAR, INIT, ASSIGN, TRUE, FALSE, CTLSPEC, LTLSPEC, FAIRNESS, AX, A, AG, AF, U, boolean, next, case, esac, in},
+ ndkeywords={MODULE, DEFINE, VAR, INIT, ASSIGN, TRUE, FALSE, CTLSPEC, LTLSPEC, FAIRNESS, AX, A, AG, AF, U, boolean, next, init, case, esac, in},
  ndkeywordstyle=\color{Purple}\bfseries,
  identifierstyle=\color{black},
  sensitive=true,

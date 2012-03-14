@@ -4,22 +4,22 @@
 When developing a software application, analysts together with end-users negotiate properties of the intended system. This process involves elicitation of user requirements ranging from use-cases to non-functional properties.
 
 % textual use-cases
-A substantial part of the intended behaviour can be captured by writing textual use-cases which have the advantage of being able to address a wide range of stakeholders \cite{Larman,Cockburn:2000:WEU:517669}. Use-cases became a part of the UML standard \cite{UML-standard} and have since been greatly extended, being nowadays a mandatory requirement for any object-oriented software development project.
+A substantial part of the intended behaviour can be captured by writing textual use-cases which have the advantage of being able to address a wide range of stakeholders \cite{Larman,Cockburn:2000:WEU:517669}. Use-cases became a part of the \ac{UML} standard \cite{UML-standard} and have since been greatly extended, being nowadays a mandatory requirement for any object-oriented software development project.
 
 % drawbacks
 On the other hand, the drawback of textual use-cases is the inherent vagueness and error-proneness of natural language. It is usually up to the developers to transform sentences to code and implement all the business parts of the system properly. Developers have to identify business entities and sequences of actions invoked by these entities. When coded manually, there is a high chance that the intended behaviour of a system does not correspond to the behaviour of a running application.
 
 % solution
-One of the possible approaches to minimizing such human errors is the model-driven development paradigm \cite{MDD} where automatic transformations between models are employed. However, before any transformation can be used, formal models have to be constructed first. In case of textual use-cases, this can be achieved in a semi-automatic way with the support of existing natural language processing (NLP) tools.
+One of the possible approaches to minimizing such human errors is the model-driven development paradigm \cite{MDD} where automatic transformations between models are employed. However, before any transformation can be used, formal models have to be constructed first. In case of textual use-cases, this can be achieved in a semi-automatic way with the support of existing \ac{NLP} tools.
 
 \subsection{Goals}
-Reprotool is an IDE (Integrated Development Environment) tool for capturing requirements of a developed system and verifying consistency of the system's specification.
+Reprotool is an \ac{IDE} for capturing requirements of a developed system and verifying consistency of the system's specification.
 In the current version, Reprotool focuses on functional requirements in the form of use-cases\footnote{Future versions will also support other types of requirements.}.
 
-Reprotool users can interactively derive formal specification of the system's behavior from plain text. This way, both "user-readable" textual specification and precise formal specifications is developed at the same time, only slightly increasing the effort required to create a consistent specification. The developed model can be further processed e.g. verified for consistency or exported to other formats, such as UML diagrams.
+Reprotool users can interactively derive formal specification of the system's behavior from plain text. This way, both "user-readable" textual specification and precise formal specifications is developed at the same time, only slightly increasing the effort required to create a consistent specification. The developed model can be further processed e.g. verified for consistency or exported to other formats, such as \ac{UML} diagrams.
 
 \subsection{History}
-Based on the simple and uniform sentence structure used in textual use cases \cite{Cockburn:2000:WEU:517669}, a conversion scheme has been proposed in \cite{MenclDeriving,MenclImprovedDeriving} and later implemented in the Procasor Environment project. With the support of readily available NLP tools, Procasor Environment supported a semi-automatic transformation into a simple process algebra called \emph{Behaviour Protocols}~\cite{BehaviourProtocols}.
+Based on the simple and uniform sentence structure used in textual use cases \cite{Cockburn:2000:WEU:517669}, a conversion scheme has been proposed in \cite{MenclDeriving,MenclImprovedDeriving} and later implemented in the Procasor Environment project. With the support of readily available \ac{NLP} tools, Procasor Environment supported a semi-automatic transformation into a simple process algebra called \emph{Behaviour Protocols}~\cite{BehaviourProtocols}.
 
 Reprotool has been greatly inspired by Procasor's way of handling natural language.
-However, instead of the \emph{Behaviour Protocols}, Reprotool uses LTS (Label Transition System) as a formal description of the behaviour expressed by use-cases. Morover, Reprotool allows developers to verify consistency of that model using a state-of-the art symbolic model checker NuSMV~\cite{NuSMV-CAV02}.
+However, instead of the \emph{Behaviour Protocols}, Reprotool uses \ac{LTS} as a formal description of the behaviour expressed by use-cases. Morover, Reprotool allows developers to verify consistency of that model using a state-of-the art symbolic model checker NuSMV~\cite{NuSMV-CAV02}.
