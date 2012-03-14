@@ -1,0 +1,134 @@
+\section{List of Reprotool plugins}
+\label{sec:plugins}
+
+\subsection{Core model + IDE}
+
+\begin{verbatim}
+reprotool.model
+\end{verbatim}
+EMF model for Reprotool project, annotations and linguistic analysis attached to use case step.
+
+\begin{verbatim}
+reprotool.model.edit
+\end{verbatim}
+Generated Reprotool project label providers and adapter factories
+
+\begin{verbatim}
+reprotool.model.edit.ext
+\end{verbatim}
+Customized Reprotool project label providers and adapter factories
+
+\begin{verbatim}
+reprotool.model.editor
+\end{verbatim}
+Generated Reprotool project editor.
+
+\begin{verbatim}
+reprotool.model.utils
+\end{verbatim}
+Utility classes for EMF model manipulation.
+
+\begin{verbatim}
+reprotool.ide
+\end{verbatim}
+Project, Use case and Counter example editor, Reprotool project wizard, Sentence analysis view
+
+\begin{verbatim}
+reprotool.lts
+\end{verbatim}
+LTS EMF model
+
+\subsection{Formal analysis}
+
+\begin{verbatim}
+reprotool.fm.nusmv
+\end{verbatim}
+Conversion between Reprotool project model and XText NuSMV model, parser of the
+NuSMV counter example.
+
+\begin{verbatim}
+reprotool.fm.nusmv.lang
+\end{verbatim}
+XText NuSMV grammar definition and all runtime components (parser, lexer, linker, validation, etc.)
+
+\begin{verbatim}
+reprotool.fm.nusmv.lang.ui
+\end{verbatim}
+XText based NuSMV editor and all the other work-bench related functionality.
+
+\subsection{Linguistic analysis}
+
+\begin{verbatim}
+reprotool.ling
+\end{verbatim}
+EMF model used for linguistic tools, linguistic analysis toolchain.
+
+\begin{verbatim}
+reprotool.ling.tests
+\end{verbatim}
+Tests and Benchmark of the ling. tools.
+
+\begin{verbatim}
+reprotool.tools.anna
+\end{verbatim}
+Wrapper plugin generated for lemmatizer.
+
+\begin{verbatim}
+reprotool.tools.dbparser
+\end{verbatim}
+Plugin for dbparser.jar + configuration and model (data) for Daniel Bikel's parser.
+
+\begin{verbatim}
+reprotool.tools.mxpost
+\end{verbatim}
+Plugin for mxpost.jar + data for MX post tagger.
+
+
+\subsection{Import and export}
+
+\begin{verbatim}
+reprotool.ide.txtuc
+\end{verbatim}
+XText grammar definition for Textual use case editor and all runtime components (parser, lexer, linker, validation, etc.)
+
+\begin{verbatim}
+reprotool.ide.txtuc.ui
+\end{verbatim}
+XText based Textual use case editor and all the other work-bench related functionality.
+
+\begin{verbatim}
+reprotool.tools.txtImport
+\end{verbatim}
+Conversion from Textual use case to Reprotool project + wizard
+
+\begin{verbatim}
+reprotool.uml.export
+\end{verbatim}
+Export from Reprotool project to UML2 EMF model.
+
+\subsection{Supporting plugins}
+
+\begin{verbatim}
+reprotool.maven.aggregator
+\end{verbatim}
+Maven project referencing other plugins for automated build on Jenkins CI server.
+
+\begin{verbatim}
+reprotool.maven.parent
+\end{verbatim}
+Common dependencies for maven projects.
+
+\begin{verbatim}
+org.eclipselabs.reprotool.branding
+\end{verbatim}
+Contains configuration, splashscreen and icons to style RCP application
+
+\begin{verbatim}
+org.eclipselabs.reprotool.product-plugin-based
+\end{verbatim}
+RCP product configuration (list of bundled plugins), needed for PDE build.
+
+\begin{verbatim}
+reprotool.exampleProjects
+\end{verbatim}
+Projects used in "Reprotool example projects" wizard.

@@ -1,11 +1,16 @@
 \section{Modular Architecture}
 %TODO: this section is a stub
+Reprotool project can be seen as a collection of Eclipse plugins built upon Eclipse platform distributed together as a standalone RCP application.
+List of plugins is presented in~\ref{sec:plugins}.
 
-Something about modularization of the application using OSGi.
-What are the benefits of using OSGi instead of plain Java.
+%Something about modularization of the application using OSGi.
+Eclipse platform uses Equinox implementation of the OSGi. OSGi is a specification defining module system and service platform for the Java programming language.
 
-Eclipse plug-ins and a summary of used concepts.
-Image of the Eclipse platform architecture (something like \url{http://www.webcollab.com/alee/papers/avios05-docbook/pics/eclipse-platform.gif})
+%What are the benefits of using OSGi instead of plain Java.
+In constrast to using plain java \verb|.jar| libraries OSGi bundles allow to specify required bundles and it's versions. They also allow developer to specify exported packages visible for use from other bundles providing better encapsulation for non-exported ones.
+
+%Eclipse plug-ins and a summary of used concepts.
+%Image of the Eclipse platform architecture (something like \url{http://www.webcollab.com/alee/papers/avios05-docbook/pics/eclipse-platform.gif})
 	
 
 
@@ -20,26 +25,3 @@ Overview of reprotool modules/plugins, see Figure~\ref{fig:ArchitectureOverview}
   \label{fig:ArchitectureOverview}
 \end{figure}
 
-
-
-\subsection{Product Branding}
-%TODO: this section is a stub
-Everything about branding a standalone RCP application.
-\begin{verbatim}
-org.eclipselabs.reprotool.branding
-org.eclipselabs.reprotool.product
-org.eclipselabs.reprotool.target
-\end{verbatim}
-
-
-
-\subsection{Update Site}
-%TODO: this section is a stub
-Everything about creating an update site using features.
-\begin{verbatim}
-org.eclipselabs.reprotool.features.common
-org.eclipselabs.reprotool.features.exporters
-org.eclipselabs.reprotool.features.ide
-org.eclipselabs.reprotool.features.nlp
-org.eclipselabs.reprotool.features.verification
-\end{verbatim}
