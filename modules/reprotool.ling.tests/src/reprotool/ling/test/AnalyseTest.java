@@ -17,7 +17,9 @@ import reprotool.ling.Word;
 import reprotool.ling.analyser.FindConstituent;
 import reprotool.ling.analyser.MatchSentence;
 import reprotool.model.swproj.Actor;
+import reprotool.model.swproj.SoftwareProject;
 import reprotool.model.swproj.SwprojFactory;
+import reprotool.model.usecase.UseCase;
 import reprotool.model.usecase.UseCaseStep;
 import reprotool.model.usecase.UsecaseFactory;
 
@@ -147,6 +149,13 @@ public class AnalyseTest {
 		UseCaseStep ucs = ucfactory.createUseCaseStep();
 		
 		ucs.setContent(sentenceString);
+		SoftwareProject swProj = SwprojFactory.eINSTANCE.createSoftwareProject();
+		Actor actor = SwprojFactory.eINSTANCE.createActor();
+		actor.setName("Administrator");
+		swProj.getActors().add(actor);
+		UseCase uc = UsecaseFactory.eINSTANCE.createUseCase();
+		uc.getMainScenario().getSteps().add(ucs);
+		swProj.getUseCases().add(uc);
 		
 		CompoundCommand command = LingTools.analyseUseCaseStep(null, ucs);
 				
@@ -162,6 +171,14 @@ public class AnalyseTest {
 		UseCaseStep ucs = ucfactory.createUseCaseStep();
 		
 		ucs.setContent(sentenceString);
+		
+		SoftwareProject swProj = SwprojFactory.eINSTANCE.createSoftwareProject();
+		Actor actor = SwprojFactory.eINSTANCE.createActor();
+		actor.setName("Administrator");
+		swProj.getActors().add(actor);
+		UseCase uc = UsecaseFactory.eINSTANCE.createUseCase();
+		uc.getMainScenario().getSteps().add(ucs);
+		swProj.getUseCases().add(uc);
 		
 		CompoundCommand command = LingTools.analyseUseCaseStep(null, ucs);
 				
