@@ -54,12 +54,12 @@ public class ParseTest {
 	public final void testSafeTokenizer1() {
 		String sentence = "|.,_!<>?:\"{}()_+!@#$%^&*[]";
 		
-		assertEquals("|.,_!<>?:\"{}()_+!@#$%^&*[]", Tokenizer.getSafeSentence(sentence));
+		assertEquals("., !  ?:\"      !", Tokenizer.getSafeSentence(sentence));
 	}
 	
 	@Test
 	public final void testSafeTokenizer2() {
-		String sentence = "ìšèøžýáíéúùabAB09\'\".,?!:;";
+		String sentence = "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½abAB09\'\".,?!:;";
 		
 		assertEquals("abAB09\'\".,?!:;", Tokenizer.getSafeSentence(sentence));
 	}
