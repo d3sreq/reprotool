@@ -11,6 +11,14 @@ import lts2.State;
 import lts2.Transition;
 import lts2.TransitionalState;
 
+/**
+ * We cache the helper data structures that have been filled
+ * during the LTS generation process because they are useful
+ * in other cases and we do not need to build them again
+ * every time they are needed.
+ * 
+ * @author rudo
+ */
 public class LTSCache {
 	private List<Transition> gotoTransitions = new ArrayList<Transition>();
 	private List<UseCase> includedUseCases = new ArrayList<UseCase>();

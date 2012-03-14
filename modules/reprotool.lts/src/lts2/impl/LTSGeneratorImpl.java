@@ -107,14 +107,19 @@ public class LTSGeneratorImpl extends EObjectImpl implements LTSGenerator {
 		return ltsCache;
 	}
 	
-	/*
+	/**
+	 * We cache the helper data structures that have been filled
+	 * during the LTS generation process because they are useful
+	 * in other cases and we do not need to build them again
+	 * every time they are needed.
+	 * 
 	 * @generated NOT
 	 */
 	private LTSCache ltsCache = new LTSCache();
 	
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Build the Label Transition System for the specified input use-case.
+	 * @param useCase	The input use-case
 	 * @generated NOT
 	 */
 	public void processUseCase(UseCase useCase) {
@@ -162,6 +167,8 @@ public class LTSGeneratorImpl extends EObjectImpl implements LTSGenerator {
 	}
 	
 	/**
+	 * Here we build the Label Transition System
+	 * 
 	 * @param mainScenario
 	 * @param initialState
 	 * @param object
