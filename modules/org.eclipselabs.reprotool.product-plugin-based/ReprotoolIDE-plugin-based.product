@@ -36,8 +36,8 @@ Charles University in Prague
       startupProgressRect="5,295,510,15"
       startupMessageRect="7,275,510,20"
       startupForegroundColor="000000" />
-   <launcher>
-      <linux icon="/org.eclipselabs.reprotool.branding/icons/reprotool.xpm"/>
+   <launcher name="reprotool">
+      <linux icon="/org.eclipselabs.reprotool.product-plugin-based/icons/reprotool.xpm"/>
       <solaris/>
       <win useIco="false">
          <bmp
@@ -50,8 +50,10 @@ Charles University in Prague
       </win>
    </launcher>
 
+
    <vm>
    </vm>
+
 
    <plugins>
       <plugin id="com.google.guava"/>

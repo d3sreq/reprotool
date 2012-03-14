@@ -1,0 +1,14 @@
+\section{Installation}
+
+Our project is distributed as stand-alone RCP application. Application was developed and tested on GNU/Linux 3.0.0 and Windows XP 32bit systems.\\
+
+Application doesn't require installation, simply copy application from directory corresponding to your platform and execute launcher (e.g. \emph{reprotool.exe} on Windows).\\
+
+Due to big memory consumption during linguistics analysis (e.g. models of the ling. tools) it is recommended to run this application with at least 1GB free operating memory.\\
+
+If you encounter \verb|java.lang.OutOfMemoryError: PermGen space| errors try adding following line into \verb|reprotool.ini| file.
+
+\begin{verbatim}
+-XX:MaxPermSize=256M
+\end{verbatim}
+
