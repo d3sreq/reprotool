@@ -1,0 +1,21 @@
+\section{Future work}
+
+\subsection{Automatic annotation derivation}
+Current version of the Reprotool's linguistic analysis doesn't add annotations
+used by formal analysis to the use case steps. Some of the annotations could be
+infered (for example "Abort" annotation).
+
+\subsection{EMF Model refinement and simplification}
+Currently EMF model contains different model classes for marking of the
+parts of the sentence (text ranges) and annotations describing properties of
+the whole use case step. What's more - marked parts need additional classes
+for binding of the marked text and described entity.
+Concept of the "annotation" should be generalized so that core model would be
+more simple and independant on the implementation of the added annotation.
+This would allow to refine model into several smaller plugins.
+
+\subsection{Better integration with CI build and QA tools}
+Altough automated build of the project was partially successful - most of the
+plugins are built on CI server Jenkins, project would benefit by employing
+fully automated build and deploy of the artifacts. Additional employment of the 
+tools for static analysis of the code (Findbugs, Checkstyle) would be beneficial. 
