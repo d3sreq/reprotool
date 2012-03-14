@@ -37,7 +37,7 @@ Charles University in Prague
       startupMessageRect="7,275,510,20"
       startupForegroundColor="000000" />
    <launcher name="reprotool">
-      <linux icon="/org.eclipselabs.reprotool.product-plugin-based/icons/reprotool.xpm"/>
+      <linux icon="/org.eclipselabs.reprotool.branding/icons/reprotool.xpm"/>
       <solaris/>
       <win useIco="false">
          <bmp
