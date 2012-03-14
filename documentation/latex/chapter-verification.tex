@@ -116,7 +116,7 @@ This situation we are describing now is depicted in the Figure \ref{fig:traceTes
   \caption{Special annotations - \emph{Trace}/\emph{on} branch taken}
   \label{fig:traceTestTaken}
 \end{figure}
-When the \emph{NuSMV} tool simlates the execution of the state machine corresponding to the annotated use-case \emph{U} and just finished
+When the \emph{NuSMV} tool simulates the execution of the state machine corresponding to the annotated use-case \emph{U} and just finished
 execution of the 4 step of the use-case main scenario, there would normally by 2 possibilities how to proceed. But because in our
 example execution path the \emph{trace\_a} annotaion has been encountered, there is only one possibility - and that is to take the
 \emph{on} branch.
@@ -268,7 +268,7 @@ the package explorer of the Eclipse IDE and click the option ``Initialize Ecore 
 Here we present an overview of the transformation of our UC model into the generated NuSMV model. The objective of this process is to take a reprotool project as input and transform it into the generated NuSMV model.
 
 All transformations are implemented using the Xtend~\cite{Xtend-website} language.
-Xtend is a statically-typed programming language which is compiled to Java and therefore integrates well and runs on JVM. It brings many concepts simplifying model-to-model and model-to-text transformation. We have leveraged on the following Xtend features: 
+Xtend is a statically-typed programming language which is compiled to Java and therefore integrates well and runs on JVM. It brings many concepts simplifying model-to-model and model-to-text transformation. We have leveraged the following Xtend features: 
 \begin{itemize}
 	\item Advanced type inference
 	\item Extension methods - enhance closed types with new functionality.
