@@ -3,7 +3,7 @@
 One of the main parts of Reprotool project is an automated analysis of the use case steps. This functionality saves user's work with tedious manual annotation - all the user has to do is to push a button. However, if user is not satisfied with results he can always manually tweak the analyzed use case step. This chapter describes implementation of linguistics analysis in Reprotool project and its linguistics background.
 
 \subsection{Introduction}
-Process of linguistics analysis gets natural language sentences as an input and returns analyzed usecases as is shown at figure \ref{fig:LinguisticsAnalyseSmall}. Whole process is divided into two parts: process of parsing and core analysis. Parsing contains main linguistics operations which are tokenization, tagging, parsing and lemmatization. Core work of parsing process is done by popular external linguistic analysis tools described in section \ref{sec:externaltools}. Core analysis converts parsed sentence trees with annotations into our usecases model. This process is described in more detail in section \ref{sec:analysis}. 
+Process of linguistic analysis gets natural language sentences as an input and returns analyzed usecases as is shown at figure \ref{fig:LinguisticsAnalyseSmall}. Whole process is divided into two parts: process of parsing and core analysis. Parsing contains main linguistic operations which are tokenization, tagging, parsing and lemmatization. Core work of parsing process is done by popular external linguistic analysis tools described in section \ref{sec:externaltools}. Core analysis converts parsed sentence trees with annotations into our usecases model. This process is described in more detail in section \ref{sec:analysis}. 
 
 It is recommended to see section \ref{sec:analyzer}, where is also located our linguistic model at figure \ref{fig:ReprotoolLingModel}.
 
@@ -23,7 +23,7 @@ Each implementation of any analyse brings problem of measuring success. We have 
   \label{fig:LinguisticsAnalyseSmall}
 \end{figure}
 
-Following pages contain description of the used linguistics tools. All tools use Penn TreeBank tags notation. We use this this notation in our model and our tools as well.
+Following pages contain description of the used linguistics tools. All tools use Penn TreeBank tags notation. We use this notation in our model and our tools as well.
 
 \subsection{External tools}
 \label{sec:externaltools}
@@ -57,11 +57,11 @@ Input data, natural language sentences, have to be tokenized according to the Pe
 
 Statistical parsing engine does two main tasks. First is creating and training of the model and second is core parsing. For these purposes we had to obtain large data model with parsed sentences. 
 
-During the parsing, parser is trying to find the most similar sentence in trained model. As a trained data, we use a part of emph{Penn Treebank, Wall Street Journal collection}.
+During the parsing, parser is trying to find the most similar sentence in trained model. As a trained data, we use a part of \emph{Penn Treebank, Wall Street Journal collection}.
 
 \subsubsection{Mate-tools lemmatizer}          
           
-This lemmatizer is working in a similar way like previous parser. It also needs similar data models, because it cannot use just list of lemmas and theirs word forms. It also needs to obtain POS information for correct work.
+This lemmatizer is working in a similar way like previous parser. It also needs similar data models, because it cannot use just list of lemmas and their word forms. It also needs to obtain POS information for correct work.
 
 This tool uses one word per line 2009 CoNLL input format, so we had to divide our sentences to adapt them to this format.
 
@@ -69,7 +69,7 @@ This tool uses one word per line 2009 CoNLL input format, so we had to divide ou
 \label{sec:analysis}
 Linguistics analysis covers multiple different actions executed by various tools. Connection of these tool is described at figure \ref{fig:LinguisticsAnalyse}. In this section are described only pure linguistic tools. Core structure of our action type determining analyzer is described in section \ref{sec:analyzer}.
 
-All tools have at least our wrapper. This wrapper tries to keep running selected tool, if possible. This speeds up analysis approximately ten times.
+All tools have at least our wrapper. This wrapper tries to keep selected tool running if possible. This speeds up analysis approximately ten times.
 
 As you can see, this pipeline obtains structure similar to dependency tree for each sentence. We are storing for each sentence this dependency tree. For each word in sentence we also store POS tag and lemma form.
 
@@ -83,61 +83,78 @@ As you can see, this pipeline obtains structure similar to dependency tree for e
 As we can see, the biggest problem is data conversion between two following tools. These important actions are described by input and output data of each task.
 
 \subsubsection{Tokenization}
-First part of natural language processing provided by our own tokenizer. Tokenizer splits sentence in set of separated strings called tokens. These tokens are base units for natural language processing. Each token usually represents one word, a number or punctuation. Invalid token are striped by following tools, but these tools are not stripping parts of tokens.
+First part of natural language processing is provided by our own tokenizer. Tokenizer splits sentence into set of separated strings called tokens. These tokens are base units for natural language processing. Each token usually represents one word, a number or punctuation. Invalid tokens are striped by following tools, but these tools are not stripping parts of the tokens.
 
 \begin{table}[ht]   % or b
 \begin{center}
-    \begin{verbatim}
-Input 	Natural language sentence; negation detection
-Output 	Array of tokens (eg. words, numbers) 
-        \end{verbatim}
+  \begin{tabular}{| r | l |}
+\hline
+Input 	&	Natural language sentence \\ \hline
+Output &	Array of tokens (eg. words, numbers) \\ 
+\hline
+  \end{tabular}
   \caption{Tokenizer data formats}
   \label{tab.tokenization}
 \end{center}
 \end{table} 
 
+    
+
+
 \subsubsection{Tagging}
-Tagging ads information for each word. Usually determines part of speech, but it can also obtain more linguistic categories. We use external POS tagger covered by our wrapper and our analysis use only POS information.
+Tagging adds information for each word. Usually determines part of the speech, but it can also obtain more linguistic categories. We use external POS tagger and our analysis uses only POS information.
 
 \begin{table}[ht]   % or b
 \begin{center}
-    \begin{verbatim}
-Input 	Array of tokens
-Output 	Array of POS tagged tokens (eg. adjectives, verbs) 
-        \end{verbatim}
+  \begin{tabular}{| r | l |}
+\hline
+Input 	& Array of tokens \\ \hline
+Output 	& Array of POS tagged tokens (eg. adjectives, verbs) \\ 
+\hline
+  \end{tabular}
   \caption{Tagger data formats}
   \label{tab.tagging}
 \end{center}
 \end{table} 
 
-\subsubsection{Parsing}
-Main task of parser is creating dependency tree for each sentence. Parsed determines all sentence phases and their types. It also set their interdependences. For better explanation, example of parsed tree could be found at figure \ref{fig:ParsedTree}.
 
-Our project uses external parser thought our wrapper. 
+\subsubsection{Parsing}
+Main task of parser is creation of the dependency tree for each sentence. Parser determines all sentence parts and their types. It also sets their interdependences. For better explanation, example of parsed tree could be found at figure \ref{fig:ParsedTree}.
+
+Our project uses external parser wrapped into Eclipse plugin. 
+
 
 \begin{table}[ht]   % or b
 \begin{center}
-    \begin{verbatim}
-Input 	Array of POS tagged tokens
-Output 	Parse trees of each sentence 
-        \end{verbatim}
+  \begin{tabular}{| r | l |}
+\hline
+Input 	& Array of POS tagged tokens \\ \hline
+Output 	& Parse trees of each sentence \\ 
+\hline
+  \end{tabular}
   \caption{Parser data formats}
   \label{tab.parsing}
 \end{center}
-\end{table}  
+\end{table} 
+
+
 
 \subsubsection{Lemmatization}
-Lemmatization basically means finding lemma forms for all words in a sentence. As stated, we are using external tool for this purpose. \emph{Reprotool} implements lemmatization by own wrapper for this tool.
+Lemmatization basically means finding lemma forms for all words in a sentence. As stated, we are using external tool for this purpose wrapped in Eclipse plugin.
+
 \begin{table}[ht]   % or b
 \begin{center}
-    \begin{verbatim}
-Input 	Parse trees of each sentence
-Output 	Lemma for each word 
-        \end{verbatim}
+  \begin{tabular}{| r | l |}
+\hline
+Input 	& Parse trees of each sentence \\ \hline
+Output 	& Lemma for each word \\ 
+\hline
+  \end{tabular}
   \caption{Lemmatizer data formats}
   \label{tab.lemmatizer}
 \end{center}
 \end{table} 
+
 
 \begin{figure}[ht]
   \centering
@@ -148,19 +165,19 @@ Output 	Lemma for each word
 
 \subsection{Analyzer}
 \label{sec:analyzer}
-This section contains two very important parts. There is described process of whole linguistic analysis process and it also contains basic description of our core analyser.
+This section contains two important parts. First is process of the whole linguistic analysis and the second is basic description of our core analyser.
 
 \subsubsection{Analysis process}
-This section contains description of set of all important analysis steps. We recommend to use this section as entry point for reading \emph{Reprotool} source code.
+This section contains description of set of all important analysis steps. We recommend to use this section as an entry point for reading \emph{Reprotool} source code.
 Important linguistic model is shown at figure \ref{fig:ReprotoolLingModel}. 
 
 First part of process is initialization. This process is executed at startup of \emph{Reprotool}:
 
 \begin{itemize}
-\item {\bf Initialize tagger} External tagger is initialized.
-\item {\bf Initialize parser} External parser is initialized and should be running.
-\item {\bf Initialize lemmatizer} External lemmatizer is initialized  and should be running.
-\item {\bf Initialization sentence is analyzed} This step speeds up following analyses by memory initialization.
+\item {\bf Initialize tagger} - external tagger is initialized.
+\item {\bf Initialize parser} - external parser is initialized and started.
+\item {\bf Initialize lemmatizer} External lemmatizer is initialized started.
+\item {\bf Analysis of the initialization sentence} - this step speeds up following analyses by memory initialization.
 \end{itemize}
 
 Initialization process is executed as Eclipse job and should take about ten seconds (depending on infrastructure). If initialization face error, it tries to restart.
