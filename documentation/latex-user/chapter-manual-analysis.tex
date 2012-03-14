@@ -84,6 +84,35 @@ should be filled.
   %TODO:\label{fig:reprotoolUCEditor}
 \end{figure}
 
+\subsection{Automatic analysis overview}
+This section provides short description of automatic analysis process. It is recommended, especially for more experienced users, to obtain basic knowledge about hidden steps in this process. User can better determine what results he should expects.
+
+Better and detailed description focused on developers is located in \emph{Reprotool} project documentation.
+
+\subsubsection{Analysis process}
+Automatic analysis consists of two main parts. First parts analyze sentence properties from linguistics point of view. Second part analze projects regarding \emph{Reprotool} internal model. Final result of whole analysis is determined sentence action type.
+
+Basic process consists from these main steps:
+
+\begin{enumerate}
+\item {\bf Text preparation} Input text is cleaned up. Analysis execute basic validation of corresponding project. At the end of this phase tokenization executes.
+\item {\bf Dependency sentence structure} Deeper sentence structure is determined by part-of-speech tagging and parsing.
+\item {\bf Determining constituents} Sentence is checked for important text ranges and words. This part provides the most important results and usually conclude final results.
+\item {\bf Action type} In this step is selected only one final action type. Variables of this type are also set. Validation of UseCaseStep and UseCase labels is done here.
+\end{enumerate}
+
+\subsubsection{External tools}
+
+Part of this work is accomplished by external tools. These tools are integrated into our projects and we are very thankful, that these tools are widely available. Our project would have multiple times bigger scope and complexity without existence of these tools. It would not be possible to create \emph{Reprotool} with current small team.
+
+\begin{itemize}
+\item {\bf MXPOST tagger} - \href{http://www.inf.ed.ac.uk/resources/nlp/local_doc/MXPOST.html}{Java implementation of well known Maximum Entropy Part-Of-Speech Tagger}. This tool is responsible for part-of-speech tagging.
+\item {\bf Dan Bikel's Multilingual Statistical Parsing Engine } - Java implementation coming from \href{http://www.cis.upenn.edu/~dbikel/software.html#stat-parser}{Dan Bikel’s Home Page}. this tool is responsible for parsing sentences.
+\item {\bf Mate-tools lemmatizer} - part of bigger project called \href{http://code.google.com/p/mate-tools/}{Tools for Natural Language Analysis}. This tool is responsible for finding lemma forms of all words.
+\end{itemize}
+
+We would like to thank to authors of listed tools for their contribution to natural language processing.
+
 \subsection{Automatic analysis guidelines}
 
 Our goal was to provide linguistic analysis capable of recognition most of the usual natural language sentences located in common use cases. These use cases usually contain computer oriented sentences. Their style and structure depends only on author of use case. Therefore automatic analysis could face really difficult sentences to analyze.
@@ -136,8 +165,9 @@ This difference could came from different \emph{Reprotool} model and user's mode
  
 \item {\bf Labels} UseCaseStep and UseCase names or labels are important for targeting these entities. These names should be properly chosen, especially for Goto and Include action types. Best practice is to surround label with quotation marks or apostrophes. E.g. sentence string "Include usecase "Best set of steps"."
 
-\item {\bf Unknown verb} Part of linguistic analysis depends on precomputed statistical models. These models contains big part of all words in current language. It is possible, that sentence contains verb, that is not contained in these models. It is possible, that action type is not recognized (result is Unknown action type), in that case. Easy solution is to use more frequent verb with similar meaning.
+\item {\bf Numeric labels} Labels containing both letters and numeric characters can have problem with targeting. It is recommended to avoid these labels. When you really want to use this kind of label, read and follow surrounding tips.
 
+\item {\bf Unknown verb} Part of linguistic analysis depends on precomputed statistical models. These models contains big part of all words in current language. It is possible, that sentence contains verb, that is not contained in these models. It is possible, that action type is not recognized (result is Unknown action type), in that case. Easy solution is to use more frequent verb with similar meaning.
 \end{itemize}
 
 \subsection{Automatic analysis reports}

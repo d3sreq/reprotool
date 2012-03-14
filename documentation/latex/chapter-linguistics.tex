@@ -3,7 +3,9 @@
 One of the main parts of Reprotool project is an automatic text analysis. This part allows user to skip long-lasting manual annotation by pushing a button. This chapter describes implementation of linguistics analysis in Reprotool project and its linguistics background.
 
 \subsection{Introduction}
-Process of linguistics analysis gets natural language sentences as an input and returns analyzed usecases as is shown at figure \ref{fig:LinguisticsAnalyseSmall}. Whole process is divided into two parts: process of parsing and core analysis. Parsing contains main linguistics operations which are tokenization, tagging, parsing and lemmatization. Core work of parsing process is done by popular external linguistic analysis tools described in section \ref{sec:externaltools}. Core analysis converts parsed sentence trees with annotations into our usecases model. This process is described in more detail in section \ref{sec:analysis}. % TODO \ref{sec:usecasemodel}
+Process of linguistics analysis gets natural language sentences as an input and returns analyzed usecases as is shown at figure \ref{fig:LinguisticsAnalyseSmall}. Whole process is divided into two parts: process of parsing and core analysis. Parsing contains main linguistics operations which are tokenization, tagging, parsing and lemmatization. Core work of parsing process is done by popular external linguistic analysis tools described in section \ref{sec:externaltools}. Core analysis converts parsed sentence trees with annotations into our usecases model. This process is described in more detail in section \ref{sec:analysis}. 
+
+It is recommended to see section \ref{sec:analyser}, where is also located our linguistic model at figure \ref{fig:ReprotoolLingModel}.
 
 \begin{itemize}
 \item {\bf Text preparation} Cleaning up input text and tokenization
@@ -21,11 +23,13 @@ Each implementation of any analyse brings problem of measuring success. We have 
   \label{fig:LinguisticsAnalyseSmall}
 \end{figure}
 
-In next pages is described work of various linguistics tools.
+In next pages is described work of various linguistics tools. All tools use Penn TreeBank tags notation. We follow this custom in our model and our tools.
 
 \subsection{External tools}
 \label{sec:externaltools}
 As described in previous sections, whole linguistics analysis is a hard task to do. Implementing all acts of this work is out of the scope of the project.  Especially parsers do a very sophisticated and difficult tasks. We choose selected commonly used external tools to do some parts of analysis. 
+
+Needed models for all tools are build and packed with bundles corresponding to these tools. These bundles are reprotool.tools.anna,  reprotool.tools.dbparser and reprotool.tools.mxpost.
 
 These parts were part-of-speech tagging, sentence parsing and obtaining lemma forms for words. Main reasons for our selection were widespread  and credibility of the tools, at least partial compatibility of output and input formats and Java implementation. 
 
@@ -60,9 +64,13 @@ This lemmatizer is working in a similar way like previous parser. It also needs 
 
 This tool uses one word per line 2009 CoNLL  input format, so we have to divide our sentences.
 
-\subsection{Analysis}
+\subsection{Linguistic analysis}
 \label{sec:analysis}
-Linguistics analysis covers multiple different actions executed by various tools. Its connection is described at figure \ref{fig:LinguisticsAnalyse}. 
+Linguistics analysis covers multiple different actions executed by various tools. Connection of these tool is described at figure \ref{fig:LinguisticsAnalyse}. In this section are described only pure linguistic tools. Core structure of our action type determining analyzer is described in section \ref{sec:analyzer}.
+
+All tools have at least our wrapper. This wrapper tries to keep running selected tool, if possible. This speeds up analysis approximately ten times.
+
+As you can see, this pipeline obtains structure similar to dependency tree for each sentence. We are storing for each sentence this dependency tree. For each word in sentence we also store POS tag and lemma form.
 
 \begin{figure}[ht]
   \centering
@@ -71,36 +79,40 @@ Linguistics analysis covers multiple different actions executed by various tools
   \label{fig:LinguisticsAnalyse}
 \end{figure}
 
-As we can see, the biggest problem is data convertion between two cooperating tools. There actions are described by input and output data.
+As we can see, the biggest problem is data conversion between two following tools. These important actions are described by input and output data of each task.
 
 \subsubsection{Tokenization}
-First part of natural language processing provided by our tokenizer.
+First part of natural language processing provided by our own tokenizer. Tokenizer splits sentence in set of separated strings called tokens. These tokens are base units for natural language processing. Each token usually represents one word, a number or punctuation. Invalid token are striped by following tools, but these tools are not stripping parts of tokens.
+
 \begin{table}[ht]   % or b
 \begin{center}
     \begin{verbatim}
 Input 	Natural language sentence; negation detection
 Output 	Array of tokens (eg. words, numbers) 
         \end{verbatim}
-  \caption{Tokenizer data}
+  \caption{Tokenizer data formats}
   \label{tab.tokenization}
 \end{center}
 \end{table} 
 
 \subsubsection{Tagging}
-Usually determining part of speech tags.
+Tagging ads information for each word. Usually determines part of speech, but it can also obtain more linguistic categories. We use external POS tagger covered by our wrapper and our analysis use only POS information.
+
 \begin{table}[ht]   % or b
 \begin{center}
     \begin{verbatim}
 Input 	Array of tokens
 Output 	Array of POS tagged tokens (eg. adjectives, verbs) 
         \end{verbatim}
-  \caption{Tagger data}
+  \caption{Tagger data formats}
   \label{tab.tagging}
 \end{center}
 \end{table} 
 
 \subsubsection{Parsing}
-Creating dependency tree for each sentence. Example of parsed tree could be found at figure \ref{fig:ParsedTree}. 
+Main task of parser is creating dependency tree for each sentence. Parsed determines all sentence phases and their types. It also set their interdependences. For better explanation, example of parsed tree could be found at figure \ref{fig:ParsedTree}.
+
+Our project uses external parser thought our wrapper. 
 
 \begin{table}[ht]   % or b
 \begin{center}
@@ -108,20 +120,20 @@ Creating dependency tree for each sentence. Example of parsed tree could be foun
 Input 	Array of POS tagged tokens
 Output 	Parse trees of each sentence 
         \end{verbatim}
-  \caption{Parser data}
+  \caption{Parser data formats}
   \label{tab.parsing}
 \end{center}
 \end{table}  
 
 \subsubsection{Lemmatization}
-Finding lemma forms for all words in a sentence.
+Lemmatization basically means finding lemma forms for all words in a sentence. As stated, we are using external tool for this purpose. \emph{Reprotool} implements lemmatization by own wrapper for this tool.
 \begin{table}[ht]   % or b
 \begin{center}
     \begin{verbatim}
 Input 	Parse trees of each sentence
 Output 	Lemma for each word 
         \end{verbatim}
-  \caption{Lemmatizer data}
+  \caption{Lemmatizer data formats}
   \label{tab.lemmatizer}
 \end{center}
 \end{table} 
@@ -133,6 +145,50 @@ Output 	Lemma for each word
   \label{fig:ParsedTree}
 \end{figure}
 
+\subsection{Analyzer}
+\label{sec:analyzer}
+This section contains two very important parts. There is described process of whole linguistic analysis process and it also contains basic description of our core analyser.
+
+\subsubsection{Analysis process}
+This section contains description of set of all important analysis steps. We recommend to use this section as entry point for reading \emph{Reprotool} source code.
+Important linguistic model is shown at figure \ref{fig:ReprotoolLingModel}. 
+
+First part of process is initialization. This process is executed at startup of \emph{Reprotool}:
+
+\begin{itemize}
+\item {\bf Initialize tagger} External tagger is initialized.
+\item {\bf Initialize parser} External parser is initialized and should be running.
+\item {\bf Initialize lemmatizer} External lemmatizer is initialized  and should be running.
+\item {\bf Initialization sentence is analyzed} This step speeds up following analyses by memory initialization.
+\end{itemize}
+
+Initialization process is executed as Eclipse job and should take about ten seconds (depending on infrastructure). If initialization face error, it tries to restart.
+
+Second, bigger part on analysis process is sentence analysis. It runs at user command. By analyze command for UserCaseStep or in loop for all sentences by analyze command for UserCase. This process contains following steps:
+
+\begin{itemize}
+\item {\bf Execute linguistic analysis job for one sentence} This step runs all four linguistic tools for selected sentence. When tools encounter error, analysis is executed with safe version of sentence with stripped bad characters. 
+\item {\bf Match sentence object} At this point we have original sentence string and sentence object with dependency tree. We have to match these objects for final action type text ranges marking.
+\item {\bf Find text ranges} Analyze sentence for apostrophes and quotation marks. This step improves label targeting.
+\item {\bf Execute core analyzer} This step determines constituents and action types.
+\item {\bf Prepare model changes} Stack all needed changes of model. Changes must be valid and must corresponds.
+\item {\bf Return results to UI} All changes to model are executed at one place by UI. UI have always control over internal model.
+\end{itemize}
+
+\subsubsection{Core analyzer}
+Part of our project called "core analyzer" describes process following basic linguistic analysis. This core analyzer accomplish two main tasks:
+
+\begin{itemize}
+\item {\bf Determine constituents} Find all important words in sentence.
+\item {\bf Determine action type} Set final action type.
+\end{itemize}
+
+Rules for determining constituents are described in own section \ref{sec:lingbackground}. Constituents are determined in order: subject, main verb, indirect object, representative object.
+
+Also action types have own section \ref{sec:actiontypes}. These types are determined in order: Include, Goto, Abort, Internal, To system, From system. Rules for last three types are mostly used at same time.
+
+All changes made by core analyzer are stored in CompoundCommand object. Therefore, all changes are made at one place an user can undo these changes.
+
 \begin{figure}[ht]
   \centering
   \includegraphics[width=\textwidth]{images/ReprotoolLingModel}
@@ -140,9 +196,9 @@ Output 	Lemma for each word
   \label{fig:ReprotoolLingModel}
 \end{figure}
 
-\subsection{Linguistics background}
-
-Main goal of linguistic analyse in our porject is to identify important words in a sentence. These words are mainly constituents. For our purpose, we are identifiing four groups of words:
+\subsection{Linguistics constituents background}
+\label{sec:lingbackground}
+Main goal of linguistic analysis in our project is to identify important words in a sentence. These words are mainly constituents. For our purpose, we are identifying four groups of words:
 
 \begin{itemize}
 \item {\bf Subject} main subject of the sentence
@@ -151,35 +207,35 @@ Main goal of linguistic analyse in our porject is to identify important words in
 \item {\bf Indirect object} an actor usually owning representative object
 \end{itemize}
 
-These words are used in action analysis. We are matching sentences to proper actions with a set o deriving rules, which are based on these words. 
+These words are used in action analysis. We are matching sentences to proper actions with a set of deriving rules, which are based on these words. 
                                                                     
 \subsubsection{Subject}
 For our purpose, subject must be always an actor. User have to add sentence actors before analysis. Usually is subject noun in a top noun phrase. If the sentence is in passive, subject stands at object's place. 
 
 Subject could be also missing. In that case analysis still tries to find other constituents.
 
-There are two predefined actors, "system" and "user". These actors could be subjects without user interaction.
+There are two predefined actors, "system" and "user". Automatic analysis use these actors, but it is strongly recommended, that user adds these actors to project.
 
 \subsubsection{Main verb}
-This verb is a main verb of highest verb phase in a sentence. In a passive sentence is auxiliary verb ingnored. 
+This verb is a main verb of highest verb phase in a sentence. In a passive sentence is auxiliary verb ignored. 
 
-Finding verb is in properly parsed sentence easy task, but in a sentence with a wrong parsed tree usually culodn be found. It happens usually when parsed don't know current verb.
+Finding verb is in properly parsed sentence an easy task, but in a sentence with a wrong parsed tree usually could not be resolved. It happens usually when parsed don't know current verb. This means, that parser tags verb by different POS tag.
 
 \subsubsection{Indirect object}
 We are deriving first indirect objects and after then representative (conceptual) objects. All indirect object are actors and indirect objects aren't in the same node with other objects.
 
-Node with indirect objects must be noun phrase which is in verb phrase. If this node is found, all objects are marked as indirect. Indirect object cannot be in possessive form.  
-
+Node with indirect objects must be noun phrase with verb phrase in it. If this node is found, all objects are marked as indirect. Indirect object cannot be in possessive form.  
 
 \subsubsection{Representative object}
 Representative object could be noun in a noun phrase which is a child of main verb phrase. Except noun phrase with indirect objects.
 
-If a phrase contains more nouns without conjunction, we mark as an object last of the nouns.
+If a phrase contains more nouns without conjunction, we mark as an object last of the nouns. This rule was established, because external tools usually determines adverbs as nouns. After all, noun with multiple adverbs still represents one object.
 
-\subsection{Actions deriving rules}
-When we have all constituents, analysis cant continue with determining proper action and filling internal models with obtained data from analysis. There are described theirs deriving rules. 
+\subsection{Action types deriving rules}
+\label{sec:actiontypes}
+When we have determined all constituents, analysis can continue with determining proper action type. This is followed with filling internal models with obtained data from analysis. Each action type has its own set of deriving rules and these rules are strictly disjunct. This means, that each sentence could have determine only one action type. This section contains description of these deriving rules. 
 
-Types of actions come from our usecase model, which is restricted due to exporting purpose. Overall small action set allows various export options described in previous chapters. 
+Types of actions come from our usecase model, which is restricted due to exporting purpose (exporting feature of \emph{Reprotool} project). Overall small action set allows various export options described in previous chapters. 
 
 \subsubsection{Include usecase action}
 Sentence contains one of the set of defined verbs. These verbs are: "continue", "repeat", "resume", "retry" and "include".  This verb must be main verb of the sentence. It also have to contain reference to usecase and label of one existing usecase in current project.
@@ -191,13 +247,13 @@ Sentence contains one of the set of defined verb, same like in Include usecase a
 Set of abort verbs contains "abort", "terminate", "end", "exit" and "finish".  This verb must be main verb of the sentence.
 
 \subsubsection{From system action}
-System is a subject of the sentence and we have indirect object (not system).
+System is a subject of the sentence and we have indirect object (not system). System is communicating with other actor.
 
 \subsubsection{To system action}
-System is an indirect object. Subject could not be system. Example of To system action could be found at figure \ref{fig:ToSystemActionExample}. 
+System is an indirect object. Subject could not be system. Example of To system action could be found at figure \ref{fig:ToSystemActionExample}. In common use case, this action type represents communication from subsystems to system.
 
 \subsubsection{Internal action}
-System is a subject and there is not indirect object, or system is also indirect object.
+System is a subject and there is not indirect object, or system is also indirect object. This action type use used for majority of common system actions, like sending messages or throwing errors.
 
 \begin{figure}[ht]
   \centering
@@ -207,16 +263,63 @@ System is a subject and there is not indirect object, or system is also indirect
 \end{figure}
 
 \subsubsection{Unknown action}
-This is an default action. If analysis could not find any other action, we set unknown action. 
+This is an default action type. If analysis could not find any other action, we set Unknown action type. This action type is also used when automatic analysis encounter error. 
 
 \subsection{Benchmark}
 \label{sec:benchmark}
 
-During the creation of linguistics analysis we needed data for testing purpose.
+We needed bigger set of proper sentences during the implementation of automatic linguistic analysis. These sentences were used for common testing purposes. Growing complexity of \emph{Reprotool} model demanded more and more testing sentences. Creation of own independent testing tool was just a logical step.
+
+We have created special benchmark plug-in. This plug-in complement JUnit tests used during implementation and is part of {\tt reprotool.ling.tests} bundle. Core function of this plug-in is batch sentence analysis. Benchmark contains three main parts:
+
+\begin{itemize}
+\item {\bf Loading} Reading file containing annotated dataset.
+\item {\bf Analysis} Batch analysis of all sentences in dataset.
+\item {\bf Results output} Computing main results in usable format.
+\end{itemize}
+
+Our benchmark plug-in is ready to use. Usage of its features needs almost no source code modification. User only have to specify dataset file location. For quick run of this benchmark locate JUnit tests in {\tt reprotool.ling.tests} bundle and change noted dataset file location. Default location is set to file "data.csv" located in bundle.
+
+Right usage of our benchmark plug-in is described in following list. This process is composed of more nontrivial tasks, but these tasks are easy to resolve.
+
+\begin{enumerate}
+\item {\bf Reprotool initialization} You have to be able successfully built our \emph{Reprotool} project. It is supposed, that user modifying our project is able to built Eclipse plug-in projects.
+\item {\bf Obtaining sentences} First part of dataset creation is collecting data. It is recommended to obtain sentences from use cases.
+\item {\bf Manual annotation} The most time consuming part is dataset annotation. Example of dataset file is located in table \ref{tab.benchmarkinput}.
+\item {\bf Dataset location} User have to specify dataset location in source code.
+\item {\bf Benchmark running} The easiest way to run benchmark is to execute corresponding JUnit test.
+\end{enumerate}
+
+Obtaining of proper dataset is more described in section \ref{sec:dataset}. 
 
 \subsubsection{Implementation}
+Benchmark plug-in uses same core functions like common \emph{Reprotool} linguistic analysis. Implementation of benchmark is slightly different from common analysis, because of data conversion an reading. We defined just two benchmark objects. First, main object, represents whole benchmark. Second object represents small version of one project. This small version of project comes from one dataset sentence. This means, that benchmark creates one project for each sentence. Main object contains list of these objects.
 
-Implementation of benchmark is slightly different from common analysis, because of data conversion an reading.
+This difficult description could be better explained by following process. This process describes lifetime of one benchmark.
+
+\begin{enumerate}
+\item {\bf Main benchmark object is initialized} This step just set up benchmark base properties.for example location of dataset.
+
+\item {\bf Benchmark loads dataset} Benchmark localize dataset and in loop creates small project object for each sentence.
+    \begin{enumerate}
+    \item {\bf Loading sentence} Sentence with annotation is parsed. Representative results are created from annotation.
+    \item {\bf Creating project} Benchmark creates project due to \emph{Reprotool} model. Benchmark sets up project, UseCase, Scenario, UseCaseStep and other needed objects.
+    \item {\bf Linking objects} Benchmark links all objects, so the loaded sentence is not different from common UseCaseStep sentence.
+    \end{enumerate}
+
+\item {\bf Analyzing sentences} Benchmark analyze each input sentence (now project)  like common project.
+    \begin{enumerate}
+    \item {\bf Linguistic tools} Parsed tree is created for each sentence.
+    \item {\bf Action type} Analyzer tries to determine UseCaseStep action type.
+    \item {\bf Store results} Important results are stored for each sentence.
+    \end{enumerate}
+\item {\bf Computing benchmark results} Benchmark computes final results from whole dataset. These results are printed to console. Example benchmark output is shown in table \ref{tab.benchmarkexample}.
+\item {\bf Benchmark cleanup} Destruction of objects and termination.
+\end{enumerate}
+
+The most important part of benchmark are final results and their format. Result are computed for each annotated entity. Results for each entity consist of overall string. For example "{\tt OBJECTS: Count: 21 Found: 11 | 52,4\%}". Meaning of this line is self explanatory. This line is usually followed with set of lines containing errors. Each line starts with sentence identification, input (annotated) result and  output (analyzed) result. These informations are very important for localizing differences between input and output results.
+
+Based on these informations, \emph{Reprotool} model can be changed for modified usage of our project to suit your needs.
 
 \begin{table}[ht]   % or b
 \begin{center}
@@ -242,10 +345,12 @@ TOTAL: Count: 84 Found: 70 | 83,3%
       
       
 \subsubsection{Dataset}
+\label{sec:dataset}
+Most important precondition for benchmarking is good properly annotated dataset. In this section we would like to describe our annotation. It is recommended to see our annotated dataset before creation of other dataset.
 
-Main usecase benchmark dataset was obtained from \href{http://www2.put.poznan.pl/en}{Poznan University of Technology}, their \href{http://www.se.cs.put.poznan.pl/knowledge-base/software-projects-database/use-cases-database-ucdb/use-cases-database-ucdb}{Use Cases Database (UCDB)} and it coverts one project \href{http://ucdb.cs.put.poznan.pl/benchmark/2.f.n/srs/index.html}{Admission System version 2.0F (quantitative)}.  
+We have defined eight basic sentence entities to annotate. These list could be followed with action type parameters. First entity is sentence identification string. This string is used for referencing to sentences, so it should be unique string for each sentence.
 
-Whole dataset have analysed 270 sentence.    
+Are entities are described in following list:
 
 \begin{enumerate}
 \item {\bf ID } Id string for one sentence provided for sentence identification
@@ -254,56 +359,78 @@ Whole dataset have analysed 270 sentence.
 \item {\bf SUBJECT\_NUMBER } Word index of subject
 \item {\bf VERB\_LEMMA } Lemma form of main verb in a sentence
 \item {\bf OBJECT\_NUMBER} List of objects indices
-\item {\bf INDIRECT\_OBJECT\_NUMBER} Index of indirect objects (all indirect objecst are in same sentence tree node)
-\item {\bf ACTION\_CODE} Code of sentence action. 
+\item {\bf INDIRECT\_OBJECT\_NUMBER} Index of indirect objects (all indirect objects are in same sentence tree node)
+\item {\bf ACTION\_CODE} Code of sentence action (sentence action type codes are described lower). 
 \item {\bf ACTION\_PARAM1} First parameter of an action
 \end{enumerate}   
    
-All indices are starting from 1. Value 0 indicated missing constituent. Defined action codes are:      
+There are few basic advices for annotation. All indices are starting from value 1. Value 0 indicate missing entity. Empty string in action code indicates Unknown action type. 
+
+As you should know, we have defined several action types. Each type should be also set in benchmark dataset. Defined action codes for corresponding action types are:      
      
 \begin{itemize}
 \item {\bf INTERNAL} Internal action
 \item {\bf FROM\_SYSTEM} From system action
 \item {\bf TO\_SYSTEM} To system action
-\item {\bf GOTO} Continue action (parameter is an use case step)
+\item {\bf GOTO} Continue action (parameter is an UseCaseStep)
 \item {\bf ABORT} Abort use case action
-\item {\bf INCLUDE} Include action (parameter is an use case step)
+\item {\bf INCLUDE} Include action (parameter is an UseCase)
 \item {\bf UNKNOWN} Undefined action
 \end{itemize}     
+
+Table \ref{tab.benchmarkinput} contains few annotated sentences. You can see, that annotation covers main results of common UseCaseStep analysis. And this is exactly the main purpose of our dataset annotation.
       
 \begin{table}[ht]   % or b
 \begin{center}
+    \begin{scriptsize}  
     \begin{verbatim}      
-ID;SENTENCE;ACTORS;SUBJECT_NUMBER;VERB_LEMMA;OBJECT_NUMBER;INDIRECT_OBJECT_NUMBER;ACTION_CODE;ACTION_PARAM1;ACTION_PARAM2
-RPT1;User opens window.;;1;open;3;;INTERNAL;;
-RPT2;System creates a new object.;;1;create;5;;FROM_SYSTEM;;
-RPT3;User fills login.;;1;fill;3;;INTERNAL;;
-MOD1_UC1_5;System verifies if data is correct .;;1;verify;4;;FROM_SYSTEM;;
-MOD1_UC1_6;System informs that account has been created .;;1;inform;4;;FROM_SYSTEM;;
+ID;SENTENCE;ACTORS;SUBJECT_NUMBER;VERB_LEMMA;OBJECT_NUMBER;INDIRECT_OBJECT_NUMBER;ACTION_CODE;
+_ ACTION_PARAM1;ACTION_PARAM2
+RPT1;User opens window.;;1;open;3;;TO_SYSTEM;;
+RPT2;System creates a new object.;;1;create;5;;INTERNAL;;
+RPT3;User fills login.;;1;fill;3;;TO_SYSTEM;;
+MOD1_UC1_5;System verifies if data is correct .;;1;verify;4;;INTERNAL;;
+MOD1_UC1_6;System informs that account has been created .;;1;inform;4;;INTERNAL;;
 MOD1_UC1_7;Some obligatory fields were not filled.;;0;be;3;;INTERNAL;;
-MOD1_UC1_8;Systems highlights the missing fields .;;1;highlight;5;;FROM_SYSTEM;;
+MOD1_UC1_8;Systems highlights the missing fields .;;1;highlight;5;;INTERNAL;;
 MOD1_UC1_9;Back to step 4 .;;0;;4;;GOTO;4;
     \end{verbatim}
-  \caption{Example input for benchmark plugin}
+    \end{scriptsize}
+  \caption{Example input for benchmark plug-in}
   \label{tab.benchmarkinput}
 \end{center}
 \end{table}      
       
+Main part of our benchmark dataset was obtained from \href{http://www2.put.poznan.pl/en}{Poznan University of Technology}, their \href{http://www.se.cs.put.poznan.pl/knowledge-base/software-projects-database/use-cases-database-ucdb/use-cases-database-ucdb}{Use Cases Database (UCDB)} and it coverts one project "\href{http://ucdb.cs.put.poznan.pl/benchmark/2.f.n/srs/index.html}{Admission System version 2.0F (quantitative)}".  
+
+Whole dataset contains 269 manually annotated sentences. This dataset could be used for better use case verification, e.g. for benchmarking in any other project.   
+
 \subsubsection{Results}
-Table \ref{tab.benchmarkresults} shows current benchmark results. Total result is 88,10\%. This number means, that 11,90\% of tagged entities is not correctly recognized.
+Our benchmark plug-in provides computed results after each execution. Obtaining results for other set of annotated sentences is very easy. There is no need to post-process benchmark results in any way.
+
+Actual benchmark results of dataset analysis are shown in table \ref{tab.benchmarkresults}. shows current benchmark results. Total result is 88,10\%. This number means, that 11,90\% of tagged entities is not correctly recognized.
 
 \begin{table}[ht]   % or b
 \begin{center}
-    \begin{verbatim} 
-SUBJECTS: Count: 269 Found: 249 | 92,57% 
-VERBS: Count: 269 Found: 244 | 90,71%
-INDIRECT_OBJECTS: Count: 269 Found: 260 | 96,65%    
-OBJECTS: Count: 269 Found: 200 | 74,35%
-ACTIONS: Count: 269 Found: 232 | 86,25%
-TOTAL: Count: 1345 Found: 1185 | 88,10%
-    \end{verbatim}
+\begin{tabular}{l r r r}
+ & Count & Found & Result \\
+\hline
+SUBJECTS: & 269 & 249 & 92,57\% \\
+VERBS: & 269 & 244 & 90,71\% \\
+INDIRECT OBJECTS:& 269 & 260 & 96,65\% \\   
+OBJECTS: & 269 & 200 & 74,35\% \\
+ACTIONS: & 269 & 232 & 86,25\% \\
+\hline
+TOTAL: & 1345 & 1185 & 88,10\% \\
+\hline
+\end{tabular}
+
   \caption{Final benchmark results}
   \label{tab.benchmarkresults}
 \end{center}
-\end{table}  
+\end{table}    
+ 
+As you can see, our analysis returns result corresponding to manual annotation in 88,10\% of all cases. This number also means, that 11,90\% of tagged entities is not correctly recognized.
+
+Results also show accuracy of selected analysis subtasks. We have to remind, that reference results were provided by our manual annotation. It is not too difficult to obtain own, more independent results. Annotators have to only follow instructions in previous section.
 
