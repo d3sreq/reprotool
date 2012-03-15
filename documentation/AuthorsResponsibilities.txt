@@ -3,15 +3,22 @@ Viliam Šimko
 - EMF modelling
 - model verification
 
+
 Jiří Vinárek 
+- team lead, developer 
 - eclipse platform integration
 - EMF modelling
-- GUI creation
+- GUI creation 
+
 
 Ondřej Fiala 
+- developer 
 - linguistic tools integration 
 
+
 Rudo Tomori 
+- developer 
 - model verification
 - model transformation, export to UML and NuSMV format
 - model visualisation
+- import from Textual use case format.

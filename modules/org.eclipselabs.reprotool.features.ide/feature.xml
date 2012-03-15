@@ -71,20 +71,6 @@
          unpack="false"/>
 
    <plugin
-         id="reprotool.txtspec"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="reprotool.txtspec.ui"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
          id="reprotool.model.edit.ext"
          download-size="0"
          install-size="0"
@@ -93,6 +79,27 @@
 
    <plugin
          id="reprotool.lts"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="reprotool.ide.txtuc"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="reprotool.ide.txtuc.ui"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="reprotool.txtImport"
          download-size="0"
          install-size="0"
          version="0.0.0"

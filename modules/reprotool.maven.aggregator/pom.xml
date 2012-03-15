@@ -29,14 +29,13 @@
 		
 		
 		<module>../reprotool.ide</module>
-		<!-- ide.txtspec not included -->
+		<module>../reprotool.exampleProjects</module>
 		
 		<!-- linguistic analysis -->
 		<module>../reprotool.ling</module>
 		<!-- <module>../reprotool.ling.tests</module> -->
 		
 		<module>../reprotool.lts</module>
-		<module>../reprotool.lts.export</module>
 		
 		<!-- model, gui -->
 		<module>../reprotool.model</module>
@@ -50,11 +49,10 @@
 		<module>../reprotool.tools.dbparser</module>
 		<module>../reprotool.tools.mxpost</module>
 		
-		<!-- import from text documents -->
-		<module>../reprotool.txtspec</module>
-		<!-- not included - contains no tests -->
-		<!-- <module>../reprotool.tools.txtspec.tests</module> -->
-		<module>../reprotool.txtspec.ui</module>
+		<!-- import from textual use cases -->
+		<module>../reprotool.ide.txtuc</module>
+		<module>../reprotool.ide.txtuc.ui</module>
+		<module>../reprotool.txtImport</module>
 				
 		<!-- reprotool model export to UML -->
 		<module>../reprotool.uml.export</module>
