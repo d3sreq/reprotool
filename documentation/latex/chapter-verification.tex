@@ -5,7 +5,7 @@ This section provides details about the verification process.
 
 The system's behaviour is specified by the set of use-cases contained within the project.
 Use-cases and their relations are stored in a memory structure we refer to as a use-case model (Figure~\ref{fig:ReprotoolUCModel}).
-The model is based on the EMF framework so that it integrates well within the Eclipse environment.
+The model is based on the \ac{EMF} so that it integrates well within the Eclipse environment.
 
 \begin{figure}[ht]
   \centering
@@ -45,22 +45,22 @@ Annotations are organized in groups as depicted in Figure~\ref{fig:ModelOfAnnota
 
 \subsection{Special annotations}
 
-When a \emph{reprotool} user creates a new project from the \emph{Eclipse IDE} new project wizard, a special \emph{trace-on} annotation group is added to the project.
+When a \emph{reprotool} user creates a new project from the Eclipse \ac{IDE} new project wizard, a special \emph{trace-on} annotation group is added to the project.
 This annotation group contains two special annotations -- \emph{trace} and \emph{on}.
 Currently, these are the only special annotations supported by \emph{Reprotool}.
 These two special annotations enable the users to select mutually exclusive paths in their use-case scenarios.
-This might be used to prune the computation tree the \emph{NuSMV} tool considers when checking the \emph{CTL}/\emph{LTL} specifications.
+This might be used to prune the computation tree the \emph{NuSMV} tool considers when checking the \ac{CTL}/\ac{LTL} specifications.
 
-Let's assume we have a use-case \emph{U} that has the main scenario 7 steps long.
+Let's assume we have a use-case $U$ that has the main scenario 7 steps long.
 Step 1 and the step 4 have both an extension scenario 3 steps long.
 The individual use-case steps are annotated as depicted in the Figure~\ref{fig:traceTest_no_trace}.
-The use-case \emph{U} contains two annotation types -- \emph{create} and \emph{use}.
-One of the constraints imposed on such annotations is a CTL formula:
+The use-case $U$ contains two annotation types -- \emph{create} and \emph{use}.
+One of the constraints imposed on such annotations is a \ac{CTL} formula:
 \begin{verbatim}
 CTLSPEC AG( create -> AX(AG(!create)) ) -- Only one 'create'
 \end{verbatim}
 
-That means you cannot create a given object more than once. However, looking at the use-case \emph{U} carefully, it is obvious that there is an execution path containing  the annotation \textcolor{red}{\emph{CREATE\_FILE\_A}} twice.
+That means you cannot create a given object more than once. However, looking at the use-case $U$ carefully, it is obvious that there is an execution path containing  the annotation \textcolor{red}{\emph{CREATE\_FILE\_A}} twice.
 To solve the problem in this example, user needs to specify that if the first extension scenario has been taken, then the second extension scenario of use-case step 4 can not be taken. On the other hand, if the first extension scenario has not been taken,
 then the second extension scenario must be taken.
 And this is exactly what the \emph{trace} and \emph{on} annotations are for.
@@ -69,8 +69,8 @@ And this is exactly what the \emph{trace} and \emph{on} annotations are for.
 
 \begin{figure}[ht]
   \centering
-  \includegraphics[width=180pt]{images/traceTest_no_trace}
-  \caption{Schema of the use-case \emph{U} without the \emph{trace}/\emph{on} annotation pair}
+  \includegraphics[width=150pt]{images/traceTest_no_trace}
+  \caption{Schema of the use-case $U$ without the \emph{trace}/\emph{on} annotation pair}
   \label{fig:traceTest_no_trace}
 \end{figure}
 
@@ -83,19 +83,19 @@ And this is exactly what the \emph{trace} and \emph{on} annotations are for.
 \end{definition}
 
 Let's clarify it with the help of an example.
-In the Figure~\ref{fig:traceTest} you can see the same use-case \emph{U} but with properly added
+In the Figure~\ref{fig:traceTest} you can see the same use-case $U$ but with properly added
 \emph{trace} and \emph{on} annotations that prevent any conflicts.
 
 \begin{figure}[ht]
   \centering
-  \includegraphics[width=180pt]{images/traceTest}
-  \caption{Schema of the use-case \emph{U} with trace/on annotations added}
+  \includegraphics[width=150pt]{images/traceTest}
+  \caption{Schema of the use-case $U$ with trace/on annotations added}
   \label{fig:traceTest}
 \end{figure}
 
 \newpage
 
-The annotated use-case \emph{U} has now only two execution paths possible. And none of them violates any of the default constraints
+The annotated use-case $U$ has now only two execution paths possible. And none of them violates any of the default constraints
 imposed on the \emph{create} and \emph{use} annotations.
 
 The first path does include the extension scenario of the first use-case
@@ -112,11 +112,11 @@ This situation we are describing now is depicted in the Figure \ref{fig:traceTes
 
 \begin{figure}[ht]
   \centering
-  \includegraphics[width=180pt]{images/traceTest_path_taken}
+  \includegraphics[width=150pt]{images/traceTest_path_taken}
   \caption{Special annotations - \emph{Trace}/\emph{on} branch taken}
   \label{fig:traceTestTaken}
 \end{figure}
-When the \emph{NuSMV} tool simulates the execution of the state machine corresponding to the annotated use-case \emph{U} and just finished
+When the \emph{NuSMV} tool simulates the execution of the state machine corresponding to the annotated use-case $U$ and just finished
 execution of the 4 step of the use-case main scenario, there would normally by 2 possibilities how to proceed. But because in our
 example execution path the \emph{trace\_a} annotaion has been encountered, there is only one possibility - and that is to take the
 \emph{on} branch.
@@ -128,7 +128,7 @@ The situation where the second path has been taken is depicted in the next pictu
 
 \begin{figure}[ht]
   \centering
-  \includegraphics[width=180pt]{images/traceTest_path_not_taken}
+  \includegraphics[width=150pt]{images/traceTest_path_not_taken}
   \caption{Special annotations - \emph{Trace}/\emph{on} branch NOT taken}
   \label{fig:traceTestNotTaken}
 \end{figure}
@@ -137,21 +137,21 @@ The situation where the second path has been taken is depicted in the next pictu
 
 We use NuSMV~\cite{NuSMV-CAV02,NuSMV-frocos02} symbolic model-checker to verify consistency of use-cases with regard to their temporal annotations.
 Although NuSMV support BDD-based\footnote{Using binary decision diagrams} and BMC-based\footnote{Bounded model-checking using a SAT solver} model-checking techniques, in our project we use just the BDD-based approach.
-NuSMV supports analysis of synchronous and asynchronous systems using Computation Tree Logic (CTL) and Linear Temporal Logic (LTL).
-Our framework supports both CTL and LTL, however CTL is preferred because NuSMV would convert LTL formulae into CTL internally (as described in \cite{NuSMV-ltl-fmsd97}).
+NuSMV supports analysis of synchronous and asynchronous systems using \ac{CTL} and \ac{LTL}.
+Our framework supports both \ac{CTL} and \ac{LTL}, however \ac{CTL} is preferred because NuSMV would convert LTL formulae into CTL internally (as described in \cite{NuSMV-ltl-fmsd97}).
 
-All use-cases from our UC model have to be converted into NuSMV input language.
-We use Xtext\cite{Xtext-website} as a tool for handling DSLs (Domain Specific Languages) which in this case is the NuSMV input language.
+All use-cases from our use-case model have to be converted into NuSMV input language.
+We use Xtext\cite{Xtext-website} as a tool for handling \acp{DSL} which in this case is the NuSMV input language.
 
 NuSMV input language is described using EBNF grammar (inspired by \cite{googlecode-nusmv-tools}) and Xtext generates:
 \begin{itemize}
-  \item an in-memory representation of the parse tree, sometimes being referred to as an Abstract Syntax Tree (AST),
-  \item a text-to-AST parser and
-  \item a AST-to-text serializer
+  \item an in-memory representation of the parse tree, sometimes being referred to as an \ac{AST},
+  \item a text-to-\ac{AST} parser and
+  \item a \ac{AST}-to-text serializer
 \end{itemize}
 
-In order to convert our UC model into NuSMV input language, we use the model-to-model (M2M) approach.
-We traverse the UC model and during that traversal we collect the neccesary information to build a new EMF memory structure based on the generaetd NuSMV model.
+In order to convert our Use-case model into NuSMV input language, we use the model-to-model approach.
+We traverse the use-case model and during that traversal we collect the necessary information to build a new \ac{EMF} memory structure based on the generated NuSMV model.
 The generated serializer then produces a valid NuSMV code from the NuSMV model.
 
 \begin{figure}[ht]
@@ -162,20 +162,15 @@ The generated serializer then produces a valid NuSMV code from the NuSMV model.
 \end{figure}
 \pagebreak
 
-\subsection{NuSMV temporal logic formulas}
+\subsection{NuSMV temporal logic formulae}
 
 Temporal annotations of a \emph{Reprotool} project are organised in \emph{TemporalAnnotationGroups}. (See Figure~\ref{fig:ModelOfAnnotations}.)
-Every \emph{TemporalAnnotationGroup} contains a set of logically grouped temporal annotations and a set of \emph{temporal logic formulas}
-that specify the semantics of the temporal annotations in the group. The NuSMV tool and \emph{Reprotool} support two types of temporal logic
-formulas. And that is:
-
-\begin{enumerate}
- \item CTL (Computation Tree Logic) formulas
- \item LTL (Linear Temporal Logic) formulas
-\end{enumerate}
+Every \emph{TemporalAnnotationGroup} contains a set of logically grouped temporal annotations and a set of \emph{temporal logic formulae}
+that specify the semantics of the temporal annotations in the group.
+The NuSMV tool and \emph{Reprotool} support two types of temporal logic formulae -- \ac{CTL} and \ac{LTL}.
 
 \subsubsection{CTL formulae operators}
-We use in \emph{Reprotool} the following operators to build up our CTL formulas. (The descriptions of operators are taken from
+We use in \emph{Reprotool} the following operators to build up our \ac{CTL} formulae. (The descriptions of operators are taken from
 \cite{nusmv-manual}) 
 
 \begin{itemize}
@@ -190,32 +185,32 @@ We use in \emph{Reprotool} the following operators to build up our CTL formulas.
   
 \item \textbf{AX $p$} is true in a state \emph{s} if for all states $s'$ where there is a transition from \emph{s} to
   $s'$ , \emph{p} is \emph{true} in $s'$. (\emph{forall next state})
-  \item \textbf{A[$p \cup q$]} is \emph{true} in a state $s_{0}$ if for \emph{all} series of transitions $s_{0} \rightarrow s_{1},
+  \item \textbf{A[$p~U~q$]} is \emph{true} in a state $s_{0}$ if for \emph{all} series of transitions $s_{0} \rightarrow s_{1},
   s_{1} \rightarrow s_{2},~\ldots, s_{n-1} \rightarrow s_{n}$ \emph{p} is \emph{true} in \emph{every} state from $s_{0}$ to
   $s_{n-1}$ and \emph{q} is \emph{true} in state $s_{n}$. (\emph{forall until})
 \end{itemize}
 
-\subsubsection{CTL formulas examples}
-\begin{description}
- \item[$AG(open \rightarrow AF(close))$] After 'open' there should always be 'close'
- \item[$AG(open \rightarrow AX(A\lbrack!open \cup close\rbrack))$] No multi-open without close
- \item[$AG(close \rightarrow AX(A\lbrack!close \cup open \mid !AF(close) \rbrack))$] No multi-close without open
- \item[$A\lbrack !close \cup open \mid !AF(close)\rbrack$] First 'open' then 'close'
- \item[$AG( create \rightarrow EF(use) )$] After 'create' there must be some branch containing 'use'
- \item[$AG( create \rightarrow AX(AG(!create)) )$] Only one 'create'
- \item[$A\lbrack !use \cup create \mid !AF(use)\rbrack$] No 'use' before 'create'
-\end{description}
+\subsubsection{CTL formulae examples}
+\begin{lstlisting}[language=NuSMVLang]
+AG( create -> EF(use) ) -- After 'create' there must be some branch containing 'use'
+AG( create -> AX(AG(!create)) ) -- Only one 'create'
+A[!use U create | !EF(use)] -- First 'create' then 'use'
+AG(open -> AF(close)) -- After 'open' there must be 'close' on all traces
+AG(open -> AX(A[!open U close])) -- No multi-'open'
+AG(close -> AX(A[!close U open | !EF(close)])) -- No multi-'close' without 'open'
+A[!close U open | !EF(close)] -- First 'open' then 'close'
+\end{lstlisting}
 
 
-\subsubsection{LTL formulas}
-Although it is possible to specify LTL formulas in \emph{Reprotool}, there are no LTL formulas specified by default in an empty
-\emph{Reprotool} project. Use of CTL formulas is preferred over LTL formulas because NuSMV converts LTL formulas into CTL internally
+\subsubsection{LTL formulae}
+Although it is possible to specify \ac{LTL} formulae in \emph{Reprotool}, there are no \ac{LTL} formulae specified by default in an empty
+\emph{Reprotool} project. Use of \ac{CTL} formulae is preferred over \ac{LTL} formulae because NuSMV converts \ac{LTL} formulae into \ac{CTL} internally
 \cite{NuSMV-ltl-fmsd97}
 
 \subsection{Generated NuSMV model}
 
-The NuSMV language model is based on the EMF framework and is generated from the NuSMV language grammar.
-This model describes the classes that build up the AST (Abstract Syntax Tree) of the NuSMV language.
+The NuSMV language model is based on \ac{EMF} and is generated from the NuSMV language grammar.
+This model describes the classes that build up the \ac{AST} of the NuSMV language.
 
 Here we present an excerpt from the NuSMV language grammar. You can find the whole grammar in th
 \emph{reprotool.fm.nusmv.lang} plugin in the \emph{NuSMVLang.xtext} file.
@@ -251,9 +246,10 @@ ModuleElement hidden(WS, SL_COMMENT):
 ;
 \end{lstlisting}
 
-The Xtext generates an EMF model from the specified grammar. You can have a hierarchical view of the generated model by displaying the
-\emph{NuSMVLang.ecore} file in the \emph{reprotool.fm.nusmv.lang} plugin. To better visualise the model, right-click on the \emph{NuSMVLang.ecore} file in
-the package explorer of the Eclipse IDE and click the option ``Initialize Ecore Diagram file...''. This will create the \emph{NuSMVLang.ecorediag} file that you can view with the provided Eclipse editor.
+The Xtext generates an \ac{EMF} model from the specified grammar.
+You can have a hierarchical view of the generated model by displaying the \emph{NuSMVLang.ecore} file in the \emph{reprotool.fm.nusmv.lang} plugin.
+To better visualise the model, right-click on the \emph{NuSMVLang.ecore} file in the package explorer of the Eclipse IDE and click the option ``Initialize Ecore Diagram file...''.
+This will create the \emph{NuSMVLang.ecorediag} file that you can view with the provided Eclipse editor.
 
 % TODO: tento obrazok nesuvisi s textom. Treba ho vyhodit?
 \begin{figure}[ht]
@@ -265,7 +261,7 @@ the package explorer of the Eclipse IDE and click the option ``Initialize Ecore 
 
 \subsection{Model to model transformation}
 
-Here we present an overview of the transformation of our UC model into the generated NuSMV model. The objective of this process is to take a reprotool project as input and transform it into the generated NuSMV model.
+Here we present an overview of the transformation of our use-case model into the generated NuSMV model. The objective of this process is to take a reprotool project as input and transform it into the generated NuSMV model.
 
 All transformations are implemented using the Xtend~\cite{Xtend-website} language.
 Xtend is a statically-typed programming language which is compiled to Java and therefore integrates well and runs on JVM. It brings many concepts simplifying model-to-model and model-to-text transformation. We have leveraged the following Xtend features: 
@@ -291,39 +287,36 @@ transformation process. The use-case state machines are instantiated with a para
 With this parameter we ensure that the precedence relations are fulfilled. By means of this parameter we also avoid parallel execution
 of multiple use-cases.
 
-One part of this model transformation process is to generate NuSMV CTL/LTL formulas which are to be checked by the NuSMV tool. The
-skeletons of these formulas are provided by the user in the reprotool project. In this model to model transformation process these
-formula skeletons are simply expanded by substituting the annotation patterns with annotations found in the steps of the use-cases
+One part of this model transformation process is to generate NuSMV \ac{CTL}/\ac{LTL} formulae which are to be checked by the NuSMV tool.
+The skeletons of these formulae are provided by the user in the reprotool project.
+In this model to model transformation process these formula skeletons are simply expanded by substituting the annotation patterns with annotations found in the steps of the use-cases
 in the reprotool project. A detailed example with explanation is provided in the next section.
 
 \subsection{Example of a reprotool project converted into NuSMV}
 
-In this section we present a simple reprotool project consisting of two use-cases. We show by the means of an example how this project
-gets transformed into the NuSMV language format.
+In this section we present a simple reprotool project consisting of two use-cases $U_1$ and $U_2$. Using and example, we show how this project is transformed into the NuSMV input language.
 
-The project contains two use-cases. For every use-case U one state machine M is generated. This machine is represented by the states and
-transitions between them that are derived directly from the use-case steps of the use-case U. Let's assume our project contains a use
-case U1. The use-case U1 has a main scenario that contains five use-case steps. Use-case step 1 is annotated by the annotation \emph{open\_file}
-and use-case step 2 is annotated by the annotation \emph{close\_file}. Step 2 has two extension scenarios (One is three steps and the other
-one two steps long) and step 4 has one extension scenario two steps long. Step 4 includes another use-case U2 from the project. The
-main scenario of use-case U2 contains only single step. You can have a look at the visual representation of the use-case U1 (and also
-use-case U2 since it is included in the step 4 of the main scenario of the use-case U1) in the following figure. The initial state is
-filled with black colour and the final state is filled with green colour. Steps 1 and 2 are marked with a violet square because these
-steps are annotated.
+For each $U_i$ one state machine $M_i$ is generated.
+This machine is represented by the states and transitions derived directly from the use-case steps of $U_i$.
+
+In our example, the use-case $U_1$ has a main scenario that contains five use-case steps.
+Use-case step $1$ is annotated by the annotation \emph{open\_file} and use-case step $2$ is annotated by the annotation \emph{close\_file}.
+Step $2$ has two extension scenarios (one is three steps and the other one two steps long) and step $4$ has one extension scenario two steps long.
+Step $4$ includes another use-case $U_2$ from the project.
+The main scenario of use-case $U_2$ contains only single step.
+You can have a look at the visual representation of the use-case $U_1$ (and also use-case $U_2$ since it is included in the step $4$ of the main scenario of the use-case $U_1$) in the following figure.
+The initial state is filled with black colour and the final state is filled with green colour. Steps $1$ and $2$ are marked with a violet square because these steps are annotated.
 
 \begin{figure}[ht]
   \centering
-  \includegraphics[width=200pt]{images/u1}
-  \caption{Visual representation of the use-case U1}
+  \includegraphics[width=100pt]{images/u1}
+  \caption{Visual representation of the use-case $U_1$}
   \label{fig:use-case U1}
 \end{figure}
 
-Now we present the state machine M that represents the use-case U1 and is written down using the NuSMV syntax. The state machine is
-represented by a single module UC\_U1. This module contains a definition of variable s to which values representing variour machine
-states can be assigned. Indeed, the transition to state s1 in the state machine is simulated by assigning the value s1 to the
-variable s. The biggest part of the module UC\_U1 specification takes up a case construct that specifies various state transitions
-of the machine based on the current state. Becuase use-case U1 includes another use-case U2 (which is represented by the module
-UC\_U2), the module UC\_U1 also contains a variable y1 that is an instantiation of the module UC\_U2 included in the module UC\_U1.
+Now we present the state machine $M$ that represents the use-case $U_1$ and is written down using the NuSMV syntax. The state machine is represented by a single module UC\_U1.
+This module contains a definition of variable \emph{s} to which values representing various machine states can be assigned.
+Indeed, the transition to state \emph{s1} in the state machine is simulated by assigning the value \emph{s1} to the variable \emph{s}. The biggest part of the module UC\_U1 specification takes up a case construct that specifies various state transitions of the machine based on the current state. Because use-case $U_1$ includes another use-case $U_2$ (which is represented by the module UC\_U2), the module UC\_U1 also contains a variable \emph{y1} that is an instantiation of the module UC\_U2 included in the module UC\_U1.
 \begin{lstlisting}
 MODULE UC_U1 ( top , run )
 	VAR y1run : boolean ;
@@ -354,7 +347,7 @@ MODULE UC_U1 ( top , run )
 	esac ;
 \end{lstlisting}
 
-Here we present the machine M2 that represents the included use-case U2.
+Here we present the machine $M_2$ that represents the included use-case $U_2$.
 \begin{lstlisting}
 MODULE UC_U2 ( top , run )
 	VAR s : { s0 , s1 , sFin } ;
@@ -367,15 +360,12 @@ MODULE UC_U2 ( top , run )
 	esac ;
 \end{lstlisting}
 
-As we have already mentioned when describing use-case U1, the first two steps of its main scenario are annotated. (This is denoted
-by a small violet square in the graphical representation of the use-case U1). Every such an annotation generates an annotation variable
-definition in the NuSMV model. The variable name encodes the annotation type (for example open) and the annotation id (for example
-file1). The variable is of boolean type and is initialized with the logical value of zero. The variable value is set to logical one
-if and only if the state variable s of the respective state machine module denotes that the machine is in the annotated state.
+As we have already mentioned when describing use-case $U_1$, the first two steps of its main scenario are annotated.
+(This is denoted by a small violet square in the graphical representation of the use-case $U_1$). Every such an annotation generates an annotation variable definition in the NuSMV model.
+The variable name encodes the annotation type (for example open) and the annotation id (for example \emph{file1}). The variable is of boolean type and is initialized with the logical value of zero. The variable value is set to logical one if and only if the state variable s of the respective state machine module denotes that the machine is in the annotated state.
 
-Let's clarify this a bit more with the example of our project. There we have use-case step one of the use-case U1 annotated with the
-open annotation (annotation id is file1) and step two annotated with the close annotation (annotation id is file1). These two use-case
-step annotations in the use-case U1 of our project yield the following annotation variable definitions:
+Let's clarify this a bit more with the example of our project.
+There we have use-case step one of the use-case $U_1$ annotated with the open annotation (annotation id is \emph{file1}) and step two annotated with the close annotation (annotation id is \emph{file1}). These two use-case step annotations in the use-case $U_1$ of our project yield the following annotation variable definitions:
 
 \begin{lstlisting}
 VAR open_file1 : boolean ;
@@ -388,11 +378,10 @@ ASSIGN next ( close_file1 ) := FALSE
 	| xU1.s in {s2_} ;
 \end{lstlisting}
 
-Now we will describe the variable named \emph{p} which has the function of a steering wheel of whole simulation performed by the \emph{NuSMV} tool
-when looking for possible violations of our system. This variable is of type enum and can assume the value \emph{none}, or other n values that
-map directly to the n use-cases present in our project. The \emph{p} variable is initialised with the \emph{none} value. When the \emph{NuSMV} tool performs
-steps in our system which are basicly transitions in the state machines of our use-cases, the value of the \emph{p} variable alternates between
-the \emph{none} value and any other value from the set of possible values. Thus, the \emph{p} variable definition looks like this:
+In order to explore all trances defined by the precedence relation, we need to model a fair non-deterministic scheduler in NuSMV. Therefore we use a variable \emph{p} of type \emph{enum} which can non-deterministically be assigned a value \emph{none}, or other $n$ values that map directly to the $n$ use-cases present in our project.
+The \emph{p} variable is initialised with the \emph{none} value.
+When the \emph{NuSMV} tool performs steps in our system which are basically transitions in the state machines of our use-cases, the value of the \emph{p} variable alternates between the \emph{none} value and any other value from the set of possible values.
+Thus, the \emph{p} variable definition looks like this:
 \begin{lstlisting}
 VAR p : { none , pU1 , pU2} ;
 INIT p in none
@@ -402,10 +391,10 @@ ASSIGN next ( p ) := case
 esac ;
 \end{lstlisting}
 
-The \emph{p} variable helps us to decide which state machine could be executed in the next steps. We also generate definition for the
-boolean variable \emph{idle} that tells us if any of the use-case state machines is currently being executed. The \emph{idle} variable is defined
-by the means of a set of boolean variables from which every variable tells us if the machine to which it maps is currently
-being executed. This is how it looks in the \emph{NuSMV} syntax:
+The \emph{p} variable helps us to decide which state machine could be executed in the next steps. 
+We also generate definition for the boolean variable \emph{idle} that tells us if any of the use-case state machines is currently being executed.
+The \emph{idle} variable is defined by the means of a set of boolean variables from which every variable tells us if the machine to which it maps is currently being executed.
+This is how it looks in the \emph{NuSMV} syntax:
 \begin{lstlisting}
 VAR idle : boolean ;
 INIT idle in TRUE
@@ -415,11 +404,11 @@ ASSIGN next ( idle ) := case
 esac ;
 \end{lstlisting}
 
-Next we need to define for every use-case \emph{UN} a boolean variable \emph{xUNrun} that triggers the execution of the respective state machine
-and at the same time serves as an indicator if the respective state machine N is currently running. This boolean variable is
-initialised with logical zero. It is assigned the logical one only if all other machines are idle and the p variable points to the
-machine N. For every use-case UN we also need to define a variable \emph{xUN} that is the actual instantiation of the state machine N.
-Of course this variable is of type \emph{UC\_UN}. This is how the definitions of the variables \emph{xUN} and \emph{xUNrun} look in practice:
+Next we need to define for every use-case $U_N$ a boolean variable \emph{xUNrun} that triggers the execution of the respective state machine and at the same time serves as an indicator if the respective state machine $N$ is currently running.
+This boolean variable is initialised with logical zero.
+It is assigned the logical one only if all other machines are idle and the \emph{p} variable points to the machine $N$. For every use-case $U_N$ we also need to define a variable \emph{xUN} that is the actual instantiation of the state machine $N$.
+Of course this variable is of type \emph{UC\_UN}.
+This is how the definitions of the variables \emph{xUN} and \emph{xUNrun} look in practice:
 \begin{lstlisting}
 VAR xU1 : UC_U1 ( self , xU1run ) ;
 VAR xU1run : boolean ;
@@ -430,20 +419,20 @@ ASSIGN next ( xU1run ) := case
 esac ;
 \end{lstlisting}
 
-Now we are going to describe how the \emph{CTL} and \emph{LTL} specifications are generated. When a new empty reprotool project is generated in the
-\emph{Eclipse IDE}, it already contains a set of predefined \emph{CTL} formulas along with a quick description of each formula. Here is a subset of
-these predefined formulas that is relevant to the \emph{open}/\emph{close} annotations:
+Now we are going to describe how the \emph{CTL} and \emph{LTL} specifications are generated.
+When a new empty reprotool project is generated in the Eclipse \ac{IDE}, it already contains a set of predefined \emph{CTL} formulae along with a quick description of each formula.
+Here is a subset of these predefined formulae that is relevant to the \emph{open}/\emph{close} annotations:
 
-\begin{description}
- \item[$AG(open \rightarrow AF(close))$] After 'open' there should always be 'close'
- \item[$AG(open \rightarrow AX(A\lbrack!open \cup close\rbrack))$] No multi-open without close
- \item[$AG(close \rightarrow AX(A\lbrack!close \cup open \mid !AF(close) \rbrack))$] No multi-close without open
- \item[$A\lbrack !close \cup open \mid !AF(close)\rbrack$] First 'open' then 'close'
-\end{description}
+\begin{lstlisting}
+AG(open -> AF(close)) -- After 'open' there must be 'close' on all traces
+AG(open -> AX(A[!open U close])) -- No multi-'open'
+AG(close -> AX(A[!close U open | !EF(close)])) -- No multi-'close' without 'open'
+A[!close U open | !EF(close)] -- First 'open' then 'close'
+\end{lstlisting}
 
-We can see that these logical formulas specify properties for the open and close annotations. We also know that in the use-case \emph{U1} we
-use annotation \emph{open\_file1} and \emph{close\_file1}. Now we simply expand the predefined \emph{CTL} and \emph{LTL} formulas. This is what we get in our
-example:
+We can see that these logical formulae specify properties for the open and close annotations.
+We also know that in the use-case $U_1$ we use annotation \emph{open\_file1} and \emph{close\_file1}.
+Now we simply expand the predefined \emph{CTL} and \emph{LTL} formulae which yields the following list of formulae in our example:
 \begin{lstlisting}
 CTLSPEC AG(open_file1 -> AF(close_file1))
 CTLSPEC AG(open_file1 -> AX(A[!open_file1 U close_file1]))
@@ -451,7 +440,7 @@ CTLSPEC AG(close_file1 -> AX(A[!close_file1 U open_file1 | !AF(close_file1) ]))
 CTLSPEC A[!close_file1 U open_file1 | !AF(close_file1)]
 \end{lstlisting}
 
-And this is what the \emph{NuSMV} file looks like:
+\noindent The whole \emph{NuSMV} model looks as follows:
 \begin{lstlisting}
 MODULE main
 	CTLSPEC AG(open_file1 -> AF(close_file1))
