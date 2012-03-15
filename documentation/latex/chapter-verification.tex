@@ -436,8 +436,8 @@ Now we simply expand the predefined \emph{CTL} and \emph{LTL} formulae which yie
 \begin{lstlisting}
 CTLSPEC AG(open_file1 -> AF(close_file1))
 CTLSPEC AG(open_file1 -> AX(A[!open_file1 U close_file1]))
-CTLSPEC AG(close_file1 -> AX(A[!close_file1 U open_file1 | !AF(close_file1) ]))
-CTLSPEC A[!close_file1 U open_file1 | !AF(close_file1)]
+CTLSPEC AG(close_file1 -> AX(A[!close_file1 U open_file1 | !EF(close_file1) ]))
+CTLSPEC A[!close_file1 U open_file1 | !EF(close_file1)]
 \end{lstlisting}
 
 \noindent The whole \emph{NuSMV} model looks as follows:
@@ -445,8 +445,8 @@ CTLSPEC A[!close_file1 U open_file1 | !AF(close_file1)]
 MODULE main
 	CTLSPEC AG(open_file1 -> AF(close_file1))
 	CTLSPEC AG(open_file1 -> AX(A[!open_file1 U close_file1]))
-	CTLSPEC AG(close_file1 -> AX(A[!close_file1 U open_file1 | !AF(close_file1) ]))
-	CTLSPEC A[!close_file1 U open_file1 | !AF(close_file1)]
+	CTLSPEC AG(close_file1 -> AX(A[!close_file1 U open_file1 | !EF(close_file1) ]))
+	CTLSPEC A[!close_file1 U open_file1 | !EF(close_file1)]
 
 	FAIRNESS p=pU1
 	FAIRNESS p=pU2
