@@ -75,7 +75,7 @@
 						</fileset>
 						<!-- clean reprotool.fm.nusmv.lang.tests-->
 						<fileset>
-							<directory>../reprotool.fm.nusmv.lang.tests/src-gen</directory>
+							<directory>../reprotool.ide.txtuc.tests/src-gen</directory>
 							<includes>
 								<include>**</include>
 							</includes>
@@ -85,7 +85,7 @@
 						</fileset>
 						<!-- clean reprotool.fm.nusmv.lang.ui-->
 						<fileset>
-							<directory>../reprotool.fm.nusmv.lang.ui/src-gen</directory>
+							<directory>../reprotool.ide.txtuc.ui/src-gen</directory>
 							<includes>
 								<include>**</include>
 							</includes>
@@ -121,7 +121,7 @@
 						</goals>
 						<configuration>
 							<workflowEngine>mwe2</workflowEngine>
-							<workflowDescriptor>reprotool.fm.nusmv.lang.GenerateNuSmvLang</workflowDescriptor>
+							<workflowDescriptor>reprotool.ide.txtuc.GenerateTxtUseCase</workflowDescriptor>
 							<timestampFileName>emf-generator.timestamp</timestampFileName>
 							<jvmSettings>
 								<fork>true</fork>
