@@ -233,6 +233,11 @@
             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
             sequence="CTRL+4">
       </key>
+      <key
+            commandId="reprotool.ide.usecase.editstep"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="ENTER">
+      </key>
    </extension>
    <extension
          point="org.eclipse.ui.commands">
@@ -255,6 +260,11 @@
             defaultHandler="reprotool.ide.editors.usecase.AddEntityHandler$AddAnnotationHandler"
             id="reprotool.ide.usecase.addannotation"
             name="Add annotation">
+      </command>
+      <command
+            defaultHandler="reprotool.ide.editors.usecase.EditStepHandler"
+            id="reprotool.ide.usecase.editstep"
+            name="Edit step">
       </command>
    </extension>
    <extension
@@ -359,6 +369,21 @@
                      operator="or">
                   <instanceof
                         value="reprotool.model.usecase.UseCase">
+                  </instanceof>
+               </iterate>
+            </with>
+         </activeWhen>
+      </handler>
+      <handler
+            class="reprotool.ide.editors.usecase.EditStepHandler"
+            commandId="reprotool.ide.usecase.editstep">
+         <activeWhen>
+            <with
+                  variable="selection">
+               <iterate
+                     operator="or">
+                  <instanceof
+                        value="reprotool.model.usecase.UseCaseStep">
                   </instanceof>
                </iterate>
             </with>

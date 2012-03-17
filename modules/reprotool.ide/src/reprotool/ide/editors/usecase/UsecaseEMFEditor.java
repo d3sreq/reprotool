@@ -1486,4 +1486,8 @@ public class UsecaseEMFEditor extends MultiPageEditorPart implements IEditingDom
 		UseCaseEditorInput useCaseEditorInput = (UseCaseEditorInput)getEditorInput();
 		return (UseCase)getEditingDomain().getResourceSet().getEObject(useCaseEditorInput.getUseCaseURI(), true);
 	}
+	
+	public void editObject(Object object) {
+		usecaseEditorPart.editObject(object);
+	}
 }

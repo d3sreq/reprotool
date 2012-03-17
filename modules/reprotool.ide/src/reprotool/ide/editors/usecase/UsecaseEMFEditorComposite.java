@@ -25,6 +25,8 @@ import reprotool.ide.editors.project.ItemsComposite;
  */
 public class UsecaseEMFEditorComposite extends Composite {
 
+	public static final int TEXT_COLUMN_INDEX = 1;
+	
 	private TreeViewer treeViewer;
 
 	private final TreeViewerColumn labelColumn;
@@ -71,6 +73,7 @@ public class UsecaseEMFEditorComposite extends Composite {
 		formToolkit.paintBordersFor(precedingUseCasesComposite);
 		
 		treeViewer = new TreeViewer(composite, SWT.BORDER);
+		
 		Tree tree = treeViewer.getTree();
 		tree.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true, 2, 1));
 		tree.setFont(SWTResourceManager.getFont("Tahoma", 10, SWT.NORMAL));

@@ -106,6 +106,5 @@ public abstract class AddEntityHandler extends AbstractHandler {
 		return null;
 	}
 	
-	public abstract Command createAddEntityCommand(EditingDomain editingDomain, UseCaseStep useCaseStep);
-
+	protected abstract Command createAddEntityCommand(EditingDomain editingDomain, UseCaseStep useCaseStep);
 }
