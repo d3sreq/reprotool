@@ -45,7 +45,6 @@ import org.eclipse.zest.core.widgets.GraphNode;
 import org.eclipse.zest.core.widgets.ZestStyles;
 import org.eclipse.zest.layouts.LayoutAlgorithm;
 
-import reprotool.model.linguistic.action.AbortUseCase;
 import reprotool.model.linguistic.action.UseCaseInclude;
 import reprotool.model.usecase.Condition;
 import reprotool.model.usecase.Scenario;

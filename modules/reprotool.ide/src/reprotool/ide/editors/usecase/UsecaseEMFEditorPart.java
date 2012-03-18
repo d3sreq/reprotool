@@ -323,4 +323,8 @@ public class UsecaseEMFEditorPart extends EditorPart implements IMenuListener, I
 	CommandStackListener getCommandStackListener() {
 		return commandStackListener;
 	}
+
+	public void editObject(Object object) {
+		composite.getTreeViewer().editElement(object, UsecaseEMFEditorComposite.TEXT_COLUMN_INDEX);
+	}
 }

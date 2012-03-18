@@ -46,7 +46,6 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.part.IPageSite;
 import org.eclipse.ui.part.Page;
 
-import reprotool.ide.utils.Utils;
 import reprotool.ide.views.sentenceanalysis.ISentenceAnalysisSheetPage;
 import reprotool.model.linguistic.action.AbortUseCase;
 import reprotool.model.linguistic.action.Action;
