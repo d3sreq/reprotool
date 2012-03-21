@@ -39,14 +39,9 @@ Charles University in Prague
    <launcher name="reprotool">
       <linux icon="icons/reprotool.xpm"/>
       <solaris/>
-      <win useIco="false">
-         <bmp
-            winSmallHigh="/org.eclipselabs.reprotool.branding/icons/reprotool-16x16_32.bmp"
-            winSmallLow="/org.eclipselabs.reprotool.branding/icons/reprotool-16x16_8.bmp"
-            winMediumHigh="/org.eclipselabs.reprotool.branding/icons/reprotool-32x32_32.bmp"
-            winMediumLow="/org.eclipselabs.reprotool.branding/icons/reprotool-32x32_8.bmp"
-            winLargeHigh="/org.eclipselabs.reprotool.branding/icons/reprotool-48x48_32.bmp"
-            winLargeLow="/org.eclipselabs.reprotool.branding/icons/reprotool-48x48_8.bmp"/>
+      <win useIco="true">
+         <ico path="icons/reprotool.ico"/>
+         <bmp/>
       </win>
    </launcher>
 

@@ -20,6 +20,7 @@ import org.eclipse.xtext.xbase.lib.Pair;
 import org.eclipse.xtext.xbase.lib.Procedures.Procedure1;
 import org.eclipse.xtext.xbase.lib.StringExtensions;
 import reprotool.fm.nusmv.AnnotationEntry;
+import reprotool.fm.nusmv.FormulaUtils;
 import reprotool.fm.nusmv.NuSMVGenerator;
 import reprotool.fm.nusmv.lang.nuSmvLang.AssignBody;
 import reprotool.fm.nusmv.lang.nuSmvLang.AssignConstraint;
@@ -49,6 +50,12 @@ import reprotool.model.usecase.annotate.TemporalAnnotationGroup;
 import reprotool.model.usecase.annotate.TemporalLogicFormula;
 import reprotool.model.utils.xtend.ReprotoolMappingExtensions;
 
+/**
+ * This class is responsible for model to model transformation of the
+ * Reprotool project to he NuSMV model.
+ * 
+ * @author rudo, viliam simko
+ */
 @SuppressWarnings("all")
 public class NuSMVProj {
   @Inject
@@ -88,7 +95,7 @@ public class NuSMVProj {
             NuSMVGenerator _xblockexpression = null;
             {
               String _name = it.getName();
-              String _operator_plus = StringExtensions.operator_plus("Found usecase ", _name);
+              String _operator_plus = StringExtensions.operator_plus("[NuSMV] Found usecase ", _name);
               NuSMVProj.this.consoleOut.println(_operator_plus);
               NuSMVGenerator _nuSMVGenerator = new NuSMVGenerator(it);
               _xblockexpression = (_nuSMVGenerator);
@@ -252,7 +259,16 @@ public class NuSMVProj {
                   {
                     it.setVarId(tag);
                     List<AnnotationEntry> _get = NuSMVProj.this.globalTracker.get(tag);
-                    final Function1<AnnotationEntry,String> _function = new Function1<AnnotationEntry,String>() {
+                    final Function1<AnnotationEntry,Boolean> _function = new Function1<AnnotationEntry,Boolean>() {
+                        public Boolean apply(final AnnotationEntry aEntry) {
+                          List<String> _states = aEntry.getStates();
+                          boolean _isEmpty = _states.isEmpty();
+                          boolean _operator_not = BooleanExtensions.operator_not(_isEmpty);
+                          return Boolean.valueOf(_operator_not);
+                        }
+                      };
+                    Iterable<AnnotationEntry> _filter = IterableExtensions.<AnnotationEntry>filter(_get, _function);
+                    final Function1<AnnotationEntry,String> _function_1 = new Function1<AnnotationEntry,String>() {
                         public String apply(final AnnotationEntry aEntry) {
                           List<String> _states = aEntry.getStates();
                           final Function1<String,String> _function = new Function1<String,String>() {
@@ -270,10 +286,10 @@ public class NuSMVProj {
                           return _join;
                         }
                       };
-                    List<String> _map = ListExtensions.<AnnotationEntry, String>map(_get, _function);
+                    Iterable<String> _map = IterableExtensions.<AnnotationEntry, String>map(_filter, _function_1);
                     String _join = IterableExtensions.join(_map, "\n");
                     String _operator_plus = StringExtensions.operator_plus("case\n", _join);
-                    String _operator_plus_1 = StringExtensions.operator_plus(_operator_plus, "\t\tTRUE : ");
+                    String _operator_plus_1 = StringExtensions.operator_plus(_operator_plus, "\n\t\tTRUE : ");
                     String _operator_plus_2 = StringExtensions.operator_plus(_operator_plus_1, tag);
                     String _operator_plus_3 = StringExtensions.operator_plus(_operator_plus_2, ";\n\tesac");
                     it.setNextExpr(_operator_plus_3);
@@ -852,37 +868,12 @@ public class NuSMVProj {
         for (final String variable : annotatedVars) {
           {
             String _formula = formula.getFormula();
-            String f = _formula;
-            EList<TemporalAnnotation> _members_1 = tGrp.getMembers();
-            for (final TemporalAnnotation annot : _members_1) {
-              String _name = annot.getName();
-              boolean _contains = f.contains(_name);
-              if (_contains) {
-                {
-                  String _name_1 = annot.getName();
-                  String _operator_plus = StringExtensions.operator_plus(_name_1, "_");
-                  String _operator_plus_1 = StringExtensions.operator_plus(_operator_plus, variable);
-                  final String varName = _operator_plus_1;
-                  String _name_2 = annot.getName();
-                  String _replaceAll = f.replaceAll(_name_2, varName);
-                  f = _replaceAll;
-                  boolean _containsKey = this.globalTracker.containsKey(varName);
-                  boolean _operator_not = BooleanExtensions.operator_not(_containsKey);
-                  if (_operator_not) {
-                    {
-                      ArrayList<AnnotationEntry> _arrayList_1 = new ArrayList<AnnotationEntry>();
-                      final List<AnnotationEntry> dummy = _arrayList_1;
-                      Pair<String,List<AnnotationEntry>> _operator_mappedTo = ObjectExtensions.<String, List<AnnotationEntry>>operator_mappedTo(varName, dummy);
-                      this._reprotoolMappingExtensions.<String, List<AnnotationEntry>>operator_add(this.globalTracker, _operator_mappedTo);
-                    }
-                  }
-                }
-              }
-            }
-            String _replaceAll_1 = f.replaceAll("[()\\s]+", "");
-            final String normalised = _replaceAll_1;
-            Pair<String,TemporalLogicFormula> _operator_mappedTo_1 = ObjectExtensions.<String, TemporalLogicFormula>operator_mappedTo(normalised, formula);
-            this._reprotoolMappingExtensions.<String, TemporalLogicFormula>operator_add(this.expanded2Formula, _operator_mappedTo_1);
+            String _expandFormula = FormulaUtils.expandFormula(_formula, variable, annotations, this.globalTracker);
+            String f = _expandFormula;
+            String _replaceAll = f.replaceAll("[()\\s]+", "");
+            final String normalised = _replaceAll;
+            Pair<String,TemporalLogicFormula> _operator_mappedTo = ObjectExtensions.<String, TemporalLogicFormula>operator_mappedTo(normalised, formula);
+            this._reprotoolMappingExtensions.<String, TemporalLogicFormula>operator_add(this.expanded2Formula, _operator_mappedTo);
             if ((formula instanceof CTLFormula)) {
               CollectionExtensions.<String>operator_add(this.expandedCTLFormulas, f);
             } else {

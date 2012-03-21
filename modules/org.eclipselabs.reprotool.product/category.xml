@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/org.eclipselabs.reprotool.features.common_0.1.0.jar" id="org.eclipselabs.reprotool.features.common" version="0.1.0">
+      <category name="reprotool.category"/>
+   </feature>
+   <feature url="features/org.eclipselabs.reprotool.features.exporters_0.1.0.jar" id="org.eclipselabs.reprotool.features.exporters" version="0.1.0">
+      <category name="reprotool.category"/>
+   </feature>
+   <feature url="features/org.eclipselabs.reprotool.features.ide_0.1.0.jar" id="org.eclipselabs.reprotool.features.ide" version="0.1.0" os="linux,win32" arch="x86,x86_64">
+      <category name="reprotool.category"/>
+   </feature>
+   <feature url="features/org.eclipselabs.reprotool.features.nlp_0.1.0.jar" id="org.eclipselabs.reprotool.features.nlp" version="0.1.0">
+      <category name="reprotool.category"/>
+   </feature>
+   <feature url="features/org.eclipselabs.reprotool.features.verification_0.1.0.jar" id="org.eclipselabs.reprotool.features.verification" version="0.1.0" os="linux,win32" arch="x86,x86_64">
+      <category name="reprotool.category"/>
+   </feature>
+   <category-def name="reprotool.category" label="Reprotool Category">
+      <description>
+         Reprotool Category
+      </description>
+   </category-def>
+</site>

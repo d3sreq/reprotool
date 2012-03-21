@@ -21,12 +21,13 @@
       <import plugin="org.eclipse.emf.ecore"/>
       <import plugin="org.eclipse.core.resources"/>
       <import plugin="org.apache.commons.lang" version="2.3.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.emf.mwe2.launch" version="2.1.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.emf.mwe2.lib" version="2.1.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.emf.edit"/>
       <import plugin="org.eclipse.emf.ecore.xmi"/>
       <import plugin="org.eclipse.emf.edit.ui"/>
       <import plugin="org.eclipse.ui.ide"/>
-      <import plugin="org.eclipse.emf.mwe2.launch" version="2.1.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.emf.mwe2.lib" version="2.1.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.xtext.xtend2.lib" version="2.1.1" match="greaterOrEqual"/>
    </requires>
 
    <plugin
@@ -45,6 +46,13 @@
 
    <plugin
          id="reprotool.model.editor"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="reprotool.model.utils"
          download-size="0"
          install-size="0"
          version="0.0.0"
