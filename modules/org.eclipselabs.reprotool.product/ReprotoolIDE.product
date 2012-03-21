@@ -36,7 +36,7 @@ Charles University in Prague
       startupProgressRect="5,295,510,15"
       startupMessageRect="7,275,510,20"
       startupForegroundColor="000000" />
-   <launcher>
+   <launcher name="reprotool">
       <linux icon="icons/reprotool.xpm"/>
       <solaris/>
       <win useIco="false">
