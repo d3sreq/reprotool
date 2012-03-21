@@ -19,6 +19,8 @@ import reprotool.model.usecase.annotate.TemporalLogicFormula
 import reprotool.model.utils.xtend.ReprotoolMappingExtensions
 import reprotool.model.usecase.annotate.CTLFormula
 import reprotool.model.usecase.annotate.LTLFormula
+import reprotool.fm.nusmv.lang.nuSmvLang.VarBody
+import reprotool.fm.nusmv.lang.nuSmvLang.VariableDeclaration
 
 /**
  * This class is responsible for model to model transformation of the
@@ -263,6 +265,15 @@ public class NuSMVProj {
 	def private addProcesses(EList<ModuleElement> moduleElement) {
 		
 		for (nusmv: generators) {
+			if (moduleElement.findFirst(
+				[
+					(it instanceof VariableDeclaration) &&
+					(it as VariableDeclaration).vars.get(0).varId.equals("x" + nusmv.useCaseId)
+				]
+			) != null) {
+				throw new RuntimeException("Duplicate NuSMV use-case ids: " + nusmv.useCaseId);
+			}
+			
 			moduleElement += $(factory.createVariableDeclaration) [
 				vars += $(factory.createVarBody) [
 					varId = "x" + nusmv.useCaseId

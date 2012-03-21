@@ -95,7 +95,12 @@ public class SwprojToSMV implements IWorkbenchWindowActionDelegate {
 		ResourceSet resourceSet = new ResourceSetImpl();
 		Resource res = resourceSet.createResource(outputUri);
 		
-		res.getContents().add(nusmvProj.getModel());
+		try {
+			res.getContents().add(nusmvProj.getModel());
+		} catch (RuntimeException e) {
+			consoleOut.println("[NuSMV] Error: " + e.getMessage());
+			return;
+		}
 
 		try {
 			// we need to setup options that enable formatting of the result code

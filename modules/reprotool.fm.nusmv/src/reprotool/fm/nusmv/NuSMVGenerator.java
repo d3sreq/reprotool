@@ -77,6 +77,10 @@ public class NuSMVGenerator {
 		generateAutomatonSkeleton();
 	}
 	
+	private String sanitizeInput(String name) {
+		return name.replaceAll("[^a-zA-Z0-9_]", "_");
+	}
+	
 	/**
 	 * Helper method that derives identifier of a use-case.
 	 * @param useCase
@@ -86,7 +90,7 @@ public class NuSMVGenerator {
 		if (useCase.getName() == null) {
 			throw new NullPointerException("Use-case name parameter is not set");
 		}
-		return useCase.getName().replaceAll(" +", "_");
+		return sanitizeInput(useCase.getName());
 	}
 	
 	private void loadStatesFromTransitions(List<Transition> transitions) {
@@ -139,7 +143,7 @@ public class NuSMVGenerator {
 					if (a.getAnnotationType().getName().equals("on")) {
 						traceIDs.add(a.getId());
 					}
-					String tag = a.getAnnotationType().getName() + "_" + a.getId();
+					String tag = a.getAnnotationType().getName() + "_" + sanitizeInput(a.getId());
 					AnnotationEntry aEntry = annotationTracker.get(tag);
 					if (aEntry == null) {
 						aEntry = new AnnotationEntry();
@@ -172,7 +176,7 @@ public class NuSMVGenerator {
 	
 	private void checkSpecialAnnotations() {
 		for (String annotId : traceIDs) {
-			String traceTag = "trace_" + annotId;
+			String traceTag = "trace_" + sanitizeInput(annotId);
 			if (!annotationTracker.containsKey(traceTag)) {
 				AnnotationEntry aEntry = new AnnotationEntry();
 				aEntry.automatonID = useCaseId;
