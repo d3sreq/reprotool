@@ -62,7 +62,7 @@ public class NuSMVGenerator {
 		HashMap<String, AnnotationEntry>();
 	
 	/**
-	 * Generates the automaton skeleton for a specified use-case
+	 * Generates the automaton skeleton for a specified use-case.
 	 * 
 	 * @param uc	The input use-case.
 	 */
