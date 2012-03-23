@@ -99,6 +99,8 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
+import org.eclipse.ui.contexts.IContextActivation;
+import org.eclipse.ui.contexts.IContextService;
 import org.eclipse.ui.ide.IGotoMarker;
 import org.eclipse.ui.part.MultiPageEditorPart;
 import org.eclipse.ui.part.MultiPageSelectionProvider;
@@ -250,9 +252,12 @@ public class UsecaseEMFEditor extends MultiPageEditorPart implements IEditingDom
 	 * This listens for when the outline becomes active
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	protected IPartListener partListener = new IPartListener() {
+		
+		IContextActivation contextActivation;
+		
 		public void partActivated(IWorkbenchPart p) {
 			if (p instanceof ContentOutline) {
 				if (((ContentOutline) p).getCurrentPage() == contentOutlinePage) {
@@ -267,6 +272,13 @@ public class UsecaseEMFEditor extends MultiPageEditorPart implements IEditingDom
 				}
 			} else if (p == UsecaseEMFEditor.this) {
 				handleActivate();
+				
+				// activate key context for editor key bindings
+				PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
+				   public void run() {
+					   contextActivation = ((IContextService) PlatformUI.getWorkbench().getService(IContextService.class)).activateContext("UsecaseEMFEditor.context");
+				   }
+				});
 			}
 		}
 
@@ -279,7 +291,14 @@ public class UsecaseEMFEditor extends MultiPageEditorPart implements IEditingDom
 		}
 
 		public void partDeactivated(IWorkbenchPart p) {
-			// Ignore.
+			if (p == UsecaseEMFEditor.this) {
+				// deactivate key context for editor key bindings
+				PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
+				   public void run() {
+				    ((IContextService) PlatformUI.getWorkbench().getService(IContextService.class)).deactivateContext(contextActivation);
+				   }
+				});
+			}
 		}
 
 		public void partOpened(IWorkbenchPart p) {

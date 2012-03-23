@@ -215,26 +215,31 @@
          point="org.eclipse.ui.bindings">
       <key
             commandId="reprotool.ide.usecase.addstep"
+            contextId="UsecaseEMFEditor.context"
             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
             sequence="CTRL+ENTER">
       </key>
       <key
             commandId="reprotool.ide.usecase.addextension"
+            contextId="UsecaseEMFEditor.context"
             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
             sequence="CTRL+1">
       </key>
       <key
             commandId="reprotool.ide.usecase.addvariation"
+            contextId="UsecaseEMFEditor.context"
             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
             sequence="CTRL+2">
       </key>
       <key
             commandId="reprotool.ide.usecase.addannotation"
+            contextId="UsecaseEMFEditor.context"
             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
             sequence="CTRL+4">
       </key>
       <key
             commandId="reprotool.ide.usecase.editstep"
+            contextId="UsecaseEMFEditor.context"
             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
             sequence="ENTER">
       </key>
@@ -398,6 +403,14 @@
               id="reprotool.ide.txtuc.ui.wizard2">
         </newWizardShortcut>
      </perspectiveExtension>
+   </extension>
+   <extension
+         point="org.eclipse.ui.contexts">
+      <context
+            id="UsecaseEMFEditor.context"
+            name="Use case  editor context"
+            parentId="org.eclipse.ui.contexts.window">
+      </context>
    </extension>
 
 </plugin>
