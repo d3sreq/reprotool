@@ -22,6 +22,10 @@
       <import plugin="org.eclipse.emf.edit"/>
       <import plugin="reprotool.model"/>
       <import plugin="org.eclipse.emf.mwe2.launch"/>
+      <import plugin="org.eclipse.core.resources"/>
+      <import plugin="org.eclipse.jdt.core"/>
+      <import plugin="org.eclipse.ui.ide"/>
+      <import plugin="org.eclipse.ui.console"/>
    </requires>
 
    <plugin

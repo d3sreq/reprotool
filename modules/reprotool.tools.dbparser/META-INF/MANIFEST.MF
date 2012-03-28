@@ -17,3 +17,4 @@ Export-Package: danbikel.lisp,
  danbikel.util,
  danbikel.util.proxy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Eclipse-BundleShape: dir

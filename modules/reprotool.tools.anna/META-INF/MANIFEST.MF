@@ -13,3 +13,4 @@ Export-Package: examples,
  is2.tag3,
  is2.util
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Eclipse-BundleShape: dir

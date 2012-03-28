@@ -35,14 +35,20 @@
       <import plugin="org.apache.commons.lang" version="2.3.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.jface.text" version="3.7.1" match="greaterOrEqual"/>
       <import plugin="org.eclipse.ui.editors" version="3.7.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.ui"/>
+      <import plugin="org.eclipse.emf.edit"/>
+      <import plugin="reprotool.model.edit" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="com.google.inject" version="2.0.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.emf.ecore"/>
+      <import plugin="reprotool.model"/>
+      <import plugin="org.eclipse.emf.mwe2.launch" version="2.2.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.emf.mwe2.lib" version="2.2.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.xtext" version="2.1.0" match="greaterOrEqual"/>
       <import plugin="org.apache.log4j" version="1.2.15" match="greaterOrEqual"/>
       <import plugin="org.eclipse.xtext.util"/>
-      <import plugin="org.eclipse.emf.ecore"/>
       <import plugin="org.eclipse.emf.common"/>
       <import plugin="org.antlr.runtime"/>
       <import plugin="org.eclipse.xtext.common.types"/>
-      <import plugin="org.eclipse.emf.mwe2.launch"/>
       <import plugin="org.apache.commons.logging"/>
       <import plugin="org.eclipse.xtext.xbase.lib"/>
       <import plugin="org.eclipse.xtend2.lib"/>
@@ -50,17 +56,22 @@
       <import plugin="org.eclipse.ui.editors" version="3.5.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.ui.ide" version="3.5.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.xtext.ui.shared"/>
-      <import plugin="org.eclipse.ui"/>
       <import plugin="org.eclipse.xtext.builder"/>
       <import plugin="org.eclipse.xtext.common.types.ui"/>
       <import plugin="org.eclipse.xtext.ui.codetemplates.ui"/>
       <import plugin="org.eclipse.compare"/>
-      <import plugin="org.eclipse.emf.edit"/>
-      <import plugin="reprotool.model.edit" version="1.0.0" match="greaterOrEqual"/>
-      <import plugin="com.google.inject" version="2.0.0" match="greaterOrEqual"/>
-      <import plugin="reprotool.model"/>
-      <import plugin="org.eclipse.emf.mwe2.launch" version="2.2.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.emf.mwe2.lib" version="2.2.0" match="greaterOrEqual"/>
+      <import plugin="reprotool.exampleProjects" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.ui.intro" version="3.4.100" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.ui.intro.universal" version="3.2.500" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.xtext.xtend2.lib"/>
+      <import plugin="org.eclipse.core.resources"/>
+      <import plugin="org.eclipse.emf.ecore" version="2.7.0" match="greaterOrEqual"/>
+      <import plugin="reprotool.ide.txtuc" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="reprotool.ide.txtuc.ui" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="reprotool.model" version="0.1.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.ui.console" version="3.5.100" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.xtext.ui" version="2.2.1" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.ui.ide.application" version="1.0.300" match="greaterOrEqual"/>
    </requires>
 
    <plugin

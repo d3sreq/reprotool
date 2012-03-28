@@ -8,3 +8,4 @@ Export-Package: eos,
  maxent,
  tagger
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Eclipse-BundleShape: dir

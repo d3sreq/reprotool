@@ -33,5 +33,32 @@
          install-size="0"
          version="0.0.0"
          unpack="false"/>
+      <plugin version="0.0.0" id="org.eclipse.uml2"/>
+      <plugin version="0.0.0" id="org.eclipse.uml2.codegen.ecore"/>
+      <plugin version="0.0.0" id="org.eclipse.uml2.codegen.ecore.ui"/>
+      <plugin version="0.0.0" id="org.eclipse.uml2.common"/>
+      <plugin version="0.0.0" id="org.eclipse.uml2.common.edit"/>
+      <plugin version="0.0.0" id="org.eclipse.uml2.diagram"/>
+      <plugin version="0.0.0" id="org.eclipse.uml2.diagram.activity"/>
+      <plugin version="0.0.0" id="org.eclipse.uml2.diagram.clazz"/>
+      <plugin version="0.0.0" id="org.eclipse.uml2.diagram.common"/>
+      <plugin version="0.0.0" id="org.eclipse.uml2.diagram.common.notation"/>
+      <plugin version="0.0.0" id="org.eclipse.uml2.diagram.component"/>
+      <plugin version="0.0.0" id="org.eclipse.uml2.diagram.csd"/>
+      <plugin version="0.0.0" id="org.eclipse.uml2.diagram.deploy"/>
+      <plugin version="0.0.0" id="org.eclipse.uml2.diagram.parser"/>
+      <plugin version="0.0.0" id="org.eclipse.uml2.diagram.profile"/>
+      <plugin version="0.0.0" id="org.eclipse.uml2.diagram.sequence"/>
+      <plugin version="0.0.0" id="org.eclipse.uml2.diagram.sequence.model"/>
+      <plugin version="0.0.0" id="org.eclipse.uml2.diagram.statemachine"/>
+      <plugin version="0.0.0" id="org.eclipse.uml2.diagram.usecase"/>
+      <plugin version="0.0.0" id="org.eclipse.uml2.examples.uml.ui"/>
+      <plugin version="0.0.0" id="org.eclipse.uml2.uml"/>
+      <plugin version="0.0.0" id="org.eclipse.uml2.uml.ecore.exporter"/>
+      <plugin version="0.0.0" id="org.eclipse.uml2.uml.ecore.importer"/>
+      <plugin version="0.0.0" id="org.eclipse.uml2.uml.edit"/>
+      <plugin version="0.0.0" id="org.eclipse.uml2.uml.editor"/>
+      <plugin version="0.0.0" id="org.eclipse.uml2.uml.resources"/>
+      <plugin version="0.0.0" id="org.eclipse.uml2tools"/>
 
 </feature>
