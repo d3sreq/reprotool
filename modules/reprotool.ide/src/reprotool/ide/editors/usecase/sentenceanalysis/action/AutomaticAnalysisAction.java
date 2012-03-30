@@ -1,10 +1,15 @@
 package reprotool.ide.editors.usecase.sentenceanalysis.action;
 
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.common.command.CompoundCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
@@ -56,13 +61,31 @@ public class AutomaticAnalysisAction extends BaseSelectionListenerAction {
 			return;
 		}
 		
-		UseCaseStep useCaseStep = (UseCaseStep)elem;
-		EditingDomain editingDomain = getEditingDomain();
+		final UseCaseStep useCaseStep = (UseCaseStep)elem;
+		final EditingDomain editingDomain = getEditingDomain();
 		
-		CompoundCommand command = LingTools.analyseUseCaseStep(editingDomain, useCaseStep);
-		editingDomain.getCommandStack().execute(command);
-		
-		refreshEditorAction.run();
+		// run analysis in separate job to prevent UI blocking
+		Job job = new Job("Use case step ling. analysis") {
+			@Override
+			protected IStatus run(final IProgressMonitor monitor) {
+				monitor.beginTask("Analysing use case step", IProgressMonitor.UNKNOWN);
+				
+				final CompoundCommand command = LingTools.analyseUseCaseStep(editingDomain, useCaseStep);				
+				Display.getDefault().asyncExec(new Runnable() {
+					@Override
+					public void run() {
+						editingDomain.getCommandStack().execute(command);
+						refreshEditorAction.run();
+					}
+				});
+
+				monitor.done(); 
+				return Status.OK_STATUS;
+			}
+		};
+
+		// Start the Job
+		job.schedule();
 	}
 	
 	private EditingDomain getEditingDomain() {
