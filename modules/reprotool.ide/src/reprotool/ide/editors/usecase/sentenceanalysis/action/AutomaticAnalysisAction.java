@@ -1,5 +1,7 @@
 package reprotool.ide.editors.usecase.sentenceanalysis.action;
 
+import java.lang.reflect.InvocationTargetException;
+
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -7,6 +9,7 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.common.command.CompoundCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.Display;
@@ -16,6 +19,9 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.BaseSelectionListenerAction;
+import org.eclipse.ui.progress.IProgressConstants;
+import org.eclipse.ui.progress.IProgressService;
+import org.eclipse.ui.statushandlers.StatusManager;
 
 import reprotool.ide.Activator;
 import reprotool.ide.editors.usecase.UsecaseEMFEditor;
@@ -64,28 +70,30 @@ public class AutomaticAnalysisAction extends BaseSelectionListenerAction {
 		final UseCaseStep useCaseStep = (UseCaseStep)elem;
 		final EditingDomain editingDomain = getEditingDomain();
 		
-		// run analysis in separate job to prevent UI blocking
-		Job job = new Job("Use case step ling. analysis") {
-			@Override
-			protected IStatus run(final IProgressMonitor monitor) {
-				monitor.beginTask("Analysing use case step", IProgressMonitor.UNKNOWN);
-				
-				final CompoundCommand command = LingTools.analyseUseCaseStep(editingDomain, useCaseStep);				
-				Display.getDefault().asyncExec(new Runnable() {
-					@Override
-					public void run() {
-						editingDomain.getCommandStack().execute(command);
-						refreshEditorAction.run();
-					}
-				});
-
-				monitor.done(); 
-				return Status.OK_STATUS;
-			}
-		};
-
-		// Start the Job
-		job.schedule();
+		// run analysis in separate thread to prevent UI blocking
+		// - open modal dialog to prevent model change
+		IWorkbench wb = PlatformUI.getWorkbench();
+		IProgressService ps = wb.getProgressService();
+		try {
+			ps.run(true, false, new IRunnableWithProgress() {
+				public void run(IProgressMonitor pm) {
+					final CompoundCommand command = LingTools.analyseUseCaseStep(editingDomain, useCaseStep);
+					Display.getDefault().asyncExec(new Runnable() {
+						@Override
+						public void run() {
+							editingDomain.getCommandStack().execute(command);
+							refreshEditorAction.run();
+						}
+					});
+				}
+			});
+		} catch (InvocationTargetException e) {
+			IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, "Error ling. tools analysis", e);
+			StatusManager.getManager().handle(status, StatusManager.BLOCK | StatusManager.LOG);
+		} catch (InterruptedException e) {
+			IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, "Error ling. tools analysis", e);
+			StatusManager.getManager().handle(status, StatusManager.BLOCK | StatusManager.LOG);
+		}
 	}
 	
 	private EditingDomain getEditingDomain() {
