@@ -10,6 +10,7 @@ Geneeral information about the project:
   * Jiri Vinarek
   * Ondrej Fiala
   * Rudo Tomori
+* **Special thanks to:** Jan Krajicek and Tomas Pop
 
 *Abstract*:
 The aim is to create a tool for semi-automated processing of use-cases written in natural language.
